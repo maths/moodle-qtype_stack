@@ -15,7 +15,7 @@ E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for images.
 The image requires maxima to be available via http. The URL can be configured via the environment variable `MAXIMA_URL` and defaults to `http://maxima:8080/maxima`. An example docker-compose file deploying both stack and maxima in the goemaxima variant is provided below:
 
 ```
-version: "3.9"
+version: "4.0"
 services:
   maxima:
     image: mathinstitut/goemaxima:2023121100-latest
@@ -48,11 +48,13 @@ The application can also be installed manually, although this variant has only u
 
 ## Usage instructions
 
-The STACK service implemented in this repository provides a stateless REST-API with three distinct routes, which all expect and produce `application/json` requests/responses:
+The STACK service implemented in this repository provides a stateless REST-API with five distinct routes, which all expect and produce `application/json` requests/responses:
 
 - POST /render: Render a stack question
 - POST /grade: Grade user input for a question
 - POST /validate: Validate a user's input
+- POST /download: Serves a file for questions that have download links
+- POST /test: Run a questions tests against all deployed variants
 
 ### Render route
 
@@ -141,6 +143,75 @@ The `POST /download` route is used to download files created by questions.
 
 The requested file is returned.
 
+### Test route
+
+The `POST /test` route is used to run a question's test cases.
+
+- `questionDefinition`: The Moodle-XML-Export of a single STACK question.
+
+The grading route returns the following fields:
+
+- string: `name`: The name of the question.
+- string: `messages`: Question level error messages.
+- boolean: `isupgradeerror`: Are there any issues related to questions being non-compliant with a STACK upgrade?
+- boolean: `isgeneralfeedback`: Does the question have general feedback?
+- boolean: `isdeployedseeds`: Does the question have deployed seeds?
+- boolean: `israndomvariants`: Does the question use random variants?
+- boolean: `istests`: Does the question have tests?
+- object: `results`: The test results for each each seed, keyed by seed. If the question does not have random variants, there will be a single entry keyed `noseed`.
+
+In the `results` object, each seed will key an object:
+- int|null: `passes`: Number of tests passed.
+- int|null: `fails`: Number of tests failed.
+- string: `messages`: Seed level error message. Includes summaries from the test, runtime errors and general feedback errors.
+- object: `outcomes`: Gives detailed breakdown of test result. Entries keyed by `<testcase>`. 
+
+In the outcomes object, each test will key an object:
+- boolean: `passed`: Did the test pass?
+- string: `reason`: Reason for failure. A test empty message or the part of the output (e.g. score) which doesn't match the expected result.
+- object: `inputs`: Keyed by input name. Details of the inputs and their values.
+- object: `outcomes`: Keyed by PRT name. Details of the outcomes and expected outcomes for each PRT.
+
+Example result object:
+```
+"563119235": {
+    "passes": 1,
+    "fails": 0,
+    "messages": "",
+    "outcomes": {
+        "1": {
+            "passed": true,
+            "reason": "",
+            "inputs": {
+                "ans1": {
+                    "inputexpression": "ans1",
+                    "inputentered": "1.6486",
+                    "inputmodified": "1.6486",
+                    "inputdisplayed": "\\[ 1.6486 \\]",
+                    "inputstatus": "Score",
+                    "errors": ""
+                }
+            },
+            "outcomes": {
+                "prt1": {
+                    "outcome": true,
+                    "score": 1,
+                    "penalty": 0,
+                    "answernote": "prt1-1-T",
+                    "expectedscore": 1,
+                    "expectedpenalty": 0,
+                    "expectedanswernote": "prt1-1-T",
+                    "feedback": "",
+                    "reason": ""
+                }
+            }
+        }
+    }
+}
+  ```
+
+If a question has no tests, a default test will be run to check if the model answers return a score of 1.
+
 ### Rendered CASText format
 
 The API returns rendered CASText as parts of its responses in multiple places. The CASText is output as a single string in an intermediate format, which cannot be directly fed to browsers for display, and requires further processing. Applications using the API have to handle the following cases:
@@ -164,7 +235,6 @@ If an error occurs during processing of a request, a response with a single JSON
 
 ### Limitations
 
-- Questions requiring custom javascript are not supported. This includes questions using JSXGraph.
 - If a question uses randomization, it has to contain deployed variants.
 - Grading is only done if all inputs are present and valid (which implies non-empty in most cases).
 
@@ -195,7 +265,7 @@ To ease the development process, the Dockerfile contained in the repository cont
     docker compose -f docker-compose.dev.yml build
     docker compose -f docker-compose.dev.yml up
 
-The required development image will automatically be build. After the stack started, you will be able to access the service via http://localhost:3080. Any performed changes in the PHP code will be visible live. Note, that Maxima is provided by a geomaxima docker image, and this image will _not_ reflect local changes.  The development build also contains the xdebug extension, which is configured to connect to `host.docker.internal` as a debugger, which will resolve to the locale machines ip address when using docker desktop. Please note that the performance of the development setup will be significantly worse than in production.
+The required development image will automatically be built. After the stack started, you will be able to access the service via http://localhost:3080. Any performed changes in the PHP code will be visible live. Note, that Maxima is provided by a geomaxima docker image, and this image will _not_ reflect local changes.  The development build also contains the xdebug extension, which is configured to connect to `host.docker.internal` as a debugger, which will resolve to the locale machines ip address when using docker desktop. Please note that the performance of the development setup will be significantly worse than in production.
 
 ### Docker production setup
 
@@ -237,6 +307,8 @@ To allow the stack-moodle-plugin to work standalone, some classes and functions 
 ### Basic frontend
 
 A basic frontend is provided at `http://localhost:3080/stack.php`. This should allow you to load the STACK sample questions and try them out. This requires API specific versions of `cors.php` and `stackjsvle.js` (to access files and create iframes) which are in the public folder.
+
+`http://localhost:3080/bulktest.php` provides a front end for selecting a folder of STACK question files and running their included tests, similar to the STACK bulk test functionality in Moodle.
 
 ### Modifications of existing STACK code
 

@@ -137,7 +137,7 @@ require_login();
       // Display rendered question and solution.
       function send() {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/render";
+        const url = window.location.origin + '/render';
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
         http.onreadystatechange = function() {
@@ -235,7 +235,7 @@ require_login();
       // Validate an input. Called a set amount of time after an input is last updated.
       function validate(element) {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/validate";
+        const url = window.location.origin + '/validate';
         http.open("POST", url, true);
         // Remove API prefix and subanswer id.
         const answerName = element.name.slice(15).split('_', 1)[0];
@@ -277,7 +277,7 @@ require_login();
       // Submit answers.
       function answer() {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/grade";
+        const url = window.location.origin + '/grade';
         http.open("POST", url, true);
 
         if (!document.getElementById('output').innerText) {
@@ -368,7 +368,7 @@ require_login();
 
       function download(filename, fileid) {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/download";
+        const url = window.location.origin + '/download';
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
         // Something funky going on with closures and callbacks. This seems

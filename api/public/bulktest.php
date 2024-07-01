@@ -80,7 +80,7 @@ require_login();
         requests.push(http);
         document.getElementById('bulktest-button').setAttribute('disabled', true);
         document.getElementById('bulktest-spinner').removeAttribute('hidden');
-        const url = "http://localhost:3080/test";
+        const url = window.location.origin + '/test';
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
 

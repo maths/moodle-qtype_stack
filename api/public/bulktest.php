@@ -273,6 +273,10 @@ require_login();
        * @return void
        */
       function testFolder() {
+        let files = document.getElementById('local-folder').files;
+        if (!files.length) {
+          return;
+        }
         document.getElementById('bulktest-button').setAttribute('disabled', true);
         document.getElementById('bulktest-spinner').removeAttribute('hidden');
         document.getElementById('overall-results').setAttribute('hidden', true);
@@ -288,7 +292,6 @@ require_login();
         failedTestsArray = [];
         generalErrorArray = [];
         readingFile = true;
-        let files = document.getElementById('local-folder').files;
         files = Array.from(files).sort((a,b) => a.webkitRelativePath.localeCompare(b.webkitRelativePath));
         for (const file of files) {
           filesToProcess.push(file.webkitRelativePath);
@@ -299,6 +302,10 @@ require_login();
           } else {
             filesToProcess = filesToProcess.filter(item => item !== file.webkitRelativePath);
           }
+        }
+        if (requests.length === 0 && filesToProcess.length === 0) {
+          document.getElementById('bulktest-button').removeAttribute('disabled');
+          document.getElementById('bulktest-spinner').setAttribute('hidden', true);
         }
       }
 

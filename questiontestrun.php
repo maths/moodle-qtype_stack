@@ -176,27 +176,12 @@ $questionvariablevalues = $question->get_question_session_keyval_representation(
 // Load the list of test cases.
 $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 // Create the default test case.
-if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit) {
-    $inputs = [];
-    foreach ($question->inputs as $inputname => $input) {
-        $inputs[$inputname] = $input->get_teacher_answer_testcase();
-    }
-    $qtest = new stack_question_test(stack_string('autotestcase'), $inputs);
-    $response = stack_question_test::compute_response($question, $inputs);
+$defaulttest = null;
+$defaulttestresult = null;
 
-    foreach ($question->prts as $prtname => $prt) {
-        $result = $question->get_prt_result($prtname, $response, false);
-        // For testing purposes we just take the last note.
-        $answernotes = $result->get_answernotes();
-        $answernote = [end($answernotes)];
-        // Here we hard-wire 1 mark and 0 penalty.  This is what we normally want for the
-        // teacher's answer.  If the question does not give full marks to the teacher's answer then
-        // the test case will fail, and the user can confirm the failing behaviour if they really intended this.
-        // Normally we'd want a failing test case with the teacher's answer not getting full marks!
-        $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-            1, true, 1, 0, '', $answernote));
-    }
-    question_bank::get_qtype('stack')->save_question_test($questionid, $qtest);
+if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit) {
+    $defaulttest = stack_bulk_tester::create_default_test($question);
+    question_bank::get_qtype('stack')->save_question_test($questionid, $defaulttest);
     $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 
     echo html_writer::tag('p', stack_string_error('runquestiontests_auto'));
@@ -215,6 +200,13 @@ if (empty($testscases) && $canedit) {
         'value' => stack_string('runquestiontests_autoprompt'),
     ]);
     echo html_writer::end_tag('form');
+}
+
+if (empty($testscases) && !$defaulttest) {
+    $defaulttest = stack_bulk_tester::create_default_test($question);
+    $defaulttestresult = $defaulttest->test_question($questionid, $seed, $context);
+    echo stack_string('runquestiontests_explanation');
+    echo $defaulttestresult->html_output($question, stack_string('runquestiontests_example'));
 }
 
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);

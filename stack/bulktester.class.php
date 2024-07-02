@@ -450,6 +450,18 @@ class stack_bulk_tester {
             return [false, "Attempting to start the question threw an exception!"];
         }
 
+        if (!$tests) {
+            $defaulttest = stack_bulk_tester::create_default_test($question);
+            $defaulttestresult = $defaulttest->test_question($qid, $seed, $context);
+            if ($defaulttestresult->passed()) {
+                $ok = true;
+                $message = stack_string('defaulttestpass');
+            } else {
+                $ok = false;
+                $message = stack_string('defaulttestfail');
+            }
+        }
+
         // Prepare the display options.
         $options = new question_display_options();
         $options->readonly = true;
@@ -581,5 +593,42 @@ class stack_bulk_tester {
 
         echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/adminui/bulktestindex.php'),
                 get_string('back')));
+    }
+
+    /**
+     * Create a default test for a question.
+     *
+     * Expected score of 1 and penalty of 0 using the model answers.
+     * The answer note will be set to whatever answer note the model
+     * answer returns.
+     *
+     * Question usage by attempt needs to have already been set up
+     * and the question started.
+     *
+     * @param object $question
+     * @return stack_question_test
+     */
+    public static function create_default_test($question) {
+        $inputs = [];
+        foreach ($question->inputs as $inputname => $input) {
+            $inputs[$inputname] = $input->get_teacher_answer_testcase();
+        }
+        $qtest = new stack_question_test(stack_string('autotestcase'), $inputs);
+        $response = stack_question_test::compute_response($question, $inputs);
+
+        foreach ($question->prts as $prtname => $prt) {
+            $result = $question->get_prt_result($prtname, $response, false);
+            // For testing purposes we just take the last note.
+            $answernotes = $result->get_answernotes();
+            $answernote = [end($answernotes)];
+            // Here we hard-wire 1 mark and 0 penalty.  This is what we normally want for the
+            // teacher's answer.  If the question does not give full marks to the teacher's answer then
+            // the test case will fail, and the user can confirm the failing behaviour if they really intended this.
+            // Normally we'd want a failing test case with the teacher's answer not getting full marks!
+            $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
+                1, true, 1, 0, '', $answernote));
+        }
+
+        return $qtest;
     }
 }

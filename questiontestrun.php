@@ -202,7 +202,7 @@ if (empty($testscases) && $canedit) {
     echo html_writer::end_tag('form');
 }
 
-if (empty($testscases) && !$defaulttest) {
+if (empty($testscases)) {
     $defaulttest = stack_bulk_tester::create_default_test($question);
     $defaulttestresult = $defaulttest->test_question($questionid, $seed, $context);
     echo stack_string('runquestiontests_explanation');

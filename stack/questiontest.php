@@ -99,7 +99,6 @@ class stack_question_test {
         $quba->process_action($slot, $response);
 
         $results = new stack_question_test_result($this);
-        $results->question = $question;
         $results->set_questionpenalty($question->penalty);
         foreach ($this->inputs as $inputname => $notused) {
             // Check input still exits, could have been deleted in a question.

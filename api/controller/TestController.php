@@ -169,7 +169,7 @@ class TestController {
         }
 
         // If we don't have any tests, check to see if the model answers give a score of 1.
-        if (count($testcases) === 0) {
+        if (count($testcases) === 0 && count($question->prts) > 0) {
             $inputs = [];
             foreach ($question->inputs as $inputname => $input) {
                 $inputs[$inputname] = $input->get_teacher_answer_testcase();

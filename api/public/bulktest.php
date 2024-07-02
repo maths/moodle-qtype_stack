@@ -159,6 +159,9 @@ require_login();
                       }
                     }
                   }
+                  if (!json.istests && json.results[seed].passes == 1) {
+                    resultHtml += '<p class="feedback passed">' + '<?php echo stack_string('default_test_pass')?>' + '</p>';
+                  }
                   // Display seed level messages - will be exceptions.
                   if (json.results[seed].messages) {
                     resultHtml += '<p class="feedback failed">' + json.results[seed].messages + '</p>';

@@ -336,7 +336,7 @@ class stack_question_test_result {
             }
             $inputstable->data[] = [
                 s($inputname),
-                s($inputname),
+                s($inputstate->rawinput),
                 s($inputval),
                 stack_ouput_castext($inputstate->display),
                 stack_string('inputstatusname' . $inputstate->status),

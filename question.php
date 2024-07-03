@@ -703,10 +703,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function format_correct_response($qa) {
         $feedback = '';
         $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated->get_rendered(), 'input');
+        $answertags = stack_utils::extract_placeholders($this->questiontextinstantiated->get_rendered(), 'answer');
+        $isdisplayempty = true;
         foreach ($inputs as $name) {
-            $input = $this->inputs[$name];
-            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->tas[$name]->get_dispvalue(),
-                    $this->tas[$name]->get_latex()));
+            if (!in_array($name, $answertags)) {
+                $input = $this->inputs[$name];
+                $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->tas[$name]->get_dispvalue(),
+                        $this->tas[$name]->get_latex()));
+                $isdisplayempty = false;
+            }
+        }
+        if ($isdisplayempty) {
+            $feedback .= html_writer::tag('p', stack_string('see_answers_above'));
         }
         return stack_ouput_castext($feedback);
     }

@@ -428,6 +428,8 @@ $string['languageproblemsextra']   = 'The field {$a->field} has the following la
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
 $string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
 
+$string['see_answers_above']       = 'Correct answers are displayed in the question.';
+
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
 $string['settingajaxvalidation_desc'] = 'With this setting turned on, the students current input will be validated whenever they pause in their typing. This gives a better user experience, but is likely to increase the server load.';

@@ -1559,7 +1559,7 @@ abstract class stack_input {
      * This function is responsible for removing the validation tags from the question stem and replacing
      * them with the validation feedback.  Only the equiv input type currently does anything different here.
      */
-    public function replace_validation_tags($state, $fieldname, $questiontext, $rightanswer = false) {
+    public function replace_validation_tags($state, $fieldname, $questiontext) {
 
         $name = $this->name;
         // ISS879 Set language override to null as we should be in the question render here. It's only
@@ -1584,11 +1584,6 @@ abstract class stack_input {
 
         $feedback = html_writer::tag($divspan, $feedback,
             ['class' => $class, 'id' => $fieldname.'_val', 'aria-live' => 'assertive']);
-
-        if ($rightanswer) {
-            $feedback .= html_writer::tag('div', $this->get_teacher_answer_display($rightanswer[0], $rightanswer[1]),
-                    ['class' => 'stack-rightanswer ui-corner-all']);
-        }
 
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 

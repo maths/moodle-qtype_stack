@@ -84,20 +84,7 @@ class qtype_stack_renderer extends qtype_renderer {
                 $formatedfeedbackplaceholders !== $originalfeedbackplaceholders) {
             throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filtter not being active.');
         }
-
-        // ISS460: Displaying the correct answers next to the question. We only want to do this
-        // if there are multiple visible answers otherwise we get the correct answer twice
-        // for no reason - once from us and once from Moodle. This looks particularly
-        // odd for Parsons blocks.
-        $answercount = 0;
-        if ($options->rightanswer) {
-            foreach ($question->inputs as $name => $input) {
-                if (!$input->get_extra_option('hideanswer')) {
-                    $answercount++;
-                }
-            }
-        }
-
+        $answertags = stack_utils::extract_placeholders($questiontext, 'answer');
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
             $ta = $question->get_ta_for_input($name);
@@ -115,14 +102,26 @@ class qtype_stack_renderer extends qtype_renderer {
                     $input->render($state, $fieldname, $options->readonly, $tavalue),
                     $questiontext);
 
-            $rightanswer = false;
-            if ($answercount > 1 && $options->rightanswer && $ta && $ta->is_correctly_evaluated()) {
-                $rightanswer = [$tavalue, $talatex];
-            }
-            $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext, $rightanswer);
+            $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
 
             if ($input->requires_validation()) {
                 $inputstovaldiate[] = $name;
+            }
+            if (in_array($name, $answertags)) {
+                if ($options->rightanswer) {
+                    $rightanswer = false;
+                    if ($ta && $ta->is_correctly_evaluated()) {
+                        $rightanswer = [$tavalue, $talatex];
+                    }
+                    if ($rightanswer) {
+                        $feedback = html_writer::tag('div', $input->get_teacher_answer_display($rightanswer[0], $rightanswer[1]),
+                                ['class' => 'stack-rightanswer ui-corner-all']);
+                    }
+
+                    $questiontext = str_replace("[[answer:{$name}]]", $feedback, $questiontext);
+                } else {
+                    $questiontext = str_replace("[[answer:{$name}]]", '', $questiontext);
+                }
             }
         }
 

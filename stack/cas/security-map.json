@@ -3997,20 +3997,20 @@
       "built-in": true
   },
   "let": {
-      "function": "f"
+      "function": "t"
   },
   "let_rule_packages": {
-      "variable": "f"
+      "variable": "t"
   },
   "letrat": {
-      "evflag": "f",
-      "variable": "f"
+      "evflag": "t",
+      "variable": "t"
   },
   "letrules": {
-      "function": "f"
+      "function": "t"
   },
   "letsimp": {
-      "function": "f"
+      "function": "t"
   },
   "levi_civita": {
       "function": "f"
@@ -4442,7 +4442,7 @@
       "function": "s"
   },
   "matchdeclare": {
-      "function": "?",
+      "function": "t",
       "contextvariable": "true"
   },
   "matchfix": {

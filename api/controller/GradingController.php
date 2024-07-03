@@ -44,7 +44,7 @@ class GradingController {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
 
-        $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
+        $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
 

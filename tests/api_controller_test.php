@@ -29,12 +29,14 @@ require_once(__DIR__ . '../../api/controller/DownloadController.php');
 require_once(__DIR__ . '../../api/controller/GradingController.php');
 require_once(__DIR__ . '../../api/controller/RenderController.php');
 require_once(__DIR__ . '../../api/controller/ValidationController.php');
+require_once(__DIR__ . '../../api/controller/TestController.php');
 
 
 use api\controller\DownloadController;
 use api\controller\GradingController;
 use api\controller\RenderController;
 use api\controller\ValidationController;
+use api\controller\TestController;
 use api\util\StackIframeHolder;
 use stack_api_test_data;
 use Psr\Http\Message\ResponseInterface as ResponseInt;
@@ -251,4 +253,95 @@ class api_controller_test extends qtype_stack_testcase {
         $this->expectOutputRegex('/^A,B,C\n0.37,5.04,2.72/s');
     }
 
+    public function test_test_controller() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
+        $this->requestdata['filepath'] = 'testpath/test.xml';
+        $tc = new TestController();
+        $tc->__invoke($this->request, $this->response, []);
+        $results = $this->result->output;
+        $this->assertEquals('test_3_matrix', $results->name);
+        $this->assertEquals(false, $results->isupgradeerror);
+        $this->assertEquals(true, $results->isgeneralfeedback );
+        $this->assertEquals(true, $results->isdeployedseeds);
+        $this->assertEquals(true, $results->israndomvariants);
+        $this->assertEquals(true, $results->istests);
+        // Three seeds.
+        $this->assertEquals(3, count(get_object_vars($results->results)));
+        $this->assertEquals(4, $results->results->{'86'}->passes);
+        $this->assertEquals(0, $results->results->{'86'}->fails);
+        $this->assertEquals('', $results->results->{'86'}->messages);
+        $this->assertEquals(4, count(get_object_vars($results->results->{'86'}->outcomes)));
+    }
+
+    public function test_test_controller_fail() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test');
+        $this->requestdata['filepath'] = 'testpath/test.xml';
+        $tc = new TestController();
+        $tc->__invoke($this->request, $this->response, []);
+        $results = $this->result->output;
+        $this->assertEquals('Algebraic input', $results->name);
+        $this->assertEquals(false, $results->isupgradeerror);
+        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isdeployedseeds);
+        $this->assertEquals(false, $results->israndomvariants);
+        $this->assertEquals(true, $results->istests);
+        // No seeds.
+        $this->assertEquals(1, count(get_object_vars($results->results)));
+        $this->assertEquals(0, $results->results->noseed->passes);
+        $this->assertEquals(2, $results->results->noseed->fails);
+        $this->assertEquals(stack_string('questiontestempty'), $results->results->noseed->messages);
+        $this->assertEquals('', $results->messages);
+        $this->assertEquals(2, count(get_object_vars($results->results->noseed->outcomes)));
+    }
+
+    public function test_test_controller_upgrade() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test2');
+        $this->requestdata['filepath'] = 'testpath/test.xml';
+        $tc = new TestController();
+        $tc->__invoke($this->request, $this->response, []);
+        $results = $this->result->output;
+        $this->assertEquals('Algebraic input', $results->name);
+        $this->assertEquals(true, $results->isupgradeerror);
+        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isdeployedseeds);
+        $this->assertEquals(false, $results->israndomvariants);
+        $this->assertEquals(false, $results->istests);
+        $this->assertStringContainsString('missing or empty', $results->messages);
+        $this->assertEquals([], $results->results);
+    }
+
+    public function test_test_controller_default_test_fail() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test3');
+        $this->requestdata['filepath'] = 'testpath/test.xml';
+        $tc = new TestController();
+        $tc->__invoke($this->request, $this->response, []);
+        $results = $this->result->output;
+        $this->assertEquals('Algebraic input', $results->name);
+        $this->assertEquals(false, $results->isupgradeerror);
+        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isdeployedseeds);
+        $this->assertEquals(false, $results->israndomvariants);
+        $this->assertEquals(false, $results->istests);
+        $this->assertEquals(stack_string('default_test_fail'), $results->results->noseed->messages);
+        $this->assertEquals(1, $results->results->noseed->fails);
+        $this->assertEquals(0, $results->results->noseed->passes);
+    }
+
+    public function test_test_controller_default_test_pass() {
+        $this->requestdata['questionDefinition'] =
+            str_replace('<tans>wrong</tans>', '<tans>ta</tans>', stack_api_test_data::get_question_string('test3'));
+        $this->requestdata['filepath'] = 'testpath/test.xml';
+        $tc = new TestController();
+        $tc->__invoke($this->request, $this->response, []);
+        $results = $this->result->output;
+        $this->assertEquals('Algebraic input', $results->name);
+        $this->assertEquals(false, $results->isupgradeerror);
+        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isdeployedseeds);
+        $this->assertEquals(false, $results->israndomvariants);
+        $this->assertEquals(false, $results->istests);
+        $this->assertEquals('', $results->results->noseed->messages);
+        $this->assertEquals(0, $results->results->noseed->fails);
+        $this->assertEquals(1, $results->results->noseed->passes);
+    }
 }

@@ -47,7 +47,7 @@ class stack_maths_output_api extends stack_maths_output_filter_base {
             $text = $this->replace_dollars($text);
         }
 
-        $text = stack_fact_sheets::display($text, new \qtype_stack_renderer());
+        $text = stack_fact_sheets::display($text ?? '', new \qtype_stack_renderer());
 
         return $text;
     }

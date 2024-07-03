@@ -23,13 +23,15 @@ namespace api\util;
 use SimpleXMLElement;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
+require_once(__DIR__ . '/../../stack/questiontest.php');
+require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
 
 /**
  * TO-DO: Rework, dont use legacy classes
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
-    public static function loadxml($xml) {
+    public static function loadxml($xml, $includetests=false) {
         // TO-DO: Consider defaults.
         try {
             $xmldata = new SimpleXMLElement($xml);
@@ -66,8 +68,8 @@ class StackQuestionLoader {
         $question->questiontextformat = (string) $xmldata->question->questiontext['format'];
         $question->generalfeedback = (string) $xmldata->question->generalfeedback->text;
         $question->generalfeedbackformat = (string) $xmldata->question->generalfeedback['format'];
-        $question->defaultmark = isset($xmldata->question->defaultgrade) ? (float) $xmldata->question->defaultgrade : 1.0;
-        $question->penalty = isset($xmldata->question->penalty) ? (float) $xmldata->question->penalty : 0.1;
+        $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade : 1.0;
+        $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty : 0.1;
 
         // Based on initialise_question_instance from questiontype.php.
         $question->stackversion              = (string) $xmldata->question->stackversion->text;
@@ -102,56 +104,57 @@ class StackQuestionLoader {
         $question->options = new \stack_options();
         $question->options->set_option(
             'multiplicationsign',
-            isset($xmldata->question->multiplicationsign) ?
+            (array) $xmldata->question->multiplicationsign ?
                 (string) $xmldata->question->multiplicationsign : get_config('qtype_stack', 'multiplicationsign')
         );
         $question->options->set_option(
             'complexno',
-            isset($xmldata->question->complexno) ?
+            (array) $xmldata->question->complexno ?
                 (string) $xmldata->question->complexno : get_config('qtype_stack', 'complexno')
         );
         $question->options->set_option(
             'inversetrig',
-            isset($xmldata->question->inversetrig) ?
+            (array) $xmldata->question->inversetrig ?
                 (string) $xmldata->question->inversetrig : get_config('qtype_stack', 'inversetrig')
         );
         $question->options->set_option(
             'logicsymbol',
-            isset($xmldata->question->logicsymbol) ?
+            (array) $xmldata->question->logicsymbol ?
                 (string) $xmldata->question->logicsymbol : get_config('qtype_stack', 'logicsymbol')
         );
         $question->options->set_option(
             'matrixparens',
-            isset($xmldata->question->matrixparens) ?
+            (array) $xmldata->question->matrixparens ?
                 (string) $xmldata->question->matrixparens : get_config('qtype_stack', 'matrixparens')
         );
         $question->options->set_option(
             'sqrtsign',
-            isset($xmldata->question->sqrtsign) ?
+            (array) $xmldata->question->sqrtsign ?
                 self::parseboolean($xmldata->question->sqrtsign) : (bool) get_config('qtype_stack', 'sqrtsign')
         );
         $question->options->set_option(
             'simplify',
-            isset($xmldata->question->questionsimplify) ?
+            (array) $xmldata->question->questionsimplify ?
                 self::parseboolean($xmldata->question->questionsimplify) : (bool) get_config('qtype_stack', 'questionsimplify')
         );
         $question->options->set_option(
             'assumepos',
-            isset($xmldata->question->assumepositive) ?
+            (array) $xmldata->question->assumepositive ?
                 self::parseboolean($xmldata->question->assumepositive) : (bool) get_config('qtype_stack', 'assumepositive')
         );
         $question->options->set_option(
             'assumereal',
-            isset($xmldata->question->assumereal) ?
+            (array) $xmldata->question->assumereal ?
                 self::parseboolean($xmldata->question->assumereal) : (bool) get_config('qtype_stack', 'assumereal')
         );
         $question->options->set_option(
             'decimals',
-            isset($xmldata->question->decimals) ? (string) $xmldata->question->decimals : get_config('qtype_stack', 'decimals')
+            (array) $xmldata->question->decimals ?
+                (string) $xmldata->question->decimals : get_config('qtype_stack', 'decimals')
         );
         $question->options->set_option(
             'scientificnotation',
-            isset($xmldata->question->scientificnotation) ?
+            (array) $xmldata->question->scientificnotation ?
                                 (string) $xmldata->question->scientificnotation : get_config('qtype_stack', 'scientificnotation')
         );
 
@@ -163,25 +166,25 @@ class StackQuestionLoader {
         $requiredparams = \stack_input_factory::get_parameters_used();
         foreach ($inputmap as $name => $inputdata) {
             $allparameters = [
-                'boxWidth'        => isset($inputdata->boxsize) ?
+                'boxWidth'        => (array) $inputdata->boxsize ?
                     (int) $inputdata->boxsize : get_config('qtype_stack', 'inputboxsize'),
-                'insertStars'     => isset($inputdata->insertstars) ?
+                'insertStars'     => (array) $inputdata->insertstars ?
                     (int) $inputdata->insertstars : get_config('qtype_stack', 'inputinsertstars'),
                 'syntaxHint'      => isset($inputdata->syntaxhint) ? (string) $inputdata->syntaxhint : '',
-                'syntaxAttribute' => isset($inputdata->syntaxattribute) ? (int) $inputdata->syntaxattribute : 0,
+                'syntaxAttribute' => (array) $inputdata->syntaxattribute ? (int) $inputdata->syntaxattribute : 0,
                 'forbidWords'     => isset($inputdata->forbidwords) ?
                     (string) $inputdata->forbidwords : get_config('qtype_stack', 'inputforbidwords'),
                 'allowWords'      => isset($inputdata->allowwords) ? (string) $inputdata->allowwords : '',
-                'forbidFloats'    => isset($inputdata->forbidfloat) ?
+                'forbidFloats'    => (array) $inputdata->forbidfloat ?
                     self::parseboolean($inputdata->forbidfloat) : (bool) get_config('qtype_stack', 'inputforbidfloat'),
-                'lowestTerms'     => isset($inputdata->requirelowestterms) ?
+                'lowestTerms'     => (array) $inputdata->requirelowestterms ?
                     self::parseboolean($inputdata->requirelowestterms) :
                     (bool) get_config('qtype_stack', 'inputrequirelowestterms'),
-                'sameType'        => isset($inputdata->checkanswertype) ?
+                'sameType'        => (array) $inputdata->checkanswertype ?
                     self::parseboolean($inputdata->checkanswertype) : (bool) get_config('qtype_stack', 'inputcheckanswertype'),
-                'mustVerify'      => isset($inputdata->mustverify) ?
+                'mustVerify'      => (array) $inputdata->mustverify ?
                     self::parseboolean($inputdata->mustverify) : (bool) get_config('qtype_stack', 'inputmustverify'),
-                'showValidation'  => isset($inputdata->showvalidation) ?
+                'showValidation'  => (array) $inputdata->showvalidation ?
                     (int) $inputdata->showvalidation : get_config('qtype_stack', 'inputshowvalidation'),
                 'options'         => isset($inputdata->options) ? (string) $inputdata->options : '',
             ];
@@ -219,9 +222,9 @@ class StackQuestionLoader {
 
             $data = new \stdClass();
             $data->name = (string) $prtdata->name;
-            $data->autosimplify = isset($prtdata->autosimplify) ? self::parseboolean($prtdata->autosimplify) : true;
-            $data->feedbackstyle = isset($prtdata->feedbackstyle) ? (int) $prtdata->feedbackstyle : 1;
-            $data->value = isset($prtdata->value) ? (float) $prtdata->value : 1.0;
+            $data->autosimplify = (array) $prtdata->autosimplify ? self::parseboolean($prtdata->autosimplify) : true;
+            $data->feedbackstyle = (array) $prtdata->feedbackstyle ? (int) $prtdata->feedbackstyle : 1;
+            $data->value = (array) $prtdata->value ? (float) $prtdata->value : 1.0;
             $data->firstnodename = null;
 
             $data->feedbackvariables = (string) $prtdata->feedbackvariables->text;
@@ -238,18 +241,18 @@ class StackQuestionLoader {
                 $newnode->testoptions = (string) $node->testoptions;
                 $newnode->quiet = self::parseboolean($node->quiet);
 
-                $newnode->truescoremode = isset($node->truescoremode) ? (string) $node->truescoremode : 'add';
-                $newnode->truescore = isset($node->truescore) ? (float) $node->truescore : 1.0;
-                $newnode->truepenalty = isset($node->truepenalty) ? (float) $node->truepenalty : 0.0;
-                $newnode->truenextnode = isset($node->truenextnode) ? (string) $node->truenextnode : '-1';
+                $newnode->truescoremode = (array) $node->truescoremode ? (string) $node->truescoremode : '+';
+                $newnode->truescore = (array) $node->truescore ? (string) $node->truescore : 1.0;
+                $newnode->truepenalty = (array) $node->truepenalty ? (string) $node->truepenalty : null;
+                $newnode->truenextnode = (array) $node->truenextnode ? (string) $node->truenextnode : '-1';
                 $newnode->trueanswernote = (string) $node->trueanswernote;
                 $newnode->truefeedback = (string) $node->truefeedback->text;
                 $newnode->truefeedbackformat = (string) $node->truefeedback['format'];
 
-                $newnode->falsescoremode = isset($node->falsescoremode) ? (string) $node->falsescoremode : 'equals';
-                $newnode->falsescore = isset($node->falsescore) ? (float) $node->falsescore : 0.0;
-                $newnode->falsepenalty = isset($node->falsepenalty) ? (float) $node->falsepenalty : 0.0;
-                $newnode->falsenextnode = isset($node->falsenextnode) ? (string) $node->falsenextnode : '-1';
+                $newnode->falsescoremode = (array) $node->falsescoremode ? (string) $node->falsescoremode : '=';
+                $newnode->falsescore = (array) $node->falsescore ? (string) $node->falsescore : 0.0;
+                $newnode->falsepenalty = (array) $node->falsepenalty ? (string) $node->falsepenalty : null;
+                $newnode->falsenextnode = (array) $node->falsenextnode ? (string) $node->falsenextnode : '-1';
                 $newnode->falseanswernote = (string) $node->falseanswernote;
                 $newnode->falsefeedback = (string) $node->falsefeedback->text;
                 $newnode->falsefeedbackformat = (string) $node->falsefeedback['format'];
@@ -267,8 +270,28 @@ class StackQuestionLoader {
         }
 
         $question->deployedseeds = $deployedseeds;
+        $testcases = [];
+        if ($includetests) {
+            foreach ($xmldata->question->qtest as $test) {
+                $testinputs = [];
+                foreach ($test->testinput as $testinput) {
+                    $testinputs[(string) $testinput->name] = (string) $testinput->value;
+                }
+                $testcase = new \stack_question_test((string) $test->description, $testinputs, (string) $test->testcase);
+                foreach ($test->expected as $expected) {
+                    $testcase->add_expected_result((string) $expected->name,
+                            new \stack_potentialresponse_tree_state(1, true,
+                                (array) $expected->expectedscore ?
+                                    (string) $expected->expectedscore : null,
+                                (array) $expected->expectedpenalty ?
+                                    (string) $expected->expectedpenalty : null,
+                                    '', [(string) $expected->expectedanswernote]));
+                }
+                $testcases[] = $testcase;
+            }
+        }
 
-        return $question;
+        return ['question' => $question, 'testcases' => $testcases];
     }
 
     private static function handlefiles(\SimpleXMLElement $files) {

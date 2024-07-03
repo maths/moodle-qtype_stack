@@ -329,7 +329,7 @@ class api_controller_test extends qtype_stack_testcase {
 
     public function test_test_controller_default_test_pass() {
         $this->requestdata['questionDefinition'] =
-            str_replace('<tans>wrong</tans>','<tans>ta</tans>', stack_api_test_data::get_question_string('test3'));
+            str_replace('<tans>wrong</tans>', '<tans>ta</tans>', stack_api_test_data::get_question_string('test3'));
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
         $tc->__invoke($this->request, $this->response, []);

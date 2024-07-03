@@ -395,7 +395,13 @@ class stack_cas_keyval {
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $contextvariables[] = $statement;
                 } 
-                if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
+                // Test for end of context variables.
+                if ($item->statement instanceof MP_Identifier) {
+                    if ($item->statement->value == '%_stack_preamble_end') {
+                        $contextvariables = array_merge($contextvariables, $statements);
+                        $statements = [];
+                    }
+                } else if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
                     $bestatements[] = $statement;
                 } else {
                     $statements[] = $statement;

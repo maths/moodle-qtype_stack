@@ -10,7 +10,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 DONE
 
 1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
-
+2. Add in stack preamble via `%_stack_preamble_end;` in the question variables to allow some variables to be available in inputs.  This fixes [issue #1207](https://github.com/maths/moodle-qtype_stack/issues/879) and [issue #1133](https://github.com/maths/moodle-qtype_stack/issues/1133).
 
 Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.7.0) include
 

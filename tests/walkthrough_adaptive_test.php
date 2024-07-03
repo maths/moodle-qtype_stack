@@ -432,7 +432,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreEnd
 
         // Now use the correct answer.
-
         $ta = $q->get_correct_response();
         $sa = $ta['ans1'];
         $this->process_submission(['ans1' => $sa, '-submit' => 1]);
@@ -1312,7 +1311,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_output(
                 new question_no_pattern_expectation('/Your answer is partially correct./')
         );
-
     }
 
     public function test_test3_save_invalid_response_correct_then_stubmit() {
@@ -4026,9 +4024,36 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->get_no_hint_visible_expectation()
                 );
 
+        // Process a validate request with a texput function.
+        $this->process_submission(['ans1' => 'vec(x)', '-submit' => 1]);
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'vec(x)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assert_content_with_maths_contains('\[ {\bf x} \]', $this->currentoutput);
+        $expected = 'Seed: 1; ans1: vec(x) [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+
+        // Process a validate request with a texput function.
+        $this->process_submission(['ans1' => 'tup(3,4)', '-submit' => 1]);
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'tup(3,4)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assert_content_with_maths_contains('\[ \left[3,4\right) \]', $this->currentoutput);
+        $expected = 'Seed: 1; ans1: tup(3,4) [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+
         // Process a validate request.
         $this->process_submission(['ans1' => 'log(blob)', '-submit' => 1]);
-
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
@@ -4037,6 +4062,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
+        $this->assert_content_with_maths_contains('\[ \log \left( \diamond \right) \]', $this->currentoutput);
+        $expected = 'Seed: 1; ans1: log(blob) [valid]; firsttree: !';
+        $this->check_response_summary($expected);
 
         // Process a submition of an incorrect answer.
         $this->process_submission(['ans1' => 'log(blob)', 'ans1_val' => 'log(blob)', '-submit' => 1]);
@@ -4044,6 +4072,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.35);
         $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-F');
+        $this->assert_content_with_maths_contains('\[ \log \left( \diamond \right) \]', $this->currentoutput);
+        $expected = 'Seed: 1; ans1: log(blob) [score]; firsttree: # = 0 | firsttree-1-F | firsttree-2-F';
+        $this->check_response_summary($expected);
 
         // Process the correct answer.  Needs the assumption x>2 for ATAlgEquiv to correctly work.
         $this->process_submission(['ans1' => '6*((x-2)^2)^k', '-submit' => 1]);

@@ -338,4 +338,25 @@ class caskeyval_test extends qtype_stack_testcase {
         $expected = null;
         $this->assertEquals($expected, $compiled['contextvariables']);
     }
+
+    public function test_stack_compile_preamble_end1() {
+        $tests = 'stack_reset_vars(true);n1:1;ordergreat(i,j,k);%_stack_preamble_end;' .
+            'p:matrix([-7],[2],[-3]);' .
+            'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $expected = [
+        ];
+        $compiled = $kv->compile('kv-test');
+
+        $expected = '(_EC(errcatch(stack_reset_vars(true)),"kv-test/1:1-1:2"),' .
+            '_EC(errcatch(ordergreat(i,j,k)),"kv-test/1:29-1:2"),true)';
+        $this->assertEquals($expected, $compiled['blockexternal']);
+        $expected = '(_EC(errcatch(p:(%_C(matrix),matrix([-7],[2],[-3]))),"kv-test/1:68-1:2"),' .
+            '_EC(errcatch(q:(%_C(matrix),matrix([i],[j],[k]))),"kv-test/1:92-1:2"),' .
+            '_EC(errcatch(v:(%_C(dotproduct),dotproduct(p,q))),"kv-test/1:114-1:2"),true)';
+        $this->assertEquals($expected, $compiled['statement']);
+        $expected = '(_EC(errcatch(n1:1),"kv-test/1:24-1:2"),true)';
+        $this->assertEquals($expected, $compiled['contextvariables']);
+    }
 }

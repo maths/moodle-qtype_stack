@@ -128,6 +128,9 @@
   "%s": {
       "function": "?"
   },
+  "%_stack_preamble_end": {
+      "constant": "t"
+  },
   "%stmt": {
       "variable": "f"
   },

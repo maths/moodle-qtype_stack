@@ -3537,7 +3537,10 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2020112300';
         $q->name = 'contextvars';
-        $q->questionvariables = "texput(blob, \"\\\\diamond\");\n assume(x>2);\n texput(log, \"\\\\log \", prefix);";
+        $q->questionvariables = "tuptex(z):= block([a,b], [a,b]:args(z), " .
+            "sconcat(\"\\\\left[\",tex1(a),\",\",tex1(b),\"\\\\right)\"));texput(tup, tuptex);" .
+            "vec(ex):=stackvector(ex);%_stack_preamble_end;" .
+            "texput(blob, \"\\\\diamond\");\n assume(x>2);\n texput(log, \"\\\\log \", prefix);";
         $q->questiontext = 'What is {@blob@}? [[input:ans1]] [[validation:ans1]]';
         $q->generalfeedback = 'You should be able to type in {@blob@} as <code>blob</code>.';
 
@@ -3545,7 +3548,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob']);
+                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob,vec,tup']);
 
         $q->options->set_option('simplify', true);
 

@@ -254,6 +254,9 @@
       "function": "s",
       "variable": "s"
   },
+  "EMPTYANSWER": {
+      "variable": "s"
+  },
   "EMPTYCHAR": {
       "variable": "s"
   },
@@ -6708,7 +6711,12 @@
       "globalyforbiddenfunction": true
   },
   "root": {
-      "function": "s"
+      "function": "s",
+      "nounfunction": "'root"
+  },
+  "'root": {
+      "function": "t",
+      "nounfunctionfor": "root"
   },
   "rootsconmode": {
       "variable": "s"

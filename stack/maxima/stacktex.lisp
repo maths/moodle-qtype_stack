@@ -241,7 +241,7 @@
 ;; This list is an exception, e.g. conjugate(x)^2.
 ;; We use this list because tex-mexpt is also defined in stacktex40.lisp for earlier versions of Maxima.
 (defvar tex-mexpt-fnlist '(%sum %product %derivative %integrate %at $conjugate $texsub $lg $logbase %sqrt
-                                         %lsum %limit $pderivop $#pm#))
+                                         %lsum %limit $pderivop $#pm# $disp_select $displaydp $displaysci))
 
 ;; insert left-angle-brackets for mncexpt. a^<n> is how a^^n looks.
 (defun tex-mexpt (x l r)

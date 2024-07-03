@@ -7,14 +7,18 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.7.0
 
-Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.7.0) include
+DONE
 
 1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
-2. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
-3. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
-4. Error messages: use caserror.class more fully to use user information to target error messages.
-5. Remove all "cte" code from Maxima - mostly install.
-6. Review and fix [issue #1063](https://github.com/maths/moodle-qtype_stack/issues/1063): "Extra options" set to "simp" and number of decimals shown in validation field
+
+
+Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.7.0) include
+
+1. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
+2. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
+3. Error messages: use caserror.class more fully to use user information to target error messages.
+4. Remove all "cte" code from Maxima - mostly install.
+5. Review and fix [issue #1063](https://github.com/maths/moodle-qtype_stack/issues/1063): "Extra options" set to "simp" and number of decimals shown in validation field
 
 ## Parson's block development track
 

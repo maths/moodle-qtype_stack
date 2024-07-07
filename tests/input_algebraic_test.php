@@ -1613,7 +1613,7 @@ class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
         $this->assertEquals('illegalcaschars', $state->note);
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.', $state->errors);
+        $this->assertEquals('The characters @ and \ are not allowed in CAS input.', $state->errors);
         $this->assertEquals($state->contentsmodified, '');
         // This appears to the student to display correctly, since the TeX is picked up by MathJax.
         $this->assertEquals($state->contentsdisplayed,

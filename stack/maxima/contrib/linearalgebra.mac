@@ -504,7 +504,7 @@ make_list_of_lists(ex):= block([op1],
   if vectorp(ex) then return([list_matrix_entries(ex)]),
   if is(op1="matrix") then return(args(transpose(ex))),
   ex: args(ex),
-  if ev(every(lambda([ex2],constantp(ex2) or atom(ex2)),ex),simp) then return([ex]),
+  if ev(not(some(lambda([ex2],nonscalarp(ex2)),ex)),simp) then return([ex]),
   ex: map(lambda([ex2],if vectorp(ex2) then list_matrix_entries(ex2) else args(ex2)),ex),
   return(ex)
 );
@@ -1003,8 +1003,7 @@ vector_parametric_parts(ex):= block([vars,cm,dir_vecs,cons_vecs],
  * @param[list] parts A list with three elements (see vector_parametric_parts) [mx1 matrix of constants, a list of mx1 matrices of constants, a list of variable names]
  * @return[string] TeX output of a vector parametric equation in a "standard" form.
  */
-vector_parametric_display(parts):= block([simp],
-  simp:false,
+vector_parametric_display(parts):= block([simp:false,cons_vec,dir_vecs,vars],
   [cons_vec,dir_vecs,vars]: parts,
   return(sconcat(tex1(cons_vec),"+",tex1(apply("+", zip_with("*", vars, dir_vecs)))))
 );
@@ -1017,7 +1016,7 @@ vector_parametric_display(parts):= block([simp],
  * @param[list] parts The output of vector_parametric_parts. This is a three-element list of the form [constant_vector, [list of direction vectors], [list of parameters]]. All vectors should be mx1 matrices. The third element can be omitted if building the list manually.
  * @return[boolean] Is p in the affine subspace?
  */
-point_in_affine_spacep(p,parts):= block([simp:true],
+point_in_affine_spacep(p,parts):= block([simp:true,cons_vec,dir_vecs,vars,eqns,soln],
   cons_vec: first(parts),
   dir_vecs: second(parts),
   if is(length(parts)>2) then vars: third(parts) else vars: rest(stack_var_makelist(tmp,length(dir_vecs))),

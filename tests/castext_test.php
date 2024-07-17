@@ -2332,4 +2332,23 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('Underscore characters are not permitted in this input.',
             $at2->get_rendered());
     }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_unary_minus_zeros() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2([], $options, 123456);
+
+        $textinput = "{@x-0@}, {@x-0.0@}, {@x*(-0.0)@}, {@-27@}.";
+        $at1 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({x-0}\), \({x-0.0}\), \({x\cdot \left(-0.0\right)}\), \({-27}\).',
+            $at1->get_rendered());
+    }
 }

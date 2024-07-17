@@ -898,11 +898,11 @@ texput(matrix, stack_matrix_disp)$
 unary_minus_traverse(ex) := block(
   /* We want atom here, not mapatom to catch a[4]. */
   if atom(ex) then return(ex),
+  if op(ex) = "-" and (is(first(args(ex))=0) or is(first(args(ex))=0.0)) then return(ex),
   if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
   if arrayp(ex) then return(arraymake(op(ex), maplist(unary_minus_traverse, args(ex)))),
   apply(op(ex), map(unary_minus_traverse, args(ex)) )
 )$
-
 
 /* Pulls out "-" to the front of any expression in a sum of products which needs it. */
 /* For example,   -(2*y^2) is ok                                                     */

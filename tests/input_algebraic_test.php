@@ -344,6 +344,30 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('Lowest_Terms', $state->note);
     }
 
+    public function test_validate_student_response_with_minus_zero() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(['sans1' => "x-0"], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x-0', $state->contentsmodified);
+        $this->assertEquals('\[ x-0 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $state = $el->validate_student_response(['sans1' => "x-0.0"], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x-0.0', $state->contentsmodified);
+        $this->assertEquals('\[ x-0.0 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $state = $el->validate_student_response(['sans1' => "x*(-0.0)"], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x*(-0.0)', $state->contentsmodified);
+        $this->assertEquals('\[ x\cdot \left(-0.0\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_validate_student_response_with_rationalized() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '1/2');

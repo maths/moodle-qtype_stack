@@ -816,12 +816,12 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,2)@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,2)@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, {@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals('\({2.72}\), \({4.000}\), \({4.000}\)', $at1->get_rendered());
+        $this->assertEquals('\({2.72}\), \({4.000}\), \({4.000}\), \({3}\), \({1}\)', $at1->get_rendered());
     }
 
     /**
@@ -835,12 +835,12 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, {@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\)', $at1->get_rendered());
+        $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\), \({3}\), \({1}\)', $at1->get_rendered());
     }
 
     /**
@@ -854,7 +854,7 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a1,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a1,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, {@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();

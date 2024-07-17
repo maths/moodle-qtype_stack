@@ -2369,4 +2369,26 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({x-0}\), \({x-0.0}\), \({x\cdot \left(-0.0\right)}\), \({-27}\).',
             $at1->get_rendered());
     }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_make_mult_sgn_stackunits() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2([], $options, 123456);
+
+        $textinput = '{@stackunits(10,m/s)@}, ' .
+            '{@(texput(multsgnstackunits, "\\\\cdot "), stackunits(1, s^-1))@}, ' .
+            '{@(texput(multsgnstackunits, "\\\\, "), stackunits(1, s^-1))@}. ' .
+            'Multiplication unaffected: {@(texput(multsgnstackunits, "\\\\, "), a*b)@}.';
+        $at1 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({10\, \frac{m}{s}}\), \({1\cdot s^ {- 1 }}\), \({1\, s^ {- 1 }}\). ' .
+            'Multiplication unaffected: \({a\cdot b}\).', $at1->get_rendered());
+    }
 }

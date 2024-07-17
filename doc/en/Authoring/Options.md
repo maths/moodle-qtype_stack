@@ -75,9 +75,9 @@ The expression `(make_multsgn("cross"), a*b)` uses parentheses as an abbreviatio
 
 The value of this option `onum` will only put a multiplication sign between numbers.  This means you will see \(3\times 5\, x\) and not \(3\, 5\, x\) as you would if you have "none".
 
-There is a special atom which controls the multiplication symbol.  If you would like a dot then define
+There is a special atom which controls the multiplication symbol used with option `onum`.  If you would like a dot then define
 
-    texput(multsgnonlyfornumberssym, "\\times");
+    texput(multsgnonlyfornumberssym, "\\cdot");
 
 in the question variables.
 

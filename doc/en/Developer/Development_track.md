@@ -12,6 +12,7 @@ DONE
 1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
 2. Add in stack preamble via `%_stack_preamble_end;` in the question variables to allow some variables to be available in inputs.  This fixes [issue #1207](https://github.com/maths/moodle-qtype_stack/issues/1207]) and [issue #1133](https://github.com/maths/moodle-qtype_stack/issues/1133).
 3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019]).  This will allow better copy/paste to and from desktop maxima.
+4. Allow use of Maxima `let` commands, to generate [rules and patterns](../CAS/Rules.md) for bespoke simplification.
 
 Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.7.0) include
 

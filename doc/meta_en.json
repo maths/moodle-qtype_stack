@@ -637,6 +637,11 @@
         "description":"Information on using different functions in STACK to generate random values."
         },
         {
+        "file":"Rules.md",
+        "title":"Rules and patterns - STACK Documentation",
+        "description":"How to use Maxima's rule system (e.g. let) in STACK to generate custom simplification."
+        },
+        {
         "file":"Systematic_deployment.md",
         "title":"Systematic deployment - STACK Documentation",
         "description":"Information on how to systematically deploy all variants of a question."

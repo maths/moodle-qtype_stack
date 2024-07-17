@@ -222,3 +222,6 @@ The following CASText gives representative examples of the plot2d features suppo
     {@plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 100], [box,false])@}
     <h3>Putting the axes in the middle</h3>
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], [box, false], [yx_ratio, 1], [axes, solid], [xtics, -2, 0.5, 2],[ytics, -2, 0.5, 2])@}
+    <h3>Example with ticks, colour and alt-text</h3>
+    {@plot([6*x,6^x,x^6,x^(1/6)], [x, -2.2, 2.2], [y, -5.2, 5.2], [box, false], [yx_ratio, 1], [axes, solid], [xtics, -5, 1, 5],[ytics, -5, 1, 5], cons(legend, ["f", "F", "g", "G"]), [alt, "Graph Of Multiple Functions"], [style, [linespoints, 1, 1.5]], [nticks, 5], [color, "#785EF0", "#DC267F", "#FE6100", "#648FFF"], [adapt_depth, 0]);@}
+

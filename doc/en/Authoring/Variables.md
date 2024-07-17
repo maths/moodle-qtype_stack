@@ -76,6 +76,11 @@ It is also possible to use an unnamed `lambda` function.  E.g. if you have a fun
 
 will display `tup(a,b)` as \( \left[a,b\right) \).
 
+To create a function `hat` so that input `hat(x)` is displayed as \(\hat{x}\) you can use:
+
+    /* In question variables. */
+    texput(hat, lambda([ex], sconcat("\\hat{", tex1(first(ex)), "}")));
+
 As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}^{\infty } {A}_{k}}\) you can use the following:
 
     texput(u,lambda([ex],if length(ex)<4 then return("\\bigcup_{?=?}^{?} ? ") else

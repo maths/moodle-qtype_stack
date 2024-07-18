@@ -61,9 +61,7 @@ if (!is_null($deploy)) {
 $undeploy = optional_param('undeploy', null, PARAM_INT);
 if (!is_null($undeploy)) {
     $question->undeploy_variant($undeploy);
-
-    // As we redirect, switch to the undeployed variant, so it easy to re-deploy
-    // if you just made a mistake.
+    // As we redirect, switch to the undeployed variant, so it easy to re-deploy if you just made a mistake.
     $nexturl->param('seed', $undeploy);
     redirect($nexturl);
 }
@@ -83,7 +81,9 @@ $deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
 $deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
 $deploysystematicfrom = optional_param('deploysystematicfrom', null, PARAM_INT);
 $deploysystematicto = optional_param('deploysystematicto', null, PARAM_INT);
-if (!is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deploysystematicfrom) && !is_null($deploysystematicto))) {
+$usefromtofeature = false;
+if (!is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deploysystematicfrom) &&
+    !is_null($deploysystematicto))) {
 
     // Check data integrity.
     $dataproblem = false;
@@ -91,7 +91,7 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deplo
     if (!is_null($deployfromlist)) {
         $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
         $baseseeds = explode("\n", trim($deploytxt));
-    } elseif (!is_null($deploysystematicfrom) && !is_null($deploysystematicto)) {
+    } else if (!is_null($deploysystematicfrom) && !is_null($deploysystematicto)) {
         $baseseeds = range($deploysystematicfrom, $deploysystematicto);
         $usefromtofeature = true;
     } else {
@@ -137,11 +137,11 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deplo
     }
 
     // Undeploy all existing variants.
-    // If the deploy-from-to feature is used, only undeploy variants that already exist
+    // If the deploy-from-to feature is used, only undeploy variants that already exist.
     if ($question->deployedseeds) {
         if ($usefromtofeature) {
             foreach ($question->deployedseeds as $seed) {
-                if (in_array($seed,$newseeds)) {
+                if (in_array($seed, $newseeds)) {
                     $question->undeploy_variant($seed);
                 }
             }

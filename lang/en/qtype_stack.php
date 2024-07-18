@@ -1530,8 +1530,6 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
 
 
-$string['default_test_fail'] = 'Default test using the model answers does not return a score of 1.';
-$string['default_test_pass'] = 'Default test using the model answers returns a score of 1.';
 // API strings.
 $string['api_choose_file'] = 'Please select a question file';
 $string['api_choose_folder'] = 'Choose a STACK folder';

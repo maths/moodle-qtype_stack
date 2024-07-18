@@ -4807,7 +4807,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
         $this->render();
         $this->assert_content_with_maths_contains('\[ 5\cdot y+3\cdot x=1', $this->currentoutput);
-        $expected = 'Seed: 1; ansq: 5*y+3*x=1 [score]; firsttree: # = 0 | ATCASEqual (AlgEquiv-true)ATEquation_sides.' .
+        $expected = 'Seed: 1; ansq: 5*y+3*x=1 [score]; firsttree: # = 0 | ATCASEqual (AlgEquiv-true)ATEquation_sides. ' .
             '| firsttree-0-0';
         $this->check_response_summary($expected);
 

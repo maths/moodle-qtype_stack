@@ -784,9 +784,6 @@ stack_disp_sub_script(ex) := block([s],
  if taylorp(ex) then return(ex),
  if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
  if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
- /* The following are not, strictly speaking, a subscript issue, but we don't want another recursive call. */
- /* Strip out empty plus operators, which cause problems in display with simp:false.             */
- if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
  /* Now deal with supscripts. */
  if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),

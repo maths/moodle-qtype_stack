@@ -73,6 +73,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'validator',          // Test teacher-defined input validators and language.
             'feedback',           // Test teacher-defined input feedback and complex numbers.
             'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
+            'exdowncase',         // Test the ordergreat function with exdowncase.
             // Test questions for all the various input types.
             'algebraic_input',
             'algebraic_input_right',
@@ -4088,6 +4089,94 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedback        = "";
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_exdowncase() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'exdowncase';
+        $q->questionvariables = "ordergreat(x);\nveq: 5*y^2-8*x*y+13*x^2 = 49;";
+        $q->questiontext = "What is {@veq@}? [[input:ansq]][[validation:ansq]]";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ansq'] = stack_input_factory::make(
+            'algebraic', 'ansq', 'veq', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => ''
+            ]);
+
+        // By setting simp:true (the default) we check the re-ordering really happens.
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'loweranseq:exdowncase(ansq);';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = 'Use CasEqual as the test';
+        $newnode->sans                = 'loweranseq';
+        $newnode->tans                = 'veq';
+        $newnode->answertest          = 'CasEqual';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->id                  = '1';
+        $newnode->nodename            = '1';
+        $newnode->description         = 'Use AlgEquiv as the test';
+        $newnode->sans                = 'loweranseq';
+        $newnode->tans                = 'veq';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-1';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
 

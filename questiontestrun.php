@@ -429,7 +429,7 @@ if ($question->has_random_variants()) {
         echo ' ' . stack_string('deploymanynotes');
         echo html_writer::end_tag('form');
 
-        // Systematic deployment of variants.
+        // Systematic deployment of variants (from 1 to ...).
         echo html_writer::start_tag('form', [
             'method' => 'get', 'class' => 'deploysystematic',
             'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams),
@@ -442,6 +442,27 @@ if ($question->has_random_variants()) {
         echo ' ' . html_writer::empty_tag('input', [
             'type' => 'text', 'size' => 3,
             'id' => 'deploysystematicfield', 'name' => 'deploysystematic', 'value' => '',
+        ]);
+        echo html_writer::end_tag('form');
+
+        // Systematic deployment of variants (from ... to ...).
+        echo html_writer::start_tag('form', [
+            'method' => 'get', 'class' => 'deploysystematicfromto',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams),
+        ]);
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, ['sesskey' => sesskey()]), ['seed']);
+        echo ' ' . html_writer::empty_tag('input', [
+            'type' => 'submit', 'class' => 'btn btn-secondary',
+            'value' => stack_string('deploysystematicfrombtn'),
+        ]);
+        echo ' ' . html_writer::empty_tag('input', [
+            'type' => 'text', 'size' => 3,
+            'id' => 'deploysystematicfromfield', 'name' => 'deploysystematicfrom', 'value' => '',
+        ]);
+        echo ' ' . stack_string('deploysystematicto');
+        echo ' ' . html_writer::empty_tag('input', [
+            'type' => 'text', 'size' => 3,
+            'id' => 'deploysystematictofield', 'name' => 'deploysystematicto', 'value' => '',
         ]);
         echo html_writer::end_tag('form');
 

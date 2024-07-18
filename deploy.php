@@ -81,7 +81,9 @@ if (!is_null($undeploy) && $question->deployedseeds) {
 // Process undeployall if applicable.
 $deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
 $deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
-if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
+$deploysystematicfrom = optional_param('deploysystematicfrom', null, PARAM_INT);
+$deploysystematicto = optional_param('deploysystematicto', null, PARAM_INT);
+if (!is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deploysystematicfrom) && !is_null($deploysystematicto))) {
 
     // Check data integrity.
     $dataproblem = false;
@@ -89,6 +91,9 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
     if (!is_null($deployfromlist)) {
         $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
         $baseseeds = explode("\n", trim($deploytxt));
+    } elseif (!is_null($deploysystematicfrom) && !is_null($deploysystematicto)) {
+        $baseseeds = range($deploysystematicfrom, $deploysystematicto);
+        $usefromtofeature = true;
     } else {
         $baseseeds = range(1, $deploysystematic);
     }
@@ -132,9 +137,18 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
     }
 
     // Undeploy all existing variants.
+    // If the deploy-from-to feature is used, only undeploy variants that already exist
     if ($question->deployedseeds) {
-        foreach ($question->deployedseeds as $seed) {
-            $question->undeploy_variant($seed);
+        if ($usefromtofeature) {
+            foreach ($question->deployedseeds as $seed) {
+                if (in_array($seed,$newseeds)) {
+                    $question->undeploy_variant($seed);
+                }
+            }
+        } else {
+            foreach ($question->deployedseeds as $seed) {
+                $question->undeploy_variant($seed);
+            }
         }
     }
     // Deploy all new variants.

@@ -378,7 +378,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             if ($this->get_cached('preamble-qv') !== null) {
-                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb', 
+                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
                     'blockexternal'));
             }
             // Context variables should be first.

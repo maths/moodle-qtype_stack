@@ -393,7 +393,7 @@ class stack_cas_keyval {
                 // This is the edge case where we re-order i,j,k to be i+j+k, not the Maxima default k+j+i.
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $contextvariables[] = $statement;
-                } 
+                }
                 // Test for end of context variables.
                 if ($item->statement instanceof MP_Identifier) {
                     if ($item->statement->value == '%_stack_preamble_end') {

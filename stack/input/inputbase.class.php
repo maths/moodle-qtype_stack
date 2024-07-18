@@ -1093,8 +1093,8 @@ abstract class stack_input {
 
         if ($questionvariables) {
             if ($questionvariables['preamble-qv'] !== null) {
-            $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'], 'preamble',
-                'blockexternal');
+                $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'],
+                    'preamble', 'blockexternal');
             }
         }
 

@@ -72,6 +72,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'block_locals',       // Make sure local variables within a block are still permitted student input.
             'validator',          // Test teacher-defined input validators and language.
             'feedback',           // Test teacher-defined input feedback and complex numbers.
+            'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
             // Test questions for all the various input types.
             'algebraic_input',
             'algebraic_input_right',
@@ -3536,7 +3537,10 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2020112300';
         $q->name = 'contextvars';
-        $q->questionvariables = "texput(blob, \"\\\\diamond\");\n assume(x>2);\n texput(log, \"\\\\log \", prefix);";
+        $q->questionvariables = "tuptex(z):= block([a,b], [a,b]:args(z), " .
+            "sconcat(\"\\\\left[\",tex1(a),\",\",tex1(b),\"\\\\right)\"));texput(tup, tuptex);" .
+            "vec(ex):=stackvector(ex);%_stack_preamble_end;" .
+            "texput(blob, \"\\\\diamond\");\n assume(x>2);\n texput(log, \"\\\\log \", prefix);";
         $q->questiontext = 'What is {@blob@}? [[input:ans1]] [[validation:ans1]]';
         $q->generalfeedback = 'You should be able to type in {@blob@} as <code>blob</code>.';
 
@@ -3544,7 +3548,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob']);
+                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob,vec,tup']);
 
         $q->options->set_option('simplify', true);
 
@@ -4024,6 +4028,72 @@ class qtype_stack_test_helper extends question_test_helper {
             $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
             return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_ordergreat() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'ordergreat';
+        $q->questionvariables = "ordergreat(x,y);\nta:5*y+3*x=1";
+        $q->questiontext = "What is {@ta@}? [[input:ansq]][[validation:ansq]]" .
+                // Below checks this is still a real float.
+                '{@dispdp(float(pi),4)@}';
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ansq'] = stack_input_factory::make(
+            'algebraic', 'ansq', 'ta', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => ''
+            ]);
+
+        // By setting simp:true (the default) we check the re-ordering really happens.
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ansq';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'CasEqual';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
     }
 
     /**

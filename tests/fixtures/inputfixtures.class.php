@@ -666,7 +666,7 @@ class stack_inputvalidation_test_data {
         ['\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_false', '', 'illegalcaschars', "Student uses LaTeX"],
         [
             'sin(x),cos(y)', 'php_false', 'sin(x),cos(y)', 'cas_true', '',
-            'unencapsulated_comma', "",
+            'ParseError', "",
         ],
         ['sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"],
         [

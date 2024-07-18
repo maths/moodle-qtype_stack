@@ -246,6 +246,51 @@ class stack_question_test_result {
     }
 
     /**
+     * @return array whether the test passed successfully + outcomes, inputs and reasons for failure.
+     */
+    public function passed_with_reasons() {
+        $passed = true;
+        $reason = '';
+        $inputs = [];
+        $outcomes = [];
+        if ($this->emptytestcase) {
+            $passed = false;
+            $reason = stack_string('questiontestempty');
+        } else {
+            foreach ($this->get_input_states() as $inputname => $inputstate) {
+                $inputval = ($inputstate->input === false) ? '' : $inputstate->input;
+                $inputs[$inputname] = [
+                    'inputexpression' => $inputname,
+                    'inputentered' => $inputval,
+                    'inputmodified' => $inputstate->modified,
+                    'inputdisplayed' => stack_ouput_castext($inputstate->display),
+                    'inputstatus' => stack_string('inputstatusname' . $inputstate->status),
+                    'errors' => $inputstate->errors,
+                ];
+
+            }
+
+            foreach ($this->get_prt_states() as $prtname => $state) {
+                $outcomes[$prtname] = [
+                    'outcome' => $state->testoutcome,
+                    'score' => $state->score,
+                    'penalty' => $state->penalty,
+                    'answernote' => $state->answernote,
+                    'expectedscore' => $state->expectedscore,
+                    'expectedpenalty' => $state->expectedpenalty,
+                    'expectedanswernote' => $state->expectedanswernote,
+                    'feedback' => $state->feedback,
+                    'reason' => $state->reason,
+                ];
+                if (!$state->testoutcome) {
+                    $passed = false;
+                }
+            }
+        }
+        return ['passed' => $passed, 'reason' => $reason, 'inputs' => $inputs, 'outcomes' => $outcomes];
+    }
+
+    /**
      * Create an HTML output of the test result.
      */
     public function html_output($question, $key = null) {

@@ -4807,7 +4807,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
         $this->render();
         $this->assert_content_with_maths_contains('\[ 5\cdot y+3\cdot x=1', $this->currentoutput);
-        $expected = 'Seed: 1; ansq: 5*y+3*x=1 [score]; firsttree: # = 0 | ATCASEqual (AlgEquiv-true)ATEquation_sides.' .
+        $expected = 'Seed: 1; ansq: 5*y+3*x=1 [score]; firsttree: # = 0 | ATCASEqual (AlgEquiv-true)ATEquation_sides. ' .
             '| firsttree-0-0';
         $this->check_response_summary($expected);
 
@@ -4816,6 +4816,75 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->render();
         $this->assert_content_with_maths_contains('\[ 3\cdot x+5\cdot y=1', $this->currentoutput);
         $expected = 'Seed: 1; ansq: 3*x+5*y=1 [score]; firsttree: # = 1 | ATCASEqual_true. | firsttree-0-1';
+        $this->check_response_summary($expected);
+    }
+
+    public function test_input_validator_exdowncase() {
+        $q = test_question_maker::make_question('stack', 'exdowncase');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ansq');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+        $this->assert_content_with_maths_contains('\({13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49}\)',
+            $this->currentoutput);
+
+        // Process a validate request.
+        $ia = '13*x^2-8*y*x+5*y^2 = 49';
+        $this->process_submission(['ansq' => $ia, '-submit' => 1]);
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        // Check order of variables in validation of answer matches what students type.
+        $expected = 'Seed: 1; ansq: 13*x^2-8*y*x+5*y^2 = 49 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ansq', $ia);
+        $this->check_output_contains_input_validation('ansq');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assert_content_with_maths_contains('\[ 13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49',
+            $this->currentoutput);
+        $ia = '13*x^2-8*y*x+5*y^2 = 49';
+        $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49',
+            $this->currentoutput);
+        $expected = 'Seed: 1; ansq: 13*x^2-8*y*x+5*y^2 = 49 [score]; firsttree: # = 1 | ' .
+            'ATCASEqual_true. | firsttree-0-1 | ATEquation_sides | firsttree-1-1';
+        $this->check_response_summary($expected);
+
+        // New answer with upper case.
+        $ia = '13*X^2-8*y*x+5*y^2 = 49';
+        $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 13\cdot X^2-8\cdot y\cdot x+5\cdot y^2=49',
+            $this->currentoutput);
+        $expected = 'Seed: 1; ansq: 13*X^2-8*y*x+5*y^2 = 49 [score]; firsttree: # = 1 | ' .
+            'ATCASEqual_true. | firsttree-0-1 | ATEquation_sides | firsttree-1-1';
+        $this->check_response_summary($expected);
+
+        // New answer which is wrong.
+        $ia = '13*X^2-8*y*x+5*y^2 = 48';
+        $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 13\cdot X^2-8\cdot y\cdot x+5\cdot y^2=48',
+            $this->currentoutput);
+        $expected = 'Seed: 1; ansq: 13*X^2-8*y*x+5*y^2 = 48 [score]; firsttree: # = 0 | ' .
+            'ATCASEqual_false. | firsttree-0-0 | ATEquation_lhs_notrhs | firsttree-1-0';
         $this->check_response_summary($expected);
     }
 }

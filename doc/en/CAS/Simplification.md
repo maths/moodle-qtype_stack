@@ -269,7 +269,7 @@ The first of these does not pull out a numerical denominator.  The second does.
 
 ### Trig simplification ###
 
-Maxima does have the ability to make assumptions, e.g. to assume that \(n\) is an integer and then simplify \(3\cos(n\pi/2)^2\) to \( \frac{3}{2}(1+(-1)^n)\).  Assume the student's answer is `ans1` then then define the following feedback variables:
+Maxima does have the ability to make assumptions, e.g. to assume that \(n\) is an integer and then simplify \(3\cos(n\pi/2)^2\) to \( \frac{3}{2}(1+(-1)^n)\).  Assume the student's answer is `ans1` then define the following feedback variables:
 
     declare(n,integer);
     sans1:ev(trigrat(ans1),simp);

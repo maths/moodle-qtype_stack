@@ -203,10 +203,12 @@ if (empty($testscases) && $canedit) {
 }
 
 if (empty($testscases)) {
+    echo "\n<hr/>\n";
     $defaulttest = stack_bulk_tester::create_default_test($question);
     $defaulttestresult = $defaulttest->test_question($questionid, $seed, $context);
     echo stack_string('runquestiontests_explanation');
     echo $defaulttestresult->html_output($question, stack_string('runquestiontests_example'));
+    echo "\n<hr/>\n";
 }
 
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);

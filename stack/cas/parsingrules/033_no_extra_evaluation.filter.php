@@ -25,15 +25,14 @@ class stack_ast_filter_033_no_extra_evaluation implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function($node) use (&$errors, &$answernotes) {
-            if ($node instanceof MP_PrefixOp &&
-                $node->op === "''") {
-                    $node->position['invalid'] = true;
-                    if (array_search('Illegal_extraevaluation', $answernotes) === false) {
-                        $answernotes[] = 'Illegal_extraevaluation';
-                        $errors[] = stack_string('Illegal_extraevaluation');
-                    }
+            if ($node instanceof MP_PrefixOp && $node->op === "''") {
+                $node->position['invalid'] = true;
+                if (array_search('Illegal_extraevaluation', $answernotes) === false) {
                     $answernotes[] = 'Illegal_extraevaluation';
+                    $errors[] = stack_string('Illegal_extraevaluation');
                 }
+                $answernotes[] = 'Illegal_extraevaluation';
+            }
             return true;
         };
         $ast->callbackRecurse($process);

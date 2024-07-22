@@ -451,7 +451,7 @@ class stack_bulk_tester {
         }
 
         if (!$tests) {
-            $defaulttest = stack_bulk_tester::create_default_test($question);
+            $defaulttest = self::create_default_test($question);
             $defaulttestresult = $defaulttest->test_question($qid, $seed, $context);
             if ($defaulttestresult->passed()) {
                 $ok = true;

@@ -99,6 +99,11 @@ class ast_filter_912_inert_string_for_display_auto_generated_test extends qtype_
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1872,6 +1877,11 @@ class ast_filter_912_inert_string_for_display_auto_generated_test extends qtype_
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

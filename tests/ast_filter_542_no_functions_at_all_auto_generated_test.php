@@ -52,6 +52,11 @@ class ast_filter_542_no_functions_at_all_auto_generated_test extends qtype_stack
                       ['noFunction'],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['noFunction'],
+                      false, true);
+
         $this->expect('(-b+-sqrt(b^2))/(2*a)',
                       '(-b+-sqrt(b^2))/(2*a)',
                       ['noFunction'],
@@ -590,6 +595,11 @@ class ast_filter_542_no_functions_at_all_auto_generated_test extends qtype_stack
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      ['noFunction'],
+                      false, true);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       ['noFunction'],
                       false, true);
 

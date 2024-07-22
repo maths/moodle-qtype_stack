@@ -89,6 +89,11 @@ class ast_filter_680_gcl_sconcat_auto_generated_test extends qtype_stack_ast_tes
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1867,6 +1872,11 @@ class ast_filter_680_gcl_sconcat_auto_generated_test extends qtype_stack_ast_tes
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

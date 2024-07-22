@@ -620,6 +620,21 @@ class input_algebraic_test extends qtype_stack_testcase {
                 '\sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_extra_evaluation() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)');
+        $el->set_parameter('sameType', false);
+        $state = $el->validate_student_response(['sans1' => "''diff(y/x^2,x,1)"],
+            $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Illegal_extraevaluation', $state->note);
+        $this->assertEquals("Maxima's extra evaluation operator <code>''</code> is not supported by STACK.",
+            $state->errors);
+        $this->assertEquals("''%_E(%_E(noundiff(y/x^2,x,1)))", $state->contentsmodified);
+        $this->assertEquals("<span class=\"stacksyntaxexample\">''diff(y/x^2,x,1)</span>",
+            $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_single_var_chars_on() {
         // Check the single variable character option is tested.
         $options = new stack_options();

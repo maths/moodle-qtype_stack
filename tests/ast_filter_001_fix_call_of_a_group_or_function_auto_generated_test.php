@@ -139,6 +139,11 @@ class ast_filter_001_fix_call_of_a_group_or_function_auto_generated_test extends
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1892,6 +1897,11 @@ class ast_filter_001_fix_call_of_a_group_or_function_auto_generated_test extends
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

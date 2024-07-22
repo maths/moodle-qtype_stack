@@ -512,7 +512,8 @@ $string['testallincategory'] = 'Test all questions in this category';
 $string['overallresult'] = 'Overall result';
 $string['seedx'] = 'Seed {$a}';
 $string['testpassesandfails'] = '{$a->passes} passes and {$a->fails} failures.';
-
+$string['defaulttestpass'] = 'Default test using model answers returns a score of 1.';
+$string['defaulttestfail'] = 'Default test using model answers does not return a score of 1.';
 // Strings used by the question test script.
 $string['addanothertestcase'] = 'Add another test case...';
 $string['addatestcase'] = 'Add a test case...';
@@ -578,6 +579,8 @@ $string['runquestiontests_help'] = 'The dashboard runs question tests which unit
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['runquestiontests_auto'] = 'Automatically adding one test case assuming the teacher\'s input gets full marks.  Please check the answer note carefully.';
 $string['runquestiontests_autoprompt'] = 'Add test case assuming the teacher\'s input gets full marks.';
+$string['runquestiontests_explanation'] = 'If you add the test, its output will look like this:';
+$string['runquestiontests_example'] = 'example';
 $string['autotestcase'] = 'Test case assuming the teacher\'s input gets full marks.';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to variant: ';
@@ -1527,8 +1530,6 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
 
 
-$string['default_test_fail'] = 'Default test using the model answers does not return a score of 1.';
-$string['default_test_pass'] = 'Default test using the model answers returns a score of 1.';
 // API strings.
 $string['api_choose_file'] = 'Please select a question file';
 $string['api_choose_folder'] = 'Choose a STACK folder';

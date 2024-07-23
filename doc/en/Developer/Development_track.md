@@ -25,7 +25,7 @@ Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack
 
 ## Parson's block development track
 
-For v4.7.0:
+For v4.8.0:
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.

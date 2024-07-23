@@ -31,6 +31,7 @@ require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+$quizcontext = optional_param('context', null, PARAM_INT);
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
 if (!$questiondata) {
@@ -98,8 +99,27 @@ flush();
 // Later we only display inputs relevant to a particular PTR, so we sort out prt input requirements here.
 $inputsbyprt = $question->get_cached('required');
 
-$params = [$questionid];
-$query = "SELECT qa.*, qas_last.*, qu.contextid, c.path
+$quizzesquery = "SELECT qr.usingcontextid, q.name, cc.id, co.fullname 
+                    FROM {question_versions} qv 
+                    LEFT JOIN {question_references} qr ON qv.questionbankentryid = qr.questionbankentryid
+                    LEFT JOIN {context} c ON c.id = qr.usingcontextid
+                    LEFT JOIN {course_modules} cm ON cm.id = c.instanceid
+                    LEFT JOIN {quiz} q ON cm.instance = q.id
+                    LEFT JOIN {course} co ON q.course = co.id
+                    LEFT JOIN {context} cc ON cc.instanceid = co.id 
+                    WHERE qv.questionid = :questionid
+                        AND cc.contextlevel = 50";
+
+$quizzes = $DB->get_records_sql($quizzesquery, ['questionid' => $questionid]);
+
+if ($quizcontext !== null) {
+    $coursecontextid = $quizzes[$quizcontext]->id;
+} else {
+
+}
+
+$params = ['coursecontextid' => $coursecontextid, 'quizcontextid' => $quizcontext, 'questionid' => $questionid];
+$query = "SELECT qa.*, qas_last.*
               FROM {question_attempts} qa
               LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
               /* attach another copy of qas to those rows with the most recent timecreated,
@@ -111,9 +131,12 @@ $query = "SELECT qa.*, qas_last.*, qu.contextid, c.path
                                         AND qas_last.id < qas_prev.id))
               LEFT JOIN {user} u ON qas_last.userid = u.id
               LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
-              LEFT JOIN {context} c ON c.id = qu.contextid
+              INNER JOIN {role_assignments} ra ON ra.userid = u.id
           WHERE qas_prev.timecreated IS NULL
-              AND qu.component = 'mod_quiz'";
+              AND qu.component = 'mod_quiz'
+              AND qu.contextid = :quizcontextid
+              AND ra.roleid = 5
+              AND ra.contextid = :coursecontextid";
 
 // In moodle 4 we look at all attempts at all versions.
 // Otherwise an edit, regrade and re-analysis becomes impossible.
@@ -122,7 +145,7 @@ $query .= " AND qa.questionid IN (
         FROM {question_versions} qv_original
         JOIN {question_versions} qv ON
                 qv.questionbankentryid = qv_original.questionbankentryid
-    WHERE qv_original.questionid = ?)
+    WHERE qv_original.questionid = :questionid)
     ORDER BY u.username, qas_last.timecreated";
 
 global $DB;
@@ -130,21 +153,6 @@ global $DB;
 $result = $DB->get_records_sql($query, $params);
 $summary = [];
 foreach ($result as $qattempt) {
-    // Check that the user is a student (roleid == 5) on the course.
-    // The course will be the context with a contextlevel of 50.
-    $contextids = str_replace('/', ',', ltrim($qattempt->path, '/'));
-    $query = "SELECT 1 
-                FROM {context} c
-                LEFT JOIN {role_assignments} ra ON ra.contextid = c.id
-            WHERE c.id IN (" . $contextids . ")" .
-               "AND c.contextlevel = 50
-                AND ra.roleid = 5
-                AND ra.userid = :userid
-                LIMIT 1";
-    $isvalid = $DB->get_records_sql($query, ['userid' => (int) $qattempt->userid]);
-    if (!$isvalid) {
-        continue;
-    }
     if (!array_key_exists($qattempt->variant, $summary)) {
         $summary[$qattempt->variant] = [];
     }

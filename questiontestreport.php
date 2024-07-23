@@ -99,7 +99,7 @@ flush();
 $inputsbyprt = $question->get_cached('required');
 
 $params = [$questionid];
-$query = "SELECT qa.*, qas_last.*
+$query = "SELECT qa.*, qas_last.*, qu.contextid, c.path
               FROM {question_attempts} qa
               LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
               /* attach another copy of qas to those rows with the most recent timecreated,
@@ -110,7 +110,10 @@ $query = "SELECT qa.*, qas_last.*
                                     OR (qas_last.sequencenumber = qas_prev.sequencenumber
                                         AND qas_last.id < qas_prev.id))
               LEFT JOIN {user} u ON qas_last.userid = u.id
-          WHERE qas_prev.timecreated IS NULL";
+              LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
+              LEFT JOIN {context} c ON c.id = qu.contextid
+          WHERE qas_prev.timecreated IS NULL
+              AND qu.component = 'mod_quiz'";
 
 // In moodle 4 we look at all attempts at all versions.
 // Otherwise an edit, regrade and re-analysis becomes impossible.
@@ -127,6 +130,21 @@ global $DB;
 $result = $DB->get_records_sql($query, $params);
 $summary = [];
 foreach ($result as $qattempt) {
+    // Check that the user is a student (roleid == 5) on the course.
+    // The course will be the context with a contextlevel of 50.
+    $contextids = str_replace('/', ',', ltrim($qattempt->path, '/'));
+    $query = "SELECT 1 
+                FROM {context} c
+                LEFT JOIN {role_assignments} ra ON ra.contextid = c.id
+            WHERE c.id IN (" . $contextids . ")" .
+               "AND c.contextlevel = 50
+                AND ra.roleid = 5
+                AND ra.userid = :userid
+                LIMIT 1";
+    $isvalid = $DB->get_records_sql($query, ['userid' => (int) $qattempt->userid]);
+    if (!$isvalid) {
+        continue;
+    }
     if (!array_key_exists($qattempt->variant, $summary)) {
         $summary[$qattempt->variant] = [];
     }

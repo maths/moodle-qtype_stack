@@ -1346,8 +1346,9 @@ SVD(M):= block([U,S,VT],
  * and expressions with unary minus into brackets.
  */
 format_as_coeff(expr):= block([ops, repr],
+  if stringp(expr) then return(expr),
   ops: errcatch(op(expr)),
-  repr: if emptyp(ops) or not elementp(first(ops), {"+", "-"}) then expr else simplode(["(", expr, ")"]),
+  repr: if emptyp(ops) or not elementp(first(ops), {"+", "-"}) then tex1(expr) else simplode(["(", tex1(expr), ")"]),
   return(repr)
 );
 
@@ -1363,7 +1364,7 @@ disp_eqns(eqns,vars):= block([is_neg,s_in,s_first,format_as_positive_coeff,one_z
   is_neg(ex) := ev(is(signum(ex)=-1),simp),  /* return true if ex is numerical and negative, false otherwise */
   s_in(ex):= if is_neg(ex) then "-" else "+", /* returns the sign of a coefficient as a string, assuming 0 is positive */
   s_first(ex):= if is_neg(ex) then "-" else "", /* Altered version of above that doesn't return + for leading coefficient */
-  format_as_positive_coeff(ex) := if is_neg(ex) then ev(abs(ex),simp) else format_as_coeff(ev(ex,simp)),
+  format_as_positive_coeff(ex) := if is_neg(ex) then tex1(ev(abs(ex),simp)) else format_as_coeff(ev(ex,simp)),
   one_zero_remover(ex):= if ev(is(ex=1) or is(ex=0) or is(ex=-1),simp) then "" else format_as_positive_coeff(ev(ex,simp)), /* scrubs out unwanted ones and zeros */
   delete_if_zero(ex,var):= if is(ex=0) then "" else var, /* returns nothing if the coefficient is zero, otherwise returns the coefficient */
   n: length(eqns), /* n = number of equations */

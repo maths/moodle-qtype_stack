@@ -28,6 +28,7 @@
 require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
+require_once(__DIR__ . '/stack/questionreport.class.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
@@ -96,251 +97,33 @@ echo $maxima;
 
 flush();
 
-// Later we only display inputs relevant to a particular PTR, so we sort out prt input requirements here.
-$inputsbyprt = $question->get_cached('required');
-
-$quizzesquery = "SELECT qr.usingcontextid, q.name, cc.id, co.fullname 
-                    FROM {question_versions} qv 
-                    LEFT JOIN {question_references} qr ON qv.questionbankentryid = qr.questionbankentryid
-                    LEFT JOIN {context} c ON c.id = qr.usingcontextid
-                    LEFT JOIN {course_modules} cm ON cm.id = c.instanceid
-                    LEFT JOIN {quiz} q ON cm.instance = q.id
-                    LEFT JOIN {course} co ON q.course = co.id
-                    LEFT JOIN {context} cc ON cc.instanceid = co.id 
-                    WHERE qv.questionid = :questionid
-                        AND cc.contextlevel = 50";
-
-$quizzes = $DB->get_records_sql($quizzesquery, ['questionid' => $questionid]);
-
+$quizzes = stack_question_report::get_relevant_quizzes($questionid);
+foreach ($quizzes as $quiz) {
+    $button = $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestreport.php',
+            $urlparams + ['context' => $quiz->usingcontextid]),
+            $quiz->name);
+    echo html_writer::tag('div', $button,
+            []);
+    echo "\n";
+}
 if ($quizcontext !== null) {
     $coursecontextid = $quizzes[$quizcontext]->id;
 } else {
-
+    echo $OUTPUT->footer();
+    return;
 }
 
-$params = ['coursecontextid' => $coursecontextid, 'quizcontextid' => $quizcontext, 'questionid' => $questionid];
-$query = "SELECT qa.*, qas_last.*
-              FROM {question_attempts} qa
-              LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
-              /* attach another copy of qas to those rows with the most recent timecreated,
-              using method from https://stackoverflow.com/a/28090544 */
-              LEFT JOIN {question_attempt_steps} qas_prev
-                            ON qas_last.questionattemptid = qas_prev.questionattemptid
-                                AND (qas_last.sequencenumber < qas_prev.sequencenumber
-                                    OR (qas_last.sequencenumber = qas_prev.sequencenumber
-                                        AND qas_last.id < qas_prev.id))
-              LEFT JOIN {user} u ON qas_last.userid = u.id
-              LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
-              INNER JOIN {role_assignments} ra ON ra.userid = u.id
-          WHERE qas_prev.timecreated IS NULL
-              AND qu.component = 'mod_quiz'
-              AND qu.contextid = :quizcontextid
-              AND ra.roleid = 5
-              AND ra.contextid = :coursecontextid";
-
-// In moodle 4 we look at all attempts at all versions.
-// Otherwise an edit, regrade and re-analysis becomes impossible.
-$query .= " AND qa.questionid IN (
-    SELECT qv.questionid
-        FROM {question_versions} qv_original
-        JOIN {question_versions} qv ON
-                qv.questionbankentryid = qv_original.questionbankentryid
-    WHERE qv_original.questionid = :questionid)
-    ORDER BY u.username, qas_last.timecreated";
-
-global $DB;
-
-$result = $DB->get_records_sql($query, $params);
-$summary = [];
-foreach ($result as $qattempt) {
-    if (!array_key_exists($qattempt->variant, $summary)) {
-        $summary[$qattempt->variant] = [];
-    }
-    $rsummary = trim($qattempt->responsesummary ?? '');
-    if ($rsummary !== '') {
-        if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
-            $summary[$qattempt->variant][$rsummary] += 1;
-        } else {
-            $summary[$qattempt->variant][$rsummary] = 1;
-        }
-    }
-}
-
-foreach ($summary as $vkey => $variant) {
-    arsort($variant);
-    $summary[$vkey] = $variant;
-}
-
-// Match up variants to answer notes.
-$questionnotes = [];
-$questionseeds = [];
-foreach (array_keys($summary) as $variant) {
-    $questionnotes[$variant] = $variant;
-
-    $question = question_bank::load_question($questionid);
-    $question->start_attempt(new question_attempt_step(), $variant);
-    $questionseeds[$variant] = $question->seed;
-    $notesummary = $question->get_question_summary();
-    // TO-DO check for duplicate notes.
-    $questionnotes[$variant] = stack_ouput_castext($notesummary);
-}
-
-// Create blank arrays in which to store data.
-$qinputs = array_flip(array_keys($question->inputs));
-foreach ($qinputs as $key => $val) {
-    $qinputs[$key] = ['score' => [], 'valid' => [], 'invalid' => [], 'other' => []];
-}
-
-$inputreport = [];
-// The inputreportsummary is used to store inputs, regardless of variant.
-// Multi-part questions may have inputs which are not subject to randomisation.
-$inputreportsummary = $qinputs;
-$inputtotals = [];
-
-$qprts = array_flip(array_keys($question->prts));
-foreach ($qprts as $key => $notused) {
-    $qprts[$key] = [];
-}
-$prtreport = [];
-$prtreportinputs = [];
-
+$report = new stack_question_report($question, $quizcontext, $coursecontextid);
+$summary = $report->summary;
+$questionnotes = $report->questionnotes;
+$questionseeds = $report->questionseeds;
+$inputreport = $report->inputreport;
+$inputreportsummary = $report->inputreportsummary;
+$prtreport = $report->prtreport;
+$prtreportinputs = $report->prtreportinputs;
 // Create a summary of the data without different variants.
-$prtreportsummary = [];
-
-foreach ($summary as $variant => $vdata) {
-    $inputreport[$variant] = $qinputs;
-    $prtreport[$variant] = $qprts;
-    $prtreportinputs[$variant] = $qprts;
-
-    foreach ($vdata as $attemptsummary => $num) {
-        $inputvals = [];
-        $rawdat = explode(';', $attemptsummary);
-        foreach ($rawdat as $data) {
-            $data = trim($data);
-            foreach ($qinputs as $input => $notused) {
-                if (substr($data, 0, strlen($input . ':')) === $input . ':') {
-                    // Tidy up inputs by (i) trimming status and whitespace, and (2) removing input name.
-                    $datas = trim(substr($data, strlen($input . ':')));
-                    $status = 'other';
-                    if (strpos($datas, '[score]') !== false) {
-                        $status = 'score';
-                        $datas = trim(substr($datas, 0, -7));
-                    } else if (strpos($datas, '[valid]') !== false) {
-                        $status = 'valid';
-                        $datas = trim(substr($datas, 0, -7));
-                    } else if (strpos($datas, '[invalid]') !== false) {
-                        $status = 'invalid';
-                        $datas = trim(substr($datas, 0, -9));
-                    }
-                    // Reconstruct input string but whitespace is trimmed.
-                    $inputvals[$input] = $input . ':' . $datas;
-                    // Add data.
-                    if (array_key_exists($datas, $inputreport[$variant][$input][$status])) {
-                        $inputreport[$variant][$input][$status][$datas] += (int) $num;
-                    } else {
-                        $inputreport[$variant][$input][$status][$datas] = $num;
-                    }
-                    if (array_key_exists($datas, $inputreportsummary[$input][$status])) {
-                        $inputreportsummary[$input][$status][$datas] += (int) $num;
-                    } else {
-                        $inputreportsummary[$input][$status][$datas] = $num;
-                    }
-                    // Count the total numbers in this array.
-                    if (array_key_exists($input, $inputtotals)) {
-                        $inputtotals[$input] += (int) $num;
-                    } else {
-                        $inputtotals[$input] = $num;
-                    }
-                }
-            }
-            foreach ($qprts as $prt => $notused) {
-                // Only create an input summary of the inputs required for this PRT.
-                $inputsummary = '';
-                foreach ($inputsbyprt[$prt] as $input => $alsonotused) {
-                    if (array_key_exists($input, $inputvals)) {
-                        $inputsummary .= $inputvals[$input] . '; ';
-                    }
-                }
-                if (substr($data, 0, strlen($prt . ':')) === $prt . ':') {
-                    $datas = trim(substr($data, strlen($prt . ':')));
-                    if (array_key_exists($datas, $prtreport[$variant][$prt])) {
-                        $prtreport[$variant][$prt][$datas] += (int) $num;
-                        if (array_key_exists($inputsummary, $prtreportinputs[$variant][$prt][$datas])) {
-                            $prtreportinputs[$variant][$prt][$datas][$inputsummary] += (int) $num;
-                        } else {
-                            $prtreportinputs[$variant][$prt][$datas][$inputsummary] = (int) $num;
-                        }
-                    } else {
-                        $prtreport[$variant][$prt][$datas] = $num;
-                        $prtreportinputs[$variant][$prt][$datas] = [$inputsummary => (int) $num];
-                    }
-                    if (!array_key_exists($prt, $prtreportsummary)) {
-                        $prtreportsummary[$prt] = [];
-                    }
-                    if (array_key_exists($datas, $prtreportsummary[$prt])) {
-                        $prtreportsummary[$prt][$datas] += (int) $num;
-                    } else {
-                        $prtreportsummary[$prt][$datas] = $num;
-                    }
-                }
-            }
-        }
-    }
-}
-
-// Sort the values.
-foreach ($inputreport as $variant => $vdata) {
-    foreach ($vdata as $input => $idata) {
-        foreach ($idata as $key => $value) {
-            arsort($value);
-            $inputreport[$variant][$input][$key] = $value;
-        }
-    }
-}
-
-foreach ($inputreportsummary as $input => $idata) {
-    foreach ($idata as $key => $value) {
-        arsort($value);
-        $inputreportsummary[$input][$key] = $value;
-    }
-}
-
-foreach ($prtreport as $variant => $vdata) {
-    foreach ($vdata as $prt => $tdata) {
-        arsort($tdata);
-        $prtreport[$variant][$prt] = $tdata;
-    }
-}
-
-$notesummary = [];
-foreach ($prtreportsummary as $prt => $tdata) {
-    ksort($tdata);
-    $prtreportsummary[$prt] = $tdata;
-    if (!array_key_exists($prt, $notesummary)) {
-        $notesummary[$prt] = [];
-    }
-    foreach ($tdata as $rawnote => $num) {
-        $notes = explode('|', $rawnote);
-        foreach ($notes as $note) {
-            $note = trim($note);
-            if (array_key_exists($note, $notesummary[$prt])) {
-                $notesummary[$prt][$note] += (int) $num;
-            } else {
-                $notesummary[$prt][$note] = $num;
-            }
-        }
-    }
-
-    foreach ($prtreportinputs[$variant][$prt] as $note => $ipts) {
-        arsort($ipts);
-        $prtreportinputs[$variant][$prt][$note] = $ipts;
-    }
-}
-
-foreach ($notesummary as $prt => $tdata) {
-    ksort($tdata);
-    $notesummary[$prt] = $tdata;
-}
+$prtreportsummary = $report->prtreportsummary;
+$notesummary = $report->notesummary;
 
 // Frequency of answer notes, for each PRT, split by |, regardless of which variant was used.
 echo html_writer::tag('h3', stack_string('basicreportnotes'));

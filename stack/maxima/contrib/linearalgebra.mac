@@ -459,11 +459,12 @@ invertiblep(M):= block([isInvertible],
  */
 proj(u, v, [sp]) := block(
     sp: if emptyp(sp) then "." else first(sp),
-    return(sp(v,u)/sp(u,u)*u)
+    return(ev(sp(v,u)/sp(u,u)*u, simp))
 );
 
 /**
  * Orthogonalize column vectors  with respect to a scalar product sp
+ * Returns [] if the input is malformed.
  *
  * @param[] L a mxn matrix or list of column vectors, see cols_to_matrix
  * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
@@ -473,13 +474,14 @@ proj(u, v, [sp]) := block(
 orthogonalize(L, [sp]) := block([M, Morth],
     sp: if emptyp(sp) then "." else first(sp),
     M: cols_to_matrix(L),
-    if M = matrix([null]) then return(error("Malformed input. Expecting matrix or column vectors.")),
+    if M = matrix([null]) then return([]),
     Morth: transpose(apply(matrix, gramschmidt(transpose(M), sp))),
     return(if matrixp(L) then Morth else matrix_to_cols(Morth))
 );
 
 /**
  * Normalize column vectors with respect to a scalar product sp
+ * Returns [] if the input is malformed.
  *
  * @param[] M a mxn matrix or list of column vectors, see cols_to_matrix
  * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
@@ -489,7 +491,7 @@ orthogonalize(L, [sp]) := block([M, Morth],
 normalize(M, [sp]) := block([L],
     sp: if emptyp(sp) then "." else first(sp),
     L: cols_to_cols(M),
-    if L = [] then return(error("Malformed input. Expecting matrix or column vectors.")),
+    if L = [] then return([]),
     L: map(lambda([v], ev(v/sqrt(sp(v,v)), simp)), L),
     if matrixp(M) then return(apply(addcol, L)) else return(L)
 );

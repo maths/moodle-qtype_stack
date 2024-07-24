@@ -690,17 +690,16 @@ cols_to_cols(L):=block([op1],
 /*********************************************************************************/
 
 /**
- * Given a list of lists or a matrix, determine whether the list elements or columns are linearly independent.
+ * Given a list of column vectors, determine whether they are linearly independent.
  * If ex is a matrix, it checks for full column rank, not row rank. To check for full rank generally, use invertiblep.
  * 
- * @param[list or matrix] ex Either a list of lists (use make_list_of_lists if needed) or a matrix
- * @return[boolean] Is the collection of vectors linearly independent?
+ * @param[] ex a mxn matrix or list of column vectors, see cols_to_matrix
+ * @return[boolean] Is the collection of column vectors linearly independent?
  */
 lin_indp(ex):= block(
-  if matrixp(ex) then return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
-  else ex: column_stack(ex),
-  if matrixp(ex) then return(is(rank(ex) = ev(second(matrix_size(ex)),simp))),
-  return(false)
+  ex: cols_to_matrix(ex),
+  if ex = matrix([null]) then return(false),
+  return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
 );
 
 /**
@@ -728,20 +727,23 @@ row_equivp(ex,ta):= block(
 col_equivp(ex,ta):= row_equivp(transpose(ex),transpose(ta));
 
 /**
- * Given two lists of lists, determine whether they span the same subspace.
+ * Given two lists of column vectors, determine whether they span the same subspace.
  * i.e. Is each element of ex linearly dependent on ta and vice versa?
  * Note: This does not check for redundancies. To check whether two bases are equivalent, use this function in conjunction with lin_indp.
  * 
- * @param[list] ex A list of lists. Each sub-list must be the same length
- * @param[list] ta A list of lists. Each sub-list must be the same length
- * @return[boolean] Do the two lists of vectors span the same subspace?
+ * @param[] ex A mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[] ta A mxn matrix or list of column vectors, see cols_to_matrix
+ * @return[boolean] Do the two lists of column vectors span the same subspace?
  */
-subspace_equivp(ex,ta):= block([ex_rref,ta_rref],
-  ex_rref: errcatch(ev(sublist(args(rref(apply(matrix,ex))),lambda([ex2],not(every(lambda([ex3],is(ex3=0)),ex2)))),simp)),
-  if emptyp(ex_rref) then return(false) else ex_rref: first(ex_rref),
-  ta_rref: errcatch(ev(sublist(args(rref(apply(matrix,ta))),lambda([ta2],not(every(lambda([ta3],is(ta3=0)),ta2)))),simp)),
-  if emptyp(ta_rref) then return(false) else ta_rref: first(ta_rref),
-  return(is(ev(ex_rref,simp)=ev(ta_rref,simp)))
+subspace_equivp(ex,ta):=block([M_ex, M_ta, combined, rank_combined],
+  M_ex: cols_to_matrix(ex),
+  M_ta: cols_to_matrix(ta),
+  if M_ex = matrix([null]) or M_ta = matrix([null]) then return(false),
+  if length(M_ex) # length(M_ta) then return(false),
+  combined: errcatch(addcol(M_ex,M_ta)),
+  if emptyp(combined) then return(false),
+  rank_combined: rank(first(combined)),
+  is(rank(M_ex)=rank_combined and rank(M_ta)=rank_combined)
 );
 
 /**

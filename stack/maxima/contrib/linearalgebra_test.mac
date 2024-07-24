@@ -148,24 +148,99 @@ s_test_case(invertiblep(matrix([1,1],[0,1])),true);
 s_test_case(invertiblep(1),false);
 s_test_case(invertiblep(matrix([1,1],[1,1])),false);
 
+_test_eMat: matrix([2, 1], [2, -1]);
+_test_spMat: matrix([2, -1], [-1, 2]);
+_test_bform(w, v) := transpose(w)._test_spMat.v;
+_test_Qmat: matrix([1,1/2],[0,1]);
+_test_Qmat_n: matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]);
+
+s_test_case(proj(matrix([1],[0]),matrix([1],[0])), matrix([1],[0]));
+s_test_case(proj(matrix([3],[0]),matrix([1],[0])), matrix([1],[0]));
+s_test_case(proj(matrix([1],[0]),matrix([3],[0])), matrix([3],[0]));
+s_test_case(proj(matrix([1],[0]),matrix([0],[1])), matrix([0],[0]));
+s_test_case(proj(matrix([1],[0]),matrix([0],[1]), _test_bform), matrix([-1/2],[0]));
+s_test_case(orthogonalize([c(1, 0), c(1, 1)]), [matrix([1],[0]), matrix([0],[1])]);
+s_test_case(orthogonalize(matrix([1, 1], [0, 1])), ident(2));
+s_test_case(orthogonalize(ident(2), _test_bform), _test_Qmat);
+s_test_case(normalize(matrix([1, 1], [0, 1])), matrix([1, 1/sqrt(2)], [0, 1/sqrt(2)]));
+s_test_case(normalize([c(2, 0)]), [matrix([1], [0])]);
+s_test_case(normalize(_test_Qmat, _test_bform), _test_Qmat_n);
+
+s_test_case(_orthogonal_check_matrix(ident(2)), matrix([1,0],[0,1]));
+s_test_case(_orthogonal_check_matrix(_test_eMat), matrix([8,0],[0,2]));
+s_test_case(_orthogonal_check_matrix(_test_Qmat), matrix([1,1/2],[1/2,5/4]));
+s_test_case(_orthogonal_check_matrix(_test_Qmat, _test_spMat), matrix([2,0],[0,3/2]));
+s_test_case(_orthogonal_check_matrix(_test_Qmat_n, _test_spMat), matrix([1,0],[0,1]));
+
 s_test_case(orthogonal_columnsp(matrix([1,1],[1,-1],[1,0])),true);
 s_test_case(orthogonal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])),true);
 s_test_case(orthogonal_columnsp(matrix([1,1],[1,2],[1,0])),false);
 s_test_case(orthogonal_columnsp(matrix([1,1],[1,-1])),true);
 s_test_case(orthogonal_columnsp(matrix([1,1],[1,-1])/sqrt(2)),true);
 s_test_case(orthogonal_columnsp(1),false);
+s_test_case(orthogonal_columnsp([c(1, 0), c(0, 1)]), true);
+s_test_case(orthogonal_columnsp([c(1, 0), c(0, 1, 0)]), false);
+s_test_case(orthogonal_columnsp(ident(2)), true);
+s_test_case(orthogonal_columnsp(_test_eMat), true);
+s_test_case(orthogonal_columnsp(_test_eMat, ident(2)), true);
+s_test_case(orthogonal_columnsp(_test_Qmat), false);
+s_test_case(orthogonal_columnsp(_test_Qmat, _test_spMat), true);
+s_test_case(orthogonal_columnsp(_test_Qmat, _test_bform), true);
+s_test_case(orthogonal_columnsp(_test_Qmat_n, _test_spMat), true);
+s_test_case(orthogonal_columnsp(ident(2), _test_spMat), false);
 
 s_test_case(orthonormal_columnsp(matrix([1,1],[1,-1],[1,0])),false);
 s_test_case(orthonormal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])),true);
 s_test_case(orthonormal_columnsp(matrix([1,1],[1,-1])),false);
 s_test_case(orthonormal_columnsp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)),true);
 s_test_case(orthonormal_columnsp(1),false);
+s_test_case(orthonormal_columnsp([c(1, 0), c(0, 1)]), true);
+s_test_case(orthonormal_columnsp([c(1, 0), c(0, 1, 0)]), false);
+s_test_case(orthonormal_columnsp(ident(2)), true);
+s_test_case(orthonormal_columnsp(_test_eMat), false);
+s_test_case(orthonormal_columnsp(_test_Qmat, _test_spMat), false);
+s_test_case(orthonormal_columnsp(_test_Qmat_n, _test_spMat), true);
+s_test_case(orthonormal_columnsp(_test_Qmat_n, _test_bform), true);
 
 s_test_case(orth_matrixp(matrix([1,1],[1,-1],[1,0])),false);
 s_test_case(orth_matrixp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])),false);
 s_test_case(orth_matrixp(matrix([1,1],[1,-1])),false);
 s_test_case(orth_matrixp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)),true);
 s_test_case(orth_matrixp(1),false);
+
+s_test_case(convert_to_colvec([1,2,3]), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec(c(1,2,3)), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec(ntuple(1,2,3)), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec(matrix([1],[2],[3])), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec({1,2,3}), matrix([null]));
+s_test_case(convert_to_colvec(f(1,2,3)), matrix([null]));
+s_test_case(convert_to_colvec(r(1,2,3)), matrix([null]));
+s_test_case(convert_to_colvec(matrix([1,2,3])), matrix([null]));
+s_test_case(convert_to_colvec([1,2,[3]]), matrix([null]));
+s_test_case(convert_to_colvec(1), matrix([null]));
+
+s_test_case(matrix_to_cols(matrix([1,2],[3,4])), [matrix([1],[3]),matrix([2],[4])]);
+
+s_test_case(cols_to_matrix(matrix([1,2],[3,4])), matrix([1,2],[3,4]));
+s_test_case(cols_to_matrix([[1,2],[3,4]]), matrix([1,3],[2,4]));
+s_test_case(cols_to_matrix([[1,2,3], c(2,2,3), matrix([3],[2],[3])]), matrix([1,2,3],[2,2,2],[3,3,3]));
+s_test_case(cols_to_matrix([c(2,2,3), c(2,2)]), matrix([null]));
+s_test_case(cols_to_matrix([c(2,2,4), c(2,2,4)]), matrix([2,2],[2,2],[4,4]));
+s_test_case(cols_to_matrix(1), matrix([null]));
+s_test_case(cols_to_matrix([[1,2],[3,4,5]]), matrix([null]));
+s_test_case(cols_to_matrix([[1,2],[3,[4]]]), matrix([null]));
+s_test_case(cols_to_matrix([[1],[[4]]]), matrix([null]));
+
+s_test_case(cols_to_cols(matrix([1,2],[3,4])), [matrix([1],[3]),matrix([2],[4])]);
+s_test_case(cols_to_cols([[1,2],[3,4]]), [matrix([1],[2]),matrix([3],[4])]);
+s_test_case(cols_to_cols([[1,2,3], c(2,2,3), matrix([3],[2],[3])]), [matrix([1],[2],[3]),matrix([2],[2],[3]),matrix([3],[2],[3])]);
+s_test_case(cols_to_cols([c(2,2,3), c(2,2)]), []);
+s_test_case(cols_to_cols([c(2,2,4), c(2,2,4)]), [matrix([2],[2],[4]),matrix([2],[2],[4])]);
+s_test_case(cols_to_cols(1), []);
+s_test_case(cols_to_cols([[1,2],[3,4,5]]), []);
+s_test_case(cols_to_cols([[1,2],[3,[4]]]), []);
+s_test_case(cols_to_cols([[1],[[4]]]), []);
+s_test_case(sort(cols_to_cols({[-1/2,sin(%pi*x)],[x+y,f(x)]})), [matrix([-1/2],[sin(%pi*x)]),matrix([y+x],[f(x)])]);
 
 s_test_case(make_list_of_lists(1),1);
 s_test_case(make_list_of_lists(matrix([1,3,5])),[[1,3,5]]);
@@ -179,6 +254,9 @@ s_test_case(make_list_of_lists([matrix([1],[2]),matrix([3],[4])]),[[1,2],[3,4]])
 s_test_case(column_stack([[1,2,3],[4,5,6]]),matrix([1,4],[2,5],[3,6]));
 s_test_case(column_stack([[1,2,3]]),matrix([1],[2],[3]));
 s_test_case(column_stack([1,2,3]),[]);
+s_test_case(cols_to_matrix([[1,2,3],[4,5,6]]),matrix([1,4],[2,5],[3,6]));
+s_test_case(cols_to_matrix([[1,2,3]]),matrix([1],[2],[3]));
+s_test_case(cols_to_matrix([1,2,3]),matrix([null]));
 
 s_test_case(lin_indp(matrix([1,2],[4,5],[7,8])),true);
 s_test_case(lin_indp(matrix([1,2,3],[4,5,6],[7,8,9])),false);

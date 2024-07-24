@@ -447,24 +447,97 @@ invertiblep(M):= block([isInvertible],
   return(isInvertible)
 );
 
-/** 
- * Is a given object a matrix with orthogonal columns?
- * i.e. for any two distinct columns v1 and v2, is v1 . v2 = 0?
+/* Functions related to custom scalar products */
+
+/**
+ * Compute the orthogonal projection of v onto u with respect to scalar product sp.
  *
- * @param[matrix] M a matrix
- * @return[boolean] Does M have orthogonal columns?
+ * @param[matrix] u a mx1 matrix
+ * @param[matrix] v a mx1 matrix
+ * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @return[matrix] Orthogonal projection of v onto u as a mx1 matrix
  */
-orthogonal_columnsp(M):= diagp(ev(transpose(M) . M,expand,simp));
+proj(u, v, [sp]) := block(
+    sp: if emptyp(sp) then "." else first(sp),
+    return(sp(v,u)/sp(u,u)*u)
+);
+
+/**
+ * Orthogonalize column vectors  with respect to a scalar product sp
+ *
+ * @param[] L a mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @return[] An mxn matrix or list of column vectors with the same
+ *                 column space as L and orthogonal columns with respect to sp
+ */
+orthogonalize(L, [sp]) := block([M, Morth],
+    sp: if emptyp(sp) then "." else first(sp),
+    M: cols_to_matrix(L),
+    if M = matrix([null]) then return(error("Malformed input. Expecting matrix or column vectors.")),
+    Morth: transpose(apply(matrix, gramschmidt(transpose(M), sp))),
+    return(if matrixp(L) then Morth else matrix_to_cols(Morth))
+);
+
+/**
+ * Normalize column vectors with respect to a scalar product sp
+ *
+ * @param[] M a mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @return[] An mxn matrix or list of column vectors with the columns
+ *                 of M normalized with respect to sp
+ */
+normalize(M, [sp]) := block([L],
+    sp: if emptyp(sp) then "." else first(sp),
+    L: cols_to_cols(M),
+    if L = [] then return(error("Malformed input. Expecting matrix or column vectors.")),
+    L: map(lambda([v], ev(v/sqrt(sp(v,v)), simp)), L),
+    if matrixp(M) then return(apply(addcol, L)) else return(L)
+);
+
+/* Helper function for orthogonal_columnsp and orthonormal_columnsp */
+_orthogonal_check_matrix(M, [sp]):= block([dim],
+    if emptyp(sp) then return(ev(transpose(M).M, expand, simp)),
+    sp: first(sp),
+    if not matrixp(sp) then ( /* Get matrix form from scalar product */
+        dim: length(M),
+        sp: genmatrix(lambda([i, j], sp(col(ident(dim), i), col(ident(dim), j))), dim, dim)
+    ),
+    return(ev(transpose(M).sp.M, expand, ratsimp, simp))
+);
 
 /** 
- * Is a given object a matrix with orthonormal columns?
- * i.e. Is M^T . M = I? For columns v_i and v_j, is v_i . v_i = 1 and v_i . v_j = 0?
- * Useful when analysing QR factorisation for rectangular matrices
+ * Does the given matrix/list have orthogonal columns with respect to scalar product sp?
+ * i.e. for any two distinct columns v1 and v2, is sp(v1, v2) = 0?
+ * Returns false in case of malformed input.
+ * In case no scalar product is provided, the standard dot product is used.
  *
- * @param[matrix] M a matrix
- * @return[boolean] Does M have orthonormal columns?
+ * @param[matrix] L A mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[] sp (Optional) A scalar product or a symmetric positive definite matrix S representing a scalar product sp(u, v) := u^T.S.v
+ * @return[boolean] Does L have orthogonal columns with respect to sp?
  */
-orthonormal_columnsp(M):= if matrixp(M) then is(ev(transpose(M).M,expand,simp) = ident(second(matrix_size(M)))) else false;
+orthogonal_columnsp(L, [sp]):= block([dim],
+    M: cols_to_matrix(L),
+    if M = matrix([null]) then return(false),
+    checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
+    return(diagp(checkmat))
+);
+
+/** 
+ * Does the given matrix/list have orthonormal columns with respect to scalar product sp?
+ * i.e. for columns v_i and v_j, is sp(v_i, v_i) = 1 and sp(v_i, v_j) = 0?
+ * Returns false in case of malformed input.
+ * In case no scalar product is provided, the standard dot product is used.
+ *
+ * @param[matrix] L A mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[] sp (Optional) A scalar product or a symmetric positive definite matrix S representing a scalar product sp(u, v) := u^T.S.v
+ * @return[boolean] Does L have orthonormal columns with respect to sp?
+ */
+orthonormal_columnsp(L, [sp]):= block([dim],
+    M: cols_to_matrix(L),
+    if M = matrix([null]) then return(false),
+    checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
+    return(is(checkmat = ident(second(matrix_size(M)))))
+);
 
 /** 
  * Is a given object an orthogonal matrix?
@@ -514,6 +587,9 @@ make_list_of_lists(ex):= block([op1],
  * Naming convention from numpy
  * If the sub-lists do not conform then returns the list of lists instead
  * Note: row_stack is absent because the remaining functions that accept matrices assume that we are considering columns.
+ * This function is obsolete as cols_to_matrix does the same job more generally,
+ * with the only difference being that invalid input is indicated via
+ * a return value of matrix([null]) rather than [].
  *
  * @param[list] ex a list of lists. Each sub-list must be the same length
  * @return[matrix] A matrix whose columns are the entries of ex
@@ -523,7 +599,91 @@ column_stack(ex):= block([ex2],
   if emptyp(ex2) then return(ex2) else return(first(ex2))
 );
 
-/* TODO function to convert list of lists to list of column vectors. */
+/*
+  We use matrix([null]) as an indicator for invalid input.
+  This has the issue that we need to add guard clauses to various functions,
+  because the dimensions (1x1) are compatible with some realistic inputs:
+  e.g. subspace_equivp(matrix([null]), matrix([1])) would give true without a guard clause.
+  Ideally, we would return matrix() instead but alas, STACK doesn't like that:
+  (%i4)
+  (%i5)
+    #0: stack_matrix_disp(m=matrix())
+    #1: StackDISP(expr=matrix(),exprm=)
+    #2: _CS2l(_k=qq,_v=matrix())
+  (%i6) TIMEDOUT
+*/
+
+/**
+ * Try to convert object to a column vector.
+ * Supported objects include:
+ * * Mx1 matrices
+ * * Vectors using c notation
+ * * Flat lists, ntuples (with entries interpreted as a column vector entries)
+ * If conversion is not possible, return matrix([null])
+ *
+ * @param[ex] ex Input object
+ * @return[matrix] A Mx1 matrix representing the column vector, or matrix([null]) if input was invalid
+ */
+convert_to_colvec(ex):= block([op1],
+  ex: vec_convert(ex),
+  if col_vecp(ex) then return(ex),
+  if vectorp(ex) then return(matrix([null])),
+  op1: safe_op(ex),
+  if member(op1,["[","ntuple"]) and not some(nonscalarp, args(ex)) then return(transpose(apply(matrix,[args(ex)]))),
+  return(matrix([null]))
+);
+
+ /**
+ * Takes a collection of vectors and return the matrix that has those vectors as columns.
+ * If the input is already a matrix, the matrix itself is returned.
+ * If the input in invalid, matrix([null]) is returned.
+ * The rationale is that further operations can still be performed on the output without
+ * crashing in the feedback variables, and we can catch this case in the first PRT node.
+ * The vectors themselves may be different objects. Supported objects include:
+ * * Mx1 matrices
+ * * Vectors using c notation
+ * * Lists, ntuples (representing a column vector)
+ * The collection may be a list, set, ntuple, span, or matrix
+ *
+ * @param[] ex A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
+ * @return[matrix] A matrix containing the input elements as columns, or matrix([null]) in case of invalid input.
+ */
+cols_to_matrix(L):=block([op1, colmat],
+  if matrixp(L) then return(L),
+  L: cols_to_cols(L),
+  if emptyp(L) then return(matrix([null])),
+  return(ev(apply(addcol, L), simp))
+);
+
+ /**
+ * Takes a matrix and returns a list of its column vectors.
+ *
+ * @param[matrix] M 
+ * @return[list] List of Mx1 matrices (column vectors)
+ */
+matrix_to_cols(M):= makelist(col(M, i), i, 1, second(matrix_size(M)));
+
+ /**
+ * Convert input to a list of column vectors of the same dimension.
+ * Returns [] if the input is invalid.
+ * The vectors themselves may be different objects. Supported objects include:
+ * * Mx1 matrices
+ * * Vectors using c notation
+ * * Lists, ntuples (representing a column vector)
+ * The collection may be a list, set, ntuple, span, or matrix
+ *
+ * @param[] L A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
+ * @return[list] List of Mx1 matrices (column vectors), or [] in case of invalid input
+ */
+cols_to_cols(L):=block([op1],
+    if matrixp(L) then return(matrix_to_cols(L)),
+    op1: safe_op(L),
+    if not(member(op1,["[","ntuple","{","span"])) then return([]),
+    L: map(lambda([elem], convert_to_colvec(elem)), args(L)),
+    if some(lambda([elem], is(elem = matrix([null]))), L) then return([]),
+    if is(cardinality(setify(map(length,L))) # 1) then return([]),
+    return(L)
+);
 
 /*********************************************************************************/
 /* Comparison functions                                                          */

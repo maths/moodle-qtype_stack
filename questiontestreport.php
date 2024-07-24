@@ -150,25 +150,15 @@ foreach ($prtreportsummary as $prt => $data) {
 
 // Produce a text-based summary of a PRT.
 foreach ($question->prts as $prtname => $prt) {
+    $prtdata = new StdClass();
     // Here we render each PRT as a separate single-row table.
-    $tablerow = [$prtname];
-
+    $prtdata->prtname = $prtname;
     $graph = $prt->get_prt_graph();
-    $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
-    $tablerow[] = stack_prt_graph_text_renderer::render($graph);
+    $prtdata->graph_svg = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+    $prtdata->graph_text = stack_prt_graph_text_renderer::render($graph);
+    $prtdata->maxima = s($prt->get_maxima_representation());
 
-    $maxima = html_writer::tag('summary', $prtname) . html_writer::tag('pre', s($prt->get_maxima_representation()));
-    $maxima = html_writer::tag('details', $maxima);
-    $tablerow[] = html_writer::tag('div', $maxima, ['class' => 'questionvariables']);
-
-    // Render the html as a single table.
-    $html = '';
-    foreach ($tablerow as $td) {
-        $html .= html_writer::tag('td', $td);
-    }
-    $html = html_writer::tag('tr', $html);
-    $html = html_writer::tag('table', $html);
-    echo $html;
+    echo $OUTPUT->render_from_template('qtype_stack/questionreport', $prtdata);
 
     if (array_key_exists($prtname, $sumout)) {
         echo html_writer::tag('pre', trim($sumout[$prtname]));

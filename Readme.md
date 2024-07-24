@@ -24,3 +24,7 @@ The [documentation is here](https://docs.stack-assessment.org/en/), including th
 The STACK source code is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).
 
 The STACK documentation, contained in the subdirectories of <tt>doc/</tt>, is Licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://github.com/maths/moodle-qtype_stack/blob/master/doc/COPYING.txt).
+
+## Acknowledgments
+
+The code allowing the integration of GeoGebra in STACK has been (partially) funded by the ERASMUS+ grant program of the European Union under grant No. 2021-1-DE01-KA220-HED-000032031 (AuthOMath). Neither the European Commission nor the project's national funding agency DAAD are responsible for the content or liable for any losses or damage resulting of the use of these resources."

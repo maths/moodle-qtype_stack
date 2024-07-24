@@ -1133,26 +1133,66 @@ linear_combinationp(ex):= block([vars,cm,dir_vecs,cons_vecs],
 );
 
 /**
- * Given a vector parametric equation, extract the linear offset, direction vectors, and parameters
- * Does not explicitly check for non-linearity in its parameters.
- * Any non-linear terms will appear in the linear offset term.
- * Using hipow() to filter out non-linear terms only works for polynomial non-linearities, so it was rejected.
- * Some notes:
- * * every(constantp,list_matrix_entries(cons_vec)) can be used to detect said non-linearities. This is what linear_combinationp does.
- * * If any direction vectors are entirely zero, check the cons_vec term for non-linearities. 
- * 
- * @param[expression] ex A vector parametric equation using column vectors
- * @return[list] A list with three elements. The first is a column vector containing the linear offset, the second is a list containing each direction vector in order, the third is a list of parameters.
+ * Get the constant term of the given expression (which may be a matrix)
+ *
+ * @param[expression] expr An parametric expression which may also be a matrix or c/r-vector
+ * @param[list] exclude_params (Optional) List of variable names to consider constant
+ * @return[constant] Constant term (value or matrix) within the expression
  */
-vector_parametric_parts(ex):= block([vars,cm,dir_vecs,cons_vecs],
-  ex: ev(vec_convert(ex),expand,simp),
-  if not(matrixp(ex)) then return([]),
-  vars: listofvars(ex),
-  cm: coefmatrix(flatten(args(ex)), vars),
-  dir_vecs: maplist(lambda([ex2], col(cm,ex2)), ev(makelist(ii,ii,1,length(vars)),simp)),
-  cons_vec: ev(ex - apply("+", zip_with("*", vars, dir_vecs)),simp),
-  /*if not(every(constantp,list_matrix_entries(cons_vec))) then return([]),*/
-  return([cons_vec,dir_vecs,vars])
+constant_term(expr, [exclude_params]) := block([],
+  expr: ev(vec_convert(expr),expand,simp),
+  if not emptyp(exclude_params) then exclude_params: first(exclude_params),
+  vars: listify(setdifference(setify(listofvars(expr)), setify(exclude_params))),
+  return(ev(subst(makelist(vars[i]=0, i, length(vars)), expr), simp))
+);
+
+/**
+ * Given a vector parametric equation, extract the linear offset, direction vectors, and parameters
+ * The input may be a matrix.
+ *
+ * In case the input is not linear, returns [matrix([null]), [], vars] where
+ * vars is the list of variables appearing in the expression.
+ *
+ * A particular use case is obtaining basis vectors from a parametric plane or
+ * line equation.
+ *
+ * @param[expression] vec A parametric expression which may also be a matrix or c/r-vector
+ * @param[list] exclude_params (Optional) List of variable names to consider constant
+ * @return[list] A list with three elements:
+ *     The constant term within the expression (linear offset)
+ *     A list of coefficient terms for each variable in the expression (direction vector)
+ *     A list of variables in the expression (parameter for each direction vector)
+ *
+ * Examples. Let 
+ *     vec: matrix([t+3*s-4],[2*t+5]) or, equivalently,
+ *     vec: matrix([-4],[5]) + s*matrix([3],[0]) + t*matrix([1],[2])
+ * Then: 
+ *
+ * >>> vector_parametric_parts(vec)
+ * [
+ *   matrix([-4],[5]),
+ *   [matrix([3],[0]),matrix([1],[2])],
+ *   [s,t]
+ * ]
+ * 
+ * >>> vector_parametric_parts(vec, [s])
+ * [
+ *   matrix([3*s-4],[5]),
+ *   [matrix([1],[2])],
+ *   [t]
+ * ]
+ */
+vector_parametric_parts(vec, [exclude_params]):=block([vars, nonlinvarsets, param_vects, base_vect],
+  vec: ev(vec_convert(vec),expand,simp),
+  if not emptyp(exclude_params) then exclude_params: first(exclude_params),
+  vars: listify(setdifference(setify(listofvars(vec)), setify(exclude_params))),
+  nonlinvarsets: makelist(setify(listofvars(diff(vec, var))), var, vars),
+  nonlinvarsets: makelist(setdifference(nl, setify(exclude_params)), nl, nonlinvarsets),
+  /* every(emptyp, nonlinvarsets) indicates that the expression is linear */
+  if not every(emptyp, nonlinvarsets) then return([matrix([null]), [], vars]),
+  param_vects: makelist(coeff(vec, var), var, vars),
+  base_vect: constant_term(vec, exclude_params),
+  return([base_vect, param_vects, vars])
 );
 
 /**

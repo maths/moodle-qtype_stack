@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
 // @copyright  2023 RWTH Aachen
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
@@ -93,10 +91,13 @@ $CFG->inputmustverify = 1;
 $CFG->inputshowvalidation = 1;
 
 // These should match the version of goemaxima in docker-compose.
-$CFG->stackmaximaversion = "2024052100";
-$CFG->version = "2024052100";
+$CFG->stackmaximaversion = "2024060300";
+$CFG->version = "2024060300";
 
 // Do not change this setting.
 $CFG->mathsdisplay = 'api';
 
 $CFG->libdir = $CFG->dirroot . '/emulation/libdir';
+
+// MathJax URL.
+$CFG->httpsurl = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';

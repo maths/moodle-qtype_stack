@@ -461,8 +461,8 @@ class maxima_corrective_parser {
                    $exception->expected[4]['type'] === 'end' &&
                    $exception->expected[5]['type'] === 'other' && $exception->expected[5]['description'] === 'whitespace') {
             // This is a sensitive check matching the expectations of the parser....
-            // This is extra special, if we have an unencpsulated comma we might be parsing for an evaluation
-            // flag but not find the assingment of flag value...
+            // This is extra special, if we have an unencapsulated comma we might be parsing for an evaluation
+            // flag but not find the assignment of flag value...
             $errors[] = stack_string('stackCas_unencpsulated_comma');
             $answernote[] = 'unencapsulated_comma';
         } else if ($nextchar === '' && ($foundchar !== '' && mb_strpos($disallowedfinalchars, $foundchar) !== false)) {

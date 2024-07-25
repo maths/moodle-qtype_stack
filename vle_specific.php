@@ -196,7 +196,24 @@ function stack_cors_link(string $filename): string {
  */
 function stack_get_mathjax_url(): string {
     // TO-DO: figure out how to support VLE local with CORS.
-    return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    $mathjaxconfigurl = get_config('filter_mathjaxloader', 'httpsurl');
+    if ($mathjaxconfigurl) {
+        $questionpos = strpos($mathjaxconfigurl, '?');
+        if ($questionpos !== false) {
+            $querystring = substr($mathjaxconfigurl, $questionpos + 1);
+            $urlstring = substr($mathjaxconfigurl, 0, $questionpos);
+            parse_str($querystring, $queryparams);
+            $queryparams = array_merge(['config' => 'TeX-AMS-MML_HTMLorMML'], $queryparams);
+            $querystring = http_build_query($queryparams, '', '&', PHP_QUERY_RFC3986);
+            $url = $urlstring . '?' . $querystring;
+        } else {
+            $url = $mathjaxconfigurl . '?config=TeX-AMS-MML_HTMLorMML';
+        }
+
+        return $url;
+    } else {
+        return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    }
 }
 
 /*

@@ -8,7 +8,9 @@ Download JSXGraph from here: [https://github.com/jsxgraph/jsxgraph](https://gith
 
 The files one needs to copy over are `jsxgraph.min.css` and `jsxgraphcore.min.js`, there is no need to copy the non minified versions.
 
-The old STACK side `jsxgraph.js` that provided the `stack_jxg` features is now called `stackjsxgraph.js` and is being served from that same CORS-header tuning directory with that specific script.
+The old STACK side `jsxgraph.js` that provided the `stack_jxg` features is now called `stackjsxgraph.js` and is being served from that same CORS-header tuning directory with that specific script. (Minification can be done using uglify-js:  
+`npm install -g uglify-js`  
+`uglifyjs stackjsxgraph.js > stackjsxgraph.min.js`.)
 
 We do not apply Moodles or any other systems JavaScript processing on these, no need to run `grunt` or any such tool.
 

@@ -77,6 +77,7 @@ class caskeyval_test extends qtype_stack_testcase {
                 // In the new setup the parsing of the keyvals does not match the sessions created above.
                 // This is because of a failure to split the text into statements.
                 // This is a serious drawback when we try to identify which statement is throwing an error!
+            ["a:x^2$ b:(x+1)^2", true, $cs1],
             ["a:x^2) \n b:(x+1)^2", false, $cs0],
             ['a:x^2); b:(x+1)^2', false, $cs0],
             ['a:1/0', true, $cs2],
@@ -99,6 +100,16 @@ class caskeyval_test extends qtype_stack_testcase {
     // the instantiated values.
     public function test_equations_1() {
         $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1; ta3:x=1 nounor x=2', null, 123);
+        $at1->instantiate();
+        $s = $at1->get_session();
+        $s->instantiate();
+        $this->assertEquals($s->get_by_key('ta1')->get_evaluationform(), 'ta1:x = 1');
+        $this->assertEquals($s->get_by_key('ta2')->get_evaluationform(), 'ta2:x^2-2*x = 1');
+        $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x = 1 nounor x = 2');
+    }
+
+    public function test_equations_2() {
+        $at1 = new stack_cas_keyval('ta1 : x=1$ ta2 : x^2-2*x=1$ ta3:x=1 nounor x=2', null, 123);
         $at1->instantiate();
         $s = $at1->get_session();
         $s->instantiate();
@@ -228,7 +239,7 @@ class caskeyval_test extends qtype_stack_testcase {
 
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
-        $expected = ['The characters @, $ and \ are not allowed in CAS input.'];
+        $expected = ['The characters @ and \ are not allowed in CAS input.'];
         $this->assertEquals($expected, $kv->get_errors());
     }
 
@@ -317,5 +328,46 @@ class caskeyval_test extends qtype_stack_testcase {
             '<span class="stacksyntaxexample">stack_seed</span>.',
         ];
         $this->assertEquals($expected, $kv->get_errors());
+    }
+
+    public function test_stack_compile() {
+        $tests = 'stack_reset_vars(true);ordergreat(i,j,k);p:matrix([-7],[2],[-3]);' .
+                 'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $expected = [
+        ];
+        $compiled = $kv->compile('kv-test');
+
+        $expected = '(_EC(errcatch(stack_reset_vars(true)),"kv-test/1:1-1:2"),' .
+                    '_EC(errcatch(ordergreat(i,j,k)),"kv-test/1:24-1:2"),true)';
+        $this->assertEquals($expected, $compiled['blockexternal']);
+        $expected = '(_EC(errcatch(p:(%_C(matrix),matrix([-7],[2],[-3]))),"kv-test/1:42-1:2"),' .
+                    '_EC(errcatch(q:(%_C(matrix),matrix([i],[j],[k]))),"kv-test/1:66-1:2"),' .
+                    '_EC(errcatch(v:(%_C(dotproduct),dotproduct(p,q))),"kv-test/1:88-1:2"),true)';
+        $this->assertEquals($expected, $compiled['statement']);
+        $expected = null;
+        $this->assertEquals($expected, $compiled['contextvariables']);
+    }
+
+    public function test_stack_compile_preamble_end1() {
+        $tests = 'stack_reset_vars(true);n1:1;ordergreat(i,j,k);%_stack_preamble_end;' .
+            'p:matrix([-7],[2],[-3]);' .
+            'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $expected = [
+        ];
+        $compiled = $kv->compile('kv-test');
+
+        $expected = '(_EC(errcatch(stack_reset_vars(true)),"kv-test/1:1-1:2"),' .
+            '_EC(errcatch(ordergreat(i,j,k)),"kv-test/1:29-1:2"),true)';
+        $this->assertEquals($expected, $compiled['blockexternal']);
+        $expected = '(_EC(errcatch(p:(%_C(matrix),matrix([-7],[2],[-3]))),"kv-test/1:68-1:2"),' .
+            '_EC(errcatch(q:(%_C(matrix),matrix([i],[j],[k]))),"kv-test/1:92-1:2"),' .
+            '_EC(errcatch(v:(%_C(dotproduct),dotproduct(p,q))),"kv-test/1:114-1:2"),true)';
+        $this->assertEquals($expected, $compiled['statement']);
+        $expected = '(_EC(errcatch(n1:1),"kv-test/1:24-1:2"),true)';
+        $this->assertEquals($expected, $compiled['contextvariables']);
     }
 }

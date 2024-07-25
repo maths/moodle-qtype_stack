@@ -554,7 +554,7 @@ $string['hyp_inverse_functions_fact'] = '\\[\\cosh^{-1}(x)=\\ln\\left(x+\\sqrt{x
 \\[\\sinh^{-1}(x)=\\ln\\left(x+\\sqrt{x^2+1}\\right)\\]
 \\[\\tanh^{-1}(x) = \\frac{1}{2}\\ln\\left({1+x\\over 1-x}\\right) \\quad \\mbox{ for } -1< x < 1\\]';
 $string['hyp_inverse_functions_name'] = 'Inverse hyperbolische Funktionen';
-$string['illegalcaschars'] = 'Die Zeichen @, $ und \\ sind in der CAS-Eingabe nicht erlaubt.';
+$string['illegalcaschars'] = 'Die Zeichen @ und \\ sind in der CAS-Eingabe nicht erlaubt.';
 $string['inputdisplayed'] = 'Angezeigt als';
 $string['inputentered'] = 'Eingegebener Wert';
 $string['inputexpression'] = 'Test-Eingabe';

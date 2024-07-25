@@ -4,7 +4,7 @@ STACK is being used live at many institutions, including the University of Edinb
 
 We appreciate some people prefer hosted services as an alternative to running their own server.  If so, then please contact the developers for more details of current providers.
 
-STACK is designed to be used on a Linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recommend using VirtualBox instead of the Windows port.  Note also that support for the optimized Maxima image is not available on Windows platforms, which is a substantial performance improvement.
+STACK is designed to be used on a Linux-based server.  For testing and local question development we recommend using virtual box on a Windows/MS machine.  (The windows/MS option exists for legacy reasons and is currently not supported.)
 
 ## 0. Set up PHP with mbstring
 
@@ -43,7 +43,7 @@ to `filter_mathjaxloader | mathjaxconfig` in the filter settings: Dashboard > Si
 
 Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.47.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)  We currently recommend that you use any version of Maxima after 5.43.0.
 
-Maxima can be installed via a package manager on most Linux distributions (e.g. `sudo apt-get install maxima` on Debian/Ubuntu), [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained installer program for Windows, or [compiled from source](Maxima.md).  Please make sure you also have `maxima-share` installed.  (This is automatically installed on some distributions, but not others.)
+Maxima can be installed via a package manager on most Linux distributions (e.g. `sudo apt-get install maxima` on Debian/Ubuntu), [downloaded](http://maxima.sourceforge.net/download.html), or [compiled from source](Maxima.md).  Please make sure you also have `maxima-share` installed.  (This is automatically installed on some distributions, but not others.)
 
 To check your version of maxima, run `maxima --version`.  If Moodle is set up using Apache, STACK will run maxima through the Apache user (`www-data/apache2`).  To check that this works, run maxima as the apache user (e.g. `sudo -u www-data maxima`).  Later versions of maxima create a cache and thus the executing user needs to have write access to a temporary folder, see [#731](https://github.com/maths/moodle-qtype_stack/issues/731) for more details and troubleshooting.
 

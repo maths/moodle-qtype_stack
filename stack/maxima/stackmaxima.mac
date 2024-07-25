@@ -47,6 +47,7 @@ stack_reset(not_used) := block(
   Pi: %pi,
   PI: %pi,
   pi() := %pi,         /* Why does Excel do this?! */
+  i:%i,
   /* Display of matrixes */
   lmxchar: "[",
   /* Sets up randomization, using Maxima's internal random command. */
@@ -199,16 +200,15 @@ declare ("#", commutative);
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex, v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
-
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then
-    (i:%i,texput(%i,"\\mathrm{i}"))
-  else if OPT_COMPLEXJ = "j" then
-    (%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
-  else if OPT_COMPLEXJ = "symi" then
     (texput(%i,"\\mathrm{i}"))
+  else if OPT_COMPLEXJ = "j" then
+    (kill(i),%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
+  else if OPT_COMPLEXJ = "symi" then
+    (kill(i),texput(%i,"\\mathrm{i}"))
   else if OPT_COMPLEXJ = "symj" then
-    (texput(%i,"\\mathrm{j}"))
+    (kill(i),texput(%i,"\\mathrm{j}"))
   else true
 )$
 
@@ -784,9 +784,6 @@ stack_disp_sub_script(ex) := block([s],
  if taylorp(ex) then return(ex),
  if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
  if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
- /* The following are not, strictly speaking, a subscript issue, but we don't want another recursive call. */
- /* Strip out empty plus operators, which cause problems in display with simp:false.             */
- if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
  /* Now deal with supscripts. */
  if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
@@ -898,11 +895,11 @@ texput(matrix, stack_matrix_disp)$
 unary_minus_traverse(ex) := block(
   /* We want atom here, not mapatom to catch a[4]. */
   if atom(ex) then return(ex),
+  if op(ex) = "-" and (is(first(args(ex))=0) or is(first(args(ex))=0.0)) then return(ex),
   if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
   if arrayp(ex) then return(arraymake(op(ex), maplist(unary_minus_traverse, args(ex)))),
   apply(op(ex), map(unary_minus_traverse, args(ex)) )
 )$
-
 
 /* Pulls out "-" to the front of any expression in a sum of products which needs it. */
 /* For example,   -(2*y^2) is ok                                                     */
@@ -3462,4 +3459,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2024052100$
+stackmaximaversion:2024060301$

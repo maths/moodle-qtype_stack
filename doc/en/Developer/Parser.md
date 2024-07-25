@@ -5,7 +5,7 @@
 
 We need to use node:
 
-    apt-get install node npm
+    apt-get install nodejs npm
 
 Inside `stack/stack/maximaparser` (or anywhere else), and not as root
 

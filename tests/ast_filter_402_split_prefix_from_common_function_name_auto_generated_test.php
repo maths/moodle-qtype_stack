@@ -149,6 +149,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1897,6 +1902,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

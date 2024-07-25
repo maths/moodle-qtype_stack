@@ -1688,7 +1688,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{5-x > 0\,{\text{ and }}\, x-1 > 0 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{5-x &gt; 0\,{\text{ and }}\, x-1 > 0 \right \}\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Equivalence for elements of sets is different from expressions: see docs.</td></td>

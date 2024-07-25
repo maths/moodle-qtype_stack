@@ -3120,6 +3120,134 @@ ATIntGetVar(ex):= block(
 );
 
 /********************************************************************/
+/* An answer test for antiderivative questions.                     */
+/********************************************************************/
+
+ATAntidiff(sa, sb, so) := block([oldsimp, var, sbdisp],
+    /*print("hello"),*/
+    oldsimp:simp,
+    simp:false,
+    /* How to display the teacher's answer? */
+    sbdisp:[],
+
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(sb, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_TAns"), ""]),
+    SOO:errcatch(ev(so, simp, nouns)),
+    if (is(SOO=[STACKERROR]) or is(SOO=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_Opt"), ""]),
+
+    /* We always simplify the teacher's answer. */
+    sb:first(SBB),
+
+    var:first(SOO),
+    /* The options field should be exactly a variable and nothing else */
+    if not(is(variablep(var))) then return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_Opt"), ""]),
+
+    /* If we haven't explicitly got a displayed expression for feedback then generate one. */
+    if equal(sbdisp, []) then
+        sbdisp:ev(diff(sb, var), simp),
+
+    /* Calculate derivatives */
+    SAd:ev(diff(sa, var), simp),
+    SBd:ev(diff(sb, var), simp),
+    if debug then print([SAa, SBd]),
+    if debug then print(["Derivatives : ", SAd, SBd]),
+    if ev(algebraic_equivalence(SAd, SBd), simp) then return([true, true, StackAddNote("", "ATAntidiff_true"),""]),
+
+    /* Did the student differentiate instead of integrating? */
+    SABd : ev(fullratsimp(sa - ev(diff(SBd, var), simp)), simp),
+    if debug then print(["Simplified difference:", SABd]),
+    if ev(diff(SABd,var),simp)=0 and ev(algebraic_equivalence(exp(x), SBd), simp)#true then return([false, false, StackAddNote("", "ATAntidiff_diff"), ""]),
+
+    /* if not, we fail the test generically */
+    ret:[false, false, StackAddNote("", "ATAntidiff_generic"), ""],
+    simp:oldsimp,
+    return(ret)
+)$
+
+/********************************************************************/
+/* An answer test to check for an additive constant.                */
+/* Given an expression sa and a list of variables so in the options,*/
+/* it checks if exactly one other variable is contained additively, */
+/* like "+C". The main use case for this are Antiderivative tasks.  */
+/* This answer test ignores the teacher answer completely.          */
+/********************************************************************/
+
+ATAddConst(sa, sb, so) := block([oldsimp, SAresult, SAnote, SBresult, SBnote],
+    oldsimp: simp,
+    simp: false,
+
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_SAns"), ""]),
+    /*SBB:errcatch(ev(sb, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_TAns"), ""]),*/
+    SOO:errcatch(ev(so, simp, nouns)),
+    if (is(SOO=[STACKERROR]) or is(SOO=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_Opt"), ""]),
+
+    SA : first(SAA),
+    /*SB : first(SBB),*/
+    SOvars : first(SOO),
+
+    /* did the teacher do this correctly? */
+    /*[SBresult, SBnote] : hasAddConst(SB,SOVars),
+    if not(SBresult) then return([false, false, StackAddNote("", concat("ATAddConst_TAns. ", SBnote)), ""]),*/
+
+    /* did the student do this correctly? */
+    [SAresult, SAnote] : hasAddConst(SA,SOvars),
+    if not(SAresult) then return([false, false, StackAddNote("", SAnote), ""]),
+
+    simp : oldsimp,
+    return([true, true, StackAddNote("", SAnote), ""])
+)$
+
+/* This function dows the actual checking described above. */
+/* returns a true/false mark and the name of an answer note. */
+hasAddConst(expr, vars) := block([othervars, const, deriv, allvariables],
+    /* is this a list of variables? If just one variable is given, listify. */
+    if debug then print(["Variables: ", vars]),
+
+    if not(is(listp(vars))) then vars : [vars],
+    if debug then print(["Listified variables: ", vars]),
+    allvariables : true,
+    for var in vars do block (
+        if debug then print(["Variable: ", var,is(variablep(var))]),
+        if not(is(variablep(var))) then allvariables : false
+    ),
+    if not(allvariables) then return([false, "ATAddConst_Opt"]),
+    if debug then print(["All list entries are variables"]),
+
+	/* build list of candidates for constants: othervars */
+	othervars : listofvars(expr),
+    if debug then print(["Variables in expression: ", othervars]),
+	for var in vars do othervars : delete(var,othervars),
+    if debug then print(["Remaining variables after deletion: ", othervars]),
+    
+
+    /* check number of candidates, should be exactly 1 */
+    if length(othervars) = 0 then
+        return([false, "ATAddConst_noconst"]),
+    if length(othervars) > 1 then
+        return([false, "ATAddConst_severalconst"]),
+    
+    /* if there is one candidate, check if it's exactly additive or something else */
+    const : othervars[1],
+    deriv : fullratsimp(diff(expr,const)),
+    if debug then print(["Derivative by the constant: ", deriv]),
+
+    if algebraic_equivalence(deriv,1) then
+        return([true, "ATAddConst_true"])
+    else return([false, "ATAddConst_generic"])
+
+)$
+
+/********************************************************************/
 /* An answer test for differentiation questions.                    */
 /* sa is the students' answer,                                      */
 /* sbl is a list consisting of (1) the answer, and (2) the variable */

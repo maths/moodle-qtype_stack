@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template plugintype_pluginname/template_name
+    @template qtype_stack/questionreportprtsplit
 
     Template purpose and description.
 
@@ -33,25 +33,21 @@
     }
 }}
 
-<div class="qtype_stack_question_report">
-<button data-toggle="collapse" data-target="[data-id='demo']">Collapsible</button>
+<div class="qtype_stack_question_report_prt">
+    <h2 data-toggle="collapse" data-target="[data-id='split-prt-{{prtname}}']">{{prtname}}</h2>
 
-<div data-id="demo" class="collapse">
-    <table>
-        <td>{{prtname}}</td>
-        <td>{{{graph_svg}}}</td>
-        <td>{{{graph_text}}}</td>
-        <td>
-            <div class="questionvariables">
-                <details>
-                    <summary>
-                        {{prtname}}
-                    </summary>
-                    <pre>
-                        {{maxima}}
-                    </pre>
-                </details>
-        </td>
-    </table>
-</div>
+    <div data-id="split-prt-{{prtname}}" class="collapse">
+        <table>
+            <tr>
+                <td>{{prtname}}</td>
+                <td>{{{graph_svg}}}</td>
+                <td>{{{graph_text}}}</td>
+                <td>
+                    <div class="questionvariables">
+                        <pre>{{sumout}}</pre>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>

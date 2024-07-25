@@ -365,6 +365,10 @@ root([ex]) := block(
   if length(ex) = 1 then return(sqrt(first(ex))),
   if length(ex) = 2 then return(first(ex)^(1/second(ex)))
 )$
+texroot(ex) := if is(length(args(ex))=1) then concat("\\sqrt{", tex1(first(args(ex))), "}") else concat("\\sqrt[", tex1(second(args(ex))), "]{", tex1(first(args(ex))), "}")$
+texput(nounify(root), texroot)$
+texput(verbify(root), texroot)$
+
 
 /* Denominators of fractions should not contain sqrt, root, %i or fractional powers. */
 rational_fail(ex) := block(
@@ -553,7 +557,11 @@ commonfaclist(l) := block([i, a, ret],
   else ret:"fail",
  return(ret) )$
 
-/* Returns a list of factors of ex without multiplicities. */
+/*
+ * Returns a list of factors of ex without multiplicities. 
+ * @param[scalar expression] ex, expression to be factored.
+ * @return[list] the list of factors, without multiplicities.
+ */
 factorlist(ex) := block([simp:false, ret:"", ex2],
   ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),

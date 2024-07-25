@@ -59,7 +59,7 @@ s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_cases(A,B,C),proof_ca
 s_test_case(proof_alternatives(proof_goal(A,B,C)), [proof_goal(A,B,C),proof_goal(B,A,C)]);
 s_test_case(proof_alternatives(proof_iff(proof(proof_opt(A), B),C)), [proof_iff(proof(A,B),C),proof_iff(proof(B),C),proof_iff(C,proof(A,B)),proof_iff(C,proof(B))]);
 
-s_test_case(proof_parsons_interpret("{\"used\":[\"0\",\"3\",\"5\"],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
+s_test_case(proof_parsons_interpret("{\"used\":[[[\"0\",\"3\",\"5\"]]],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
 
 s_test_case(proof_inline_maths("\\[ 3 = 2^{\\frac{p}{q}}\\]"), "\\( 3 = 2^{\\frac{p}{q}}\\)");
 

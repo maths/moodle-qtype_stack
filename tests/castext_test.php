@@ -816,7 +816,8 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,2)@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, {@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,2)@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, ' .
+            '{@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
@@ -835,12 +836,14 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, {@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, ' .
+            '{@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\), \({3}\), \({1}\)', $at1->get_rendered());
+        $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\), \({3}\), \({1}\)',
+            $at1->get_rendered());
     }
 
     /**
@@ -854,7 +857,8 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a1,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, {@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a1,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}, ' .
+            '{@decimalplaces(a,0)@}, {@decimalplaces(1,2)@}', 'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
@@ -2029,6 +2033,24 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
+    public function test_texput_hat() {
+        $vars = 'texput(hat, lambda([ex], sconcat("\\\\hat{", tex1(first(ex)), "}")));';
+        $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@1+hat(s)@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({\hat{s}+1}\)', $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_tex_aligned() {
         $vars = '';
         $at1 = new stack_cas_keyval($vars, null, 123);
@@ -2331,5 +2353,46 @@ class castext_test extends qtype_stack_testcase {
 
         $this->assertEquals('Underscore characters are not permitted in this input.',
             $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_unary_minus_zeros() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2([], $options, 123456);
+
+        $textinput = "{@x-0@}, {@x-0.0@}, {@x*(-0.0)@}, {@-27@}.";
+        $at1 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({x-0}\), \({x-0.0}\), \({x\cdot \left(-0.0\right)}\), \({-27}\).',
+            $at1->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_make_mult_sgn_stackunits() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2([], $options, 123456);
+
+        $textinput = '{@stackunits(10,m/s)@}, ' .
+            '{@(texput(multsgnstackunits, "\\\\cdot "), stackunits(1, s^-1))@}, ' .
+            '{@(texput(multsgnstackunits, "\\\\, "), stackunits(1, s^-1))@}. ' .
+            'Multiplication unaffected: {@(texput(multsgnstackunits, "\\\\, "), a*b)@}.';
+        $at1 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({10\, \frac{m}{s}}\), \({1\cdot s^ {- 1 }}\), \({1\, s^ {- 1 }}\). ' .
+            'Multiplication unaffected: \({a\cdot b}\).', $at1->get_rendered());
     }
 }

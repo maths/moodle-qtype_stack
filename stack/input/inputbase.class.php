@@ -458,7 +458,7 @@ abstract class stack_input {
     public function add_contextsession($contextsession) {
         if ($contextsession != null) {
             // Always make this the start of an array.
-            $this->contextsession = [$contextsession];
+            $this->contextsession = array_merge($this->contextsession, [$contextsession]);
         }
     }
 
@@ -1091,6 +1091,13 @@ abstract class stack_input {
 
         $additionalvars = [];
 
+        if ($questionvariables) {
+            if ($questionvariables['preamble-qv'] !== null) {
+                $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'],
+                    'preamble', 'blockexternal');
+            }
+        }
+
         if (array_key_exists('floatnum', $this->extraoptions) && $this->extraoptions['floatnum']) {
             $additionalvars['floatnum'] = stack_ast_container::make_from_teacher_source('simp_floatnump('.$this->name.')',
                     '', new stack_cas_security(), []);
@@ -1136,9 +1143,6 @@ abstract class stack_input {
         if ((array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator']) ||
             (array_key_exists('feedback', $this->extraoptions) && $this->extraoptions['feedback'])) {
             if ($questionvariables) {
-                if ($questionvariables['preamble-qv'] !== null) {
-                    $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'], 'preamble');
-                }
                 if ($questionvariables['contextvariables-qv'] !== null) {
                     $additionalvars['contextvariables-qv'] = new stack_secure_loader($questionvariables['contextvariables-qv'],
                         'contextvariables');

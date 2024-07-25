@@ -787,4 +787,41 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('Your answer should be an expression, not an equation, inequality, list, set or matrix.',
             $state->errors);
     }
+
+    public function test_validate_student_response_power_dispdp() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $state = $el->validate_student_response(['sans1' => "9.000^3+10.00^3"], $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('9.000^3+10.00^3', $state->contentsmodified);
+        $this->assertEquals('\[ {9.000}^3+{10.00}^3 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+    }
+
+    public function test_validate_student_response_simp() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729.0');
+        $el->set_parameter('options', 'simp');
+        // Simplification is applied to integers.
+        $state = $el->validate_student_response(['sans1' => '9^3+10^3'], $options,
+            '', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('9^3+10^3', $content);
+        $this->assertEquals('\[ 1729 \]',
+            $state->contentsdisplayed);
+
+        // Simplification is not currently applied to floats, which have their significant protected.
+        $state = $el->validate_student_response(['sans1' => '9.0^3+10^3'], $options,
+            '', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('9.0^3+10^3', $content);
+        $this->assertEquals('\[ {9.0}^3+1000 \]',
+            $state->contentsdisplayed);
+    }
 }

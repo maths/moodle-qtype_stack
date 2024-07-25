@@ -75,9 +75,9 @@ The expression `(make_multsgn("cross"), a*b)` uses parentheses as an abbreviatio
 
 The value of this option `onum` will only put a multiplication sign between numbers.  This means you will see \(3\times 5\, x\) and not \(3\, 5\, x\) as you would if you have "none".
 
-There is a special atom which controls the multiplication symbol.  If you would like a dot then define
+There is a special atom which controls the multiplication symbol used with option `onum`.  If you would like a dot then define
 
-    texput(multsgnonlyfornumberssym, "\\times");
+    texput(multsgnonlyfornumberssym, "\\cdot");
 
 in the question variables.
 
@@ -112,6 +112,8 @@ Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elem
 > \(a^\frac12\) multiplied by \(a^\frac12\) is equal to \(a^1\), or \(a\).
 
 A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
+
+STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostophie to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
 
 ### sqrt(-1) {#sqrt_minus_one} ###
 

@@ -12,7 +12,6 @@ Released July 2024.
 4. Add in an option to fine-tune the multiplication sign used for scientific units:  `multsgnstackunits`.  See discussion in [issue #1080](https://github.com/maths/moodle-qtype_stack/issues/1080]).
 5. Add in the "Deploy from n to m" deature to systematically deploy seeds.
 
-
 ## Version 4.6.0
 
 Released June 2024.

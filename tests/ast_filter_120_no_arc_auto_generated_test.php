@@ -99,6 +99,11 @@ class ast_filter_120_no_arc_auto_generated_test extends qtype_stack_ast_testcase
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1872,6 +1877,11 @@ class ast_filter_120_no_arc_auto_generated_test extends qtype_stack_ast_testcase
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

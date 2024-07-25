@@ -28,36 +28,36 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
- * @covers \ast_filter_997_string_security
+ * @covers \ast_filter_033_no_extra_evaluation
  */
 
-class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast_testcase {
+class ast_filter_033_no_extra_evaluation_auto_generated_test extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('033_no_extra_evaluation');
 
-        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
-                      '"A string that needs sanitising &lt;&#8203;script>bad stuff&lt;&#8203;/script&gt;."',
-                      [],
-                      true, false);
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['Illegal_extraevaluation', 'Illegal_extraevaluation'],
+                      false, true);
 
     }
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('033_no_extra_evaluation');
 
-        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
-                      '"A string that needs sanitising &lt;&#8203;script>bad stuff&lt;&#8203;/script&gt;."',
-                      [],
-                      true, false);
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['Illegal_extraevaluation', 'Illegal_extraevaluation'],
+                      false, true);
 
     }
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('033_no_extra_evaluation');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -96,11 +96,6 @@ class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
-                      [],
-                      true, false);
-
-        $this->expect("''diff(x,y)",
-                      "''diff(x,y)",
                       [],
                       true, false);
 
@@ -1831,6 +1826,11 @@ class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      [],
+                      true, false);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       [],
                       true, false);
 
@@ -1838,7 +1838,7 @@ class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('033_no_extra_evaluation');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -1877,11 +1877,6 @@ class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
-                      [],
-                      true, false);
-
-        $this->expect("''diff(x,y)",
-                      "''diff(x,y)",
                       [],
                       true, false);
 
@@ -3612,6 +3607,11 @@ class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      [],
+                      true, false);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       [],
                       true, false);
 

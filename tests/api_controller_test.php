@@ -330,7 +330,7 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(false, $results->isdeployedseeds);
         $this->assertEquals(false, $results->israndomvariants);
         $this->assertEquals(false, $results->istests);
-        $this->assertEquals(stack_string('default_test_fail'), $results->results->noseed->messages);
+        $this->assertEquals(stack_string('defaulttestfail'), $results->results->noseed->messages);
         $this->assertEquals(1, $results->results->noseed->fails);
         $this->assertEquals(0, $results->results->noseed->passes);
     }

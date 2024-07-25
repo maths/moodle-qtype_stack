@@ -32,7 +32,7 @@ It is your responsibility to make sure the index remains within range!  You can 
 
 It is sensible to always ensure your `stack_seed` does not create run-time errors.  Notice that although the `mod` function does return `0` we have avoided possible zero indexes when defining `n1`.
 
-Of course, there are many other ways to map deployed seeds onto systematic deployment of variants.  Using consecutive integers from \(1, \ldots, n\) as the starting point is probably simplest and easiest to maintain.  For this reason there is a special option to do this on the deploy variants page.
+Of course, there are many other ways to map deployed seeds onto systematic deployment of variants.  Using consecutive integers from \(1, \ldots, n\) as the starting point is probably simplest and easiest to maintain.  For this reason there is a special option to do this on the deploy variants page.  There is also an option to use consecutive integers from \(n, \ldots, m\).
 
 Notes
 

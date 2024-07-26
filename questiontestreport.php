@@ -61,12 +61,15 @@ require_login();
 
 // Start output.
 echo $OUTPUT->header();
-$renderer = $PAGE->get_renderer('qtype_stack');
 
 $quizzes = stack_question_report::get_relevant_quizzes($questionid);
-foreach ($outputdata->quizzes as $quiz) {
+$quizoutput = [];
+foreach ($quizzes as $contextid=>$quiz) {
     $quiz->url = new moodle_url('/question/type/stack/questiontestreport.php',
             $urlparams + ['context' => $quiz->quizcontextid]);
+    $quiz->url = $quiz->url->out();
+    $quiz->active = ($contextid === $quizcontext) ? true : false;
+    $quizoutput[] = $quiz;
 }
 
 if ($quizcontext === null) {
@@ -75,12 +78,6 @@ if ($quizcontext === null) {
 } else {
     $report = new stack_question_report($question, $quizcontext, $quizzes[$quizcontext]->coursecontextid);
     $outputdata = $report->outputdata;
-}
-
-$quizoutput = [];
-foreach ($quizzes as $contextid=>$quiz) {
-    $quiz->active = ($contextid === $quizcontext) ? true : false;
-    $quizoutput[] = $quiz;
 }
 
 $outputdata->quizzes = $quizoutput;

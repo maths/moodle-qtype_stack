@@ -34,43 +34,70 @@
 }}
 
 <div class="qtype_stack_question_report">
-  <h2>{{#str}} basicquestionreport, qtype_stack {{/str}}</h2>
+  <h3>{{#str}} basicquestionreport, qtype_stack {{/str}}</h3>
   <h2>{{question.name}}</h2>
+
+  <!-- Warn if variants not deployed -->
   {{^question.deployedseeds}}
     {{#hasvariants}}
-      {{#str}} questionnotdeployedyet, qtype_stack {{/str}}
+      <p>{{#str}} questionnotdeployedyet, qtype_stack {{/str}}</p>
     {{/hasvariants}}
   {{/question.deployedseeds}}
-  <a href="{{general.testquestionlink}}">{{#str}} runquestiontests, qtype_stack {{/str}}</a> <a href="{{general.previewquestionlink}}">{{#pix}} t/preview, core, {{#str}} preview, core {{/str}} {{/pix}}</a>
+
+  <!-- Choose quiz to analyze the results from -->
+  <p>
+    <span>
+      {{#str}} selectquiz, qtype_stack {{/str}}:
+    </span>
+    <select onChange="$('[data-id=\'qa-loading\']').show();window.location.href=this.value">
+      {{^summary}}
+        <option value="#">Select an option</option>
+      {{/summary}}
+      {{#quizzes}}
+        <option value="{{{url}}}" {{#active}} selected="selected" {{/active}}>
+          {{coursename}} - {{name}}
+        </option>
+      {{/quizzes}}
+    </select>
+    <span data-id='qa-loading' style="display:none">
+      {{#pix}}y/loading, core, {{#str}}loading, tool_lp{{/str}}{{/pix}}
+    </span>
+  </p>
+
+  <!-- Dashboard and preview links -->
+  <p><a href="{{general.testquestionlink}}">{{#str}} runquestiontests, qtype_stack {{/str}}</a> <a href="{{general.previewquestionlink}}">{{#pix}} t/preview, core, {{#str}} preview, core {{/str}} {{/pix}}</a></p>
+
+  <!-- Tab headers -->
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" href="#home" id="home-tab" data-toggle="tab" type="button" role="tab" aria-controls="home" aria-selected="true">Question</button>
+      <button class="nav-link {{^summary}}active{{/summary}}" href="#question-pane" id="question-tab" data-toggle="tab" type="button" role="tab" aria-controls="question" aria-selected="{{^summary}}true{{/summary}}{{#summary}}false{{/summary}}">{{#str}} question, core {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#summary" id="summary-tab" data-toggle="tab" type="button" role="tab" aria-controls="summary" aria-selected="false">Summary</button>
+      <button class="nav-link {{#summary}}active{{/summary}}" href="#summary-pane" id="summary-tab" data-toggle="tab" type="button" role="tab" aria-controls="summary" aria-selected="{{^summary}}false{{/summary}}{{#summary}}true{{/summary}}">{{#str}} summary, core {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#messages" id="messages-tab" data-toggle="tab" type="button" role="tab" aria-controls="messages" aria-selected="false">Split summary</button>
+      <button class="nav-link" href="#split-pane" id="split-tab" data-toggle="tab" type="button" role="tab" aria-controls="split" aria-selected="false">{{#str}} splitsummary, qtype_stack {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#settings" id="settings-tab" data-toggle="tab" type="button" role="tab" aria-controls="settings" aria-selected="false">Variants</button>
+      <button class="nav-link" href="#variants-pane" id="variants-tab" data-toggle="tab" type="button" role="tab" aria-controls="variants" aria-selected="false">{{#str}} variants, qtype_stack {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#inputs" id="inputs-tab" data-toggle="tab" type="button" role="tab" aria-controls="inputs" aria-selected="false">Inputs</button>
+      <button class="nav-link" href="#inputs-pane" id="inputs-tab" data-toggle="tab" type="button" role="tab" aria-controls="inputs" aria-selected="false">{{#str}} inputs, qtype_stack {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#rawdata" id="rawdata-tab" data-toggle="tab" type="button" role="tab" aria-controls="rawdata" aria-selected="false">Raw data</button>
+      <button class="nav-link" href="#rawdata-pane" id="rawdata-tab" data-toggle="tab" type="button" role="tab" aria-controls="rawdata" aria-selected="false">{{#str}} rawdata, qtype_stack {{/str}}</button>
     </li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-pane {{^summary}}active{{/summary}} mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
       <h3>{{#str}} questiontext, qtype_stack {{/str}}</h3>
       <pre class="questionvariables">{{{question.text}}}</pre>
+      <h3>{{#str}} questionvariables, qtype_stack {{/str}}</h3>
       <pre class="questionvariables">{{question.vars}}</pre>
     </div>
-    <div class="tab-pane" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+    <div class="tab-pane {{#summary}}active{{/summary}} mt-3" id="summary-pane" role="tabpanel" aria-labelledby="summary-tab">
       <h3>{{#str}} basicreportnotes, qtype_stack {{/str}}</h3>
       {{#summary.prts}}
         <table>
@@ -97,10 +124,10 @@
         {{/sumout}}
       {{/summary.prts}}
     </div>
-    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+    <div class="tab-pane mt-3" id="split-pane" role="tabpanel" aria-labelledby="split-tab">
       <h3>{{#str}} basicreportnotessplit, qtype_stack {{/str}}</h3>
-      {{#notesummary.prts}}
         <table>
+          {{#notesummary.prts}}
             <tr>
                 <td>{{prtname}}</td>
                 <td>{{{graph_svg}}}</td>
@@ -111,10 +138,10 @@
                     </div>
                 </td>
             </tr>
-        </table>
-      {{/notesummary.prts}}
+        {{/notesummary.prts}}
+      </table>
     </div>
-    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+    <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
       <h3>{{#str}} basicreportvariants, qtype_stack {{/str}}</h3>
       {{#variants.variants}}
         <h2 data-toggle="collapse" data-target="[data-id='variant-{{seed}}']">{{seed}}</h2>
@@ -126,11 +153,11 @@
         </div>
       {{/variants.variants}}
     </div>
-    <div class="tab-pane" id="inputs" role="tabpanel" aria-labelledby="inputs-tab">
+    <div class="tab-pane mt-3" id="inputs-pane" role="tabpanel" aria-labelledby="inputs-tab">
       <h3>{{#str}} basicreportinputsummary, qtype_stack {{/str}}</h3>
       <pre>{{inputs.inputs}}</pre>
     </div>
-    <div class="tab-pane" id="rawdata" role="tabpanel" aria-labelledby="rawdata-tab">
+    <div class="tab-pane mt-3" id="rawdata-pane" role="tabpanel" aria-labelledby="rawdata-tab">
       <h3>{{#str}} basicreportraw, qtype_stack {{/str}}</h3>
       <pre>{{rawdata.rawdata}}</pre>
     </div>

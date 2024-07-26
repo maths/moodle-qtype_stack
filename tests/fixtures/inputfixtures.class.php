@@ -143,6 +143,7 @@ class stack_inputvalidation_test_data {
             'missing_stars | Variable_function', "",
         ],
         ["f''(x)", 'php_false', '' , '', '', 'apostrophe', "Apostrophies again..."],
+        ["''diff(f,x)", 'php_false', '' , '', '', 'Illegal_extraevaluation', ""],
         [
             'dosomething(x,y,z)', 'php_false', '', '', '', 'forbiddenFunction',
             "Students have a restricted list of function names.  Teachers are less restricted.",

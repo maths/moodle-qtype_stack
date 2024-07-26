@@ -529,6 +529,11 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -2087,6 +2092,11 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

@@ -842,7 +842,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\), \({3}\), \({1}\)', 
+        $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\), \({3}\), \({1}\)',
             $at1->get_rendered());
     }
 

@@ -169,6 +169,11 @@ class ast_filter_404_split_at_number_letter_number_boundary_auto_generated_test 
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1907,6 +1912,11 @@ class ast_filter_404_split_at_number_letter_number_boundary_auto_generated_test 
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

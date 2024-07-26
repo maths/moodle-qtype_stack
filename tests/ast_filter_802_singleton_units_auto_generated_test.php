@@ -77,6 +77,11 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
                       [],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1840,6 +1845,11 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      false, true);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       false, true);
 

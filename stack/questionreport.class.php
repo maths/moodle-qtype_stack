@@ -49,6 +49,7 @@ class stack_question_report {
     // Create a summary of the data without different variants.
     public $prtreportsummary = [];
     public $notesummary = [];
+    public $outputdata;
 
     /**
      * Constructor
@@ -61,6 +62,7 @@ class stack_question_report {
         $this->match_variants_and_notes();
         $this->collate();
         $this->reports_sort();
+        $this->create_output_data();
     }
 
     public function create_summary():void {
@@ -293,9 +295,242 @@ class stack_question_report {
         }
     }
 
+    public function create_output_data():void {
+        $this->outputdata->question = $this->format_question_data($this->question);
+        $this->outputdata->summary = $this->format_summary();
+        $this->outputdata->notesummary = $this->format_notesummary($this->outputdata->summary->tot);
+        $this->outputdata->variants = $this->format_variants();
+        $this->outputdata->inputs = $this->format_inputs();
+        $this->outputdata->rawdata = $this->format_raw_data();
+    }
+
+    public static function format_question_data($question):object {
+        $qdata = new StdClass();
+        $qdata->name = $question->name;
+        //$qdata->title = stack_string('questiontext');
+        $qdata->text = $question->questiontext;
+        $qdata->deployedseeds = empty($question->deployedseeds) ? false : true;
+        $qdata->hasvariants = $question->has_random_variants();
+        $vars = $question->questionvariables;
+        if ($vars != '') {
+            $vars = trim($vars) . "\n\n";
+        }
+        foreach ($question->inputs as $inputname => $input) {
+            $vars .= $inputname . ':' . $input->get_teacher_answer() . ";\n";
+        }
+        $qdata->vars = s(trim($vars));
+        return $qdata;
+    }
+
+    public function format_summary():object {
+        $output = new StdClass();
+        //$output->title = stack_string('basicreportnotes');
+        $output->prts = [];
+        $sumout = [];
+        $tot = [];
+        foreach ($this->prtreportsummary as $prt => $data) {
+            $sumouti = '';
+            $tot[$prt] = 0;
+            $pad = max($data);
+            foreach ($data as $key => $val) {
+                $tot[$prt] += $val;
+            }
+            if ($data !== []) {
+                foreach ($data as $dat => $num) {
+                    $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                        str_pad(number_format((float) 100 * $num / $tot[$prt], 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                        '%); ' . $dat . "\n";
+                }
+            }
+            if (trim($sumouti) !== '') {
+                $sumout[$prt] = '## ' . $prt . ' ('. $tot[$prt] . ")\n" . $sumouti . "\n";;
+            }
+        }
+
+        // Produce a text-based summary of a PRT.
+        foreach ($this->question->prts as $prtname => $prt) {
+            // Here we render each PRT as a separate single-row table.
+            $prtdata = new StdClass();
+            $prtdata->prtname = $prtname;
+            $graph = $prt->get_prt_graph();
+            $prtdata->graph_svg = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+            $prtdata->graph_text = stack_prt_graph_text_renderer::render($graph);
+            $prtdata->maxima = s($prt->get_maxima_representation());
+            $prtdata->sumout = (array_key_exists($prtname, $sumout)) ? trim($sumout[$prtname]) : null;
+            $output->prts[] = $prtdata;
+        }
+        $output->tot = $tot;
+        return $output;
+    }
+
+    public function format_notesummary(array $tot):object {
+        $output = new StdClass();
+        //$output->title = stack_string('basicreportnotessplit');
+        $output->prts = [];
+        $sumout = [];
+        $prtlabels = [];
+        foreach ($this->notesummary as $prt => $data) {
+            $sumouti = '';
+            $pad = max($data);
+            if ($data !== []) {
+                foreach ($data as $dat => $num) {
+                    // Use the old $tot, to give meaningful percentages of which individual notes occur overall.
+                    $prtlabels[$prt][$dat] = $num;
+                    $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                        str_pad(number_format((float) 100 * $num / $tot[$prt], 2, '.', ''), 6, ' ', STR_PAD_LEFT) . '%); '.
+                        $dat . "\n";
+                }
+            }
+            if (trim($sumouti) !== '') {
+                $sumout[$prt] = '## ' . $prt . ' ('. $tot[$prt] . ")\n" . $sumouti . "\n";;
+            }
+        }
+
+        foreach ($this->question->prts as $prtname => $prt) {
+            if (array_key_exists($prtname, $prtlabels)) {
+                $prtdata = new StdClass();
+                $prtdata->prtname = $prtname;
+                $graph = $prt->get_prt_graph();
+                $prtdata->graph_svg = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+                $prtdata->graph_text = stack_prt_graph_text_renderer::render($graph);
+                $prtdata->sumout = s($sumout[$prtname]);
+                $output->prts[] = $prtdata;
+            }
+        }
+
+        return $output;
+    }
+
+    public function format_variants():object {
+        $output = new StdClass();
+        //$output->title = stack_string('basicreportvariants');
+        $output->variants = [];
+        foreach (array_keys($this->summary) as $variant) {
+            $variantdata = new StdClass();
+            $variantdata->seed = $this->questionseeds[$variant];
+            $variantdata->notes = $this->questionnotes[$variant];
+            $variantdata->notessumout = $this->format_variant_answer_notes($variant);
+            $variantdata->anssumout = $this->format_variant_inputs($variant);
+            $output->variants[] = $variantdata;
+        }
+        return $output;
+    }
+
+    public function format_variant_answer_notes(int $variant):string {
+        $sumout = '';
+        foreach ($this->prtreport[$variant] as $prt => $idata) {
+            $pad = 0;
+            $tot = 0;
+            foreach ($idata as $dat => $num) {
+                $tot += $num;
+            }
+            if ($idata !== []) {
+                $sumout .= '## ' . $prt . ' ('. $tot . ")\n";
+                $pad = max($idata);
+            }
+            foreach ($idata as $dat => $num) {
+                $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                    '%); ' . $dat . "\n";
+                foreach ($this->prtreportinputs[$variant][$prt][$dat] as $inputsummary => $inum) {
+                    $sumout .= str_pad($inum, strlen((string) $pad) + 1) . '(' .
+                        str_pad(number_format((float) 100 * $inum / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                        '%); ' . htmlentities($inputsummary, ENT_COMPAT) . "\n";
+                }
+                $sumout .= "\n";
+            }
+            $sumout .= "\n";
+        }
+        return $sumout;
+    }
+
+    public function format_variant_inputs(int $variant):string {
+        $sumout = '';
+        foreach ($this->inputreport[$variant] as $input => $idata) {
+            $sumouti = '';
+            $tot = 0;
+            foreach ($idata as $key => $data) {
+                foreach ($data as $dat => $num) {
+                    $tot += $num;
+                }
+            }
+            foreach ($idata as $key => $data) {
+                if ($data !== []) {
+                    $sumouti .= '### ' . $key . "\n";
+                    $pad = max($data);
+                    foreach ($data as $dat => $num) {
+                        $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                            str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                            '%); ' . htmlentities($dat, ENT_COMPAT) . "\n";
+                    }
+                    $sumouti .= "\n";
+                }
+            }
+            if (trim($sumouti) !== '') {
+                $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
+            }
+        }
+        return $sumout;
+    }
+
+    public function format_inputs():object {
+        $output = new StdClass();
+        //$output->title = stack_string('basicreportinputsummary');
+        $sumout = '';
+        foreach ($this->inputreportsummary as $input => $idata) {
+            $sumouti = '';
+            $tot = 0;
+            foreach ($idata as $key => $data) {
+                foreach ($data as $dat => $num) {
+                    $tot += $num;
+                }
+            }
+            foreach ($idata as $key => $data) {
+                if ($data !== []) {
+                    $sumouti .= '### ' . $key . "\n";
+                    $pad = max($data);
+                    foreach ($data as $dat => $num) {
+                        $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                                str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                                '%); ' . htmlentities($dat, ENT_COMPAT) . "\n";
+                    }
+                    $sumouti .= "\n";
+                }
+            }
+            if (trim($sumouti) !== '') {
+                $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
+            }
+        }
+        $output->inputs = $sumout;
+        return $output;
+    }
+
+    public function format_raw_data():object {
+        $output = new StdClass();
+        //$output->title = stack_string('basicreportraw');
+        $sumout = '';
+        foreach ($this->summary as $variant => $vdata) {
+            if ($vdata !== []) {
+                $tot = 0;
+                foreach ($vdata as $dat => $num) {
+                    $tot += $num;
+                }
+                $pad = max($vdata);
+                $sumout .= "\n# " . $variant . ' ('. $tot . ")\n";
+                foreach ($vdata as $dat => $num) {
+                    $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                            str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                            '%); ' . htmlentities($dat, ENT_COMPAT) . "\n";
+                }
+            }
+        }
+        $output->rawdata = $sumout;
+        return $output;
+    }
+
     public static function get_relevant_quizzes(int $questionid):array {
         global $DB;
-        $quizzesquery = "SELECT qr.usingcontextid, q.name, cc.id, co.fullname 
+        $quizzesquery = "SELECT qr.usingcontextid as quizcontextid, q.name, cc.id as coursecontextid, co.fullname as coursename
                     FROM {question_versions} qv 
                     LEFT JOIN {question_references} qr ON qv.questionbankentryid = qr.questionbankentryid
                     LEFT JOIN {context} c ON c.id = qr.usingcontextid

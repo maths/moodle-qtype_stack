@@ -39,6 +39,7 @@ abstract class stack_input {
     const GRAMMAR_FIX_INSERT_STARS = 1;
     const GRAMMAR_FIX_SPACES = 2;
     const GRAMMAR_FIX_SINGLE_CHAR = 4;
+    const GRAMMAR_FIX_FUNCTIONS = 16;
 
     /**
      * @var string the name of the input.
@@ -992,6 +993,11 @@ abstract class stack_input {
         // Assume single letter variable names = 4.
         if ($grammarautofixes & self::GRAMMAR_FIX_SINGLE_CHAR) {
             $filterstoapply[] = '410_single_char_vars';
+        }
+
+        // Assume single letter variable names = 16.
+        if ($grammarautofixes & self::GRAMMAR_FIX_FUNCTIONS) {
+            $filterstoapply[] = '441_split_unknown_functions';
         }
 
         // Consolidate M_1 to M1 and so on.

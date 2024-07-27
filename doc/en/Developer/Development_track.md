@@ -7,6 +7,10 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.8.0
 
+DONE.
+
+1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
+
 Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 
 1. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)

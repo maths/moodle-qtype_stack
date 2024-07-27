@@ -734,6 +734,19 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return stack_string('questionnote_missing');
     }
 
+    public function get_question_todos() {
+        $tags = [];
+        $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
+            $this->specificfeedback, $this->questiondescription];
+        foreach ($fields as $field) {
+            $tags = array_merge($tags, castext2_parser_utils::get_todoblocks($field));
+        }
+        // Unique tags, sorted.
+        $tags = array_unique($tags);
+        sort($tags);
+        return $tags;
+    }
+
     public function summarise_response(array $response) {
         // Provide seed information on student's version via the normal moodle quiz report.
         $bits = ['Seed: ' . $this->seed];

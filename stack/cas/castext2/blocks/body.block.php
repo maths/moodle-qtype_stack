@@ -20,7 +20,7 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 
 /**
- * A block for dealig with non script content in IFRAMe blocks.
+ * A block for dealing with non script content in IFRAME blocks.
  */
 class stack_cas_castext2_body extends stack_cas_castext2_block {
 

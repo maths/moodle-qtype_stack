@@ -86,6 +86,8 @@ class castext2_parser_utils {
             return true;
         };
         $root->callbackRecurse($collecttags);
+        $tags = array_unique($tags);
+        sort($tags);
         return $tags;
     }
 

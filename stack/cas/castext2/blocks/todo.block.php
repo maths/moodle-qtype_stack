@@ -37,6 +37,10 @@ class stack_cas_castext2_todo extends stack_cas_castext2_block {
 
     public function extract_todo(): array {
         $tags = [];
+        if (!array_key_exists('tags', $this->params)) {
+            return [];
+        }
+
         foreach (explode(',', $this->params['tags']) as $tag) {
             $tag = trim($tag);
             if (!array_key_exists($tag, $tags)) {

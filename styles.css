@@ -1216,3 +1216,20 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .algebratree > li > code:before {
     outline: none;
 }
+
+/* Response Analysis */
+.stack-collapse-header {
+    cursor: pointer;
+}
+.stack-collapse-header:not(.collapsed):before {
+    font-family: FontAwesome;
+    content: "\f0d7";
+    font-weight: bold;
+    display: inline-block;
+}
+.stack-collapse-header.collapsed:before {
+    font-family: FontAwesome;
+    content: "\f0da";
+    font-weight: bold;
+    display: inline-block;
+}

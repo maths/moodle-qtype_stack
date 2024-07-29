@@ -107,7 +107,7 @@ class stack_question_report {
                     LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
                     INNER JOIN {role_assignments} ra ON ra.userid = u.id
                 WHERE qas_prev.timecreated IS NULL
-                    /* Check responses are the correc quiz and made by students */
+                    /* Check responses are the correct quiz and made by students */
                     AND qu.component = 'mod_quiz'
                     AND qu.contextid = :quizcontextid
                     AND ra.roleid = 5
@@ -416,8 +416,9 @@ class stack_question_report {
         return $output;
     }
 
-    public function format_variant_answer_notes(int $variant):string {
+    public function format_variant_answer_notes(int $variant):object {
         $sumout = '';
+        $sumheadline = '';
         foreach ($this->prtreport[$variant] as $prt => $idata) {
             $pad = 0;
             $tot = 0;
@@ -428,10 +429,14 @@ class stack_question_report {
                 $sumout .= '## ' . $prt . ' ('. $tot . ")\n";
                 $pad = max($idata);
             }
+            $sumprtheadline = '';
             foreach ($idata as $dat => $num) {
-                $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                $dataline = str_pad($num, strlen((string) $pad) + 1) . '(' .
                     str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
                     '%); ' . $dat . "\n";
+                $sumout .= $dataline;
+                // Use most frequent (first) result for each part as variant headline.
+                $sumprtheadline = ($sumprtheadline) ? $sumprtheadline : $dataline;
                 foreach ($this->prtreportinputs[$variant][$prt][$dat] as $inputsummary => $inum) {
                     $sumout .= str_pad($inum, strlen((string) $pad) + 1) . '(' .
                         str_pad(number_format((float) 100 * $inum / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
@@ -439,9 +444,12 @@ class stack_question_report {
                 }
                 $sumout .= "\n";
             }
-            $sumout .= "\n";
+            $sumheadline .= '## ' . $prt . ': ' . $sumprtheadline;
         }
-        return $sumout;
+        $result = new StdClass();
+        $result->sumout = $sumout;
+        $result->sumheadline = $sumheadline;
+        return $result;
     }
 
     public function format_variant_inputs(int $variant):string {

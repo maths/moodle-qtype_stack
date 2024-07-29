@@ -211,11 +211,15 @@
     <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
       <h3>{{#str}} basicreportvariants, qtype_stack {{/str}}</h3>
       {{#variants.variants}}
-        <h2 data-toggle="collapse" data-target="[data-id='variant-{{seed}}']">{{seed}}</h2>
-
+        <h2 class="stack-collapse-header collapsed" data-toggle="collapse" data-target="[data-id='variant-{{seed}}']">
+          {{seed}}
+        </h2>
+        <div data-id="variant-{{seed}}" class="collapse show">
+          <pre>{{notessumout.sumheadline}}</pre>
+        </div>
         <div data-id="variant-{{seed}}" class="collapse">
             <p style="display: inline-block">{{{notes}}}</p>
-            <pre>{{notessumout}}</pre>
+            <pre>{{notessumout.sumout}}</pre>
             <pre>{{anssumout}}</pre>
         </div>
       {{/variants.variants}}

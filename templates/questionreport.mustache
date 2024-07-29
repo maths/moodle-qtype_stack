@@ -167,24 +167,17 @@
     <div class="tab-pane {{#summary}}active{{/summary}} mt-3" id="summary-pane" role="tabpanel" aria-labelledby="summary-tab">
       <h3>{{#str}} basicreportnotes, qtype_stack {{/str}}</h3>
       {{#summary.prts}}
+        <div>
+          <details>
+            <summary class="stack-ra-report"><h4 style="display: inline-block">{{prtname}}</h4></summary>
+            <pre class="questionvariables" style="display: inline-block">{{maxima}}</pre>
+          </details>
+        </div>
         <table>
-            <tr>
-                <td>{{prtname}}</td>
-                <td>{{{graph_svg}}}</td>
-                <td>{{{graph_text}}}</td>
-                <td>
-                    <div class="questionvariables">
-                        <details>
-                            <summary>
-                                {{prtname}}
-                            </summary>
-                            <pre>
-                                {{maxima}}
-                            </pre>
-                        </details>
-                    </div>
-                </td>
-            </tr>
+          <tr>
+            <td>{{{graph_svg}}}</td>
+            <td>{{{graph_text}}}</td>
+          </tr>
         </table>
         {{#sumout}}
         <pre>{{sumout}}</pre>
@@ -193,20 +186,17 @@
     </div>
     <div class="tab-pane mt-3" id="split-pane" role="tabpanel" aria-labelledby="split-tab">
       <h3>{{#str}} basicreportnotessplit, qtype_stack {{/str}}</h3>
-        <table>
-          {{#notesummary.prts}}
+        {{#notesummary.prts}}
+          <h4>{{prtname}}</h4>
+          <table>
             <tr>
-                <td>{{prtname}}</td>
-                <td>{{{graph_svg}}}</td>
-                <td>{{{graph_text}}}</td>
-                <td>
-                    <div class="questionvariables">
-                        <pre>{{sumout}}</pre>
-                    </div>
-                </td>
+              <td>{{{graph_svg}}}</td>
+              <td>{{{graph_text}}}</td>
+              
             </tr>
-        {{/notesummary.prts}}
-      </table>
+          </table>
+          <pre>{{sumout}}</pre>
+      {{/notesummary.prts}}
     </div>
     <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
       <h3>{{#str}} basicreportvariants, qtype_stack {{/str}}</h3>

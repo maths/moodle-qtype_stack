@@ -1233,3 +1233,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     font-weight: bold;
     display: inline-block;
 }
+.stack-ra-report::marker {
+    font-size: 1.4rem;
+}

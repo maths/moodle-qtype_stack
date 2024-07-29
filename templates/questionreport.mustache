@@ -30,7 +30,74 @@
 
     Example context (json):
     {
+    "question": {
+        "name": "Question name",
+        "text": "<p>Text</p>",
+        "deployedseeds": true,
+        "hasvariants": true,
+        "vars": "a1 : 1+rand(6);"
+    },
+    "summary": {
+        "prts": [
+            {
+                "prtname": "prt1",
+                "graph_svg": "<svg><\/svg>",
+                "graph_text": "<table><\/table>",
+                "maxima": "maxima text",
+                "sumout": "## prt1 (2)\n1 ( 50.00%); # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n1 ( 50.00%); # = 0 | ATInt_generic. | prt1-1-F"
+            }
+        ],
+        "tot": {
+            "prt1": 2
+        }
+    },
+    "notesummary": {
+        "prts": [
+            {
+                "prtname": "prt1",
+                "graph_svg": "<svg><\/svg>",
+                "graph_text": "<table><\/table>",
+                "sumout": "## prt1 (2)\n2 (100.00%); # = 0\n1 ( 50.00%); ATInt_generic.\n1 ( 50.00%); ATInt_generic. ATInt_var_SB_notSA.\n2 (100.00%); prt1-1-F\n\n"
+            }
+        ]
+    },
+    "variants": {
+        "variants": [
+            {
+                "seed": 399724897,
+                "notes": "<span><\/span>",
+                "notessumout": "## prt1 (1)\n1 (100.00%); # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n1 (100.00%); ans1:34; \n\n\n",
+                "anssumout": "## ans1 (1)\n### score\n1 (100.00%); 34\n\n"
+            },
+            {
+                "seed": 799651125,
+                "notes": "<span><\/span>",
+                "notessumout": "## prt1 (1)\n1 (100.00%); # = 0 | ATInt_generic. | prt1-1-F\n1 (100.00%); ans1:x-3; \n\n\n",
+                "anssumout": "## ans1 (1)\n### score\n1 (100.00%); x-3\n\n"
+            }
+        ]
+    },
+    "inputs": {
+        "inputs": "## ans1 (2)\n### score\n1 ( 50.00%); 34\n1 ( 50.00%); x-3\n\n"
+    },
+    "rawdata": {
+        "rawdata": "\n# 4 (1)\n1 (100.00%); Seed: 399724897; ans1: 34 [score]; prt1: # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n\n# 2 (1)\n1 (100.00%); Seed: 799651125; ans1: x-3 [score]; prt1: # = 0 | ATInt_generic. | prt1-1-F\n"
+    },
+    "quizzes": [
+        {
+            "quizcontextid": "102",
+            "name": "Analysis input",
+            "coursecontextid": "21",
+            "coursename": "Course 1",
+            "url": "ReportURL",
+            "active": true
+        }
+    ],
+    "general": {
+        "testquestionlink": "DashboardURL",
+        "previewquestionlink": "PreviewURL"
     }
+  }
 }}
 
 <div class="qtype_stack_question_report">
@@ -70,22 +137,22 @@
   <!-- Tab headers -->
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link {{^summary}}active{{/summary}}" href="#question-pane" id="question-tab" data-toggle="tab" type="button" role="tab" aria-controls="question" aria-selected="{{^summary}}true{{/summary}}{{#summary}}false{{/summary}}">{{#str}} question, core {{/str}}</button>
+      <button class="nav-link {{^summary}}active{{/summary}}" href="#question-pane" id="question-tab" data-toggle="tab" type="button" role="tab" aria-controls="question-pane" aria-selected="{{^summary}}true{{/summary}}{{#summary}}false{{/summary}}">{{#str}} question, core {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link {{#summary}}active{{/summary}}" href="#summary-pane" id="summary-tab" data-toggle="tab" type="button" role="tab" aria-controls="summary" aria-selected="{{^summary}}false{{/summary}}{{#summary}}true{{/summary}}">{{#str}} summary, core {{/str}}</button>
+      <button class="nav-link {{#summary}}active{{/summary}}" href="#summary-pane" id="summary-tab" data-toggle="tab" type="button" role="tab" aria-controls="summary-pane" aria-selected="{{^summary}}false{{/summary}}{{#summary}}true{{/summary}}">{{#str}} summary, core {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#split-pane" id="split-tab" data-toggle="tab" type="button" role="tab" aria-controls="split" aria-selected="false">{{#str}} splitsummary, qtype_stack {{/str}}</button>
+      <button class="nav-link" href="#split-pane" id="split-tab" data-toggle="tab" type="button" role="tab" aria-controls="split-pane" aria-selected="false">{{#str}} splitsummary, qtype_stack {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#variants-pane" id="variants-tab" data-toggle="tab" type="button" role="tab" aria-controls="variants" aria-selected="false">{{#str}} variants, qtype_stack {{/str}}</button>
+      <button class="nav-link" href="#variants-pane" id="variants-tab" data-toggle="tab" type="button" role="tab" aria-controls="variants-pane" aria-selected="false">{{#str}} variants, qtype_stack {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#inputs-pane" id="inputs-tab" data-toggle="tab" type="button" role="tab" aria-controls="inputs" aria-selected="false">{{#str}} inputs, qtype_stack {{/str}}</button>
+      <button class="nav-link" href="#inputs-pane" id="inputs-tab" data-toggle="tab" type="button" role="tab" aria-controls="inputs-pane" aria-selected="false">{{#str}} inputs, qtype_stack {{/str}}</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" href="#rawdata-pane" id="rawdata-tab" data-toggle="tab" type="button" role="tab" aria-controls="rawdata" aria-selected="false">{{#str}} rawdata, qtype_stack {{/str}}</button>
+      <button class="nav-link" href="#rawdata-pane" id="rawdata-tab" data-toggle="tab" type="button" role="tab" aria-controls="rawdata-pane" aria-selected="false">{{#str}} rawdata, qtype_stack {{/str}}</button>
     </li>
   </ul>
 
@@ -147,7 +214,7 @@
         <h2 data-toggle="collapse" data-target="[data-id='variant-{{seed}}']">{{seed}}</h2>
 
         <div data-id="variant-{{seed}}" class="collapse">
-            <h3>{{{notes}}}</h3>
+            <p style="display: inline-block">{{{notes}}}</p>
             <pre>{{notessumout}}</pre>
             <pre>{{anssumout}}</pre>
         </div>

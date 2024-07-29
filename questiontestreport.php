@@ -52,6 +52,8 @@ $PAGE->set_url('/question/type/stack/questiontestreport.php', $urlparams);
 $title = stack_string('basicquestionreport');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
+
+// This layout has minimal header/footer.
 $PAGE->set_pagelayout('popup');
 
 $testquestionlink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
@@ -62,6 +64,8 @@ require_login();
 // Start output.
 echo $OUTPUT->header();
 
+// Get quizzes in which the course is used.
+// Add data for creating quiz selection dropdown.
 $quizzes = stack_question_report::get_relevant_quizzes($questionid);
 $quizoutput = [];
 foreach ($quizzes as $contextid=>$quiz) {
@@ -73,16 +77,21 @@ foreach ($quizzes as $contextid=>$quiz) {
 }
 
 if ($quizcontext === null) {
+    // No quiz selected so we can only show question data.
     $outputdata = new StdClass();
     $outputdata->question = stack_question_report::format_question_data($question);
 } else {
+    // Create analysis report.
     $report = new stack_question_report($question, $quizcontext, $quizzes[$quizcontext]->coursecontextid);
     $outputdata = $report->outputdata;
 }
 
+// Add additional page creation data.
 $outputdata->quizzes = $quizoutput;
 $outputdata->general = new Stdclass();
 $outputdata->general->testquestionlink = $testquestionlink->out();
 $outputdata->general->previewquestionlink = $qurl->out();
+
+// Rennder report.
 echo $OUTPUT->render_from_template('qtype_stack/questionreport', $outputdata);
 echo $OUTPUT->footer();

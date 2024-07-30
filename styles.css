@@ -1236,3 +1236,13 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-ra-report::marker {
     font-size: 1.4rem;
 }
+.stack-ra-question {
+    max-width: 800px;
+    background-color: rgb(230, 247, 255);
+    border-radius:10px;
+    padding: 1em;
+    white-space: pre-line;
+}
+.stack-ra-question * {
+    margin: 0px !important;
+}

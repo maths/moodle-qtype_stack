@@ -16,6 +16,8 @@ Notes:
 
 2. If one of the feedback variables throws an error then this will not stop the PRT executing.  If there is an error, this will be flagged in the response summary as `[RUNTIME_FV_ERROR]` (fv here means feedback variables).  See notes on [error trapping](Error_trapping.md) for advice on how to use this.
 
+3. It is possible for the feedback variables to halt the execution of the potential response tree (just as if one of the inputs were blank/invalid).  However, this is an advanced use-case.  See below for details.
+
 ## Traversing the tree ##
 
 A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes we call potential responses.
@@ -111,3 +113,26 @@ Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score
 
 Note that the "Compact" PRT feedback uses `<span>` tags and not `<div>`.  This allows inclusion inline, without new paragraphs settings.  However, `<span>` tags cannot contain a block level element, such as a `<div>` or `<p>`. So, if you include a block level element in your PRT feedback then the browser may "spit this out" and misplace the feedback. Also, MathJax may not display mathematics correctly on the page when there is an HTML error such as this.  If you use the "Compact" feedback, please author only minimal PRT feedback with no block level HTML elements.
 
+## Halting the response tree within the feedback variables ##
+
+STACK implements a "model" of how assessment works.  Students interact with "inputs" and the system establishes properties of these inputs with response trees. The response trees _automatically_ execute when each non-empty input is "valid".  The introduction of (i) formative potential response trees, and particularly (ii) the `allowempty` option for inputs has expanded this model.
+
+For example, the `allowempty` option is a property of an _input_ and not a response tree.  It is not possible to specify in the _input settings_ that one response tree will allow an input to be empty, but another one will not.  There are some advanced use-cases with multiple response trees (perhaps some formative) which need more control over when the PRT is executed.
+
+For this reason it is sometimes helpful to allow pre-processing in the feedback variables to halt the execution of a particular potential response tree.  Halting and "bailing out" is similar to deciding an input is blank/invalid.  Scores are not updated, feedback is not generated, etc.  This "attempt" does not attract a penalty within the penalty system.
+
+STACK provides a special constant `%stack_prt_stop_p`.  By default this is set to `false` at the start of the feedback variables for each PRT.  If this evaluates to the boolean `true` at the end of the feedback variables then the response tree will not execute and the process will "bail out".
+
+For example, you could add the following to the feedback variables check if `ans1` is empty.
+
+    %stack_prt_stop_p:if is(ans1=EMPTYANSWER) then true else false;
+
+(Note, different inputs indicate empty answers in different ways.  Some use `[EMPTYANSWER]` and matrices reflect the size of the matrix.  This is to make sure the _type_ of an empty answer matches the type of the answer in a regular input.)
+
+Once the PRT has started there is no way to "bail out", or disregard the results of the tree. The decision must be made within the feedback variables.  (If you have a compelling use-case to add this option please contact the developers.)
+
+The PRT will return a note `prt1-bail` to indicate the tree attempted to execute but then stopped and "bailed out".  This is in contrast to the note `!` used to indicate the PRT did not execute at all.
+
+Here is an example question idea illustrating this idea.
+
+TODO: GK.

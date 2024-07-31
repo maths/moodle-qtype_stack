@@ -513,7 +513,6 @@ class stack_question_report {
 
     public function format_raw_data():object {
         $output = new StdClass();
-        //$output->title = stack_string('basicreportraw');
         $sumout = '';
         foreach ($this->summary as $variant => $vdata) {
             if ($vdata !== []) {

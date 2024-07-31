@@ -58,6 +58,7 @@ class stack_question_report {
         $this->question = $question;
         $this->quizcontextid = $quizcontextid;
         $this->coursecontextid = $coursecontextid;
+        $this->outputdata = new StdClass();
         $this->run_report();
     }
 
@@ -160,9 +161,9 @@ class stack_question_report {
         }
         // We only display inputs relevant to a particular PTR.
         $inputsbyprt = $this->question->get_cached('required');
+        $this->inputreportsummary = $qinputs;
         foreach ($this->summary as $variant => $vdata) {
             $this->inputreport[$variant] = $qinputs;
-            $this->inputreportsummary = $qinputs;
             $this->prtreport[$variant] = $qprts;
             $this->prtreportinputs[$variant] = $qprts;
 
@@ -309,7 +310,6 @@ class stack_question_report {
     public static function format_question_data($question):object {
         $qdata = new StdClass();
         $qdata->name = $question->name;
-        //$qdata->title = stack_string('questiontext');
         $qdata->text = $question->questiontext;
         $qdata->deployedseeds = empty($question->deployedseeds) ? false : true;
         $qdata->hasvariants = $question->has_random_variants();
@@ -326,7 +326,6 @@ class stack_question_report {
 
     public function format_summary():object {
         $output = new StdClass();
-        //$output->title = stack_string('basicreportnotes');
         $output->prts = [];
         $sumout = [];
         $tot = [];
@@ -367,7 +366,6 @@ class stack_question_report {
 
     public function format_notesummary(array $tot):object {
         $output = new StdClass();
-        //$output->title = stack_string('basicreportnotessplit');
         $output->prts = [];
         $sumout = [];
         $prtlabels = [];
@@ -405,7 +403,6 @@ class stack_question_report {
 
     public function format_variants():object {
         $output = new StdClass();
-        //$output->title = stack_string('basicreportvariants');
         $output->variants = [];
         foreach (array_keys($this->summary) as $variant) {
             $variantdata = new StdClass();
@@ -485,7 +482,6 @@ class stack_question_report {
 
     public function format_inputs():object {
         $output = new StdClass();
-        //$output->title = stack_string('basicreportinputsummary');
         $sumout = '';
         foreach ($this->inputreportsummary as $input => $idata) {
             $sumouti = '';

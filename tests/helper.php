@@ -251,7 +251,8 @@ class qtype_stack_test_helper extends question_test_helper {
                  "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
                  "truenextnode":"-1","trueanswernote":"PotResTree_1-0-1",
                  "truescore":1,"truescoremode":"=",
-                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1"
+                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1",
+                 "description": ""
                 }
               ]}');
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);

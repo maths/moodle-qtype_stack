@@ -4052,7 +4052,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ansq'] = stack_input_factory::make(
             'algebraic', 'ansq', 'ta', null,
             [
-                'boxWidth' => 20, 'forbidWords' => ''
+                'boxWidth' => 20, 'forbidWords' => '',
             ]);
 
         // By setting simp:true (the default) we check the re-ordering really happens.
@@ -4116,7 +4116,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ansq'] = stack_input_factory::make(
             'algebraic', 'ansq', 'veq', null,
             [
-                'boxWidth' => 20, 'forbidWords' => ''
+                'boxWidth' => 20, 'forbidWords' => '',
             ]);
 
         // By setting simp:true (the default) we check the re-ordering really happens.

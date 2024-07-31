@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 // Loads and manipulates data for display on the response analysis page.
 //
 // @copyright 2024 University of Edinburgh.
@@ -97,7 +95,11 @@ class stack_question_report {
 
     public function load_summary_data():array {
         global $DB;
-        $params = ['coursecontextid' => $this->coursecontextid, 'quizcontextid' => $this->quizcontextid, 'questionid' => (int) $this->question->id];
+        $params = [
+            'coursecontextid' => $this->coursecontextid,
+            'quizcontextid' => $this->quizcontextid,
+            'questionid' => (int) $this->question->id,
+        ];
         $query = "SELECT qa.id, qa.variant, qa.responsesummary
                     FROM {question_attempts} qa
                     LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
@@ -536,13 +538,13 @@ class stack_question_report {
     public static function get_relevant_quizzes(int $questionid):array {
         global $DB;
         $quizzesquery = "SELECT qr.usingcontextid as quizcontextid, q.name, cc.id as coursecontextid, co.fullname as coursename
-                    FROM {question_versions} qv 
+                    FROM {question_versions} qv
                     LEFT JOIN {question_references} qr ON qv.questionbankentryid = qr.questionbankentryid
                     LEFT JOIN {context} c ON c.id = qr.usingcontextid
                     LEFT JOIN {course_modules} cm ON cm.id = c.instanceid
                     LEFT JOIN {quiz} q ON cm.instance = q.id
                     LEFT JOIN {course} co ON q.course = co.id
-                    LEFT JOIN {context} cc ON cc.instanceid = co.id 
+                    LEFT JOIN {context} cc ON cc.instanceid = co.id
                     WHERE qv.questionid = :questionid
                         AND cc.contextlevel = 50";
 

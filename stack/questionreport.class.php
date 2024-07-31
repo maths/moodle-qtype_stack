@@ -58,6 +58,10 @@ class stack_question_report {
         $this->question = $question;
         $this->quizcontextid = $quizcontextid;
         $this->coursecontextid = $coursecontextid;
+        $this->run_report();
+    }
+
+    public function run_report():void {
         $this->create_summary();
         $this->match_variants_and_notes();
         $this->collate();
@@ -93,7 +97,7 @@ class stack_question_report {
     public function load_summary_data():array {
         global $DB;
         $params = ['coursecontextid' => $this->coursecontextid, 'quizcontextid' => $this->quizcontextid, 'questionid' => (int) $this->question->id];
-        $query = "SELECT qa.*, qas_last.*
+        $query = "SELECT qa.id, qa.variant, qa.responsesummary
                     FROM {question_attempts} qa
                     LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
                     /* attach another copy of qas to those rows with the most recent timecreated,
@@ -125,7 +129,6 @@ class stack_question_report {
                 ORDER BY u.username, qas_last.timecreated";
 
         $result = $DB->get_records_sql($query, $params);
-
         return $result;
     }
 
@@ -133,8 +136,6 @@ class stack_question_report {
         $questionnotes = [];
         $questionseeds = [];
         foreach (array_keys($this->summary) as $variant) {
-            $questionnotes[$variant] = $variant;
-
             $question = question_bank::load_question((int) $this->question->id);
             $question->start_attempt(new question_attempt_step(), $variant);
             $questionseeds[$variant] = $question->seed;
@@ -161,6 +162,7 @@ class stack_question_report {
         $inputsbyprt = $this->question->get_cached('required');
         foreach ($this->summary as $variant => $vdata) {
             $this->inputreport[$variant] = $qinputs;
+            $this->inputreportsummary = $qinputs;
             $this->prtreport[$variant] = $qprts;
             $this->prtreportinputs[$variant] = $qprts;
 

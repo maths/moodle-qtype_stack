@@ -14,11 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// Loads and manipulates data for display on the response analysis page.
-//
-// @copyright 2024 University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Loads and manipulates data for display on the response analysis page.
+ *
+ * @copyright 2024 University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
+/**
+ * Retrieves and formats the response data for a particular question in a particular quiz.
+ */
 class stack_question_report {
     /**
      * @var object Question being analysed.
@@ -34,23 +39,100 @@ class stack_question_report {
      * @var int Context of course containing the quiz being analysed in this report.
      */
     public $coursecontextid;
+    /**
+     * @var array Summary of response counts by variant.
+     * [
+     *   variantid => [ response => count, response => count, response => count ]
+     *   variantid => [ response => count, response => count ]
+     * ]
+     */
     public $summary;
+    /**
+     * @var array key: variant id, value: seed.
+     */
     public $questionseeds;
+    /**
+     * @var array key: variant id, value: notes.
+     */
     public $questionnotes;
-
+    /**
+     * @var array count of input values by type, inputname and variant.
+     * [ variantid => [
+     *      inputname => [
+     *          'score' => [ inputvalue => count, inputvalue => count],
+     *          'valid' => [],
+     *          'invalid' => [],
+     *          'other' => []
+     * ]]]
+     */
     public $inputreport = [];
-    // The inputreportsummary is used to store inputs, regardless of variant.
-    // Multi-part questions may have inputs which are not subject to randomisation.
+    /**
+     * @var array Stores inputs, regardless of variant.
+     * Multi-part questions may have inputs which are not subject to randomisation.
+     *    [
+     *      inputname => [
+     *          'score' => [ inputvalue => count, inputvalue => count],
+     *          'valid' => [],
+     *          'invalid' => [],
+     *          'other' => []
+     *    ]]
+     */
     public $inputreportsummary = [];
+    /**
+     * @var array PRT responses by variant.
+     *  [
+     *      variantid => [
+     *         prtname => [
+     *            response => count,
+     *            response => count,
+     *         ],
+     *      ],
+     *  ]
+     */
     public $prtreport = [];
+    /**
+     * @var array input values by response, PRT and variant
+     *  [
+     *      variantid => [
+     *         prtname => [
+     *            response => [
+     *                  inputname:inputvalue => count,
+     *              ],
+     *         ],
+     *      ],
+     *  ]
+     */
     public $prtreportinputs = [];
-    // Create a summary of the data without different variants.
+    /**
+     * @var array summary of the data without different variants.
+     *      [
+     *         prtname => [
+     *            response => count,
+     *            response => count,
+     *         ],
+     *      ]
+     */
     public $prtreportsummary = [];
+    /**
+     * @var array note count by PRT.
+     *  [
+     *      prtname => [
+     *          note => count,
+     *          note => count,
+     *      ],
+     *  ]
+     */
     public $notesummary = [];
+    /**
+     * @var object StdClass Data formatted for questionreport.mustache.
+     */
     public $outputdata;
 
     /**
      * Constructor
+     * @param object $question - a version of the question being analysed
+     * @param int $quizcontextid - the id of the quizzes' context
+     * @param int $coursecontextid - the id of the course's context
      */
     public function __construct(object $question, int $quizcontextid, int $coursecontextid) {
         $this->question = $question;
@@ -60,6 +142,10 @@ class stack_question_report {
         $this->run_report();
     }
 
+    /**
+     * Creates the report
+     * @return void
+     */
     public function run_report():void {
         $this->create_summary();
         $this->match_variants_and_notes();
@@ -68,6 +154,18 @@ class stack_question_report {
         $this->create_output_data();
     }
 
+    /**
+     * Create a summary of response counts by variant
+     * [
+     *   variantid => [ response => count, response => count, response => count ]
+     *   variantid => [ response => count, response => count ]
+     * ]
+     *
+     * Response example:
+     * Seed: 333333333; ans1: 11 [score]; ans2: 22 [score];
+     * PotResTree_1: # = 1 | thing1_true | prt1-1-T; PotResTree_2: # = 0 | thing2_bad | prt2-2-F
+     * @return void
+     */
     public function create_summary():void {
         $result = $this->load_summary_data();
         $summary = [];
@@ -93,6 +191,11 @@ class stack_question_report {
         $this->summary = $summary;
     }
 
+    /**
+     * Load relevant reponse summaries from the database.
+     * Restrict to a single quiz, actual quiz answers and users who are students.
+     * @return array
+     */
     public function load_summary_data():array {
         global $DB;
         $params = [
@@ -113,11 +216,12 @@ class stack_question_report {
                     LEFT JOIN {user} u ON qas_last.userid = u.id
                     LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
                     INNER JOIN {role_assignments} ra ON ra.userid = u.id
+                    INNER JOIN {role} r ON r.id = ra.roleid
                 WHERE qas_prev.timecreated IS NULL
                     /* Check responses are the correct quiz and made by students */
                     AND qu.component = 'mod_quiz'
                     AND qu.contextid = :quizcontextid
-                    AND ra.roleid = 5
+                    AND r.archetype = 'student'
                     AND ra.contextid = :coursecontextid
                     /* In moodle 4 we look at all attempts at all versions.
                     Otherwise an edit, regrade and re-analysis becomes impossible. */
@@ -135,6 +239,11 @@ class stack_question_report {
         return $result;
     }
 
+    /**
+     * Create arrays indexed by variant id.
+     * One for notes and one for seeds.
+     * @return void
+     */
     public function match_variants_and_notes(): void {
         $questionnotes = [];
         $questionseeds = [];
@@ -151,6 +260,10 @@ class stack_question_report {
         $this->questionseeds = $questionseeds;
     }
 
+    /**
+     * Create the data for each page of the report
+     * @return void
+     */
     public function collate():void {
         $inputtotals = [];
         $qinputs = array_flip(array_keys($this->question->inputs));
@@ -246,6 +359,10 @@ class stack_question_report {
         }
     }
 
+    /**
+     * Sort the entries within the differetn summaries.
+     * @return void
+     */
     public function reports_sort(): void {
         foreach ($this->inputreport as $variant => $vdata) {
             foreach ($vdata as $input => $idata) {
@@ -300,6 +417,11 @@ class stack_question_report {
         }
     }
 
+    /**
+     * Pad and format the summary data for easy comparison and
+     * then arrange in a suitable object to feed to the mustache template.
+     * @return void
+     */
     public function create_output_data():void {
         $this->outputdata->question = $this->format_question_data($this->question);
         $this->outputdata->summary = $this->format_summary();
@@ -309,6 +431,11 @@ class stack_question_report {
         $this->outputdata->rawdata = $this->format_raw_data();
     }
 
+    /**
+     * Question name, text and variables
+     * @param mixed $question
+     * @return object
+     */
     public static function format_question_data($question):object {
         $qdata = new StdClass();
         $qdata->name = $question->name;
@@ -326,6 +453,10 @@ class stack_question_report {
         return $qdata;
     }
 
+    /**
+     * Frequency of answer notes, for each PRT, regardless of which variant was used
+     * @return object
+     */
     public function format_summary():object {
         $output = new StdClass();
         $output->prts = [];
@@ -350,9 +481,7 @@ class stack_question_report {
             }
         }
 
-        // Produce a text-based summary of a PRT.
         foreach ($this->question->prts as $prtname => $prt) {
-            // Here we render each PRT as a separate single-row table.
             $prtdata = new StdClass();
             $prtdata->prtname = $prtname;
             $graph = $prt->get_prt_graph();
@@ -366,6 +495,11 @@ class stack_question_report {
         return $output;
     }
 
+    /**
+     * Frequency of answer notes, for each PRT, split by |, regardless of which variant was used
+     * @param array $tot Totals from format_summary())
+     * @return object
+     */
     public function format_notesummary(array $tot):object {
         $output = new StdClass();
         $output->prts = [];
@@ -403,6 +537,10 @@ class stack_question_report {
         return $output;
     }
 
+    /**
+     * Raw inputs and PRT answer notes by variant
+     * @return object
+     */
     public function format_variants():object {
         $output = new StdClass();
         $output->variants = [];
@@ -417,6 +555,11 @@ class stack_question_report {
         return $output;
     }
 
+    /**
+     * PRT answer notes by variant
+     * @param int $variant
+     * @return object
+     */
     public function format_variant_answer_notes(int $variant):object {
         $sumout = '';
         $sumheadline = '';
@@ -453,6 +596,11 @@ class stack_question_report {
         return $result;
     }
 
+    /**
+     * Raw inputs by variant
+     * @param int $variant
+     * @return object
+     */
     public function format_variant_inputs(int $variant):string {
         $sumout = '';
         foreach ($this->inputreport[$variant] as $input => $idata) {
@@ -482,6 +630,10 @@ class stack_question_report {
         return $sumout;
     }
 
+    /**
+     * Raw inputs, regardless of which variant was used
+     * @return object
+     */
     public function format_inputs():object {
         $output = new StdClass();
         $sumout = '';
@@ -513,6 +665,10 @@ class stack_question_report {
         return $output;
     }
 
+    /**
+     * Raw data
+     * @return object
+     */
     public function format_raw_data():object {
         $output = new StdClass();
         $sumout = '';
@@ -535,6 +691,11 @@ class stack_question_report {
         return $output;
     }
 
+    /**
+     * Get inofmration on all quizzes containing a version of a given question
+     * @param int $questionid
+     * @return array
+     */
     public static function get_relevant_quizzes(int $questionid):array {
         global $DB;
         $quizzesquery = "SELECT qr.usingcontextid as quizcontextid, q.name, cc.id as coursecontextid, co.fullname as coursename

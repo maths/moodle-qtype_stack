@@ -4193,16 +4193,16 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'bailout';
-        $q->questionvariables = "?";
-        $q->questiontext = "What is {@veq@}? [[input:ansq]][[validation:ansq]]";
+        $q->questionvariables = "veq:{1,2,3};";
+        $q->questiontext = "What is the largest from {@veq@}? [[input:ans1]][[validation:ans1]]";
         $q->generalfeedback = '';
         $q->questionnote = '';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.25; // Non-zero and not the default.
 
-        $q->inputs['ansq'] = stack_input_factory::make(
-            'algebraic', 'ansq', 'veq', null,
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', '3', null,
             [
                 'boxWidth' => 20, 'forbidWords' => ''
             ]);
@@ -4215,7 +4215,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
-        $prt->feedbackvariables = '%stack_prt_stop_p:if is(ans1=EMPTYANSWER) then true else false;';
+        $prt->feedbackvariables = '%stack_prt_stop_p:if is(ans1=5) then true else false;';
+        $prt->feedbackvariables .= 'k:ans1^2;';
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
@@ -4223,10 +4224,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
-        $newnode->description         = 'Use CasEqual as the test';
-        $newnode->sans                = 'loweranseq';
-        $newnode->tans                = 'veq';
-        $newnode->answertest          = 'CasEqual';
+        $newnode->description         = 'Use the test ability to bail out';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '3';
+        $newnode->answertest          = 'AlgEquiv';
         $newnode->testoptions         = '';
         $newnode->quiet               = false;
         $newnode->falsescore          = '0';
@@ -4243,30 +4244,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'firsttree-0-1';
         $newnode->truenextnode        = '1';
-        $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
-        $newnode->id                  = '1';
-        $newnode->nodename            = '1';
-        $newnode->description         = 'Use AlgEquiv as the test';
-        $newnode->sans                = 'loweranseq';
-        $newnode->tans                = 'veq';
-        $newnode->answertest          = 'AlgEquiv';
-        $newnode->testoptions         = '';
-        $newnode->quiet               = false;
-        $newnode->falsescore          = '0';
-        $newnode->falsescoremode      = '=';
-        $newnode->falsepenalty        = $q->penalty;
-        $newnode->falsefeedback       = "";
-        $newnode->falsefeedbackformat = '1';
-        $newnode->falseanswernote     = 'firsttree-1-0';
-        $newnode->falsenextnode       = '-1';
-        $newnode->truescore           = '1';
-        $newnode->truescoremode       = '=';
-        $newnode->truepenalty         = $q->penalty;
-        $newnode->truefeedback        = "";
-        $newnode->truefeedbackformat  = '1';
-        $newnode->trueanswernote      = 'firsttree-1-1';
-        $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);

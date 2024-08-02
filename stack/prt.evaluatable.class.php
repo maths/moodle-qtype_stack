@@ -56,6 +56,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
     // Cas errors.
     private $errors;
 
+    // Did we bailout of execution?
+    private $bailed = false;
+
     private $weight = 1;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
@@ -114,6 +117,10 @@ class prt_evaluatable implements cas_raw_value_extractor {
         // Do the simpler parse of the value. The full MaximaParser
         // would obviously work but would be more expensive.
         $value = castext2_parser_utils::string_to_list($this->evaluated, true);
+        if ($value[0] === '"STACK_PRT_STOP!"') {
+            $this->bailed = [trim(stack_utils::maxima_string_to_php_string($value[1]))];
+            return;
+        }
         // Note, the above means we can't have lists in the answer notes currently.
         if (count($value) < 4) {
             return;
@@ -209,6 +216,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_answernotes() {
+        if ($this->bailed) {
+            return $this->bailed;
+        }
         $path = $this->get_path();
         $notes = [];
         if ($path === null || !is_array($path)) {

@@ -119,7 +119,7 @@ To create a random order, you must define steps as Maxima objects using a `proof
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
 3. Add in a question note such as `{@map(first, proof_steps)@}` to create a meaningful, minimal, question note giving the order of steps.
 
-Note, if you randomly generate random variants it is _strongly recommended_ you use text-based keys.  Keeping track of permuted numerical keys will be very difficult!
+Currently, random generation using numerical keys (either as a numerical type `1` or a string type `"1"`) causes issues with random shuffling of steps; this is a bug which will be fixed in a future version. 
 
 ## Block connection with Maxima
 

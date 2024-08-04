@@ -16,11 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if (!isset($CFG->stackapi)) {
-    require_once($CFG->libdir . '/filterlib.php');
-    require_once($CFG->dirroot . '/filter/tex/filter.php');
-}
-
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.
  *
@@ -29,7 +24,6 @@ if (!isset($CFG->stackapi)) {
  */
 abstract class stack_maths_output_filter_base extends stack_maths_output {
     protected $filter = null;
-
     protected $displaywrapstart = '<span class="displayequation">';
     protected $displaywrapend = '</span>';
     protected $displaystart;

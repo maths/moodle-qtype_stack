@@ -1575,7 +1575,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($stackversion < $checkpat['ver']) {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
-                if (preg_match($pat, $this->$field)) {
+                if (preg_match($pat, $this->$field ?? '')) {
                     $errors[] = stack_string('stackversioncomment', ['qfield' => stack_string($field)]);
                 }
             }

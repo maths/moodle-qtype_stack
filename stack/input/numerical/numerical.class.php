@@ -94,6 +94,16 @@ class stack_numerical_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'numerical';
+        if ($this->options->get_option('decimals') === ',') {
+            $attributes['data-stack-input-decimal-separator']  = ',';
+            $attributes['data-stack-input-list-separator'] = ';';
+        } else {
+            $attributes['data-stack-input-decimal-separator']  = '.';
+            $attributes['data-stack-input-list-separator'] = ',';
+        }
+
         return html_writer::empty_tag('input', $attributes);
     }
 

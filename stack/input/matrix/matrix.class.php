@@ -268,6 +268,16 @@ class stack_matrix_input extends stack_input {
             $attr .= ' readonly="readonly"';
         }
 
+        // Metadata for JS users.
+        $attr .= ' data-stack-input-type="matrix"';
+        if ($this->options->get_option('decimals') === ',') {
+            $attr .= ' data-stack-input-decimal-separator=","';
+            $attr .= ' data-stack-input-list-separator=";"';
+        } else {
+            $attr .= ' data-stack-input-decimal-separator="."';
+            $attr .= ' data-stack-input-list-separator=","';
+        }
+
         // Read matrix bracket style from options.
         $matrixbrackets = 'matrixsquarebrackets';
         $matrixparens = $this->options->get_option('matrixparens');

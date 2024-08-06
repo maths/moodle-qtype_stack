@@ -254,6 +254,11 @@ class stack_answertest_test_data {
         // The log(x) function is base e.
         ['AlgEquiv', '', 'log(root(x,n))', 'lg(x,10)/n', 0, '', ''],
         ['AlgEquiv', '', 'x^log(y)', 'y^log(x)', 1, '', ''],
+        // Example where some pre-processing is needed.
+        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
+        ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
+            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', ''],
+
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],
         ['AlgEquiv', '', '[1,2]', '[1,2,3]', 0, 'ATList_wronglen.', ''],

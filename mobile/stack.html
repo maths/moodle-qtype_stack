@@ -1,24 +1,50 @@
 <section ion-list *ngIf="question.text || question.text === ''" class="qtype-stack">
     <ion-item text-wrap>
         <p>
-            <core-format-text [component]="component" [componentId]="componentId" [text]="question.text"></core-format-text>
+            <ion-item class="ion-text-wrap answer" *ngFor="let section of question.sections">
+                <container-element [ngSwitch]="section.type">
+                    <core-format-text *ngSwitchCase="'Text'" [component]="component" [componentId]="componentId" [text]="section.content" [contextLevel]="contextLevel"
+                            [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
+                    <ng-container *ngSwitchCase="'Checkbox'">
+                        <ion-item class="ion-text-wrap answer" *ngFor="let option of section.options">
+                            <div class="flex-column">
+                                <ion-checkbox [attr.name]="option.name" [(ngModel)]="option.checked" [disabled]="option.disabled"
+                                    [color]='(option.isCorrect === 1 ? "success": "") + (option.isCorrect === 0 ? "danger": "")'>
+                                    <div class="flex-grow ion-text-wrap">
+                                        <div [class]="option.class">
+                                            <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"
+                                                [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
+                                        </div>
+                                    </div>
+                                    <ion-icon *ngIf="option.isCorrect === 1" class="core-correct-icon" name="fas-check" color="success"
+                                        [attr.aria-label]="'core.question.correct' | translate" />
+                                    <ion-icon *ngIf="option.isCorrect === 0" class="core-correct-icon" name="fas-xmark" color="danger"
+                                        [attr.aria-label]="'core.question.incorrect' | translate" />
+                                </ion-checkbox>
+                                <div *ngIf="option.feedback" class="specificfeedback">
+                                    <core-format-text [component]="component" [componentId]="componentId" [text]="option.feedback"
+                                        [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
+                                </div>
+                            </div>
+                            <!-- ion-checkbox doesn't use an input. Create a hidden input to hold the value. -->
+                            <!-- @TODO Check if this is still needed -->
+                            <input type="hidden" [ngModel]="option.checked" [attr.name]="option.name">
+                        </ion-item>
+                    </ng-container>
+                </container-element>
+
+            </ion-item>
+
         </p>
         <p *ngIf="question.prompt">
-            <core-format-text [component]="component" [componentId]="componentId" [text]="question.prompt"></core-format-text>
+            <core-format-text [component]="component" [componentId]="componentId" [text]="question.prompt" [contextLevel]="contextLevel"
+                    [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
         </p>
     </ion-item>
-    <ng-container>
-        <ion-item text-wrap *ngFor="let option of question.options" [ngClass]="option.qclass">
-            <ion-label>
-                <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"></core-format-text>
-                <p *ngIf="option.feedback" class="core-question-feedback-container">
-                    <core-format-text [text]="option.feedback"></core-format-text>
-                </p>
-            </ion-label>
-            <ion-checkbox [attr.name]="option.name" [(ngModel)]="option.checked" [disabled]="option.disabled"
-                    item-end></ion-checkbox>
-            <!-- ion-checkbox doesn't use an input. Create a hidden input to hold the value. -->
-            <input item-content type="hidden" [ngModel]="option.checked" [attr.name]="option.name">
-        </ion-item>
-    </ng-container>
+    <img src="http://stack.stack.virtualbox.org/edmundlocal/question/type/stack/plot.php/stackplot-290374-6-3931850686-79262523.svg" crossorigin />
+
 </section>
+
+
+
+

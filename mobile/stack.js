@@ -2,7 +2,6 @@ var that = this;
 var result = {
 
     componentInit: function() {
-
         // This.question should be provided to us here.
         // This.question.html (string) is the main source of data, presumably prepared by the renderer.
         // There are also other useful objects with question like infoHtml which is used by the
@@ -25,9 +24,13 @@ var result = {
         that.CoreQuestionHelperProvider.treatCorrectnessIcons(div);
 
         // Get useful parts of the provided question html data.
-        var questiontext = div.querySelector('.content');//div.querySelector('.qtext');
+        var questiontext = div.querySelector('.content');
+        const answers = questiontext.querySelectorAll('.answer');
+        const dashLink = questiontext.querySelector('.questiontestslink');
+        if (dashLink) {
+            dashLink.parentNode.removeChild(dashLink);
+        }
         var prompt = div.querySelector('.prompt');
-        //var answeroptions = div.querySelector('.answer');
 
         // Add the useful parts back into the question object ready for rendering in the template.
         this.question.text = questiontext.innerHTML;
@@ -38,21 +41,44 @@ var result = {
         if (prompt !== null) {
             this.question.prompt = prompt.innerHTML;
         }
-
-        var options = [];
-        // var divs = answeroptions.querySelectorAll('div[class^=r]'); // Only get the answer options divs (class="r0...").
-        // divs.forEach(function(d, i) {
-        //     // Each answer option contains all the data for presentation, it just needs extracting.
-        //     var label = d.querySelector('label').innerHTML;
-        //     var name = d.querySelector('label').getAttribute('for');
-        //     var checked = (d.querySelector('input[type=checkbox]').getAttribute('checked') ? true : false);
-        //     var disabled = (d.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
-        //     var feedback = (d.querySelector('div') ? d.querySelector('div').innerHTML : '');
-        //     var qclass = d.getAttribute('class');
-        //     options.push({text: label, name: name, checked: checked, disabled: disabled, feedback: feedback, qclass: qclass});
-        // });
-        this.question.options = options;
-
+        var checkboxsets = [];
+        answers.forEach(function(checkboxset, i) {
+            var options = checkboxset.querySelectorAll('.option');
+            const o = [];
+            options.forEach(function(option) {
+                // Each answer option contains all the data for presentation, it just needs extracting.
+                var label = option.querySelector('label').innerHTML;
+                var name = option.querySelector('label').getAttribute('for');
+                var checked = (option.querySelector('input[type=checkbox]').getAttribute('checked') ? true : false);
+                var disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
+                var feedback = (option.querySelector('div') ? d.querySelector('div').innerHTML : '');
+                var qclass = option.getAttribute('class');
+                o.push({text: label, name: name, checked: checked, disabled: disabled, feedback: feedback, qclass: qclass});
+            });
+            checkboxsets.push(o);
+            checkboxset.replaceWith('~~!!~~Checkbox:' + i + '~~!!');
+        });
+        var questionHTML = questiontext.innerHTML;
+        var sectionsHTML = questionHTML.split('~~!!');
+        const sections = [];
+        sectionsHTML.forEach(function(sectionHTML) {
+            const section = {};
+            if (!sectionHTML.startsWith('~~')) {
+                section.type = 'Text';
+                section.content = sectionHTML;
+            } else {
+                const sectionInfo = sectionHTML.split(':');
+                switch (sectionInfo[0]) {
+                    case ('~~Checkbox'):
+                        section.type = 'Checkbox';
+                        section.options = checkboxsets[Number(sectionInfo[1])];
+                        break;
+                }
+            }
+            sections.push(section);
+        });
+        debugger;
+        this.question.sections = sections;
         return true;
     }
 };

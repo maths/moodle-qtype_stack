@@ -66,6 +66,9 @@ class stack_string_input extends stack_algebraic_input {
             $attributes['readonly'] = 'readonly';
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'string';
+
         return html_writer::empty_tag('input', $attributes);
     }
 

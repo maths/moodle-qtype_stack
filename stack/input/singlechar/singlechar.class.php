@@ -51,6 +51,9 @@ class stack_singlechar_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'singlechar';
+
         return html_writer::empty_tag('input', $attributes);
     }
 

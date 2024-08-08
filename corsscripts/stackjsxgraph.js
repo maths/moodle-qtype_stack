@@ -203,7 +203,31 @@ function generalinputupdatehandler(inputname) {
     }
 }
 
+// Simple syntax changer for lists of floats and nothing more complex.
+// This will probably not work for your custom-bindings, and will thus not
+// be available there.
+//  `naiveseparatorreplacer("[1,3;2]",',',".",';',",") -> "[1.3,2]"`
+function naiveseparatorreplacer(jsonish, dfrom, dto, lfrom, lto) {
+    if (dfrom === dto && lfrom === lto) {
+        return jsonish;
+    }
+    var work = jsonish.replaceAll(dfrom, " dsep ").replaceAll(lfrom, " lsep ");
+    work = work.replaceAll(" dsep ", dto).replaceAll(" lsep ", lto);
+    return work;
+}
 
+// Utility for internal logic.
+function getinputseps(inputname) {
+    const input = document.getElementById(inputname);
+    var result = ['.', ','];
+    if ('stackInputDecimalSeparator' in input.dataset) {
+        result[0] = input.dataset['stackInputDecimalSeparator'];
+    }
+    if ('stackInputListSeparator' in input.dataset) {
+        result[1] = input.dataset['stackInputListSeparator'];
+    }
+    return result;
+}
 
 export const stack_jxg = {
     define_group: function(list) {
@@ -306,7 +330,14 @@ export const stack_jxg = {
         var serializer = () => pointserializer(point);
         var deserializer = (value) => pointdeserializer(point, value);
 
-        this.custom_bind(inputRef, serializer, deserializer, [point]);
+        const seps = getinputseps(inputRef);
+        if (seps !== ['.', ',']) {
+            var serializer2 = () => naiveseparatorreplacer(serializer(), '.', seps[0], ',', seps[1]);
+            var deserializer2 = (value) => deserializer(naiveseparatorreplacer(value, seps[0], '.', seps[1], ','));
+            this.custom_bind(inputRef, serializer2, deserializer2, [point]);
+        } else {
+            this.custom_bind(inputRef, serializer, deserializer, [point]);    
+        }        
     },
 
     bind_point_dual: function(inputRef, p1, p2) {
@@ -320,7 +351,14 @@ export const stack_jxg = {
             pointdeserializerparsed(p2, tmp[1]);
         };
 
-        this.custom_bind(inputRef, serializer, deserializer, [p1, p2]);
+        const seps = getinputseps(inputRef);
+        if (seps !== ['.', ',']) {
+            var serializer2 = () => naiveseparatorreplacer(serializer(), '.', seps[0], ',', seps[1]);
+            var deserializer2 = (value) => deserializer(naiveseparatorreplacer(value, seps[0], '.', seps[1], ','));
+            this.custom_bind(inputRef, serializer2, deserializer2, [p1, p2]);
+        } else {
+            this.custom_bind(inputRef, serializer, deserializer, [p1, p2]);
+        }
     },
 
     bind_point_relative: function(inputRef, p1, p2) {
@@ -336,7 +374,14 @@ export const stack_jxg = {
             pointdeserializerparsed(p2, tmp[1]);
         };
 
-        this.custom_bind(inputRef, serializer, deserializer, [p1, p2]);
+        const seps = getinputseps(inputRef);
+        if (seps !== ['.', ',']) {
+            var serializer2 = () => naiveseparatorreplacer(serializer(), '.', seps[0], ',', seps[1]);
+            var deserializer2 = (value) => deserializer(naiveseparatorreplacer(value, seps[0], '.', seps[1], ','));
+            this.custom_bind(inputRef, serializer2, deserializer2, [p1, p2]);
+        } else {
+            this.custom_bind(inputRef, serializer, deserializer, [p1, p2]);
+        }
     },
 
     bind_point_direction: function(inputRef, p1, p2) {
@@ -355,14 +400,28 @@ export const stack_jxg = {
             pointdeserializerparsed(p2, tmp[1]);
         };
 
-        this.custom_bind(inputRef, serializer, deserializer, [p1, p2]);
+        const seps = getinputseps(inputRef);
+        if (seps !== ['.', ',']) {
+            var serializer2 = () => naiveseparatorreplacer(serializer(), '.', seps[0], ',', seps[1]);
+            var deserializer2 = (value) => deserializer(naiveseparatorreplacer(value, seps[0], '.', seps[1], ','));
+            this.custom_bind(inputRef, serializer2, deserializer2, [p1, p2]);
+        } else {
+            this.custom_bind(inputRef, serializer, deserializer, [p1, p2]);
+        }
     },
 
     bind_slider: function(inputRef, slider) {
         var serializer = () => sliderserializer(slider);
         var deserializer = (value) => sliderdeserializer(slider, value);
 
-        this.custom_bind(inputRef, serializer, deserializer, [slider]);
+        const seps = getinputseps(inputRef);
+        if (seps !== ['.', ',']) {
+            var serializer2 = () => naiveseparatorreplacer(serializer(), '.', seps[0], ',', seps[1]);
+            var deserializer2 = (value) => deserializer(naiveseparatorreplacer(value, seps[0], '.', seps[1], ','));
+            this.custom_bind(inputRef, serializer2, deserializer2, [slider]);
+        } else {
+            this.custom_bind(inputRef, serializer, deserializer, [slider]);
+        }
     },
 
     bind_list_of: function(inputRef, list_of_objects) {
@@ -393,7 +452,14 @@ export const stack_jxg = {
             }
         };
 
-        this.custom_bind(inputRef, serializer, deserializer, list_of_objects);
+        const seps = getinputseps(inputRef);
+        if (seps !== ['.', ',']) {
+            var serializer2 = () => naiveseparatorreplacer(serializer(), '.', seps[0], ',', seps[1]);
+            var deserializer2 = (value) => deserializer(naiveseparatorreplacer(value, seps[0], '.', seps[1], ','));
+            this.custom_bind(inputRef, serializer2, deserializer2, list_of_objects);
+        } else {
+            this.custom_bind(inputRef, serializer, deserializer, list_of_objects);
+        }
     },
 
     /**

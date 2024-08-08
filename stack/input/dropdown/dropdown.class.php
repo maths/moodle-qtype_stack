@@ -452,6 +452,9 @@ class stack_dropdown_input extends stack_input {
         if ($readonly) {
             $inputattributes['disabled'] = 'disabled';
         }
+ 
+        // Metadata for JS users.
+        $inputattributes['data-stack-input-type'] = 'dropdown';
 
         $notanswered = '';
         if (array_key_exists('', $values)) {

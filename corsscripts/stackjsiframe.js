@@ -503,6 +503,32 @@ export const stack_js = {
             name: name
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+    },
+
+    /**
+     * Gets STACK specific input metadata for an input that has been registered and
+     * has completed the registration process. Basically, if you are not using this
+     * with `input-ref-X`-attributes you will need to deal with asynchronity and wait
+     * for that registration to complete.
+     *
+     * This intentionally leaves out all other data-attributes and shortens the keys.
+     * If you wish to look at the others you can always get the input element and
+     * check the `dataset`.
+     * 
+     * Only those keys that get values from the PHP side will be present, so no 
+     * decimal separators will be defined for `boolean`-fields.
+     */
+    get_input_metadata(name) {
+        const input = document.getElementById(name);
+
+        let data = {};
+        for (let key in input.dataset) {
+            if (key.startsWith('stack')) {
+                data[key.substring(5)] = input.dataset[key];
+            }
+        }
+
+        return data;
     }
 };
 

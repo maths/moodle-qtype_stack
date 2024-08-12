@@ -254,6 +254,11 @@ class ast_filter_990_no_fixing_spaces_auto_generated_test extends qtype_stack_as
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1947,6 +1952,11 @@ class ast_filter_990_no_fixing_spaces_auto_generated_test extends qtype_stack_as
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

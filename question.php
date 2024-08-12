@@ -378,7 +378,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             if ($this->get_cached('preamble-qv') !== null) {
-                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
+                    'blockexternal'));
             }
             // Context variables should be first.
             if ($this->get_cached('contextvariables-qv') !== null) {
@@ -550,6 +551,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if ($this->tas[$name]->is_correctly_evaluated()) {
                 $teacheranswer = $this->tas[$name]->get_value();
             }
+            if ($this->get_cached('preamble-qv') !== null) {
+                $input->add_contextsession(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
+                    'blockexternal'));
+            }
             if ($this->get_cached('contextvariables-qv') !== null) {
                 $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
@@ -622,7 +627,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
         }
         if ($this->get_cached('preamble-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb', 'blockexternal'));
         }
         if ($this->get_cached('contextvariables-qv') !== null) {
             $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
@@ -675,7 +680,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
         }
         if ($this->get_cached('preamble-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
+                'blockexternal'));
         }
         if ($this->get_cached('contextvariables-qv') !== null) {
             $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
@@ -1200,12 +1206,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         if ($this->get_cached('preamble-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb', 'blockexternal'));
         }
         // Add preamble from PRTs as well.
         foreach ($this->get_cached('prt-preamble') as $name => $stmt) {
             if (isset($prts[$name])) {
-                $session->add_statement(new stack_secure_loader($stmt, 'preamble PRT: ' . $name));
+                $session->add_statement(new stack_secure_loader($stmt, 'preamble PRT: ' . $name, 'blockexternal'));
             }
         }
 
@@ -1569,7 +1575,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($stackversion < $checkpat['ver']) {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
-                if (preg_match($pat, $this->$field)) {
+                if (preg_match($pat, $this->$field ?? '')) {
                     $errors[] = stack_string('stackversioncomment', ['qfield' => stack_string($field)]);
                 }
             }

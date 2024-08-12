@@ -298,6 +298,73 @@ class input_algebraic_test extends qtype_stack_testcase {
                 '{\rm not}\left( \mathbf{False} \right) \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_algebraic_11() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'i*(x+1) + j*(2*x+3) + k*(3*x+4)');
+        $el->set_parameter('insertStars', 5);
+
+        // Juxtaposition.
+        $state = $el->validate_student_response(['sans1' => ' i(x+1) + j(2x+3) + k(3x+4)'], $options,
+            'i*(x+1) + j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        // Note that we have a special filter: stack_ast_filter_005_i_is_never_a_function.
+        $this->assertEquals('i*(x+1)+j(2*x+3)+k(3*x+4)', $state->contentsmodified);
+        $this->assertEquals('\[ \mathrm{i}\cdot \left(x+1\right)+j\left(2\cdot x+3\right)+k\left(3\cdot x+4\right) \]',
+            $state->contentsdisplayed);
+
+        // Spaces.
+        $state = $el->validate_student_response(['sans1' => ' i (x+1) + j (2x+3) + k (3x+4)'], $options,
+            'i*(x+1) + j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('i*(x+1)+j*(2*x+3)+k*(3*x+4)', $state->contentsmodified);
+        $this->assertEquals('\[ \mathrm{i}\cdot \left(x+1\right)+j\cdot \left(2\cdot x+3\right)+' .
+            'k\cdot \left(3\cdot x+4\right) \]',
+            $state->contentsdisplayed);
+
+        // Replace unknown functions with multiplication.  Note, i can never be a function.
+        // The sin(x) is a known function and so is retained.
+        $el->set_parameter('insertStars', 6);
+        $state = $el->validate_student_response(['sans1' => ' j(2 x+3) + k(3ab+4) + sin(x)'], $options,
+            'j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | spaces | function_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('j*(2*x+3)+k*(3*ab+4)+sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ j\cdot \left(2\cdot x+3\right)+k\cdot \left(3\cdot {\it ab}+4\right)+\sin \left( x \right) \]',
+            $state->contentsdisplayed);
+
+        // In addition we assume single variable names.
+        $el->set_parameter('insertStars', 7);
+        $state = $el->validate_student_response(['sans1' => ' j(2 x+3) + k(3ab+4) + sin(x)'], $options,
+            'j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | spaces | function_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('j*(2*x+3)+k*(3*a*b+4)+sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ j\cdot \left(2\cdot x+3\right)+k\cdot \left(3\cdot a\cdot b+4\right)+\sin \left( x \right) \]',
+            $state->contentsdisplayed);
+
+        // No option yet to split up pi in to p*i, even with "single letter names".
+        $el->set_parameter('insertStars', 7);
+        $state = $el->validate_student_response(['sans1' => '3pi'], $options,
+            '3*pi',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('3*%pi', $state->contentsmodified);
+        $this->assertEquals('\[ 3\cdot \pi \]',
+            $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_ex() {
         // The variable ex is used an argument to some Maxima functions and as a local variable.
         $options = new stack_options();
@@ -342,6 +409,30 @@ class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Lowest_Terms', $state->note);
+    }
+
+    public function test_validate_student_response_with_minus_zero() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(['sans1' => "x-0"], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x-0', $state->contentsmodified);
+        $this->assertEquals('\[ x-0 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $state = $el->validate_student_response(['sans1' => "x-0.0"], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x-0.0', $state->contentsmodified);
+        $this->assertEquals('\[ x-0.0 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $state = $el->validate_student_response(['sans1' => "x*(-0.0)"], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x*(-0.0)', $state->contentsmodified);
+        $this->assertEquals('\[ x\cdot \left(-0.0\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_with_rationalized() {
@@ -436,7 +527,8 @@ class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('2*sqrt(+2)/3', $state->contentsmodified);
-        $this->assertEquals('\[ \frac{2\cdot \sqrt{2}}{3} \]', $state->contentsdisplayed);
+        // Maxima's TeX code pulls out the + to outside the sqrt. Known edge case.
+        $this->assertEquals('\[ \frac{2\cdot +\sqrt{2}}{3} \]', $state->contentsdisplayed);
         $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( \frac{2\cdot \sqrt{2}}{3} \)</span></span>, which can be typed as '
             . '<code>2*sqrt(2)/3</code>, would be correct.',
@@ -593,6 +685,21 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', $state->contentsmodified);
         $this->assertEquals('\[ \left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)-\frac{2\cdot y}{x}=x^3\cdot ' .
                 '\sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_extra_evaluation() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)');
+        $el->set_parameter('sameType', false);
+        $state = $el->validate_student_response(['sans1' => "''diff(y/x^2,x,1)"],
+            $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Illegal_extraevaluation', $state->note);
+        $this->assertEquals("Maxima's extra evaluation operator <code>''</code> is not supported by STACK.",
+            $state->errors);
+        $this->assertEquals("''%_E(%_E(noundiff(y/x^2,x,1)))", $state->contentsmodified);
+        $this->assertEquals("<span class=\"stacksyntaxexample\">''diff(y/x^2,x,1)</span>",
+            $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_single_var_chars_on() {
@@ -958,6 +1065,40 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals('This input can be left blank.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_student_response_with_allowempty_stars() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'allowempty');
+
+        $el->set_parameter('insertStars', 1);
+        $state = $el->validate_student_response(['sans1' => ''], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+        $this->assertEquals('', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('This input can be left blank.',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(['sans1' => ''], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+        $this->assertEquals('', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('This input can be left blank.',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(['sans1' => ''], $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+        $this->assertEquals('', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('This input can be left blank.',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
     public function test_validate_string_same_type_invalid_division_zero() {
@@ -1579,7 +1720,7 @@ class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
         $this->assertEquals('illegalcaschars', $state->note);
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.', $state->errors);
+        $this->assertEquals('The characters @ and \ are not allowed in CAS input.', $state->errors);
         $this->assertEquals($state->contentsmodified, '');
         // This appears to the student to display correctly, since the TeX is picked up by MathJax.
         $this->assertEquals($state->contentsdisplayed,

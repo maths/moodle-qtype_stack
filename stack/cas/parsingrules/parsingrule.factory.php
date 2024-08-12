@@ -27,6 +27,7 @@ require_once(__DIR__ . '/022_trig_replace_synonyms.filter.php');
 require_once(__DIR__ . '/025_no_trig_power.filter.php');
 require_once(__DIR__ . '/030_no_trig_space.filter.php');
 require_once(__DIR__ . '/031_no_trig_brackets.filter.php');
+require_once(__DIR__ . '/033_no_extra_evaluation.filter.php');
 require_once(__DIR__ . '/050_no_chained_inequalities.filter.php');
 require_once(__DIR__ . '/090_special_forbidden_characters.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
@@ -102,6 +103,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_030_no_trig_space();
             case '031_no_trig_brackets':
                 return new stack_ast_filter_031_no_trig_brackets();
+            case '033_no_extra_evaluation':
+                return new stack_ast_filter_033_no_extra_evaluation();
             case '050_no_chained_inequalities':
                 return new stack_ast_filter_050_no_chained_inequalities();
             case '090_special_forbidden_characters':
@@ -204,6 +207,7 @@ class stack_parsing_rule_factory {
                 '022_trig_replace_synonyms',
                 '025_no_trig_power',
                 '030_no_trig_space', '031_no_trig_brackets',
+                '033_no_extra_evaluation',
                 '050_no_chained_inequalities',
                 '090_special_forbidden_characters',
                 '101_no_floats', '102_no_strings',

@@ -129,6 +129,11 @@ class ast_filter_505_no_evaluation_groups_auto_generated_test extends qtype_stac
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1887,6 +1892,11 @@ class ast_filter_505_no_evaluation_groups_auto_generated_test extends qtype_stac
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

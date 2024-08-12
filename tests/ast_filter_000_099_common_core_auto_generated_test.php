@@ -37,6 +37,11 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['Illegal_extraevaluation', 'Illegal_extraevaluation'],
+                      false, true);
+
         $this->expect('(x+2)(x+3)',
                       '(x+2)*(x+3)',
                       ['missing_stars'],
@@ -172,6 +177,11 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['Illegal_extraevaluation', 'Illegal_extraevaluation'],
+                      false, true);
 
         $this->expect('(x+2)(x+3)',
                       '(x+2)*(x+3)',

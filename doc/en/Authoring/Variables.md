@@ -46,9 +46,9 @@ The question variables are evaluated when a variant of a question is created.   
 * General feedback (also known as the worked solution).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
-* Question variables are not available to inputs when a student is validating their answer, unless special ``context variables'' are defined.
+* Question variables are not available to inputs when a student is validating their answer, unless special ''context variables'' are defined in a preamble.
 
-### Context variables
+### Question variables preamble and context variables
 
 If the following commands appear within the question variables they will be available in every part of the question, in particular these commands will affect how students' input is validated.  This enables teachers to affect the display of the student's answer validation, and add assumptions to PRTs.
 
@@ -58,15 +58,28 @@ If the following commands appear within the question variables they will be avai
 
 This collection of special variables are called "context variables".
 
-Only single texput commands are gathered into the context variables.  You cannot use other variables or other functions defined in the question variables.  So, `texput(blob, "\\diamond")` is fine, but passing a function to texput to display more complex output is not currently supported.
+STACK has a special constant `%_stack_preamble_end`.  Any variables _before_ this constant will be included within the context variables.  This enables you to define functions, e.g. to use with `textput`.  
 
-For example, to redefine how the logarithm is displayed, use `texput(log, "\\log ", prefix);`.
+Note, that students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble. e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
 
-It is possible to use an unnamed `lambda` function.  E.g. if you have a function `tup` then
+For example, `texput(blob, "\\diamond")` is simple.  You can also define a function and use this function in texput.
+
+```
+tuptex(z):= block([a,b], [a,b]:args(z), sconcat("\\left[",tex1(a),",",tex1(b),"\\right)"));
+texput(tup, tuptex); 
+%_stack_preamble_end;
+```
+
+It is also possible to use an unnamed `lambda` function.  E.g. if you have a function `tup` then
 
     texput(tup,  lambda([z], block([a,b], [a,b]:args(z), sconcat("\\left[",tex1(a),",",tex1(b),"\\right)")))); 
 
 will display `tup(a,b)` as \( \left[a,b\right) \).
+
+To create a function `hat` so that input `hat(x)` is displayed as \(\hat{x}\) you can use:
+
+    /* In question variables. */
+    texput(hat, lambda([ex], sconcat("\\hat{", tex1(first(ex)), "}")));
 
 As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}^{\infty } {A}_{k}}\) you can use the following:
 

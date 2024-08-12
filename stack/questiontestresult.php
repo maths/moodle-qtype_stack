@@ -32,37 +32,37 @@ class stack_question_test_result {
     /**
      * @var array input name => actual value put into this input.
      */
-    public $inputvalues;
+    public $inputvalues = [];
 
     /**
      * @var array input name => modified value of this input.
      */
-    public $inputvaluesmodified;
+    public $inputvaluesmodified = [];
 
     /**
      * @var array input name => the displayed value of that input.
      */
-    public $inputdisplayed;
+    public $inputdisplayed = [];
 
     /**
      * @var array input name => any errors created by invalid input.
      */
-    public $inputerrors;
+    public $inputerrors = [];
 
      /**
       * @var array input name => the input statues. One of the stack_input::STATUS_... constants.
       */
-    public $inputstatuses;
+    public $inputstatuses = [];
 
      /**
       * @var array prt name => stack_potentialresponse_tree_state object
       */
-    public $actualresults;
+    public $actualresults = [];
 
      /**
       * @var array prt name => debuginfo
       */
-    public $debuginfo;
+    public $debuginfo = [];
 
     /**
      * @var float Store the question penalty to check defaults.
@@ -243,6 +243,51 @@ class stack_question_test_result {
             }
         }
         return true;
+    }
+
+    /**
+     * @return array whether the test passed successfully + outcomes, inputs and reasons for failure.
+     */
+    public function passed_with_reasons() {
+        $passed = true;
+        $reason = '';
+        $inputs = [];
+        $outcomes = [];
+        if ($this->emptytestcase) {
+            $passed = false;
+            $reason = stack_string('questiontestempty');
+        } else {
+            foreach ($this->get_input_states() as $inputname => $inputstate) {
+                $inputval = ($inputstate->input === false) ? '' : $inputstate->input;
+                $inputs[$inputname] = [
+                    'inputexpression' => $inputname,
+                    'inputentered' => $inputval,
+                    'inputmodified' => $inputstate->modified,
+                    'inputdisplayed' => stack_ouput_castext($inputstate->display),
+                    'inputstatus' => stack_string('inputstatusname' . $inputstate->status),
+                    'errors' => $inputstate->errors,
+                ];
+
+            }
+
+            foreach ($this->get_prt_states() as $prtname => $state) {
+                $outcomes[$prtname] = [
+                    'outcome' => $state->testoutcome,
+                    'score' => $state->score,
+                    'penalty' => $state->penalty,
+                    'answernote' => $state->answernote,
+                    'expectedscore' => $state->expectedscore,
+                    'expectedpenalty' => $state->expectedpenalty,
+                    'expectedanswernote' => $state->expectedanswernote,
+                    'feedback' => $state->feedback,
+                    'reason' => $state->reason,
+                ];
+                if (!$state->testoutcome) {
+                    $passed = false;
+                }
+            }
+        }
+        return ['passed' => $passed, 'reason' => $reason, 'inputs' => $inputs, 'outcomes' => $outcomes];
     }
 
     /**

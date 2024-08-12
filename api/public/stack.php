@@ -137,16 +137,18 @@ require_login();
       // Display rendered question and solution.
       function send() {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/render";
+        const url = window.location.origin + '/render';
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
         http.onreadystatechange = function() {
           if(http.readyState == 4) {
             try {
               const json = JSON.parse(http.responseText);
-              if (json.error) {
-                document.getElementById('output').innerText = http.responseText;
+              if (json.message) {
+                document.getElementById('errors').innerText = json.message;
                 return;
+              } else {
+                document.getElementById('errors').innerText = '';
               }
               renameIframeHolders();
               let question = json.questionrender;
@@ -158,8 +160,9 @@ require_login();
                 question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
                 if (input.samplesolutionrender && name !== 'remember') {
                   // Display render of answer and matching user input to produce the answer.
-                  correctAnswers += `<p>A correct answer is: \\[{${input.samplesolutionrender}}\\],
-                    which can be typed as follows: `;
+                  correctAnswers += `<p>
+                    <?php echo stack_string('teacheranswershow_mcq', '')?> \\[{${input.samplesolutionrender}}\\],
+                    <?php echo stack_string('api_which_typed')?>: `;
                   for (const [name, solution] of Object.entries(input.samplesolution)) {
                     if (name.indexOf('_val') === -1) {
                       correctAnswers += `<span class='correct-answer'>${solution}</span>`;
@@ -221,7 +224,8 @@ require_login();
               MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
-              document.getElementById('output').innerText = http.responseText;
+              document.getElementById('errors').innerText = http.responseText;
+              return;
             }
           }
         };
@@ -231,7 +235,7 @@ require_login();
       // Validate an input. Called a set amount of time after an input is last updated.
       function validate(element) {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/validate";
+        const url = window.location.origin + '/validate';
         http.open("POST", url, true);
         // Remove API prefix and subanswer id.
         const answerName = element.name.slice(15).split('_', 1)[0];
@@ -240,9 +244,11 @@ require_login();
           if(http.readyState == 4) {
             try {
               const json = JSON.parse(http.responseText);
-              if (json.error) {
-                document.getElementById('output').innerText = http.responseText;
+              if (json.message) {
+                document.getElementById('errors').innerText = json.message;
                 return;
+              } else {
+                document.getElementById('errors').innerText = '';
               }
               renameIframeHolders();
               const validationHTML = json.validation;
@@ -257,7 +263,8 @@ require_login();
               MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
-              document.getElementById('output').innerText = http.responseText;
+              document.getElementById('errors').innerText = http.responseText;
+              return;
             }
           }
         };
@@ -270,7 +277,7 @@ require_login();
       // Submit answers.
       function answer() {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/grade";
+        const url = window.location.origin + '/grade';
         http.open("POST", url, true);
 
         if (!document.getElementById('output').innerText) {
@@ -282,18 +289,21 @@ require_login();
           if(http.readyState == 4) {
             try {
               const json = JSON.parse(http.responseText);
-              if (json.error) {
-                document.getElementById('output').innerText = http.responseText;
+              if (json.message) {
+                document.getElementById('errors').innerText = json.message;
                 return;
+              } else {
+                document.getElementById('errors').innerText = '';
               }
               if (!json.isgradable) {
                 document.getElementById('stackapi_validity').innerText
-                  = ' Please enter valid answers for all parts of the question.';
+                  = ' <?php echo stack_string('api_valid_all_parts')?>';
                 return;
               }
               renameIframeHolders();
               document.getElementById('score').innerText
-                = (json.score * json.scoreweights.total).toFixed(2) + ' out of ' + json.scoreweights.total;
+                = (json.score * json.scoreweights.total).toFixed(2) +
+                ' <?php echo stack_string('api_out_of')?> ' + json.scoreweights.total;
               document.getElementById('stackapi_score').style.display = 'block';
               document.getElementById('response_summary').innerText = json.responsesummary;
               document.getElementById('stackapi_summary').style.display = 'block';
@@ -319,7 +329,7 @@ require_login();
                 if (elements.length > 0) {
                   const element = elements[0];
                   if (json.scores[name] !== undefined) {
-                    fb = fb + `<div>Marks for this submission:
+                    fb = fb + `<div><?php echo stack_string('api_marks_sub')?>:
                       ${(json.scores[name] * json.scoreweights[name] * json.scoreweights.total).toFixed(2)}
                         / ${(json.scoreweights[name] * json.scoreweights.total).toFixed(2)}.</div>`;
                   }
@@ -335,7 +345,8 @@ require_login();
               MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
-              document.getElementById('output').innerText = http.responseText;
+              document.getElementById('errors').innerText = http.responseText;
+              return;
             }
           }
         };
@@ -357,7 +368,7 @@ require_login();
 
       function download(filename, fileid) {
         const http = new XMLHttpRequest();
-        const url = "http://localhost:3080/download";
+        const url = window.location.origin + '/download';
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
         // Something funky going on with closures and callbacks. This seems
@@ -379,7 +390,8 @@ require_login();
               link.click();
             }
             catch(e) {
-              document.getElementById('output').innerText = http.responseText;
+              document.getElementById('errors').innerText = http.responseText;
+              return;
             }
           }
         };
@@ -458,7 +470,7 @@ require_login();
         selectQuestion.setAttribute("onchange", "setQuestion(this.value)");
         selectQuestion.id = "stackapi_question_select";
         const holder = document.getElementById("stackapi_question_select_holder");
-        holder.innerHTML = "Select a question: ";
+        holder.innerHTML = "<?php echo stack_string('api_q_select')?>: ";
         holder.appendChild(selectQuestion);
         let firstquestion = null
         for (const question of xmlDoc.getElementsByTagName("question")) {
@@ -493,9 +505,9 @@ require_login();
             </span>
           </a>
         </div>
-        Choose a STACK sample file:
+        <?php echo stack_string('api_choose_q')?>:
         <select id="file_selector" placeholder="Select question" autocomplete="off" onchange="getQuestionFile(this.value)">
-          <option value="" selected>Please select a question file</option>
+          <option value="" selected><?php echo stack_string('api_choose_file')?></option>
         <?php
         $filenames = scandir('../../samplequestions');
         foreach ($filenames as $filename) {
@@ -505,35 +517,36 @@ require_login();
         }
         ?>
         </select>
-        Or select a file of your own:
+        <?php echo stack_string('api_local_file')?>:
         <input type="file" id="local-file" name="local-file" accept=".xml" onchange="getLocalQuestionFile(this.files[0])"/>
         <div id="stackapi_question_select_holder"></div>
-        <h2>Question XML</h2>
+        <h2><?php echo stack_string('api_q_xml')?></h2>
         <textarea id="xml" cols="100" rows="10"></textarea>
-        <h2>Seed: <input id="seed" type="number"></h2>
+        <h2><?php echo stack_string('seedx', '')?> <input id="seed" type="number"></h2>
         <div>
-          <input type="button" onclick="send()" class="btn btn-primary" value="Display Question"/>
-          <input type="checkbox" id="readOnly" style="margin-left: 10px"/> Read Only
+          <input type="button" onclick="send()" class="btn btn-primary" value="<?php echo stack_string('api_display')?>"/>
+          <input type="checkbox" id="readOnly" style="margin-left: 10px"/> <?php echo stack_string('api_read_only')?>
         </div>
+        <div id='errors'></div>
         <div id="stackapi_qtext" class="col-lg-8" style="display: none">
-          <h2>Question text:</h2>
+          <h2><?php echo stack_string('questiontext')?>:</h2>
           <div id="output" class="formulation"></div>
           <div id="specificfeedback"></div>
           <br>
-          <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/>
+          <input type="button" onclick="answer()" class="btn btn-primary" value="<?php echo stack_string('api_submit')?>"/>
           <span id="stackapi_validity" style="color:darkred"></span>
         </div>
         <div id="stackapi_generalfeedback" class="col-lg-8" style="display: none">
-          <h2>General feedback:</h2>
+          <h2><?php echo stack_string('generalfeedback')?>:</h2>
           <div id="generalfeedback" class="feedback"></div>
         </div>
-        <h2 id="stackapi_score" style="display: none">Score: <span id="score"></span></h2>
+        <h2 id="stackapi_score" style="display: none"><?php echo stack_string('score')?>: <span id="score"></span></h2>
         <div id="stackapi_summary" class="col-lg-10" style="display: none">
-          <h2>Response summary:</h2>
+          <h2><?php echo stack_string('api_response')?>:</h2>
           <div id="response_summary" class="feedback"></div>
         </div>
         <div id="stackapi_correct" class="col-lg-10" style="display: none">
-          <h2>Correct answers:</h2>
+          <h2><?php echo stack_string('api_correct')?>:</h2>
           <div id="formatcorrectresponse" class="feedback"></div>
         </div>
       </div>

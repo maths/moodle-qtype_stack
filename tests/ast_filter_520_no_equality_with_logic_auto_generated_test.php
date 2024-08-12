@@ -109,6 +109,11 @@ class ast_filter_520_no_equality_with_logic_auto_generated_test extends qtype_st
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1877,6 +1882,11 @@ class ast_filter_520_no_equality_with_logic_auto_generated_test extends qtype_st
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

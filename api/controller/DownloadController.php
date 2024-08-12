@@ -41,7 +41,7 @@ class DownloadController {
         $name = $data['filename'];
         $tdid = $data['fileid'];
 
-        $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
+        $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
 

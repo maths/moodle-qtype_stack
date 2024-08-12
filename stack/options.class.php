@@ -250,6 +250,8 @@ class stack_options {
             '3' => get_string('insertspaces', 'qtype_stack'),
             '4' => get_string('insertstarsspaces', 'qtype_stack'),
             '5' => get_string('insertstarsspacessinglechar', 'qtype_stack'),
+            '6' => get_string('insertspacesfunctions', 'qtype_stack'),
+            '7' => get_string('insertspacesfunctionssingle', 'qtype_stack'),
         ];
     }
 

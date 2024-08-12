@@ -89,6 +89,11 @@ class ast_filter_602_castext_simplifier_auto_generated_test extends qtype_stack_
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1867,6 +1872,11 @@ class ast_filter_602_castext_simplifier_auto_generated_test extends qtype_stack_
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

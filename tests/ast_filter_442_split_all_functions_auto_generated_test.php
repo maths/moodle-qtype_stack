@@ -47,6 +47,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff*(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(-b+-sqrt(b^2))/(2*a)',
                       '(-b+-sqrt*(b^2))/(2*a)',
                       [],
@@ -575,6 +580,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
 
         $this->expect("'int(x,y)",
                       "'int*(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff*(x,y)",
                       [],
                       true, false);
 

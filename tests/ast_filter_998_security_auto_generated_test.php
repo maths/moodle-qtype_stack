@@ -52,6 +52,11 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
                       ['apostrophe'],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['apostrophe'],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       ['emptyParens'],
@@ -280,6 +285,11 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      ['apostrophe'],
+                      false, true);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       ['apostrophe'],
                       false, true);
 

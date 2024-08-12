@@ -123,7 +123,7 @@ With the "watch" sub-tag someone can listen to values and points in GeoGebra. Th
 General notes for watched objects
 
 1. Points, e.g. `A`, _must_ be an algebraic-input and you _must_ allow floats!
-2. You can access `A` in STACK for feedback as a list of values for points `A[0]->x-value`, `A[1]->y-value`
+2. You can access `A` in STACK for feedback as a list of values for points `A[1]->x-value`, `A[2]->y-value`
 3. Numbers/angles e.g. `b` can be an algebraic or numerical input, and you _must_ allow floats!
 4. You can access `b` in STACK as value. If `b` represents an angle then `b` is in radians.
 
@@ -319,4 +319,7 @@ Please note that the STACK and GeoGebra syntax do not match perfectly.  For exam
 1. GeoGebra boolean types should come through to STACK as just return true/false (not 0,1).
 2. Suppport set/watch of more complex objects.
 
+### Disclaimer
+
+The creation of these resources has been (partially) funded by the ERASMUS+ grant program of the European Union under grant No. 2021-1-DE01-KA220-HED-000032031. Neither the European Commission nor the project's national funding agency DAAD are responsible for the content or liable for any losses or damage resulting of the use of these resources.
 

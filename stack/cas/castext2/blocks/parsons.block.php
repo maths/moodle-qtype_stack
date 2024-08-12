@@ -234,14 +234,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // If the author's JSON has invalid structure throw an error.
         $code .= 'if (valid === false)
             {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
-        
+
         // More specific pieces of validation
         // Check typing of headers, it should be an array containing strings.
-        $code .= 'if (!(Array.isArray(headers))) 
+        $code .= 'if (!(Array.isArray(headers)))
             {stack_js.display_error("' . stack_string('stackBlock_incorrect_header_type') . '");}' . "\n";
 
         // If the length of headers does not match the number of columns expected throw an error.
-        // Error is different for proof vs. matching
+        // Error is different for proof vs. matching.
         $code .= 'if (headers.length !== ' . $ogcolumns . ') {stack_js.display_error("';
         if ($proofmode) {
             $code .= stack_string('stackBlock_proof_incorrect_header_length') . '");}' . "\n";
@@ -249,27 +249,26 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= stack_string('stackBlock_incorrect_header_length') . '");}' . "\n";
         }
 
-        // Validate available headers. It 
-        // is either a string or an array containing a single string. 
+        // Validate available headers. It is either a string or an array containing a single string.
         $code .= 'if (!(typeof(available_header) === "string" ||
         (Array.isArray(available_header) && available_header.length === 1 && typeof(available_header[0]) === "string")))
             {stack_js.display_error("' . stack_string('stackBlock_incorrect_available_header_type') . '");}' . "\n";
-        // Extract available header if it is an array containing a single string
+        // Extract available header if it is an array containing a single string.
         $code .= 'if (Array.isArray(available_header)) {available_header = available_header[0]};' . "\n";
 
         // If index is passed then it should be an array containing strings.
         $code .= 'if (index !== undefined && !(Array.isArray(index) && index.every((idx) => typeof(idx) === "string")))
             {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_type') . '");}' . "\n";
 
-        // If rows and index are passed then the length of index should match the value of rows + 1
+        // If rows and index are passed then the length of index should match the value of rows + 1.
         if ($ogrows !== null) {
             $code .= 'if (index !== undefined && index.length !== ' . ($ogrows + 1) . ')
                 {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_length') . '");}' . "\n";
         }
 
-        // Index cannot be used in proof mode due to styling issues
+        // Index cannot be used in proof mode due to styling issues.
         if ($proofmode) {
-            $code .= 'if (index !== undefined) 
+            $code .= 'if (index !== undefined)
                 {stack_js.display_error("' . stack_string('stackBlock_proof_mode_index') . '");}' . "\n";
         }
 
@@ -304,8 +303,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'var possibleOptionKeys = Object.keys(sortableUsed[0][0].options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
         // Now set appropriate options.
 
-        $code .= 'sortableUsed.forEach((sortableList) => 
-            sortableList.forEach((sortable) => 
+        $code .= 'sortableUsed.forEach((sortableList) =>
+            sortableList.forEach((sortable) =>
                 Object.entries(stackSortable.options.used).forEach(
             ([key, val]) => sortable.option(key, val))));' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
@@ -318,7 +317,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             )
         );' . "\n";
 
-        $code .= 'sortableAvailable.option("onSort", 
+        $code .= 'sortableAvailable.option("onSort",
             () => {
                 stackSortable.update_state(sortableUsed, sortableAvailable);
                 stackSortable.update_grid_empty_css();});' . "\n";
@@ -353,10 +352,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (!$existsuserheight) {
             $code .= ($mathjaxversion === "2") ?
                 'MathJax.Hub.Queue(() => {
-                    stackSortable.resize_grid_items(); 
+                    stackSortable.resize_grid_items();
                     stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
                 'mathJaxPromise.then(() => {
-                    stackSortable.resize_grid_items(); 
+                    stackSortable.resize_grid_items();
                     stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
             $code .= "\n";
         }
@@ -395,7 +394,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = [   
+        $validunits = [
             'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
             'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
         ];
@@ -473,7 +472,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Check value of transpose is only "true" or "false"
+        // Check value of transpose is only "true" or "false".
         if (array_key_exists('transpose', $this->params)) {
             if (!in_array($this->params['transpose'], ['true', 'false'])) {
                 $valid = false;
@@ -481,15 +480,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Check value of columns is a string containing a numeric positive integer
+        // Check value of columns is a string containing a numeric positive integer.
         if (array_key_exists("columns", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["columns"]) && intval($this->params["columns"]) > 0)) {
                 $valid = false;
                 $err[] = stack_string("stackBlock_parsons_invalid_columns_value");
             }
         }
-        
-        // Check value of rows is a string containing a numeric positive integer
+
+        // Check value of rows is a string containing a numeric positive integer.
         if (array_key_exists("rows", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["rows"]) && intval($this->params["rows"]) > 0)) {
                 $valid = false;
@@ -497,13 +496,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Check we cannot have rows specified without columns
+        // Check we cannot have rows specified without columns.
         if (array_key_exists("rows", $this->params) && !array_key_exists("columns", $this->params)) {
             $valid = false;
             $err[] = stack_string("stackBlock_parsons_underdefined_grid");
         }
 
-        // Check value of `item-height` is a string containing a positive integer
+        // Check value of `item-height` is a string containing a positive integer.
         if (array_key_exists("item-height", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["item-height"]) && intval($this->params["item-height"]) > 0)) {
                 $valid = false;
@@ -511,7 +510,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Check value of `item-width` is a string containing a positive integer
+        // Check value of `item-width` is a string containing a positive integer.
         if (array_key_exists("item-width", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["item-width"]) && intval($this->params["item-width"]) > 0)) {
                 $valid = false;

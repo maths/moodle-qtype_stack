@@ -161,19 +161,23 @@ Insert Stars affect the way STACK treats the validation of CAS strings.
 
 Some patterns must always be wrong.  For example  `)(` must be missing a star, and so this pattern is always included.
 
-There are six options.
+There are the following options.
 
-* Don't insert stars:  This does not insert `*` characters automatically.  If there are any pattern identified the result will be an invalid expression.
+* Don't insert stars:  This does not insert `*` characters automatically.  If there are any pattern identified the result will be an invalid expression.  Note, students can type in unknown functions such as `x(t+1)` and this will be valid.  If you need to _forbid_ this use a bespoke validator.
 * Insert `*`s for implied multiplication.  If any patterns are identified as needing `*`s then they will automatically be inserted into the expression quietly.
 * Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the student's answer made up of more than one character then replace these with the product of the letters.
   * Note, the student's formula is interpreted and variables identified, so \(\sin(ax)\) will not end up as `s*i*n*(a*x)` but as `sin(a*x)`.
   * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.
 
-There are also additional options to insert multiplication signs for spaces.
+There are also additional options to insert multiplication signs, spaces and unknown funtions.
 
 * Insert stars for spaces only
 * Insert stars for implied multiplication and for spaces
 * Insert stars assuming single-character variable names and for spaces
+* Insert stars for implied multiplication, for spaces, and for unknown functions.
+* Insert stars assuming single-character variable names and for implied multiplication, for spaces, and for unknown functions.
+
+Clearly all the possible combinations give \(2^n\) options.  Hence, we only provide a few options.  If you are willing to insert stars for unknown functions such as `x(t+1)` (forbid unknown functions) then you would also insert stars for simpler concepts such as `2x`.
 
 If a space is taken for multiplication what should we do with \(\sin\ x\)?  Currently this is transformed to \(\sin \times x\) and then rejected as invalid as you can't multiply the function name by its argument.  Use these latter options with caution: in the long run students are likely to need to use a strict syntax with machines, and letting them use spaces now might be a disservice.
 
@@ -286,7 +290,12 @@ Do not use this option in questions in place of the normal quiz settings.
 
 ### Extra option: allowempty ###
 
-Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally an empty answer will be replaced by the Maxima atom `EMPTYANSWER`.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value. The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
+Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value.
+
+* Most inputs, including the algebraic input, an empty answer will be replaced by the Maxima atom `EMPTYANSWER`.  The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
+* String inputs will return the empty string `""` as an empty answer (to avoid a type-mismatch).
+* Textarea inputs will return `[EMPTYANSWER]` to make sure the answer is always a list (to avoid a type-mismatch).
+* Matrix inputs will return the correct size matrix filled with `null` atoms, e.g. `matrix([null,null],[null,null])`.
 
 We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!
 

@@ -509,6 +509,11 @@ class ast_filter_105_no_grouppings_auto_generated_test extends qtype_stack_ast_t
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('()x',
                       '()*x',
                       [],
@@ -2077,6 +2082,11 @@ class ast_filter_105_no_grouppings_auto_generated_test extends qtype_stack_ast_t
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

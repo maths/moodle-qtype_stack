@@ -39,6 +39,7 @@ abstract class stack_input {
     const GRAMMAR_FIX_INSERT_STARS = 1;
     const GRAMMAR_FIX_SPACES = 2;
     const GRAMMAR_FIX_SINGLE_CHAR = 4;
+    const GRAMMAR_FIX_FUNCTIONS = 16;
 
     /**
      * @var string the name of the input.
@@ -475,7 +476,7 @@ abstract class stack_input {
     public function add_contextsession($contextsession) {
         if ($contextsession != null) {
             // Always make this the start of an array.
-            $this->contextsession = [$contextsession];
+            $this->contextsession = array_merge($this->contextsession, [$contextsession]);
         }
     }
 
@@ -1011,6 +1012,11 @@ abstract class stack_input {
             $filterstoapply[] = '410_single_char_vars';
         }
 
+        // Assume single letter variable names = 16.
+        if ($grammarautofixes & self::GRAMMAR_FIX_FUNCTIONS) {
+            $filterstoapply[] = '441_split_unknown_functions';
+        }
+
         // Consolidate M_1 to M1 and so on.
         if ($this->get_extra_option('consolidatesubscripts', false)) {
             $filterstoapply[] = '420_consolidate_subscripts';
@@ -1108,6 +1114,13 @@ abstract class stack_input {
 
         $additionalvars = [];
 
+        if ($questionvariables) {
+            if ($questionvariables['preamble-qv'] !== null) {
+                $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'],
+                    'preamble', 'blockexternal');
+            }
+        }
+
         if (array_key_exists('floatnum', $this->extraoptions) && $this->extraoptions['floatnum']) {
             $additionalvars['floatnum'] = stack_ast_container::make_from_teacher_source('simp_floatnump('.$this->name.')',
                     '', new stack_cas_security(), []);
@@ -1153,9 +1166,6 @@ abstract class stack_input {
         if ((array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator']) ||
             (array_key_exists('feedback', $this->extraoptions) && $this->extraoptions['feedback'])) {
             if ($questionvariables) {
-                if ($questionvariables['preamble-qv'] !== null) {
-                    $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'], 'preamble');
-                }
                 if ($questionvariables['contextvariables-qv'] !== null) {
                     $additionalvars['contextvariables-qv'] = new stack_secure_loader($questionvariables['contextvariables-qv'],
                         'contextvariables');

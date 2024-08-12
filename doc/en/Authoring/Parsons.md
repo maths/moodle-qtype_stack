@@ -119,7 +119,11 @@ To create a random order, you must define steps as Maxima objects using a `proof
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
 3. Add in a question note such as `{@map(first, proof_steps)@}` to create a meaningful, minimal, question note giving the order of steps.
 
-Note, if you randomly generate random variants it is _strongly recommended_ you use text-based keys.  Keeping track of permuted numerical keys will be very difficult!
+### Randomisation bug report and workaround, 2nd August 2024
+
+If using numerical keys (in the format of an actual number `1` or as a string `"1"`) then as of the time of writing this will not be randomised correctly and will appear on the question page in the order of the numerical tags. To resolve this use any other keys, either descriptive strings or `"step_1"` if enumeration is required or preferred.
+
+This will be fixed in a future version, Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237).
 
 ## Block connection with Maxima
 

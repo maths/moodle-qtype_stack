@@ -43,10 +43,10 @@ class parser_rule_801_test extends qtype_stack_testcase {
             'integer' => $ints,
             'float' => $floats,
             'power' => $power,
-            'convert' => $convert
+            'convert' => $convert,
         ]);
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $ast = $filter->filter($ast, $errs, $note, $security);
@@ -65,7 +65,7 @@ class parser_rule_801_test extends qtype_stack_testcase {
             'output' => $ast->toString(['nosemicolon' => true]),
             'notes' => $note,
             'errors' => $errs,
-            'valid' => !$hasinvalid
+            'valid' => !$hasinvalid,
         ];
         return $r;
     }

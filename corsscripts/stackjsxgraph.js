@@ -32,6 +32,7 @@ var objectgroups = [];
 var objectinput = {};
 
 // Internal tally of objects that have been registered and do not need to be registered again.
+// This is a dictionary with some depth `registeredobjects[eventtype][object.id]`
 var registeredobjects = {};
 
 // Flag to stop propagation.
@@ -48,11 +49,23 @@ function _commonsetup(inputname) {
     }
 }
 
-function registerobject(object) {
-    if (!(object.id in registeredobjects)) {
-        object.board.on('update', () => generalobjectupdatehandlerid(object.id));
-        registeredobjects[object.id] = object;
+function registerobject(object, eventtype) {
+    if (eventtype === undefined) {
+        // By default the events we track are the update events.
+        eventtype = ['update'];
+    } else if (typeof eventtype === 'string' || eventtype instanceof String) {
+        // The argument can be a list of events to track or a singular one.
+        eventtype = [eventtype];
     }
+    eventtype.forEach((et) => {
+        if (!(et in registeredobjects)) {
+            registeredobjects[et] = {};
+        }
+        if (!(object.id in registeredobjects[et])) {
+            object.board.on(et, () => generalobjectupdatehandlerid(object.id));
+            registeredobjects[et][object.id] = object;
+        }
+    });
 }
 
 function pointserializer(point) {
@@ -212,14 +225,33 @@ export const stack_jxg = {
             for (var i = 0; i < objectinput[obj.id].length; i++) {
                 initials[objectinput[obj.id][i]] = null;
             }
-            // This is nto a registration of the update handler
+            // This is not a registration of the update handler
             // we actually force call it.
             generalobjectupdatehandler(obj);
         }
     },
 
+    clear_initial: function(obj) {
+        // Removes the protected initial value from this object.
+        // This may be of use if one wants to trigger input population by
+        // events that don't actually change the serialisation result.
+        //
+        // Basically this is starts_moved without filling in the input.
+        if (obj.id in objectinput) {
+            for (var i = 0; i < objectinput[obj.id].length; i++) {
+                initials[objectinput[obj.id][i]] = null;
+            }
+        }
+    },
 
-    custom_bind: function(input, serializer, deserializer, objects) {
+    // Note that the eventtypes argument is optional. If not defined
+    // the logic is going to be connected to "update"-events.
+    // Should you want other events you can give a single string for one 
+    // specific type or a list of strings. Do note that the "update" event
+    // is not necessary, but there are plenty of authoring patterns like
+    // "handle-objects" that tend to use it, so including it as an eventtype 
+    // might make sense.
+    custom_bind: function(input, serializer, deserializer, objects, eventtypes) {
         // Allows one to define a custom binding using whatever 
         // serialization one wishes.
         _commonsetup(input);
@@ -236,15 +268,22 @@ export const stack_jxg = {
         // Register this as a normal deserialiser for this input.
         deserializers[input].push(deserializer);
 
-        // For each of these objects make the erialsier from them to 
-        // the input as the one defined.
-        // Also build the map of objects to inputs and register for update tracking.
+        // For each of these objects set the serialiser from them to 
+        // the input be the one defined.
+        // Also build the map of objects to inputs and register for event tracking.
         for (var i = 0; i < objects.length; i++) {
-            this.register_object(input, objects[i], serializer);
+            this.register_object(input, objects[i], serializer, eventtypes);
         }
     },
 
-    register_object: function(input, object, serializer) {
+    // Note that the eventtypes argument is optional. If not defined
+    // the logic is going to be connected to "update"-events.
+    // Should you want other events you can give a single string for one 
+    // specific type or a list of strings. Do note that the "update" event
+    // is not necessary, but there are plenty of authoring patterns like
+    // "handle-objects" that tend to use it, so including it as an eventtype 
+    // might make sense.
+    register_object: function(input, object, serializer, eventtypes) {
         // For when you need to declare a new object that was not there during 
         // the initial binding.
         if (object.id in objectinput) {
@@ -254,9 +293,13 @@ export const stack_jxg = {
         } else {
             objectinput[object.id] = [input];
         }
+        if (!(input in serializers)) {
+            /* If someone does registrations before other bindings to that input. */
+            _commonsetup(input);
+        }
         serializers[input][object.id] = serializer;
 
-        registerobject(object);
+        registerobject(object, eventtypes);
     },
 
     bind_point: function(inputRef, point) {
@@ -351,6 +394,41 @@ export const stack_jxg = {
         };
 
         this.custom_bind(inputRef, serializer, deserializer, list_of_objects);
+    },
+
+    /**
+     * Convert a string containing a MAXIMA /STACK expression into a JSXGraph / JessieCode string
+     * or an array of JSXGraph / JessieCode strings.
+     *
+     * @example
+     * console.log( stack_jxg.stack2jsxgraph("%e**x") );
+     * // Output:
+     * //    "EULER**x"
+     *
+     * @example
+     * console.log( stack_jxg.stack2jsxgraph("[%pi*(x**2 - 1), %phi*(x - 1), %gamma*(x+1)]") );
+     * // Output:
+     * //    [ "PI*(x**2 - 1)", "1.618033988749895*(x - 1)", "0.5772156649015329*(x+1)" ]
+     *
+     * @param {String} str
+     * @returns String
+     */
+    stack2jsxgraph: function(str) {
+        var t;
+
+        t = str.
+            replace(/%pi/g, 'PI').
+            replace(/%e/g, 'EULER').
+            replace(/%phi/g, '1.618033988749895').
+            replace(/%gamma/g, '0.5772156649015329').
+            trim();
+
+        // String containing array -> array containing strings
+        if (t[0] === '[' && t[t.length - 1] === ']') {
+            t = t.slice(1, -1).split(/\s*,\s*/);
+        }
+
+        return t;
     }
 };
 

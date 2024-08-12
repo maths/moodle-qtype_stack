@@ -159,6 +159,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/(R-r)</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEqualComAss (AlgEquiv-false).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase(X)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -321,6 +330,18 @@ z^2)^(3/2))</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
   <td class="cell c6">ATEqualComAss (AlgEquiv-false).</td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Unary plus</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>+1-2</pre></td>
+  <td class="cell c3"><pre>1-2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Unary minus</td></td>
@@ -1201,6 +1222,43 @@ t;x)</pre></td>
   <td class="cell c2"><pre>rationalized(1/(1+1/root(3,2))
 )</pre></td>
   <td class="cell c3"><pre>[root(3,2)]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Logic</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>B nounand A</pre></td>
+  <td class="cell c3"><pre>A nounand B</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>A nounand A</pre></td>
+  <td class="cell c3"><pre>A</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEqualComAss ATAlgEquiv_SA_not_expression.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer should be an expression, not an equation, inequality, list, set or matrix.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>subst([&quot;*&quot;=&quot;nou
+nand&quot;, &quot;+&quot;=&quo
+t;nounor&quot;,&quot;!&quot;=&
+quot;nounnot&quot;], A*B)</pre></td>
+  <td class="cell c3"><pre>A nounand B</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>

@@ -74,13 +74,13 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     public function test_get_possible_responses_test0() {
         $qdata = test_question_maker::get_question_data('stack', 'test0');
 
-        $expected = array(
-            'firsttree-0' => array(
+        $expected = [
+            'firsttree-0' => [
                 'firsttree-1-F' => new question_possible_response('firsttree-1-F', 0),
                 'firsttree-1-T' => new question_possible_response('firsttree-1-T', 1),
                 null          => question_possible_response::no_response(),
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
     }
@@ -88,33 +88,47 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     public function test_get_possible_responses_test3() {
         $qdata = test_question_maker::get_question_data('stack', 'test3');
 
-        $expected = array(
-            'odd-0' => array(
+        $expected = [
+            'odd-0' => [
                 'odd-0-0' => new question_possible_response('odd-0-0', 0),
                 'odd-0-1' => new question_possible_response('odd-0-1', 0.25),
                 null     => question_possible_response::no_response(),
-            ),
-            'even-0' => array(
+            ],
+            'even-0' => [
                 'even-0-0' => new question_possible_response('even-0-0', 0),
                 'even-0-1' => new question_possible_response('even-0-1', 0.25),
                 null      => question_possible_response::no_response(),
-            ),
-            'oddeven-0' => array(
+            ],
+            'oddeven-0' => [
                 'oddeven-0-0' => new question_possible_response('oddeven-0-0', 0),
                 'oddeven-0-1' => new question_possible_response('oddeven-0-1', 0.125),
                 null         => question_possible_response::no_response(),
-            ),
-            'oddeven-1' => array(
+            ],
+            'oddeven-1' => [
                 'oddeven-1-0' => new question_possible_response('oddeven-1-0', 0),
                 'oddeven-1-1' => new question_possible_response('oddeven-1-1', 0.125),
                 null         => question_possible_response::no_response(),
-            ),
-            'unique-0' => array(
+            ],
+            'unique-0' => [
                 'unique-0-0' => new question_possible_response('unique-0-0', 0),
                 'unique-0-1' => new question_possible_response('unique-0-1', 0.25),
                 null        => question_possible_response::no_response(),
-            ),
-        );
+            ],
+        ];
+
+        $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
+    }
+
+    public function test_get_possible_responses_test4() {
+        $qdata = test_question_maker::get_question_data('stack', 'variable_grade');
+
+        $expected = [
+            'firsttree-0' => [
+                'firsttree-1-F' => new question_possible_response('firsttree-1-F', 0),
+                'firsttree-1-T' => new question_possible_response('firsttree-1-T', 0.0),
+                null          => question_possible_response::no_response(),
+            ],
+        ];
 
         $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
     }
@@ -141,27 +155,26 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         // Create a test question.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('stack', 'test3', array('category' => $cat->id));
-
+        $question = $generator->create_question('stack', 'test3', ['category' => $cat->id]);
         $questionid = $question->id;
         $seed = 1;
 
-        $testcases = array();
-        $qtest = new stack_question_test('', array('ans1' => 'x^3'));
+        $testcases = [];
+        $qtest = new stack_question_test('', ['ans1' => 'x^3']);
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', array('odd-1-T')));
+                1, true, 1, 0, '', ['odd-1-T']));
         $testcases[] = $qtest;
 
-        $qtest = new stack_question_test('', array('ans1' => 'x^2'));
+        $qtest = new stack_question_test('', ['ans1' => 'x^2']);
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
-                1, true, 0, 0.4, '', array('odd-1-F')));
+                1, true, 0, 0.4, '', ['odd-1-F']));
         $testcases[] = $qtest;
 
         // This unit test runs a question test, with an input name as
         // the expected answer, which should work.
-        $qtest = new stack_question_test('', array('ans2' => 'ans2'));
+        $qtest = new stack_question_test('', ['ans2' => 'ans2']);
         $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', array('even-1-T')));
+                1, true, 1, 0, '', ['even-1-T']));
 
         foreach ($testcases as $testcase) {
             $result = $testcase->test_question($questionid, $seed, context_system::instance());
@@ -200,7 +213,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <specificfeedback format="html">
       <text>[[feedback:firsttree]]</text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text></text>
     </questionnote>
     <questiondescription format="html">
@@ -219,6 +232,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
@@ -325,7 +339,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <specificfeedback format="html">
       <text>[[feedback:firsttree]]</text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
@@ -341,6 +355,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
@@ -432,18 +447,25 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->penalty               = 0.3333333;
 
         $expectedq->questionvariables     = '';
-        $expectedq->specificfeedback      = array('text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => array());
-        $expectedq->questionnote          = '';
+        $expectedq->specificfeedback      = ['text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => []];
+        $expectedq->questionnote          = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
         $expectedq->assumereal            = 0;
-        $expectedq->prtcorrect            = array('text' => '<p>Correct answer, well done.</p>',
-                                                    'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtpartiallycorrect   = array('text' => '<p>Your answer is partially correct.</p>',
-                                                    'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>',
-                                                    'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtcorrect            = [
+            'text' => '<p>Correct answer, well done.</p>',
+            'format' => FORMAT_HTML, 'files' => [],
+        ];;
+        $expectedq->prtpartiallycorrect   = [
+            'text' => '<p>Your answer is partially correct.</p>',
+            'format' => FORMAT_HTML, 'files' => [],
+        ];;
+        $expectedq->prtincorrect          = [
+            'text' => '<p>Incorrect answer.</p>',
+            'format' => FORMAT_HTML, 'files' => [],
+        ];;
         $expectedq->decimals              = '.';
+        $expectedq->scientificnotation    = '*10';
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
@@ -482,19 +504,19 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->firsttreetruepenalty[0]     = 0;
         $expectedq->firsttreetruenextnode[0]    = -1;
         $expectedq->firsttreetrueanswernote[0]  = 'firsttree-1-T';
-        $expectedq->firsttreetruefeedback[0]    = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());
+        $expectedq->firsttreetruefeedback[0]    = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
         $expectedq->firsttreefalsescoremode[0]  = '=';
         $expectedq->firsttreefalsescore[0]      = 0;
         $expectedq->firsttreefalsepenalty[0]    = 0;
         $expectedq->firsttreefalsenextnode[0]   = -1;
         $expectedq->firsttreefalseanswernote[0] = 'firsttree-1-F';
-        $expectedq->firsttreefalsefeedback[0]   = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());
+        $expectedq->firsttreefalsefeedback[0]   = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
 
-        $expectedq->deployedseeds = array('12345');
+        $expectedq->deployedseeds = ['12345'];
 
-        $qtest = new stack_question_test('', array('ans1' => '2'), 1);
+        $qtest = new stack_question_test('', ['ans1' => '2'], 1);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                        1, true, 1, 0, '', array('firsttree-1-T')));
+                        1, true, 1, 0, '', ['firsttree-1-T']));
         $expectedq->testcases[1] = $qtest;
 
         $this->assertEquals($expectedq->deployedseeds, $q->deployedseeds); // Redundant, but gives better fail messages.
@@ -505,68 +527,68 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     public function test_get_input_names_from_question_text_input_only() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array('ans123' => array(1, 0)),
+        $this->assertEquals(['ans123' => [1, 0]],
                 $qtype->get_input_names_from_question_text('[[input:ans123]]'));
     }
 
     public function test_get_input_names_from_question_text_validation_only() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array('ans123' => array(0, 1)),
+        $this->assertEquals(['ans123' => [0, 1]],
                 $qtype->get_input_names_from_question_text('[Blah] [[validation:ans123]] [Blah]'));
     }
 
     public function test_get_input_names_from_question_text_invalid() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array(), $qtype->get_input_names_from_question_text('[[input:123]]'));
+        $this->assertEquals([], $qtype->get_input_names_from_question_text('[[input:123]]'));
     }
 
     public function test_get_input_names_from_question_text_sloppy() {
         $qtype = new qtype_stack();
         $text = 'What is \(1+1\)?  [[input: ans1]]';
 
-        $this->assertEquals(array('[[input: ans1]]'), $qtype->validation_get_sloppy_tags($text));
+        $this->assertEquals(['[[input: ans1]]'], $qtype->validation_get_sloppy_tags($text));
     }
 
     public function test_get_prt_names_from_question_text() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array('prt123' => 1),
+        $this->assertEquals(['prt123' => 1],
                 $qtype->get_prt_names_from_question('[[feedback:prt123]]', ''));
     }
 
     public function test_get_prt_names_from_question_feedback() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array('prt123' => 1), $qtype->get_prt_names_from_question(
+        $this->assertEquals(['prt123' => 1], $qtype->get_prt_names_from_question(
                 'What is $1 + 1$? [[input:ans1]]', '[[feedback:prt123]]'));
     }
 
     public function test_get_prt_names_from_question_both() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array('prt1' => 1, 'prt2' => 1), $qtype->get_prt_names_from_question(
+        $this->assertEquals(['prt1' => 1, 'prt2' => 1], $qtype->get_prt_names_from_question(
                 '[Blah] [[feedback:prt1]] [Blah]', '[Blah] [[feedback:prt2]] [Blah]'));
     }
 
     public function test_get_prt_names_from_question_invalid() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array(), $qtype->get_prt_names_from_question('[[feedback:123]]', ''));
+        $this->assertEquals([], $qtype->get_prt_names_from_question('[[feedback:123]]', ''));
     }
 
     public function test_get_prt_names_from_question_duplicate() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array('prt1' => 2),
+        $this->assertEquals(['prt1' => 2],
                 $qtype->get_prt_names_from_question('[[feedback:prt1]] [[feedback:prt1]]', ''));
     }
 
     public function test_get_prt_names_from_question_duplicate_split() {
         $qtype = new qtype_stack();
 
-        $this->assertEquals(array('prt1' => 2), $qtype->get_prt_names_from_question('[[feedback:prt1]]',
+        $this->assertEquals(['prt1' => 2], $qtype->get_prt_names_from_question('[[feedback:prt1]]',
                 '[[feedback:prt1]]'));
     }
 }

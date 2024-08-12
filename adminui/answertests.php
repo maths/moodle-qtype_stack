@@ -65,13 +65,13 @@ if (!array_key_exists($anstest, $availabletests)) {
 if ($anstest === 'ALL') {
     $tests = stack_answertest_test_data::get_all();
 } else if (!$anstest) {
-    $tests = array();
+    $tests = [];
 } else {
     $tests = stack_answertest_test_data::get_tests_for($anstest);
 }
 
 // Set up the results table.
-$columns = array(
+$columns = [
     'name'          => stack_string('answertest_ab'),
     'passed'        => stack_string('testsuitecolpassed'),
     'studentanswer' => stack_string('studentanswer'),
@@ -81,7 +81,7 @@ $columns = array(
     'error'         => stack_string('testsuitecolerror'),
     'feedback'      => stack_string('testsuitefeedback'),
     'answernote'    => stack_string('answernote'),
-);
+];
 
 if ($anstest !== 'ALL') {
     array_shift($columns);
@@ -102,7 +102,7 @@ echo $OUTPUT->single_select($PAGE->url, 'anstest', $availabletests, $anstest);
 
 // Run the tests.
 $allpassed = true;
-$failedtable = array();
+$failedtable = [];
 $notests = 0;
 $start = microtime(true);
 
@@ -122,8 +122,8 @@ foreach ($tests as $test) {
         reset($columns);
         $firstcol = key($columns);
         // This is a slight cludge to get multiple columns in a row.
-        $notes = html_writer::tag('td', $test->notes, array('colspan' => '8'));
-        $table->add_data(array($notes), 'notes');
+        $notes = html_writer::tag('td', $test->notes, ['colspan' => '8']);
+        $table->add_data([$notes], 'notes');
     }
 
     set_time_limit(30);
@@ -160,7 +160,7 @@ foreach ($tests as $test) {
     if ($rawmark !== $test->expectedscore && $test->expectedscore > 0) {
         $mark = $rawmark . ' <> ' . $test->expectedscore;
     }
-    $row = array(
+    $row = [
         'name'          => $test->name,
         'passed'        => $passedcol,
         'studentanswer' => html_writer::tag('pre', $sans),
@@ -170,7 +170,7 @@ foreach ($tests as $test) {
         'error'         => $error,
         'feedback'      => format_text($feedback),
         'answernote'    => $ansnote,
-    );
+    ];
     if (!$passed) {
         $row['answernote'] .= html_writer::tag('pre', $trace);
         $failedtable[] = $row;
@@ -186,9 +186,9 @@ if ($notests > 0) {
     $took = (microtime(true) - $start);
     $rtook = round($took, 5);
     $pertest = round($took / $notests, 5);
-    echo '<p>'.stack_string('testsuitenotests', array('no' => $notests));
-    echo '<br/>'.stack_string('testsuiteteststook', array('time' => $rtook));
-    echo '<br/>'.stack_string('testsuiteteststookeach', array('time' => $pertest));
+    echo '<p>'.stack_string('testsuitenotests', ['no' => $notests]);
+    echo '<br/>'.stack_string('testsuiteteststook', ['time' => $rtook]);
+    echo '<br/>'.stack_string('testsuiteteststookeach', ['time' => $pertest]);
     echo '</p>';
 
     $config = get_config('qtype_stack');

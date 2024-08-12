@@ -32,7 +32,7 @@ The following type predicates are defined by STACK.
 
 | Function                   | Predicate
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `variablep(ex)`            | Determines if \(ex\) is avariable, that is an atom but not a real numberm, \(i\) or a string.
+| `variablep(ex)`            | Determines if \(ex\) is a variable, that is an atom but not a real number, \(i\) or a string.
 | `equationp(ex)`            | Determines if \(ex\) is an equation.
 | `functionp(ex)`            | Determines if \(ex\) is a function definition, using the operator `:=`.
 | `inequalityp(ex)`          | Determines if \(ex\) is an inequality.
@@ -42,7 +42,7 @@ The following type predicates are defined by STACK.
 | `simp_integerp(ex)`        | Determines if \(ex\) is an integer when `simp:false`.
 | `real_numberp(ex)`         | Determines if \(ex\) is a real number.
 | `rational_numberp(ex)`     | Determines if \(ex\) is written as a fraction.  For a true mathematical rational number use `rational_numberp(ex) or simp_integerp(ex)`
-| `lowesttermsp(ex)`         | Determines if a fraction \(ex\) is in lowest terms.  
+| `lowesttermsp(ex)`         | Determines if a fraction \(ex\) is in lowest terms.
 | `complex_exponentialp(ex)` | Determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).  Needs `simp:false`.
 | `imag_numberp(ex)`         | Determines if \(ex\) is a purely imaginary number.
 

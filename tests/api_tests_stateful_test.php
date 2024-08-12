@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests to check that the requirements of a related software
@@ -48,8 +50,9 @@ require_once(__DIR__ . '/../stack/cas/evaluatable_object.interfaces.php');
  * @group qtype_stack
  * @group qtype_stateful
  * @group qtype_stack_compatibility
+ * @covers \qtype_stack
  */
-class api_tests_stateful_test extends qtype_stack_testcase {
+class api_tests_stateful_test extends \qtype_stack_testcase {
 
     public function test_security_map_path() {
         $this->assertTrue(file_exists(__DIR__ . '/../stack/cas/security-map.json'));
@@ -93,20 +96,20 @@ class api_tests_stateful_test extends qtype_stack_testcase {
         $this->assertTrue(method_exists('stack_utils', 'eliminate_strings'));
         $this->assertTrue(method_exists('stack_utils', 'list_to_array'));
 
-        $this->assertTrue(isset(stack_utils::get_config()->stackmaximaversion));
-        $this->assertEquals('"\"foo"', stack_utils::php_string_to_maxima_string('"foo'));
-        $this->assertEquals('"foo', stack_utils::maxima_string_to_php_string('"\"foo"'));
-        $this->assertEquals('["","",1+""]', stack_utils::eliminate_strings('["foo","bar",1+"baz"]'));
-        $this->assertEquals(["foo", "bar", "baz"], stack_utils::all_substring_strings('["foo","bar",1+"baz"]'));
+        $this->assertTrue(isset(\stack_utils::get_config()->stackmaximaversion));
+        $this->assertEquals('"\"foo"', \stack_utils::php_string_to_maxima_string('"foo'));
+        $this->assertEquals('"foo', \stack_utils::maxima_string_to_php_string('"\"foo"'));
+        $this->assertEquals('["","",1+""]', \stack_utils::eliminate_strings('["foo","bar",1+"baz"]'));
+        $this->assertEquals(["foo", "bar", "baz"], \stack_utils::all_substring_strings('["foo","bar",1+"baz"]'));
     }
 
     public function test_maxima_parser_utils() {
         $this->assertTrue(method_exists('maxima_parser_utils', 'parse'));
         $this->assertTrue(method_exists('maxima_parser_utils', 'variable_usage_finder'));
 
-        $ast = maxima_parser_utils::parse('x:y+sqrt(y)');
+        $ast = \maxima_parser_utils::parse('x:y+sqrt(y)');
         $update = ['read' => ['z' => true]];
-        $usage = maxima_parser_utils::variable_usage_finder($ast, $update);
+        $usage = \maxima_parser_utils::variable_usage_finder($ast, $update);
         $this->assertEquals(['z' => true, 'y' => true], $usage['read']);
         $this->assertEquals(['x' => true], $usage['write']);
         $this->assertEquals(['sqrt' => true], $usage['calls']);

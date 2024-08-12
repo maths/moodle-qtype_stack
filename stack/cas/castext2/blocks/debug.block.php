@@ -30,7 +30,7 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
         // We are lazy and are not going to write this logic ourselves,
         // instead fall back to CASText and let other parts do the task.
         if (count($bounds) == 0) {
-            return new MP_List([new MP_String('%cs'), new MP_String('castext_debug_no_vars')]);
+            return castext2_parser_utils::compile('[[commonstring key="castext_debug_no_vars"/]]', $format, $options);
         }
         $castext = '';
         if ($format === castext2_parser_utils::MDFORMAT) {
@@ -67,6 +67,6 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 }

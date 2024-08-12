@@ -60,6 +60,9 @@ safe_op(ex) := block([st],
     return(st)
 )$
 
+get_safe_ops(ex) := setify(flatten(get_safe_ops_helper(ex)))$
+get_safe_ops_helper(ex) := if mapatom(ex) then [] else append([safe_op(ex)], maplist(get_safe_ops_helper, args(ex)))$
+
 /* This function takes an expression ex and returns a list of coefficients of v. */
 coeff_list(ex, v) := block([deg, kloop, cl],
   cl:[],
@@ -199,6 +202,12 @@ removeonce(ex, l) := block(
   append([first(l)], removeonce(ex,rest(l)))
 )$
 
+/* All the elements of l1, which do not occur in l2.  Removes all occurances from l1, not one at a time. */
+listdifference(l1, l2) := block(
+  if emptyp(l1) or emptyp(l2) then return(l1),
+  listdifference(sublist(l1, lambda([ex], not(ev(is(ex=first(l2)), simp)))), rest(l2))
+);
+
 /* Remove any common elements from [l1,l2], with duplication. */
 list_cancel(ex) := block([l1, l2, l3],
   l1:first(ex),
@@ -229,11 +238,15 @@ zip_with(zf, a, b) := block(
    check, e.g. that X^2=1 is x^2=1, without using subst_equiv.
 
    Note that exdowncase(X-x)=0, of course!
+   And exdowncase(1/(R-r)) could create a division by zero.
 */
-exdowncase(ex) := block([lv],
+exdowncase(ex) := block([lv, ex2],
   lv:listofvars(ex),
   lv:map(lambda([v], v=parse_string(sdowncase(string(v)))),lv),
-  return(subst(lv,ex)))$
+  ex2:errcatch(subst(lv,ex)),
+  if emptyp(ex2) then return(ex),
+  return(first(ex2))
+)$
 
 /* Maxima does not have its own degree command! */
 /* See notes on hipow.                          */
@@ -263,6 +276,11 @@ ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 
 /* An ellipsis */
 texput(dotdotdot, "\\ldots")$
+
+/* Control TeX parens for display only. */
+/* E.g. {@lrparens(".", x^2+3, "\\}")@} */
+tex_lrparens(ex):=sconcat("\\left", first(args(ex)), tex1(second(args(ex))), "\\right", third(args(ex)));
+texput(lrparens, tex_lrparens);
 
 /* ********************************** */
 /* Type predicates                    */
@@ -347,6 +365,10 @@ root([ex]) := block(
   if length(ex) = 1 then return(sqrt(first(ex))),
   if length(ex) = 2 then return(first(ex)^(1/second(ex)))
 )$
+texroot(ex) := if is(length(args(ex))=1) then concat("\\sqrt{", tex1(first(args(ex))), "}") else concat("\\sqrt[", tex1(second(args(ex))), "]{", tex1(first(args(ex))), "}")$
+texput(nounify(root), texroot)$
+texput(verbify(root), texroot)$
+
 
 /* Denominators of fractions should not contain sqrt, root, %i or fractional powers. */
 rational_fail(ex) := block(
@@ -433,7 +455,7 @@ simp_complex_number_p(ex):= block([keepfloat, trigexpand, logexpand],
     logexpand:super,
     keepfloat:true,
     /* Using full ratsimp here makes this function unacceptably slow. */
-    ex:errcatch(ev(ex, lg=logbasesimp, simp)),
+    ex:errcatch(ev(ex, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2), simp)),
     if ex=[] then return(false),
     ex:ev(float(ex[1]),simp),
     if listofvars(ex)#[] then return(false),
@@ -458,6 +480,7 @@ complex_exponentialp(ex):=block([ex2],
     /* Edge case of a real number! */
     if ev(real_numberp(ex), simp) then return(true),
     ex2:ex,
+    if safe_op(ex)="-" then return(complex_exponentialp(first(args(ex)))),
     if safe_op(ex)="*" then
         if not(is(real_numberp(first(args(ex))))) then
             return(false)
@@ -511,7 +534,7 @@ scientific_notationp(ex) := block([tn],
   if not(length(args(ex))=2) then return(false),
   tn:first(args(ex)),
   if safe_op(tn)="-" then tn:first(args(tn)),
-  if not(integerp(tn) or floatnump(tn)) then return(false),
+  if not(integerp(tn) or floatnump(tn) or safe_op(tn)="displaydp" or safe_op(tn)="displaysci") then return(false),
   tn:second(args(ex)),
   /* Special edge case: 3*10 = 3*10^1. */
   if tn=10 then return(true),
@@ -636,7 +659,7 @@ texdisp_complex(ex) := block([ps, sxr, exi, simp],
       else block(
        if not(freeof_mminusp(exi)) then block(
          ps:"-",
-         /* TODO: more subtle removal of the minus sign?! */
+         /* TO-DO: more subtle removal of the minus sign?! */
          exi:ev(-1*exi, simp)
        ),
        sconcat(sxr, ps, tex1(%i), "\\,", tex1(exi))
@@ -813,7 +836,23 @@ displayscitex(ex):=block([ss, n, dp, tx],
   ),
   tx
 )$
-texput(displaysci, displayscitex)$
+
+displayscitexE(ex):=block([ss, n, dp, tx],
+  [n, dp, expo]:args(ex),
+  ss:sconcat("~,", string(dp), "fE{~a}"),
+  if is(equal(dp, 0)) then ss:"~dE{~a}",
+  tx:ev(printf(false, ss, ev(float(n)), expo), simp),
+  if is(stackfltsep = ",") then (
+    tx:ssubst("\\ ", ",", tx),
+    tx:ssubst("{,}", ".", tx)
+  ),
+  tx
+)$
+
+texput_scientificnotation(ex) := block(
+  if is(ex="*10") then texput(displaysci, displayscitex),
+  if is(ex="E") then texput(displaysci, displayscitexE)
+)$
 
 make_displayscivalue(ex):= block([n, d, expo, ss],
     if atom(ex) then return(ex),
@@ -871,6 +910,23 @@ recursemod(ex, n) := block(
 )$
 
 /* ********************************** */
+/* Binomial functions                 */
+/* ********************************** */
+
+binomial_remove(_a, _b):=block(
+  if listp(_b) then return(_a!/(apply("*", map("!",ev(sort(_b),simp))))),
+  _a!/(_b!*(_a-_b)!)
+)$
+
+binomialtex(ex) := block([al],
+  al:args(ex),
+  if is(listp(second(al))) then al[2]:apply(sequence,al[2]),
+  al:maplist(tex1, al),
+  sconcat("{{", al[1], "}\\choose{", al[2], "}}")
+  );
+texput(binomial, binomialtex);
+
+/* ********************************** */
 /* Equivalence                        */
 /* ********************************** */
 
@@ -910,9 +966,9 @@ algebraic_equivalence(SA, SB) :=
     /* Remove scientific units and displaydp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
-    /* Remove binomial function from expressions. */
-    SA:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SA),
-    SB:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SB),
+    /* Remove binomial function from expressions in simple cases. */
+    SA:subst(binomial=binomial_remove, SA),
+    SB:subst(binomial=binomial_remove, SB),
     SA:remove_numerical_inert(SA),
     SB:remove_numerical_inert(SB),
     /* Remove logarithms to other bases from expressions. */
@@ -947,6 +1003,7 @@ algebraic_equivalence(SA, SB) :=
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
+    keepfloat:false,
     ex:errcatch(ratsimp(ex)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
@@ -973,7 +1030,8 @@ algebraic_equivalence(SA, SB) :=
 
 /* This test establishes if two expressions appear NOT to be equivalent.
    It does so by evaluating the expressions numerically.        */
-numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars],
+numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars,trigexpand],
+  trigexpand:false,
   stack_mtell_quiet:true,
   listdummyvars:false,
   /* We take the *union* of the two lists of variables, this way we
@@ -991,6 +1049,8 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if is(pval = []) then (print("STACK: ignore previous error. (2)"), return(false)),
   /* User functions without a function rule cannot be evaluated numerically */
   if recurse_userfunctionp(first(pval)) then return(false),
+  /* If we have no variables, and not a number, then bail here. */
+  if is(emptyp(lv)) and not(numberp(first(pval))) then return(false),
   pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)),
   if is(pval = []) then (print("STACK: ignore previous error. (3)"), return(false)),
   if first(pval) then return(true),
@@ -1017,7 +1077,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if first(sz) > 0.0001 then true else false
 )$
 
-/* Are there any user-defined function? */
+/* Are there any user-defined functions? */
 recurse_userfunctionp(ex):= block([op1],
   if atom(ex) then return(false),
   op1:ev(op(ex)),
@@ -1672,14 +1732,14 @@ texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(PLUSC, "\\color{red}{\\cdots +c\\quad ?}");
-texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
+texput(EQUIVZERO, "\\color{red}{0\\quad\\text{(?)}}");
 /* Here we add tags.  These are for localisation.  Dealt with on the PHP side in cassession -> instantiate. */
-texput(SAMEROOTS, "\\color{green}{\\mbox{!SAMEROOTS!}}");
-texput(ANDOR, "\\color{red}{\\mbox{!ANDOR!}}");
-texput(MISSINGVAR, "\\color{red}{\\mbox{!MISSINGVAR!}}");
-texput(ASSUMEPOSVARS, "\\color{blue}{\\mbox{!ASSUMEPOSVARS!}}");
+texput(SAMEROOTS, "\\color{green}{\\text{!SAMEROOTS!}}");
+texput(ANDOR, "\\color{red}{\\text{!ANDOR!}}");
+texput(MISSINGVAR, "\\color{red}{\\text{!MISSINGVAR!}}");
+texput(ASSUMEPOSVARS, "\\color{blue}{\\text{!ASSUMEPOSVARS!}}");
 texput(ASSUMEREALVARS, "\\color{blue}{(\\mathbb{R})}");
-texput(ASSUMEPOSREALVARS, "\\color{blue}{\\mbox{!ASSUMEPOSREALVARS!}}");
+texput(ASSUMEPOSREALVARS, "\\color{blue}{\\text{!ASSUMEPOSREALVARS!}}");
 /* For now we suppress this. */
 texput(unknown, " ");
 
@@ -1719,7 +1779,7 @@ remove_stackeq(ex) := if is(safe_op(ex)="stackeq") then first(args(ex)) else ex$
 
 /* stacklet is an inert "let" operator, e.g. let x=1. */
 stacklettex(ex):=block(
-  sconcat("\\mbox{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
+  sconcat("\\text{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
 );
 texput(stacklet, stacklettex);
 
@@ -2278,7 +2338,7 @@ stack_eval_arg_solver(ex) := block([ex2, ex3, errc],
       ex:logic_to_poly(ex),
 
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
-          return(ev(single_variable_solver_real(ex), simp)),
+          return(ev(stack_single_variable_solver(ex), simp)),
 
       if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),

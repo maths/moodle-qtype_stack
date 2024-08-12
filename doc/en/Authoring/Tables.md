@@ -1,6 +1,6 @@
 # Tables
 
-STACK provides an intert function `table` for typesetting mathematical tables, provided originally to typeset truth tables in [Propositional Logic](../Topics/Propositional_Logic.md).
+STACK provides an inert function `table` for typesetting mathematical tables, provided originally to typeset truth tables in [Propositional Logic](../Topics/Propositional_Logic.md).
 
 You can create a table directly.  Notice the first row is a heading row.
 
@@ -30,7 +30,7 @@ If you want to identify which entries really are different then you could do som
 
     table_zip_with(lambda([ex1,ex2], is(ex1=ex2)), T1, T2)
 
-If you find yourself manipulating tables, the above funtion provides a starting point.  Please ask the developers to add anything you use regularly.
+If you find yourself manipulating tables, the above function provides a starting point.  Please ask the developers to add anything you use regularly.
 
 ## Examples.
 
@@ -50,4 +50,4 @@ Here we have two tables `T1` is displayed as
 \[ {\begin{array}{c|c|c} a & b & a\rightarrow b\\ \hline \mathbf{F} & \mathbf{F} & \mathbf{T} \\ \mathbf{F} & \mathbf{T} & \mathbf{T} \\ \mathbf{T} & \mathbf{F} & \mathbf{F} \\ \mathbf{T} & \mathbf{T} & \mathbf{T} \end{array}} \]
 and `T2` gives
 \[ {\begin{array}{c|c|c} a & b & \color{red}{\underline{a\oplus b}}\\ \hline \mathbf{F} & \mathbf{F} & \color{red}{\underline{\mathbf{F} }} \\ \mathbf{F} & \mathbf{T} & \mathbf{T} \\ \mathbf{T} & \mathbf{F} & \color{red}{\underline{\mathbf{T} }} \\ \mathbf{T} & \mathbf{T} & \color{red}{\underline{\mathbf{F} }}\end{array}} \]
-Notice in both the effect of `table_bool_abbreviate:true`.
+Notice in both the effect of `table_bool_abbreviate:true`. 

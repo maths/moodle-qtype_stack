@@ -69,27 +69,27 @@ $lastseg = $segs[count($segs) - 1];
 // Links for the end of the page.
 if ($uri == '/') {
     // The docs front page at .../doc.php/.
-    $linkurls = array();
+    $linkurls = [];
     $sitemapurl = '<a href = "' . $docsurl . '/Site_map' .'">'
         . stack_string('stackDoc_siteMap') . '</a>';
 
 } else if ('/Site_map' == $uri) {
-    $linkurls = array(
-        $docsurl               => stack_string('stackDoc_home')
-    );
+    $linkurls = [
+        $docsurl               => stack_string('stackDoc_home'),
+    ];
 
 } else {
-    $linkurls = array(
+    $linkurls = [
         $docsurl               => stack_string('stackDoc_home'),
         './'                   => stack_string('stackDoc_index'),
-        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
-    );
+        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap'),
+    ];
     if (current_language() != 'en') {
         $linkurls[$docsurl . '/Site_map_en'] = stack_string('stackDoc_siteMap_en');
     }
 }
 
-$links = array();
+$links = [];
 foreach ($linkurls as $url => $link) {
     $links[] = '<a href="' . $url . '">' . $link . '</a>';
 }
@@ -103,13 +103,12 @@ if ('Site_map' == $lastseg) {
         $meta = stack_docs_page_metadata('Site_map.md');
 } else {
     if ('' == $lastseg) {
-        $file = $docsroot . $uri . 'index.md';
-        $fileen = $docsrooten . $uri . 'index.md';
+        $file = $docsroot . $uri . '/index.md';
+        $fileen = $docsrooten . $uri . '/index.md';
     } else {
         $file = $docsroot . $uri;
         $fileen = $docsrooten . $uri;
     }
-
     if (file_exists($file)) {
         $body = stack_docs_page($links, $file);
         $meta = stack_docs_page_metadata($uri);
@@ -119,7 +118,7 @@ if ('Site_map' == $lastseg) {
         $meta = stack_docs_page_metadata($uri);
     } else {
         $body = stack_docs_no_found($links);
-        $meta = array();
+        $meta = [];
     }
 }
 

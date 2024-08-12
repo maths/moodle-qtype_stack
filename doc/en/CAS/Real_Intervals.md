@@ -2,7 +2,7 @@
 
 STACK has a simple system for representing and dealing with real intervals and sets of real numbers.
 
-Simple real intervals may be represented by the inert functions `oo(a,b)`, `oc(a,b)`, `co(a,b)`, and `cc(a,b)`.  Here the character `o` stands for open end point, and `c` for a closed end point.  So `oc(-1,3)` is the interval \( \{ x\in\mathbb{R} | -1 < x \mbox{ and } x\leq 3.\} \), and is displayed as \( (-1,3] \) with mismatching brackets in the tradition of UK mathematics.
+Simple real intervals may be represented by the inert functions `oo(a,b)`, `oc(a,b)`, `co(a,b)`, and `cc(a,b)`.  Here the character `o` stands for open end point, and `c` for a closed end point.  So `oc(-1,3)` is the interval \( \{ x\in\mathbb{R} | -1 < x \text{ and } x\leq 3.\} \), and is displayed as \( (-1,3] \) with mismatching brackets in the tradition of UK mathematics.
 
 The Maxima function `union` requires its arguments to be sets, and intervals are not sets.  You must use the `%union` function (from the package `to_poly_solve`) to join simple intervals and combine them with discrete sets. E.g. `%union(oo(-2,-1),oo(1,2))`
 
@@ -12,7 +12,7 @@ As arguments, the `%union` command can take both simple intervals and sets of di
 
     %union(oo(-inf,0),{1},oo(2,3));
 
-Similarly, STACK provides `%intersection` to represent an intersection of intervals (which the package `to_poly_solve` does not have). 
+Similarly, STACK provides `%intersection` to represent an intersection of intervals (which the package `to_poly_solve` does not have).
 
 Predicate functions
 
@@ -54,7 +54,7 @@ is displayed as \(x \not\in\{0\}\).
 
 Students must simply type `union` (not `%union`) etc.
 
-Validation of students' answer has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is acually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
+Validation of students' answer has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is actually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
 
 Validation does some simple checks, so that mal-formed intervals such as `oo(1)` and `oo(4,3)` are rejected as invalid.
 

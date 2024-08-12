@@ -82,3 +82,24 @@ Alternatively, you may want to simplify the student's answer to make sure they h
     length(fullratsimp(ans1))
 
 Exact circumstances of the question will dictate what to do, and whether the teacher expects students to enter duplicate roots the right number of times.
+
+## Displaying equations with the LaTeX `aligned` environment.
+
+STACK supports the `\begin{aligned} ... \end{aligned}` environment, which can be used to line up equations on the equal sign.  This is an inert function which displays its arguments.
+
+For example, in CASText try `{@aligned([x^2+2,stackeq(3)],[x^3,stackeq(4)])@}`
+
+In question variables try 
+
+    /* Either definition of eq1 below works. */
+    eq1:x^2+2=3 nounand x^3=4;
+    eq1:[x^2+2=3, x^3=4];
+    eq2:apply(aligned, map(lambda([ex], [lhs(ex),stackeq(rhs(ex))]), args(eq1)));
+
+and then display `{@eq2@}` as normal.
+
+STACK also supports an inert function `lrparens` which allows fine control over the `\left` and `\right` brackets in LaTeX output.  E.g.
+
+    eq2:lrparens(".", ex, "\\}");
+
+will simply wrap the LaTeX output of `ex` with `\left.` and `right\}`.  The first and third argumets of lrparens must be strings, and they much correspond to legitimate bracket types in LaTeX.  Note, as normal the curly braces need to be protected.

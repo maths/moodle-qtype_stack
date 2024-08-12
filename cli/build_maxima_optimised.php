@@ -31,8 +31,8 @@ require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params(array('help' => false),
-    array('h' => 'help'));
+list($options, $unrecognized) = cli_get_params(['help' => false],
+    ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);

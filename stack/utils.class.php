@@ -115,7 +115,7 @@ class stack_utils {
     protected static $config = null;
 
     /** @var A list of mathematics environments we search for, from AMSmath package 2.0. */
-    protected static $mathdelimiters = array('equation', 'align', 'gather', 'flalign', 'multline', 'alignat', 'split');
+    protected static $mathdelimiters = ['equation', 'align', 'gather', 'flalign', 'multline', 'alignat', 'split'];
 
     /**
      * @var string fragment of regular expression that matches valid PRT and
@@ -177,7 +177,7 @@ class stack_utils {
      * @return boolean true if all brackets match and are nested properly.
      */
     public static function check_nested_bookends($string, $lefts = '([{', $rights = ')]}') {
-        $openstack = array();
+        $openstack = [];
         $length = strlen($string);
         for ($i = 0; $i < $length; $i++) {
             $char = $string[$i];
@@ -212,14 +212,14 @@ class stack_utils {
 
         $start = strpos($string, $left, $start);
         if ($start === false) {
-            return array('', -1, 0);
+            return ['', -1, 0];
         }
 
         if ($left == $right) {
             // Left and right are the same.
             $end = strpos($string, $right, $start + 1); // Just go for the next one.
             if ($end === false) {
-                return array('', $start, -1);
+                return ['', $start, -1];
             }
             $end += 1;
 
@@ -238,11 +238,11 @@ class stack_utils {
             }
 
             if ($nesting > 0) {
-                return array('', -1, -1);
+                return ['', -1, -1];
             }
         }
 
-        return array(substr($string, $start, $end - $start), $start, $end - 1);
+        return [substr($string, $start, $end - $start), $start, $end - 1];
     }
 
     /**
@@ -262,7 +262,7 @@ class stack_utils {
 
         $char = str_split($string);
         $length = count($char);
-        $var = array();
+        $var = [];
         $j = 0;
         $i = 0;
         $start = false;
@@ -367,7 +367,7 @@ class stack_utils {
      * @param array (Optional) additional characters to convert to underscores.
      * @return string with characters replaced.
      */
-    public static function underscore($string, $toreplace = array()) {
+    public static function underscore($string, $toreplace = []) {
         $toreplace[] = '-';
         $toreplace[] = ' ';
         return str_replace($toreplace, '_', $string);
@@ -411,7 +411,7 @@ class stack_utils {
      * @return array
      */
     public static function all_substring_strings($string) {
-        $strings = array();
+        $strings = [];
         $i = 0;
         $lastslash = false;
         $instring = false;
@@ -537,7 +537,7 @@ class stack_utils {
         // Delimited by next comma at same degree of nesting.
         $startdelimiter = "[({";
         $enddelimiter   = "])}";
-        $nesting = array(0 => 0, 1 => 0, 2 => 0); // Stores nesting for delimiters above.
+        $nesting = [0 => 0, 1 => 0, 2 => 0]; // Stores nesting for delimiters above.
         for ($i = 0; $i < strlen($list); $i++) {
             $startchar = strpos($startdelimiter, $list[$i]); // Which start delimiter.
             $endchar = strpos($enddelimiter, $list[$i]); // Which end delimiter (if any).
@@ -562,7 +562,7 @@ class stack_utils {
     }
 
     private static function list_to_array_workhorse($list, $rec = true) {
-        $array = array();
+        $array = [];
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.
         $e = self::next_element($list);
@@ -620,7 +620,7 @@ class stack_utils {
         preg_match_all('~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
                 $text, $matches2);
 
-        $ret = array();
+        $ret = [];
         foreach ($matches2[1] as $key => $name) {
             if (!in_array(trim($name), $matches1[1])) {
                 $ret[] = $matches2[0][$key];
@@ -666,8 +666,8 @@ class stack_utils {
      */
     public static function decompose_rename_operation(array $renamemap) {
 
-        $nontrivialmap = array();
-        $usednames = array();
+        $nontrivialmap = [];
+        $usednames = [];
         foreach ($renamemap as $from => $to) {
             $usednames[(string) $from] = 1;
             $usednames[(string) $to] = 1;
@@ -677,13 +677,13 @@ class stack_utils {
         }
 
         if (empty($nontrivialmap)) {
-            return array();
+            return [];
         }
 
         // First we deal with all renames that are not part of cycles.
         // This bit is O(n^2) and it ought to be possible to do better,
         // but it does not seem worth the effort.
-        $saferenames = array();
+        $saferenames = [];
         $todocount = count($nontrivialmap) + 1;
         while (count($nontrivialmap) < $todocount) {
             $todocount = count($nontrivialmap);
@@ -710,7 +710,7 @@ class stack_utils {
             // Extract the first cycle.
             reset($nontrivialmap);
             $current = $cyclestart = (string) key($nontrivialmap);
-            $cycle = array();
+            $cycle = [];
             do {
                 $cycle[] = $current;
                 $next = $nontrivialmap[$current];
@@ -781,6 +781,7 @@ class stack_utils {
         $converted = str_replace("\"", "\\\"", $converted);
         return '"' . $converted . '"';
     }
+
     /**
      * Converts a PHP string object containing a Maxima string as presented by the grind command to a PHP string object.
      * @param a string that contains ""-quotes around the content.
@@ -790,6 +791,22 @@ class stack_utils {
         $converted = str_replace("\\\\", "\\", $string);
         $converted = str_replace("\\\"", '"', $converted);
         return substr($converted, 1, -1);
+    }
+
+    /**
+     * Remove redundant "mbox" environments from Latex equations strings containing just strings.
+     * @param a string that contains ""-quotes around the content.
+     * @return a string without those quotes.
+     */
+    public static function maxima_string_strip_mbox($string) {
+        $converted = trim($string);
+        if (substr($converted, 0, 2) == '\(' || substr($converted, 0, 2) == '\[') {
+            $converted = substr($converted, 2, -2);
+        }
+        if (substr(trim($converted), 0, 6) == '\text{') {
+            return substr(trim($converted), 6, -1);
+        }
+        return $string;
     }
 
     /**
@@ -816,7 +833,7 @@ class stack_utils {
 
         $i = floor($n);
         if ($i == $n) { // If n is an integer, its rational representation is obvious.
-            return array($n, 1);
+            return [$n, 1];
         }
 
         // Take away the integer part of n.
@@ -830,7 +847,7 @@ class stack_utils {
         $denx = 1;
         $denc = 0;
 
-        $frac = array(); // Continued fraction coefficients.
+        $frac = []; // Continued fraction coefficients.
         $diff = $n - $i; // Difference between current approximation and n.
 
         $steps = 0;
@@ -853,14 +870,14 @@ class stack_utils {
             $onum = 0;
             $oden = 1;
             foreach ($frac as $c) {
-                list($oden, $onum) = array($oden * $c + $onum, $oden);
+                list($oden, $onum) = [$oden * $c + $onum, $oden];
             }
             $diff = $n - $onum / $oden;
 
             // Subtract i from our working, and then take its reciprocal.
-            list($numx, $numc, $denx, $denc) = array($denx, $denc, $numx - $denx * $i, $numc - $denc * $i);
+            list($numx, $numc, $denx, $denc) = [$denx, $denc, $numx - $denx * $i, $numc - $denc * $i];
         }
-        return array($nint * $oden + $onum, $oden);
+        return [$nint * $oden + $onum, $oden];
     }
 
     public static function fix_to_continued_fraction($n, $accuracy) {
@@ -920,7 +937,7 @@ class stack_utils {
             $option = $ops[0];
             $arg = trim($ops[1]);
         }
-        return(array($option, $arg));
+        return([$option, $arg]);
     }
 
     /*

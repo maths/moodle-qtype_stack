@@ -44,7 +44,7 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                     ($node->lhs instanceof MP_Float &&
                     $node->lhs->raw !== null &&
                     substr($node->lhs->raw, -1) === '.')) {
-                    $a = array();
+                    $a = [];
                     $a['cmd']  = stack_maxima_format_casstring('..');
                     if (array_search(stack_string('stackCas_spuriousop', $a), $errors) === false) {
                         $errors[] = stack_string('stackCas_spuriousop', $a);
@@ -62,7 +62,7 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                             $node->lhs->rhs->raw !== null &&
                             substr($node->lhs->rhs->raw, -1) === '.')) {
                     $node->position['invalid'] = true;
-                    $a = array();
+                    $a = [];
                     $a['cmd']  = stack_maxima_format_casstring('..');
                     if (array_search(stack_string('stackCas_spuriousop', $a), $errors) === false) {
                         $errors[] = stack_string('stackCas_spuriousop', $a);

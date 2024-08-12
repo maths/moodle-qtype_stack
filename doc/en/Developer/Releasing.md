@@ -19,7 +19,7 @@ Unless you want to discuss something confidential with the developers, please do
 
 ## 1. Pre-release checks
 
-Check 
+### Check
 
 * Readme.md
 * Check docs 
@@ -35,25 +35,48 @@ Check
 
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
+* If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
 
-Version numbers
+### Check API
+
+* Spin up the STACK API in Docker and check it still works with a selection of questions, including download and JSXGraph.
+* Chances are it won't work because even the latest version of goemaxima is out of date.
+* You will need to create a local up-to-date image of goemaxima:
+  * Clone the goemaxima repo and create a folder stack/STACKVERSION e.g. `stack/2024050600` matching the latest STACK version.
+  * Copy the stack/maxima folder from STACK into this new folder.
+  * Create `maximalocal.mac.template` as described in `Adding_new_version.md` in goemaxima docs (or just copy from previous goemaxima version).
+  * In `buildimage.sh` set `maximaver` and `sbclver` e.g. `maximaver="5.45.1" sbclver="2.2.6"`. (`maximaver` should match `maximalocal.mac.template`)
+  * `./buildweb.sh` (You may need to install `go` first: `sudo snap install go --classic`).
+  * `.buildimage.s 2024050600` (If Docker struggles to fetch metadata `sudo vi ~/.docker/config.json` and change `credsStore` to `credStore`).
+  * You should have now created a `goemaxima:2024050600-dev` image locally.
+* Temporarily update STACK API locally:
+  * Update maxima image in STACK API to `goemaxima:2024050600-dev` in `docker-compose.dev.yml`.
+  * Update `stackmaximaversion` and `version` in `config.php` for the API to e.g. 2024050600.
+* `docker compose -f docker-compose.dev.yml up`
+
+### Version numbers
 
  * version.php
  * stackmaxima.mac
- * Run `php cli/getversionstring.php` and add output to `doc/en/Installation/STACK_versions.md`.
- * `MATURITY_STABLE`?
- * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)
+ * Update version numbers in the API in anticipation of a new Goemaxima image `api/config_samples.txt`
+ * Update Goemaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
+   E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for latest versions.
 
-Commit all changes to git, e.g. "Update version number for the 4.4.3 release."
+
+ * Run `php cli/getversionstring.php` and add output to `doc/en/Installation/STACK_versions.md`.
+ * Change to `MATURITY_STABLE` in version.php
+ * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)  Update `Installation/index.md`
+
+Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.4.3".
+E.g. "v4.6.0".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.4.3 -m "Update version number for the 4.4.3 release."`
+ * Linux: `git tag -a v4.6.0 -m "Update version number for the 4.6.0 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 
@@ -77,4 +100,8 @@ Add a new version to the Moodle plugins database entry for the plugin.
 Then check updated information on the form.
 
 (don't add "master" to branch info)
+
+### 4. Releasing a new verion of the API to take advantage of the new release
+
+Prompt to update Geomaxima image.
 

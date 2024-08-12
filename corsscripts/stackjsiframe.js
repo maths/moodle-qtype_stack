@@ -24,7 +24,16 @@ let DISABLE_CHANGES = {};
  * Basically, the set of inputs that wait registration to complete.
  */
 let INPUT_PROMISES = {};
-let BUTTON_PROMISES = {}
+
+/* Map of the promises for currently executing `get_content` actions.
+ * Basically from the element-id to the resolve function.
+ */
+let FETCH_PROMISES = {};
+
+/* Map of external button listeners. By id.
+ * For use with `stack_js.register_external_button_listener`
+ */
+let BUTTON_CALLBACKS = {};
 
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
@@ -47,6 +56,10 @@ const pinger = setInterval(() => {
     }
 }, 10);
 
+/* A promise for checking if we have a submit button.
+ */
+let _receive_submit_button = null;
+let SUBMIT_BUTTON = null;
 
 window.addEventListener("message", (e) => {
     // NOTE! We do not check the source or origin of the message in
@@ -90,6 +103,9 @@ window.addEventListener("message", (e) => {
         // 2. Set its value. But don't trigger changes.
         DISABLE_CHANGES[msg.name] = true;
         element.value = msg.value;
+        if (msg['input-readonly']) {
+            element.setAttribute('readonly', 'readonly');
+        }
         DISABLE_CHANGES[msg.name] = false;
 
         // 3. Resolve the promise so that things can move forward.
@@ -112,32 +128,26 @@ window.addEventListener("message", (e) => {
         DISABLE_CHANGES[msg.name] = false;
 
         break;
-    case 'initial-button':
-        // 1. Get the input we have prepared.
-        const button_elem = document.getElementById(msg.name);
-
-        // 2. Resolve the promise so that things can move forward.
-        BUTTON_PROMISES[msg.name](button_elem.id);
-
-        // 3. Remove the promise from our logic so that the timeout 
-        // logic does not trigger.
-        delete BUTTON_PROMISES[msg.name];
-        
+    case 'button-click':
+        if (msg.name in BUTTON_CALLBACKS) {
+            BUTTON_CALLBACKS[msg.name].forEach((callbackfunction) => {
+                callbackfunction(msg.name);
+            });
+        }
         break;
-    case 'clicked-button':
-        // 1. Find the input.
-        const button = document.getElementById(msg.name);
-
-        // 2. Set its value. But don't trigger changes.
-        DISABLE_CHANGES[msg.name] = true;
-        const button_c = new Event('click');
-        button.dispatchEvent(button_c);
-        DISABLE_CHANGES[msg.name] = false;
-
+    case 'xfer-content':
+        if (msg.target in FETCH_PROMISES) {
+            FETCH_PROMISES[msg.target](msg.content);
+            // Next request will create a new fetch.
+            delete FETCH_PROMISES[msg.target];
+        }
         break;
     case 'ping':
         clearInterval(pinger);
         do_connect(true);
+        break;
+    case 'submit-button-info':
+        _receive_submit_button(msg.value);
         break;
     case 'error':
     default:
@@ -183,8 +193,22 @@ export const stack_js = {
      * 
      * You may declare that you want to also react to input events.
      * This might not be that efficient but matches the old JSXGraph binding.
+     * 
+     * From 4.4.7 readonly/disabled inputs are cloned as readonly, at this point
+     * we do not automatically disable accessing or editing them but you can base your
+     * own logic on the input having that attribute. `.hasAttribute('readonly')`.
+     * 
+     * Note that this does not work with buttons (except radio-buttons), if you need
+     * to react to button presses happening at the VLE side use
+     * `register_external_button_listener`.
+     * 
+     * From STACK-JS: 1.3.0 you can define a boolean third parameter to control whether
+     * you want to only search for inputs within the same question as this iframe (true)
+     * or allow fallback to searching from all the questions on the page if not present
+     * in this question (false). By default this is false as that was the original
+     * behaviour.
      */
-    request_access_to_input: function(inputname, inputevents) {
+    request_access_to_input: function(inputname, inputevents, limittoquestion) {
         const input = document.createElement('input');
         input.type = 'hidden';
         input.id = inputname;
@@ -209,14 +233,19 @@ export const stack_js = {
         // Send the connection request.
         CONNECTED.then((whatever) => {
             const msg ={
-                version: 'STACK-JS:1.0.0',
-                type: 'register-input-listener', 
+                version: 'STACK-JS:1.3.0',
+                type: 'register-input-listener',
                 name: inputname,
+                'limit-to-question': false,
                 src: FRAME_ID
             };
             if (inputevents === true) {
                 msg['track-input'] = true; 
             }
+            if (limittoquestion !== undefined) {
+                msg['limit-to-question'] = limittoquestion;
+            }
+
             window.parent.postMessage(JSON.stringify(msg), '*');
         });
 
@@ -235,54 +264,33 @@ export const stack_js = {
         });
     },
 
-    request_access_to_button: function(buttonname, buttonevents) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.id = buttonname;
-        DISABLE_CHANGES[buttonname] = false;
+    /**
+     * Attaches a click event listener to a button on the VLE side.
+     * 
+     * There is no way to press the button from inside of the sandbox,
+     * and the normal restrictions related to placement on the VLE side
+     * do apply.
+     * 
+     * The callback function will be given exactly one argument and that
+     * is the buttonid that triggered the callback.
+     * 
+     * Note that we do not currently actually enforce that the target is
+     * a button we only attach a click listener to it. However, you should
+     * not rely on this working with anything else.
+     */
+    register_external_button_listener: function(buttonid, callbackfunction) {
+        if (!(buttonid in BUTTON_CALLBACKS)) {
+            BUTTON_CALLBACKS[buttonid] = [];
+        }
+        BUTTON_CALLBACKS[buttonid].push(callbackfunction);
 
-        document.body.appendChild(button);
-
-        button.addEventListener('click', (e) => {
-            if (!DISABLE_CHANGES[buttonname]) {
-                // Just send a message.
-                const msg = {
-                    version: 'STACK-JS:1.0.0',
-                    type: 'clicked-button',
-                    name: buttonname,
-                    src: FRAME_ID
-                };
-                CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
-            }
-        });
-
-        // Send the connection request.
-        CONNECTED.then((whatever) => {
-            const msg ={
-                version: 'STACK-JS:1.0.0',
-                type: 'register-button-listener', 
-                name: buttonname,
-                src: FRAME_ID
-            };
-            if (buttonevents === true) {
-                msg['track-button'] = true; 
-            }
-            window.parent.postMessage(JSON.stringify(msg), '*');
-        });
-
-        // So our promise passes that resolve onto a dict
-        // from which it will be resolved if we get 
-        // the correct message after resolving it will be
-        // removed from that dict, if not removed then when 
-        // this times out we will reject this promise.
-        return new Promise((resolve, reject) => {
-            BUTTON_PROMISES[buttonname] = resolve;
-            setTimeout(() => {
-                if (buttonname in BUTTON_PROMISES) {
-                    reject('No response to button registration of "' + buttonname + '" in 5s.');
-                }
-            }, 5000);
-        });
+        const msg = {
+            version: 'STACK-JS:1.2.0',
+            type: 'register-button-listener',
+            target: buttonid,
+            src: FRAME_ID
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
 
     /**
@@ -307,10 +315,12 @@ export const stack_js = {
      * such element found an error will eventtualy get displayed.
      * 
      * Obviously, won't allow scripts to be passed onto the VLE side.
+     * 
+     * Note did not work in the original release. Requires 4737dc5 to work.
      */
     switch_content: function(elementid, newcontent) {
         const msg = {
-            version: 'STACK-JS:1.0.0',
+            version: 'STACK-JS:1.0.1',
             type: 'change-content',
             target: elementid,
             content: newcontent,
@@ -318,6 +328,49 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
+
+    /**
+     * Asks for the contents of an element on the VLE side. Resolves to `null`
+     * if no element found or if the element is outside the safe area. If found
+     * returns the `innerHTML` of the element.
+     * 
+     * Do not merge this with `switch_content` to build a data transfer route,
+     * use inputs as then you can track events to react to changes. There is one
+     * case where inputs may be overly complicated and that is when PRTs return
+     * logic to set input values, in that case that logic may execute in
+     * arbitrary order in relation to the logic that might need those values and
+     * reading a "static" value directly from the document may be better, if it
+     * just a single read action during initialisation and dynamic binding are
+     * irrelevant.
+     * 
+     * This is meant for transferring results from PRTs or shared static data.
+     * 
+     * Added in STACK-JS 1.1.0.
+     */
+    get_content: function(elementid) {
+        if (elementid in FETCH_PROMISES) {
+            // If we are already fetching that.
+            return FETCH_PROMISES[elementid];
+        }
+
+        const msg = {
+            version: 'STACK-JS:1.1.0',
+            type: 'get-content',
+            target: elementid,
+            src: FRAME_ID
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+
+        return new Promise((resolve, reject) => {
+            FETCH_PROMISES[elementid] = resolve;
+            setTimeout(() => {
+                if (elementid in FETCH_PROMISES) {
+                    reject('No response to content fetch of "' + elementid + '" in 5s.');
+                }
+            }, 5000);
+        });
+    },
+
 
     /**
      * Asks for the containing IFRAME to be resized.
@@ -336,4 +389,5 @@ export const stack_js = {
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
 };
-export default stack_js; 
+
+export default stack_js;

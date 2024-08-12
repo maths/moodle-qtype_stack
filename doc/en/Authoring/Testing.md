@@ -37,7 +37,9 @@ In this way, the teacher can record, within the question itself, how they expect
 3. The _Preview question_ window will open.  If you have authority to edit the question, then the top right of the question window will contain a link to _question tests and deployed variants..._.  Follow this link.
 4. This page manages both question tests and deployed variants.  Initially you will have no tests or deployed variants.  Choose _Add a test case..._
 5. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
-6. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.  _Note_: currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
+6. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.
+   * Currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
+   * Scores and penalties are rounded to three decimal places for testing purposes.
 7. Once you have added the test case, STACK will automatically validate and submit these responses and display the outcomes.
 8. You may add as many test cases are you need.  It is sensible to add in the following.
     1. The correct response.  There is a button which will copy the expression used as the "Teacher's answer" in the input as a basis for a test case to help create this test.
@@ -46,19 +48,23 @@ In this way, the teacher can record, within the question itself, how they expect
     4. Add a totally incorrect answer.
 9. If you leave the penalty field blank it will assume you mean the default penalty for the question.
 
+If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used.
+
+If you start your test case with the tag `CT:` (case sensitive) then the remainder of your input will be evaluated as a castext string.  E.g. if your test case is  `CT:{#a#}{#v#}` then the castext `{#a#}{#v#}` will be evaluated, and the values of variables `a` and `v` placed next to each other to create an input string. This feature can be used to test input settings, such as insert stars, is working leading to a "score" state rather than an invalid state.
+
 On the question testing page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
 
-A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful do to this after upgrading the STACK code on the server to identify any test cases which have changed.
+A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful to do this after upgrading the STACK code on the server to identify any test cases which have changed.
 
 Test cases can include a meaningful description of up to 255 characters.  This field is a simple string, and is not castext.
 
 ## Test case construction and Maxima evaluation
 
-Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of unsimplified test cases.
+Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of un-simplified test cases.
 
 Test cases are always written using the period `.` as the decimal separator.  This corresponds to strict Maxima syntax, which teachers should always use.
 
-You can (and should) constuct test cases based on invalid expressions.  If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
+You can (and should) construct test cases based on invalid expressions.  If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
 
 While test case construction uses `simp:false` Maxima must "evaluate" the expression prior to the result being used by an input as a test case.  This will replace variables by their values.  E.g. the typical case is to define a variable such as `ta` as the teacher's answer in the question variables field and use this throughout the question.  This answer will either be simplified, or not, when the question variables are evaluated.  To construct a test case using the teacher's answer use `ta` as the test case input.
 
@@ -92,10 +98,13 @@ For the checkbox type you will need the whole list.
 
     tc1:mcq_correct(ta);
 
-### Test case construction and numerical precision.
+### Test case construction and numerical precision
 
 You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is neeeded if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
 
+### Test case construction and decimal separators
+
+The decimal separator option (e.g. `.` or `,`) is a very thin layer based on the student input.  The teacher must always use a `.` (full stop) as the decimal separator in question variables.  Consistent with this, all test-case construction must use a `.` (full stop) as the decimal separator.  This means it's hard to test the functionality of the decimal separator option (sorry), but otherwise there is genuine confusion in the internal logic about _when_ to assume a `,` is a decimal separator or a list separator.  Also, if you change this option in the question you do not need to change all your test cases.
 
 ## Testing values of variables
 

@@ -88,15 +88,19 @@ For an individual question, the teacher can set the variable
 
 in any of the usual places, e.g. in the question variables.
 
-To set the display of an individual matrix, `m` say, in CASText you can use
+To set the display of an individual matrix, `m` say, in castext you can use
 
-    {@(lmxchar:"|", m)@} 
+    {@(lmxchar:"|", m)@}
 
 Since `lmxchar` is a global setting in Maxima, you will have to set it back when you next display a matrix.  Not ideal, but there we are.
 
 Note, STACK only displays matrices with matching parentheses.  If you want something like
 \[ f(x) = \left\{ \begin{array}{cc} 1, & x<0 \\ 0, & x\geq 0 \end{array}\right.\]
 then you will have to display the matrix without parentheses and sort out the mismatching parentheses in the CASText at the level of display.
+
+For example, if we have the question variable `f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1];` and the castext `\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]` STACK generates
+\[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\ -x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]
+Notice the use of LaTeX `\left\{` to automatically size the parentheses and `\right.` to represent a matching, but invisible closing parentesis.
 
 ## Vectors ##
 
@@ -140,7 +144,7 @@ and a student types in `a*x+b*y` then the tex output will be \(a\cdot \mathbf{\v
 
 ### Vector cross product ###
 
-The wedge product operator is denoted by the tilde `~`.  This is the `itensor` package.  This package is not normally loaded by STACK, and in any case the package takes lists and not matrices.  For convenience, the following function has been added which requires `3*1` matrices.  
+The wedge product operator is denoted by the tilde `~`.  This is the `itensor` package.  This package is not normally loaded by STACK, and in any case the package takes lists and not matrices.  For convenience, the following function has been added which requires `3*1` matrices.
 
     crossproduct(a,b);
 

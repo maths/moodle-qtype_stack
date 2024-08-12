@@ -14,10 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 // Holds the results of one {@link stack_question_test).
 //
 // @copyright 2012 The Open University.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
+require_once('utils.class.php');
 
 class stack_question_test_result {
     /**
@@ -105,7 +109,7 @@ class stack_question_test_result {
      * @return array input name => object with fields ->input, ->display and ->status.
      */
     public function get_input_states() {
-        $states = array();
+        $states = [];
 
         foreach ($this->inputvalues as $inputname => $inputvalue) {
             $state = new stdClass();
@@ -122,12 +126,20 @@ class stack_question_test_result {
     }
 
     /**
+     * Ensure we round scores and penalties consistently.
+     * @param float $score
+     */
+    private function round_prt_scores($score) {
+        return round(stack_utils::fix_to_continued_fraction($score + 0, 4), 3);
+    }
+
+    /**
      * @return array input name => object with fields ->mark, ->expectedmark,
      *      ->penalty, ->expectedpenalty, ->answernote, ->expectedanswernote,
      *      ->feedback and ->testoutcome.
      */
     public function get_prt_states() {
-        $states = array();
+        $states = [];
 
         foreach ($this->testcase->expectedresults as $prtname => $expectedresult) {
             $expectedanswernote = $expectedresult->answernotes;
@@ -135,20 +147,26 @@ class stack_question_test_result {
             $state = new stdClass();
             $state->expectedscore = $expectedresult->score;
             if (!is_null($state->expectedscore)) {
-                // Single PRTs only work to three decimal places, so we only expect that level.
-                $state->expectedscore = round($state->expectedscore + 0, 3);
+                $state->expectedscore = $this->round_prt_scores($state->expectedscore + 0);
             }
             $state->expectedpenalty = $expectedresult->penalty;
             if (!is_null($state->expectedpenalty)) {
-                // Single PRTs only work to three decimal places, so we only expect that level.
-                $state->expectedpenalty = round($state->expectedpenalty + 0, 3);
+                $state->expectedpenalty = $this->round_prt_scores($state->expectedpenalty + 0);
             }
             $state->expectedanswernote = reset($expectedanswernote);
 
             if (array_key_exists($prtname, $this->actualresults)) {
                 $actualresult = $this->actualresults[$prtname];
-                $state->score = $actualresult->get_score();
-                $state->penalty = $actualresult->get_penalty();
+                $actualscore = $actualresult->get_score();
+                if (!is_null($actualscore)) {
+                    $actualscore = $this->round_prt_scores($actualscore + 0);
+                }
+                $state->score = $actualscore;
+                $actualpenalty = $actualresult->get_penalty();
+                if (!is_null($actualpenalty)) {
+                    $actualpenalty = $this->round_prt_scores($actualpenalty + 0);
+                }
+                $state->penalty = $actualpenalty;
                 $state->answernote = implode(' | ', $actualresult->get_answernotes());
                 $state->trace = implode("\n", $actualresult->get_trace());
                 $state->feedback = $actualresult->get_feedback();
@@ -163,7 +181,7 @@ class stack_question_test_result {
             }
 
             $state->testoutcome = true;
-            $reason = array();
+            $reason = [];
             if (is_null($state->expectedscore) != is_null($state->score) ||
                     abs($state->expectedscore - $state->score) > 10E-6) {
                 $state->testoutcome = false;
@@ -233,13 +251,13 @@ class stack_question_test_result {
     public function html_output($question, $key = null) {
         $html = '';
         if ($this->passed()) {
-            $outcome = html_writer::tag('span', stack_string('testsuitepass'), array('class' => 'pass'));
+            $outcome = html_writer::tag('span', stack_string('testsuitepass'), ['class' => 'pass']);
         } else {
-            $outcome = html_writer::tag('span', stack_string('testsuitefail'), array('class' => 'fail'));
+            $outcome = html_writer::tag('span', stack_string('testsuitefail'), ['class' => 'fail']);
         }
         if ($key !== null) {
             $html .= html_writer::tag('h3', stack_string('testcasexresult',
-                array('no' => $key, 'result' => $outcome)));
+                ['no' => $key, 'result' => $outcome]));
         }
 
         if (trim($this->testcase->description) !== '') {
@@ -251,17 +269,17 @@ class stack_question_test_result {
         }
         // Display the information about the inputs.
         $inputstable = new html_table();
-        $inputstable->head = array(
+        $inputstable->head = [
             stack_string('inputname'),
             stack_string('inputexpression'),
             stack_string('inputentered'),
             stack_string('inputdisplayed'),
             stack_string('inputstatus'),
             stack_string('errors'),
-        );
+        ];
         $inputstable->attributes['class'] = 'generaltable stacktestsuite';
 
-        $typeininputs = array();
+        $typeininputs = [];
         foreach ($this->get_input_states() as $inputname => $inputstate) {
             $inputval = $inputstate->input;
             if (false === $inputstate->input) {
@@ -271,21 +289,21 @@ class stack_question_test_result {
                     $typeininputs[$inputname] = $inputname . ':' . $inputstate->modified . ";\n";
                 }
             }
-            $inputstable->data[] = array(
+            $inputstable->data[] = [
                 s($inputname),
                 s($inputstate->rawinput),
                 s($inputval),
                 stack_ouput_castext($inputstate->display),
                 stack_string('inputstatusname' . $inputstate->status),
                 $inputstate->errors,
-            );
+            ];
         }
 
         $html .= html_writer::table($inputstable);
 
         // Display the information about the PRTs.
         $prtstable = new html_table();
-        $prtstable->head = array(
+        $prtstable->head = [
             stack_string('prtname'),
             stack_string('score'),
             stack_string('expectedscore'),
@@ -295,14 +313,14 @@ class stack_question_test_result {
             stack_string('expectedanswernote'),
             get_string('feedback', 'question'),
             stack_string('testsuitecolpassed'),
-        );
+        ];
         $prtstable->attributes['class'] = 'generaltable stacktestsuite';
 
         $debuginfo = '';
         $inputsneeded = $question->get_cached('required');
         foreach ($this->get_prt_states() as $prtname => $state) {
 
-            $prtinputs = array();
+            $prtinputs = [];
             // If we delete a PRT we'll end up with a non-existent prt name here.
             if ($inputsneeded != null && array_key_exists($prtname, $inputsneeded)) {
                 foreach (array_keys($inputsneeded[$prtname]) as $inputname) {
@@ -337,7 +355,7 @@ class stack_question_test_result {
             . html_writer::tag('pre', implode('', $prtinputs) . $state->trace);
             $answernotedisplay = html_writer::tag('details', $answernotedisplay);
 
-            $prtstable->data[] = array(
+            $prtstable->data[] = [
                 $prtname,
                 $state->score,
                 $expectedscore,
@@ -347,8 +365,8 @@ class stack_question_test_result {
                 s($state->expectedanswernote),
                 format_text($state->feedback),
                 $passedcol,
-            );
-            // TODO: reinstate debuginfo here.
+            ];
+            // TO-DO: reinstate debuginfo here.
         }
 
         $html .= html_writer::table($prtstable);

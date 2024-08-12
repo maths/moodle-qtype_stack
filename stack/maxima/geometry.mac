@@ -1,0 +1,99 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* ************************************************************* */
+/* Geometry related functions added for the GeoGebra input type. */
+/* Function names here should match function names in Geogebra   */
+/* ************************************************************* */
+
+/**
+ * Euclidean length of the vector (represented as a list) from the origin to the point.
+ *
+ * @param[list] v1 list of values 
+ * @return[scalar expression] the Euclidean length of the vector.
+ */
+Length(v1) := block([simp],
+  if not(listp(v1)) then error("Length expects its arguments to be a list."),
+  simp:true,
+  sqrt(matrix(v1).transpose(matrix(v1)))
+)$
+
+s_test_case_simp(0, Length([0,0]))$
+s_test_case_simp(sqrt(2), Length([1,1]))$
+s_test_case_simp(5, Length([3,-4]))$
+s_test_case_simp(7*sqrt(2), Length([7,-7]))$
+s_test_case_simp(2, Length([1,1,1,1]))$
+
+/**
+ * Euclidean distance between points represented as lists.
+ * If one of the lists is shorter, assume the same value for missing dimensions.
+ *
+ * @param[list] v1 list of values 
+ * @param[list] v2 list of values
+ * @return[scalar expression] the Euclidean distance between two vectors as an expression.
+ */
+Distance(v1, v2) := block([simp,_i],
+  if not(listp(v1) and listp(v2)) then error("Distance expects its arguments to be lists."),
+  simp:true,
+  sqrt(apply("+", makelist((v1[_i]-v2[_i])^2, _i, 1, min(length(v1), length(v2)))))
+)$
+
+s_test_case_simp(sqrt(2), Distance([0,0] , [1,1]))$
+s_test_case_simp(1, Distance([0,0] , [1,0]))$
+s_test_case_simp(0, Distance([0,0] , [0,0,0,0]))$
+s_test_case_simp(sqrt((y_1-y_2)^2+(x_1-x_2)^2), Distance([x_1,y_1], [x_2,y_2]))$
+s_test_case_simp(sqrt((x1-x2)^2+(y1-y2)^2), Distance([x1,y1] , [x2,y2]))$
+
+/**
+ * The angle between three points A, B, C.  Returns radians.
+ * Note angles are given between -%pi and %pi (not between 0 and 2*%pi).
+ *
+ * @param[list] A list of values 
+ * @param[list] B list of values
+ * @param[list] C list of values
+ * @return[scalar expression] the angle, in radians, two vectors AB and BC.
+ */
+Angle(A, B, C) := block([simp,_i, _v, _w],
+  if not(listp(A) and listp(B) and listp(C)) then error("Angle expects its arguments to be lists."),
+  simp:true,
+  _v:A-B,
+  _w:C-B,
+  if Length(_v)=0 or Length(_w)=0 then return(und),
+  /*  v . w = |v| * |w| * cos(alpha)
+      acos(matrix(_v).transpose(matrix(_w))/(Length(_v)*Length(_w)))
+      But, the above gives an unsigned angle.  I.e. Angle(A,B,C)=Angle(C,B,A), which we don't want.
+      
+      |v| * |w| * sin(alpha) = det(v, w)
+      cos(alpha) = v . w / (|v| * |w|)
+      tan(alpha) = sin(alpha) / cos(alpha)
+      => tan(alpha) = det(v, w) / v . w
+  */
+  if is(length(_v) = 2) then return(atan2(determinant(matrix(_v,_w)),matrix(_v).transpose(matrix(_w)))),
+  /* We don't give signed angles in dimensions bigger than 2. */
+  acos(matrix(_v).transpose(matrix(_w))/(Length(_v)*Length(_w)))
+)$
+
+s_test_case_simp(und, Angle([0,0],[0,0],[0,1]))$
+
+s_test_case_simp(%pi/2, Angle([1,0],[0,0],[0,1]))$
+s_test_case_simp(-%pi/2, Angle([0,1],[0,0],[1,0]))$
+s_test_case_simp(%pi/4, Angle([1,1],[0,0],[0,1]))$
+s_test_case_simp(-%pi/4, Angle([1,1],[0,0],[1,0]))$
+s_test_case_simp(%pi/6, Angle([1/2,sqrt(3)/2],[0,0],[0,1]))$
+s_test_case_simp(-%pi/3, Angle([1/2,sqrt(3)/2],[0,0],[1,0]))$
+s_test_case_simp(%pi/6, Angle([1/2,sqrt(3)/2],[0,0],[0,7]))$
+
+s_test_case_simp(%pi/2, Angle([1,0,0],[0,0,0],[0,1,0]))$
+s_test_case_simp(%pi/2, Angle([0,1,0],[0,0,0],[1,0,0]))$

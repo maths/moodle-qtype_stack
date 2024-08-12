@@ -9,7 +9,7 @@ The student's response to this question will allow us to test their knowledge an
 1. Expanding brackets
 2. Simplifying by collecting like terms
 
-Therefore we need them to show their working. 
+Therefore we need them to show their working.
 
 ## Minimal working question ##
 
@@ -36,7 +36,7 @@ The variable `ta` is a list containing each step we are expecting our students t
 
 Notes:
 
-* We use the CAS functions `expand()` and `ev(...,simp)` to simply the output of `expand()`, to determine the model answer. 
+* We use the CAS functions `expand()` and `ev(...,simp)` to simply the output of `expand()`, to determine the model answer.
 * The special function `stackeq` is replaced by unary equals.  Maxima expects equality to be an infix \(a=b\) not unary prefix \(=b\), so STACK needs this special operator.  Students using the input area can just start a line with \(=\), but teachers cannot!
 
 In this context the teacher's answer and the student's answer is a list.  The whole answer is a single object, which we assess.
@@ -66,7 +66,7 @@ This ensures a student's response will be invalid if they don't have the correct
 
 ### Setting the potential response tree ###
 
-As a minimal potential response tree have one node, with 
+As a minimal potential response tree have one node, with
 
     Answer test = EquivFirst
     SAns = ans1
@@ -115,9 +115,7 @@ If you really want the term order as well, as in, \(x^{3}+6x^{2}+12x+8\) then yo
 
 At this point, any expressions which are equivalent are considered to be a legitimate step.
 
-Clearly this is not entirely satisfactory.
-At this point in the development there is no concept of "a step" and indeed this appears to be very hard to define.
-In the future we will develop better tools for checking "step size", and any contributions in this direction are welcome.
+Clearly this is not entirely satisfactory. At this point in the development there is no concept of "a step" and indeed this appears to be very hard to define. In the future we will develop better tools for checking "step size", and any contributions in this direction are welcome.
 
 Teachers can check the students answer is long enough or not too long by looking at `length(ta)`.
 

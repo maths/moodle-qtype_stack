@@ -27,11 +27,11 @@ require_once(__DIR__ . '/../../utils.class.php');
  */
 class stack_notes_input extends stack_input {
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'manualgraded' => false,
-    );
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
@@ -40,10 +40,10 @@ class stack_notes_input extends stack_input {
 
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
-        $attributes = array(
+        $attributes = [
             'name' => $fieldname,
             'id'   => $fieldname,
-        );
+        ];
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->parameters['syntaxHint'];
@@ -66,7 +66,21 @@ class stack_notes_input extends stack_input {
         }
 
         return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes) .
-            html_writer::tag('div', "", array('class' => 'clearfix'));
+            html_writer::tag('div', "", ['class' => 'clearfix']);
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'notes';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['syntaxHint'] = $this->parameters['syntaxHint'];
+
+        return $data;
     }
 
     /**
@@ -80,16 +94,16 @@ class stack_notes_input extends stack_input {
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
         $errors   = null;
-        $notes    = array();
-        $caslines = array();
+        $notes    = [];
+        $caslines = [];
         $valid    = true;
         $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);;
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        return [$valid, $errors, $notes, $answer, $caslines, $answer, []];
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -111,7 +125,7 @@ class stack_notes_input extends stack_input {
      * @return array option => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'     => false,
             'showValidation' => 1,
             'boxWidth'       => 50,
@@ -123,7 +137,7 @@ class stack_notes_input extends stack_input {
             'lowestTerms'    => true,
             'sameType'       => true,
             'options'        => '',
-        );
+        ];
     }
 
     /**
@@ -168,10 +182,13 @@ class stack_notes_input extends stack_input {
      * Generate the HTML that gives the results of validating the student's input.
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
+     * @param string $lang language of the question.
      * @return string HTML for the validation results for this input.
      */
-    public function render_validation(stack_input_state $state, $fieldname) {
-
+    public function render_validation(stack_input_state $state, $fieldname, $lang) {
+        if ($lang !== null && $lang !== '') {
+            $prevlang = force_current_language($lang);
+        }
         if (self::BLANK == $state->status) {
             return '';
         }
@@ -185,9 +202,12 @@ class stack_notes_input extends stack_input {
         $contents = $state->contents;
         $render = '';
         if (array_key_exists(0, $contents)) {
-            $render .= html_writer::tag('p', $contents[0]);
+            $render .= html_writer::tag('p', htmlentities($contents[0], ENT_COMPAT));
         }
-        $render .= html_writer::tag('p', stack_string('studentValidation_notes'), array('class' => 'stackinputnotice'));
+        $render .= html_writer::tag('p', stack_string('studentValidation_notes'), ['class' => 'stackinputnotice']);
+        if ($lang !== null && $lang !== '') {
+            force_current_language($prevlang);
+        }
         return format_text(stack_maths::process_display_castext($render));
     }
 
@@ -200,4 +220,11 @@ class stack_notes_input extends stack_input {
         return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
+    public function get_api_solution($tavalue) {
+        return new stdClass();
+    }
+
+    public function get_api_solution_render($tadisplay) {
+        return '';
+    }
 }

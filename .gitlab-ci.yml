@@ -1,0 +1,61 @@
+stages:
+  - build
+  - publish
+
+build:
+  stage: build
+  tags:
+    - docker-support
+  script:
+    - >
+      docker build
+      --pull
+      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
+      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+      --target production
+      -f ./api/docker/Dockerfile
+      --tag $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA
+      .
+    - docker save $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA | gzip > image.tar.gz
+  artifacts:
+    name: "image"
+    paths:
+      - image.tar.gz
+    expire_in: 1 day
+
+publish-latest:
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - docker-support
+  stage: publish
+  only:
+    - dynexite-api
+  before_script:
+    - echo -n $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin $DOCKER_REGISTRY
+    - echo -n $PUBLIC_IMAGE_MIRROR_PASSWORD | docker login -u $PUBLIC_IMAGE_MIRROR_USER --password-stdin $PUBLIC_IMAGE_MIRROR_REGISTRY
+  script:
+    - docker load < image.tar.gz
+    - docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA $DOCKER_REGISTRY/$DOCKER_IMAGE:latest
+    - docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA $PUBLIC_IMAGE_MIRROR_REGISTRY/$PUBLIC_IMAGE_MIRROR_IMAGE:latest
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE:latest
+    - docker push $PUBLIC_IMAGE_MIRROR_REGISTRY/$PUBLIC_IMAGE_MIRROR_IMAGE:latest
+
+publish-tag:
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - docker-support
+  stage: publish
+  only:
+    - tags
+  before_script:
+    - echo -n $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin $DOCKER_REGISTRY
+    - echo -n $PUBLIC_IMAGE_MIRROR_PASSWORD | docker login -u $PUBLIC_IMAGE_MIRROR_USER --password-stdin $PUBLIC_IMAGE_MIRROR_REGISTRY
+  script:
+    - docker load < image.tar.gz
+    - docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_REF_NAME
+    - docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA $PUBLIC_IMAGE_MIRROR_REGISTRY/$PUBLIC_IMAGE_MIRROR_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $PUBLIC_IMAGE_MIRROR_REGISTRY/$PUBLIC_IMAGE_MIRROR_IMAGE:$CI_COMMIT_REF_NAME

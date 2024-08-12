@@ -53,9 +53,9 @@ class castext2_test extends qtype_stack_testcase {
     // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
-    private function evaluate(string $code, array $preamble=array(), stack_options $options=null,
+    private function evaluate(string $code, array $preamble=[], stack_options $options=null,
             $context='castext-test-case'): string {
-        $statements = array();
+        $statements = [];
         foreach ($preamble as $statement) {
             $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
         }
@@ -101,7 +101,7 @@ class castext2_test extends qtype_stack_testcase {
         $input = '{@a@}, {@c:b@}, {@3/9,simp=false@}, {@c@}, {@d@}';
         // Note that last one if we are in global simp:true we just cannot know
         // whether that needs to be protected.
-        $preamble = array('a:3/9', 'b:sqrt(2)', 'd:3/9');
+        $preamble = ['a:3/9', 'b:sqrt(2)', 'd:3/9'];
         $output = '\({\frac{1}{3}}\), \({\sqrt{2}}\), \({\frac{3}{9}}\), \({\sqrt{2}}\), \({\frac{1}{3}}\)';
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
@@ -111,9 +111,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_3() {
         $input = '{@a@}, {@3/9@}, {@3/9,simp@}, {@a,simp=false@}, {@a,simp@}';
-        $preamble = array('a:3/9');
+        $preamble = ['a:3/9'];
         $output = '\({\frac{3}{9}}\), \({\frac{3}{9}}\), \({\frac{1}{3}}\), \({\frac{3}{9}}\), \({\frac{1}{3}}\)';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -139,9 +139,9 @@ class castext2_test extends qtype_stack_testcase {
         // an injection. If that needs to be done use the `[[if]]` block combined
         // to `[[define]]`.
         $input = '[[define simp="true"/]]{@a@}, {@(simp:false,a)@}, {@a@}';
-        $preamble = array('a:3/9');
+        $preamble = ['a:3/9'];
         $output = '\({\frac{1}{3}}\), \({\frac{3}{9}}\), \({\frac{3}{9}}\)';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -186,7 +186,7 @@ class castext2_test extends qtype_stack_testcase {
         $input = '{#a#}, {#c:b#}, {#3/9,simp=false#}, {#c#}, {#d#}';
         // Note that last one if we are in global simp:true we just cannot know
         // whether that needs to be protected.
-        $preamble = array('a:3/9', 'b:sqrt(2)', 'd:3/9');
+        $preamble = ['a:3/9', 'b:sqrt(2)', 'd:3/9'];
         $output = '1/3, sqrt(2), 3/9, sqrt(2), 1/3';
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
@@ -196,9 +196,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_value_injection_3() {
         $input = '{#a#}, {#3/9#}, {#3/9,simp#}, {#a,simp=false#}, {#a,simp#}';
-        $preamble = array('a:3/9');
+        $preamble = ['a:3/9'];
         $output = '3/9, 3/9, 1/3, 3/9, 1/3';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -210,9 +210,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_multiplicationsign_dot() {
         $input = '{@a@}, {@pi*x^2@}';
-        $preamble = array('a:x*y*z');
+        $preamble = ['a:x*y*z'];
         $output = '\({x\cdot y\cdot z}\), \({\pi\cdot x^2}\)';
-        $options = new stack_options(array('multiplicationsign' => 'dot'));
+        $options = new stack_options(['multiplicationsign' => 'dot']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -222,9 +222,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_multiplicationsign_cross() {
         $input = '{@a@}, {@pi*x^2@}';
-        $preamble = array('a:x*y*z');
+        $preamble = ['a:x*y*z'];
         $output = '\({x\times y\times z}\), \({\pi\times x^2}\)';
-        $options = new stack_options(array('multiplicationsign' => 'cross'));
+        $options = new stack_options(['multiplicationsign' => 'cross']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -234,9 +234,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_multiplicationsign_none() {
         $input = '{@a@}, {@pi*x^2@}';
-        $preamble = array('a:x*y*z');
+        $preamble = ['a:x*y*z'];
         $output = '\({x\,y\,z}\), \({\pi\,x^2}\)';
-        $options = new stack_options(array('multiplicationsign' => 'none'));
+        $options = new stack_options(['multiplicationsign' => 'none']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -248,9 +248,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_inversetrig_acos() {
         $input = '\({@acos(alpha)@}, {@asin(alpha)@}, {@a@}\)';
-        $preamble = array('a:asech(alpha)');
+        $preamble = ['a:asech(alpha)'];
         $output = '\({{\rm acos}\left( \alpha \right)}, {{\rm asin}\left( \alpha \right)}, {{\rm asech}\left( \alpha \right)}\)';
-        $options = new stack_options(array('inversetrig' => 'acos'));
+        $options = new stack_options(['inversetrig' => 'acos']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -260,9 +260,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_inversetrig_cos_1() {
         $input = '\({@acos(alpha)@}, {@asin(alpha)@}, {@a@}\)';
-        $preamble = array('a:asech(alpha)');
+        $preamble = ['a:asech(alpha)'];
         $output = '\({\cos^{-1}\left( \alpha \right)}, {\sin^{-1}\left( \alpha \right)}, {{\rm sech}^{-1}\left( \alpha \right)}\)';
-        $options = new stack_options(array('inversetrig' => 'cos-1'));
+        $options = new stack_options(['inversetrig' => 'cos-1']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -272,9 +272,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_inversetrig_arccos() {
         $input = '\({@acos(alpha)@}, {@asin(alpha)@}, {@a@}\)';
-        $preamble = array('a:asech(alpha)');
+        $preamble = ['a:asech(alpha)'];
         $output = '\({\arccos \left( \alpha \right)}, {\arcsin \left( \alpha \right)}, {{\rm arcsech}\left( \alpha \right)}\)';
-        $options = new stack_options(array('inversetrig' => 'arccos'));
+        $options = new stack_options(['inversetrig' => 'arccos']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -286,9 +286,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_matrixparens_brackets() {
         $input = '{@matrix([1,0],[0,1])@}';
-        $preamble = array();
+        $preamble = [];
         $output = '\({\left[\begin{array}{cc} 1 & 0 \\\\ 0 & 1 \end{array}\right]}\)';
-        $options = new stack_options(array('matrixparens' => '['));
+        $options = new stack_options(['matrixparens' => '[']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -298,9 +298,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_matrixparens_parens() {
         $input = '{@matrix([1,0],[0,1])@}';
-        $preamble = array();
+        $preamble = [];
         $output = '\({\left(\begin{array}{cc} 1 & 0 \\\\ 0 & 1 \end{array}\right)}\)';
-        $options = new stack_options(array('matrixparens' => '('));
+        $options = new stack_options(['matrixparens' => '(']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -310,9 +310,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_matrixparens_braces() {
         $input = '{@matrix([1,0],[0,1])@}';
-        $preamble = array();
+        $preamble = [];
         $output = '\({\left\{\begin{array}{cc} 1 & 0 \\\\ 0 & 1 \end{array}\right\}}\)';
-        $options = new stack_options(array('matrixparens' => '{'));
+        $options = new stack_options(['matrixparens' => '{']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -322,9 +322,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_matrixparens_none() {
         $input = '{@matrix([1,0],[0,1])@}';
-        $preamble = array();
+        $preamble = [];
         $output = '\({\begin{array}{cc} 1 & 0 \\\\ 0 & 1 \end{array}}\)';
-        $options = new stack_options(array('matrixparens' => ''));
+        $options = new stack_options(['matrixparens' => '']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -334,9 +334,22 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_latex_injection_matrixparens_pipe() {
         $input = '{@matrix([1,0],[0,1])@}';
-        $preamble = array();
+        $preamble = [];
         $output = '\({\left|\begin{array}{cc} 1 & 0 \\\\ 0 & 1 \end{array}\right|}\)';
-        $options = new stack_options(array('matrixparens' => '|'));
+        $options = new stack_options(['matrixparens' => '|']);
+        $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
+    public function test_latex_matrixparens_indirect_lmxchar() {
+        $input = '\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]';
+        $preamble = ['f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1])'];
+        $output = '\[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\\\ ' .
+            '-x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]';
+        $options = new stack_options();
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -351,9 +364,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_define() {
         $input = '{#a#}, [[ define a="a+1" a="a*a" b="3/9" c="3/9,simp"/]] {#a#} {#b#} {#b,simp#} {#c#}';
-        $preamble = array('a:x');
+        $preamble = ['a:x'];
         $output = 'x,  (x+1)*(x+1) 3/9 1/3 1/3';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -367,9 +380,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_if_1() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[ else ]]no[[define a="3"/]][[/if]], [[ if test="a=3"]]maybe[[/ if ]]';
-        $preamble = array('a:x');
+        $preamble = ['a:x'];
         $output = 'x, yes, ';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -378,9 +391,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_if_2() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]], [[ if test="a=3"]]maybe[[/ if ]]';
-        $preamble = array('a:x');
+        $preamble = ['a:x'];
         $output = 'x, yes, maybe';
-        $options = new stack_options(array('simplify' => true));
+        $options = new stack_options(['simplify' => true]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -390,9 +403,9 @@ class castext2_test extends qtype_stack_testcase {
     public function test_blocks_if_3() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]], ' .
             '[[ if test="a=x"]]no[[elif test="a=3"]]maybe[[/ if ]]';
-        $preamble = array('a:x');
+        $preamble = ['a:x'];
         $output = 'x, yes, maybe';
-        $options = new stack_options(array('simplify' => true));
+        $options = new stack_options(['simplify' => true]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -401,9 +414,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_if_4() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[if test="b=y"]][[define b="x"/]][[/if]][[ else ]]no[[/if]], {#b#}';
-        $preamble = array('a:x', 'b:y');
+        $preamble = ['a:x', 'b:y'];
         $output = 'x, yes, x';
-        $options = new stack_options(array('simplify' => true));
+        $options = new stack_options(['simplify' => true]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -422,9 +435,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_foreach_1() {
         $input = '[[ foreach foo="a"]][[ foreach bar="foo"]]{#bar#}, [[/foreach]] - [[/foreach]]';
-        $preamble = array('a:[[1,1+1,1+1+1],[1,2,3]]');
+        $preamble = ['a:[[1,1+1,1+1+1],[1,2,3]]'];
         $output = '1, 1+1, 1+1+1,  - 1, 2, 3,  - ';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -433,9 +446,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_foreach_2() {
         $input = '[[ foreach foo="a"]][[ foreach bar="foo"]]{#bar#}, [[/foreach]] - [[/foreach]]';
-        $preamble = array('a:[{1,1+1,1+1+1},{3,2,1}]');
+        $preamble = ['a:[{1,1+1,1+1+1},{3,2,1}]'];
         $output = '1, 2, 3,  - 1, 2, 3,  - ';
-        $options = new stack_options(array('simplify' => true));
+        $options = new stack_options(['simplify' => true]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -444,9 +457,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_foreach_3() {
         $input = '[[ foreach foo="a"]][[ foreach bar="foo,simp"]]{#bar#}, [[/foreach]] - [[/foreach]]';
-        $preamble = array('a:[[1,1+1,1+1+1],[1,2,3]]');
+        $preamble = ['a:[[1,1+1,1+1+1],[1,2,3]]'];
         $output = '1, 2, 3,  - 1, 2, 3,  - ';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -455,9 +468,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_foreach_4() {
         $input = '[[ foreach foo="a" bar="b"]]{@foo^bar@}, [[/foreach]]';
-        $preamble = array('a:[1,2,3,4]', 'b:[x,y,z]');
+        $preamble = ['a:[1,2,3,4]', 'b:[x,y,z]'];
         $output = '\({1^{x}}\), \({2^{y}}\), \({3^{z}}\), ';
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
@@ -479,11 +492,33 @@ class castext2_test extends qtype_stack_testcase {
      *  1. Comments out itself and contents.
      *  2. Even if contents are invalid or incomplete.
      *
-     * @covers \qtype_stack\stack_cas_castext2_comment
+     * @covers \qtype_stack\stack_cas_castext2_todo
      */
     public function test_blocks_todo() {
         $input = '1[[ todo]] [[ foreach bar="foo"]] {#y@} [[/todo]]2';
         $output = '1<!--- stack_todo --->2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_hint
+     */
+    public function test_blocks_hint() {
+        $input = "1[[hint title=\"Show solution\"]][[if test='is(1>0)']]Solution[[/if]][[/hint]]2";
+        $output = '1<details class="stack-hint"><summary class="btn btn-secondary" >Show solution</summary>' .
+                  '<div class="stack-hint-content">Solution</div></details>2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_hint
+     */
+    public function test_blocks_hint_hint() {
+        $input = "[[hint title=\"Show solution\"]][[hint title=\"Go on....\"]]Solution[[/hint]][[/hint]]";
+        $output = '<details class="stack-hint"><summary class="btn btn-secondary" >Show solution</summary>' .
+                  '<div class="stack-hint-content">' .
+                  '<details class="stack-hint"><summary class="btn btn-secondary" >Go on....</summary>' .
+                  '<div class="stack-hint-content">Solution</div></details></div></details>';
         $this->assertEquals($output, $this->evaluate($input));
     }
 
@@ -532,7 +567,7 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_texput_1() {
         $input = '\({@foo@}\)';
-        $preamble = array('texput(foo, "\\\\frac{foo}{bar}")');
+        $preamble = ['texput(foo, "\\\\frac{foo}{bar}")'];
         $output = '\({\frac{foo}{bar}}\)';
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
@@ -543,8 +578,10 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_texput_2() {
         $input = '{@x^2+foo(a,sqrt(b))@}';
-        $preamble = array('footex(e):=block([a,b],[a,b]:args(e),sconcat(tex1(a)," \\\\rightarrow ",tex1(b)))',
-            'texput(foo, footex)');
+        $preamble = [
+            'footex(e):=block([a,b],[a,b]:args(e),sconcat(tex1(a)," \\\\rightarrow ",tex1(b)))',
+            'texput(foo, footex)',
+        ];
         $output = '\({x^2+a \rightarrow \sqrt{b}}\)';
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
@@ -558,7 +595,7 @@ class castext2_test extends qtype_stack_testcase {
         // Note that 0.000012 has rounding in clisp which is not the point of this test.
         // And 0.000013 has rounding in SBCL/GCL.
         // And 0.000016 has rounding in SBCL!
-        $preamble = array('stackfltfmt:"~e"', 'a:0.000025');
+        $preamble = ['stackfltfmt:"~e"', 'a:0.000025'];
         $output = '\({2.5e-5}\), \({0.000025}\)';
         $this->assertEquals($output, strtolower($this->evaluate($input, $preamble)));
     }
@@ -569,10 +606,10 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_stackintfmt() {
         $input = '{@(stackintfmt:"~:r",a)@}, {@(stackintfmt:"~@R",a)@}';
-        $preamble = array('a:1998');
-        $output = '\({\mbox{one thousand nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+        $preamble = ['a:1998'];
+        $output = '\({\text{one thousand nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
         if ($this->adapt_to_new_maxima('5.46.0')) {
-            $output = '\({\mbox{one thousand, nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+            $output = '\({\text{one thousand, nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
         }
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
@@ -661,12 +698,40 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_keyval
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_inline_castext_error() {
+        $keyval = 'S:1;T:castext(A_11);';
+        // The inline castext compilation currently only happens for keyvals, not for
+        // singular statements so we need to do something special to get this done.
+        $kv = new stack_cas_keyval($keyval);
+        $kv->get_valid();
+        $kvcode = $kv->compile('test')['statement'];
+        $statements = [new stack_secure_loader($kvcode, 'test-kv')];
+
+        $input = '{@castext(A_12)@}';
+        $output = '<h3>Rendering of text content failed.</h3><ul><li>This text content was never evaluated.</li></ul>';
+
+        $result = castext2_evaluatable::make_from_source($input, 'castext-test-case');
+        $this->assertFalse($result->get_valid());
+
+        $statements[] = $result;
+        $session = new stack_cas_session2($statements);
+        // We know this session is invalid, so don't try to instantiate it now!
+
+        $this->assertEquals('castext()-compiler, wrong argument. Only works with one direct raw string. ' .
+            'And possibly a format descriptor.', $session->get_errors());
+        $this->assertEquals($output, $result->get_rendered());
+    }
+
     // Test common string population.
     /**
      * @covers \qtype_stack\stack_cas_castext2_commonstring
      */
     public function test_commonsstring() {
-        $preamble = array('simp:false', 'a:52+x-x', 'b:"text"', 'c:sqrt(5)', 'simp:true');
+        $preamble = ['simp:false', 'a:52+x-x', 'b:"text"', 'c:sqrt(5)', 'simp:true'];
         // The string "stackversionerror" just happens to have multiple named parameters so we use it,
         // feel free to use any other if things change.
         $input = '[[commonstring key="stackversionerror" nosimp_pat="a" qfield="b" raw_ver="c"/]]';
@@ -701,7 +766,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     public function test_templates_3() {
-        $preamble = array('a:1');
+        $preamble = ['a:1'];
         $input = '[[template name="foobar"]]FOOBAR{#a#}[[/template]][[template name="foobar"/]]' .
             '[[define a="2"/]] [[template name="foobar"/]]';
         $output = 'FOOBAR1 FOOBAR2';

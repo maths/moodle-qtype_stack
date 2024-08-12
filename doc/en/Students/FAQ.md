@@ -8,7 +8,7 @@ You often need to enter an answer which is an algebraic expression. Details and 
 
 ## Why is my answer "invalid"?
 
-STACK validates students' answers before they are graded, checking if the answers are in an acceptable syntax and giving the student a chance to confirm their answer is correct. By default, answers not explicitly specifying multiplication (fx. \(2x\) instead of \(2*x\)) are not accepted. This is linked to a core [philosophy of STACK](../About/The_philosophy_of_STACK.md); students should not be penalized for poor computer syntax. It is better to bug students until their answer is unambiguous, than to risk students being marking wrong for typic in "sinx" instead of "sin(x)" and having the computer interpret it as "s\*i\*n\*x".
+STACK validates students' answers before they are graded, checking if the answers are in an acceptable syntax and giving the student a chance to confirm their answer is correct. By default, answers not explicitly specifying multiplication (fx. \(2x\) instead of \(2*x\)) are not accepted. This is linked to a core [philosophy of STACK](../About/The_philosophy_of_STACK.md); students should not be penalized for poor computer syntax. It is better to bug students until their answer is unambiguous, than to risk students being marking wrong for typing in "sinx" instead of "sin(x)" and having the computer interpret it as "s\*i\*n\*x".
 
 That being said, there are options in STACK to be less strict with student syntax, so that the system may accept "2x" as a valid input. The question author has to activate this function, so contact your teacher if you think they should choose this option.
 
@@ -39,4 +39,4 @@ If the bug seems to concern something outside of the question, for example the q
 
 ## How do I make the fonts bigger?
 
-See the information on [Accessibility](Accessibility.md).
+See the information on [Accessibility](Accessibility.md). 

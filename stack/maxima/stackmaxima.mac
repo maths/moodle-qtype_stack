@@ -81,7 +81,7 @@ stack_reset(true);
 /* Make sure this is at least defined. */
 debug:false;
 
-/* TODO: remove this from install process.                               */
+/* TO-DO: remove this from install process.                               */
 /* ********************************************************************* */
 /*  Evaluate variables are return errors, display, and content forms.    */
 /* ********************************************************************* */
@@ -158,10 +158,13 @@ load("validator.mac");
 load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
+load("geometry.mac");
+load("proof.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
+load("functs");
 
 load("stacktex.lisp");
 /* Ensure back compatability with versions before 5.41.0. */
@@ -224,14 +227,16 @@ texput(multsgnonlyfornumberssym, "\\times")$
 multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn, str],
     arglist: args(e),
     a: pop(arglist),
-    resstr: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-        else sconcat("\\left(", tex1(a), "\\right)"),
+    resstr: if ev(is(safe_op(a) = "-" or (real_numberp(a) and is(a<0)))=true, simp) then sconcat("\\left(", tex1(a), "\\right)")
+                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
     lastisnum: numberp(a),
     for a in arglist do (
         isnum: numberp(a),
-        multsgn: if (lastisnum and isnum) then tex1(multsgnonlyfornumberssym) else "\\,",
-        str: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-            else sconcat("\\left(", tex1(a), "\\right)"),
+        multsgn: if ev(is(lastisnum and isnum)=true, simp) then tex1(multsgnonlyfornumberssym) else "\\,",
+        str: if ev(is(safe_op(a) = "-" or (real_numberp(a) and is(a<0)))=true, simp) then sconcat("\\left(", tex1(a), "\\right)")
+                else if ev(is(atom(a) or is(length(args(a))=1) or safe_op(a) = "^")=true, simp) then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
         resstr: sconcat(resstr, multsgn, " ", str),
         lastisnum: isnum
     ),
@@ -240,15 +245,15 @@ multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn
 
 make_logic(OPT_LOGIC) := block(
     if OPT_LOGIC = "lang" then block(
-        texput("and", "\\,{\\mbox{ !AND! }}\\, ", nary),
-        texput("nounand", "\\,{\\mbox{ !AND! }}\\, ", nary),
-        texput("or", "\\,{\\mbox{ !OR! }}\\, ", nary),
-        texput("nounor", "\\,{\\mbox{ !OR! }}\\, ", nary),
-        texput("nand", "\\,{\\mbox{ !NAND! }}\\, ", nary),
-        texput("nor", "\\,{\\mbox{ !NOR! }}\\, ", nary),
-        texput("xor", "\\,{\\mbox{ !XOR! }}\\, ", nary),
-        texput("xnor", "\\,{\\mbox{ !XNOR! }}\\, ", nary),
-        texput("implies", "\\,{\\mbox{ !IMPLIES! }}\\, ", nary),
+        texput("and", "\\,{\\text{ !AND! }}\\, ", nary),
+        texput("nounand", "\\,{\\text{ !AND! }}\\, ", nary),
+        texput("or", "\\,{\\text{ !OR! }}\\, ", nary),
+        texput("nounor", "\\,{\\text{ !OR! }}\\, ", nary),
+        texput("nand", "\\,{\\text{ !NAND! }}\\, ", nary),
+        texput("nor", "\\,{\\text{ !NOR! }}\\, ", nary),
+        texput("xor", "\\,{\\text{ !XOR! }}\\, ", nary),
+        texput("xnor", "\\,{\\text{ !XNOR! }}\\, ", nary),
+        texput("implies", "\\,{\\text{ !IMPLIES! }}\\, ", nary),
         texput("not", "{\\rm !NOT!}", prefix),
         texput("nounnot", "{\\rm !NOT!}", prefix)
     ),
@@ -756,7 +761,7 @@ texput_decimal(ex):= stackfltsep:ex$
         tx:ev(printf(false, stackfltfmt, x), simp)
     ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
-            tx:sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+            tx:sconcat("\\text{",ev(printf(false, stackintfmt, x), simp),"}")
         else
             tx:ev(printf(false, stackintfmt, x), simp)
     ) else
@@ -979,7 +984,7 @@ set_plot_option([gnuplot_default_term_command, ""]);
 plot(ex, [ra]) :=  /*stack_web_plot*/
     block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr,
         filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug,
-        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid],
+        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin],
     stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
@@ -1024,7 +1029,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth],
+    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth, margin],
     /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted. */
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
     else  permitted_options:append([x], permitted_options),
@@ -1056,13 +1061,22 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ) else block(
             ral: append(ral, [[legend, false]])
         ),
-    /* Add in the command for the grid. */
-    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
-        ral: append(ral, [grid2d]),
     if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, psize, "
 set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
     if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
+    /* Reduce margins around plots: this can be added in again with CSS if required, but can't be clipped later. */
+    if member(margin, maplist(first, ral)) then block([lv],
+            /* If we have [legend, true] then we should use the default legend */
+            lv: first(sublist(ral, lambda([ex], listp(ex) and (first(ex)=margin)))),
+            ral:delete(lv, ral),
+            if not(numberp(second(lv))) then error("Plot error: margin must be a number, found: ", second(lv)),
+            lv:second(lv),
+            if PLOT_TERMINAL="svg" then preamble:concat(preamble, ascii(10), "set lmargin ", string(lv), ascii(10), "set rmargin ", string(lv), ascii(10), "set tmargin ", string(lv), ascii(10), "set bmargin ", string(lv))
+        ),
+    /* Add in the command for the grid. */
+    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
+        ral: append(ral, [grid2d]),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then
@@ -1172,6 +1186,9 @@ ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
 ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, AnswerNote, ret],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
+    /* Reduce the number of different operators, where possible. */
+    if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
+    if ev(is(count_op(SB,STACKpmOPT)=1), simp) then SB:pm_replace(SB),
     /* Are we dealing with strings? */
     if stringp(SB) then
       if stringp(SA)#true then
@@ -1386,6 +1403,12 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
     if algebraic_equivalence(lhs(SB),0) then SB:rhs(SB)=0,
 
     /* Trap edge cases.                                                              */
+    /* If we have empty equations we should bail now.                                */
+    if ATEquation_emptyp(lhs(SB)-rhs(SB)) then
+        if ATEquation_emptyp(lhs(SA)-rhs(SA)) then
+             return([true, true, "ATEquation_empty", ""])
+        else return([true, false, "ATEquation_empty_fail", ""]),
+
     edgecase:false,
     if logic_edgep(SA) or logic_edgep(SB) then edgecase:true,
 
@@ -1408,10 +1431,6 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
         if ATEquation_zerop(Rationalex1) then
              return([true, true, "ATEquation_zero", ""])
         else return([true, false, "ATEquation_zero_fail", ""]),
-    if ATEquation_emptyp(lhs(SB)-rhs(SB)) then
-        if ATEquation_emptyp(lhs(SA)-rhs(SA)) then
-             return([true, true, "ATEquation_empty", ""])
-        else return([true, false, "ATEquation_empty_fail", ""]),
     if numberp(float(abs(Rationalex1/Rationalex2))) then
         return([true, true, "", ""]),    Rationalex1:num(ratsimp(Rationalex1)),
     Rationalex2:num(ratsimp(Rationalex2)),
@@ -1477,7 +1496,7 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     SB:logical_normal(SB),
     if debug then print("ATInequality(", SA, ", ", SB, ")"),
     if SA = SB then RawMark:true
-    else if single_variable_solver_real(SA)=single_variable_solver_real(SB) then block(
+    else if stack_single_variable_solver(SA)=stack_single_variable_solver(SB) then block(
         RawMark:true,
         AnswerNote:StackAddNote("", "ATInequality_solver")
     ),
@@ -1565,7 +1584,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
         if retnew[2] = false then AddFeedBack:true
     ),
     if AddFeedBack = true then block(
-        /* TODO: better answernotes for matrices */
+        /* TO-DO: better answernotes for matrices */
         ret[3]:StackAddNote("", "ATMatrix_wrongentries"),
         ret[4]:StackAddFeedback("", "ATMatrix_wrongentries", stack_disp(SA, "d"))
     ),
@@ -1974,8 +1993,8 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     if (debug) then print("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then
         return([true, true, StackAddNote("", "ATLogic_True"), ""]),
-    SAP:ev(single_variable_solver_real(SA), simp),
-    SBP:ev(single_variable_solver_real(SB), simp),
+    SAP:ev(stack_single_variable_solver(SA), simp),
+    SBP:ev(stack_single_variable_solver(SB), simp),
     if (debug) then print("ATLogic_to_poly_solver: [", string(SAP), " | ", string(SBP), "]"),
     if SAP=SBP then
         return([true, true, StackAddNote("", "ATLogic_Solver_True"), ""]),
@@ -3018,7 +3037,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
            (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", stack_disp(SBdisp, "d"), stack_disp(var, "i"), stack_disp(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
     /* Has the student used log(x) vs log(abs(x)) in their answer? */
     if not(SAUsedLogAbs) and SBUsedLogAbs then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
+            (rawmk:false, fb:StackAddFeedback(fb, "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
@@ -3315,4 +3334,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023093000$
+stackmaximaversion:2024060301$

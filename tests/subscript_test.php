@@ -49,7 +49,10 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 class subscript_test extends qtype_stack_testcase {
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_subscripts_test_data::get_raw_test_data
+     * @codingStandardsIgnoreEnd
      */
     public function test_subscripts() {
         $this->skip_if_old_maxima('5.40.0');
@@ -84,7 +87,10 @@ class subscript_test extends qtype_stack_testcase {
     }
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_subscripts_test_data::get_raw_test_data_legacy
+     * @codingStandardsIgnoreEnd
      */
     public function test_subscripts_legacy_maxima() {
         $this->skip_if_new_maxima('5.40.0');
@@ -120,18 +126,18 @@ class subscript_test extends qtype_stack_testcase {
 
     public function test_texput_overide() {
 
-        $preamble   = array();
+        $preamble   = [];
         $preamble[] = 'texput(F, "{\\mathcal F}");';
         $preamble[] = 'texput(F_1, "F_1");';
         $preamble[] = 'texput(F_x, "F_x");';
-        $statements = array();
+        $statements = [];
         foreach ($preamble as $statement) {
             $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
         }
         $code = '{@F@}, {@F_1@}, {@F_2@}, {@F_x@}, {@F_y@}.';
         $result = castext2_evaluatable::make_from_source($code, 'castext-test-case');
 
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $statements[] = $result;
         $session = new stack_cas_session2($statements, $options);
         $session->instantiate();
@@ -144,18 +150,18 @@ class subscript_test extends qtype_stack_testcase {
 
     public function test_texput_overide_units() {
 
-        $preamble   = array();
+        $preamble   = [];
         $preamble[] = 'stack_unit_si_declare(true);';
         $preamble[] = 'texput(F_1, "F_1");';
         $preamble[] = 'texput(F_x, "F_x");';
-        $statements = array();
+        $statements = [];
         foreach ($preamble as $statement) {
             $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
         }
         $code = '{@F@}, {@F_1@}, {@F_2@}, {@F_x@}, {@F_y@}.';
         $result = castext2_evaluatable::make_from_source($code, 'castext-test-case');
 
-        $options = new stack_options(array('simplify' => false));
+        $options = new stack_options(['simplify' => false]);
         $statements[] = $result;
         $session = new stack_cas_session2($statements, $options);
         $session->instantiate();

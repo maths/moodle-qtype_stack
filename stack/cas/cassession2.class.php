@@ -105,7 +105,7 @@ class stack_cas_session2 {
     }
 
     public function get_contextvariables(): array {
-        $ret = array();
+        $ret = [];
         foreach ($this->statements as $statement) {
             if (method_exists($statement, 'is_toplevel_property') &&
                 $statement->is_toplevel_property('contextvariable')) {
@@ -163,7 +163,7 @@ class stack_cas_session2 {
         $target->instantiated = false;
     }
 
-    public function get_variable_usage(array $updatearray = array()): array {
+    public function get_variable_usage(array $updatearray = []): array {
         foreach ($this->statements as $statement) {
             $updatearray = $statement->get_variable_usage($updatearray);
         }
@@ -176,7 +176,7 @@ class stack_cas_session2 {
 
     public function get_valid(): bool {
         $valid = true;
-        foreach ($this->statements as $index => $statement) {
+        foreach ($this->statements as $statement) {
             if ($statement->get_valid() === false) {
                 $valid = false;
             }
@@ -186,7 +186,7 @@ class stack_cas_session2 {
     }
 
     /*
-     * TODO: set return value of : ?cas_evaluatable
+     * TO-DO: set return value of : ?cas_evaluatable
      */
     public function get_by_key(string $key) {
         // Searches from the statements the last one with a given key.
@@ -206,10 +206,10 @@ class stack_cas_session2 {
      * And it includes any runtime errors, specifically if we get nothing back.
      */
     public function get_errors($implode = true, $withcontext = true) {
-        $errors = array();
+        $errors = [];
 
         if ($this->timeoutdebug !== '') {
-            $errors[] = array(stack_string('stackCas_failedtimeout'));
+            $errors[] = [stack_string('stackCas_failedtimeout')];
         }
 
         foreach ($this->statements as $num => $statement) {
@@ -220,7 +220,7 @@ class stack_cas_session2 {
         }
 
         /* Make sure each error is only reported once. */
-        $unique = array();
+        $unique = [];
         foreach ($errors as $errs) {
             foreach ($errs as $err) {
                 $unique[$err] = true;
@@ -252,10 +252,10 @@ class stack_cas_session2 {
         // as we have not seen anyone using the same CAS process twice, should
         // that become necessary much more would need to be done. But the parser
         // can handle that if need be.
-        $collectvalues = array();
-        $collectlatex = array();
-        $collectdvs = array();
-        $collectdvsandvalues = array();
+        $collectvalues = [];
+        $collectlatex = [];
+        $collectdvs = [];
+        $collectdvsandvalues = [];
 
         foreach ($this->statements as $num => $statement) {
             $dvv = false;
@@ -383,17 +383,16 @@ class stack_cas_session2 {
         $connection = stack_connection_helper::make();
         $results = $connection->json_compute($command);
         // Let's collect what we got.
-        $asts = array();
-        $latex = array();
-        $display = array();
-
+        $asts = [];
+        $latex = [];
+        $display = [];
         if (!isset($results['timeout']) || $results['timeout'] === true) {
             if (array_key_exists('timeoutdebug', $results)) {
                 $this->timeoutdebug = $results['timeoutdebug'];
             }
             foreach ($this->statements as $num => $statement) {
-                $errors = array(new $this->errclass(stack_string('stackCas_failedtimeout'), ''));
-                $statement->set_cas_status($errors, array(), array());
+                $errors = [new $this->errclass(stack_string('stackCas_failedtimeout'), '')];
+                $statement->set_cas_status($errors, [], []);
             }
             return false;
         }
@@ -432,7 +431,7 @@ class stack_cas_session2 {
         }
         // Then push those to the objects we are handling.
         foreach ($this->statements as $num => $statement) {
-            $err = array();
+            $err = [];
             if (array_key_exists('errors', $results)) {
                 if (array_key_exists('s' . $num, $results['errors'])) {
                     foreach ($results['errors']['s' . $num] as $errs) {
@@ -448,7 +447,7 @@ class stack_cas_session2 {
             }
             // Check for ignores.
             $last = null;
-            $errb = array();
+            $errb = [];
             foreach ($err as $error) {
                 if (strpos($error->get_legacy_error(), 'STACK: ignore previous error.') !== false) {
                     $last = null;
@@ -464,13 +463,13 @@ class stack_cas_session2 {
             }
             $err = $errb;
 
-            $answernotes = array();
+            $answernotes = [];
             if (array_key_exists('notes', $results)) {
                 if (array_key_exists('s' . $num, $results['notes'])) {
                     $answernotes = $results['notes']['s' . $num];
                 }
             }
-            $feedback = array();
+            $feedback = [];
             if (array_key_exists('feedback', $results)) {
                 if (array_key_exists('s' . $num, $results['feedback'])) {
                     $feedback = $results['feedback']['s' . $num];
@@ -484,10 +483,12 @@ class stack_cas_session2 {
             $usedversion = $results['values']['__stackmaximaversion'];
             $config = stack_utils::get_config();
             if ($usedversion !== $config->stackmaximaversion) {
-                $errors = array(new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
-                    array('fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion)), ''));
+                $errors = [
+                    new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
+                    ['fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion]), ''),
+                ];
                 foreach ($this->statements as $num => $statement) {
-                    $statement->set_cas_status($errors, array(), array());
+                    $statement->set_cas_status($errors, [], []);
                 }
             }
         }
@@ -517,15 +518,16 @@ class stack_cas_session2 {
      */
     public function get_keyval_representation($evaluatedvalues = false): string {
         $keyvals = '';
-        $params = array('checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => false,
             'nosemicolon' => true,
             'keyless' => false,
             'dealias' => true, // This is needed to stop pi->%pi etc.
             'nounify' => 0,
-            'nontuples' => false
-        );
+            'nontuples' => false,
+        ];
 
         foreach ($this->statements as $statement) {
             if ($evaluatedvalues) {

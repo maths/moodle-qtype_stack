@@ -1,0 +1,30 @@
+/****************************************************************/
+thm:"\\(\\sqrt{2}\\) is irrational.";
+
+
+/****************************************************************/
+proof_steps: [
+    ["assume",     "Assume, for a contradiction, that \\(\\sqrt{2}\\) is rational."],
+    ["defn_rat",   "Then there exist integers \\(p\\) and \\(q\\neq 0\\) such that"],
+    ["defn_rat2",  "\\( \\sqrt{2} = \\frac{p}{q}.\\)"],
+    ["ass_low",    "We can assume that \\(p\\) and \\(q\\) have no common factor, otherwise we can cancel these out."],
+    ["alg1",       "Squaring both sides"],
+    ["alg2",       "\\( 2 = \\frac{p^2}{q^2}\\)"],
+    ["alg3",       "\\( 2q^2=p^2\\)"],
+    ["p2_even",    "Therefore \\(p^2\\) is even."],
+    ["p_even",     "Hence \\(p\\) is even."],
+    ["def_even",   "Say \\(p=2r\\)."],
+    ["sub1",       "Substituting this gives"],
+    ["sub2",       "\\( 2q^2=(2r)^2\\)"],
+    ["sub3",       "\\( 2q^2=4r^2\\)"],
+    ["sub4",       "\\( q^2=2r^2\\)"],
+    ["q2_even",    "Therefore \\(q^2\\) is even."],
+    ["q_even",     "Hence \\(q\\) is even."],
+    ["both_even",  "We have proved that both \\(p\\) and \\(q\\) are even."],
+    ["com_fac",    "This means they have a common factor of \\(2\\)."],
+    ["cont",       "This contradicts the assumption that \\(p\\) and \\(q\\) have no common factor."]
+];
+
+/* This is how the teacher defines their answer, as nested proofs. */
+proof_ans:proof(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
+proof_ans:proof("assume","defn_rat","defn_rat2","ass_low","alg1","alg2","alg3","p2_even","p_even","def_even","sub1","sub2","sub3","sub4","q2_even","q_even","both_even","com_fac","cont");

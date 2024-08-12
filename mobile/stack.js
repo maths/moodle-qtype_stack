@@ -15,7 +15,7 @@ var result = {
         }
 
         // Create a temporary div to ease extraction of parts of the provided html.
-        var div = document.createElement('div');
+        var div = this.CoreDomUtilsProvider.convertToElement(this.question.html);
         div.innerHTML = this.question.html;
 
         // Replace Moodle's correct/incorrect classes, feedback and icons with mobile versions.
@@ -42,6 +42,7 @@ var result = {
             this.question.prompt = prompt.innerHTML;
         }
         var checkboxsets = [];
+
         answers.forEach(function(checkboxset, i) {
             var options = checkboxset.querySelectorAll('.option');
             const o = [];
@@ -51,9 +52,8 @@ var result = {
                 var name = option.querySelector('label').getAttribute('for');
                 var checked = (option.querySelector('input[type=checkbox]').getAttribute('checked') ? true : false);
                 var disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
-                var feedback = (option.querySelector('div') ? d.querySelector('div').innerHTML : '');
                 var qclass = option.getAttribute('class');
-                o.push({text: label, name: name, checked: checked, disabled: disabled, feedback: feedback, qclass: qclass});
+                o.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass});
             });
             checkboxsets.push(o);
             checkboxset.replaceWith('~~!!~~Checkbox:' + i + '~~!!');
@@ -77,7 +77,6 @@ var result = {
             }
             sections.push(section);
         });
-        debugger;
         this.question.sections = sections;
         return true;
     }

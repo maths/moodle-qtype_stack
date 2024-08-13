@@ -13,10 +13,10 @@ Here is a basic example of use:
 ````
 [[parsons input="ans1"]]
 {
-  "1":"Assume that \\(n\\) is odd.",
-  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "assume":"Assume that \\(n\\) is odd.",
+  "ex":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
 }
 [[/parsons]]
 ````
@@ -29,22 +29,29 @@ Assume the question author writes a list `proof_steps` of pairs `["key", "string
 [[/parsons]]
 ````
 
-or they can avoid strings going via Maxima at all by writing JSON directly
+or they can avoid strings going via Maxima at all by writing JSON directly. 
 
 Both these approaches can be combined, assuming `proof_steps` is a list of pairs `["key", "string"]` as in previous examples.
 
 ````
 [[parsons input="ans1"]]
 {
-  "1":{#proof_steps[1][2]#},
-  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "assume":{#proof_steps[1][2]#},
+  "ex":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
 }
 [[/parsons]]
 ````
 
 Note the `\` character needs to be protected within strings, so for example we have to type `\\(n=2m+1\\)` rather than just `\(n=2m+1\)`.
+
+### Using numeric keys
+
+If writing JSON directly, using all numeric keys (either 
+as a numeric type or a string containing a number) is not supported and will throw a runtime error. This is because JavaScript 
+will re-order the steps in this case which voids any randomisation. If using Maxima arrays, the keys are automatically hashed so
+numeric keys may still be used.
 
 ## Customising the `[[parsons]]` block
 
@@ -134,12 +141,12 @@ Additional display options including `height` and `width` may also be passed to 
 ````
 [[parsons input="ans1" height="360px" width="100%"]]
 {
-  "1":"Assume that \\(n\\) is odd.",
-  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-  "5":"Assume that \\(n\\) is even.",
-  "6":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
+  "assume_odd":"Assume that \\(n\\) is odd.",
+  "ex_odd":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "assume_even":"Assume that \\(n\\) is even.",
+  "ex_even":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
 };
 [[/parsons]]
 ````

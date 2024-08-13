@@ -99,6 +99,13 @@ Imagine we have asked students to find the prime decomposition of \(1617 = 3^1\c
 
 Note, this test always assumes commutativity so you can't (currently) enforce the order of writing the prime factors.
 
+### Fractions with one in the numerator ###
+
+Imagine the teacher's answer is \(\frac{\sin(3x)}{2}\) but a student types in \(\frac{1}{2}\sin(3x)\).  In this case `ATEqualComAss` won't establish equivalence because the rule \(1\times\sin(3x)\rightarrow \sin(3x)\) is needed.  This can be done with the following.
+
+    ATEqualComAssRules(1/2*sin(3*x), sin(3*x)/2, [oneMul]);
+
+
 ## Developer notes ##
 
 This functionality was introduced in April 2021.  It is essential that the rules, and any combination of the rules, can only proceed in a single direction and that no infinite loops are created.  So, `intAdd` is fine because adding together two integers will make an expression _simpler_ which in this case is shorter.  For this reason we do not have expanding out (i.e. distribution) rules in the above set, and no rules of indices (which readily lead to mathematical errors).  Use Maxima's simplifier if you want to include such rules.

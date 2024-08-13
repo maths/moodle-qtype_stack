@@ -1023,6 +1023,9 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[zeroAdd]', '0+a', 'a', 1, '', ''],
         ['EqualComAssRules', '[zeroAdd]', 'a+0', 'a', 1, '', ''],
         ['EqualComAssRules', '[testdebug,zeroAdd]', '1*a', 'a', 0, 'ATEqualComAssRules: [1 nounmul a,a].', ''],
+        // This is a common example where EqualComAss is not adequate.
+        ['EqualComAssRules', '[zeroAdd]', '1/2*sin(3*x)', 'sin(3*x)/2', 0, '', ''],
+        ['EqualComAssRules', '[oneMul]', '1/2*sin(3*x)', 'sin(3*x)/2', 1, '', ''],
         ['EqualComAssRules', '[oneMul]', '1*a', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', '1*a', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', 'a/1', 'a', 1, '', ''],

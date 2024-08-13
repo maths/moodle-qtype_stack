@@ -146,12 +146,12 @@ The complete question text is
 ````
 <p>Let \(n\in\mathbb{N}\).  Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
 [[parsons input="ans1"]]
-{# stackjson_stringify(proof_steps) #}
+{# parsons_steps(proof_steps) #}
 [[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
 
-Notice the function `stackjson_stringify` turns the variable `proof_steps` into a JSON object.
+Notice the function `parsons_steps` turns the variable `proof_steps` into a JSON object with hashed keys.
 
 Notice in this example the teacher's proof is nested.  This can be seen if we use numerical keys, not string keys and define
 

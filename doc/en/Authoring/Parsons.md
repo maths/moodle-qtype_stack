@@ -25,7 +25,7 @@ Assume the question author writes a list `proof_steps` of pairs `["key", "string
 
 ````
 [[parsons input="ans1" ]]
-{# stackjson_stringify(proof_steps) #}
+{# parsons_steps(proof_steps) #}
 [[/parsons]]
 ````
 
@@ -54,7 +54,7 @@ The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", o
 
 ````
 [[parsons input="ans1"]]
-{ "steps": {# stackjson_stringify(proof_steps) #},
+{ "steps": {# parsons_steps(proof_steps) #},
   "options": {"sortable option 1" : value, ..., "sortable option n" : value},
   "headers" : ["Custom header for the answer list"], 
 }
@@ -119,17 +119,11 @@ To create a random order, you must define steps as Maxima objects using a `proof
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
 3. Add in a question note such as `{@map(first, proof_steps)@}` to create a meaningful, minimal, question note giving the order of steps.
 
-### Randomisation bug report and workaround, 2nd August 2024
-
-If using numerical keys (in the format of an actual number `1` or as a string `"1"`) then as of the time of writing this will not be randomised correctly and will appear on the question page in the order of the numerical tags. To resolve this use any other keys, either descriptive strings or `"step_1"` if enumeration is required or preferred.
-
-This will be fixed in a future version, Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237).
-
 ## Block connection with Maxima
 
 All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
 
-1. The maxima function `stackjson_stringify(proof_steps)` will convert a list of `proof_steps` into a JSON string.
+1. The maxima function `parsons_steps(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
 2. The maxima function `proof_parsons_interpret(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
 3. The maxima function `proof_parsons_key_json(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
 

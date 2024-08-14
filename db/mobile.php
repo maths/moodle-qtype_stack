@@ -29,7 +29,11 @@ $addons = [
         'handlers' => [
             'stack' => [
                 'delegate' => 'CoreQuestionDelegate',
-                'method' => 'stack_view'
+                'method' => 'stack_view',
+                'styles' => [
+                    'url' => $CFG->wwwroot . '/question/type/stack/styles.css?v=2024080200',
+                    'version' => 2024080200
+                ],
             ]
         ]
     ]

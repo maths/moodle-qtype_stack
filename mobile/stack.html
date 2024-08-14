@@ -1,7 +1,7 @@
 <section ion-list *ngIf="question.text || question.text === ''" class="qtype-stack">
     <ion-item text-wrap>
         <p>
-            <container-element class="ion-text-wrap answer" *ngFor="let section of question.sections">
+            <container-element id="{{question.divId}}" class="ion-text-wrap answer" *ngFor="let section of question.sections">
                 <container-element [ngSwitch]="section.type">
                     <core-format-text *ngSwitchCase="'Text'" [component]="component" [componentId]="componentId" [text]="section.content" [contextLevel]="contextLevel"
                             [contextInstanceId]="contextInstanceId" [courseId]="courseId" />

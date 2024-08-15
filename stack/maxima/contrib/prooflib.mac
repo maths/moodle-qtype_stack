@@ -188,6 +188,13 @@ unhash_keys_list(hashed_list) := block(
 );
 
 /*
+ * Takes a two-dimensional steps array and returns a JSON string mapping original keys to their Base64 encodings.
+ */
+parsons_hash_map(steps) := block(
+  return(stackjson_stringify(cons("stack_map", makelist([steps[i][1], base64(steps[i][1])], i, 1, length(steps)))))
+);
+
+/*
  * Turns a two-dimensional proof steps array into a JSON string with Base64-hashed keys.
  */
 parsons_steps(steps) := block(

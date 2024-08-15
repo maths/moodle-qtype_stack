@@ -358,7 +358,8 @@ export const stack_sortable = class stack_sortable {
             index = "",
             grid = false,
             item_height = null,
-            item_width = null) {
+            item_width = null,
+            log = "false") {
         this.steps = steps;
         this.inputId = inputId;
         this.orientation = orientation;
@@ -379,6 +380,8 @@ export const stack_sortable = class stack_sortable {
         this.container_height_width = (Object.keys(this.item_height_width).length !== 0) ?
             {"style" : this.item_height_width["style"]} : {};
         this.state = this._generate_state(this.steps, inputId, Number(this.columns), Number(this.rows));
+        this.history = [this.state];
+        this.log = log;
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
             this.submitted = this.input.getAttribute("readonly") === "readonly"
@@ -631,11 +634,14 @@ export const stack_sortable = class stack_sortable {
      */
     update_state(newUsed, newAvailable) {
         var newState = {used: newUsed.map((usedList) => usedList.map((used) => used.toArray())), available: newAvailable.toArray()};
+        this.state = newState;
+        if (JSON.stringify(newState) !== JSON.stringify(this.history[0])) {
+            this.history.unshift(newState);
+        }
         if (this.inputId !== null) {
-            this.input.value = JSON.stringify(newState);
+            this.input.value = (this.log === 'false') ? JSON.stringify(this.state) : JSON.stringify(this.history);
             this.input.dispatchEvent(new Event("change"));
         }
-        this.state = newState;
     }
 
     /**

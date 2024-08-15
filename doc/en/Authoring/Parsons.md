@@ -115,6 +115,7 @@ Functionality and styling can be customised through the use of block parameters.
 9. `columns` : string containing an integer `"n"`. How many vertical answer lists to display. By default, this is not used. If it is specified, then the styling will change to a grid-format with multiple vertical answer lists of unspecified length.
 10. `rows` : string containing an integer `"m"`. How many horizontal answer lists to display. By default, this is not used. If it is specified and `columns` is _not_ specified, this will change to a grid-format with multiple horizontal answer lists of unspecified width. If both `columns` and `rows` are specified then this will provide a fixed length and width grid format, where items can be dragged to any position in the grid in any order. You cannot specify `rows` without specifying `columns`.
 11. `transpose` : `"true"` or `"false"`; `"false"` by default. While the student is able to re-orient between vertical and horizontal as they wish, the default on load is for columns to be vertical. If you wish them to default to being horizontal, then pass `transpose="true"`.
+12. `log` : `"true"` or `"false"`; `"false"` by default. When set to `"true"` the student's will contain their entire drag-and-drop move history for that attempt, along with the timestamp (number of seconds since 00:00 GMT 01/01/1970) of that move.
 
 ## Random generation of `proof_step` order
 
@@ -203,6 +204,42 @@ proof_steps:[
 ];
 ````
 
-## Adding trees to a Parson's block
+## Obtaining attempt histories
 
-STACK enables question authors to display the tree structure of an algebraic expression using castext `{@disptree(1+2+pi*x^3)@}`.
+When `log = "true"` is used in the block header, the final input value submitted will contain an array containing the internal 
+representations of the attempt's move history, along with the timestamp at which each move occurs. Timestamps are measured as 
+number of seconds elapsed since 00:00 GMT 01/01/1970. Note that the author keys appearing in the `proof_steps` array are hashed 
+for security reasons, so the move history will contain the hashed keys. To obtain a mapping between the original keys of 
+`proof_steps` and their hashed values, use the provided function `parsons_hash_map(proof_steps)`. This can be called in 
+the Question Description as `{@ parsons_hash_map(proof_steps) @}`, and the output can be copied from the bottom of the 
+Question Dashboard and taken to an external program for analysis. 
+
+Given the following `proof_steps` variable within Question Variables:
+```
+proof_steps: [  
+  ["assume_odd", "Assume that \\(n\\) is odd."],
+  ["ex_odd", "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\)."],
+  ["expand", "\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]"],
+  ["def", "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\)."],
+  ["assume_even", "Assume that \\(n\\) is even."],
+  ["ex_even", "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."]
+];
+```
+the move history takes the following format
+```
+[
+    [
+        {"used" : ["YXNzdW1lX29kZA==", ...], "available" : []}, 
+        1723723269679
+    ],
+    [
+        {"used" : ["YXNzdW1lX29kZA==", ...], "available" : [...]}, 
+        1723723269675
+    ],
+    ...
+    [
+        {"used" : [], "available" : ["YXNzdW1lX29kZA==", ...]},
+        1723723269667
+    ]
+]
+```

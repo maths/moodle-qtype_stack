@@ -27,7 +27,7 @@
 <ng-template #checkbox let-section>
     <ion-item class="ion-text-wrap answer" *ngFor="let option of section.options">
         <div class="flex-column">
-            <ion-checkbox [attr.name]="option.name" [(ngModel)]="option.checked" [disabled]="option.disabled">
+            <ion-checkbox [checked]="option.checked" [disabled]="option.disabled" [attr.name]="option.name" [value]="option.value">
                 <div class="flex-grow ion-text-wrap">
                     <div [class]="option.class">
                         <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"
@@ -36,8 +36,5 @@
                 </div>
             </ion-checkbox>
         </div>
-        <!-- ion-checkbox doesn't use an input. Create a hidden input to hold the value. -->
-        <!-- @TODO Check if this is still needed -->
-        <input type="hidden" [ngModel]="option.checked" [attr.name]="option.name">
     </ion-item>
 </ng-template>

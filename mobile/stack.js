@@ -53,7 +53,8 @@ var result = {
                 var checked = (option.querySelector('input[type=checkbox]').getAttribute('checked') ? true : false);
                 var disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
                 var qclass = option.getAttribute('class');
-                o.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass});
+                var value = option.querySelector('input').getAttribute('value');
+                o.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
             });
             checkboxsets.push(o);
             checkboxset.replaceWith('~~!!~~Checkbox:' + i + '~~!!');
@@ -407,7 +408,7 @@ var result = {
          * @constructor
          * @param {HTMLElement} container container <div> of this input.
          */
-        function StackCheckboxInput(container) {
+        function StackCheckboxInput(questionDivId, prefix, name) {
             /**
              * Add the event handler to call when the user input changes.
              *
@@ -417,7 +418,10 @@ var result = {
                 // The input event fires on any change in value, even if pasted in or added by speech
                 // recognition to dictate text. Change only fires after loosing focus.
                 // Should also work on mobile.
-                container.addEventListener('input', valueChanging);
+                const inputs = document.querySelectorAll('#' + questionDivId + ' [name^="' + prefix + name + '_"]');
+                for (const input of inputs) {
+                    input.addEventListener('click', valueChanging);
+                }
             };
 
             /**
@@ -426,10 +430,12 @@ var result = {
              * @return {String}.
              */
             this.getValue = function() {
-                var selected = container.querySelectorAll(':checked');
+                var selected = document.querySelectorAll('#' + questionDivId + ' ion-checkbox[name^="' + prefix + name + '_"]');
                 var result = [];
                 for (var i = 0; i < selected.length; i++) {
-                    result[i] = selected[i].value;
+                    if (selected[i].checked) {
+                        result.push(selected[i].value);
+                    }
                 }
                 if (result.length > 0) {
                     return result.join(',');
@@ -508,7 +514,7 @@ var result = {
             // Initialise all inputs.
             var allok = true;
             for (var i = 0; i < inputs.length; i++) {
-                allok = initInput(questionDiv, prefix, qaid, inputs[i], language, validationsInProgress) && allok;
+                allok = initInput(questionDivId, prefix, qaid, inputs[i], language, validationsInProgress) && allok;
             }
 
             // With JS With instant validation, we don't need the Check button, so hide it.
@@ -529,12 +535,12 @@ var result = {
          * @param {String} language display language for this attempt.
          * @param {Set} validationsInProgress names of inputs being validated for this question.
          */
-        function initInput(questionDiv, prefix, qaid, name, language, validationsInProgress) {
+        function initInput(questionDivId, prefix, qaid, name, language, validationsInProgress) {
             var validationDiv = document.getElementById(prefix + name + '_val');
             if (!validationDiv) {
                 return false;
             }
-            var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
+            var inputTypeHandler = getInputTypeHandler(questionDivId, prefix, name);
             if (inputTypeHandler) {
                 new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler, language, validationsInProgress);
                 return true;
@@ -551,9 +557,9 @@ var result = {
          * @param {String} name the input to initialise.
          * @return {?Object} the input hander, if we can handle it, else null.
          */
-        function getInputTypeHandler(questionDiv, prefix, name) {
+        function getInputTypeHandler(questionDivId, prefix, name) {
             // See if it is an ordinary input.
-            var input = questionDiv.querySelector('[name="' + prefix + name + '"]');
+            var input = document.querySelector('#' + questionDivId + ' [name="' + prefix + name + '"]');
             if (input) {
                 if (input.nodeName === 'TEXTAREA') {
                     return new StackTextareaInput(input);
@@ -565,9 +571,9 @@ var result = {
             }
 
             // See if it is a checkbox input.
-            input = questionDiv.querySelector('[name="' + prefix + name + '_1"]');
-            if (input && input.type === 'checkbox') {
-                return new StackCheckboxInput(input.closest('.answer'));
+            input = document.querySelector('#' + questionDivId + ' [name="' + prefix + name + '_1"]');
+            if (input) {
+                return new StackCheckboxInput(questionDivId, prefix, name);
             }
 
             // See if it is a matrix input.

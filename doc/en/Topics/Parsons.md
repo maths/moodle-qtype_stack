@@ -88,7 +88,7 @@ The example question text below contains a Parson's block. Within the header of 
 
 Notes:
 
-1. The Parson's block requires a JSON object containing `"key":"string"` pairs. The `string` will be shown to the student.  The student's answer will be returned in terms of the `key` tags.  Numbers can be used as keys, but named keys above will be more specific.  We strongly recommend using named keys.
+1. The Parson's block requires a JSON object containing `"key":"string"` pairs. The `string` will be shown to the student.  The student's answer will be returned in terms of the `key` tags. Numbers (either as numeric type or a string containing a number) cannot be used inside the JSON due to JavaScript automatically ordering the steps; the use of numeric keys here will throw a runtime error. If using Maxima arrays, numeric keys may be used as these steps will be hashed.
 2. The `\` character in the string must be protected!  Notice that `\(...\)` needs to be typed as `\\(...\\)`.
 3. The [Parson's block](../Authoring/Parsons.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
 
@@ -146,12 +146,12 @@ The complete question text is
 ````
 <p>Let \(n\in\mathbb{N}\).  Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
 [[parsons input="ans1"]]
-{# stackjson_stringify(proof_steps) #}
+{# parsons_steps(proof_steps) #}
 [[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
 
-Notice the function `stackjson_stringify` turns the variable `proof_steps` into a JSON object.
+Notice the function `parsons_steps` turns the variable `proof_steps` into a JSON object with hashed keys.
 
 Notice in this example the teacher's proof is nested.  This can be seen if we use numerical keys, not string keys and define
 

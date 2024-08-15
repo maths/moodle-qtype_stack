@@ -68,10 +68,12 @@ For old questions (those with `stackversion < 2019041600`) we automatically perf
 
 `old -> new` (Old phrase).
 
-* `0 -> 0` (Don't insert stars)
-* `1 -> 1` (Insert stars for implied multiplication only)
-* `2 -> 4` (Insert stars assuming single-character variable names)
-* `3 -> 2` (Insert stars for spaces only)
-* `4 -> 3` (Insert stars for implied multiplication and for spaces)
-* `5 -> 7` (Insert stars assuming single-character variables, implied and for spaces)
+* `0 -> 0`  (Don't insert stars)
+* `1 -> 1`  (Insert stars for implied multiplication only)
+* `2 -> 4`  (Insert stars assuming single-character variable names)
+* `3 -> 2`  (Insert stars for spaces only)
+* `4 -> 3`  (Insert stars for implied multiplication and for spaces)
+* `5 -> 7`  (Insert stars assuming single-character variables, implied and for spaces)
+* `6 -> 19` (Insert stars for implied multiplication, spaces, and no user-functions)
+* `7 -> 23` (Insert stars for implied multiplication, spaces, no user-functions and assuming single-character var)
 

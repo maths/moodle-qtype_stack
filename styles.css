@@ -1216,3 +1216,33 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .algebratree > li > code:before {
     outline: none;
 }
+
+/* Response Analysis */
+.stack-collapse-header {
+    cursor: pointer;
+}
+.stack-collapse-header:not(.collapsed):before {
+    font-family: FontAwesome;
+    content: "\f0d7";
+    font-weight: bold;
+    display: inline-block;
+}
+.stack-collapse-header.collapsed:before {
+    font-family: FontAwesome;
+    content: "\f0da";
+    font-weight: bold;
+    display: inline-block;
+}
+.stack-ra-report::marker {
+    font-size: 1.4rem;
+}
+.stack-ra-question {
+    max-width: 800px;
+    background-color: rgb(230, 247, 255);
+    border-radius: 10px;
+    padding: 1em;
+    white-space: pre-line;
+}
+.stack-ra-question * {
+    margin: 0;
+}

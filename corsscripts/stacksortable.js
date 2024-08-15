@@ -219,6 +219,13 @@ function _validate_flat_steps(steps) {
     if (typeof(steps) == "string") {
         steps = _stackstring_objectify(steps);
     }
+
+    // Check whether all numeric keys are passed. Since keys in Maxima arrays are hashed, this only invalidates 
+    // the case where JSON's are authored with numeric keys directly inside the parson's block.
+    // Numeric keys are a problem because they are ordered by JS objects
+    if (Object.keys(steps).every((key) => !isNaN(parseInt(key)))) {
+        return false
+    }
     return Object.values(steps).every((val) => typeof(val) == "string");
 }
 

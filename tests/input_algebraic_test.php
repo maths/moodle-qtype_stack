@@ -298,6 +298,73 @@ class input_algebraic_test extends qtype_stack_testcase {
                 '{\rm not}\left( \mathbf{False} \right) \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_algebraic_11() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'i*(x+1) + j*(2*x+3) + k*(3*x+4)');
+        $el->set_parameter('insertStars', 5);
+
+        // Juxtaposition.
+        $state = $el->validate_student_response(['sans1' => ' i(x+1) + j(2x+3) + k(3x+4)'], $options,
+            'i*(x+1) + j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        // Note that we have a special filter: stack_ast_filter_005_i_is_never_a_function.
+        $this->assertEquals('i*(x+1)+j(2*x+3)+k(3*x+4)', $state->contentsmodified);
+        $this->assertEquals('\[ \mathrm{i}\cdot \left(x+1\right)+j\left(2\cdot x+3\right)+k\left(3\cdot x+4\right) \]',
+            $state->contentsdisplayed);
+
+        // Spaces.
+        $state = $el->validate_student_response(['sans1' => ' i (x+1) + j (2x+3) + k (3x+4)'], $options,
+            'i*(x+1) + j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('i*(x+1)+j*(2*x+3)+k*(3*x+4)', $state->contentsmodified);
+        $this->assertEquals('\[ \mathrm{i}\cdot \left(x+1\right)+j\cdot \left(2\cdot x+3\right)+' .
+            'k\cdot \left(3\cdot x+4\right) \]',
+            $state->contentsdisplayed);
+
+        // Replace unknown functions with multiplication.  Note, i can never be a function.
+        // The sin(x) is a known function and so is retained.
+        $el->set_parameter('insertStars', 6);
+        $state = $el->validate_student_response(['sans1' => ' j(2 x+3) + k(3ab+4) + sin(x)'], $options,
+            'j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | spaces | function_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('j*(2*x+3)+k*(3*ab+4)+sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ j\cdot \left(2\cdot x+3\right)+k\cdot \left(3\cdot {\it ab}+4\right)+\sin \left( x \right) \]',
+            $state->contentsdisplayed);
+
+        // In addition we assume single variable names.
+        $el->set_parameter('insertStars', 7);
+        $state = $el->validate_student_response(['sans1' => ' j(2 x+3) + k(3ab+4) + sin(x)'], $options,
+            'j*(2*x+3) + k*(3*x+4)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | spaces | function_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('j*(2*x+3)+k*(3*a*b+4)+sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ j\cdot \left(2\cdot x+3\right)+k\cdot \left(3\cdot a\cdot b+4\right)+\sin \left( x \right) \]',
+            $state->contentsdisplayed);
+
+        // No option yet to split up pi in to p*i, even with "single letter names".
+        $el->set_parameter('insertStars', 7);
+        $state = $el->validate_student_response(['sans1' => '3pi'], $options,
+            '3*pi',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('3*%pi', $state->contentsmodified);
+        $this->assertEquals('\[ 3\cdot \pi \]',
+            $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_ex() {
         // The variable ex is used an argument to some Maxima functions and as a local variable.
         $options = new stack_options();

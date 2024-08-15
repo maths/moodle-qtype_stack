@@ -103,15 +103,24 @@ window.addEventListener("message", (e) => {
         // 2. Set its value. But don't trigger changes.
         DISABLE_CHANGES[msg.name] = true;
         element.value = msg.value;
+
+        // 3. Sync read-only.
         if (msg['input-readonly']) {
             element.setAttribute('readonly', 'readonly');
         }
+
+        // 4. Copy over the data attributes.
+        if (msg['input-dataset']) {
+            Object.keys(msg['input-dataset']).forEach(function(key) {
+                element.dataset[key] = msg['input-dataset'][key];
+            });
+        }
         DISABLE_CHANGES[msg.name] = false;
 
-        // 3. Resolve the promise so that things can move forward.
+        // 5. Resolve the promise so that things can move forward.
         INPUT_PROMISES[msg.name](element.id);
 
-        // 4. Remove the promise from our logic so that the timeout 
+        // 6. Remove the promise from our logic so that the timeout 
         // logic does not trigger.
         delete INPUT_PROMISES[msg.name];
         
@@ -207,6 +216,12 @@ export const stack_js = {
      * or allow fallback to searching from all the questions on the page if not present
      * in this question (false). By default this is false as that was the original
      * behaviour.
+     * 
+     * From STACK-JS: 1.4.0 onwards the data attributes of the input on the VLE side
+     * are copied during registration. There is no mechanism for synchronising them you
+     * will simply get the initial state of them. You might find the type of the input
+     * or the separator settings useful.
+     * `ìnput.dataset["stackInputType"]`, `input.dataset["stackInputListSeparator"]`
      */
     request_access_to_input: function(inputname, inputevents, limittoquestion) {
         const input = document.createElement('input');
@@ -488,6 +503,32 @@ export const stack_js = {
             name: name
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+    },
+
+    /**
+     * Gets STACK specific input metadata for an input that has been registered and
+     * has completed the registration process. Basically, if you are not using this
+     * with `input-ref-X`-attributes you will need to deal with asynchronity and wait
+     * for that registration to complete.
+     *
+     * This intentionally leaves out all other data-attributes and shortens the keys.
+     * If you wish to look at the others you can always get the input element and
+     * check the `dataset`.
+     * 
+     * Only those keys that get values from the PHP side will be present, so no 
+     * decimal separators will be defined for `boolean`-fields.
+     */
+    get_input_metadata(name) {
+        const input = document.getElementById(name);
+
+        let data = {};
+        for (let key in input.dataset) {
+            if (key.startsWith('stack')) {
+                data[key.substring(5)] = input.dataset[key];
+            }
+        }
+
+        return data;
     }
 };
 

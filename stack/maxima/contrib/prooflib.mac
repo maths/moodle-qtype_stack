@@ -173,6 +173,28 @@ proof_remove_nullproof(ex):= block(
 /******************************************************************/
 
 /*
+ * Hashes the keys of a two-dimensional steps array using Base64 hashing. We use Base64 due to its
+ * reversibility.
+ */
+hash_keys_array(steps) := block(
+  return(map(lambda([item], join([base64(first(item))], rest(item, 1))), steps))
+);
+
+/*
+ * Turns a list of Base64-hashed keys into a list containing their original strings.
+ */
+unhash_keys_list(hashed_list) := block(
+  return(map(lambda([item], base64_decode(item)), hashed_list))
+);
+
+/*
+ * Turns a two-dimensional proof steps array into a JSON string with Base64-hashed keys.
+ */
+parsons_steps(steps) := block(
+  return(stackjson_stringify(hash_keys_array(steps)))
+);
+
+/*
  * Take the JSON from STACK Parson's block and return a proof function.
  */
 proof_parsons_interpret(st) := block([pf],
@@ -185,10 +207,10 @@ proof_parsons_interpret(st) := block([pf],
  * Needed to create a "teacher's answer" in JSON block, including unused text.
 */
 proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
-  tkeys:map(first, proof_steps),
+  tkeys:map(first, hash_keys_array(proof_steps)),
   skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
   /* TO-DO: update this when we deal with trees (and have examples) */
-  skeys:flatten(skeys),
+  skeys:map(lambda([skey], base64(skey)), flatten(skeys)),
   return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
 );
 

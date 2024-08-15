@@ -48,7 +48,7 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
             $filters = get_plugin_list_with_file('filter', 'filter.php');
         }
 
-        if (array_key_exists('tex', $filters)) {
+        if (array_key_exists('tex', $filters) || class_exists('\filter_tex\text_filter')) {
             $this->choices['tex'] = get_string('settingmathsdisplay_tex', 'qtype_stack');
         }
 

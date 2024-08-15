@@ -266,7 +266,8 @@ export function get_iframe_height() {
  *
  * @property {Object} steps - Object containing all steps.
  * @property {string} inputId - ID of the input element for storing state (optional).
- * @property {Object} state - Current state of used and available items.
+ * @property {Array} state - Current state of used and available items of the form [[{"used": [...], "available": [...]}, <timestamp>]].
+ * @property {Array} history - All states up to the current state.
  * @property {Object} userOptions - User-defined options merged with default options.
  * @property {boolean} clone - Flag indicating whether to clone elements during sorting.
  * @property {Object} options - Final options for sortable lists.
@@ -1028,6 +1029,11 @@ export const stack_sortable = class stack_sortable {
             [[{used: usedState, available: [...Object.keys(steps)]}, this._get_current_seconds()]];
     }
 
+    /**
+     * Gets the current second elapsed since the start of the Unix epoch (1st January, 1970, 00:00 GMT)
+     * 
+     * @returns {number} Number of elapsed seconds
+     */
     _get_current_seconds() {
         return Math.floor(Date.now() / 1000);
     }

@@ -176,14 +176,8 @@ proof_remove_nullproof(ex):= block(
  * Take the JSON from STACK Parson's block and return a proof function.
  */
 proof_parsons_interpret(st) := block([pf],
-  pf:stackjson_parse(st),
+  pf:first(first(stackjson_parse(st))),
   pf:apply(proof, first(first(stackmap_get(pf, "used"))))
-);
-s_test_case(proof_parsons_interpret("{\"used\":[[[\"0\",\"3\",\"5\"]]],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
-
-proof_parsons_log_interpret(st) := block([pf],
-  pf: first(first(stackjson_parse(st))),
-  pf: apply(proof, first(first(stackmap_get(pf, "used"))))
 );
 
 /*
@@ -200,13 +194,6 @@ proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
 
 /* Construct the "used" and "available" keys when the teacher's answer is used. */
 proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
-  /* Ensure all keys are string keys. */
-  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
-  pkeys:proof_parsons_keys_used_unused(proof_ans, proof_steps),
-  sconcat("{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}")
-);
-
-proof_parsons_log_json(proof_ans, proof_steps) := block([pkeys],
   /* Ensure all keys are string keys. */
   if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
   pkeys:proof_parsons_keys_used_unused(proof_ans, proof_steps),

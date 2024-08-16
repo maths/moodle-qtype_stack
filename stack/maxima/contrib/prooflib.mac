@@ -206,7 +206,7 @@ parsons_steps(steps) := block(
  */
 proof_parsons_interpret(st) := block([pf],
   pf:first(first(stackjson_parse(st))),
-  pf:apply(proof, first(first(stackmap_get(pf, "used"))))
+  pf:apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used")))))
 );
 
 /*

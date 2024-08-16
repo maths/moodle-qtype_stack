@@ -25,7 +25,7 @@ Assume the question author writes a list `proof_steps` of pairs `["key", "string
 
 ````
 [[parsons input="ans1" ]]
-{# parsons_steps(proof_steps) #}
+{# parsons_encode(proof_steps) #}
 [[/parsons]]
 ````
 
@@ -61,7 +61,7 @@ The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", o
 
 ````
 [[parsons input="ans1"]]
-{ "steps": {# parsons_steps(proof_steps) #},
+{ "steps": {# parsons_encode(proof_steps) #},
   "options": {"sortable option 1" : value, ..., "sortable option n" : value},
   "headers" : ["Custom header for the answer list"], 
 }
@@ -131,9 +131,9 @@ To create a random order, you must define steps as Maxima objects using a `proof
 
 All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
 
-1. The maxima function `parsons_steps(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
-2. The maxima function `proof_parsons_interpret(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
-3. The maxima function `proof_parsons_key_json(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
+1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
+2. The maxima function `parsons_deocde(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
+3. The maxima function `parsons_model_answer(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
 
 ### Block parameters: `height` and `width`
 
@@ -203,6 +203,14 @@ proof_steps:[
   [ "D", plot(x^3,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])]
 ];
 ````
+
+## Legacy versions
+
+Old versions of the parsons block used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
+`parsons_model_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
+supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
+These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
+also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
 
 ## Obtaining attempt histories
 

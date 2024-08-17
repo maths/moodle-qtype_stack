@@ -95,7 +95,7 @@ Notes:
 ## Input: ans1
 
 1. The _Input type_ field should be **String**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `proof_parsons_key_json(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
+2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_model_answer(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
 3. Set the option "Student must verify" to "no".
 4. Set the extra options to "hideanswer" to make sure the JSON representation of the teacher's answer is not shown to the student later as an answer.
 
@@ -104,10 +104,10 @@ Notes:
 Define the feedback variables:
 
 ````
-sa:proof_parsons_interpret(ans1);
+sa:parsons_decode(ans1);
 ````
 
-The student's answer will be a _JSON string_, but we need to interpret which of the strings have been used and in what order.  The `proof_parsons_interpret` function takes a JSON string and  builds a proof representation object.
+The student's answer will be a _JSON string_, but we need to interpret which of the strings have been used and in what order.  The `parsons_decode` function takes a JSON string and  builds a proof representation object.
 
 Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to confirm the student's answer is the same as the teacher's answer.
 
@@ -146,12 +146,12 @@ The complete question text is
 ````
 <p>Let \(n\in\mathbb{N}\).  Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
 [[parsons input="ans1"]]
-{# parsons_steps(proof_steps) #}
+{# parsons_encode(proof_steps) #}
 [[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
 
-Notice the function `parsons_steps` turns the variable `proof_steps` into a JSON object with hashed keys.
+Notice the function `parsons_encode` turns the variable `proof_steps` into a JSON object with hashed keys.
 
 Notice in this example the teacher's proof is nested.  This can be seen if we use numerical keys, not string keys and define
 
@@ -163,14 +163,14 @@ The two blocks can be in either order.  Prooflib provides a function to automati
 
 There is one change in input from the above example:
 
-1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `proof_parsons_key_json(ta, proof_steps)`.
+1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_model_answer(ta, proof_steps)`.
 
 In this example all steps are used, however if you add extra steps (distracters) then the model answer field has to separate these into used and unused lists, hence both the teacher's answer `ta` and the whole `proof_steps` list is needed.
 
 As before, define the feedback variables to interpret the JSON as a proof:
 
 ````
-sa:proof_parsons_interpret(ans1);
+sa:parsons_decode(ans1);
 ````
 
 Set up the potential response tree to check if the student's proof `sa` is in the set of possible teacher's proofs.
@@ -214,3 +214,11 @@ To display a correct proof as a "teacher's answer"
 5. Hide this input with CSS `<p style="display:none">...</p>`.
 
 This input is not used in any PRT.
+
+# Legacy versions
+
+Old versions of the parsons block used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
+`parsons_model_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
+supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
+These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
+also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).

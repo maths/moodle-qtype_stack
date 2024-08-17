@@ -1,6 +1,6 @@
 # Authoring Parson's problems (drag and drop) in STACK
 
-Parson’s problems require students to assemble pre-written text into a correct order by dragging blocks into a tree structure.
+Parson’s problems require students to assemble pre-written blocks (typically containing text) into a correct order by dragging blocks into a tree structure.  E.g. to assemble a correct mathematical proof.
 
 This page provides a quick-start to authoring whole questions.  There are a number of parts to authoring a Parson's problem:
 
@@ -44,7 +44,7 @@ and a superset of
 ```
 {"steps"}
 ```
-For technical reasons this is one error that we are unable to validate currently.
+For technical reasons we cannot currently validate errors in teacher's authoring for this.
 
 # Example 1: a minimal Parson's question
 
@@ -217,7 +217,7 @@ This input is not used in any PRT.
 
 # Legacy versions
 
-Old versions of the parsons block used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
+Old versions of the parsons block (before 2024072500) used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
 `parsons_model_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
 supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
 These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 

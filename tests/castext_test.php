@@ -510,8 +510,31 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
+    public function test_get_all_todo_tags_null() {
+        $raw = '';
+        $this->assertFalse(castext2_parser_utils::has_todoblocks($raw));
+        $tags = castext2_parser_utils::get_todoblocks($raw);
+        $val = [];
+        $this->assertEquals($val, $tags);
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
+     */
+    public function test_get_all_todo_tags_none() {
+        $raw = 'Take {@ 1/(1+x^2) @} and then {@sin(z^2)@}.';
+        $this->assertFalse(castext2_parser_utils::has_todoblocks($raw));
+        $tags = castext2_parser_utils::get_todoblocks($raw);
+        $val = [];
+        $this->assertEquals($val, $tags);
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
+     */
     public function test_get_all_todo_tags_empty() {
         $raw = 'Take {@ 1/(1+x^2) @} and then {@sin(z^2)@}.  [[todo]]Fix me[[/todo]]';
+        $this->assertTrue(castext2_parser_utils::has_todoblocks($raw));
         $tags = castext2_parser_utils::get_todoblocks($raw);
         $val = [];
         $this->assertEquals($val, $tags);
@@ -522,6 +545,7 @@ class castext_test extends qtype_stack_testcase {
      */
     public function test_get_all_todo_tags_order() {
         $raw = 'Take {@ 1/(1+x^2) @} and then {@sin(z^2)@}.  [[todo tags="something,draft"]]Fix me[[/todo]]';
+        $this->assertTrue(castext2_parser_utils::has_todoblocks($raw));
         $tags = castext2_parser_utils::get_todoblocks($raw);
         $val = ['draft', 'something'];
         $this->assertEquals($val, $tags);
@@ -533,6 +557,7 @@ class castext_test extends qtype_stack_testcase {
     public function test_get_all_todo_tags_multiple() {
         $raw = 'Take {@ 1/(1+x^2) @} and then {@sin(z^2)@}.  [[todo tags="something,draft"]]Fix me[[/todo]]';
         $raw .= '[[todo tags="draft,additional"]]Don not forget this as well[[/todo]]';
+        $this->assertTrue(castext2_parser_utils::has_todoblocks($raw));
         $tags = castext2_parser_utils::get_todoblocks($raw);
         $val = ['additional', 'draft', 'something'];
         $this->assertEquals($val, $tags);

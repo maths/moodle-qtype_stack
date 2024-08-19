@@ -67,6 +67,26 @@ class castext2_parser_utils {
         return $css;
     }
 
+    public static function has_todoblocks(string $castext): bool {
+        if ($castext === '' || $castext === null) {
+            return false;
+        }
+
+        $ast  = self::parse($castext);
+        $root = stack_cas_castext2_special_root::make($ast);
+        $hastodo  = false;
+
+        $findtodos = function ($node) use (&$hastodo) {
+            if ($node instanceof stack_cas_castext2_todo) {
+                $hastodo = true;
+                return true;
+            }
+            return true;
+        };
+        $root->callbackRecurse($findtodos);
+        return $hastodo;
+    }
+
     public static function get_todoblocks(string $castext): array {
         if ($castext === '' || $castext === null) {
             return [];

@@ -735,16 +735,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_question_todos() {
+        $hastodos = false;
         $tags = [];
         $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
             $this->specificfeedback, $this->questiondescription];
         foreach ($fields as $field) {
+            $hastodos = $hastodos || castext2_parser_utils::has_todoblocks($field);
             $tags = array_merge($tags, castext2_parser_utils::get_todoblocks($field));
         }
         // Unique tags, sorted.
         $tags = array_unique($tags);
         sort($tags);
-        return $tags;
+        return [$hastodos, $tags];
     }
 
     public function summarise_response(array $response) {

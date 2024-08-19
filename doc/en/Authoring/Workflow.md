@@ -102,7 +102,7 @@ By design, "todo" tags are _not_ tied to userid fields in the moodle site.  Inst
 
 Any logged-in user can navigate to the URL
 
-    ../moodle/question/type/stack/adminui/stack-todo.php
+    ../moodle/question/type/stack/adminui/todo.php
     
 on the moodle site.  This page will list
 

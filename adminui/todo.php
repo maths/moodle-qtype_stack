@@ -30,7 +30,8 @@ require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
 
 // Get the parameters from the URL.
-$contextid = required_param('contextid', PARAM_INT);
+$context = context_system::instance();
+$contextid = optional_param('contextid', $context->__get('id'), PARAM_INT);
 $context = context::instance_by_id($contextid);
 
 // Login and check permissions.

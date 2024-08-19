@@ -739,9 +739,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $tags = [];
         $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
             $this->specificfeedback, $this->questiondescription];
+        $pat = '/\[\[todo/';
         foreach ($fields as $field) {
-            $hastodos = $hastodos || castext2_parser_utils::has_todoblocks($field);
-            $tags = array_merge($tags, castext2_parser_utils::get_todoblocks($field));
+            // We _should_ use castext2_parser_utils::has_todoblocks($field) really, but this
+            // involves parsing the castext which is too slow.
+            if (preg_match($pat, $field ?? '')) {
+                $hastodos = true;
+                $tags = array_merge($tags, castext2_parser_utils::get_todoblocks($field));
+            }
         }
         // Unique tags, sorted.
         $tags = array_unique($tags);

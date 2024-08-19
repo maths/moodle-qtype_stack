@@ -64,6 +64,8 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
         }
 
         foreach ($categories as $currentcategoryid => $nameandcount) {
+            core_php_time_limit::raise(60); // Prevent PHP timeouts.
+
             $qtodos = [];
             $questions = $bulktester->stack_questions_in_category($currentcategoryid);
             if (!$questions) {
@@ -96,6 +98,8 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
                         '</td><td>' . implode(', ', $item['tags']). '<td></tr>';
                 }
                 echo '</tbody></table>';
+
+                flush(); // Force output to prevent timeouts and to make progress clear.
             }
         }
     }

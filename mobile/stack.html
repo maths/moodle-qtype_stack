@@ -11,6 +11,9 @@
                     <container-element *ngSwitchCase="'Dropdown'">
                         <ng-container *ngTemplateOutlet="dropdown; context:{ $implicit: section }"></ng-container>
                     </container-element>
+                    <container-element *ngSwitchCase="'Radio'">
+                        <ng-container *ngTemplateOutlet="radio; context:{ $implicit: section }"></ng-container>
+                    </container-element>
 
                     <core-format-text *ngSwitchDefault [component]="component" [componentId]="componentId" [text]="section.content" [contextLevel]="contextLevel"
                             [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
@@ -40,6 +43,23 @@
             </ion-checkbox>
         </div>
     </ion-item>
+</ng-template>
+
+<ng-template #radio let-section>
+    <ion-radio-group [attr.name]="section.name" [value]="section.initialValue">
+        <ion-item class="ion-text-wrap answer" *ngFor="let option of section.options">
+            <div class="flex-column">
+                <ion-radio [value]="option.value" [disabled]="option.disabled" [attr.name]="option.name" [value]="option.value">
+                    <div class="flex-grow ion-text-wrap">
+                        <div [class]="option.class">
+                            <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"
+                                [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
+                        </div>
+                    </div>
+                </ion-radio>
+            </div>
+        </ion-item>
+    </ion-radio-group>
 </ng-template>
 
 <ng-template #dropdown let-section>

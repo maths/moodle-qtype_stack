@@ -9,7 +9,6 @@ var result = {
         // This code just prepares bits of this.question.html storing it in the question object ready for
         // passing to the template (stack.html).
         // Note this is written in 'standard' javascript rather than ES6. Both work.
-
         if (!this.question) {
             return that.CoreQuestionHelperProvider.showComponentError(that.onAbort);
         }
@@ -24,7 +23,9 @@ var result = {
 
         // Get useful parts of the provided question html data.
         var questiontext = div.querySelector('.content');
-        const answers = questiontext.querySelectorAll('.answer');
+        const multiAnswers = questiontext.querySelectorAll('.answer');
+        const checkboxAnswers = Array.from(multiAnswers).filter(item => !item.querySelector('[type="radio"]'));
+        const radioAnswers = Array.from(multiAnswers).filter(item => item.querySelector('[type="radio"]'));
         const dropdowns = questiontext.querySelectorAll('select');
         const dashLink = questiontext.querySelector('.questiontestslink');
         if (dashLink) {
@@ -44,7 +45,7 @@ var result = {
         }
 
         const checkboxDisplays = [];
-        answers.forEach(function(checkboxset, i) {
+        checkboxAnswers.forEach(function(checkboxset, i) {
             var options = checkboxset.querySelectorAll('.option');
             const optionOutput = [];
             options.forEach(function(option) {
@@ -59,6 +60,33 @@ var result = {
             });
             checkboxDisplays.push(optionOutput);
             checkboxset.replaceWith('~~!!~~Checkbox:' + i + '~~!!');
+        });
+
+        const radioDisplays = [];
+        radioAnswers.forEach(function(radioset, i) {
+            var options = radioset.querySelectorAll('.option');
+            const radioOutput = {};
+            options = Array.from(options).filter(item => item.querySelector('input[type="radio"]'));
+            const optionOutput = [];
+            options.forEach(function(option) {
+                // Each answer option contains all the data for presentation, it just needs extracting.
+                var label = option.querySelector('label').innerHTML;
+                var name = option.querySelector('input').getAttribute('name');
+                var disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
+                var qclass = option.getAttribute('class');
+                var value = option.querySelector('input').getAttribute('value');
+                if (option.querySelector('input').getAttribute('checked') === 'checked') {
+                    radioOutput.initialValue = value;
+                }
+                optionOutput.push({text: label, name: name, disabled: disabled, qclass: qclass, value: value});
+            });
+            radioOutput.name = optionOutput[0].name;
+            radioOutput.options = optionOutput;
+            if (!radioOutput.initialValue) {
+                radioOutput.initialValue = '';
+            }
+            radioDisplays.push(radioOutput);
+            radioset.replaceWith('~~!!~~Radio:' + i + '~~!!');
         });
 
         const dropdownDisplays = [];
@@ -102,6 +130,10 @@ var result = {
                     case ('~~Dropdown'):
                         section = dropdownDisplays[Number(sectionInfo[1])];
                         section.type = 'Dropdown';
+                        break;
+                    case ('~~Radio'):
+                        section = radioDisplays[Number(sectionInfo[1])];
+                        section.type = 'Radio';
                         break;
                 }
             }
@@ -437,7 +469,7 @@ var result = {
          * @constructor
          * @param {HTMLElement} container container <div> of this input.
          */
-        function StackRadioInput(container) {
+        function StackRadioInput(questionDivId, prefix, name) {
             /**
              * Add the event handler to call when the user input changes.
              *
@@ -447,7 +479,10 @@ var result = {
                 // The input event fires on any change in value, even if pasted in or added by speech
                 // recognition to dictate text. Change only fires after loosing focus.
                 // Should also work on mobile.
-                container.addEventListener('input', valueChanging);
+                const inputs = document.querySelectorAll('#' + questionDivId + ' ion-radio-group[name^="' + prefix + name + '"]');
+                for (const input of inputs) {
+                    input.addEventListener('ionChange', valueChanging);
+                }
             };
 
             /**
@@ -456,12 +491,8 @@ var result = {
              * @return {String}.
              */
             this.getValue = function() {
-                var selected = container.querySelector(':checked');
-                if (selected) {
-                    return selected.value;
-                } else {
-                    return '';
-                }
+                var selected = document.querySelector('#' + questionDivId + ' ion-radio-group[name^="' + prefix + name + '"]');
+                return selected.value;
             };
         }
 
@@ -626,8 +657,8 @@ var result = {
             if (input) {
                 if (input.nodeName === 'TEXTAREA') {
                     return new StackTextareaInput(input);
-                } else if (input.type === 'radio') {
-                    return new StackRadioInput(input.closest('.answer'));
+                } else if (input.tagName === 'ION-RADIO-GROUP') {
+                    return new StackRadioInput(questionDivId, prefix, name);
                 } else if (input.tagName === 'ION-SELECT') {
                     return new StackSelectInput(input);
                 } else {

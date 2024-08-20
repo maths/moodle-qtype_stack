@@ -9,6 +9,7 @@ var result = {
         // This code just prepares bits of this.question.html storing it in the question object ready for
         // passing to the template (stack.html).
         // Note this is written in 'standard' javascript rather than ES6. Both work.
+
         if (!this.question) {
             return that.CoreQuestionHelperProvider.showComponentError(that.onAbort);
         }
@@ -16,7 +17,6 @@ var result = {
         // Create a temporary div to ease extraction of parts of the provided html.
         var div = this.CoreDomUtilsProvider.convertToElement(this.question.html);
         div.innerHTML = this.question.html;
-
         // Replace Moodle's correct/incorrect classes, feedback and icons with mobile versions.
         that.CoreQuestionHelperProvider.replaceCorrectnessClasses(div);
         that.CoreQuestionHelperProvider.replaceFeedbackClasses(div);
@@ -25,6 +25,7 @@ var result = {
         // Get useful parts of the provided question html data.
         var questiontext = div.querySelector('.content');
         const answers = questiontext.querySelectorAll('.answer');
+        const dropdowns = questiontext.querySelectorAll('select');
         const dashLink = questiontext.querySelector('.questiontestslink');
         if (dashLink) {
             dashLink.parentNode.removeChild(dashLink);
@@ -41,11 +42,11 @@ var result = {
         if (prompt !== null) {
             this.question.prompt = prompt.innerHTML;
         }
-        var checkboxsets = [];
 
+        const checkboxDisplays = [];
         answers.forEach(function(checkboxset, i) {
             var options = checkboxset.querySelectorAll('.option');
-            const o = [];
+            const optionOutput = [];
             options.forEach(function(option) {
                 // Each answer option contains all the data for presentation, it just needs extracting.
                 var label = option.querySelector('label').innerHTML;
@@ -54,16 +55,40 @@ var result = {
                 var disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
                 var qclass = option.getAttribute('class');
                 var value = option.querySelector('input').getAttribute('value');
-                o.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
+                optionOutput.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
             });
-            checkboxsets.push(o);
+            checkboxDisplays.push(optionOutput);
             checkboxset.replaceWith('~~!!~~Checkbox:' + i + '~~!!');
+        });
+
+        const dropdownDisplays = [];
+        dropdowns.forEach(function(dropdown, i) {
+            var options = dropdown.querySelectorAll('option');
+            const dropdownOutput = {};
+            const optionOutput = [];
+            dropdownOutput.id = dropdown.getAttribute('id');
+            dropdownOutput.name = dropdown.getAttribute('name');
+            options.forEach(function(option) {
+                var label = option.innerHTML;
+                var disabled = (option.getAttribute('disabled') === 'disabled' ? true : false);
+                var value = option.getAttribute('value');
+                if (option.getAttribute('selected') === 'selected') {
+                    dropdownOutput.initialValue = value;
+                }
+                optionOutput.push({text: label, disabled: disabled, value: value});
+            });
+            dropdownOutput.options = optionOutput;
+            if (!dropdownOutput.initialValue) {
+                dropdownOutput.initialValue = '';
+            }
+            dropdownDisplays.push(dropdownOutput);
+            dropdown.replaceWith('~~!!~~Dropdown:' + i + '~~!!');
         });
         var questionHTML = questiontext.innerHTML;
         var sectionsHTML = questionHTML.split('~~!!');
         const sections = [];
         sectionsHTML.forEach(function(sectionHTML) {
-            const section = {};
+            let section = {};
             if (!sectionHTML.startsWith('~~')) {
                 section.type = 'Text';
                 section.content = sectionHTML;
@@ -72,7 +97,11 @@ var result = {
                 switch (sectionInfo[0]) {
                     case ('~~Checkbox'):
                         section.type = 'Checkbox';
-                        section.options = checkboxsets[Number(sectionInfo[1])];
+                        section.options = checkboxDisplays[Number(sectionInfo[1])];
+                        break;
+                    case ('~~Dropdown'):
+                        section = dropdownDisplays[Number(sectionInfo[1])];
+                        section.type = 'Dropdown';
                         break;
                 }
             }
@@ -86,6 +115,11 @@ var result = {
             currentInit = currentInit.slice(15, -2);
             const initArgs = JSON.parse('[' + currentInit + ']');
             inputInits.push(initArgs);
+        }
+
+        // Moodle App bug? Fast preview causes MathJax to fail when moving between questions in a quiz.
+        if (window.Mathjax) {
+            window.MathJax.Hub.config.FastPreview = false;
         }
 
         /**
@@ -312,7 +346,7 @@ var result = {
         }
 
         /**
-         * Input type for inputs that are a single input or select.
+         * Input type for inputs that are a single input.
          *
          * @constructor
          * @param {HTMLElement} input the HTML input that is this STACK input.
@@ -339,6 +373,35 @@ var result = {
                 return input.value.replace(/^\s+|\s+$/g, '');
             };
         }
+
+        /**
+         * Input type for inputs that are a single select.
+         *
+         * @constructor
+         * @param {HTMLElement} input the HTML input that is this STACK input.
+         */
+                function StackSelectInput(input) {
+                    /**
+                     * Add the event handler to call when the user input changes.
+                     *
+                     * @param {Function} valueChanging the callback to call when we detect a value change.
+                     */
+                    this.addEventHandlers = function(valueChanging) {
+                        // The input event fires on any change in value, even if pasted in or added by speech
+                        // recognition to dictate text. Change only fires after loosing focus.
+                        // Should also work on mobile.
+                        input.addEventListener('ionChange', valueChanging);
+                    };
+
+                    /**
+                     * Get the current value of this input.
+                     *
+                     * @return {String}.
+                     */
+                    this.getValue = function() {
+                        return input.value.replace(/^\s+|\s+$/g, '');
+                    };
+                }
 
         /**
          * Input type for textarea inputs.
@@ -565,6 +628,8 @@ var result = {
                     return new StackTextareaInput(input);
                 } else if (input.type === 'radio') {
                     return new StackRadioInput(input.closest('.answer'));
+                } else if (input.tagName === 'ION-SELECT') {
+                    return new StackSelectInput(input);
                 } else {
                     return new StackSimpleInput(input);
                 }

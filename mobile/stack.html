@@ -8,6 +8,9 @@
                     <container-element *ngSwitchCase="'Checkbox'">
                         <ng-container *ngTemplateOutlet="checkbox; context:{ $implicit: section, idx: i }"></ng-container>
                     </container-element>
+                    <container-element *ngSwitchCase="'Dropdown'">
+                        <ng-container *ngTemplateOutlet="dropdown; context:{ $implicit: section }"></ng-container>
+                    </container-element>
 
                     <core-format-text *ngSwitchDefault [component]="component" [componentId]="componentId" [text]="section.content" [contextLevel]="contextLevel"
                             [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
@@ -37,4 +40,17 @@
             </ion-checkbox>
         </div>
     </ion-item>
+</ng-template>
+
+<ng-template #dropdown let-section>
+    <ion-select [id]="section.id" class="ion-text-wrap" [value]="section.initialValue" [attr.name]="section.name">
+        <div class="flex-column">
+            <ion-select-option [value]="option.value" [disabled]="option.disabled" *ngFor="let option of section.options">
+                <div class="flex-grow ion-text-wrap">
+                        <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"
+                            [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
+                </div>
+            </ion-select-option>
+        </div>
+    </ion-select>
 </ng-template>

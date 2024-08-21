@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Vector_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Let \({\bf v_{1}}\), \({\bf v_2}\), \({\bf v_3}\) be the following vectors: <br /> \[ {\bf v_{1}} = {@c1@},\quad {\bf v_{2}} = {@c2@},\quad {\bf v_{3}} = {@v3@}. \] <br /> Find the values for \(\lambda_1\) and \(\lambda_2\) such that <br /> \[{\bf v_3} = \lambda_1 {\bf v_1} + \lambda_2 {\bf v_2} .\] <br /> If such values do not exist, enter zero for both entries. <br /> \(\lambda_1\) = [[input:ans1]] \(\lambda_2\) = [[input:ans2]] [[validation:ans1]] [[validation:ans2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>If \[{\bf v_3} = \lambda_{1} {\bf v_1} + \lambda_{2} {\bf v_2} \] then solving \[{@v3[1,1]@} = {@c1[1,1]@}*\lambda_1 + {@c2[1,1]@}*\lambda_2,\] and \[{@v3[2,1]@} = {@c1[2,1]@}*\lambda_1 + {@c2[2,1]@}*\lambda_2,\] gives \[ \lambda_1 = {@correctanswer[1]@} , \lambda_2 = {@correctanswer[2]@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>Au:matrix([rand_with_step(-1,1,2),ev(rand(9)-4)],[0,rand_with_step(-1,1,2)]);
+ Bu:matrix([rand_with_step(-1,1,2),ev(rand(9)-4)],[0,rand_with_step(-1,1,2)]);
+ Amat:ev(transpose(Au).Bu);
+ c1:col(Amat,1);
+ c2:col(Amat,2);
+ n1:rand(9)+1;
+ n2:rand(9)+1;
+ v3:ev(n1*c1+n2*c2);
+ correctanswer:[n1,n2];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({\bf v_3} = \lambda_1 {\bf v_1} + \lambda_2 {\bf v_2} \) for \(\lambda_1 = {@correctanswer[1]@}\) and \(\lambda_2 = {@correctanswer[2]@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer[1]</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>correctanswer[2]</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>correctanswer[2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>659841284</deployedseed>
+    <deployedseed>2089623570</deployedseed>
+    <deployedseed>666776112</deployedseed>
+    <deployedseed>1104059984</deployedseed>
+    <deployedseed>797213885</deployedseed>
+    <deployedseed>1813561735</deployedseed>
+    <deployedseed>1858963838</deployedseed>
+    <deployedseed>1443017452</deployedseed>
+    <deployedseed>1372849991</deployedseed>
+    <deployedseed>365979226</deployedseed>
+    <deployedseed>805794844</deployedseed>
+    <deployedseed>1765953853</deployedseed>
+    <deployedseed>1635460824</deployedseed>
+    <deployedseed>437217696</deployedseed>
+    <deployedseed>1899795953</deployedseed>
+    <deployedseed>1221432684</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correctanswer[2]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer[1]-1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correctanswer[2]-1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

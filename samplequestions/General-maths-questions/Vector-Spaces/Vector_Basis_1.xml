@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Vector_Basis_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Given is a spanning set \(S\) of a subspace \(U \subset R^4\): <br /> \[ S = \{ {@v1@},\ {@v2@},\ {@v3@},\ {@v4@},\ {@v5@} \}. \] <br /> Find a basis of \(U\). <br /> Enter the vectors in the basis as rows in the matrix below, adding zero rows (at the bottom!) when there are less then 5 vectors in the basis. <br /> [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>A basis is most easily found by using the vectors in the spanning set as the rows in a matrix: <br /> \[ {@am@}. \] <br /> The subspace spanned by them is then the same as the rowspace of this matrix. Reduction to Echelon form will then reveal both the rank (dimension of the subspace) and a basis (the non-zero rows). An Echelon form of the matrix above is <br /> \[ {@ech@}.\] <br /> A basis is then given by the non-zero rows: \[ {@basis@}.\] (Reminder: any \({@rankam@}\) linear independent vectors that can be written as a combination of the given vectors will form a basis.)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>am1:matrix([rand_with_step(-1,1,2),0,0,0,0],[0,rand_with_step(-1,1,2),0,0,0],[0,0,rand_with_step(-1,1,2),0,0],[0,0,0,rand_with_step(-1,1,2),0],[0,0,0,0,rand_with_step(-1,1,2)]);
+ A: for i:1 thru 4 do for j: i+1 thru 5 do am1[i,j]:ev(rand_with_step(-5,5,1));
+  rankn:rand(2)+2;
+  am2:zeromatrix(5,4);
+  B:for i:1 thru rankn do am2[i,i]:1;
+  am3:matrix([rand_with_step(-1,1,2),0,0,0],[0,rand_with_step(-1,1,2),0,0],[0,0,rand_with_step(-1,1,2),0],[0,0,0,rand_with_step(-1,1,2)]);
+  C:for i:1 thru 3 do for j : i+1 thru 4 do am3[i,j]:ev(rand_with_step(-5,5,1));
+  am:ev(transpose(am1).am2.am3);
+  rankam:rank(am);
+  v1:[am[1,1],am[1,2],am[1,3],am[1,4]];
+  v2:[am[2,1],am[2,2],am[2,3],am[2,4]];
+  v3:[am[3,1],am[3,2],am[3,3],am[3,4]];
+  v4:[am[4,1],am[4,2],am[4,3],am[4,4]];
+  v5:[am[5,1],am[5,2],am[5,3],am[5,4]];
+  zerorow:matrix([0,0,0,0]);
+  ech:echelon(am);
+  basis:{row(ech,1)};
+ B:for i from 2 thru rankam do basis : adjoin(row(ech,i),basis);
+  basisl:listify(basis);
+  usualanswer:zeromatrix(5,4);
+ E: for i:1 thru rankam do for j:1 thru 4 do usualanswer[i,j]:ech[i,j];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(S = \{{@v1@},\ {@v2@},\ {@v3@},\ {@v4@},\ {@v5@}\},{@usualanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>usualanswer</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>transpose</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>rankans:rank(ans1);
+  testans1:zeromatrix(10,4);
+  R:for i:1 thru 5 do for j :1 thru 4 do testans1[i,j]:am[i,j];
+  S:for i:1 thru 5 do for j:1 thru 4 do testans1[i+5,j]:ans1[i,j];
+  ranktest:rank(testans1);
+  testans2:copymatrix(ans1);
+  T:for i:rankam+1 thru 5 do for j:1 thru 4 do testans2[i,j]:0;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>testans2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>rankans</sans>
+        <tans>rankam</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have the right number of linearly independent vectors.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You do not have the right number of linearly independent vectors.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>rankans</sans>
+        <tans>rankam</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You do not have the right number of linearly independent vectors.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You do not have the right number of linearly independent vectors.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ranktest</sans>
+        <tans>rankam</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>All your non-zero vectors are in the given subspace.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Some of your non-zero vectors are not in the given subspace.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1580528127</deployedseed>
+    <deployedseed>1456284311</deployedseed>
+    <deployedseed>221540241</deployedseed>
+    <deployedseed>409694002</deployedseed>
+    <deployedseed>1268683279</deployedseed>
+    <deployedseed>31881950</deployedseed>
+    <deployedseed>1764016878</deployedseed>
+    <deployedseed>160844028</deployedseed>
+    <deployedseed>1458343844</deployedseed>
+    <deployedseed>1399617842</deployedseed>
+    <deployedseed>251797954</deployedseed>
+    <deployedseed>653705563</deployedseed>
+    <deployedseed>1939578499</deployedseed>
+    <deployedseed>395420948</deployedseed>
+    <deployedseed>2140375925</deployedseed>
+    <deployedseed>1962584550</deployedseed>
+    <deployedseed>326273059</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>usualanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>am2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

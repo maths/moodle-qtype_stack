@@ -37,6 +37,8 @@ Notes:
 
 A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK (see below for details). We expect to collect and support regularly used validators in future.
 
+Validator functions basically test for a particular property.  Validator functions can be re-used to create an answer test. See the documentation on [`ATValidtor`](../Authoring/Answer_Tests/Other.md).
+
 ## Combining validators
 
 If you wish to test for a number of separate properties then it is probably best to create separate functions for each property and combine them into a single validator.

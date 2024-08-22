@@ -2527,7 +2527,7 @@ sin(x))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\cos \left( x \right)\cdot x^2+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &+\left(\cos \left( x \right)\right)\cdot x^2+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot +\left(\cos \left( x \right)\right)+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

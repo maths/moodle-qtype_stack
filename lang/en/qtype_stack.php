@@ -1035,6 +1035,7 @@ $string['stackOptions_AnsTest_values_String']              = "String";
 $string['stackOptions_AnsTest_values_StringSloppy']        = "StringSloppy";
 $string['stackOptions_AnsTest_values_Levenshtein']         = "Levenshtein";
 $string['stackOptions_AnsTest_values_SRegExp']             = "SRegExp";
+$string['stackOptions_AnsTest_values_Validator']           = "Validator";
 
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
 $string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. {$a->errors}';
@@ -1047,6 +1048,10 @@ $string['AT_raw_sans_needed']       = 'Some answer tests rely on the raw input f
 
 $string['ATString_SA_not_string']     = 'Your answer should be a string, but is not. ';
 $string['ATString_SB_not_string']     = 'The teacher\'s answer should be a string, but is not. ';
+
+$string['ATValidator_STACKERROR_ev']    = 'The validator threw an error when evaluated.  This is an error in the test, please contact your teacher.';
+$string['ATValidator_not_fun']          = 'The validator failed to evaluate.  Did you give the correct validator function name?  This is an error in the test, please contact your teacher.';
+$string['ATValidator_res_not_string']   = 'The result of your validator must be a string, but is not. This is an error in the test, please contact your teacher.';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';

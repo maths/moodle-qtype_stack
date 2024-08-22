@@ -21,6 +21,11 @@ Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack
 
 ## Parson's block development track
 
+DONE
+
+1. Hashing for keys
+2. Add ability to log history of an attempt
+
 For v4.8.0:
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
@@ -37,7 +42,6 @@ Later
 6. Confirmation for delete all?
 7. Alternative styling/signalling for clone mode?
 8. Better support (and documentation) for bespoke grading functions.
-9. Hashing keys
 10. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
 
 

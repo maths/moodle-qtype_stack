@@ -75,6 +75,10 @@ class stack_checkbox_input extends stack_dropdown_input {
                 'value' => $key,
                 'id' => $fieldname.'_'.$key,
             ];
+
+            // Metadata for JS users.
+            $inputattributes['data-stack-input-type'] = 'checkbox';
+
             $labelattributes = [
                 'for' => $fieldname.'_'.$key,
             ];

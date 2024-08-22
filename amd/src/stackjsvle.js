@@ -370,7 +370,7 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.3.0'
+            version: 'STACK-JS:1.4.0'
         };
 
         switch (msg.type) {
@@ -419,6 +419,14 @@ define([
                         response.value = inp.value;
                     }
                 }
+            }
+
+            // Transfer all data attributes of the input. Note that while most come from
+            // STACK some might come from the VLE. For truly portable stuff only use ones
+            // startting with "stack". Basically, the "initialValue" one comes from Moodle.
+            response['input-dataset'] = {};
+            for (var k in input.dataset) {
+                response['input-dataset'][k] = input.dataset[k];
             }
 
             // 3. Add listener for changes of this input.

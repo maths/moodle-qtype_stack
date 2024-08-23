@@ -185,7 +185,7 @@ $settings->add(new admin_setting_configtext('qtype_stack/inputbuttontitles',
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputdisplaytype',
         get_string('displaytype', 'qtype_stack'), 
-        get_string('displaytype_help', 'qtype_stack'), '0',
+        get_string('displaytype_help', 'qtype_stack'), 'dropdownboolean',
         stack_options::get_displaytype_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputchoicetype',

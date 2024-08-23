@@ -24,9 +24,7 @@ class stack_boolean_input extends stack_input {
     const F = 'false';
     const T = 'true';
     const NA = '';
-
     
-
     public static function get_choices() {
         return [
             self::F => stack_string('false'),
@@ -46,6 +44,10 @@ class stack_boolean_input extends stack_input {
         return '';
     }
 
+    protected $extraoptions = [
+        'displaytype' => false,
+    ];
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -61,12 +63,12 @@ class stack_boolean_input extends stack_input {
             $value = '';
         }
  
-        switch ($this->parameters['displayType']) {
-            case 'dropdownboolean':
+        switch ($this->extraoptions['displaytype']) {
+            case 'dropdown':
                 //Default settings
                 $element_complete=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
                 break;
-            case 'clickbutton': 
+            case 'click': 
                 // 'Click me'-Button
                 $attributes['hidden']='hidden';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
@@ -106,7 +108,7 @@ class stack_boolean_input extends stack_input {
                 
                 $element_complete=html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
                 break;
-            case 'togglebutton':
+            case 'toggle':
                 //Toggle-Button
                 $attributes['hidden']='hidden';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
@@ -175,7 +177,6 @@ class stack_boolean_input extends stack_input {
             'mustVerify'      => false,
             'showValidation'  => 0,
             'options'         => '',
-            'displayType'     => '0',
         ];
     }
 

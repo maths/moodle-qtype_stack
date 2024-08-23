@@ -25,6 +25,8 @@ class stack_boolean_input extends stack_input {
     const T = 'true';
     const NA = '';
 
+    
+
     public static function get_choices() {
         return [
             self::F => stack_string('false'),
@@ -60,11 +62,11 @@ class stack_boolean_input extends stack_input {
         }
  
         switch ($this->parameters['displayType']) {
-            case 0:
+            case 'dropdownboolean':
                 //Default settings
                 $element_complete=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
                 break;
-            case 1: 
+            case 'clickbutton': 
                 // 'Click me'-Button
                 $attributes['hidden']='hidden';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
@@ -104,7 +106,7 @@ class stack_boolean_input extends stack_input {
                 
                 $element_complete=html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
                 break;
-            case 2:
+            case 'togglebutton':
                 //Toggle-Button
                 $attributes['hidden']='hidden';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
@@ -170,11 +172,10 @@ class stack_boolean_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return [ 
-            'displayType'     => 0,
-            'buttonTitles'    => '',
             'mustVerify'      => false,
             'showValidation'  => 0,
             'options'         => '',
+            'displayType'     => '0',
         ];
     }
 

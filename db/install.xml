@@ -35,10 +35,6 @@
         <FIELD NAME="matrixparens" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="[" SEQUENCE="false" COMMENT="The parentheses used to surround matrices."/>
         <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values."/>
         <FIELD NAME="compiledcache" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The prevalidated CAS expressions used for processing various things. Stored as JSON. Thrown away every time the question is changed / saved or the question type is updated."/>
-        <FIELD NAME="displaytype" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="How Boolean should be displayed."/>
-        <FIELD NAME="choicetype" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Which type the input should have."/>
-        <FIELD NAME="matrixsize" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="If matrix has fixed or variable size."/>
-        <FIELD NAME="buttontitles" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="What the title of the button should be."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

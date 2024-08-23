@@ -766,10 +766,6 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
             // TODO: remove this when we delete it from the DB.
-            $question->{$inputname . 'displaytype'}        = $input->displaytype;
-            $question->{$inputname . 'choicetype'}         = $input->choicetype;
-            $question->{$inputname . 'matrixsize'}         = $input->matrixsize;
-            $question->{$inputname . 'buttontitles'}       = $input->buttontitles;
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
@@ -782,6 +778,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'mustverify'}         = $input->mustverify;
             $question->{$inputname . 'showvalidation'}     = $input->showvalidation;
             $question->{$inputname . 'options'}            = $input->options;
+            $question->{$inputname . 'displaytype'}        = $input->options;
         }
 
         return $question;

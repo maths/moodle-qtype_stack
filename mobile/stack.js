@@ -142,7 +142,8 @@ var result = {
         this.question.sections = sections;
 
         const scripts = this.question.scriptsCode;
-        const initCalls = scripts.match(/amd\.initInputs\(.*\]\);/g);
+        let initCalls = scripts.match(/amd\.initInputs\(.*\]\);/g);
+        initCalls = initCalls ? initCalls : [];
         const inputInits = [];
         for (let currentInit of initCalls) {
             currentInit = currentInit.slice(15, -2);
@@ -150,7 +151,8 @@ var result = {
             inputInits.push(initArgs);
         }
 
-        const iframes = scripts.match(/stackjsvle\.create_iframe\(.*;\}\);;/g);
+        let iframes = scripts.match(/stackjsvle\.create_iframe\(.*;\}\);;/g);
+        iframes = iframes ? iframes : [];
         const iframesArgs = [];
         let siteUrl = that.CoreSitesProvider.currentSite.siteUrl;
         for (let iframe of iframes) {
@@ -165,10 +167,6 @@ var result = {
             args[1] = args[1].replace('name=jsxgraph.min.css"', 'name=jsxgraph.min.css" crossorigin="anonymous"');
             args[1] = args[1].replace('name=jsxgraphcore.min.js"', 'name=jsxgraphcore.min.js" crossorigin="anonymous"');
             iframesArgs.push(args);
-        }
-        // Moodle App bug? Fast preview causes MathJax to fail when moving between questions in a quiz.
-        if (window.Mathjax) {
-            window.MathJax.Hub.config.FastPreview = false;
         }
 
         // Perform this code after DOM rendered.
@@ -186,6 +184,8 @@ var result = {
                     for (const args of iframesArgs) {
                         create_iframe(...args);
                     }
+                    // Make sure all the MathJax has rendered properly.
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
                 }
             });
 
@@ -450,28 +450,28 @@ var result = {
          * @constructor
          * @param {HTMLElement} input the HTML input that is this STACK input.
          */
-                function StackSelectInput(input) {
-                    /**
-                     * Add the event handler to call when the user input changes.
-                     *
-                     * @param {Function} valueChanging the callback to call when we detect a value change.
-                     */
-                    this.addEventHandlers = function(valueChanging) {
-                        // The input event fires on any change in value, even if pasted in or added by speech
-                        // recognition to dictate text. Change only fires after loosing focus.
-                        // Should also work on mobile.
-                        input.addEventListener('ionChange', valueChanging);
-                    };
+        function StackSelectInput(input) {
+            /**
+             * Add the event handler to call when the user input changes.
+             *
+             * @param {Function} valueChanging the callback to call when we detect a value change.
+             */
+            this.addEventHandlers = function(valueChanging) {
+                // The input event fires on any change in value, even if pasted in or added by speech
+                // recognition to dictate text. Change only fires after loosing focus.
+                // Should also work on mobile.
+                input.addEventListener('ionChange', valueChanging);
+            };
 
-                    /**
-                     * Get the current value of this input.
-                     *
-                     * @return {String}.
-                     */
-                    this.getValue = function() {
-                        return input.value.replace(/^\s+|\s+$/g, '');
-                    };
-                }
+            /**
+             * Get the current value of this input.
+             *
+             * @return {String}.
+             */
+            this.getValue = function() {
+                return input.value.replace(/^\s+|\s+$/g, '');
+            };
+        }
 
         /**
          * Input type for textarea inputs.
@@ -740,6 +740,8 @@ var result = {
         /* A flag to disable certain things. */
         let DISABLE_CHANGES = false;
 
+        const abortController = new AbortController();
+
 
         /**
          * Returns an element with a given id, if an only if that element exists
@@ -782,7 +784,9 @@ var result = {
          * @param {String} name the name of the input we want
          * @param {String} srciframe the identifier of the iframe wanting it
          * @param {boolean} outside do we expand the search beyound the src question?
+         * @returns {null}
          */
+        // eslint-disable-next-line require-jsdoc, complexity
         function vle_get_input_element(name, srciframe, outside) {
             /* In the case of Moodle we are happy as long as the element is inside
                 something with the `formulation`-class. */
@@ -790,6 +794,7 @@ var result = {
                 // Old default was to search beyoudn the question.
                 outside = true;
             }
+            debugger;
             let initialcandidate = document.getElementById(srciframe);
             let iter = initialcandidate;
             while (iter && !iter.classList.contains('formulation') &&
@@ -809,17 +814,17 @@ var result = {
                     return possible;
                 }
                 // Radios have interesting ids, but the name makes sense
-                possible = iter.querySelector('input[id$="_' + name + '_1"][type=radio]');
+                possible = iter.querySelector('ion-radio-group[name$="_' + name + '"]');
                 if (possible !== null) {
                     return possible;
                 }
                 // Same for checkboxes, ntoe that non STACK checkbox can be targetted by
                 // just the id using the topmost case here.
-                possible = iter.querySelector('input[id$="_' + name + '_1"][type=checkbox]');
+                possible = iter.querySelector('ion-checkbox[name$="_' + name + '_1"]');
                 if (possible !== null) {
                     return possible;
                 }
-                possible = iter.querySelector('select[id$="_' + name + '"]');
+                possible = iter.querySelector('ion-select[name$="_' + name + '"]');
                 if (possible !== null) {
                     return possible;
                 }
@@ -837,15 +842,15 @@ var result = {
                 return possible;
             }
             // Radios have interesting ids, but the name makes sense
-            possible = document.querySelector('.formulation input[id$="_' + name + '_1"][type=radio]');
+            possible = document.querySelector('.formulation ion-radio-group[name$="_' + name + '"]');
             if (possible !== null) {
                 return possible;
             }
-            possible = document.querySelector('.formulation input[id$="_' + name + '_1"][type=checkbox]');
+            possible = document.querySelector('.formulation ion-checkbox[name$="_' + name + '_1"]');
             if (possible !== null) {
                 return possible;
             }
-            possible = document.querySelector('.formulation select[id$="_' + name + '"]');
+            possible = document.querySelector('.formulation ion-select[name$="_' + name + '"]');
             if (possible !== null) {
                 return possible;
             }
@@ -861,7 +866,7 @@ var result = {
             if (possible !== null) {
                 return possible;
             }
-            possible = document.querySelector('.outcome select[id$="_' + name + '"]');
+            possible = document.querySelector('.outcome ion-select[name$="_' + name + '"]');
             return possible;
         }
 
@@ -1015,7 +1020,10 @@ var result = {
          *
          * Below is the actuall message handling and it should be left alone.
          */
-        window.addEventListener("message", (e) => {
+        window.addEventListener("message", eventCallback, {signal: abortController.signal});
+
+        // eslint-disable-next-line require-jsdoc, complexity
+        function eventCallback(e) {
             // NOTE! We do not check the source or origin of the message in
             // the normal way. All actions that can bypass our filters to trigger
             // something are largely irrelevant and all traffic will be kept
@@ -1033,6 +1041,14 @@ var result = {
                 msg = JSON.parse(e.data);
             } catch (e) {
                 // Only JSON objects that are parseable will work.
+                return;
+            }
+
+            if (!IFRAMES[msg.src] || !IFRAMES[msg.src].contentWindow) {
+                // When we move between questions the old event listener lingers
+                // and is triggered by iframes with the same name.
+                // Remove it.
+                abortController.abort();
                 return;
             }
 
@@ -1076,7 +1092,7 @@ var result = {
                 // 2. What type of an input is this? Note that we do not
                 // currently support all types in sensible ways. In particular,
                 // anything with multiple values will be a problem.
-                if (input.nodeName.toLowerCase() === 'select') {
+                if (input.tagName.toLowerCase() === 'ion-select') {
                     response.value = input.value;
                     response['input-type'] = 'select';
                     response['input-readonly'] = input.hasAttribute('disabled');
@@ -1084,7 +1100,7 @@ var result = {
                     response.value = input.value;
                     response['input-type'] = 'textarea';
                     response['input-readonly'] = input.hasAttribute('disabled');
-                } else if (input.type === 'checkbox') {
+                } else if (input.tagName.toLowerCase() === 'ion-checkbox') {
                     response.value = input.checked;
                     response['input-type'] = 'checkbox';
                     response['input-readonly'] = input.hasAttribute('disabled');
@@ -1093,14 +1109,9 @@ var result = {
                     response['input-type'] = input.type;
                     response['input-readonly'] = input.hasAttribute('readonly');
                 }
-                if (input.type === 'radio') {
+                if (input.tagName.toLowerCase() === 'ion-radio-group') {
                     response['input-readonly'] = input.hasAttribute('disabled');
-                    response.value = '';
-                    for (let inp of document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']')) {
-                        if (inp.checked) {
-                            response.value = inp.value;
-                        }
-                    }
+                    response.value = input.value;
                 }
 
                 // 3. Add listener for changes of this input.
@@ -1109,73 +1120,31 @@ var result = {
                         // DO NOT BIND TWICE!
                         return;
                     }
-                    if (input.type !== 'radio') {
-                        INPUTS[input.id].push(msg.src);
-                    } else {
-                        let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
-                        for (let inp of radgroup) {
-                            INPUTS[inp.id].push(msg.src);
-                        }
-                    }
+                    INPUTS[input.id].push(msg.src);
                 } else {
-                    if (input.type !== 'radio') {
-                        INPUTS[input.id] = [msg.src];
-                    } else {
-                        let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
-                        for (let inp of radgroup) {
-                            INPUTS[inp.id] = [msg.src];
+                    INPUTS[input.id] = [msg.src];
+                    input.addEventListener('change', () => {
+                        if (DISABLE_CHANGES) {
+                            return;
                         }
-                    }
-                    if (input.type !== 'radio') {
-                        input.addEventListener('change', () => {
-                            if (DISABLE_CHANGES) {
-                                return;
-                            }
-                            let resp = {
-                                version: 'STACK-JS:1.0.0',
-                                type: 'changed-input',
-                                name: msg.name
-                            };
-                            if (input.type === 'checkbox') {
-                                resp['value'] = input.checked;
-                            } else {
-                                resp['value'] = input.value;
-                            }
-                            for (let tgt of INPUTS[input.id]) {
-                                resp['tgt'] = tgt;
-                                IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
-                            }
-                        });
-                    } else {
-                        // Assume that if we received a radio button that is safe
-                        // then all its friends are also safe.
-                        let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
-                        radgroup.forEach((inp) => {
-                            inp.addEventListener('change', () => {
-                                if (DISABLE_CHANGES) {
-                                    return;
-                                }
-                                let resp = {
-                                    version: 'STACK-JS:1.0.0',
-                                    type: 'changed-input',
-                                    name: msg.name
-                                };
-                                if (inp.checked) {
-                                    resp.value = inp.value;
-                                } else {
-                                    // What about unsetting?
-                                    return;
-                                }
-                                for (let tgt of INPUTS[inp.id]) {
-                                    resp['tgt'] = tgt;
-                                    IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
-                                }
-                            });
-                        });
-                    }
+                        let resp = {
+                            version: 'STACK-JS:1.0.0',
+                            type: 'changed-input',
+                            name: msg.name
+                        };
+                        if (input.tagName.toLowerCase() === 'ion-checkbox') {
+                            resp['value'] = input.checked;
+                        } else {
+                            resp['value'] = input.value;
+                        }
+                        for (let tgt of INPUTS[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
                 }
 
-                if (('track-input' in msg) && msg['track-input'] && input.type !== 'radio') {
+                if (('track-input' in msg) && msg['track-input']) {
                     if (input.id in INPUTS_INPUT_EVENT) {
                         if (msg.src in INPUTS_INPUT_EVENT[input.id]) {
                             // DO NOT BIND TWICE!
@@ -1194,7 +1163,7 @@ var result = {
                                 type: 'changed-input',
                                 name: msg.name
                             };
-                            if (input.type === 'checkbox') {
+                            if (input.tagName.toLowerCase() === 'ion-checkbox') {
                                 resp['value'] = input.checked;
                             } else {
                                 resp['value'] = input.value;
@@ -1234,7 +1203,7 @@ var result = {
                 DISABLE_CHANGES = true;
 
                 // TO-DO: Radio buttons should we check that value is possible?
-                if (input.type === 'checkbox') {
+                if (input.tagName.toLowerCase() === 'ion-checkbox') {
                     input.checked = msg.value;
                 } else {
                     input.value = msg.value;
@@ -1262,28 +1231,7 @@ var result = {
                 // 1. Find the input.
                 input = vle_get_input_element(msg.name, msg.src);
 
-                if (input.nodeName.toLowerCase() === 'select') {
-                    if (input.selectedIndex !== -1) {
-                        input.selectedIndex = -1;
-                        vle_update_input(input);
-                    }
-                    for(var i = 0; i < input.options.length; i++) {
-                        if (input.options[i].hasAttribute('selected')) {
-                            input.options[i].removeAttribute('selected');
-                            vle_update_input(input);
-                        }
-                        if (input.options[i].value === '') {
-                            // If we have the clear input option select that.
-                            input.options[i].selected = true;
-                            vle_update_input(input);
-                        }
-                    }
-                } else if (input.nodeName.toLowerCase() === 'textarea') {
-                    if (input.value !== '') {
-                        input.value = '';
-                        vle_update_input(input);
-                    }
-                } else if (input.type === 'checkbox') {
+                if (input.tagName.toLowerCase() === 'ion-checkbox') {
                     for (let inp of vle_get_others_of_same_input_group(input)) {
                         inp.checked = false;
                         vle_update_input(inp);
@@ -1498,7 +1446,7 @@ var result = {
                 IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             }
 
-        });
+        }
 
 
         /* To avoid any logic that forbids IFRAMEs in the VLE output one can

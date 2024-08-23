@@ -807,7 +807,7 @@ class input_numerical_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '1729.0');
         $el->set_parameter('options', 'simp');
-        // Simplification is applied to integers.
+
         $state = $el->validate_student_response(['sans1' => '9^3+10^3'], $options,
             '', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -818,15 +818,14 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 1729 \]',
             $state->contentsdisplayed);
 
-        // Simplification is not currently applied to floats, which have their significant protected.
-        $state = $el->validate_student_response(['sans1' => '9.0^3+10^3'], $options,
+        $state = $el->validate_student_response(['sans1' => '9.000^3+10^3'], $options,
             '', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $content = $state->contentsmodified;
-        $this->assertEquals('9.0^3+10^3', $content);
-        $this->assertEquals('\[ {9.0}^3+1000 \]',
+        $this->assertEquals('9.000^3+10^3', $content);
+        $this->assertEquals('\[ 1729.000 \]',
             $state->contentsdisplayed);
     }
 }

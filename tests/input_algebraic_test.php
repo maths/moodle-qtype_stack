@@ -951,6 +951,39 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_simp_float_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '7.0');
+        $el->set_parameter('forbidFloats', false);
+        $el->set_parameter('options', 'simp');
+        $state = $el->validate_student_response(['sans1' => '3.5*2.000'], $options,
+            '7.0', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('3.5*2.000', $content);
+        $this->assertEquals('\[ 7.000 \]',
+            $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_simp_float_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '7.0');
+        $el->set_parameter('forbidFloats', false);
+        $el->set_parameter('options', 'simp');
+        $state = $el->validate_student_response(['sans1' => '3.50*2*x^2+2.000*7.45'], $options,
+            '7.0', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('3.50*2*x^2+2.000*7.45', $content);
+        // We throw away dp information, but we do the calculations.
+        $this->assertEquals('\[ 7.0\cdot x^2+14.9 \]',
+            $state->contentsdisplayed);
+    }
+
     public function test_validate_lg_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'lg(27,3)');

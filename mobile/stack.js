@@ -8,13 +8,12 @@ var result = {
         // page to display the question state, but with which we need do nothing.
         // This code just prepares bits of this.question.html storing it in the question object ready for
         // passing to the template (stack.html).
-        // Note this is written in 'standard' javascript rather than ES6. Both work.
         if (!this.question) {
             return that.CoreQuestionHelperProvider.showComponentError(that.onAbort);
         }
 
         // Create a temporary div to ease extraction of parts of the provided html.
-        var div = this.CoreDomUtilsProvider.convertToElement(this.question.html);
+        const div = this.CoreDomUtilsProvider.convertToElement(this.question.html);
         div.innerHTML = this.question.html;
         // Replace Moodle's correct/incorrect classes, feedback and icons with mobile versions.
         that.CoreQuestionHelperProvider.replaceCorrectnessClasses(div);
@@ -22,16 +21,17 @@ var result = {
         that.CoreQuestionHelperProvider.treatCorrectnessIcons(div);
 
         // Get useful parts of the provided question html data.
-        var questiontext = div.querySelector('.content');
+        let questiontext = div.querySelector('.content');
         const multiAnswers = questiontext.querySelectorAll('.answer');
         const checkboxAnswers = Array.from(multiAnswers).filter(item => !item.querySelector('[type="radio"]'));
         const radioAnswers = Array.from(multiAnswers).filter(item => item.querySelector('[type="radio"]'));
         const dropdowns = questiontext.querySelectorAll('select');
         const dashLink = questiontext.querySelector('.questiontestslink');
         if (dashLink) {
+            // Remove STACK dashboard links.
             dashLink.parentNode.removeChild(dashLink);
         }
-        var prompt = div.querySelector('.prompt');
+        const prompt = div.querySelector('.prompt');
 
         // Add the useful parts back into the question object ready for rendering in the template.
         this.question.text = questiontext.innerHTML;
@@ -46,16 +46,16 @@ var result = {
 
         const checkboxDisplays = [];
         checkboxAnswers.forEach(function(checkboxset, i) {
-            var options = checkboxset.querySelectorAll('.option');
+            const options = checkboxset.querySelectorAll('.option');
             const optionOutput = [];
             options.forEach(function(option) {
                 // Each answer option contains all the data for presentation, it just needs extracting.
-                var label = option.querySelector('label').innerHTML;
-                var name = option.querySelector('label').getAttribute('for');
-                var checked = (option.querySelector('input[type=checkbox]').getAttribute('checked') ? true : false);
-                var disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
-                var qclass = option.getAttribute('class');
-                var value = option.querySelector('input').getAttribute('value');
+                const label = option.querySelector('label').innerHTML;
+                const name = option.querySelector('label').getAttribute('for');
+                const checked = (option.querySelector('input[type=checkbox]').getAttribute('checked') ? true : false);
+                const disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
+                const qclass = option.getAttribute('class');
+                const value = option.querySelector('input').getAttribute('value');
                 optionOutput.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
             });
             checkboxDisplays.push(optionOutput);
@@ -64,17 +64,17 @@ var result = {
 
         const radioDisplays = [];
         radioAnswers.forEach(function(radioset, i) {
-            var options = radioset.querySelectorAll('.option');
+            const options = radioset.querySelectorAll('.option');
             const radioOutput = {};
             options = Array.from(options).filter(item => item.querySelector('input[type="radio"]'));
             const optionOutput = [];
             options.forEach(function(option) {
                 // Each answer option contains all the data for presentation, it just needs extracting.
-                var label = option.querySelector('label').innerHTML;
-                var name = option.querySelector('input').getAttribute('name');
-                var disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
-                var qclass = option.getAttribute('class');
-                var value = option.querySelector('input').getAttribute('value');
+                const label = option.querySelector('label').innerHTML;
+                const name = option.querySelector('input').getAttribute('name');
+                const disabled = (option.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
+                const qclass = option.getAttribute('class');
+                const value = option.querySelector('input').getAttribute('value');
                 if (option.querySelector('input').getAttribute('checked') === 'checked') {
                     radioOutput.initialValue = value;
                 }
@@ -91,15 +91,15 @@ var result = {
 
         const dropdownDisplays = [];
         dropdowns.forEach(function(dropdown, i) {
-            var options = dropdown.querySelectorAll('option');
+            const options = dropdown.querySelectorAll('option');
             const dropdownOutput = {};
             const optionOutput = [];
             dropdownOutput.id = dropdown.getAttribute('id');
             dropdownOutput.name = dropdown.getAttribute('name');
             options.forEach(function(option) {
-                var label = option.innerHTML;
-                var disabled = (option.getAttribute('disabled') === 'disabled' ? true : false);
-                var value = option.getAttribute('value');
+                const label = option.innerHTML;
+                const disabled = (option.getAttribute('disabled') === 'disabled' ? true : false);
+                const value = option.getAttribute('value');
                 if (option.getAttribute('selected') === 'selected') {
                     dropdownOutput.initialValue = value;
                 }
@@ -112,8 +112,12 @@ var result = {
             dropdownDisplays.push(dropdownOutput);
             dropdown.replaceWith('~~!!~~Dropdown:' + i + '~~!!');
         });
-        var questionHTML = questiontext.innerHTML;
-        var sectionsHTML = questionHTML.split('~~!!');
+
+        // Create the data object to feed to the ionic template.
+        // We need to split into multi-answer sections and other ('text') sections.
+        // This does break formatting around multi-answer sections, though.
+        const questionHTML = questiontext.innerHTML;
+        const sectionsHTML = questionHTML.split('~~!!');
         const sections = [];
         sectionsHTML.forEach(function(sectionHTML) {
             let section = {};
@@ -141,6 +145,7 @@ var result = {
         });
         this.question.sections = sections;
 
+        // Extract input initialisation data from scriptsCode.
         const scripts = this.question.scriptsCode;
         let initCalls = scripts.match(/amd\.initInputs\(.*\]\);/g);
         initCalls = initCalls ? initCalls : [];
@@ -151,21 +156,27 @@ var result = {
             inputInits.push(initArgs);
         }
 
+        // Extract iframe initialisation data from scriptsCode.
         let iframes = scripts.match(/stackjsvle\.create_iframe\(.*;\}\);;/g);
         iframes = iframes ? iframes : [];
         const iframesArgs = [];
         let siteUrl = that.CoreSitesProvider.currentSite.siteUrl;
         for (let iframe of iframes) {
             iframe = iframe.slice(25, -6);
+            // Final parameter is optional but defaults to false. We need to set it explicitly to avoid broken JSON.
             if (iframe.endsWith(',')) {
                 iframe += 'false';
             }
             const args = JSON.parse('[' + iframe + ']');
-            const stylesHref = siteUrl + "/question/type/stack/corsscripts/cors.php?name=styles.css";
-            args[1] = args[1].replace('name=sortable.min.css" rel="stylesheet">', 'name=sortable.min.css" crossorigin="anonymous" rel="stylesheet"><link rel="stylesheet" crossorigin="anonymous" href="' + stylesHref + '"></link>');
+            // Scripts are now being loaded cross origin and Chrome complains.
+            const baseRef = siteUrl + "/question/type/stack/corsscripts/cors.php?name=";
+            args[1] = args[1].replace(baseRef + 'sortable.min.css" rel="stylesheet">',
+                baseRef + 'sortable.min.css" crossorigin="anonymous" rel="stylesheet">'
+                + '<link rel="stylesheet" crossorigin="anonymous" href="' + baseRef + 'styles.css"></link>');
             args[1] = args[1].replace(/<img/g, '<img crossorigin=\'anonymous\'');
-            args[1] = args[1].replace('name=jsxgraph.min.css"', 'name=jsxgraph.min.css" crossorigin="anonymous"');
-            args[1] = args[1].replace('name=jsxgraphcore.min.js"', 'name=jsxgraphcore.min.js" crossorigin="anonymous"');
+            args[1] = args[1].replace(baseRef + 'jsxgraph.min.css"', baseRef + 'jsxgraph.min.css" crossorigin="anonymous"');
+            args[1] = args[1].replace(baseRef + 'name=jsxgraphcore.min.js"',
+                baseRef + 'name=jsxgraphcore.min.js" crossorigin="anonymous"');
             iframesArgs.push(args);
         }
 
@@ -192,6 +203,7 @@ var result = {
             observer.observe(document.body, {childList: true, subtree: true});
         });
 
+        // Mostly a cut and paste of input.js file with updates for multianswer.
         /**
          * Class constructor representing an input in a Stack question.
          *
@@ -719,6 +731,8 @@ var result = {
             return null;
         }
 
+
+        // Mostly a cut and paste of stackjsvle.js file with updates for multianswer.
         // Note the VLE specific include of logic.
 
         /* All the IFRAMES have unique identifiers that they give in their
@@ -750,6 +764,7 @@ var result = {
          * If not found or exists outside the restricted area then returns `null`.
          *
          * @param {String} id the identifier of the element we want.
+         * @returns {null}
          */
         function vle_get_element(id) {
             /* In the case of Moodle we are happy as long as the element is inside
@@ -794,7 +809,6 @@ var result = {
                 // Old default was to search beyoudn the question.
                 outside = true;
             }
-            debugger;
             let initialcandidate = document.getElementById(srciframe);
             let iter = initialcandidate;
             while (iter && !iter.classList.contains('formulation') &&
@@ -877,6 +891,7 @@ var result = {
          * And we assume we are getting the ones that `vle_get_input_element` would return.
          *
          * @param {element} input element of type=radio or type=checkbox
+         * @returns {querySelectorAll}
          */
         function vle_get_others_of_same_input_group(input) {
             if (input.type === 'radio') {
@@ -899,6 +914,7 @@ var result = {
          * Will only return the button of the question containing that iframe.
          *
          * @param {String} srciframe the identifier of the iframe wanting it
+         * @returns {null}
          */
         function vle_get_submit_button(srciframe) {
             let initialcandidate = document.getElementById(srciframe);
@@ -954,6 +970,7 @@ var result = {
          * This is used when receiving replacement content for a div.
          *
          * @param {String} src a raw string to sanitise
+         * @returns {element}
          */
         function vle_html_sanitize(src) {
             // This can be implemented with many libraries or by custom code
@@ -994,6 +1011,7 @@ var result = {
          *
          * @param {String} name the name of an attribute.
          * @param {String} value the value of an attribute.
+         * @returns {boolean}
          */
         function is_evil_attribute(name, value) {
             const lcname = name.toLowerCase();
@@ -1015,7 +1033,7 @@ var result = {
         }
 
 
-        /*************************************************************************
+        /** ***********************************************************************
          * Above this are the bits that one would probably tune when porting.
          *
          * Below is the actuall message handling and it should be left alone.
@@ -1449,7 +1467,7 @@ var result = {
         }
 
 
-        /* To avoid any logic that forbids IFRAMEs in the VLE output one can
+        /** To avoid any logic that forbids IFRAMEs in the VLE output one can
             also create and register that IFRAME through this logic. This
             also ensures that all relevant security settigns for that IFRAME
             have been correctly tuned.
@@ -1462,7 +1480,7 @@ var result = {
 
             @param {String} iframeid the id that the IFRAME has stored inside
                     it and uses for communication.
-            @param {String} the full HTML content of that IFRAME.
+            @param {String} content the full HTML content of that IFRAME.
             @param {String} targetdivid the id of the element (div) that will
                     hold the IFRAME.
             @param {String} title a descriptive name for the iframe.

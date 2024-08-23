@@ -45,7 +45,7 @@ class input_textarea_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('textArea', 'ans1', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" class="maxima-list" ' .
-                'rows="5" cols="20"></textarea>',
+                'rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=","></textarea>',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'st_ans1', false, null));
     }
@@ -53,7 +53,7 @@ class input_textarea_test extends qtype_stack_testcase {
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('textArea', 'test', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
-                'class="maxima-list" rows="5" cols="20">' .
+                'class="maxima-list" rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])</textarea>",
                 $el->render(new stack_input_state(
                         stack_input::VALID, ["1", "1/sum([1,3])", "matrix([1],[2])"], '', '', '', '', ''),
@@ -63,7 +63,7 @@ class input_textarea_test extends qtype_stack_testcase {
     public function test_render_pre_syntaxhint() {
         $el = stack_input_factory::make('textArea', 'test', null, null, ['syntaxHint' => '[y=?, z=?]']);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
-                'class="maxima-list" rows="5" cols="20">' .
+                'class="maxima-list" rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">' .
                     "y = ?\nz = ?</textarea>",
         $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                             'st_ans1', false, null));
@@ -73,7 +73,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'test', null, null,
             ['syntaxHint' => '[y=?, z=?]', 'syntaxAttribute' => 1]);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
-            'class="maxima-list" placeholder="y = ?' ."\n" . 'z = ?" rows="5" cols="20"></textarea>',
+            'class="maxima-list" placeholder="y = ?' ."\n" . 'z = ?" rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=","></textarea>',
             $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                 'st_ans1', false, null));
     }
@@ -81,7 +81,7 @@ class input_textarea_test extends qtype_stack_testcase {
     public function test_render_disabled() {
         $el = stack_input_factory::make('textArea', 'input', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
-                'class="maxima-list" rows="5" cols="20" readonly="readonly"></textarea>',
+                'class="maxima-list" rows="5" cols="20" readonly="readonly" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=","></textarea>',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'st_ans1', true, null));
     }
@@ -107,7 +107,7 @@ class input_textarea_test extends qtype_stack_testcase {
                 '</tbody></table>', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
-                'class="maxima-list" rows="5" cols="20">x^2=-7*x'."\n".'ab=2</textarea>',
+                'class="maxima-list" rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">x^2=-7*x'."\n".'ab=2</textarea>',
                 $el->render($state, 'sans1', false, null));
 
         $state = $el->validate_student_response(['sans1' => "x^2=-7x\nab=2", 'sans1_val' => "[x^2=-7x,ab=2]"],
@@ -164,7 +164,7 @@ class input_textarea_test extends qtype_stack_testcase {
                 'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>.</div></td></tr>' .
                 '</tbody></table>', $state->contentsdisplayed);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" class="maxima-list" ' .
-                'rows="5" cols="20">x^2=-7x'."\n".'[a=1,b=2</textarea>',
+                'rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">x^2=-7x'."\n".'[a=1,b=2</textarea>',
                 $el->render($state, 'sans1', false, null));
     }
 
@@ -184,7 +184,7 @@ class input_textarea_test extends qtype_stack_testcase {
                 'You have a missing right bracket <span class="stacksyntaxexample">]</span> ' .
                 'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>. <br/>', $state->contentsdisplayed);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" class="maxima-list" ' .
-                'rows="5" cols="20">x^2=-7x'."\n".'[a=1,b=2</textarea>',
+                'rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">x^2=-7x'."\n".'[a=1,b=2</textarea>',
                 $el->render($state, 'sans1', false, null));
     }
 
@@ -248,7 +248,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
-            'class="maxima-list" rows="10" cols="20">' . "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9</textarea>",
+            'class="maxima-list" rows="10" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">' . "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9</textarea>",
             $el->render($state, 'sans1', false, null));
     }
 }

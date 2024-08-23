@@ -45,7 +45,8 @@ class input_numerical_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('numerical', 'ans1', '2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -53,7 +54,8 @@ class input_numerical_test extends qtype_stack_testcase {
     public function test_render_zero() {
         $el = stack_input_factory::make('numerical', 'ans1', '0');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="0" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="0" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -646,7 +648,8 @@ class input_numerical_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('numerical', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '?/?');
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="?/?" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="?/?" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
@@ -654,9 +657,10 @@ class input_numerical_test extends qtype_stack_testcase {
     public function test_render_monospace_with_align() {
         $el = stack_input_factory::make('numerical', 'ans1', '2');
         $el->set_parameter('options', 'align:right, monospace:true');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="numerical-right input-monospace" value="" />',
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="numerical-right input-monospace" value="" data-stack-input-type="numerical" ' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -665,7 +669,8 @@ class input_numerical_test extends qtype_stack_testcase {
         set_config('inputmonospace', '1', 'qtype_stack');
         $el = stack_input_factory::make('numerical', 'ans1', '2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical input-monospace" value="" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical input-monospace" value="" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }

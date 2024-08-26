@@ -2199,6 +2199,27 @@ class stack_answertest_test_data {
         ['AddConst', '[x,k]', 'ln(x*exp(c))+k', 'ln(x)', 1, 'ATAddConst_true.', ''],
         ['AddConst', '[x,c,k]', 'ln(x*exp(c))+k', 'ln(x)', 0, 'ATAddConst_noconst.', ''],
 
+        // Testing the `NONSTRICT` flag
+        ['AddConst', '[x, NONSTRICT]', 'exp(x)+c', 'exp(x)', 1, 'ATAddConst_true.', 'Testing the NONSTRICT option. All "true" examples return ATAddConst_generic instead.'],
+        ['AddConst', '[NONSTRICT,x]', 'exp(x)+c', 'exp(x)', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[x, NONSTRICT]', 'x^3/3+3*c', 'x^3/3', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[NONSTRICT, x]', 'x^3/3+3*c', 'x^3/3', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[x, NONSTRICT]', '(x^3+c)/3', 'x^3/3', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[NONSTRICT, x]', '(x^3+c)/3', 'x^3/3', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[x, NONSTRICT]', 'x^3/3+c^3', 'x^3/3', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[NONSTRICT, x]', 'x^3/3+c^3', 'x^3/3', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[x, NONSTRICT]', 'x^3/3*c', 'x^3/3', 0, 'ATAddConst_generic.', ''],
+        ['AddConst', '[NONSTRICT, x]', 'x^3/3*c', 'x^3/3', 0, 'ATAddConst_generic.', ''],
+        ['AddConst', '[x,c,NONSTRICT]', 'x^(k+1)/(k+1)+c', 'x^(k+1)/(k+1)', 0, 'ATAddConst_generic.', ''],
+        ['AddConst', '[x,NONSTRICT,c]', 'x^(k+1)/(k+1)+c', 'x^(k+1)/(k+1)', 0, 'ATAddConst_generic.', ''],
+        ['AddConst', '[NONSTRICT,x,c]', 'x^(k+1)/(k+1)+c', 'x^(k+1)/(k+1)', 0, 'ATAddConst_generic.', ''],
+        ['AddConst', '[x, NONSTRICT]', 'ln(k*abs(x))', 'ln(abs(x))+c', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[x, NONSTRICT]', 'ln(abs(k*x))', 'ln(abs(x))+c', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[x, NONSTRICT]', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[NONSTRICT, x]', 'ln(k*abs(x))', 'ln(abs(x))+c', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[NONSTRICT, x]', 'ln(abs(k*x))', 'ln(abs(x))+c', 1, 'ATAddConst_true.', ''],
+        ['AddConst', '[NONSTRICT, x]', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 1, 'ATAddConst_true.', ''],
+
        // Some more complicated expressions
         ['AddConst', 'x', 'ln(x^2+7*x+7)', 'ln(x^2+7*x+7)', 0, 'ATAddConst_noconst.', 'Some more complicated expressions'],
         [

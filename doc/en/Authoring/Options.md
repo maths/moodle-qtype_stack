@@ -134,6 +134,23 @@ and affects the way they are displayed.
 
 Note the use of both Roman and italic symbols in this table.
 
+If you are using \(i,j,k\) as basis vectors then consider the following in your question variables 
+
+    /* Below means set the ComplexNo option in the question to "symi". */
+    make_complexJ("symi");
+    ordergreat(i,j,k);
+    texput(i,"\\vec{i}");
+    texput(j,"\\vec{j}");
+    texput(k,"\\vec{k}");
+    %_stack_preamble_end;
+    /* These are examples. */
+    p:3*i+4*j+5*k;
+    q:a*i+b*j+c*k;
+
+Then, your expressions `p` and `q` will be displayed repectively as \[{3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}}\] and \[{a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}}.\]
+Further examples are given in the [vectors](../CAS/Matrix.md#vectors).documentation.
+
+
 ### Matrix parentheses ###
 
 See the entry on [matrices](../CAS/Matrix.md#matrixparens).

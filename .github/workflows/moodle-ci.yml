@@ -33,19 +33,15 @@ jobs:
         # We use a mix of SBCL and GCL, but mostly prefer SBCL as it is faster.
         include:
           - php: '8.2'
-            moodle-branch: 'master'
+            moodle-branch: 'main'
             database: 'pgsql'
-            maxima: 'SBCL'
+            maxima: 'GCL'
           - php: '8.2'
             moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
           - php: '8.1'
             moodle-branch: 'MOODLE_403_STABLE'
-            database: 'pgsql'
-            maxima: 'GCL'
-          - php: '8.1'
-            moodle-branch: 'MOODLE_402_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
           # Edinburgh is planning to run the setup below for 2023-24.
@@ -90,7 +86,7 @@ jobs:
 
       - name: Initialise moodle-plugin-ci
         run: |
-          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
           echo $(cd ci/bin; pwd) >> $GITHUB_PATH
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8

@@ -7,6 +7,10 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.8.0
 
+DONE.
+
+1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
+
 Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 
 1. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
@@ -16,6 +20,11 @@ Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack
 5. Review and fix [issue #1063](https://github.com/maths/moodle-qtype_stack/issues/1063): "Extra options" set to "simp" and number of decimals shown in validation field
 
 ## Parson's block development track
+
+DONE
+
+1. Hashing for keys
+2. Add ability to log history of an attempt
 
 For v4.8.0:
 
@@ -33,7 +42,6 @@ Later
 6. Confirmation for delete all?
 7. Alternative styling/signalling for clone mode?
 8. Better support (and documentation) for bespoke grading functions.
-9. Hashing keys
 10. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
 
 

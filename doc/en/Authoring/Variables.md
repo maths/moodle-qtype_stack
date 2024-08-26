@@ -46,7 +46,7 @@ The question variables are evaluated when a variant of a question is created.   
 * General feedback (also known as the worked solution).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
-* Question variables are not available to inputs when a student is validating their answer, unless special ``context variables'' are defined in a preamble.
+* Question variables are not available to inputs when a student is validating their answer, unless special ''context variables'' are defined in a preamble.
 
 ### Question variables preamble and context variables
 

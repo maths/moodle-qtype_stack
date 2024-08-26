@@ -2,16 +2,15 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## Version 4.6.0
+## Version 4.7.0
 
 Released July 2024.
 
 1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
-2. Add in stack preamble via `%_stack_preamble_end;` in the question variables to allow some variables to be available in inputs.  This fixes [issue #1207](https://github.com/maths/moodle-qtype_stack/issues/1207]) and [issue #1133](https://github.com/maths/moodle-qtype_stack/issues/1133).
-3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019]).  This will allow better copy/paste to and from desktop maxima.
-4. Add in an option to fine-tune the multiplication sign used for scientific units:  `multsgnstackunits`.  See discussion in [issue #1080](https://github.com/maths/moodle-qtype_stack/issues/1080]).
+2. Add in stack preamble via `%_stack_preamble_end;` in the question variables to allow some variables to be available in inputs.  This fixes [issue #1207](https://github.com/maths/moodle-qtype_stack/issues/1207) and [issue #1133](https://github.com/maths/moodle-qtype_stack/issues/1133).
+3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019).  This will allow better copy/paste to and from desktop maxima.
+4. Add in an option to fine-tune the multiplication sign used for scientific units:  `multsgnstackunits`.  See discussion in [issue #1080](https://github.com/maths/moodle-qtype_stack/issues/1080).
 5. Add in the "Deploy from n to m" deature to systematically deploy seeds.
-
 
 ## Version 4.6.0
 

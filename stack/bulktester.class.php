@@ -305,7 +305,7 @@ class stack_bulk_tester {
                 }
 
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
-                if (!$tests) {
+                if (!$tests && $question->inputs !== []) {
                     $notests[] = $questionnamelink;
                     if ($outputmode == 'web') {
                         $questionproblems[] = html_writer::tag('li', stack_string('bulktestnotests'));
@@ -450,7 +450,7 @@ class stack_bulk_tester {
             return [false, "Attempting to start the question threw an exception!"];
         }
 
-        if (!$tests) {
+        if (!$tests && $question->inputs !== []) {
             $defaulttest = self::create_default_test($question);
             $defaulttestresult = $defaulttest->test_question($qid, $seed, $context);
             if ($defaulttestresult->passed()) {

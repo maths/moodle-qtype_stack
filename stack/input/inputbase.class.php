@@ -39,6 +39,7 @@ abstract class stack_input {
     const GRAMMAR_FIX_INSERT_STARS = 1;
     const GRAMMAR_FIX_SPACES = 2;
     const GRAMMAR_FIX_SINGLE_CHAR = 4;
+    const GRAMMAR_FIX_FUNCTIONS = 16;
 
     /**
      * @var string the name of the input.
@@ -713,7 +714,6 @@ abstract class stack_input {
         // At this sage, $valid records the PHP validation or other non-CAS issues.
         list($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines)
             = $this->validate_contents($contents, $secrules, $localoptions);
-
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
         $validationmethod = $this->get_validation_method();
@@ -994,6 +994,11 @@ abstract class stack_input {
             $filterstoapply[] = '410_single_char_vars';
         }
 
+        // Assume single letter variable names = 16.
+        if ($grammarautofixes & self::GRAMMAR_FIX_FUNCTIONS) {
+            $filterstoapply[] = '441_split_unknown_functions';
+        }
+
         // Consolidate M_1 to M1 and so on.
         if ($this->get_extra_option('consolidatesubscripts', false)) {
             $filterstoapply[] = '420_consolidate_subscripts';
@@ -1047,8 +1052,15 @@ abstract class stack_input {
             }
 
             // Construct inert version of that.
+            $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
+            if($this->get_extra_option('simp')) {
+                // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
+                // function to perform calculations on dispdp numbers.
+                $val = 'stack_validate_simpnum(' . $val .')';
+                // Add in an extra Maxima function here so we can eventaually decide how many dps to display.
+            }
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
-                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array_merge($filterstoapply, $protectfilters),
                 [], 'Root', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;

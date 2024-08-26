@@ -58,6 +58,10 @@ class stack_boolean_input extends stack_input {
         if ($value === 'EMPTYANSWER') {
             $value = '';
         }
+
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'boolean';
+
         return html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
     }

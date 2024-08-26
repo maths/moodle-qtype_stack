@@ -283,7 +283,7 @@ class parsons_block_test extends qtype_stack_testcase {
         $invalidparameters = ['bad_param', 'HEIGHT', 'Height', 'override-css'];
         $validparameters = [
             'width', 'height', 'aspect-ratio', 'version', 'overridecss',
-            'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height', 'item-width'
+            'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height', 'item-width', 'log',
         ];
 
         foreach ($invalidparameters as $param) {

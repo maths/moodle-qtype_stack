@@ -47,6 +47,7 @@ echo html_writer::tag('p', stack_string('seetodolist_desc'));
 echo html_writer::tag('p', stack_string('seetodolist_help'));
 
 $bulktester = new stack_bulk_tester();
+$tagsummary = [];
 
 // Loop over all questions which this teache can edit.
 foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $numstackquestions) {
@@ -78,14 +79,23 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
                     $preurl = qbank_previewquestion\helper::question_preview_url($qid,
                         null, null, null, null, $context);
                     $dashurl = html_writer::link(new moodle_url($questiontestsurl,
-                        ['questionid' => $qid]), $qname);
+                        ['questionid' => $qid]), $qname). ' ' .
+                        $OUTPUT->action_icon($preurl, new pix_icon('t/preview', get_string('preview')));
                     // TODO: add in a direct edit URL.
                     $qtodos[] = ['qid' => $qid,
                                  'qname' => $qname,
                                  'tags' => $tags,
-                                 'preurl' => $preurl,
                                  'dashurl' => $dashurl,
                                 ];
+                    if ($tags !== []) {
+                        foreach ($tags as $tag) {
+                            if (array_key_exists($tag, $tagsummary)) {
+                                $tagsummary[$tag][] = $dashurl;
+                            } else {
+                                $tagsummary[$tag] = [$dashurl];
+                            }
+                        }
+                    }
                 }
             }
             if ($qtodos !== []) {
@@ -93,14 +103,23 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
                 echo '<table><thead><tr><th>Question</th><th>Tags</th></thead><tbody>';
                 // Load the whole question, simpler to get the contexts correct that way.
                 foreach ($qtodos as $item) {
-                    echo "<tr><td>" . $item['dashurl'] . ' ' .
-                        $OUTPUT->action_icon($item['preurl'], new pix_icon('t/preview', get_string('preview'))) .
+                    echo "<tr><td>" . $item['dashurl'] .
                         '</td><td>' . implode(', ', $item['tags']). '<td></tr>';
                 }
                 echo '</tbody></table>';
 
                 flush(); // Force output to prevent timeouts and to make progress clear.
             }
+        }
+    }
+}
+
+if ($tagsummary !== []) {
+    echo "\n\n<hr />\n\n";
+    foreach ($tagsummary as $tagname => $tagurls) {
+        echo $OUTPUT->heading($tagname);
+        foreach ($tagurls as $dashurl) {
+            echo $dashurl . "\n<br >\n";
         }
     }
 }

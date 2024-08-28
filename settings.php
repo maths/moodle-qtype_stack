@@ -38,6 +38,8 @@ $links = [
         ['link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php')]),
     get_string('bulktestindexintro_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php')]),
+    get_string('todo_desc', 'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/todo.php')]),
     get_string('dependenciesintro_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/dependencies.php')]),
     get_string('stackInstall_replace_dollars_desc', 'qtype_stack',

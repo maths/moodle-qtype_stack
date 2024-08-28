@@ -323,15 +323,17 @@ if (data_submitted() && optional_param('todo', false, PARAM_BOOL)) {
         'q.id = o.questionid AND ' .
         $DB->sql_like('o.compiledcache', ':trg') . ';', ['trg' => '%stack_todo%']);
     echo '<h4>Questions containing [[todo]] blocks</h4>';
-    echo '<table><thead><tr><th>Question</th></thead><tbody>';
+    echo '<table><thead><tr><th>Question</th><th>Tags</th></thead><tbody>';
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
+        $tags = $q->get_question_todos();
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
         echo "<tr><td>" . $q->name . ' ' .
-            $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
+            $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) .
+            '</td><td>' . implode(', ', $tags). '<td></tr>';
     }
     echo '</tbody></table>';
 }

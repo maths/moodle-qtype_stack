@@ -185,17 +185,17 @@ $settings->add(new admin_setting_configtext('qtype_stack/inputbuttontitles',
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputdisplaytype',
         get_string('displaytype', 'qtype_stack'), 
-        get_string('displaytype_help', 'qtype_stack'), 'dropdownboolean',
+        get_string('displaytype_help', 'qtype_stack'), 'displaytype:dropdown',
         stack_options::get_displaytype_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputchoicetype',
         get_string('choicetype', 'qtype_stack'),
-        get_string('choicetype_help', 'qtype_stack'), '0',
+        get_string('choicetype_help', 'qtype_stack'), 'choicetype:dropdown',
         stack_options::get_choicetype_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputmatrixsize',
         get_string('matrixsize', 'qtype_stack'),
-        get_string('matrixsize_help', 'qtype_stack'), '0',
+        get_string('matrixsize_help', 'qtype_stack'), 'matrixsize:fix',
         stack_options::get_matrixsize_options()));
 
 $settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',

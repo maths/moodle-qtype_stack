@@ -67,6 +67,10 @@ class stack_choice_input extends stack_input {
      */
     protected $teacheranswerdisplay = '';
 
+    protected $extraoptions = [
+        'choicetype' => false,
+    ];
+
     protected function internal_contruct() {
         $this->ddldisplay=$this->get_ddldisplay();
 
@@ -729,25 +733,20 @@ class stack_choice_input extends stack_input {
     }
 
     /*
-     * ddltype must be one of 'select' 0 dropdown, 'checkbox' 1 or 'radio' 2.
+     * ddltype 
      */
     protected function get_ddltype(){
-        switch ($this->parameters['choiceType']){
-            case 0: return'select'; 
-            case 1: return 'checkbox';
-            case 2: return 'radio';
-            default: echo 'Error: unknown type.'; break;
-        }
+        return $this->extraoptions['choicetype'];
     }
 
     /*
      * Default ddldisplay for checkboxes and radio is 'LaTeX'.
      */
     protected function get_ddldisplay(){
-        switch ($this->parameters['choiceType']){
-            case 0: return 'casstring';
-            default: return 'LaTeX';
+        if ($this->get_ddltype()=='checkbox' || $this->get_ddltype()=='radio'){
+            return 'LaTeX';
         }
+        return 'casstring';
     }
 
     //Only exist for Checkbox

@@ -420,9 +420,9 @@ class stack_options {
      */
     public static function get_choicetype_options() {
         return array(
-            '0' => get_string('choicetypedropdown', 'qtype_stack'),
-            '1' => get_string('choicetypecheckbox', 'qtype_stack'),
-            '2' => get_string('choicetyperadiobuttons', 'qtype_stack'),
+            'choicetype:dropdown' => get_string('choicetypedropdown', 'qtype_stack'),
+            'choicetype:checkbox' => get_string('choicetypecheckbox', 'qtype_stack'),
+            'choicetype:radio' => get_string('choicetyperadiobuttons', 'qtype_stack'),
         );
     }
 
@@ -431,8 +431,8 @@ class stack_options {
      */
     public static function get_matrixsize_options() {
         return array(
-            '0' => get_string('matrixsizevar', 'qtype_stack'),
-            '1' => get_string('matrixsizefix', 'qtype_stack'),
+            'matrixsize:var' => get_string('matrixsizevar', 'qtype_stack'),
+            'matrixsize:fix' => get_string('matrixsizefix', 'qtype_stack'),
         );
     }
 }

@@ -438,17 +438,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'displaytype', $this->stackconfig->inputdisplaytype);
         $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq','boolean');  
 
-        // $mform->addElement('text', $inputname . 'buttontitles', stack_string('buttontitles') , array('size' => 20));
-        // $mform->setType($inputname . 'buttontitles', PARAM_RAW);
-        // $mform->hideIf($inputname . 'buttontitles', $inputname . 'type', 'neq', 'boolean');
+        $mform->addElement('text', $inputname . 'buttontitle', stack_string('buttontitle') , array('size' => 20));
+        $mform->setType($inputname . 'buttontitle', PARAM_RAW);
+        $mform->hideIf($inputname . 'buttontitle', $inputname . 'type', 'neq', 'boolean');
 
-        // $mform->addElement('select', $inputname . 'choicetype', stack_string('choicetype') ,stack_options::get_choicetype_options());
-        // $mform->setDefault($inputname . 'choicetype', $this->stackconfig->inputchoicetype);
-        // $mform->hideIf($inputname . 'choicetype', $inputname . 'type', 'neq', 'choice'); 
+        $mform->addElement('select', $inputname . 'choicetype', stack_string('choicetype') ,stack_options::get_choicetype_options());
+        $mform->setDefault($inputname . 'choicetype', $this->stackconfig->inputchoicetype);
+        $mform->hideIf($inputname . 'choicetype', $inputname . 'type', 'neq', 'choice'); 
 
-        // $mform->addElement('select', $inputname . 'matrixsize', stack_string('matrixsize') ,stack_options::get_matrixsize_options());
-        // $mform->setDefault($inputname . 'matrixsize', $this->stackconfig->inputmatrixsize);
-        // $mform->hideIf($inputname . 'matrixsize', $inputname . 'type', 'neq', 'matrix'); 
+        $mform->addElement('select', $inputname . 'matrixsize', stack_string('matrixsize') ,stack_options::get_matrixsize_options());
+        $mform->setDefault($inputname . 'matrixsize', $this->stackconfig->inputmatrixsize);
+        $mform->hideIf($inputname . 'matrixsize', $inputname . 'type', 'neq', 'matrix'); 
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
         $mform->setType($inputname . 'modelans', PARAM_RAW);
@@ -780,30 +780,12 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'options'}            = $input->options;
 
             $optionsString = $input->options;
-            
-            // Schlüsselwörter, nach denen gesucht werden soll
-            $suchSchluesselwoerter = ['displaytype', 'matrixsize', 'buttontitles', 'choicetype'];
-            
-            foreach ($suchSchluesselwoerter as $schluesselwort) {
-                $startPos = strpos($optionsString, $schluesselwort);
-                if ($startPos !== false) {
-                    // Finden der Endposition als Position des nächsten Kommas
-                    $endPos = strpos($optionsString, ',', $startPos);
-                    if ($endPos !== false) {
-                        // Extrahieren des Teilstrings, wenn ein Komma gefunden wurde
-                        $teilString = substr($optionsString, $startPos, $endPos - $startPos);
-                    } else {
-                        // Extrahieren des Teilstrings bis zum Ende, wenn kein weiteres Komma vorhanden ist
-                        $teilString = substr($optionsString, $startPos);
-                    }
-            
-                    // Zuweisen des extrahierten Teilstrings an die entsprechende Eigenschaft
-                    $question->{$inputname . $schluesselwort} = $teilString;
+            $keyWords = ['displaytype', 'matrixsize', 'buttontitle', 'choicetype'];
+            foreach ($keyWords as $keyWord) {
+                if (preg_match('/' . $keyWord . ':[^,]*/', $optionsString, $matches)) {
+                    $question->{$inputname . $keyWord} = $matches[0];
                 }
             }
-            // $question->{$inputname . 'displaytype'}        = $input->options;
-            // $question->{$inputname . 'choicetype'}         = $input->options;
-            // $question->{$inputname . 'displaytype'}        = $input->options;
         }
 
         return $question;

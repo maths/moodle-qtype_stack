@@ -25,14 +25,6 @@ class stack_matrix_input extends stack_input {
     protected $width;
     protected $height;
 
-    protected function get_size(){
-        switch ($this->parameters['matrixSize']){
-            case 0: return 'var'; 
-            case 1: return 'fix';
-            default: echo 'Error: unknown type.'; break;
-        }
-    }
-
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
@@ -43,7 +35,12 @@ class stack_matrix_input extends stack_input {
         'checkvars' => 0,
         'validator' => false,
         'feedback' => false,
+        'matrixsize' => false,
     ];
+
+    protected function get_size(){
+        return $this->extraoptions['matrixsize'];
+    }
 
     public function adapt_to_model_answer($teacheranswer) {
         if ($this->get_size()=='fix'){
@@ -526,7 +523,6 @@ class stack_matrix_input extends stack_input {
             // This looks odd, but the teacher's answer is a list and the student's a matrix.
             'sameType'           => false, 
             'options'            => '',
-            'matrixSize'         => 0,
         ];
     }
 

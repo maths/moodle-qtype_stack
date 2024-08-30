@@ -143,7 +143,7 @@ A selection menu allowing you to choose how the button for a boolean (true/false
 * Click button: A button that, when pressed, toggles between true and false states with each subsequent press. The button can have a title that is entered in button titles. If it has never been pressed, the button is black by default and represents 'not answered'. Blue represents true, and gray represents false.
 * Toggle button: A toggle button that switches between true and false when pressed. If it has never been pressed, the button is gray and without title by default and represents 'not answered'. It shows true or false, depending on the selection.
 
-### Button Title ### {#Buttontitles}
+### Button Title ### {#Buttontitle}
 
 This allows you to set a label for the boolean button. 
 

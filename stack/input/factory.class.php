@@ -163,9 +163,9 @@ class stack_input_factory {
         $parametermapping = [
             'sameType'           => 'checkanswertype',
             'displaytype'        => 'options',
-            // 'choiceType'         => 'choicetype',
-            // 'matrixSize'         => 'matrixsize',
-            // 'buttonTitles'       => 'buttontitles', 
+            'choicetype'         => 'options',
+            'matrixsize'         => 'options',
+            'buttontitle'        => 'options', 
             'mustVerify'         => 'mustverify',
             'showValidation'     => 'showvalidation',
             'boxWidth'           => 'boxsize',

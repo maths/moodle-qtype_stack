@@ -208,11 +208,24 @@ class qtype_stack extends question_type {
             $input->checkanswertype    = $fromform->{$inputname . 'checkanswertype'};
             $input->mustverify         = $fromform->{$inputname . 'mustverify'};
             $input->showvalidation     = $fromform->{$inputname . 'showvalidation'};
-            $input->options            = $fromform->{$inputname . 'options'};
-            $input->options            = $fromform->{$inputname . 'displaytype'};
-            // $input->options            = $fromform->{$inputname . 'choicetype'};
-            // $input->options            = $fromform->{$inputname . 'matrixsize'};
-            // $input->buttontitles       = $fromfrom->{$inputname . 'buttontitles'};
+
+            $options = [];
+            if (!empty($fromform->{$inputname . 'options'})) {
+                $options[] = $fromform->{$inputname . 'options'};
+            }
+            if (!empty($fromform->{$inputname . 'displaytype'})) {
+                $options[] = $fromform->{$inputname . 'displaytype'};
+            }
+            if (!empty($fromform->{$inputname . 'choicetype'})) {
+                $options[] = $fromform->{$inputname . 'choicetype'};
+            }
+            if (!empty($fromform->{$inputname . 'matrixsize'})) {
+                $options[] = $fromform->{$inputname . 'matrixsize'};
+            }
+            if (!empty($fromform->{$inputname . 'buttontitles'})) {
+                $options[] = 'buttontitle:'.$fromform->{$inputname . 'buttontitles'};
+            }
+            $input->options = implode(',', $options);
 
             $questionhasinputs = true;
             $DB->update_record('qtype_stack_inputs', $input);
@@ -497,33 +510,19 @@ class qtype_stack extends question_type {
         foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
             $inputdata = $questiondata->inputs[$name];
 
-            // Der zu durchsuchende String
             $optionsString = $inputdata->options;
-            
-            // Schlüsselwörter, nach denen gesucht werden soll
-            $suchSchluesselwoerter = ['displaytype', 'matrixsize', 'buttontitles', 'choicetype'];
-            
-            // Initialisierung des Arrays, das die extrahierten Werte halten wird
-            $extrahierteWerte = [];
-            
-            foreach ($suchSchluesselwoerter as $schluesselwort) {
-                $startPos = strpos($optionsString, $schluesselwort);
-                if ($startPos !== false) {
-                    // Finden der Endposition als Position des nächsten Kommas
-                    $endPos = strpos($optionsString, ',', $startPos);
-                    if ($endPos !== false) {
-                        // Extrahieren des Teilstrings, wenn ein Komma gefunden wurde
-                        $teilString = substr($optionsString, $startPos, $endPos - $startPos);
-                    } else {
-                        // Extrahieren des Teilstrings bis zum Ende, wenn kein weiteres Komma vorhanden ist
-                        $teilString = substr($optionsString, $startPos);
-                    }
-                    // Zuweisen des extrahierten Teilstrings an die entsprechende Stelle im Array
-                    $extrahierteWerte[$schluesselwort] = $teilString;
+            $keyWords= ['displaytype', 'matrixsize', 'buttontitle', 'choicetype'];
+            $pattern = '/(' . implode('|', $keyWords) . '):([^,]*)/';
+            preg_match_all($pattern, $optionsString, $matches);
+            $extraoptions = array_fill_keys($keyWords, '');
+            foreach ($matches[0] as $match) {
+                list($key, $value) = explode(':', $match, 2);
+                if (in_array($key, $keyWords)) {
+                    $extraoptions[$key] = $match;
                 }
             }
-            
 
+            
             $allparameters = [
                 'boxWidth'        => $inputdata->boxsize,
                 'strictSyntax'    => true,
@@ -538,11 +537,12 @@ class qtype_stack extends question_type {
                 'mustVerify'      => (bool) $inputdata->mustverify,
                 'showValidation'  => $inputdata->showvalidation,
                 'options'         => $inputdata->options,
-                'displaytype' => isset($extrahierteWerte['displaytype']) ? $extrahierteWerte['displaytype'] : '',
-                'matrix' => isset($extrahierteWerte['matrix']) ? $extrahierteWerte['matrix'] : '',
-                'buttontitles' => isset($extrahierteWerte['buttontitles']) ? $extrahierteWerte['buttontitles'] : '',
-                'choicetype' => isset($extrahierteWerte['choicetype']) ? $extrahierteWerte['choicetype'] : '',
+                'displaytype'     => $extraoptions['displaytype'],
+                'matrixsize'      => $extraoptions['matrixsize'],
+                'buttontitle'     => $extraoptions['buttontitle'],
+                'choicetype'      => $extraoptions['choicetype'],
             ];
+
             $parameters = [];
             foreach ($requiredparams[$inputdata->type] as $paramname) {
                 if ($paramname == 'inputType') {
@@ -1520,8 +1520,6 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'mustverify'}         = $format->getpath($xml, ['#', 'mustverify', 0, '#'], 1);
         $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, ['#', 'showvalidation', 0, '#'], 1);
         $fromform->{$name . 'options'}            = $format->getpath($xml, ['#', 'options', 0, '#'], '');
-        // $fromfrom->{$name . 'displaytype'}        = $format->getpath($xml, ['#', 'options', 0, '#'], '');
-        // $fromfrom->{$name . 'choicetype'}         = $format->getpath($xml, ['#', 'options', 0, '#'], '');
     }
 
     /**

@@ -81,10 +81,10 @@ abstract class stack_input {
         'forbidFloats',
         'lowestTerms',
         'sameType',
-        'choiceType',
-        'displayType',
-        'buttonTitles', 
-        'matrixSize',
+        'choicetype',
+        'displaytype',
+        'buttontitle', 
+        'matrixsize',
     ];
 
     /**

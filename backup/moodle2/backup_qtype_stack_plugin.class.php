@@ -62,7 +62,6 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                 [
                     'name', 'type', 'tans', 'boxsize', 'strictsyntax', 'insertstars',
                     'syntaxhint', 'syntaxattribute', 'forbidwords', 'allowwords', 'forbidfloat', 'requirelowestterms',
-                    //'displaytype', 'choicetype', 'matrixsize', 'buttontitles',
                     'checkanswertype', 'mustverify', 'showvalidation', 'options',
                 ]);
 

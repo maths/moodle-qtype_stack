@@ -410,8 +410,8 @@ class stack_options {
     public static function get_displaytype_options() {
         return array(
             'displaytype:dropdown' => get_string('displaytypedropdown', 'qtype_stack'),
-            'displaytype:click' => get_string('displaytypeclickbutton', 'qtype_stack'),
-            'displaytype:toggle' => get_string('displaytypetogglebutton', 'qtype_stack'),
+            'displaytype:click'    => get_string('displaytypeclickbutton', 'qtype_stack'),
+            'displaytype:toggle'   => get_string('displaytypetogglebutton', 'qtype_stack'),
         );
     }
 
@@ -422,7 +422,7 @@ class stack_options {
         return array(
             'choicetype:dropdown' => get_string('choicetypedropdown', 'qtype_stack'),
             'choicetype:checkbox' => get_string('choicetypecheckbox', 'qtype_stack'),
-            'choicetype:radio' => get_string('choicetyperadiobuttons', 'qtype_stack'),
+            'choicetype:radio'    => get_string('choicetyperadiobuttons', 'qtype_stack'),
         );
     }
 
@@ -431,8 +431,8 @@ class stack_options {
      */
     public static function get_matrixsize_options() {
         return array(
-            'matrixsize:var' => get_string('matrixsizevar', 'qtype_stack'),
             'matrixsize:fix' => get_string('matrixsizefix', 'qtype_stack'),
+            'matrixsize:var' => get_string('matrixsizevar', 'qtype_stack'),
         );
     }
 }

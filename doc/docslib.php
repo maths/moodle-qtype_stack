@@ -150,7 +150,9 @@ function stack_docs_render_markdown($page, $preprocess = true) {
         // Don't process the auto-generated answer test output.
         $page = stack_maths::pre_process_docs_page($page);
     }
-    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false]);
+    // Note the 'noclean' option is normally not permitted, however, this call to format_text is
+    // only applied to fixed content stored in the STACK git repository as code, and not user-generated content.
+    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false, 'noclean' => true]);
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }

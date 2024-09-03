@@ -83,5 +83,13 @@ class docslib_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
         // @codingStandardsIgnoreEnd
+
+        $page = 'Watch <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
+            'frameborder="0" allowfullscreen></iframe> This will help you.';
+        $rendered = "<p>Watch</p>\n\n" .
+            '<iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
+            'frameborder="0" allowfullscreen></iframe>' . "\n\n<p>This will help you.</p>\n";
+        $this->assert_content_with_maths_equals($rendered,
+            stack_docs_render_markdown($page));
     }
 }

@@ -398,6 +398,12 @@ abstract class stack_input {
                         $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
+                
+                case 'buttontitle':
+                    if (!($arg === false || is_string($arg))) {
+                        $this->errors[] = stack_string('inputvalidatorerrors', ['opt' => $option, 'val' => $arg]);
+                    }
+                    break;
 
                 case 'validator' || 'feedback':
                     // Perform simple checking of function names: not fully general.

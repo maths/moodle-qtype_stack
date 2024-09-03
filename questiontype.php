@@ -213,17 +213,16 @@ class qtype_stack extends question_type {
             if (!empty($fromform->{$inputname . 'options'})) {
                 $options[] = $fromform->{$inputname . 'options'};
             }
-            if (!empty($fromform->{$inputname . 'displaytype'})) {
-                $options[] = $fromform->{$inputname . 'displaytype'};
-            }
-            if (!empty($fromform->{$inputname . 'choicetype'})) {
+            // Conditional checks for specific types
+            if ($input->type === 'choice') {
                 $options[] = $fromform->{$inputname . 'choicetype'};
             }
-            if (!empty($fromform->{$inputname . 'matrixsize'})) {
-                $options[] = $fromform->{$inputname . 'matrixsize'};
+            if ($input->type === 'boolean') {
+                $options[] = $fromform->{$inputname . 'displaytype'};
+                $options[] = 'buttontitle:' . str_replace(',','*comma*',$fromform->{$inputname . 'buttontitle'});
             }
-            if (!empty($fromform->{$inputname . 'buttontitles'})) {
-                $options[] = 'buttontitle:'.$fromform->{$inputname . 'buttontitles'};
+            if ($input->type === 'matrix') {
+                $options[] = $fromform->{$inputname . 'matrixsize'};
             }
             $input->options = implode(',', $options);
 
@@ -421,6 +420,7 @@ class qtype_stack extends question_type {
                 'questionid = :questionid AND prtname ' . $nametest, $params);
     }
 
+
     public function get_question_options($question) {
         global $DB;
 
@@ -510,19 +510,6 @@ class qtype_stack extends question_type {
         foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
             $inputdata = $questiondata->inputs[$name];
 
-            $optionsString = $inputdata->options;
-            $keyWords= ['displaytype', 'matrixsize', 'buttontitle', 'choicetype'];
-            $pattern = '/(' . implode('|', $keyWords) . '):([^,]*)/';
-            preg_match_all($pattern, $optionsString, $matches);
-            $extraoptions = array_fill_keys($keyWords, '');
-            foreach ($matches[0] as $match) {
-                list($key, $value) = explode(':', $match, 2);
-                if (in_array($key, $keyWords)) {
-                    $extraoptions[$key] = $match;
-                }
-            }
-
-            
             $allparameters = [
                 'boxWidth'        => $inputdata->boxsize,
                 'strictSyntax'    => true,
@@ -537,10 +524,6 @@ class qtype_stack extends question_type {
                 'mustVerify'      => (bool) $inputdata->mustverify,
                 'showValidation'  => $inputdata->showvalidation,
                 'options'         => $inputdata->options,
-                'displaytype'     => $extraoptions['displaytype'],
-                'matrixsize'      => $extraoptions['matrixsize'],
-                'buttontitle'     => $extraoptions['buttontitle'],
-                'choicetype'      => $extraoptions['choicetype'],
             ];
 
             $parameters = [];

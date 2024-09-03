@@ -63,18 +63,19 @@ class stack_boolean_input extends stack_input {
         if ($value === 'EMPTYANSWER') {
             $value = '';
         }
-
-        $title = $this->extraoptions['buttontitle'] ?? stack_string('clickme');
  
+        $title = $this->extraoptions['buttontitle'];
+        $title = str_replace("*comma*", ",", $title);
+
         switch ($this->extraoptions['displaytype']) {
             case 'dropdown':
                 //Default settings
-                $element_complete=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+                $element_complete = html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
                 break;
             case 'click': 
                 // 'Click me'-Button
-                $attributes['hidden']='hidden';
-                $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+                $attributes['hidden'] = 'hidden';
+                $element_select = html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
 
                 array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
@@ -83,32 +84,36 @@ class stack_boolean_input extends stack_input {
                 $attributes['type'] = 'button';
                 $attributes['onclick'] = '         
                     var selectElem = document.getElementsByName("' . $fieldname . '")[0];
+                    var buttonElem = document.getElementById("' . $fieldname . '-button");
 
-                    if (document.getElementById("' . $fieldname . '-button").classList.contains("no-answer")) {
-                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
+                    if (buttonElem.classList.contains("no-answer")) {
+                        buttonElem.classList.remove("no-answer");
                     }
-                    if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-                        document.getElementsByName("' . $fieldname . '")[0].value = "false";
-                        document.getElementById("' . $fieldname . '-button").classList.remove("boolean-pressed");
+                    if (selectElem.value=="true") {
+                        selectElem.value = "false";
+                        buttonElem.classList.remove("boolean-pressed");
                     } else {
-                        document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                        selectElem.value = "true";
+                        buttonElem.classList.add("boolean-pressed");
                     }';
                 $button_script= '
-                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
-                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
+                    var selectElem = document.getElementsByName("' . $fieldname . '")[0];
+                    var buttonElem = document.getElementById("' . $fieldname . '-button");
+
+                    if (selectElem.value !== "") {
+                        buttonElem.classList.remove("no-answer");
                     }
-                    if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
-                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                    if (selectElem.value == "true") {
+                        buttonElem.classList.add("boolean-pressed");
                     }
-                    if (document.getElementById("' . $fieldname . '-button").disabled) {
-                        document.getElementById("' . $fieldname . '-button").classList.remove("hovered");
+                    if (buttonElem.disabled) {
+                        buttonElem.classList.remove("hovered");
                     }
                 ';
                 $element_script = html_writer::tag('script',$button_script);
-                $element_button = html_writer::tag('button', $title, $attributes); 
+                $element_button = html_writer::tag('button',$title, $attributes); 
                 
-                $element_complete=html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
+                $element_complete = html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
                 break;
             case 'toggle':
                 //Toggle-Button
@@ -148,7 +153,8 @@ class stack_boolean_input extends stack_input {
                 $element_complete=html_writer::div($element_select . $element_label . $element_script,'stack-parent-toggle-button');
                 break;
             default:
-                echo "This type is not set."; break;
+                echo "This type is not set."; 
+                break;
         }
         return $element_complete ;
     }
@@ -163,7 +169,6 @@ class stack_boolean_input extends stack_input {
 
         return $data;
     }
-
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);

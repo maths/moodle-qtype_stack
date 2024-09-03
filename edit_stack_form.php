@@ -438,7 +438,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'displaytype', $this->stackconfig->inputdisplaytype);
         $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq','boolean');  
 
-        $mform->addElement('text', $inputname . 'buttontitle', stack_string('buttontitle') , array('size' => 20));
+        $mform->addElement('text', $inputname . 'buttontitle', stack_string('buttontitle') , ['size' => 20]);
+        $mform->setDefault($inputname . 'buttontitle', 'Click me!');
         $mform->setType($inputname . 'buttontitle', PARAM_RAW);
         $mform->hideIf($inputname . 'buttontitle', $inputname . 'type', 'neq', 'boolean');
 
@@ -777,19 +778,35 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;
             $question->{$inputname . 'mustverify'}         = $input->mustverify;
             $question->{$inputname . 'showvalidation'}     = $input->showvalidation;
-            $question->{$inputname . 'options'}            = $input->options;
 
-            $optionsString = $input->options;
-            $keyWords = ['displaytype', 'matrixsize', 'buttontitle', 'choicetype'];
-            foreach ($keyWords as $keyWord) {
-                if (preg_match('/' . $keyWord . ':[^,]*/', $optionsString, $matches)) {
-                    $question->{$inputname . $keyWord} = $matches[0];
+            // Define the mapping between input types and the keywords to save
+            $typeKeywordMap = [
+                'choice' => ['choicetype'],
+                'boolean' => ['displaytype', 'buttontitle'],
+                'matrix' => ['matrixsize']
+            ];
+
+            // Check if the input type has associated keywords
+            if (isset($typeKeywordMap[$input->type])) {
+                foreach ($typeKeywordMap[$input->type] as $keyWord) {
+                    if (preg_match('/' . $keyWord . ':[^,]*/', $input->options, $matches)) {
+                        if($keyWord === 'buttontitle') {
+                            $label = str_replace($keyWord.':', '', $matches[0]);
+                            $question->{$inputname . $keyWord} = str_replace('*comma*', ',' ,$label);
+                        } else {
+                            $question->{$inputname . $keyWord} = $matches[0];
+                        }
+                        $input->options = str_replace($matches[0], '', $input->options);
+                    }
                 }
             }
+            $input->options = trim($input->options, ',');  
+            $question->{$inputname . 'options'} = $input->options;
         }
 
         return $question;
     }
+
 
     /**
      * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack_prts table.

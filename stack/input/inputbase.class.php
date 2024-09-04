@@ -1038,6 +1038,7 @@ abstract class stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
+
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                 [], 'Root', $this->options->get_option('decimals'));
 
@@ -1050,6 +1051,9 @@ abstract class stack_input {
                     $notes[$n] = true;
                 }
             }
+
+            // Apply any optional rendering here before the inert display is constructed.
+            $val = $this->render_display_value($val);
 
             // Construct inert version of that.
             $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
@@ -1665,5 +1669,15 @@ abstract class stack_input {
      */
     public function get_api_solution_render($tadisplay) {
         return $tadisplay;
+    }
+
+    /**
+     * Applies optional rendering to display items.
+     * Most inputs do nothing, Parsons input will decode hashed strings here.
+     * @param $val
+     * @return string
+     */
+    public function render_display_value($val) {
+        return $val;
     }
 }

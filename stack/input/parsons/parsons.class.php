@@ -20,17 +20,8 @@ require_once(__DIR__ . '/../string/string.class.php');
 
 class stack_parsons_input extends stack_string_input {
 
-    public static function get_parameters_defaults() {
-        return [
-            'mustVerify'         => false,
-            'showValidation'     => 0,
-            'syntaxHint'         => '',
-            'syntaxAttribute'    => 0,
-            'options'            => 'hideanswer',
-        ];
-    }
-    
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
+        // This is the same as `string` input render except we hide the input box
 
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -41,6 +32,7 @@ class stack_parsons_input extends stack_string_input {
             'name'  => $fieldname,
             'id'    => $fieldname,
             'autocapitalize' => 'none',
+            'size'  => $this->parameters['boxWidth'] * 1.1,
             'spellcheck'     => 'false',
             'class'     => 'maxima-string',
             'style'     => 'display:none'
@@ -67,87 +59,121 @@ class stack_parsons_input extends stack_string_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
-    public function render_api_data($tavalue) {
-        if ($this->errors) {
-            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+    /**
+     * This is used by the question to get the teacher's correct response.
+     *
+     * @param array|string $in
+     * @return array response to submit for this input.
+     */
+    public function get_correct_response($in) {
+        // This is the same as the string method, except we replace the dummy `0` timestamp coming from Maxima with the actual 
+        // Unix time (we do this here because Maxima does not have an in-built unix time function)
+        $value_obj = json_decode(stack_utils::maxima_string_to_php_string($in));
+        $value_obj[0][1] = time();
+        $value = $this->ensure_string(stack_utils::php_string_to_maxima_string(json_encode($value_obj)));
+
+        if (trim($value) == 'EMPTYANSWER' || $value === null) {
+            $value = '';
         }
 
-        $data = [];
-
-        $data['type'] = 'string';
-        $data['syntaxHint'] = $this->parameters['syntaxHint'];
-        $data['syntaxHintType'] = $this->parameters['syntaxAttribute'] == '1' ? 'placeholder' : 'value';
-
-        return $data;
+        return $this->maxima_to_response_array($value);
     }
 
-    protected function response_to_contents($response) {
-
-        $contents = [];
-        if (array_key_exists($this->name, $response)) {
-            // Don't turn an empty string into an empty string.
-            if (trim($response[$this->name]) === '' && !$this->extraoptions['allowempty']) {
-                return $contents;
-            }
-            
-            // Unhash keys
-            //$unhashed = $this->unhash_json_keys($response[$this->name]);
-
-            // Protect any other quotes etc.
-            $converted = stack_utils::php_string_to_maxima_string($response[$this->name]);
-
-            $contents = [$this->ensure_string($converted)];
-        }
-        return $contents;
-    }
-
-    public function maxima_to_response_array($in) {
-        if ($in === '') {
-            return [$this->name => ''];
-        }
-
-        $value = stack_utils::maxima_string_to_php_string($in);
-        //$hashed = $this->hash_json_keys($value);
-        $response[$this->name] = $value;
-        if ($this->requires_validation()) {
-            // Do not strip strings from the _val, to enable test inputs to work.
-            $response[$this->name . '_val'] = $in;
-        }
-        return $response;
-    }
-
+    /*
+     * Provide a summary of the student's response for the Moodle reporting.
+     * We unhash here to provide meaningful information in response history for authors.
+     */
     public function summarise_response($name, $state, $response) {
-        $ans_display = stack_utils::php_string_to_maxima_string($this->unhash_json_keys(stack_utils::maxima_string_to_php_string($state->contents[0])));
+        $ans_display = $this->unhash_array_json_maxima($state->contents[0]); 
         return $name . ': ' . $ans_display . ' [' . $state->status . ']';
     }
-
-    private function unhash_json_keys($ex) {
-        $decoded = json_decode($ex);
-        $decoded[0][0]->used[0][0] = $this->unhash_json_array($decoded[0][0]->used[0][0]);
-        $decoded[0][0]->available = $this->unhash_json_array($decoded[0][0]->available);
-        return json_encode($decoded);
+    
+    /*
+     * Do not show the JSON containing teacher answer as feedback. 
+     * This avoids the need to write 'hideanswer' for Parson's questions.
+     */
+    public function get_teacher_answer_display($value, $display) {
+        return '';
+    }
+    
+    /*
+     * Unhash strings for display purposes.
+     */
+    public function render_display_value($val) {
+        return $this->unhash_array_json_maxima($val);
     }
 
-    private function unhash_json_array($arr) {
+    /*
+     * Takes a string that contains a list where each element has the format
+     * [<JSON>, <int>]
+     * and each JSON has the format
+     * {"used" : [[[<hashed string>, ..., <hashed string>]]], "available" : [<hashed_string>, ... <hashed_string>]}
+     * each `<hashed_string>` is assumed to be Base64-hashed.
+     * 
+     * This function will return the same format string, with each `<hashed_string>` replaced by the original string value.
+     */
+    private function unhash_array_json($list_of_jsons) {
+        $decoded_list = json_decode($list_of_jsons);
+        foreach($decoded_list as $key => $json) {
+            $decoded_list[$key][0]->used[0][0] = $this->unhash_array($decoded_list[$key][0]->used[0][0]);
+            $decoded_list[$key][0]->available = $this->unhash_array($decoded_list[$key][0]->available);
+        }
+        return json_encode($decoded_list);
+    }
+
+    /*
+     * Takes a list of Base64-hashed strings and returns the corresponding list of original string values.
+     */
+    private function unhash_array($arr) {
         foreach ($arr as $key => $value) {
             $arr[$key] = base64_decode($value);
         }
         return $arr;
     }
 
-    private function hash_json_keys($ex) {
-        $decoded = json_decode($ex);
-        $decoded[0][0]->used[0][0] = $this->hash_json_array($decoded[0][0]->used[0][0]);
-        $decoded[0][0]->available = $this->hash_json_array($decoded[0][0]->available);
-        return json_encode($decoded);
+    /*
+     * Maxima string version of `unhash_array_json`.
+     */
+    private function unhash_array_json_maxima($list_of_jsons) {
+        $php_list_of_jsons = stack_utils::maxima_string_to_php_string($list_of_jsons);
+        return stack_utils::php_string_to_maxima_string($this->unhash_array_json($php_list_of_jsons));
     }
 
-    private function hash_json_array($arr) {
+    /*
+     * Takes a string that contains a list where each element has the format
+     * [<JSON>, <int>]
+     * and each JSON has the format
+     * {"used" : [[[<string>, ..., <string>]]], "available" : [<string>, ... <string>]}
+     * 
+     * This function will return the same format string, with each `<string>` replaced by its Base64-hashed value.
+     */
+    private function hash_array_json($list_of_jsons) {
+        $decoded_list = json_decode($list_of_jsons);
+        foreach($decoded_list as $key => $json) {
+            $decoded_list[$key][0]->used[0][0] = $this->hash_array($decoded_list[$key][0]->used[0][0]);
+            $decoded_list[$key][0]->available = $this->hash_array($decoded_list[$key][0]->available);
+        }
+        return json_encode($decoded_list);
+    }
+    
+    /*
+     * Takes a list of strings and returns the corresponding list of Base64-hashed string values.
+     */
+    private function hash_array($arr) {
         foreach ($arr as $key => $value) {
             $arr[$key] = base64_encode($value);
         }
         return $arr;
     }
+
+    /*
+     * Maxima string version of `hash_array_json`.
+     */
+    private function hash_array_json_maxima($list_of_jsons) {
+        $php_list_of_jsons = stack_utils::maxima_string_to_php_string($list_of_jsons);
+        return stack_utils::php_string_to_maxima_string($this->hash_array_json($php_list_of_jsons));
+    }
+
 
     private function ensure_string($ex) {
         $ex = trim($ex);

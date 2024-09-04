@@ -446,7 +446,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
         $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'parsons']);
+            ['radio', 'checkbox', 'dropdown', 'boolean']);
 
         $mform->addElement('select', $inputname . 'insertstars',
                 stack_string('insertstars'), stack_options::get_insert_star_options());

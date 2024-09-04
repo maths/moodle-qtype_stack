@@ -33,7 +33,7 @@ To provide feedback the list of edits can be sent directly to a display function
 To use this in practice define the following feedback variables.
 
 ```
-sa:proof_parsons_interpret(ans1);
+sa:parsons_decode(ans1);
 [pd, saa]:proof_assessment(sa, proof_alternatives(ta));
 ```
 

@@ -20,6 +20,13 @@ require_once(__DIR__ . '/../string/string.class.php');
 
 class stack_parsons_input extends stack_string_input {
 
+    /**
+     * Filters to apply for display in validate_contents
+     * @var array
+     */
+    protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display', 
+        '912_inert_string_for_display'];
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // This is the same as `string` input render except we hide the input box
 

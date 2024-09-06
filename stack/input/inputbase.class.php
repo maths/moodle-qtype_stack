@@ -125,6 +125,12 @@ abstract class stack_input {
     protected $runtime = true;
 
     /**
+     * Filters to apply for display in validate_contents
+     * @var array
+     */
+    protected $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
+
+    /**
      * Constructor
      *
      * @param string $name the name of the input. This is the name of the
@@ -1052,11 +1058,9 @@ abstract class stack_input {
                 }
             }
 
-            // Apply any optional rendering here before the inert display is constructed.
-            $val = $this->render_display_value($val);
-
             // Construct inert version of that.
-            $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
+            $protectfilters = $this->protectfilters;
+        
             if($this->get_extra_option('simp')) {
                 // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
                 // function to perform calculations on dispdp numbers.
@@ -1669,15 +1673,5 @@ abstract class stack_input {
      */
     public function get_api_solution_render($tadisplay) {
         return $tadisplay;
-    }
-
-    /**
-     * Applies optional rendering to display items.
-     * Most inputs do nothing, Parsons input will decode hashed strings here.
-     * @param $val
-     * @return string
-     */
-    public function render_display_value($val) {
-        return $val;
     }
 }

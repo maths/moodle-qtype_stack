@@ -94,10 +94,9 @@ Notes:
 
 ## Input: ans1
 
-1. The _Input type_ field should be **String**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_model_answer(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
+1. The _Input type_ field should be **Parsons**.
+2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_answer(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
 3. Set the option "Student must verify" to "no".
-4. Set the extra options to "hideanswer" to make sure the JSON representation of the teacher's answer is not shown to the student later as an answer.
 
 ## Potential response tree: prt1
 
@@ -163,7 +162,7 @@ The two blocks can be in either order.  Prooflib provides a function to automati
 
 There is one change in input from the above example:
 
-1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_model_answer(ta, proof_steps)`.
+1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_answer(ta, proof_steps)`.
 
 In this example all steps are used, however if you add extra steps (distracters) then the model answer field has to separate these into used and unused lists, hence both the teacher's answer `ta` and the whole `proof_steps` list is needed.
 
@@ -193,32 +192,25 @@ We have much more sophisticated [general assessment tools](../Proof/Proof_assess
 
 ## Polish and tidy the question.
 
-You should hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
-
 Note that all connection between the Parson's block and a string input is JSON format.  Therefore input `ans1` is a string, and we convert to and from JSON at various places in the process.
 
 It is likely you will want to randomly permute the strings in the `proof_steps` list before the student sees them.  This is documented in the [Parson's block reference documentation](../Authoring/Parsons.md).
 
 ## "The teacher's answer is"....
 
-The design of the interaction between the Parson's block and a STACK input is through JSON.  This raw JSON will not be meaningful to students, hence the suggestion to hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
-
-We recommend the string input holding the JSON does not get shown to the student as a "correct answer". Set the extra options to "hideanswer" in the input to stop this input being displayed.
-
 To display a correct proof as a "teacher's answer"
 
 1. Create a new input `ans2`.
-2. The _Input type_ field should be **String**.
+2. The _Input type_ field should be **Parsons**.
 3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps_prune(proof_steps))`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).  We choose to prune out the narrative here (with `proof_steps_prune`), which isn't really appropriate when saying "A correct answer would be....".
 4. Set the option "Student must verify" to "no" and "Show the validation" to "no".
-5. Hide this input with CSS `<p style="display:none">...</p>`.
 
 This input is not used in any PRT.
 
 # Legacy versions
 
 Old versions of the parsons block (before 2024072500) used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
-`parsons_model_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
+`parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
 supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
 These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
 also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).

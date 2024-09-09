@@ -985,4 +985,24 @@ class stack_utils {
 
         return $missingalt;
     }
+
+    /** 
+     * Takes a list of strings and returns the corresponding list of Base64-hashed string values.
+     */
+    public static function hash_array($arr) {
+        foreach ($arr as $key => $value) {
+            $arr[$key] = base64_encode($value);
+        }
+        return $arr;
+    }
+
+    /**
+     * Takes a list of Base64-hashed strings and returns the corresponding list of original string values.
+     */
+    public static function unhash_array($arr) {
+        foreach ($arr as $key => $value) {
+            $arr[$key] = base64_decode($value);
+        }
+        return $arr;
+    }
 }

@@ -132,8 +132,8 @@ To create a random order, you must define steps as Maxima objects using a `proof
 All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
 
 1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
-2. The maxima function `parsons_deocde(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
-3. The maxima function `parsons_model_answer(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
+2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
+3. The maxima function `parsons_answer(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
 4. The maxima function `parsons_hash_map(proof_steps)` takes a two-dimensional steps array and returns a JSON string mapping original keys to their Base64 encodings.  This is useful for interpresting students' answers in offline research.
 
 ### Block parameters: `height` and `width`
@@ -208,7 +208,7 @@ proof_steps:[
 ## Legacy versions
 
 Old versions of the parsons block used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
-`parsons_model_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
+`parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
 supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
 These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
 also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
@@ -217,11 +217,7 @@ also fixes a randomisation bug that occurred when numerical keys are used (see I
 
 When `log = "true"` is used in the block header, the final input value submitted will contain an array containing the internal 
 representations of the attempt's move history, along with the timestamp at which each move occurs. Timestamps are measured as 
-number of seconds elapsed since 00:00 GMT 01/01/1970. Note that the author keys appearing in the `proof_steps` array are hashed 
-for security reasons, so the move history will contain the hashed keys. To obtain a mapping between the original keys of 
-`proof_steps` and their hashed values, use the provided function `parsons_hash_map(proof_steps)`. This can be called in 
-the Question Description as `{@ parsons_hash_map(proof_steps) @}`, and the output can be copied from the bottom of the 
-Question Dashboard and taken to an external program for analysis. 
+number of seconds elapsed since 00:00 GMT 01/01/1970. 
 
 Given the following `proof_steps` variable within Question Variables:
 ```
@@ -238,16 +234,16 @@ the move history takes the following format
 ```
 [
     [
-        {"used" : ["YXNzdW1lX29kZA==", ...], "available" : []}, 
+        {"used" : ["assume_odd", ...], "available" : []}, 
         1723723269679
     ],
     [
-        {"used" : ["YXNzdW1lX29kZA==", ...], "available" : [...]}, 
+        {"used" : ["assume_odd", ...], "available" : [...]}, 
         1723723269675
     ],
     ...
     [
-        {"used" : [], "available" : ["YXNzdW1lX29kZA==", ...]},
+        {"used" : [], "available" : ["assume_odd", ...]},
         1723723269667
     ]
 ]

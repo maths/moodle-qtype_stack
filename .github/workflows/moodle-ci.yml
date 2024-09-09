@@ -33,7 +33,7 @@ jobs:
         # We use a mix of SBCL and GCL, but mostly prefer SBCL as it is faster.
         include:
           - php: '8.2'
-            moodle-branch: 'master'
+            moodle-branch: 'main'
             database: 'pgsql'
             maxima: 'GCL'
           - php: '8.2'

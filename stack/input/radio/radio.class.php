@@ -62,7 +62,7 @@ class stack_radio_input extends stack_dropdown_input {
             if ($readonly) {
                 $inputattributes['disabled'] = 'disabled';
             }
-            
+
             // Metadata for JS users.
             $inputattributes['data-stack-input-type'] = 'radio';
 

@@ -558,11 +558,14 @@ commonfaclist(l) := block([i, a, ret],
  return(ret) )$
 
 /*
- * Returns a list of factors of ex without multiplicities. 
+ * Returns a list of factors of ex with or without multiplicities. 
  * @param[scalar expression] ex, expression to be factored.
- * @return[list] the list of factors, without multiplicities.
+ * @param[boolean] multiples, if true the list can contain multiplicities.
+ * @return[list] the list of factors.
  */
-factorlist(ex) := block([simp:false, ret:"", ex2],
+factorlist([param]) := block([simp:false, ret:"", ex, ex2, multiples],
+  ex:first(param),
+  if length(param)>1 and second(param) then multiples:true else multiples:false, 
   ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),
   if safe_op(ex)="-" then ex:first(args(ex)),
@@ -570,8 +573,8 @@ factorlist(ex) := block([simp:false, ret:"", ex2],
      ret:[ex]
   else
      ret:args(ex),
-  /* Strip off powers. */
-  ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
+  /* Strip off powers? */
+  if multiples#true then ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
   return(ret)
 )$
 

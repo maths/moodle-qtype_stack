@@ -57,7 +57,9 @@ class input_algebraic_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('algebraic', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" />',
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" '
+                .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+                .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -67,7 +69,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'ans1', 'x^2');
         $el->set_parameter('options', 'allowempty');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" />',
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" '
+                .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+                .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -75,7 +79,9 @@ class input_algebraic_test extends qtype_stack_testcase {
     public function test_render_zero() {
         $el = stack_input_factory::make('algebraic', 'ans1', '0');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="0" />',
+            .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="0" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -83,7 +89,9 @@ class input_algebraic_test extends qtype_stack_testcase {
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="x+y" />',
+            .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="x+y" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['x+y'], '', '', '', '', ''),
                         'stack1__test', false, null));
     }
@@ -91,7 +99,9 @@ class input_algebraic_test extends qtype_stack_testcase {
     public function test_render_pre_filled_nasty_input() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="x&lt;y" />',
+            .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="x&lt;y" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['x<y'], '', '', '', '', ''),
                         'stack1__test', false, null));
     }
@@ -99,7 +109,9 @@ class input_algebraic_test extends qtype_stack_testcase {
     public function test_render_max_length() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="x+y" />',
+            .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="x+y" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['x+y'], '', '', '', '', ''),
                         'stack1__test', false, null));
     }
@@ -108,7 +120,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $this->assertEquals(
                 '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic" value="x+1" readonly="readonly" />',
+            .'autocapitalize="none" spellcheck="false" class="algebraic" value="x+1" readonly="readonly" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['x+1'], '', '', '', '', ''),
                         'stack1__input', true, null));
     }
@@ -117,7 +131,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $el->set_parameter('boxWidth', 30);
         $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" size="33" style="width: 27.1em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic" value="x+1" />',
+            .'autocapitalize="none" spellcheck="false" class="algebraic" value="x+1" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['x+1'], '', '', '', '', ''),
                         'stack1__input', false, null));
     }
@@ -127,7 +143,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'Remove me');
         $el->set_parameter('syntaxAttribute', 1);
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic" placeholder="Remove me" />',
+            .'autocapitalize="none" spellcheck="false" class="algebraic" placeholder="Remove me" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
@@ -137,7 +155,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '[?, ?, ?]');
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" '
-            .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="[?, ?, ?]" />',
+            .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="[?, ?, ?]" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." '
+            .'data-stack-input-list-separator="," />',
             $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                 'stack1__sans1', false, null));
 
@@ -931,6 +951,39 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_simp_float_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '7.0');
+        $el->set_parameter('forbidFloats', false);
+        $el->set_parameter('options', 'simp');
+        $state = $el->validate_student_response(['sans1' => '3.5*2.000'], $options,
+            '7.0', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('3.5*2.000', $content);
+        $this->assertEquals('\[ 7.000 \]',
+            $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_simp_float_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '7.0');
+        $el->set_parameter('forbidFloats', false);
+        $el->set_parameter('options', 'simp');
+        $state = $el->validate_student_response(['sans1' => '3.50*2*x^2+2.000*7.45'], $options,
+            '7.0', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('3.50*2*x^2+2.000*7.45', $content);
+        // We throw away dp information, but we do the calculations.
+        $this->assertEquals('\[ 7.0\cdot x^2+14.9 \]',
+            $state->contentsdisplayed);
+    }
+
     public function test_validate_lg_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'lg(27,3)');
@@ -1272,7 +1325,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 ' would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
-                'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic-right" value="sin(x)" />',
+            'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic-right" value="sin(x)" ' .
+            'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+            'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1292,7 +1347,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right input-monospace" value="sin(x)" />',
+                'class="algebraic-right input-monospace" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1313,7 +1370,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right input-monospace" value="sin(x)" />',
+                'class="algebraic-right input-monospace" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1334,7 +1393,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right input-monospace" value="sin(x)" />',
+                'class="algebraic-right input-monospace" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1355,7 +1416,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right" value="sin(x)" />',
+                'class="algebraic-right" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1376,7 +1439,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right input-monospace" value="sin(x)" />',
+                'class="algebraic-right input-monospace" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1397,7 +1462,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right" value="sin(x)" />',
+                'class="algebraic-right" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1417,7 +1484,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right" value="sin(x)" />',
+                'class="algebraic-right" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -1438,7 +1507,9 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="algebraic-right input-monospace" value="sin(x)" />',
+                'class="algebraic-right input-monospace" value="sin(x)" ' .
+                'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator="," />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
@@ -2086,6 +2157,11 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a ' .
             'decimal separator!',
             $state->errors);
+        $this->assertEquals('<input type="text" name="state" id="state" size="16.5" style="width: 13.6em" '
+            .'autocapitalize="none" spellcheck="false" class="algebraic" value="{3.1415,2.71}" '
+            .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="," '
+            .'data-stack-input-list-separator=";" />',
+            $el->render($state, 'state', false, null));
         $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed as '
             . '<code>{3,1415;2,71}</code>, would be correct.',

@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Represents a group of nodes that have been laid out relative to each other.
  *
@@ -168,6 +167,7 @@ class stack_abstract_graph_node_clump {
     }
 
     /**
+     * Checkis if this clump contains a node.
      * @param stack_abstract_graph_node $node
      * @return bool whether this clump contains the given node.
      */

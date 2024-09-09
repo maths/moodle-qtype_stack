@@ -313,6 +313,8 @@ You may need to `ev(ans1,simp)` explicitly in any potential response tree.
 
 It makes no sense to simplify the equivalence reasoning input type, so this has been omitted.
 
+Note, STACK does it's best to preserve the number of significant figures in a student's answer.  For example, if a student types in `0.200*0.00500` then it should be displayed at \( 0.200\cdot 0.00500 \) in validation (depending on the symbol chosen in the question for multiplication).  However, if this extra option is chosen then the calculation will be performed.  If the result is a single floating point number, then the number of decimal places displated will be the _maximum_ number of decimal places entered in a float used by a stuent.  Otherwise Maxima's default way of displaying results used.  In particular, for floats, trailing zeros are removed.  More significant figures may be displayed than entered.
+
 ### Extra option: align ###
 
 Controls if the student's answer is aligned 'left' or 'right' within the input box.

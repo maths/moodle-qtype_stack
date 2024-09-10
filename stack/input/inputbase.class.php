@@ -81,10 +81,6 @@ abstract class stack_input {
         'forbidFloats',
         'lowestTerms',
         'sameType',
-        'choicetype',
-        'displaytype',
-        'buttontitle', 
-        'matrixsize',
     ];
 
     /**
@@ -187,8 +183,15 @@ abstract class stack_input {
         if (trim($options ?? '') != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
-                $option = strtolower(trim($option));
                 list($option, $arg) = stack_utils::parse_option($option);
+    
+                // Only convert to lowercase if the option is not 'buttontitle'
+                if ($option !== 'buttontitle') {
+                    $option = strtolower(trim($option));
+                } else {
+                    $option = trim($option); // Keep the original case for 'buttontitle'
+                }
+                
                 // Only accept those options specified in the array for this input type.
                 if (array_key_exists($option, $this->extraoptions)) {
                     if ($arg === '') {

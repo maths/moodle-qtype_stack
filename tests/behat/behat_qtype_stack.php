@@ -71,6 +71,17 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Get the xpath for a given input element in the Moodle app.
+     * @param string $name the input name, like 'ans1'.
+     * @return string the xpath expression.
+     */
+    protected function input_app_xpath($name) {
+        return "//section[starts-with(@class, 'que stack')]" .
+                "//*[(self::select and contains(@id, '_{$name}') or (self::input and contains(@id, '_{$name}'))" .
+                " or (self::textarea and contains(@id, '_{$name}')))]";
+    }
+
+    /**
      * Set the response for a given input.
      *
      * @param string $identifier the text of the item to drag. E.g. '2:answer'.
@@ -81,6 +92,19 @@ class behat_qtype_stack extends behat_base {
     public function i_set_the_part_to_in_the_combined_question($name, $value) {
         $formscontext = behat_context_helper::get('behat_forms');
         $formscontext->i_set_the_field_with_xpath_to($this->input_xpath($name), $value);
+    }
+
+    /**
+     * Set the response for a given input in the Moodle app.
+     *
+     * @param string $identifier the text of the item to drag. E.g. '2:answer'.
+     * @param string $value the response to give.
+     *
+     * @Given /^I set the input "(?P<name>[^"]*)" to "(?P<value>[^"]*)" in the STACK app question$/
+     */
+    public function i_set_the_part_to_in_the_combined_question_in_app($name, $value) {
+        $formscontext = behat_context_helper::get('behat_forms');
+        $formscontext->i_set_the_field_with_xpath_to($this->input_app_xpath($name), $value);
     }
 
     /**

@@ -22,6 +22,7 @@ use stack_utils;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 require_once(__DIR__ . '/../doc/docslib.php');
 
@@ -56,7 +57,7 @@ class mathsoutputtex_test extends qtype_stack_testcase {
 
         // Test docs - make sure maths inside <textarea> is not rendered.
         $this->assertMatchesRegularExpression('~^<p>.*\n' .
-                'Differentiate \\\\\\\\\[x\^2 \+ y\^2\\\\\\\\\] with respect to \\\\\\\\\(x\\\\\\\\\)\..*</p>\n$~',
+                'Differentiate \\\\\[x\^2 \+ y\^2\\\\\] with respect to \\\\\(x\\\\\)\..*</p>\n$~',
                 stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
                         'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>'));
 

@@ -121,6 +121,19 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Set a multiline response for a given input in the app.
+     *
+     * @param string $name name of the input
+     * @param PyStringNode $value
+     *
+     * @Given /^I set the STACK input "(?P<name>[^"]*)" to multiline in app:$/
+     */
+    public function i_set_multiline_in_app($name, $value) {
+        $formscontext = behat_context_helper::get('behat_forms');
+        $formscontext->i_set_the_field_with_xpath_to($this->input_app_xpath($name), (string)$value);
+    }
+
+    /**
      * Drag a JSX element on top of another one.
      *
      * @param string $elementnameinput1 name of input holding JSXelement id.
@@ -160,6 +173,7 @@ class behat_qtype_stack extends behat_base {
             array_push($urls, $imgurl);
         }
         foreach ($urls as $url) {
+            echo $url;
             $this->execute('behat_general::i_visit', [$url]);
         }
         Assert::assertEquals(true, count($urls) === (int) $number);

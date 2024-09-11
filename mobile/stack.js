@@ -61,10 +61,9 @@ var result = {
             checkboxDisplays.push(optionOutput);
             checkboxset.replaceWith('~~!!~~Checkbox:' + i + '~~!!');
         });
-
         const radioDisplays = [];
         radioAnswers.forEach(function(radioset, i) {
-            const options = radioset.querySelectorAll('.option');
+            let options = radioset.querySelectorAll('.option');
             const radioOutput = {};
             options = Array.from(options).filter(item => item.querySelector('input[type="radio"]'));
             const optionOutput = [];

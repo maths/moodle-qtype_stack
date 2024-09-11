@@ -102,12 +102,4 @@ class stack_parsons_input extends stack_string_input {
     public function get_teacher_answer_display($value, $display) {
         return '';
     }
-
-    private function ensure_string($ex) {
-        $ex = trim($ex);
-        if (substr($ex, 0, 1) !== '"') {
-            $ex = '"'.$ex.'"';
-        }
-        return $ex;
-    } 
 }

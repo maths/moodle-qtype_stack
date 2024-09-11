@@ -1010,21 +1010,37 @@ class stack_utils {
      * Takes a string that contains a list where each element has the format
      * [<JSON>, <int>]
      * and each JSON has the format
-     * {"used" : [[[<hashed string>, ..., <hashed string>]]], "available" : [<hashed_string>, ... <hashed_string>]}
-     * each `<hashed_string>` is assumed to be Base64-hashed.
+     * {"used" : 
+     *      [
+     *          [[<hashed string>, ..., <hashed string>]],
+     *          ...
+     *          [[<hashed string>, ..., <hashed string>]]
+     *      ], 
+     *  "available" : 
+     *      [<hashed string>, ... <hashed string>]
+     * }
+     * each `<hashed string>` is assumed to be Base64-hashed.
      * 
-     * This function will return the same format string, with each `<hashed_string>` replaced by the original string value.
+     * Note that for proof parson's questions (neither rows nor columns specified in header) the shape of "used" will be (1, 1, ?), 
+     * for grouping problems (only columns specified in header) the shape of "used" will be (#columns, 1, ?) and for matching 
+     * problems (both rows and columns specified in header) the shape of "used" will be (#columns, #rows, 1).
+     * 
+     * This function will return the same format string, with each `<hashed string>` replaced by the original string value.
      */
     public static function unhash_parsons_string($list_of_jsons) {
         $decoded_list = json_decode($list_of_jsons);
         foreach($decoded_list as $key => $json) {
-            $decoded_list[$key][0]->used[0][0] = stack_utils::unhash_array($decoded_list[$key][0]->used[0][0]);
+            foreach($decoded_list[$key][0]->used as $i => $row) {
+                foreach($row as $j => $item) {
+                    $decoded_list[$key][0]->used[$i][$j] = stack_utils::unhash_array($item);
+                }
+            }
             $decoded_list[$key][0]->available = stack_utils::unhash_array($decoded_list[$key][0]->available);
         }
         return json_encode($decoded_list);
     }
 
-        /**
+    /**
      * Maxima string version of `unhash_parsons_string`.
      */
     public static function unhash_parsons_string_maxima($list_of_jsons) {
@@ -1035,15 +1051,30 @@ class stack_utils {
     /**
      * Takes a string that contains a list where each element has the format
      * [<JSON>, <int>]
-     * and each JSON has the format
-     * {"used" : [[[<string>, ..., <string>]]], "available" : [<string>, ... <string>]}
+     * {"used" : 
+     *      [
+     *          [[<string>, ..., <string>]],
+     *          ...
+     *          [[<string>, ..., <string>]]
+     *      ], 
+     *  "available" : 
+     *      [<string>, ... <string>]
+     * }
+     * 
+     * Note that for proof parson's questions (neither rows nor columns specified in header) the shape of "used" will be (1, 1, ?), 
+     * for grouping problems (only columns specified in header) the shape of "used" will be (#columns, 1, ?) and for matching 
+     * problems (both rows and columns specified in header) the shape of "used" will be (#columns, #rows, 1).
      * 
      * This function will return the same format string, with each `<string>` replaced by its Base64-hashed value.
      */
     public static function hash_parsons_string($list_of_jsons) {
         $decoded_list = json_decode($list_of_jsons);
         foreach($decoded_list as $key => $json) {
-            $decoded_list[$key][0]->used[0][0] = stack_utils::hash_array($decoded_list[$key][0]->used[0][0]);
+            foreach($decoded_list[$key][0]->used as $i => $row) {
+                foreach($row as $j => $item) {
+                    $decoded_list[$key][0]->used[$i][$j] = stack_utils::hash_array($item);
+                }
+            }
             $decoded_list[$key][0]->available = stack_utils::hash_array($decoded_list[$key][0]->available);
         }
         return json_encode($decoded_list);

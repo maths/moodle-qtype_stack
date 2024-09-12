@@ -196,6 +196,19 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     unicode-bidi: plaintext;
 }
 
+.que.stack .stack-ion-select {
+    display: inline-block;
+    width: fit-content;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+}
+
+.que.stack .stack-ion-checkbox {
+    display:inline-block;
+    width:fit-content;
+}
+
 body.path-question-type-stack-doc blockquote {
     border-left: 5px solid #ccc;
     margin: 1.5em 10px;

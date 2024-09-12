@@ -44,8 +44,7 @@ var result = {
             this.question.prompt = prompt.innerHTML;
         }
 
-        const checkboxDisplays = [];
-        checkboxAnswers.forEach(function(checkboxset, i) {
+        checkboxAnswers.forEach(function(checkboxset) {
             const options = checkboxset.querySelectorAll('.option');
             const optionOutput = [];
             options.forEach(function(option) {
@@ -58,8 +57,20 @@ var result = {
                 const value = option.querySelector('input').getAttribute('value');
                 optionOutput.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
             });
-            checkboxDisplays.push(optionOutput);
-            checkboxset.replaceWith('~~!!~~Checkbox:' + i + '~~!!');
+            let replacement = '<div class="answer stack-ion-checkbox">';
+            for (let option of optionOutput) {
+                replacement += '<div class="flex-column">';
+                replacement += '<ion-checkbox checked="' + option.checked + '" value="' + option.value +
+                                '" name="' + option.name + '" disabled="' + option.disabled + '">';
+                replacement += '<div class="' + option.class + '">';
+                replacement += option.text + '</div>';
+                replacement += '</ion-checkbox></div>';
+            }
+            replacement += '</div>';
+            const template = document.createElement('div');
+            template.innerHTML = replacement;
+            let nativeSelectElement = template.querySelector('div');
+            checkboxset.replaceWith(nativeSelectElement);
         });
         const radioDisplays = [];
         radioAnswers.forEach(function(radioset, i) {
@@ -88,7 +99,6 @@ var result = {
             radioset.replaceWith('~~!!~~Radio:' + i + '~~!!');
         });
 
-        const dropdownDisplays = [];
         dropdowns.forEach(function(dropdown, i) {
             const options = dropdown.querySelectorAll('option');
             const dropdownOutput = {};
@@ -108,17 +118,17 @@ var result = {
             if (!dropdownOutput.initialValue) {
                 dropdownOutput.initialValue = '';
             }
-            dropdownDisplays.push(dropdownOutput);
-            let rep = '<ion-select style="display:inline-block; height:80%; width:fit-content; border: 1px solid grey; border-radius: 5px; padding: 0px 5px 0px 5px;" id="' + dropdownOutput.id + '" value="' + dropdownOutput.initialValue + '" name="' + dropdownOutput.name + '">';
+            let replacement = '<ion-select class="stack-ion-select" id="' + dropdownOutput.id +
+                '" value="' + dropdownOutput.initialValue + '" name="' + dropdownOutput.name + '">';
             for (let option of options) {
-                rep += '<ion-select-option value="' + option.value + '" disabled="' + option.disabled + '">';
-                rep += option.text + '</ion-select-option>';
+                replacement += '<ion-select-option value="' + option.value + '" disabled="' + option.disabled + '">';
+                replacement += option.text + '</ion-select-option>';
             }
-            rep += '</ion-select>';
+            replacement += '</ion-select>';
             const template = document.createElement('div');
-            template.innerHTML = rep;
-            let x = template.querySelector('ion-select');
-            dropdown.replaceWith(x);
+            template.innerHTML = replacement;
+            let nativeSelectElement = template.querySelector('ion-select');
+            dropdown.replaceWith(nativeSelectElement);
         });
 
         // Create the data object to feed to the ionic template.
@@ -135,14 +145,6 @@ var result = {
             } else {
                 const sectionInfo = sectionHTML.split(':');
                 switch (sectionInfo[0]) {
-                    case ('~~Checkbox'):
-                        section.type = 'Checkbox';
-                        section.options = checkboxDisplays[Number(sectionInfo[1])];
-                        break;
-                    case ('~~Dropdown'):
-                        section = dropdownDisplays[Number(sectionInfo[1])];
-                        section.type = 'Dropdown';
-                        break;
                     case ('~~Radio'):
                         section = radioDisplays[Number(sectionInfo[1])];
                         section.type = 'Radio';

@@ -5,12 +5,6 @@
             <container-element [ngSwitch]="section.type">
                 <core-format-text *ngSwitchCase="'Text'" [component]="component" [componentId]="componentId" [text]="section.content" [contextLevel]="contextLevel"
                         [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
-                <container-element *ngSwitchCase="'Checkbox'" class="answer">
-                    <ng-container *ngTemplateOutlet="checkbox; context:{ $implicit: section, idx: i }"></ng-container>
-                </container-element>
-                <container-element *ngSwitchCase="'Dropdown'">
-                    <ng-container *ngTemplateOutlet="dropdown; context:{ $implicit: section }"></ng-container>
-                </container-element>
                 <container-element *ngSwitchCase="'Radio'" class="answer">
                     <ng-container *ngTemplateOutlet="radio; context:{ $implicit: section }"></ng-container>
                 </container-element>

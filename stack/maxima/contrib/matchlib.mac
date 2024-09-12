@@ -62,7 +62,7 @@ match_decode(st, [rows]) := block([js, arr],
     js: first(first(stackjson_parse(st))),
     arr: stackmap_get(js, "used"),
     if rows=[] then arr:map(lambda([keys], map(base64_decode, first(keys))), arr) 
-      else arr:map(lambda([keys], map(lambda([k], base64_decode(first(k))), keys)), arr),
+      else arr:map(lambda([keys], map(lambda([k], if k # [] then base64_decode(first(k)) else []), keys)), arr),
     return(arr)
 );
 

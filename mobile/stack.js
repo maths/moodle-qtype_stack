@@ -109,7 +109,16 @@ var result = {
                 dropdownOutput.initialValue = '';
             }
             dropdownDisplays.push(dropdownOutput);
-            dropdown.replaceWith('~~!!~~Dropdown:' + i + '~~!!');
+            let rep = '<ion-select style="display:inline-block; height:80%; width:fit-content; border: 1px solid grey; border-radius: 5px; padding: 0px 5px 0px 5px;" id="' + dropdownOutput.id + '" value="' + dropdownOutput.initialValue + '" name="' + dropdownOutput.name + '">';
+            for (let option of options) {
+                rep += '<ion-select-option value="' + option.value + '" disabled="' + option.disabled + '">';
+                rep += option.text + '</ion-select-option>';
+            }
+            rep += '</ion-select>';
+            const template = document.createElement('div');
+            template.innerHTML = rep;
+            let x = template.querySelector('ion-select');
+            dropdown.replaceWith(x);
         });
 
         // Create the data object to feed to the ionic template.

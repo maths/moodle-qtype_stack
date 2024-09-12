@@ -91,7 +91,7 @@ jobs:
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
- 
+
       - name: Install moodle-plugin-ci
         run: |
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
@@ -113,7 +113,7 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
 
           #cat ${{ github.workspace }}/moodle/config.php
- 
+
           cp ${{ github.workspace }}/moodledata/phpu_moodledata/stack/maxima_opt_auto ${{ github.workspace }}/maxima_opt_auto
           # Try a command on the command line.
           # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
@@ -122,6 +122,7 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
+          MOODLE_APP: true
 
       - name: PHP Lint
         if: ${{ always() }}

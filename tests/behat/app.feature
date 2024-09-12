@@ -1,4 +1,4 @@
-@qtype @qtype_stack @_file_upload @javascript @app
+@qtype @qtype_stack @javascript @app
 Feature: Test input of correct answers on various inputs in the Moodle app.
   As a student
   In order to check different STACK inputs work in the app
@@ -79,7 +79,6 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
     And I wait until "Correct answer, well done" "text" exists
 
   Scenario: App Test algebraic input size
-
     Given the following "questions" exist:
       | questioncategory | qtype | name                                     | template               |
       | Test questions   | stack | Algebraic input (answer box sizes test)  | algebraic_input_size   |

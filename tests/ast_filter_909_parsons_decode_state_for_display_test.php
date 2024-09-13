@@ -35,7 +35,7 @@ class ast_filter_909_parsons_decode_state_for_display_test extends qtype_stack_a
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        var_dump($this->filter);
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_decode_state_for_display');
 
         $this->expect('"[[{\"used\":[[[\"aGVsbG8=\",\"d29ybGQ=\"]]],\"available\":[]},0]]"',
                       '"[[{\"used\":[[[\"hello\",\"world\"]]],\"available\":[]},0]]"',

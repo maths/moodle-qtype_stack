@@ -267,25 +267,22 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
       | Dropdown (shuffle)          | 1859965311 |
     When I entered the "quiz" activity "Test quiz" on course "Course 1" as "student" in the app
     And I press "Attempt quiz now" in the app
-    And I click on "select[id$='ans1']" "css_element"
-    And "select[id$='ans1'] option:nth-child(3)" "css_element" should be visible
-    And I click on "select[id$='ans1'] option:nth-child(3)" "css_element"
-    And I press "Check" in the app
+    And I click on "ion-select[name$='ans1']" "css_element"
+    And ".alert-radio-group button:nth-child(3)" "css_element" should be visible
+    And I click on ".alert-radio-group button:nth-child(3)" "css_element"
     And I press "OK" in the app
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check" in the app
     And I press "OK" in the app
     And I wait until "Incorrect answer" "text" exists
-    And I click on "select[id$='ans1']" "css_element"
-    Then "select[id$='ans1'] option:first-child" "css_element" should be visible
-    And I click on "select[id$='ans1'] option:first-child" "css_element"
-    And I press "Check" in the app
+    And I click on "ion-select[name$='ans1']" "css_element"
+    And ".alert-radio-group button:nth-child(1)" "css_element" should be visible
+    And I click on ".alert-radio-group button:nth-child(1)" "css_element"
     And I press "OK" in the app
     And I wait until "Your last answer was interpreted as follows" "text" does not exist
-    And I click on "select[id$='ans1']" "css_element"
-    And "select[id$='ans1'] option:nth-child(2)" "css_element" should be visible
-    And I click on "select[id$='ans1'] option:nth-child(2)" "css_element"
-    And I press "Check" in the app
+    And I click on "ion-select[name$='ans1']" "css_element"
+    And ".alert-radio-group button:nth-child(2)" "css_element" should be visible
+    And I click on ".alert-radio-group button:nth-child(2)" "css_element"
     And I press "OK" in the app
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check" in the app
@@ -646,26 +643,22 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
       | True/false                               | 1  |
     When I entered the "quiz" activity "Test quiz" on course "Course 1" as "student" in the app
     And I press "Attempt quiz now" in the app
-    And I click on "select[id$='ans1']" "css_element"
-    And "select[id$='ans1'] option:nth-child(2)" "css_element" should be visible
-    And I click on "select[id$='ans1'] option:nth-child(2)" "css_element"
-    # Need to press check so behat closes dropdown but doesn't submit.
-    And I press "Check" in the app
+    And I click on "ion-select[name$='ans1']" "css_element"
+    And ".alert-radio-group button:nth-child(2)" "css_element" should be visible
+    And I click on ".alert-radio-group button:nth-child(2)" "css_element"
     And I press "OK" in the app
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check" in the app
     And I press "OK" in the app
     And I wait until "Your answer is partially correct." "text" exists
-    And I click on "select[id$='ans1']" "css_element"
-    Then "select[id$='ans1'] option:last-child" "css_element" should be visible
-    And I click on "select[id$='ans1'] option:last-child" "css_element"
-    And I press "Check" in the app
+    And I click on "ion-select[name$='ans1']" "css_element"
+    Then ".alert-radio-group button:last-child" "css_element" should be visible
+    And I click on ".alert-radio-group button:last-child" "css_element"
     And I press "OK" in the app
     And I wait until "Your last answer was interpreted as follows" "text" does not exist
-    And I click on "select[id$='ans1']" "css_element"
-    And "select[id$='ans1'] option:nth-child(1)" "css_element" should be visible
-    And I click on "select[id$='ans1'] option:nth-child(1)" "css_element"
-    And I press "Check" in the app
+    And I click on "ion-select[name$='ans1']" "css_element"
+    And ".alert-radio-group button:nth-child(1)" "css_element" should be visible
+    And I click on ".alert-radio-group button:nth-child(1)" "css_element"
     And I press "OK" in the app
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check" in the app

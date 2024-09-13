@@ -55,7 +55,7 @@ var result = {
                 const value = option.querySelector('input').getAttribute('value');
                 optionOutput.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
             });
-            let replacement = '<ion-item class="answer stack-ion-checkbox"><div>';
+            let replacement = '<ion-item class="answer"><div>';
             for (let option of optionOutput) {
                 replacement += '<div class="flex-column">';
                 replacement += '<ion-checkbox checked="' + option.checked + '" value="' + option.value +
@@ -92,17 +92,17 @@ var result = {
             if (!radioOutput.initialValue) {
                 radioOutput.initialValue = '';
             }
-            let replacement = '<ion-item class="answer stack-ion-radio" style="display: inline-block; width: fit-content;"><div><ion-radio-group name="' + radioOutput.name +
+            let replacement = '<ion-item class="answer"><div class="flex-column"><ion-radio-group name="' + radioOutput.name +
                 '" value="' + radioOutput.initialValue + '">';
             for (let option of optionOutput) {
-                replacement += '<ion-radio value="' + option.value + '" disabled="' +
+                replacement += '<ion-radio justify="start" label-placement="end" value="' + option.value + '" disabled="' +
                                 option.disabled + '" name="' + option.name + '">';
                 replacement += '<div class="' + option.class + '">' + option.text + '</div></ion-radio>';
             }
-            replacement += '</ion-radio-group></ion-item>';
+            replacement += '</ion-radio-group></div></ion-item>';
             const template = document.createElement('div');
             template.innerHTML = replacement;
-            let nativeSelectElement = template.querySelector('ion-radio-group');
+            let nativeSelectElement = template.querySelector('ion-item');
             radioset.replaceWith(nativeSelectElement);
         });
 

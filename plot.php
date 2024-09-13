@@ -24,7 +24,7 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/filelib.php');
 
-//require_login();
+// ISS1211 - Removed login requirement for App compatibility.
 
 $filename = clean_filename(get_file_argument());
 $filenamesplit = explode('.', $filename);

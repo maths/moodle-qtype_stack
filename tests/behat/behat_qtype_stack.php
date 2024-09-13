@@ -173,7 +173,6 @@ class behat_qtype_stack extends behat_base {
             array_push($urls, $imgurl);
         }
         foreach ($urls as $url) {
-            echo $url;
             $this->execute('behat_general::i_visit', [$url]);
         }
         Assert::assertEquals(true, count($urls) === (int) $number);

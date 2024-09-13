@@ -45,7 +45,8 @@ class stack_checkbox_input extends stack_dropdown_input {
     public function contents_to_maxima($contents) {
         $vals = [];
         foreach ($contents as $key) {
-            // ISS1211 - Moodle App returns value of 0 if box not checked.
+            // ISS1211 - Moodle App returns value of 0 if box not checked but
+            // always safe to ignore 0 thanks to stack_dropdown_input->key_order().
             if ($key !== 0) {
                 $vals[] = $this->get_input_ddl_value($key);
             }

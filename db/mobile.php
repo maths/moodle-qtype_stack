@@ -31,10 +31,10 @@ $addons = [
                 'delegate' => 'CoreQuestionDelegate',
                 'method' => 'stack_view',
                 'styles' => [
-                    'url' => $CFG->wwwroot . '/question/type/stack/mobile.css?v=2024080200',
-                    'version' => 2024080200
+                    'url' => $CFG->wwwroot . '/question/type/stack/mobile.css?v=2024091200',
+                    'version' => 2024080200,
                 ],
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];

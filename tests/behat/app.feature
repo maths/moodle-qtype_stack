@@ -515,7 +515,6 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
     And I press "OK" in the app
     And I wait until "Correct answer, well done" "text" exists
 
-@current
   Scenario: App Radio buttons - compact
 
     Given the following "questions" exist:

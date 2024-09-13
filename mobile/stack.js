@@ -1,3 +1,5 @@
+// Minified using uglifyjs stack.js > stack.min.js
+
 var that = this;
 var result = {
 

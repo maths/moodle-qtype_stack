@@ -16,8 +16,6 @@
 
 namespace qtype_stack\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Mobile output class for question type stack.
  *
@@ -32,9 +30,9 @@ class mobile {
         return [
             'templates' => [[
                 'id' => 'main',
-                'html' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.html')
+                'html' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.html'),
             ]],
-            'javascript' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.js')
+            'javascript' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.min.js'),
         ];
     }
 }

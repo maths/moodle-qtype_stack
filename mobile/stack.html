@@ -1,17 +1,9 @@
 <section ion-list *ngIf="question.text || question.text === ''" class="que stack qtype-stack formulation">
     <ion-item text-wrap>
         <p style="width:100%">
-        <container-element id="{{question.divId}}" class="ion-text-wrap" *ngFor="let section of question.sections">
-            <container-element [ngSwitch]="section.type">
-                <core-format-text *ngSwitchCase="'Text'" [component]="component" [componentId]="componentId" [text]="section.content" [contextLevel]="contextLevel"
-                        [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
-                <container-element *ngSwitchCase="'Radio'" class="answer">
-                    <ng-container *ngTemplateOutlet="radio; context:{ $implicit: section }"></ng-container>
-                </container-element>
-
-                <core-format-text *ngSwitchDefault [component]="component" [componentId]="componentId" [text]="section.content" [contextLevel]="contextLevel"
-                        [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
-            </container-element>
+        <container-element id="{{question.divId}}" class="ion-text-wrap">
+            <core-format-text [component]="component" [componentId]="componentId" [text]="question.text" [contextLevel]="contextLevel"
+                [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
         </container-element>
         </p>
         <p *ngIf="question.prompt">

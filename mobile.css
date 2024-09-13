@@ -205,8 +205,13 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 }
 
 .que.stack .stack-ion-checkbox {
-    display:inline-block;
-    width:fit-content;
+    display: inline-block;
+    width: fit-content;
+}
+
+.que.stack .stack-ion-radio {
+    display: inline-block;
+    width: fit-content;
 }
 
 body.path-question-type-stack-doc blockquote {

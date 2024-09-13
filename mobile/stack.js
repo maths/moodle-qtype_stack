@@ -33,11 +33,9 @@ var result = {
         }
         const prompt = div.querySelector('.prompt');
 
-        // Add the useful parts back into the question object ready for rendering in the template.
-        this.question.text = questiontext.innerHTML;
         this.question.divId = div.querySelector('div').getAttribute('id');
         // Without the question text there is no point in proceeding.
-        if (typeof this.question.text === 'undefined') {
+        if (typeof questiontext.innerHTML === 'undefined') {
             return that.CoreQuestionHelperProvider.showComponentError(that.onAbort);
         }
         if (prompt !== null) {
@@ -57,7 +55,7 @@ var result = {
                 const value = option.querySelector('input').getAttribute('value');
                 optionOutput.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
             });
-            let replacement = '<div class="answer stack-ion-checkbox">';
+            let replacement = '<ion-item class="answer stack-ion-checkbox"><div>';
             for (let option of optionOutput) {
                 replacement += '<div class="flex-column">';
                 replacement += '<ion-checkbox checked="' + option.checked + '" value="' + option.value +
@@ -66,14 +64,14 @@ var result = {
                 replacement += option.text + '</div>';
                 replacement += '</ion-checkbox></div>';
             }
-            replacement += '</div>';
+            replacement += '</div></ion-item>';
             const template = document.createElement('div');
             template.innerHTML = replacement;
-            let nativeSelectElement = template.querySelector('div');
+            let nativeSelectElement = template.querySelector('ion-item');
             checkboxset.replaceWith(nativeSelectElement);
         });
-        const radioDisplays = [];
-        radioAnswers.forEach(function(radioset, i) {
+
+        radioAnswers.forEach(function(radioset) {
             let options = radioset.querySelectorAll('.option');
             const radioOutput = {};
             options = Array.from(options).filter(item => item.querySelector('input[type="radio"]'));
@@ -91,15 +89,24 @@ var result = {
                 optionOutput.push({text: label, name: name, disabled: disabled, qclass: qclass, value: value});
             });
             radioOutput.name = optionOutput[0].name;
-            radioOutput.options = optionOutput;
             if (!radioOutput.initialValue) {
                 radioOutput.initialValue = '';
             }
-            radioDisplays.push(radioOutput);
-            radioset.replaceWith('~~!!~~Radio:' + i + '~~!!');
+            let replacement = '<ion-item class="answer stack-ion-radio" style="display: inline-block; width: fit-content;"><div><ion-radio-group name="' + radioOutput.name +
+                '" value="' + radioOutput.initialValue + '">';
+            for (let option of optionOutput) {
+                replacement += '<ion-radio value="' + option.value + '" disabled="' +
+                                option.disabled + '" name="' + option.name + '">';
+                replacement += '<div class="' + option.class + '">' + option.text + '</div></ion-radio>';
+            }
+            replacement += '</ion-radio-group></ion-item>';
+            const template = document.createElement('div');
+            template.innerHTML = replacement;
+            let nativeSelectElement = template.querySelector('ion-radio-group');
+            radioset.replaceWith(nativeSelectElement);
         });
 
-        dropdowns.forEach(function(dropdown, i) {
+        dropdowns.forEach(function(dropdown) {
             const options = dropdown.querySelectorAll('option');
             const dropdownOutput = {};
             const optionOutput = [];
@@ -131,29 +138,7 @@ var result = {
             dropdown.replaceWith(nativeSelectElement);
         });
 
-        // Create the data object to feed to the ionic template.
-        // We need to split into multi-answer sections and other ('text') sections.
-        // This does break formatting around multi-answer sections, though.
-        const questionHTML = questiontext.innerHTML;
-        const sectionsHTML = questionHTML.split('~~!!');
-        const sections = [];
-        sectionsHTML.forEach(function(sectionHTML) {
-            let section = {};
-            if (!sectionHTML.startsWith('~~')) {
-                section.type = 'Text';
-                section.content = sectionHTML;
-            } else {
-                const sectionInfo = sectionHTML.split(':');
-                switch (sectionInfo[0]) {
-                    case ('~~Radio'):
-                        section = radioDisplays[Number(sectionInfo[1])];
-                        section.type = 'Radio';
-                        break;
-                }
-            }
-            sections.push(section);
-        });
-        this.question.sections = sections;
+        this.question.text = questiontext.innerHTML;
 
         // Extract input initialisation data from scriptsCode.
         const scripts = this.question.scriptsCode;

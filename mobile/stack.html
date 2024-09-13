@@ -1,10 +1,10 @@
 <section ion-list *ngIf="question.text || question.text === ''" class="que stack qtype-stack formulation">
     <ion-item text-wrap>
         <p style="width:100%">
-        <container-element id="{{question.divId}}" class="ion-text-wrap">
-            <core-format-text [component]="component" [componentId]="componentId" [text]="question.text" [contextLevel]="contextLevel"
-                [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
-        </container-element>
+            <container-element id="{{question.divId}}" class="ion-text-wrap">
+                <core-format-text [component]="component" [componentId]="componentId" [text]="question.text" [contextLevel]="contextLevel"
+                    [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
+            </container-element>
         </p>
         <p *ngIf="question.prompt">
             <core-format-text [component]="component" [componentId]="componentId" [text]="question.prompt" [contextLevel]="contextLevel"
@@ -12,48 +12,3 @@
         </p>
     </ion-item>
 </section>
-
-
-
-<ng-template #checkbox let-section>
-    <ion-item class="ion-text-wrap answer" *ngFor="let option of section.options">
-        <div class="flex-column">
-            <ion-checkbox [checked]="option.checked" [disabled]="option.disabled" [attr.name]="option.name" [value]="option.value">
-                <div class="flex-grow ion-text-wrap">
-                    <div [class]="option.class">
-                        <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"
-                            [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
-                    </div>
-                </div>
-            </ion-checkbox>
-        </div>
-    </ion-item>
-</ng-template>
-
-<ng-template #radio let-section>
-    <ion-radio-group class="ion-text-wrap" [attr.name]="section.name" [value]="section.initialValue">
-        <ion-item class="ion-text-wrap answer" *ngFor="let option of section.options">
-            <div class="flex-column">
-                <ion-radio [value]="option.value" [disabled]="option.disabled" [attr.name]="option.name" [value]="option.value">
-                    <div class="flex-grow ion-text-wrap">
-                        <div [class]="option.class">
-                            <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"
-                                [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
-                        </div>
-                    </div>
-                </ion-radio>
-            </div>
-        </ion-item>
-    </ion-radio-group>
-</ng-template>
-
-<ng-template #dropdown let-section>
-    <ion-select [id]="section.id" class="ion-text-wrap" [value]="section.initialValue" [attr.name]="section.name">
-            <ion-select-option [value]="option.value" [disabled]="option.disabled" *ngFor="let option of section.options">
-                <div class="flex-grow ion-text-wrap">
-                        <core-format-text [component]="component" [componentId]="componentId" [text]="option.text"
-                            [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId" />
-                </div>
-            </ion-select-option>
-    </ion-select>
-</ng-template>

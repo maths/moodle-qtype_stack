@@ -497,24 +497,25 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
       | Radio                                    | 1  |
     When I entered the "quiz" activity "Test quiz" on course "Course 1" as "student" in the app
     And I press "Attempt quiz now" in the app
-    And I click on "[ng-reflect-value=3]" "css_element"
+    And I click on "ion-radio[value='3']" "css_element"
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check" in the app
     And I press "OK" in the app
     And I wait until "Incorrect answer" "text" exists
-    And I click on "[ng-reflect-value='']" "css_element"
+    And I click on "ion-radio[value='']" "css_element"
     And I wait until "Your last answer was interpreted as follows" "text" does not exist
     And I press "Check" in the app
     And I press "OK" in the app
     And I wait "2" seconds
     Then I should not see "Correct answer, well done"
     And I should not see "Incorrect answer"
-    And I click on "[ng-reflect-value=1]" "css_element"
+    And I click on "ion-radio[value='1']" "css_element"
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check" in the app
     And I press "OK" in the app
     And I wait until "Correct answer, well done" "text" exists
 
+@current
   Scenario: App Radio buttons - compact
 
     Given the following "questions" exist:
@@ -524,7 +525,7 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
       | Radio (compact)                          | 1  |
     When I entered the "quiz" activity "Test quiz" on course "Course 1" as "student" in the app
     And I press "Attempt quiz now" in the app
-    And I click on "[ng-reflect-value=3]" "css_element"
+    And I click on "ion-radio[value='3']" "css_element"
     # Cannot enter an invalid answer to force some text to appear
     # so we're just going to have to wait.
     And I wait "2" seconds
@@ -532,7 +533,7 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
     And I press "Check" in the app
     And I press "OK" in the app
     And I wait until "Incorrect answer" "text" exists
-    And I click on "[ng-reflect-value=1]" "css_element"
+    And I click on "ion-radio[value='1']" "css_element"
     And I wait "2" seconds
     And I press "Check" in the app
     And I press "OK" in the app

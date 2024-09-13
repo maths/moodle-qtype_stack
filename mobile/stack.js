@@ -55,6 +55,11 @@ var result = {
                 const value = option.querySelector('input').getAttribute('value');
                 optionOutput.push({text: label, name: name, checked: checked, disabled: disabled, qclass: qclass, value: value});
             });
+            // I would love to be building this in a template and the structure of this code is
+            // due to attempting to produce an object to feed to an ionic template. That way of doing
+            // things, however, just wasn't feasible as there's not a set order for STACK questions.
+            // Ultimately, this way was the only way for dropdown inputs to be inline and to not
+            // break HTML structures around checkboxes, dropdowns and radios.
             let replacement = '<ion-item class="answer"><div>';
             for (let option of optionOutput) {
                 replacement += '<div class="flex-column">';

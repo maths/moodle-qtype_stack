@@ -1535,7 +1535,9 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
-
+// Strings used by question library
+$string['stack_library'] = 'STACK question library';
+$string['stack_library_help'] = 'Rather than creating your own question, follow this link to go to the STACK question library. The STACK question library contains many pre-made STACK questions ready for you to import into Moodle. You can then use them as they are or edit them to fir your needs.';
 
 // API strings.
 $string['api_choose_file'] = 'Please select a question file';

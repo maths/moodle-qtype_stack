@@ -170,16 +170,16 @@ var result = {
                 iframe += 'false';
             }
             const args = JSON.parse('[' + iframe + ']');
-            // Scripts are now being loaded cross origin and Chrome complains.
+            // Load included style sheet separately due to relative location issues.
             const baseRef = siteUrl + "/question/type/stack/corsscripts/cors.php?name=";
             args[1] = args[1].replace(baseRef + 'sortable.min.css" rel="stylesheet">',
-                baseRef + 'sortable.min.css" crossorigin="anonymous" rel="stylesheet">'
-                + '<link rel="stylesheet" crossorigin="anonymous" href="' + baseRef + 'styles.css"></link>');
+                baseRef + 'sortable.min.css" rel="stylesheet">'
+                + '<link rel="stylesheet" href="' + baseRef + 'styles.css"></link>');
+            // Scripts are now being loaded cross origin and Chrome complains.
+            // It may just be a dev environment issue.
             args[1] = args[1].replace(/<img/g, '<img crossorigin=\'anonymous\'');
-            args[1] = args[1].replace(baseRef + 'geogebracore.js"', baseRef + 'geogebracore.js" crossorigin="anonymous"');
-            args[1] = args[1].replace(baseRef + 'jsxgraph.min.css"', baseRef + 'jsxgraph.min.css" crossorigin="anonymous"');
-            args[1] = args[1].replace(baseRef + 'jsxgraphcore.min.js"',
-                baseRef + 'jsxgraphcore.min.js" crossorigin="anonymous"');
+            args[1] = args[1].replace(/<script/g, '<script crossorigin=\'anonymous\'');
+            args[1] = args[1].replace(/<link/g, '<link crossorigin=\'anonymous\'');
             iframesArgs.push(args);
         }
 

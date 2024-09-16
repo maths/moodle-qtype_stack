@@ -177,8 +177,8 @@ var result = {
                 + '<link rel="stylesheet" crossorigin="anonymous" href="' + baseRef + 'styles.css"></link>');
             args[1] = args[1].replace(/<img/g, '<img crossorigin=\'anonymous\'');
             args[1] = args[1].replace(baseRef + 'jsxgraph.min.css"', baseRef + 'jsxgraph.min.css" crossorigin="anonymous"');
-            args[1] = args[1].replace(baseRef + 'name=jsxgraphcore.min.js"',
-                baseRef + 'name=jsxgraphcore.min.js" crossorigin="anonymous"');
+            args[1] = args[1].replace(baseRef + 'jsxgraphcore.min.js"',
+                baseRef + 'jsxgraphcore.min.js" crossorigin="anonymous"');
             iframesArgs.push(args);
         }
 

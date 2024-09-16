@@ -71,6 +71,11 @@ class stack_ast_filter_909_parsons_decode_state_for_display implements stack_cas
      * @return bool whether $input represents a single Parson's state or not
      */
     public static function validate_parsons_state($state) {
+        // Check if $state is an array
+        if (!is_array($state)) {
+            return false;
+        }
+
         // Check if it's an array with exactly two elements
         if (count($state) !== 2) {
             return false;

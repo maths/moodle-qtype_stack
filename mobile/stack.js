@@ -176,6 +176,7 @@ var result = {
                 baseRef + 'sortable.min.css" crossorigin="anonymous" rel="stylesheet">'
                 + '<link rel="stylesheet" crossorigin="anonymous" href="' + baseRef + 'styles.css"></link>');
             args[1] = args[1].replace(/<img/g, '<img crossorigin=\'anonymous\'');
+            args[1] = args[1].replace(baseRef + 'geogebracore.js"', baseRef + 'geogebracore.js" crossorigin="anonymous"');
             args[1] = args[1].replace(baseRef + 'jsxgraph.min.css"', baseRef + 'jsxgraph.min.css" crossorigin="anonymous"');
             args[1] = args[1].replace(baseRef + 'jsxgraphcore.min.js"',
                 baseRef + 'jsxgraphcore.min.js" crossorigin="anonymous"');

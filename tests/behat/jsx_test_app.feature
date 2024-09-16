@@ -1,5 +1,5 @@
 @qtype @qtype_stack @app @javascript
-Feature: Test running JSX Graph question.
+Feature: Test running JSX Graph question in Moodle App.
   As a student
   In order to check JSX works in the app
   I need to answer a question
@@ -28,7 +28,7 @@ Feature: Test running JSX Graph question.
     And quiz "Test quiz" contains the following questions:
       | JSX behat test                          | 1  |
 
-  Scenario: Test JSX input
+  Scenario: Test JSX input in Moodle App
 
     When I entered the "quiz" activity "Test quiz" on course "Course 1" as "student" in the app
     And I press "Attempt quiz now" in the app

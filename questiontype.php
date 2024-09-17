@@ -637,7 +637,7 @@ class qtype_stack extends question_type {
          // Directly link to question library.
          if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
-                    new moodle_url('/question/type/stack/questionlibrary.php', $linkparams),
+                    new moodle_url('/question/type/stack/questionlibrary.php'),
                     new \pix_icon('t/copy', ''),
                     get_string('stack_library', 'qtype_stack'));
         }

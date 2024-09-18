@@ -98,11 +98,14 @@ $qbankparams['lastchanged'] = $question->id;
 if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
+$todoparams = $qbankparams;
+$todoparams['contextid'] = $question->contextid;
 
 $questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
+$todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -153,6 +156,8 @@ if ($canedit) {
 }
 $links[] = html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
     stack_string('basicquestionreport'), ['class' => 'nav-link']);
+$links[] = html_writer::link($todolink, stack_string('seetodolist'),
+    ['class' => 'nav-link']);
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 
 flush();

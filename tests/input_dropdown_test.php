@@ -71,7 +71,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
         // @codingStandardsIgnoreEnd
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 .'<option value="">(Clear my choice)</option><option value="1"><code>1+x</code></option>'
                 .'<option selected="selected" value="2"><code>2+y</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -126,7 +126,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreEnd
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 . '<option value="">(Clear my choice)</option><option value="1"><code>1</code></option>'
                 . '<option selected="selected" value="2"><code>1</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -152,7 +152,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
     public function test_render_string() {
         $el = $this->make_dropdown();
         $el->adapt_to_model_answer($this->make_ta());
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 .'<option value="">(Clear my choice)</option>'
                 .'<option value="1"><code>x+1</code></option><option value="2"><code>x+2</code></option>'
                 .'<option selected="selected" value="3"><code>sin(pi*n)</code></option></select>';
@@ -163,7 +163,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
     public function test_render_nonotanswered() {
         $el = $this->make_dropdown(['options' => 'nonotanswered']);
         $el->adapt_to_model_answer($this->make_ta());
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 .'<option value="1"><code>x+1</code></option><option value="2"><code>x+2</code></option>'
                 .'<option selected="selected" value="3"><code>sin(pi*n)</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -172,7 +172,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_render_latex() {
         $el = $this->make_dropdown(['options' => 'LaTeX']);
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 .'<option value="">(Clear my choice)</option><option value="1">\(x+1\)</option>'
                 .'<option value="2">\(x+2\)</option>'
                 .'<option selected="selected" value="3">\(\sin \left( \pi\cdot n \right)\)</option></select>';
@@ -182,7 +182,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_render_latexdisplay() {
         $el = $this->make_dropdown(['options' => 'LaTeXdisplay']);
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 .'<option value="">(Clear my choice)</option><option value="1">\[x+1\]</option>'
                 .'<option value="2">\[x+2\]</option>'
                 .'<option selected="selected" value="3">\[\sin \left( \pi\cdot n \right)\]</option></select>';
@@ -231,7 +231,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $options = new stack_options();
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, []);
         $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 . '<option value="">(Clear my choice)</option><option value="1"><code>1+x</code></option>'
                 . '<option selected="selected" value="2"><code>2+x^2</code></option>'
                 . '<option value="3">None of these</option></select>';
@@ -287,7 +287,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, []);
         $el->adapt_to_model_answer($ta);
 
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
                 '<option value="">(Clear my choice)</option><option selected="selected" value="1">n/a</option>' .
                 '<option value="2">&ge;</option><option value="3">&le;</option><option value="4">=</option>' .
                 '<option value="5">?</option></select>';
@@ -307,7 +307,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, []);
         $el->adapt_to_model_answer($ta);
 
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
                 '<option selected="selected" value="">n/a</option>' .
                 '<option value="1"><code>A</code></option><option value="2"><code>B</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -327,7 +327,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, []);
         $el->adapt_to_model_answer($ta);
 
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
             '<option selected="selected" value="">(Clear my choice)</option>' .
             '<option value="1"><code>union(oo(-inf,0),oo(0,inf))</code></option>' .
             '<option value="2"><code>union({1},{2})</code></option>'.

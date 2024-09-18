@@ -714,7 +714,6 @@ abstract class stack_input {
         // At this sage, $valid records the PHP validation or other non-CAS issues.
         list($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines)
             = $this->validate_contents($contents, $secrules, $localoptions);
-
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
         $validationmethod = $this->get_validation_method();
@@ -1053,8 +1052,15 @@ abstract class stack_input {
             }
 
             // Construct inert version of that.
+            $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
+            if($this->get_extra_option('simp')) {
+                // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
+                // function to perform calculations on dispdp numbers.
+                $val = 'stack_validate_simpnum(' . $val .')';
+                // Add in an extra Maxima function here so we can eventaually decide how many dps to display.
+            }
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
-                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array_merge($filterstoapply, $protectfilters),
                 [], 'Root', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;

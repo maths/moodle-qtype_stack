@@ -67,6 +67,50 @@ class castext2_parser_utils {
         return $css;
     }
 
+    public static function has_todoblocks(string $castext): bool {
+        if ($castext === '' || $castext === null) {
+            return false;
+        }
+
+        $ast  = self::parse($castext);
+        $root = stack_cas_castext2_special_root::make($ast);
+        $hastodo  = false;
+
+        $findtodos = function ($node) use (&$hastodo) {
+            if ($node instanceof stack_cas_castext2_todo) {
+                $hastodo = true;
+                return true;
+            }
+            return true;
+        };
+        $root->callbackRecurse($findtodos);
+        return $hastodo;
+    }
+
+    public static function get_todoblocks(string $castext): array {
+        if ($castext === '' || $castext === null) {
+            return [];
+        }
+
+        $ast  = self::parse($castext);
+        $root = stack_cas_castext2_special_root::make($ast);
+        $tags  = [];
+
+        $collecttags = function ($node) use (&$tags) {
+            if (!($node instanceof stack_cas_castext2_todo)) {
+                return true;
+            }
+            foreach ($node->extract_todo() as $tag) {
+                $tags[] = $tag;
+            }
+            return true;
+        };
+        $root->callbackRecurse($collecttags);
+        $tags = array_unique($tags);
+        sort($tags);
+        return $tags;
+    }
+
     // Postprocesses the result from CAS. For those that have not yet fully
     // parsed the response. Does not use the full maximaparser infrastructure
     // as the result is just an list of strings... well should be for all simple

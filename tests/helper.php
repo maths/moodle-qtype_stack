@@ -7893,7 +7893,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->questiontext = [
             'text' => "<table> <tbody><tr> <td>Element1 location: [[input:ans1]] [[validation:ans1]]<br>
                 Element 2 location: [[input:ans2]] [[validation:ans2]]<br> Element1 id: [[input:element1]]<br>
-                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td>
+                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td></tr><tr>
                 <td> [[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref'
                 input-ref-element1='element1Ref' input-ref-element2='element2Ref']]
                 var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});

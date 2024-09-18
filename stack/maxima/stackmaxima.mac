@@ -483,9 +483,9 @@ list_remove(ex, n) := block([k, l],
 /* Could be implemented with rand_selection but would require two conversions
  * between sets and lists*/
 random_subset(u):=
-  disjoin(false, map(lambda([x], if rand(2)=0 then x), u)); 
+  disjoin(false, map(lambda([x], if rand(2)=0 then x), u));
 
-random_subset_n(u,n) := 
+random_subset_n(u,n) :=
   setify(rand_selection(listify(u),n));
 
 /* random non-empty subset */
@@ -586,13 +586,13 @@ mcq_incorrect(ta):=block(
 /*  mode(n) returns a list of all the modal elements in the list n */
 mode(n):= block([i,j,count_elements,counts,highest_count,mode_set],
     count_elements: makelist(0,i,1,length(n)),
-    for i: 1 thru length(n) do 
-        (for j: 1 thru length(n) do 
+    for i: 1 thru length(n) do
+        (for j: 1 thru length(n) do
             (if n[i]=n[j] then count_elements[i]: count_elements[i]+1)),
     counts: listify(setify(count_elements)),
     highest_count:counts[length(counts)],
     mode_set:{},
-    for i:1 thru length(n) do 
+    for i:1 thru length(n) do
         (if count_elements[i]=highest_count then mode_set: union(mode_set,{n[i]})),
     mode_list:listify(mode_set),
     return(mode_list)
@@ -1808,7 +1808,7 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
         SOsimp:setify(rest(SOsimp)),
         if elementp(CASE, SOsimp) then levupper:false,
         if elementp(WHITESPACE, SOsimp) then levwhitespace:false
-    ), 
+    ),
 
     if not(numberp(tol)) then
         return(StackBasicReturn(false, false, "ATLevenshtein_tol_not_number")),
@@ -1864,7 +1864,7 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
 sremove_chars(rem, st) := sremove_chars_helper(charlist(rem), st)$
 sremove_chars_helper(remlist, st) := if emptyp(remlist) then st else sremove_chars_helper(rest(remlist), sremove(first(remlist), st))$
 
-/* 
+/*
    (1) Replace all tab and newline characters with spaces.
    (2) Trim spaces from each end.
    (3) Remove all multiple spaces and replace with a single space.
@@ -1872,16 +1872,16 @@ sremove_chars_helper(remlist, st) := if emptyp(remlist) then st else sremove_cha
    (This is called str_squish in the R language, and squish in other languages.).
 */
 ssquish(st) := block(
-    st:ssubst(" ", tab, st), 
+    st:ssubst(" ", tab, st),
     st:ssubst(" ", newline, st),
-    st:strim(" ", st), 
+    st:strim(" ", st),
     /* while is(slength(st)>slength(st:ssubst(" ", "  ", st))) do true,*/
     st:regex_subst(" ", "\\s+", st),
     st
 )$
 
 /* **************************************** */
-/* A wrapper for an all purpose answer test 
+/* A wrapper for an all purpose answer test
    which checks things are of the same "type".
    Based upon the results of AtAlgEquivfun(SA,SB)
 */
@@ -2388,13 +2388,13 @@ FacFormfun(SA, SB, SO) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, 
         else block(
             rawmk: false,
             ansnote:StackAddNote(ansnote, "ATFacForm_int_false")
-            ) 
+            )
     else block(
         /* Check for the correct answer. */
         if (aequiv and factorp(SA)) then
             ansnote:StackAddNote("", "ATFacForm_true")
         else block(
-            if (factorp(SA)) then block( 
+            if (factorp(SA)) then block(
                 /* We need to provide some feedback, if possible. */
                 ansnote:StackAddNote(ansnote, "ATFacForm_isfactored"),
                 fb:StackAddFeedback(fb, "ATFacForm_isfactored")
@@ -2566,10 +2566,10 @@ PartFrac_term_p(ex, v) := block([n1, d1, ret],
  n1:num(ex),
  d1:denom(ex),
  /* Can we divide through? */
- if is((degree(d1, v) < degree(n1, v)) and degree(d1, v) > 0) then return(false),  
+ if is((degree(d1, v) < degree(n1, v)) and degree(d1, v) > 0) then return(false),
  /* Ignore any power here. */
  if safe_op(d1)="^" then d1:first(args(d1)),
- /* Terms of the form n1/(v-a)^m must have a numerical n1! */ 
+ /* Terms of the form n1/(v-a)^m must have a numerical n1! */
  if is(degree(d1, v) = 1) and (degree(n1, v)#0) then return(false),
  ret:irred_Q(d1, v),
  if third(ret) then true else first(ret)
@@ -3249,7 +3249,7 @@ truth_table_allvars(l) := block(
 table_bool_abbreviate:true$
 table_bool_abbreviate_fn(ex):= block(
     if safe_op(ex) = "texcolor" then return(sconcat("\\color{", first(args(ex)), "}{\\underline{", table_bool_abbreviate_fn(second(args(ex))), "}}")),
-    if table_bool_abbreviate=true then 
+    if table_bool_abbreviate=true then
         return(if ex=true then "\\mathbf{T} " else if ex=false then "\\mathbf{F} " else stack_disp(ex, ""))
     else stack_disp(ex, "")
 )$
@@ -3289,22 +3289,22 @@ tree_rec(e) := block([treelist],
   if is(safe_op(e)="binomial") then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
   if is(safe_op(e)="disp_parens") then return(tree_rec(first(ex))),
 
-  treelist:flatten(["<code>", op(noun_logic_remove(e)), "</code><ul>", map(lambda([ex], sconcat("<li>", tree_rec(ex) ,"</li>")), args(e)), "</ul>"]),  
+  treelist:flatten(["<code>", op(noun_logic_remove(e)), "</code><ul>", map(lambda([ex], sconcat("<li>", tree_rec(ex) ,"</li>")), args(e)), "</ul>"]),
 
   /* Lots of opportunities/need for fine-tuning. */
 
-  if is(safe_op(e)="int") then treelist:flatten(["<span class='op'>\\(\\int \\cdots \\mathrm{d}", stack_disp(second(e), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
-  if is(safe_op(e)="diff") then treelist:flatten(["<span class='op'>\\(", stack_disp(apply(noundiff, append([NULLNUM], rest(args(e)))), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
-  if is(safe_op(e)="sum" or safe_op(e)="'sum") then treelist:flatten(["<span class='op'>\\(\\sum_{", stack_disp(second(e), ""), "=", stack_disp(third(e), ""), "}^{", stack_disp(fourth(e), ""), "} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
-  if is(safe_op(e)="limit" or safe_op(e)="'limit") then treelist:flatten(["<span class='op'>\\(\\lim_{", stack_disp(second(e), ""), "\\rightarrow{", stack_disp(third(e), ""), "}} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="int") then treelist:flatten(["<span class='op'>\\(\\int \\cdots \\mathrm{d}", stack_disp(second(e), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
+  if is(safe_op(e)="diff") then treelist:flatten(["<span class='op'>\\(", stack_disp(apply(noundiff, append([NULLNUM], rest(args(e)))), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
+  if is(safe_op(e)="sum" or safe_op(e)="'sum") then treelist:flatten(["<span class='op'>\\(\\sum_{", stack_disp(second(e), ""), "=", stack_disp(third(e), ""), "}^{", stack_disp(fourth(e), ""), "} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
+  if is(safe_op(e)="limit" or safe_op(e)="'limit") then treelist:flatten(["<span class='op'>\\(\\lim_{", stack_disp(second(e), ""), "\\rightarrow{", stack_disp(third(e), ""), "}} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
   /* This example mirrors tex-gamma. */
-  if is(safe_op(e)="gamma") then treelist:flatten(["<span class='op'>\\(\\Gamma\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="gamma") then treelist:flatten(["<span class='op'>\\(\\Gamma\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
   /* This example mirrors tex-sqrt. */
-  if is(safe_op(e)="sqrt") then treelist:flatten(["<span class='op'>\\(\\sqrt{}\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="sqrt") then treelist:flatten(["<span class='op'>\\(\\sqrt{}\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
 
   if elementp(safe_op(e), tree_texlist) or logicp(e) then block(
         /* Apply the operator to as many arguments as we have, none of which print. */
-        treelist:["<span class='op'>\\(", stack_disp(apply(op(e), ev(makelist(NULLNUM,k,1,length(args(e))),simp)), ""), "\\)</span>"], 
+        treelist:["<span class='op'>\\(", stack_disp(apply(op(e), ev(makelist(NULLNUM,k,1,length(args(e))),simp)), ""), "\\)</span>"],
         /* Try to get a symbol from the tex database, to avoid empty brackets round functions. */
         if symbolp(op(e)) then block([%_do],
             if not(stringp(%_do:get_texword(op(e)))) then %_do:get_texsym(op(e)),
@@ -3331,4 +3331,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2024072500$
+stackmaximaversion:2024091701$

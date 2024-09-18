@@ -35,4 +35,14 @@ $functions = [
         'capabilities' => '',
         'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
     ],
+    'qtype_stack_library_render' => [
+        'classname' => '\qtype_stack\library_render',
+        'methodname' => 'library_render',
+        'classpath' => '',
+        'description' => 'Returns details of a question in a given file',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => '',
+        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
+    ],
 ];

@@ -89,16 +89,22 @@ class stack_question_library {
 
         return '<div class="formulation">' . $questiontext . '</div>';
     }
-    public static function get_file_list($dir, &$results = array()) {
+    public static function get_file_list($dir) {
         $files = glob($dir);
-
+        $results = new stdClass();
+        $results->path = substr($dir, 0, -2);
+        $results->children = [];
         foreach ($files as $path) {
             if (!is_dir($path)) {
                 if (!strpos($path, 'gitsync_category.xml')) {
-                    $results[] = str_replace('samplequestions/stacklibrary/', '', $path);
+                    $childless = new StdClass();
+                    $childless->path = str_replace('samplequestions/stacklibrary/', '', $path);
+                    $childless->isdirectory = 0;
+                    $results->children[] = $childless;
                 }
             } else {
-                self::get_file_list($path . '/*', $results);
+                $results->children[] = self::get_file_list($path . '/*');
+                $results->isdirectory = 1;
             }
         }
 

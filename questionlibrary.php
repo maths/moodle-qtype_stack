@@ -58,8 +58,8 @@ if (!$files) {
     $cache->set('library_file_list', $files);
 }
 $outputdata = new StdClass();
-$outputdata->questions = $files;
 $outputdata->displayDivId = $divId;
+$outputdata->files = $files->children;
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 // Finish output.
 echo $OUTPUT->footer();

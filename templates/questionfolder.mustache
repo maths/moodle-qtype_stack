@@ -40,10 +40,14 @@
   }
 }}
 
-<div class="qtype_stack_question_library">
-  <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
-  <div id="{{displayDivId}}"></div>
-  {{#files}}
-    {{>qtype_stack/questionfolder}}
-  {{/files}}
+<div class="qtype_stack_question_folder">
+  {{#isdirectory}}
+    {{path}}
+    {{#children}}
+      {{>qtype_stack/questionfolder}}
+    {{/children}}
+  {{/isdirectory}}
+  {{^isdirectory}}
+    <button class="library-file-link" data-filepath="{{path}}">{{path}}</button>
+  {{/isdirectory}}
 </div>

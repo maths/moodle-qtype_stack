@@ -42,8 +42,19 @@
 
 <div class="qtype_stack_question_library">
   <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
-  <div id="{{displayDivId}}"></div>
-  {{#files}}
-    {{>qtype_stack/questionfolder}}
-  {{/files}}
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="que stack" id="{{displayDivId}}">
+        <div class="formulation" style="height:200px">Select a question from the list below to view it here.</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+  <div class="col-lg-6">
+    <div class="formulation" style="padding: 20px 0px 20px 0px; height: 400px; overflow-y: scroll; border: 1px solid lightblue; border-radius: 10px;">
+      {{#files}}
+        {{>qtype_stack/questionfolder}}
+      {{/files}}
+    </div>
+  </div>
 </div>

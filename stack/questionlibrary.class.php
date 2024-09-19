@@ -31,6 +31,9 @@
  */
 class stack_question_library {
 
+    public static $dircount = 1;
+    const BASEDIRECTORY = 'samplequestions/stacklibrary/';
+
     public static function render_question($question) {
         StackSeedHelper::initialize_seed($question, null);
 
@@ -92,13 +95,18 @@ class stack_question_library {
     public static function get_file_list($dir) {
         $files = glob($dir);
         $results = new stdClass();
-        $results->path = substr($dir, 0, -2);
+        $labels = explode('/', $dir);
+        $results->label = $labels[count($labels) - 2];
+        $results->divid = 'stack-library-folder-' . self::$dircount;
+        self::$dircount++;
         $results->children = [];
         foreach ($files as $path) {
             if (!is_dir($path)) {
                 if (!strpos($path, 'gitsync_category.xml')) {
                     $childless = new StdClass();
-                    $childless->path = str_replace('samplequestions/stacklibrary/', '', $path);
+                    $childless->path = str_replace(self::BASEDIRECTORY, '', $path);
+                    $labels = explode('/', $path);
+                    $childless->label = end($labels);
                     $childless->isdirectory = 0;
                     $results->children[] = $childless;
                 }

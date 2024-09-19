@@ -40,14 +40,20 @@
   }
 }}
 
-<div class="qtype_stack_question_folder">
+<div class="qtype_stack_question_folder" style="margin-left: 30px">
   {{#isdirectory}}
-    {{path}}
-    {{#children}}
-      {{>qtype_stack/questionfolder}}
-    {{/children}}
+    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{divid}}" aria-expanded="false" aria-controls="{{divid}}">
+      {{#pix}} i/folder, core {{/pix}}{{label}}
+    </button>
+    <div class="collapse" id="{{divid}}">
+      {{#children}}
+        {{>qtype_stack/questionfolder}}
+      {{/children}}
+    </div>
   {{/isdirectory}}
   {{^isdirectory}}
-    <button class="library-file-link" data-filepath="{{path}}">{{path}}</button>
+    <button class="btn btn-link library-file-link" type="button" data-filepath="{{path}}">
+      {{#pix}} i/files, core {{/pix}}{{label}}
+    </button>
   {{/isdirectory}}
 </div>

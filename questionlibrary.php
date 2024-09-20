@@ -45,11 +45,13 @@ require_login();
 //$q = file_get_contents('samplequestions/stacklibrary/Algebra-Refresher/1-Combinations-of-arithmetic-operations/AlgMap-1-4.xml');
 //$q = file_get_contents('samplequestions/JSXGraph-behat.xml');
 //$q = file_get_contents('samplequestions/plottest.xml');
-$contextId = 1;
-$divId = 'stack_library_display';
+$categoryid = required_param('category', PARAM_INT);
+$category = $DB->get_record('question_categories', ['id' => $categoryid], 'name, info');
+
+$displaydivid = 'stack_library_display';
 $PAGE->requires->js_amd_inline(
     'require(["qtype_stack/library"], '
-    . 'function(library,){library.setup(' . $contextId . ',"' . $divId . '");});'
+    . 'function(library,){library.setup(' . $categoryid . ',"' . $displaydivid . '");});'
 );
 $cache = cache::make('qtype_stack', 'librarycache');
 $files = $cache->get('library_file_list');
@@ -58,7 +60,9 @@ if (!$files) {
     $cache->set('library_file_list', $files);
 }
 $outputdata = new StdClass();
-$outputdata->displayDivId = $divId;
+$outputdata->catname = $category->name;
+$outputdata->catinfo = $category->info;
+$outputdata->displaydivid = $displaydivid;
 $outputdata->files = $files->children;
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 // Finish output.

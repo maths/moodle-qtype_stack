@@ -45,4 +45,14 @@ $functions = [
         'capabilities' => '',
         'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
     ],
+    'qtype_stack_library_import' => [
+        'classname' => '\qtype_stack\library_import',
+        'methodname' => 'library_import',
+        'classpath' => '',
+        'description' => 'Import a given file from the library',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => '',
+        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
+    ],
 ];

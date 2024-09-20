@@ -1541,6 +1541,8 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
 // Strings used by question library
 $string['stack_library'] = 'STACK question library';
+$string['stack_library_import'] = 'Import';
+$string['stack_library_destination'] = 'Questions will be imported into the following category:';
 $string['stack_library_help'] = 'Rather than creating your own question, follow this link to go to the STACK question library. The STACK question library contains many pre-made STACK questions ready for you to import into Moodle. You can then use them as they are or edit them to fir your needs.';
 
 // API strings.

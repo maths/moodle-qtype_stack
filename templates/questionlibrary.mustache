@@ -44,9 +44,24 @@
   <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
   <div class="row">
     <div class="col-lg-6">
-      <div class="que stack" id="{{displayDivId}}">
+      <div class="que stack" id="{{displaydivid}}">
         <div class="formulation" style="height:200px">Select a question from the list below to view it here.</div>
       </div>
+    </div>
+    <div class="col-lg-2">
+      <button class="btn btn-primary library-import-link" type="button" data-filepath="{{path}}">
+        {{#str}} stack_library_import, qtype_stack {{/str}}
+      </button>
+      <br><br>
+      <p>
+        {{#str}} stack_library_destination, qtype_stack {{/str}}
+      </p>
+      <p>
+        {{catname}}
+        {{#catinfo}}
+          - {{catinfo}}
+        {{/catinfo}}
+      </p>
     </div>
   </div>
   <div class="row">

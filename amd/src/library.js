@@ -28,8 +28,10 @@ define([
     CustomEvents
 ) {
 
-    var contextId = null;
-    var libraryDiv = null;
+    let categoryId = null;
+    let libraryDiv = null;
+    let currentPath = null;
+
 
     /**
      *
@@ -37,12 +39,14 @@ define([
      * @param {?string} lDiv
      */
     function setup(cId, lDiv) {
-        contextId = cId;
+        categoryId = cId;
         libraryDiv = document.getElementById(lDiv);
-        let linksArray = document.querySelectorAll(".library-file-link");
+        const linksArray = document.querySelectorAll(".library-file-link");
         linksArray.forEach(function(elem) {
             elem.addEventListener("click", libraryRender);
         });
+        const importButton = document.querySelector(".library-import-link");
+        importButton.addEventListener("click", libraryImport);
     }
 
     /**
@@ -51,10 +55,11 @@ define([
      */
     function libraryRender(e) {
         const filepath = e.target.getAttribute('data-filepath');
+        currentPath = filepath;
         libraryDiv.classList.add('loading');
         Ajax.call([{
             methodname: 'qtype_stack_library_render',
-            args: {context: contextId, filepath: filepath},
+            args: {category: categoryId, filepath: filepath},
             done: function(response) {
                 libraryDiv.classList.remove('loading');
                 showResults(response);
@@ -90,4 +95,26 @@ define([
     return {
         setup: setup
     };
+
+        /**
+     *
+     * @param {*} filepath
+     */
+        function libraryImport(e) {
+            if (!currentPath) {
+                return;
+            }
+            const filepath = currentPath;
+            libraryDiv.classList.add('loading');
+            Ajax.call([{
+                methodname: 'qtype_stack_library_import',
+                args: {category: categoryId, filepath: filepath},
+                done: function(response) {
+                    console.log('Success');
+                },
+                fail: function(response) {
+                    console.log('Failure');
+                }
+            }]);
+        }
 });

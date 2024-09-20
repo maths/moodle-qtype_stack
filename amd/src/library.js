@@ -30,23 +30,30 @@ define([
 
     let categoryId = null;
     let libraryDiv = null;
+    let rawDiv = null;
+    let variablesDiv = null;
+    let importListDiv = null;
+    let displayedDiv = null;
     let currentPath = null;
-
 
     /**
      *
      * @param {?int} cId
      * @param {?string} lDiv
      */
-    function setup(cId, lDiv) {
+    function setup(cId) {
         categoryId = cId;
-        libraryDiv = document.getElementById(lDiv);
-        const linksArray = document.querySelectorAll(".library-file-link");
+        libraryDiv = document.querySelector('.stack_library_display');
+        rawDiv = document.querySelector('.stack_library_raw_display');
+        variablesDiv = document.querySelector('.stack_library_variables_display');
+        importListDiv = document.querySelector('.stack-library-imported-list');
+        displayedDiv = document.querySelector('.stack_library_selected_question');
+        const linksArray = document.querySelectorAll('.library-file-link');
         linksArray.forEach(function(elem) {
-            elem.addEventListener("click", libraryRender);
+            elem.addEventListener('click', libraryRender);
         });
-        const importButton = document.querySelector(".library-import-link");
-        importButton.addEventListener("click", libraryImport);
+        const importButton = document.querySelector('.library-import-link');
+        importButton.addEventListener('click', libraryImport);
     }
 
     /**
@@ -78,6 +85,9 @@ define([
      */
     function showResults(response) {
         libraryDiv.innerHTML = response.questionrender;
+        rawDiv.innerHTML = response.questiontext;
+        variablesDiv.innerHTML = response.questionvariables;
+        displayedDiv.innerHTML = currentPath.split('/').pop();
         // This fires the Maths filters for content in the validation div.
         CustomEvents.notifyFilterContentUpdated(libraryDiv);
         return true;
@@ -104,16 +114,21 @@ define([
             if (!currentPath) {
                 return;
             }
+            document.querySelector('.stack-library-error').hidden = true;
             const filepath = currentPath;
             libraryDiv.classList.add('loading');
             Ajax.call([{
                 methodname: 'qtype_stack_library_import',
                 args: {category: categoryId, filepath: filepath},
                 done: function(response) {
-                    console.log('Success');
+                    if (response.success) {
+                        importListDiv.innerHTML = importListDiv.innerHTML + '<br>' + currentPath.split('/').pop();
+                    } else {
+                        document.querySelector('.stack-library-error').hidden = false;
+                    }
                 },
-                fail: function(response) {
-                    console.log('Failure');
+                fail: function() {
+                    document.querySelector('.stack-library-error').hidden = false;
                 }
             }]);
         }

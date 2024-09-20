@@ -42,34 +42,76 @@
 
 <div class="qtype_stack_question_library">
   <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
+  <p><a href="{{questionbanklink}}">{{#pix}} i/files, core {{/pix}}{{#str}} questionbank, core_question {{/str}}</a></p>
   <div class="row">
     <div class="col-lg-6">
-      <div class="que stack" id="{{displaydivid}}">
-        <div class="formulation" style="height:200px">Select a question from the list below to view it here.</div>
+      <div class="que stack stack_library_display">
+        <div class="formulation" style="height:250px">
+          <ul>
+            <li>
+              {{#str}} stack_library_instructions_one, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_two, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_three, qtype_stack {{/str}}
+              <ol>
+                <li>
+                  {{#str}} stack_library_instructions_three_one, qtype_stack {{/str}}
+                </li>
+                <li>
+                  {{#str}} stack_library_instructions_three_two, qtype_stack {{/str}}
+                </li>
+                <li>
+                  {{#str}} stack_library_instructions_three_three, qtype_stack {{/str}}
+                </li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="stack-library-error alert alert-danger" hidden>
+        {{#str}} stack_library_error, qtype_stack {{/str}}
+      </p>
+      <div class="alert alert-secondary">
+        <div style="float: left; margin: 5px 20px 30px 0px;">
+          <button class="btn btn-primary library-import-link" type="button" data-filepath="{{path}}">
+            {{#str}} stack_library_import, qtype_stack {{/str}}
+          </button>
+        </div>
+        <div>
+        {{#str}} stack_library_destination, qtype_stack {{/str}}
+        <br>
+        <b>{{catname}}</b>
+        {{#catinfo}}
+          - {{{catinfo}}}
+        {{/catinfo}}
+        </div>
+
+      </div>
+      <div class="formulation" style="padding: 20px 0px 20px 0px; height: 400px; overflow-y: scroll; border: 1px solid lightblue; border-radius: 10px;">
+        {{#files}}
+          {{>qtype_stack/questionfolder}}
+        {{/files}}
       </div>
     </div>
-    <div class="col-lg-2">
-      <button class="btn btn-primary library-import-link" type="button" data-filepath="{{path}}">
-        {{#str}} stack_library_import, qtype_stack {{/str}}
-      </button>
-      <br><br>
-      <p>
-        {{#str}} stack_library_destination, qtype_stack {{/str}}
-      </p>
-      <p>
-        {{catname}}
-        {{#catinfo}}
-          - {{catinfo}}
-        {{/catinfo}}
-      </p>
-    </div>
-  </div>
-  <div class="row">
-  <div class="col-lg-6">
-    <div class="formulation" style="padding: 20px 0px 20px 0px; height: 400px; overflow-y: scroll; border: 1px solid lightblue; border-radius: 10px;">
-      {{#files}}
-        {{>qtype_stack/questionfolder}}
-      {{/files}}
+    <div class="col-lg-3">
+      <div class="alert alert-secondary">
+        <b>{{#str}} stack_library_selected, qtype_stack {{/str}}</b>
+        <div class="stack_library_selected_question"></div>
+      </div>
+      <div class="alert alert-secondary">
+        <b>{{#str}} questiontext, qtype_stack {{/str}}:</b>
+        <div class="stack_library_raw_display"></div>
+      </div>
+      <div class="alert alert-secondary">
+        <b>{{#str}} questionvariables, qtype_stack {{/str}}:</b>
+        <div class="stack_library_variables_display"></div>
+      </div>
+      <div class="stack-library-imported-list alert alert-secondary">
+        <b>{{#str}} stack_library_importlist, qtype_stack {{/str}}</b>
+      </div>
     </div>
   </div>
 </div>

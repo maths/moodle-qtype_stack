@@ -223,8 +223,11 @@ class qtype_stack_edit_form extends question_edit_form {
         } else {
             $out = stack_string('stack_library');
             $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php',
-                    ['category'=>optional_param('category', null, PARAM_INT)]),
-                    $out, ['target' => '_blank']) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');
+                    [
+                        'category'=>optional_param('category', null, PARAM_INT),
+                        'cmid'=>optional_param('cmid', null, PARAM_INT),
+                    ]),
+                    $out, []) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');
             $qllink = $mform->createElement('static', 'stack_library', '', $qlibrarylink);
             $mform->insertElementBefore($qllink, 'questionvariables');
         }

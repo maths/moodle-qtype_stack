@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template qtype_stack/questionfolder
+    @template qtype_stack/questionlibrary
 
-    Template purpose and description.
+    Display STACK question library
 
     Classes required for JS:
     * none
@@ -30,14 +30,35 @@
 
     Example context (json):
     {
-    "question": {
-        "name": "Question name",
-        "text": "Text",
-        "deployedseeds": true,
-        "hasvariants": true,
-        "vars": "a1 : 1+rand(6);"
-    },
-  }
+      "questionbanklink": "http://stack.stack.virtualbox.org/edmundlocal/question/edit.php?cmid=19"
+      "catname": "Default for Course 1"
+      "catinfo": "Category for Course 1."
+      "files": [
+        {
+          "label": "Algebra-Refresher",
+          "divid": "stack-library-folder-2",
+          "isdirectory": 1,
+          "children": [
+              {
+                  "label": "10-Expressions-single-term-common-factors",
+                  "divid": "stack-library-folder-3",
+                  "isdirectory": 1,
+                  "children": [
+                      {
+                          "path": "Algebra-Refresher\/10-Expressions-single-term-common-factors\/AlgMap-10-1.xml",
+                          "label": "AlgMap-10-1.xml",
+                          "isdirectory": 0
+                      },
+                      {
+                          "path": "Algebra-Refresher\/10-Expressions-single-term-common-factors\/AlgMap-10-2.xml",
+                          "label": "AlgMap-10-2.xml",
+                          "isdirectory": 0
+                      },
+                  ]
+              },
+          ]
+        },
+    }
 }}
 
 <div class="qtype_stack_question_library">
@@ -76,8 +97,9 @@
       </p>
       <div class="alert alert-secondary">
         <div style="float: left; margin: 5px 20px 30px 0px;">
-          <button class="btn btn-primary library-import-link" type="button" data-filepath="{{path}}">
+          <button class="btn btn-primary library-import-link" style="width:100px;" type="button" data-filepath="{{path}}">
             {{#str}} stack_library_import, qtype_stack {{/str}}
+            <span class="loading-display" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
           </button>
         </div>
         <div>
@@ -90,24 +112,24 @@
         </div>
 
       </div>
-      <div class="formulation" style="padding: 20px 0px 20px 0px; height: 400px; overflow-y: scroll; border: 1px solid lightblue; border-radius: 10px;">
+      <div class="formulation stack-library-file-list">
         {{#files}}
           {{>qtype_stack/questionfolder}}
         {{/files}}
       </div>
     </div>
     <div class="col-lg-3">
-      <div class="alert alert-secondary">
+      <div class="alert alert-secondary library-secondary-info" hidden>
         <b>{{#str}} stack_library_selected, qtype_stack {{/str}}</b>
         <div class="stack_library_selected_question"></div>
       </div>
-      <div class="alert alert-secondary">
+      <div class="alert alert-secondary library-secondary-info" hidden>
         <b>{{#str}} questiontext, qtype_stack {{/str}}:</b>
-        <div class="stack_library_raw_display"></div>
+        <div class="stack_library_raw_display" style="word-break: break-word"></div>
       </div>
-      <div class="alert alert-secondary">
+      <div class="alert alert-secondary library-secondary-info" hidden>
         <b>{{#str}} questionvariables, qtype_stack {{/str}}:</b>
-        <div class="stack_library_variables_display"></div>
+        <div class="stack_library_variables_display" style="word-break: break-word"></div>
       </div>
       <div class="stack-library-imported-list alert alert-secondary">
         <b>{{#str}} stack_library_importlist, qtype_stack {{/str}}</b>

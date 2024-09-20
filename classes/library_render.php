@@ -69,20 +69,25 @@ class library_render extends \external_api {
     /**
      * Returns info from STACK library question for display.
      *
-     * @param int $context
-     * @param string $filepath Input name
-     * @param mixed $input Input value
+     * @param int $category Question category id for eventual import. We really only
+     * care that the user can add into any category at all at this stage.
+     * @param string $filepath File path relative to samplequestions/stacklibrary.
      * @return array Array of question render, question text and question variables.
      */
     public static function library_render($category, $filepath) {
         global $CFG, $DB;
+
+        // Check parameters and that user has question add capability in the supplied category.
         $context = $DB->get_field('question_categories', 'contextid', ['id' => $category]);
         $thiscontext = context::instance_by_id($context);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
+
+        // Check if we've already cached the answer.
         $cache = cache::make('qtype_stack', 'librarycache');
         $result = $cache->get($filepath);
         if (!$result) {
+            // Get contents of file and run through API question loader to render.
             $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/stacklibrary/' . $filepath);
             $question = StackQuestionLoader::loadxml($qcontents)['question'];
             $render =  stack_question_library::render_question($question);

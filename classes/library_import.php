@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * External API for AJAX calls to get question info from a library file.
+ * External API for AJAX calls to import question info from a library file.
  *
  * @package qtype_stack
  * @copyright 2024 University of Edinburgh
@@ -42,7 +42,7 @@ use core_question\local\bank\question_edit_contexts;
  */
 class library_import extends \external_api {
     /**
-     * Returns parameter types for library_render function.
+     * Returns parameter types for library_import function.
      *
      * @return \external_function_parameters Parameters
      */
@@ -54,7 +54,7 @@ class library_import extends \external_api {
     }
 
     /**
-     * Returns result type for library_render function.
+     * Returns result type for library_import function.
      *
      * @return \external_description Result type
      */
@@ -65,15 +65,16 @@ class library_import extends \external_api {
     }
 
     /**
-     * Returns info from STACK library question for display.
+     * Imports a question from STACK library.
      *
-     * @param int $context
-     * @param string $filepath Input name
-     * @param mixed $input Input value
-     * @return array Array of question render, question text and question variables.
+     * @param int $category Question category id for import.
+     * @param string $filepath File path relative to samplequestions/stacklibrary.
+     * @return object Success.
      */
     public static function library_import($category, $filepath) {
         global $CFG, $DB;
+
+        // Check parameters and permissions.
         $thiscontext = null;
         $qformat = null;
         $thiscategory = $DB->get_record('question_categories', ['id' => $category]);
@@ -82,6 +83,7 @@ class library_import extends \external_api {
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
 
+        // Set up import. All files are XML.
         $qformat = new qformat_xml();
         $qformat->set_display_progress(false);
 
@@ -93,21 +95,24 @@ class library_import extends \external_api {
         $qformat->setStoponerror(true);
         $contexts = new question_edit_contexts($thiscontext);
         $qformat->setContexts($contexts->having_one_edit_tab_cap('import'));
+
+        // Import.
         if (!$qformat->importpreprocess()) {
-            throw new moodle_exception('importerror', 'qbank_gitsync', null, $filename);
+            throw new moodle_exception('importerror', 'qtype_stack', null, $filepath);
         }
 
         if (!$qformat->importprocess()) {
-            throw new moodle_exception('importerror', 'qbank_gitsync', null, $filename);
+            throw new moodle_exception('importerror', 'qtype_stack', null, $filepath);
         }
         // In case anything needs to be done after.
         if (!$success = $qformat->importpostprocess()) {
-            throw new moodle_exception('importerror', 'qbank_gitsync', null, $filename);
+            throw new moodle_exception('importerror', 'qtype_stack', null, $filepath);
         }
 
         $response = new \stdClass();
         $response->success = true;
 
+        // Log import.
         $eventparams = [
             'contextid' => $qformat->category->contextid,
             'other' => ['format' => 'xml', 'categoryid' => $qformat->category->id],

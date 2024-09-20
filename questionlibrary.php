@@ -15,12 +15,11 @@
 // along with STACK.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script lets the user import questions from sample questions
+ * This script lets the user import questions from the library folder.
  *
  * @copyright  2024 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 
 define('NO_OUTPUT_BUFFERING', true);
 
@@ -30,10 +29,8 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
-require_once(__DIR__ . '/api/util/StackQuestionLoader.php');
 require_once(__DIR__ . '/stack/questionlibrary.class.php');
 
-use api\util\StackQuestionLoader;
 // Initialise $PAGE.
 $PAGE->set_url('/question/type/stack/questionlibrary.php', $urlparams);
 $title = stack_string('stack_library', format_string($question->name));
@@ -43,28 +40,35 @@ $PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();
 require_login();
 
+// Check user has add capability for the required category.
 $categoryid = required_param('category', PARAM_INT);
 $cmid = required_param('cmid', PARAM_INT);
 $category = $DB->get_record('question_categories', ['id' => $categoryid], 'name, info, contextid');
 $thiscontext = context::instance_by_id($category->contextid);
 require_capability('moodle/question:add', $thiscontext);
-$questionbanklink = new moodle_url('/question/edit.php', ['cmid' => $cmid]);
 
+$questionbanklink = new moodle_url('/question/edit.php', ['cmid' => $cmid]);
 $PAGE->requires->js_amd_inline(
     'require(["qtype_stack/library"], '
     . 'function(library,){library.setup(' . $categoryid . ');});'
 );
+
+// Get list of files.
 $cache = cache::make('qtype_stack', 'librarycache');
 $files = $cache->get('library_file_list');
 if (!$files) {
     $files = stack_question_library::get_file_list('samplequestions/stacklibrary/*');
     $cache->set('library_file_list', $files);
 }
+
+// Prepare data for template.
 $outputdata = new StdClass();
 $outputdata->questionbanklink = $questionbanklink->out();
 $outputdata->catname = $category->name;
 $outputdata->catinfo = $category->info;
 $outputdata->files = $files->children;
+$x = json_encode($files->children);
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
+
 // Finish output.
 echo $OUTPUT->footer();

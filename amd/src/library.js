@@ -14,10 +14,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A javascript module to handle requests for library question info.
+ * A javascript module to handle requests for library question info
+ * and to import questions.
  *
- * @module     qtype_stack/input
- * @copyright  2018 The Open University
+ * @module     qtype_stack/library
+ * @copyright  2024 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define([
@@ -34,12 +35,13 @@ define([
     let variablesDiv = null;
     let importListDiv = null;
     let displayedDiv = null;
+    let errorDiv = null;
     let currentPath = null;
 
     /**
+     * Sets up event listeners.
      *
-     * @param {?int} cId
-     * @param {?string} lDiv
+     * @param {int} cId ID of question category that questions will be imported into.
      */
     function setup(cId) {
         categoryId = cId;
@@ -48,88 +50,98 @@ define([
         variablesDiv = document.querySelector('.stack_library_variables_display');
         importListDiv = document.querySelector('.stack-library-imported-list');
         displayedDiv = document.querySelector('.stack_library_selected_question');
+        errorDiv = document.querySelector('.stack-library-error');
+        loading(true);
         const linksArray = document.querySelectorAll('.library-file-link');
         linksArray.forEach(function(elem) {
             elem.addEventListener('click', libraryRender);
         });
         const importButton = document.querySelector('.library-import-link');
         importButton.addEventListener('click', libraryImport);
+        loading(false);
     }
 
     /**
+     * Performs AJAX call to Moodle to get info on a question when
+     * a link containing the questions filename is clicked.
      *
-     * @param {*} filepath
+     * @param {object} e the click event triggering the function call.
      */
     function libraryRender(e) {
         const filepath = e.target.getAttribute('data-filepath');
         currentPath = filepath;
-        libraryDiv.classList.add('loading');
+        loading(true);
+        errorDiv.hidden = true;
         Ajax.call([{
             methodname: 'qtype_stack_library_render',
             args: {category: categoryId, filepath: filepath},
             done: function(response) {
-                libraryDiv.classList.remove('loading');
-                showResults(response);
+                loading(false);
+                libraryDiv.innerHTML = response.questionrender;
+                rawDiv.innerHTML = response.questiontext;
+                variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
+                displayedDiv.innerHTML = currentPath.split('/').pop();
+                document.querySelectorAll('.library-secondary-info')
+                    .forEach(el => el.removeAttribute('hidden'));
+                // This fires the Maths filters for content in the validation div.
+                CustomEvents.notifyFilterContentUpdated(libraryDiv);
             },
-            fail: function(response) {
-                libraryDiv.classList.remove('loading');
-                showFailure(response);
+            fail: function() {
+                loading(false);
+                errorDiv.hidden = false;
             }
         }]);
     }
 
     /**
+     * Performs AJAX call to Moodle to import a question.
      *
-     * @param {*} response
-     * @returns {boolean} true
      */
-    function showResults(response) {
-        libraryDiv.innerHTML = response.questionrender;
-        rawDiv.innerHTML = response.questiontext;
-        variablesDiv.innerHTML = response.questionvariables;
-        displayedDiv.innerHTML = currentPath.split('/').pop();
-        // This fires the Maths filters for content in the validation div.
-        CustomEvents.notifyFilterContentUpdated(libraryDiv);
-        return true;
+    function libraryImport() {
+        if (!currentPath) {
+            return;
+        }
+        errorDiv.hidden = true;
+        const filepath = currentPath;
+        loading(true);
+        Ajax.call([{
+            methodname: 'qtype_stack_library_import',
+            args: {category: categoryId, filepath: filepath},
+            done: function(response) {
+                loading(false);
+                if (response.success) {
+                    importListDiv.innerHTML = importListDiv.innerHTML + '<br>' + currentPath.split('/').pop();
+                } else {
+                    errorDiv.hidden = false;
+                }
+            },
+            fail: function() {
+                loading(false);
+                errorDiv.hidden = false;
+            }
+        }]);
     }
 
     /**
+     * Disable/enable features before/after loading.
      *
-     * @param {*} response
+     * @param {*} isLoading Is an AJAX call taking place?
      */
-    function showFailure(response) {
-        libraryDiv.innerHTML = 'Something went wrong. ' + JSON.stringify(response);
+    function loading(isLoading) {
+        errorDiv.hidden = true;
+        if (isLoading) {
+            document.querySelector('.loading-display').removeAttribute('hidden');
+            document.querySelector('.library-import-link').setAttribute('disabled', 'disabled');
+            document.querySelectorAll('.library-file-link').forEach(el => el.setAttribute('disabled', 'disabled'));
+        } else {
+            document.querySelector('.loading-display').setAttribute('hidden', true);
+            document.querySelector('.library-import-link').removeAttribute('disabled');
+            document.querySelectorAll('.library-file-link').forEach(el => el.removeAttribute('disabled'));
+        }
     }
 
     /** Export our entry point. */
     return {
         setup: setup
     };
-
-        /**
-     *
-     * @param {*} filepath
-     */
-        function libraryImport(e) {
-            if (!currentPath) {
-                return;
-            }
-            document.querySelector('.stack-library-error').hidden = true;
-            const filepath = currentPath;
-            libraryDiv.classList.add('loading');
-            Ajax.call([{
-                methodname: 'qtype_stack_library_import',
-                args: {category: categoryId, filepath: filepath},
-                done: function(response) {
-                    if (response.success) {
-                        importListDiv.innerHTML = importListDiv.innerHTML + '<br>' + currentPath.split('/').pop();
-                    } else {
-                        document.querySelector('.stack-library-error').hidden = false;
-                    }
-                },
-                fail: function() {
-                    document.querySelector('.stack-library-error').hidden = false;
-                }
-            }]);
-        }
 });

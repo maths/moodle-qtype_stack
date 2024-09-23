@@ -74,7 +74,7 @@ class stack_question_library {
         $formatoptions = new stdClass();
         $formatoptions->noclean = true;
         $formatoptions->para = false;
-        $questiontext = format_text($questiontext, HTML_FORMAT, $formatoptions);
+        $questiontext = format_text($questiontext, FORMAT_HTML, $formatoptions);
 
         foreach ($question->inputs as $name => $input) {
             $tavalue = $question->get_ta_for_input($name);
@@ -100,6 +100,7 @@ class stack_question_library {
         $results->divid = 'stack-library-folder-' . self::$dircount;
         self::$dircount++;
         $results->children = [];
+        $results->isdirectory = 1;
         foreach ($files as $path) {
             if (!is_dir($path)) {
                 if (!strpos($path, 'gitsync_category.xml')) {
@@ -112,7 +113,6 @@ class stack_question_library {
                 }
             } else {
                 $results->children[] = self::get_file_list($path . '/*');
-                $results->isdirectory = 1;
             }
         }
 

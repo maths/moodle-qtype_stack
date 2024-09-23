@@ -31,13 +31,7 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionlibrary.class.php');
 
-// Initialise $PAGE.
-$PAGE->set_url('/question/type/stack/questionlibrary.php', $urlparams);
-$title = stack_string('stack_library', format_string($question->name));
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('popup');
-echo $OUTPUT->header();
+
 require_login();
 
 // Check user has add capability for the required category.
@@ -46,6 +40,17 @@ $cmid = required_param('cmid', PARAM_INT);
 $category = $DB->get_record('question_categories', ['id' => $categoryid], 'name, info, contextid');
 $thiscontext = context::instance_by_id($category->contextid);
 require_capability('moodle/question:add', $thiscontext);
+
+// Initialise $PAGE.
+$categoryid = required_param('category', PARAM_INT);
+$cmid = required_param('cmid', PARAM_INT);
+$PAGE->set_context($thiscontext);
+$PAGE->set_url('/question/type/stack/questionlibrary.php', ['cmid' => $cmid, 'category' => $categoryid]);
+$title = stack_string('stack_library');
+$PAGE->set_title($title);
+$PAGE->set_heading($title);
+$PAGE->set_pagelayout('popup');
+echo $OUTPUT->header();
 
 $questionbanklink = new moodle_url('/question/edit.php', ['cmid' => $cmid]);
 $PAGE->requires->js_amd_inline(

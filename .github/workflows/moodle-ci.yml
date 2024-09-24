@@ -35,36 +35,36 @@ jobs:
           - php: '8.2'
             moodle-branch: 'main'
             database: 'pgsql'
-            maxima: 'GCL'
+            maxima: 'SBCL'
           - php: '8.2'
             moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
-            maxima: 'GCL'
+            maxima: 'SBCL'
           - php: '8.1'
             moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
-            maxima: 'GCL'
+            maxima: 'SBCL'
           # Edinburgh is planning to run the setup below for 2023-24.
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'mariadb'
-            maxima: 'GCL'
+            maxima: 'SBCL'
           - php: '7.4'
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
-            maxima: 'GCL'
+            maxima: 'SBCL'
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})
         run: |
           maxima="${{ (matrix.maxima == 'SBCL' && 'sbcl') || 'gcl' }}"
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-common_5.42.2-1_all.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-${maxima}_5.42.2-1_amd64.deb
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-common_5.44.0-1_all.deb \
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-${maxima}_5.44.0-1_amd64.deb
 
           sudo locale-gen en_AU.UTF-8
           sudo apt-get install libtinfo5
-          sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.42.2-1_all.deb maxima-${maxima}_5.42.2-1_amd64.deb
+          sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.44.0-1_all.deb maxima-${maxima}_5.44.0-1_amd64.deb
 
           echo "LANG=en_AU.UTF-8" >> $GITHUB_ENV
           echo "adjust_external_format();" | maxima
@@ -100,7 +100,7 @@ jobs:
 
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
 
-          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",       "5.42.2");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",       "5.44.0");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",       "maxima");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT",    "timeout --kill-after=10s 10s ${{ github.workspace }}/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER", "http://pool.home:8080/MaximaPool/MaximaPool");'

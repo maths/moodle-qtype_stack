@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/question/type/stack/classes/library_import.php');
 
 use context_course;
 use externallib_advanced_testcase;
@@ -39,7 +38,6 @@ use require_login_exception;
 
 /**
  * Test the library_import webservice function.
- * @runTestsInSeparateProcesses
  * @group qtype_stack
  *
  * @covers \stack\library_import::library_import

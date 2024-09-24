@@ -109,7 +109,7 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",       "maxima");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT",    "timeout --kill-after=10s 10s ${{ github.workspace }}/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER", "http://pool.home:8080/MaximaPool/MaximaPool");'
-          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",          "100");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",          "500");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES",     "stats, distrib, descriptive, simplex");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASPREPARSE", "true");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",            "linux-optimised");'

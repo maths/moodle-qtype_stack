@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/question/type/stack/classes/library_render.php');
 
 use context_course;
 use externallib_advanced_testcase;

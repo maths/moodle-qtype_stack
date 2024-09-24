@@ -1247,7 +1247,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     margin: 0;
 }
 .stack-library-file-list {
-    padding: 20px 0px 20px 0px;
+    padding: 20px 0 20px 0;
     height: 400px;
     overflow-y: scroll;
     border: 1px solid lightblue;

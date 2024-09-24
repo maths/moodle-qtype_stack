@@ -94,7 +94,7 @@ class library_import extends \external_api {
         $qformat->setCategory($thiscategory);
         $qformat->setCatfromfile(false);
 
-        $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/stacklibrary/' . $filepath);
+        $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
         $qformat->setContextfromfile(false);
         $qformat->setStoponerror(true);
         $contexts = new question_edit_contexts($thiscontext);

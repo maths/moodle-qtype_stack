@@ -32,7 +32,6 @@
 class stack_question_library {
 
     public static $dircount = 1;
-    const BASEDIRECTORY = 'samplequestions/stacklibrary/';
 
     public static function render_question($question) {
         StackSeedHelper::initialize_seed($question, null);
@@ -105,7 +104,10 @@ class stack_question_library {
             if (!is_dir($path)) {
                 if (!strpos($path, 'gitsync_category.xml')) {
                     $childless = new StdClass();
-                    $childless->path = str_replace(self::BASEDIRECTORY, '', $path);
+                    // Get the path relative to the samplequestions folder.
+                    $pathfromsq = str_replace('samplequestions/', '', $path);
+                    $pathfromsq = str_replace('../', '', $pathfromsq);
+                    $childless->path = $pathfromsq;
                     $labels = explode('/', $path);
                     $childless->label = end($labels);
                     $childless->isdirectory = 0;

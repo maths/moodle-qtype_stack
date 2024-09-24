@@ -92,7 +92,7 @@ class library_render extends \external_api {
         $result = $cache->get($filepath);
         if (!$result) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/stacklibrary/' . $filepath);
+            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions' . $filepath);
             $question = StackQuestionLoader::loadxml($qcontents)['question'];
             $render =  stack_question_library::render_question($question);
             $result = [

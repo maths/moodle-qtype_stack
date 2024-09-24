@@ -86,7 +86,7 @@ class questionlibrary_test extends qtype_stack_testcase {
             }
         }
         $this->assertEquals(0, $file->isdirectory);
-        $this->assertEquals('/var/www/html/edmundlocal/question/type/stack/Calculus-Refresher' .
+        $this->assertStringContainsString('stacklibrary/Calculus-Refresher' .
             '/CR_Diff_02/CR-Diff-02-linearity-1-e.xml', $file->path);
     }
 }

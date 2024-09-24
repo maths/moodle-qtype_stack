@@ -53,7 +53,7 @@ class library_render extends \external_api {
     public static function library_render_parameters() {
         return new \external_function_parameters([
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
-            'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions/stacklibrary'),
+            'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions'),
         ]);
     }
 
@@ -75,7 +75,7 @@ class library_render extends \external_api {
      *
      * @param int $category Question category id for eventual import. We really only
      * care that the user can add into any category at all at this stage.
-     * @param string $filepath File path relative to samplequestions/stacklibrary.
+     * @param string $filepath File path relative to samplequestions.
      * @return array Array of question render, question text and question variables.
      */
     public static function library_render($category, $filepath) {
@@ -92,7 +92,7 @@ class library_render extends \external_api {
         $result = $cache->get($filepath);
         if (!$result) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions' . $filepath);
+            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
             $question = StackQuestionLoader::loadxml($qcontents)['question'];
             $render =  stack_question_library::render_question($question);
             $result = [

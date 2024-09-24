@@ -53,7 +53,7 @@ class library_import extends \external_api {
     public static function library_import_parameters() {
         return new \external_function_parameters([
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
-            'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions/stacklibrary'),
+            'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions'),
         ]);
     }
 
@@ -72,7 +72,7 @@ class library_import extends \external_api {
      * Imports a question from STACK library.
      *
      * @param int $category Question category id for import.
-     * @param string $filepath File path relative to samplequestions/stacklibrary.
+     * @param string $filepath File path relative to samplequestions.
      * @return object Success.
      */
     public static function library_import($category, $filepath) {

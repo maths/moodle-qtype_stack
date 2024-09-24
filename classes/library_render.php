@@ -33,6 +33,10 @@ require_once($CFG->dirroot . '/question/type/stack/api/util/StackQuestionLoader.
 require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
 
 use context;
+use external_api;
+use external_function_parameters;
+use external_single_structure;
+use external_value;
 use cache;
 use stack_question_library;
 use api\util\StackQuestionLoader;

@@ -2,9 +2,17 @@
 
 STACK is distributed with sample questions in
 
-     /qtype_stack/samplequestions/
+     /qtype_stack/samplequestions
 
 The sample questions are in English.
+
+# STACK library
+
+This is a collection of individual question files which can be imported via the STACK library page. Begin creating a new STACK question in your required question category. On the question edit form, rather than entering question data, click on the 'STACK question library' link. You can then browse and import questions.
+
+The questions are contained in
+
+     /qtype_stack/samplequestions/stacklibrary
 
 This directory contains sub-directories with large libraries of questions:
 

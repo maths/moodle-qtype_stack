@@ -33,6 +33,10 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
 
 use context;
+use external_api;
+use external_function_parameters;
+use external_single_structure;
+use external_value;
 use moodle_exception;
 use qformat_xml;
 use core_question\local\bank\question_edit_contexts;

@@ -32,27 +32,35 @@ require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionlibrary.class.php');
 
 
-require_login();
+if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
+    $cm = get_coursemodule_from_id(false, $cmid);
+    require_login($cm->course, false, $cm);
+    $liburlparams['cmid'] = $cmid;
+    $qburlparams['cmid'] = $cmid;
+
+} else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
+    require_login($courseid);
+    $liburlparams['courseid'] = $courseid;
+    $qburlparams['courseid'] = $courseid;
+}
 
 // Check user has add capability for the required category.
 $categoryid = required_param('category', PARAM_INT);
-$cmid = required_param('cmid', PARAM_INT);
 $category = $DB->get_record('question_categories', ['id' => $categoryid], 'name, info, contextid');
 $thiscontext = context::instance_by_id($category->contextid);
 require_capability('moodle/question:add', $thiscontext);
+$liburlparams['category'] = $categoryid;
 
 // Initialise $PAGE.
-$categoryid = required_param('category', PARAM_INT);
-$cmid = required_param('cmid', PARAM_INT);
 $PAGE->set_context($thiscontext);
-$PAGE->set_url('/question/type/stack/questionlibrary.php', ['cmid' => $cmid, 'category' => $categoryid]);
+$PAGE->set_url('/question/type/stack/questionlibrary.php', $liburlparams);
 $title = stack_string('stack_library');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();
 
-$questionbanklink = new moodle_url('/question/edit.php', ['cmid' => $cmid]);
+$questionbanklink = new moodle_url('/question/edit.php', $qburlparams);
 $PAGE->requires->js_amd_inline(
     'require(["qtype_stack/library"], '
     . 'function(library,){library.setup(' . $categoryid . ');});'

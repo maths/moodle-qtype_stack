@@ -222,11 +222,15 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->insertElementBefore($qtlink, 'questionvariables');
         } else {
             $out = stack_string('stack_library');
-            $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php',
-                    [
-                        'category'=>optional_param('category', null, PARAM_INT),
-                        'cmid'=>optional_param('cmid', null, PARAM_INT),
-                    ]),
+            $liburlparams = [];
+            $liburlparams['category'] = optional_param('category', null, PARAM_INT);
+            if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
+                $liburlparams['cmid'] = $cmid;
+            }
+            if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
+                $liburlparams['courseid'] = $courseid;
+            }
+            $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php', $liburlparams),
                     $out, []) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');
             $qllink = $mform->createElement('static', 'stack_library', '', $qlibrarylink);
             $mform->insertElementBefore($qllink, 'questionvariables');

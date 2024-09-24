@@ -36,7 +36,6 @@ use externallib_advanced_testcase;
 use external_api;
 use required_capability_exception;
 use require_login_exception;
-use moodle_exception;
 
 /**
  * Test the library_import webservice function.

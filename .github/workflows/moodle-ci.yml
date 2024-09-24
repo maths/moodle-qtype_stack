@@ -39,7 +39,7 @@ jobs:
           - php: '8.2'
             moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
+            maxima: 'GCL'
           - php: '8.1'
             moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
@@ -52,7 +52,7 @@ jobs:
           - php: '7.4'
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
+            maxima: 'GCL'
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})

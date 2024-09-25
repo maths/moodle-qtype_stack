@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL.
-        # As of Sept 2024, only GCL is available for Maxima 5.47.0.
+        # As of Sept 2024, only GCL is available for Maxima 5.44.0.
         include:
           - php: '8.2'
             moodle-branch: 'main'
@@ -65,12 +65,12 @@ jobs:
         run: |
           maxima="${{ (matrix.maxima == 'SBCL' && 'sbcl') || 'gcl' }}"
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.47.0-Linux/maxima-5.47.0-1.x86_64.rpm \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.47.0-Linux/maxima-exec-${maxima}-5.47.0-1.x86_64.rpm
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-common_5.44.0-1_all.deb \
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-${maxima}_5.44.0-1_amd64.deb
 
           sudo locale-gen en_AU.UTF-8
           sudo apt-get install libtinfo5
-          sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-5.47.0-1.x86_64.rpm maxima-exec-${maxima}-5.47.0-1.x86_64.rpm
+          sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.44.0-1_all.deb maxima-${maxima}_5.44.0-1_amd64.deb
 
           echo "LANG=en_AU.UTF-8" >> $GITHUB_ENV
           echo "adjust_external_format();" | maxima

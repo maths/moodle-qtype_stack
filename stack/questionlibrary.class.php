@@ -24,6 +24,7 @@
  require_once(__DIR__ . '../../api/util/StackSeedHelper.php');
  require_once(__DIR__ . '../../api/util/StackPlotReplacer.php');
 
+ use cache;
  use api\util\StackSeedHelper;
  use api\util\StackPlotReplacer;
 /**
@@ -105,6 +106,8 @@ class stack_question_library {
      * @return object StdClass Representation of the file system
      */
     public static function get_file_list(string $dir):object {
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
         $files = glob($dir);
         $results = new stdClass();
         $labels = explode('/', $dir);

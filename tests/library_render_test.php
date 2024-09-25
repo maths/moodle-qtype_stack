@@ -30,6 +30,7 @@ global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 
+use cache;
 use context_course;
 use externallib_advanced_testcase;
 use external_api;
@@ -83,6 +84,8 @@ class library_render_test extends externallib_advanced_testcase {
      */
     public function test_capabilities(): void {
         global $DB;
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
         // Set the required capabilities - webservice access and export rights on course.
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
@@ -142,6 +145,8 @@ class library_render_test extends externallib_advanced_testcase {
      */
     public function test_library_render(): void {
         global $DB;
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
         // Set the required capabilities - webservice access and export rights on course.
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);

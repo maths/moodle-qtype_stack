@@ -65,8 +65,8 @@ jobs:
         run: |
           maxima="${{ (matrix.maxima == 'SBCL' && 'sbcl') || 'gcl' }}"
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-common_5.47.0-1_all.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-${maxima}_5.47.0-1_amd64.deb
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.47.0-Linux/maxima-common_5.47.0-1_all.deb \
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.47.0-Linux/maxima-${maxima}_5.47.0-1_amd64.deb
 
           sudo locale-gen en_AU.UTF-8
           sudo apt-get install libtinfo5
@@ -81,7 +81,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: plugin
-f
+
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:

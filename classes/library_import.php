@@ -46,11 +46,11 @@ use core_question\local\bank\question_edit_contexts;
  */
 class library_import extends \external_api {
     /**
-     * Returns parameter types for library_import function.
+     * Returns parameter types for library_import webservice.
      *
      * @return \external_function_parameters Parameters
      */
-    public static function library_import_parameters() {
+    public static function import_execute_parameters() {
         return new \external_function_parameters([
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
             'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions'),
@@ -58,11 +58,11 @@ class library_import extends \external_api {
     }
 
     /**
-     * Returns result type for library_import function.
+     * Returns result type for library_import webservice.
      *
      * @return \external_description Result type
      */
-    public static function library_import_returns() {
+    public static function import_execute_returns() {
         return new \external_single_structure([
             'success' => new \external_value(PARAM_BOOL, 'Success'),
         ]);
@@ -75,7 +75,7 @@ class library_import extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return object Success.
      */
-    public static function library_import($category, $filepath) {
+    public static function import_execute($category, $filepath) {
         global $CFG, $DB;
 
         // Check parameters and permissions.

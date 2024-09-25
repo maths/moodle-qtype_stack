@@ -1539,7 +1539,7 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
-// Strings used by question library
+// Strings used by question library.
 $string['stack_library'] = 'STACK question library';
 $string['stack_library_destination'] = 'Questions will be imported into the following category:';
 $string['stack_library_error'] = 'Something went wrong. Please refresh the page and try again.';

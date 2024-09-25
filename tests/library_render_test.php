@@ -53,9 +53,9 @@ class fake_render extends library_render {
  * @runTestsInSeparateProcesses
  * @group qtype_stack
  *
- * @covers \stack\library_render::library_render
+ * @covers \stack\library_render::render_execute
  */
-class library_render_test extends externallib_advanced_testcase {
+final class library_render_test extends externallib_advanced_testcase {
     /** @var \core_question_generator plugin generator */
     protected \core_question_generator  $generator;
     /** @var \stdClass generated course object */
@@ -68,6 +68,7 @@ class library_render_test extends externallib_advanced_testcase {
     protected \stdClass $user;
 
     public function setUp(): void {
+        parent::setUp();
         global $DB;
         $this->resetAfterTest();
         $this->generator = $this->getDataGenerator()->get_plugin_generator('core_question');
@@ -91,12 +92,12 @@ class library_render_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = fake_render::library_render($this->qcategory->id, $this->filepath);
+        $returnvalue = fake_render::render_execute($this->qcategory->id, $this->filepath);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
         $returnvalue = external_api::clean_returnvalue(
-            fake_render::library_render_returns(),
+            fake_render::render_execute_returns(),
             $returnvalue
         );
 
@@ -114,7 +115,7 @@ class library_render_test extends externallib_advanced_testcase {
         $this->expectException(require_login_exception::class);
         // Exception messages don't seem to get translated.
         $this->expectExceptionMessage('not logged in');
-        library_render::library_render($this->qcategory->id, $this->filepath);
+        library_render::render_execute($this->qcategory->id, $this->filepath);
     }
 
     /**
@@ -128,7 +129,7 @@ class library_render_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
         $this->expectException(required_capability_exception::class);
         $this->expectExceptionMessage('you do not currently have permissions to do that (Add new questions).');
-        library_render::library_render($this->qcategory->id, $this->filepath);
+        library_render::render_execute($this->qcategory->id, $this->filepath);
     }
 
     /**
@@ -137,7 +138,7 @@ class library_render_test extends externallib_advanced_testcase {
     public function test_library_render_capability(): void {
         $this->expectException(require_login_exception::class);
         $this->expectExceptionMessage('Not enrolled');
-        library_render::library_render($this->qcategory->id, $this->filepath);
+        library_render::render_execute($this->qcategory->id, $this->filepath);
     }
 
     /**
@@ -152,12 +153,12 @@ class library_render_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = fake_render::library_render($this->qcategory->id, $this->filepath);
+        $returnvalue = fake_render::render_execute($this->qcategory->id, $this->filepath);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
         $returnvalue = external_api::clean_returnvalue(
-            fake_render::library_render_returns(),
+            fake_render::render_execute_returns(),
             $returnvalue
         );
 

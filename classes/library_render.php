@@ -46,11 +46,11 @@ use api\util\StackQuestionLoader;
  */
 class library_render extends \external_api {
     /**
-     * Returns parameter types for library_render function.
+     * Returns parameter types for library_render webservice.
      *
      * @return \external_function_parameters Parameters
      */
-    public static function library_render_parameters() {
+    public static function render_execute_parameters() {
         return new \external_function_parameters([
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
             'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions'),
@@ -58,11 +58,11 @@ class library_render extends \external_api {
     }
 
     /**
-     * Returns result type for library_render function.
+     * Returns result type for library_render webservice.
      *
      * @return \external_description Result type
      */
-    public static function library_render_returns() {
+    public static function render_execute_returns() {
         return new \external_single_structure([
             'questionrender' => new \external_value(PARAM_RAW, 'HTML render of question text'),
             'questiontext' => new \external_value(PARAM_RAW, 'Original question text'),
@@ -78,7 +78,7 @@ class library_render extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return array Array of question render, question text and question variables.
      */
-    public static function library_render($category, $filepath) {
+    public static function render_execute($category, $filepath) {
         global $CFG, $DB;
 
         // Check parameters and that user has question add capability in the supplied category.

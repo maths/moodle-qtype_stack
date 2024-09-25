@@ -518,21 +518,21 @@ require_login();
         <?php
         $files = stack_question_library::get_file_list('../../samplequestions/*');
         function render_directory($dirdetails) {
-          echo '<div style="margin-left: 30px;">';
-          foreach ($dirdetails as $file) {
-            if (!$file->isdirectory) {
-              echo '<button class="btn btn-link library-file-link" type="button" onclick="getQuestionFile(\'cors.php?name='
-                  . $file->path . '&question=true\')">' .
-                  $file->label . '</button><br>';
-            } else {
-              echo '<button class="btn btn-link" type="button" data-toggle="collapse" ' .
-                'data-target="#' . $file->divid . '" aria-expanded="false" aria-controls="' . $file->divid . '">' .
-                $file->label . '</button><br><div class="collapse" id="' . $file->divid . '">';
-              render_directory($file->children);
-              echo '</div>';
+            echo '<div style="margin-left: 30px;">';
+            foreach ($dirdetails as $file) {
+                if (!$file->isdirectory) {
+                    echo '<button class="btn btn-link library-file-link" type="button" onclick="getQuestionFile(\'cors.php?name='
+                        . $file->path . '&question=true\')">' .
+                        $file->label . '</button><br>';
+                } else {
+                    echo '<button class="btn btn-link" type="button" data-toggle="collapse" ' .
+                      'data-target="#' . $file->divid . '" aria-expanded="false" aria-controls="' . $file->divid . '">' .
+                      $file->label . '</button><br><div class="collapse" id="' . $file->divid . '">';
+                    render_directory($file->children);
+                    echo '</div>';
+                }
             }
-          }
-          echo '</div>';
+            echo '</div>';
         }
         echo '<div class="stack-library-file-list">';
         render_directory($files->children);

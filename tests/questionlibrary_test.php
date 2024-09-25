@@ -39,7 +39,7 @@ use api\util\StackQuestionLoader;
  *
  * @covers \qtype_stack\stack_question_library::class
  */
-class questionlibrary_test extends qtype_stack_testcase {
+final class questionlibrary_test extends qtype_stack_testcase {
     /** @var \stdClass generated question object */
     protected string $filepath = 'Calculus-Refresher/CR_Diff_01/CR-Diff-01-basic-1-e.xml';
     /**
@@ -50,8 +50,12 @@ class questionlibrary_test extends qtype_stack_testcase {
         $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/stacklibrary/' . $this->filepath);
         $question = StackQuestionLoader::loadxml($qcontents)['question'];
         $qrender = stack_question_library::render_question($question);
-        $this->assertStringContainsString('<div class="formulation"><span class="filter_mathjaxloader_equation">Differentiate <span class="nolink">\({x}^{-7}\)</span>', $qrender);
-        $this->assertStringContainsString('<input type="text" name="stack_temp_R" id="stack_temp_R" size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" readonly="readonly" data-stack-input-type="algebraic" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />', $qrender);
+        $this->assertStringContainsString('<div class="formulation"><span class="filter_mathjaxloader_equation">' .
+            'Differentiate <span class="nolink">\({x}^{-7}\)</span>', $qrender);
+        $this->assertStringContainsString('<input type="text" name="stack_temp_R" id="stack_temp_R" size="16.5" ' .
+            'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" readonly="readonly" ' .
+            'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
+            $qrender);
     }
     /**
      * Test get file list.

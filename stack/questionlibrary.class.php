@@ -17,21 +17,23 @@
 /**
  * Allows users to view and import questions from a library of samples.
  *
+ * @package   qtype_stack
  * @copyright 2024 University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
+ defined('MOODLE_INTERNAL') || die();
 
  require_once(__DIR__ . '../../api/util/StackSeedHelper.php');
  require_once(__DIR__ . '../../api/util/StackPlotReplacer.php');
 
- use cache;
  use api\util\StackSeedHelper;
  use api\util\StackPlotReplacer;
 /**
- *  Functions required to display the STACK question library
+ * Functions required to display the STACK question library
+ * @package   qtype_stack
  */
 class stack_question_library {
-
+    /** @var int increments unique folder ids */
     public static $dircount = 1;
 
     /**
@@ -106,8 +108,6 @@ class stack_question_library {
      * @return object StdClass Representation of the file system
      */
     public static function get_file_list(string $dir):object {
-        $cache = cache::make('qtype_stack', 'librarycache');
-        $cache->purge();
         $files = glob($dir);
         $results = new stdClass();
         $labels = explode('/', $dir);

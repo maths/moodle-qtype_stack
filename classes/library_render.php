@@ -94,14 +94,24 @@ class library_render extends \external_api {
             // Get contents of file and run through API question loader to render.
             $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
             $question = StackQuestionLoader::loadxml($qcontents)['question'];
-            $render =  stack_question_library::render_question($question);
+            $render = static::call_question_render($question);
             $result = [
-                'questionrender'   => $render,
-                'questiontext'  => $question->questiontext,
+                'questionrender' => $render,
+                'questiontext' => $question->questiontext,
                 'questionvariables' => $question->questionvariables,
             ];
             $cache->set($filepath, $result);
         }
         return $result;
+    }
+
+    /**
+     * Separate out to mock in unit testing.
+     *
+     * @param object $question XML of question
+     * @return string HTML render of question
+     */
+    public static function call_question_render($question) {
+        return stack_question_library::render_question($question);
     }
 }

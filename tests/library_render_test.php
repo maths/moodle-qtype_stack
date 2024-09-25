@@ -37,6 +37,17 @@ use required_capability_exception;
 use require_login_exception;
 
 /**
+ * Mock the question render call in library_render
+ * as causes a timeout otherwise due to webservice testing setup.
+ * Render is tested seperately in questionlibrary_test.php.
+ */
+class fake_render extends library_render {
+    public static function call_question_render($question) {
+        return '<p>Hello World</p>';
+    }
+}
+
+/**
  * Test the library_render webservice function.
  * @runTestsInSeparateProcesses
  * @group qtype_stack
@@ -77,12 +88,12 @@ class library_render_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = library_render::library_render($this->qcategory->id, $this->filepath);
+        $returnvalue = fake_render::library_render($this->qcategory->id, $this->filepath);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
         $returnvalue = external_api::clean_returnvalue(
-            library_render::library_render_returns(),
+            fake_render::library_render_returns(),
             $returnvalue
         );
 
@@ -136,16 +147,16 @@ class library_render_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = library_render::library_render($this->qcategory->id, $this->filepath);
+        $returnvalue = fake_render::library_render($this->qcategory->id, $this->filepath);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
         $returnvalue = external_api::clean_returnvalue(
-            library_render::library_render_returns(),
+            fake_render::library_render_returns(),
             $returnvalue
         );
 
-        $this->assertStringContainsString('Differentiate <span class="nolink">\({x}^{-7}\)</span> with respect to',
+        $this->assertStringContainsString('<p>Hello World</p>',
             $returnvalue['questionrender']);
         $this->assertStringContainsString('Differentiate \({@v@}^{@rdm@}\) with respect to {@v@}',
             $returnvalue['questiontext']);

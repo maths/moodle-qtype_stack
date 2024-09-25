@@ -27,13 +27,19 @@
  use api\util\StackSeedHelper;
  use api\util\StackPlotReplacer;
 /**
- *
+ *  Functions required to display the STACK question library
  */
 class stack_question_library {
 
     public static $dircount = 1;
 
-    public static function render_question($question) {
+    /**
+     * Summary of render_question
+     * @param object Moodle XML of question
+     * @throws \stack_exception
+     * @return string HTML render of question text
+     */
+    public static function render_question(object $question):string {
         StackSeedHelper::initialize_seed($question, null);
 
         // Handle Pluginfiles.
@@ -91,7 +97,14 @@ class stack_question_library {
 
         return '<div class="formulation">' . $questiontext . '</div>';
     }
-    public static function get_file_list($dir) {
+
+    /**
+     * Gets the structure of folders and files within a given directory
+     * See questionfolder.mustache for output and usage.
+     * @param string directory within samplequestions to be examined
+     * @return object StdClass Representation of the file system
+     */
+    public static function get_file_list(string $dir):object {
         $files = glob($dir);
         $results = new stdClass();
         $labels = explode('/', $dir);

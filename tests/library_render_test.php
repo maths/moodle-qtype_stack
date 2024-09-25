@@ -38,11 +38,14 @@ use require_login_exception;
 
 /**
  * Test the library_render webservice function.
+ * @runTestsInSeparateProcesses
  * @group qtype_stack
  *
  * @covers \stack\library_render::library_render
  */
 class library_render_test extends externallib_advanced_testcase {
+    /** @var \core_question_generator plugin generator */
+    protected \core_question_generator  $generator;
     /** @var \stdClass generated course object */
     protected \stdClass $course;
     /** @var \stdClass generated question categoryobject */
@@ -66,7 +69,6 @@ class library_render_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_render function when capabilities are present.
-     * @runInSeparateProcess
      */
     public function test_capabilities(): void {
         global $DB;
@@ -91,7 +93,6 @@ class library_render_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_render function fails when not logged in.
-     * @runInSeparateProcess
      */
     public function test_not_logged_in(): void {
         global $DB;
@@ -104,7 +105,6 @@ class library_render_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_render function fails when no webservice export capability assigned.
-     * @runInSeparateProcess
      */
     public function test_no_webservice_access(): void {
         global $DB;
@@ -119,7 +119,6 @@ class library_render_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_render function fails when user has no access to supplied context.
-     * @runInSeparateProcess
      */
     public function test_library_render_capability(): void {
         $this->expectException(require_login_exception::class);
@@ -129,7 +128,6 @@ class library_render_test extends externallib_advanced_testcase {
 
     /**
      * Test output of library_render function.
-     * @runInSeparateProcess
      */
     public function test_library_render(): void {
         global $DB;
@@ -137,7 +135,6 @@ class library_render_test extends externallib_advanced_testcase {
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
-        $sink = $this->redirectEvents();
 
         $returnvalue = library_render::library_render($this->qcategory->id, $this->filepath);
 

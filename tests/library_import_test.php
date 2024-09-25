@@ -38,11 +38,14 @@ use require_login_exception;
 
 /**
  * Test the library_import webservice function.
+ * @runTestsInSeparateProcesses
  * @group qtype_stack
  *
  * @covers \stack\library_import::library_import
  */
 class library_import_test extends externallib_advanced_testcase {
+    /** @var \core_question_generator plugin generator */
+    protected \core_question_generator  $generator;
     /** @var \stdClass generated course object */
     protected \stdClass $course;
     /** @var \stdClass generated question categoryobject */
@@ -66,7 +69,6 @@ class library_import_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_import function when capabilities are present.
-     * @runInSeparateProcess
      */
     public function test_capabilities(): void {
         global $DB;
@@ -91,7 +93,6 @@ class library_import_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_import function fails when not logged in.
-     * @runInSeparateProcess
      */
     public function test_not_logged_in(): void {
         global $DB;
@@ -104,7 +105,6 @@ class library_import_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_import function fails when no webservice export capability assigned.
-     * @runInSeparateProcess
      */
     public function test_no_webservice_access(): void {
         global $DB;
@@ -119,7 +119,6 @@ class library_import_test extends externallib_advanced_testcase {
 
     /**
      * Test the library_import function fails when user has no access to supplied context.
-     * @runInSeparateProcess
      */
     public function test_export_capability(): void {
         $this->expectException(require_login_exception::class);
@@ -129,7 +128,6 @@ class library_import_test extends externallib_advanced_testcase {
 
     /**
      * Test output of library_import function.
-     * @runInSeparateProcess
      */
     public function test_library_import(): void {
         global $DB;

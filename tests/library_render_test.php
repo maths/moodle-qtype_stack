@@ -38,17 +38,6 @@ use required_capability_exception;
 use require_login_exception;
 
 /**
- * Mock the question render call in library_render
- * as causes a timeout otherwise due to webservice testing setup.
- * Render is tested seperately in questionlibrary_test.php.
- */
-class fake_render extends library_render {
-    public static function call_question_render($question) {
-        return '<p>Hello World</p>';
-    }
-}
-
-/**
  * Test the library_render webservice function.
  * @runTestsInSeparateProcesses
  * @group qtype_stack

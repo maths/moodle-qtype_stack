@@ -70,8 +70,7 @@ jobs:
 
           sudo locale-gen en_AU.UTF-8
           sudo apt-get install libtinfo5
-          sudo dpkg -i libreadline7_7.0-3_amd64.deb 
-          sudo rpm -ivh maxima-5.47.0-1.x86_64.rpm maxima-exec-${maxima}-5.47.0-1.x86_64.rpm
+          sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-5.47.0-1.x86_64.rpm maxima-exec-${maxima}-5.47.0-1.x86_64.rpm
 
           echo "LANG=en_AU.UTF-8" >> $GITHUB_ENV
           echo "adjust_external_format();" | maxima

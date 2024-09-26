@@ -1,0 +1,408 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2024 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra functions for STACK                          */
+/*                                                              */
+/*  Test cases.                                                 */
+/*                                                              */
+/*  V0.2.4 May 2024                                             */
+/*                                                              */
+/****************************************************************/
+
+s_test_case(vec_convert(c(1,2,3)),matrix([1],[2],[3]));
+s_test_case(vec_convert(r(1,2,3)),matrix([1,2,3]));
+s_test_case(vec_convert(c(1,2,3) + matrix([1],[1],[1])),matrix([1],[2],[3])+matrix([1],[1],[1]));
+s_test_case(vec_convert(c(1,2) + r(3,4)),matrix([1],[2])+matrix([3,4]) );
+s_test_case(ev(vec_convert(c(1,2) + r(3,4)),simp),c(1,2) + r(3,4) );
+
+s_test_case(un_vec_convert(matrix([1],[2],[3])),c(1,2,3));
+s_test_case(un_vec_convert(matrix([1,2,3])),r(1,2,3));
+s_test_case(un_vec_convert(matrix([1])),c(1));
+
+s_test_case(aug(matrix([1,2,3,1],[4,5,6,1],[7,8,9,1])),aug_matrix([1,2,3,1],[4,5,6,1],[7,8,9,1]));
+s_test_case(de_aug(aug_matrix([1,2,3,1],[4,5,6,1],[7,8,9,1])),matrix([1,2,3,1],[4,5,6,1],[7,8,9,1]));
+
+s_test_case(vec_convertedp(c(1,2)),false);
+s_test_case(vec_convertedp(r(1,2)),false);
+s_test_case(vec_convertedp(vec_convert(c(1,2))),true);
+s_test_case(vec_convertedp(ev(vec_convert(c(1,2)+r(3,4)),simp)),false);
+
+s_test_case(col_vecp(matrix([1],[2])),true);
+s_test_case(col_vecp(matrix([1,2])),false);
+s_test_case(row_vecp(matrix([1],[2])),false);
+s_test_case(row_vecp(matrix([1,2])),true);
+s_test_case(col_vecp(c(1,2)),false);
+s_test_case(row_vecp(r(1,2)),false);
+
+s_test_case(vectorp(matrix([1],[2])),true);
+s_test_case(vectorp(matrix([1,2])),true);
+s_test_case(vectorp(c(1,2)),false);
+
+s_test_case(unit_vecp(matrix([1],[0])),true);
+s_test_case(unit_vecp(matrix([1/sqrt(2),1/sqrt(2)])),true);
+s_test_case(unit_vecp(matrix([1],[1])),false);
+s_test_case(unit_vecp(c(1,0)),false);
+
+s_test_case(triu(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[0,5,6],[0,0,9]));
+s_test_case(triu(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0]));
+s_test_case(triu(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),matrix([1,2,3,4],[0,5,6,7],[0,0,9,10]));
+s_test_case(triu(matrix([1,2],[3,2+2])),matrix([1,2],[0,2+2]));
+s_test_case(triu(1),1);
+
+s_test_case(tril(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,0,0],[4,5,0],[7,8,9]));
+s_test_case(tril(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),matrix([1,0,0],[4,5,0],[7,8,9],[10,11,12]));
+s_test_case(tril(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),matrix([1,0,0,0],[4,5,0,0],[7,8,9,0]));
+s_test_case(tril(matrix([1,2],[3,2+2])),matrix([1,0],[3,2+2]));
+s_test_case(tril(1),1);
+
+s_test_case(diagonal(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,0,0],[0,5,0],[0,0,9]));
+s_test_case(diagonal(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),matrix([1,0,0],[0,5,0],[0,0,9],[0,0,0]));
+s_test_case(diagonal(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),matrix([1,0,0,0],[0,5,0,0],[0,0,9,0]));
+s_test_case(diagonal(matrix([1,2],[3,2+2])),matrix([1,0],[0,2+2]));
+s_test_case(diagonal(1),1);
+
+s_test_case(diag_entries(ident(3)),[1,1,1]);
+s_test_case(diag_entries(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0])),[1,2,3]);
+s_test_case(diag_entries(matrix([3,0,0,0],[0,2,0,0],[0,0,1,0])),[3,2,1]);
+s_test_case(diag_entries(matrix([1+2,0,0,0],[0,2,0,0],[0,0,1,0])),[1+2,2,1]);
+s_test_case(diag_entries(1),[1]);
+
+s_test_case(rowscale(matrix([1,2,3],[4,5,6],[7,8,9]),2,100),matrix([1,2,3],[100*4,100*5,100*6],[7,8,9]));
+s_test_case(columnscale(matrix([1,2,3],[4,5,6],[7,8,9]),2,100),matrix([1,100*2,3],[4,100*5,6],[7,100*8,9]));
+
+s_test_case(triup(ident(5)),true);
+s_test_case(trilp(ident(5)),true);
+s_test_case(diagp(ident(5)),true);
+s_test_case(triup(zeromatrix(5,4)),true);
+s_test_case(trilp(zeromatrix(5,4)),true);
+s_test_case(diagp(zeromatrix(5,4)),true);
+
+s_test_case(triup(matrix([1,2,3],[4,5,6],[7,8,9])),false);
+s_test_case(triup(matrix([1,2,3],[0,5,6],[0,0,9])),true);
+s_test_case(triup(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),false);
+s_test_case(triup(matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0])),true);
+s_test_case(triup(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),false);
+s_test_case(triup(matrix([1,2,3,4],[0,5,6,7],[0,0,9,10])),true);
+s_test_case(triup(matrix([1,2,3,4,5,6,7,8,9])),true);
+
+s_test_case(trilp(matrix([1,2,3],[4,5,6],[7,8,9])),false);
+s_test_case(trilp(matrix([1,0,0],[4,5,0],[7,8,9])),true);
+s_test_case(trilp(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),false);
+s_test_case(trilp(matrix([1,0,0],[4,5,0],[7,8,9],[10,11,12])),true);
+s_test_case(trilp(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),false);
+s_test_case(trilp(matrix([1,0,0,0],[4,5,0,0],[7,8,9,0])),true);
+s_test_case(trilp(transpose([1,2,3,4,5,6,7,8,9])),true);
+
+s_test_case(diagp(matrix([1,0],[1-1,1])),false);
+s_test_case(diagp(matrix([1,1],[0,1])),false);
+s_test_case(diagp(matrix([1,0],[1,1])),false);
+s_test_case(diagp(matrix([1])),true);
+s_test_case(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,0])),true);
+s_test_case(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,4])),false);
+s_test_case(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0])),true);
+s_test_case(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,4])),false);
+
+s_test_case(REFp(ident(4)),true);
+s_test_case(REFp(ev(2*ident(4),simp)),true);
+s_test_case(REFp(ev(2*ident(4),simp),true),false);
+s_test_case(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0])),true);
+s_test_case(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0]),true),false);
+s_test_case(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0]),false),true);
+s_test_case(REFp(matrix([2,1,1],[0,0,0],[0,0,3],[0,0,0])),false);
+s_test_case(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,0,1,1,1],[0,0,0,0,0,1])),true);
+s_test_case(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,0,1,1,1],[0,0,0,0,0,1]),true),true);
+s_test_case(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,1,0,1,1],[0,0,0,0,0,1])),true);
+s_test_case(REFp(matrix([1,2,3],[0,5,6])),true);
+s_test_case(REFp(matrix([1,2,3],[4,5,6])),false);
+s_test_case(REFp(matrix([1,2,3],[0,5,6],[0,8,9])),false);
+
+s_test_case(squarep(ident(4)),true);
+s_test_case(squarep(matrix([1],[2])),false);
+s_test_case(squarep(matrix([1,2],[2,3])),true);
+s_test_case(squarep(1),false);
+
+s_test_case(diagonalisablep(ident(2)),true);
+s_test_case(diagonalisablep(matrix([1,1],[0,1])),false);
+s_test_case(diagonalisablep(1),false);
+s_test_case(diagonalisablep(matrix([1,1],[1,1])),true);
+
+s_test_case(symp(ident(3)),true);
+s_test_case(symp(matrix([1,1],[0,1])),false);
+s_test_case(symp(1),false);
+
+s_test_case(invertiblep(ident(2)),true);
+s_test_case(invertiblep(matrix([1,1],[0,1])),true);
+s_test_case(invertiblep(1),false);
+s_test_case(invertiblep(matrix([1,1],[1,1])),false);
+
+s_test_case(orthogonal_columnsp(matrix([1,1],[1,-1],[1,0])),true);
+s_test_case(orthogonal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])),true);
+s_test_case(orthogonal_columnsp(matrix([1,1],[1,2],[1,0])),false);
+s_test_case(orthogonal_columnsp(matrix([1,1],[1,-1])),true);
+s_test_case(orthogonal_columnsp(matrix([1,1],[1,-1])/sqrt(2)),true);
+s_test_case(orthogonal_columnsp(1),false);
+
+s_test_case(orthonormal_columnsp(matrix([1,1],[1,-1],[1,0])),false);
+s_test_case(orthonormal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])),true);
+s_test_case(orthonormal_columnsp(matrix([1,1],[1,-1])),false);
+s_test_case(orthonormal_columnsp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)),true);
+s_test_case(orthonormal_columnsp(1),false);
+
+s_test_case(orth_matrixp(matrix([1,1],[1,-1],[1,0])),false);
+s_test_case(orth_matrixp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])),false);
+s_test_case(orth_matrixp(matrix([1,1],[1,-1])),false);
+s_test_case(orth_matrixp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)),true);
+s_test_case(orth_matrixp(1),false);
+
+s_test_case(make_list_of_lists(1),1);
+s_test_case(make_list_of_lists(matrix([1,3,5])),[[1,3,5]]);
+s_test_case(make_list_of_lists(matrix([1,2],[3,4],[5,6])),[[1,3,5],[2,4,6]]);
+s_test_case(make_list_of_lists({c(1,2,3),[2,3,4],ntuple(3,4,5),{4,5,6}}),[[1,2,3],[2,3,4],[3,4,5],[4,5,6]]);
+s_test_case(make_list_of_lists([1,2,3,4]),[[1,2,3,4]]);
+s_test_case(make_list_of_lists([1,a,b,4]),[[1,a,b,4]]);
+s_test_case(make_list_of_lists([[1,2,3],[2,3,4],[3,4,5]]),[[1,2,3],[2,3,4],[3,4,5]]);
+s_test_case(make_list_of_lists([matrix([1],[2]),matrix([3],[4])]),[[1,2],[3,4]]);
+
+s_test_case(column_stack([[1,2,3],[4,5,6]]),matrix([1,4],[2,5],[3,6]));
+s_test_case(column_stack([[1,2,3]]),matrix([1],[2],[3]));
+s_test_case(column_stack([1,2,3]),[]);
+
+s_test_case(lin_indp(matrix([1,2],[4,5],[7,8])),true);
+s_test_case(lin_indp(matrix([1,2,3],[4,5,6],[7,8,9])),false);
+s_test_case(lin_indp(matrix([1,2,3],[4,5,6])),false);
+s_test_case(lin_indp([[1,2],[4,5],[7,8]]),false);
+s_test_case(lin_indp([[1,4,7],[2,5,8]]),true);
+s_test_case(lin_indp(make_list_of_lists({[1,2],[4,5],[7,8]})),false);
+s_test_case(lin_indp(make_list_of_lists({[1,4,7],[2,5,8]})),true);
+s_test_case(lin_indp(make_list_of_lists(ntuple([1,2],[4,5],[7,8]))),false);
+s_test_case(lin_indp(make_list_of_lists(ntuple([1,4,7],[2,5,8]))),true);
+s_test_case(lin_indp(make_list_of_lists(span([1,2],[4,5],[7,8]))),false);
+s_test_case(lin_indp(make_list_of_lists(span([1,4,7],[2,5,8]))),true);
+s_test_case(lin_indp(make_list_of_lists([transpose([1,4,7]),[2,5,8]])),true);
+s_test_case(lin_indp(make_list_of_lists({transpose([1,4,7]),matrix([2,5,8])})),true);
+
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,0,-1],[0,1,2],[0,0,0])),true);
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,0,-1],[0,1,2])),false);
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,2,3],[0,-3,-6],[0,-6,-12])),true);
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),ident(3)),false);
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,10]),ident(3)),true);
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,3,2],[4,6,5],[7,9,8])),false);
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6]),matrix([1,0,-1],[0,1,2])),true);
+s_test_case(row_equivp(matrix([1,2],[2,3],[1,1]),matrix([1,0],[0,1],[0,0])),true);
+s_test_case(row_equivp(matrix([1,2,3],[4,5,6]),matrix([1,0,0],[0,1,0])),false);
+s_test_case(row_equivp(matrix([1,2],[2,3],[1,1]),matrix([1,0],[0,0],[0,0])),false);
+
+s_test_case(col_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),ident(3)),false);
+s_test_case(col_equivp(matrix([1,2,3],[4,5,6],[7,8,10]),ident(3)),true);
+s_test_case(col_equivp(matrix([1,3,5],[1,1,0],[1,1,2],[1,3,3]),matrix([1/2,1/2,1/2],[1/2,-1/2,-1/2],[1/2,-1/2,1/2],[1/2,1/2,-1/2])),true);
+
+s_test_case(subspace_equivp([[1,2],[2,3]],[[1,0],[0,1]]),true);
+s_test_case(subspace_equivp([[1,2],[2,4]],[[1,0],[0,1]]),false);
+s_test_case(subspace_equivp([[1,2],[2,3],[3,4]],[[1,0],[0,1]]),true);
+s_test_case(subspace_equivp([[1,2],[2,3]],[[1,0]]),false);
+
+s_test_case(remove_dep(matrix([0,0])),[]);
+s_test_case(remove_dep([[1,0],[0,1],[1,1]]),[[1,0],[0,1]]);
+s_test_case(remove_dep([[1,0],[2,0],[1,1]]),[[1,0],[1,1]]);
+s_test_case(remove_dep(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2],[4,5],[7,8]));
+
+s_test_case(sf_map(1/3,2),0.33);
+s_test_case(sf_map(1/3,3),0.333);
+s_test_case(sf_map(12345,2),12000);
+s_test_case(sf_map(12345,3),12300);
+s_test_case(sf_map(1.5,1),2);
+s_test_case(sf_map(2.5,1),3);
+
+s_test_case(sf_map([1/3,12345],2),[0.33,12000]);
+s_test_case(sf_map(matrix([1/3,12345]),2),matrix([0.33,12000]));
+s_test_case(sf_map(matrix([1/3],[12345]),2),matrix([0.33],[12000]));
+s_test_case(sf_map(matrix([1/3,12345],[1/4,5/4]),2),matrix([0.33,12000],[0.25,1.3]));
+s_test_case(sf_map({1/3,1/4},1),{1/3,1/4});
+
+s_test_case(diagmatrix_like([1,1,1],3,3),ident(3));
+s_test_case(diagmatrix_like([1,2,3],3,4),matrix([1,0,0,0],[0,2,0,0],[0,0,3,0]));
+s_test_case(diagmatrix_like([1,2,3],4,3),matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0]));
+s_test_case(diagmatrix_like([1,2,3],4,4),matrix([1,0,0,0],[0,2,0,0],[0,0,3,0],[0,0,0,0]));
+s_test_case(diagmatrix_like([1,2,3],2,3),matrix([1,0,0],[0,2,0]));
+s_test_case(diagmatrix_like([1,2,3],3,2),matrix([1,0],[0,2],[0,0]));
+
+s_test_case(mat_norm2(ident(2)),1.0);
+s_test_case(mat_norm2(matrix([sqrt(3),2],[0,sqrt(3)])),3.0);
+s_test_case(mat_norm2(matrix([1,2],[2,-2])),3.0);
+s_test_case(mat_norm2(matrix([2,2],[1,0],[0,1])),3.0);
+s_test_case(mat_norm2(matrix([1,1],[1,1])),2.0);
+s_test_case(mat_norm2(1),und);
+
+s_test_case(mat_cond2(ident(2)),1.0);
+s_test_case(mat_cond2(matrix([sqrt(3),2],[0,sqrt(3)])),3.0);
+s_test_case(mat_cond2(matrix([1,2],[2,-2])),1.5);
+s_test_case(mat_cond2(1),und);
+s_test_case(mat_cond2(matrix([1,1],[1,0],[0,1])),und);
+s_test_case(mat_cond2(matrix([1,2],[1,2])),und);
+
+s_test_case(mat_solve(matrix([1,2],[3,4]),[3,7]),matrix([1],[1]));
+s_test_case(mat_solve(matrix([1,-1],[1,-1]),[0,0]),matrix([%r1],[%r1]));
+s_test_case(mat_solve(matrix([1,-1],[1,-1]),[1,0]),matrix([]));
+s_test_case(mat_solve(matrix([1,-1],[1,-1]),[1,0],true),matrix([(2*%r2+1)/2],[%r2]));
+s_test_case(mat_solve(matrix([0,0],[1,1]),[1,0],true),matrix([-%r3],[%r3]));
+
+s_test_case(basisify(matrix([1,2],[0,0],[0,0])),ident(3));
+s_test_case(basisify(matrix([1,2],[1,2],[0,0])),matrix([1,1,0],[1,0,0],[0,0,1]));
+s_test_case(basisify([[1,1,0],[2,2,0]],true),[[1/sqrt(2),1/sqrt(2),0],[1/sqrt(2),-(1/sqrt(2)),0],[0,0,1]]);
+
+s_test_case(lgcd([9,12,27]),3);
+s_test_case(lgcd([-9,-12,-27]),3);
+s_test_case(lgcd([1/2,1/4,5/6]),1/12);
+
+s_test_case(scale_nicely([9,12,27]),[3,4,9]);
+s_test_case(scale_nicely(matrix([-9],[-12],[-27])),matrix([3],[4],[9]));
+s_test_case(scale_nicely([1/2,1/4,-5/6]),[6,3,-10]);
+s_test_case(scale_nicely([0,0,0]),[0,0,0]);
+
+s_test_case(rowspace(ident(2)),span(matrix([1],[0]),matrix([0],[1])));
+s_test_case(rowspace(matrix([1,0],[0,1],[1,1])),span(matrix([1],[0]),matrix([0],[1])));
+s_test_case(nullTspace(matrix([1,0],[0,1],[1,1])),span(matrix([-1],[-1],[1])));
+
+s_test_case(setrowmx(1,2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[1,1,1],[7,8,9]));
+s_test_case(setrowmx([%e,%pi,%i],2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[%e,%pi,%i],[7,8,9]));
+s_test_case(setrowmx(transpose([%e,%pi,%i]),2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[%e,%pi,%i],[7,8,9]));
+
+s_test_case(setcolmx(1,2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,1,3],[4,1,6],[7,1,9]));
+s_test_case(setcolmx([%e,%pi,%i],2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,%e,3],[4,%pi,6],[7,%i,9]));
+s_test_case(setcolmx(transpose([%e,%pi,%i]),2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,%e,3],[4,%pi,6],[7,%i,9]));
+
+s_test_case(setdiagmx(1,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[4,1,6],[7,8,1]));
+s_test_case(setdiagmx(1,matrix([1,2,3],[4,5,6],[7,8,9]),1),matrix([1,1,3],[4,5,1],[7,8,9]));
+s_test_case(setdiagmx(1,matrix([1,2,3],[4,5,6],[7,8,9]),-2),matrix([1,2,3],[4,5,6],[1,8,9]));
+s_test_case(setdiagmx([10,20,30,40,50],matrix([1,2,3,4],[4,5,6,7],[7,8,9,10]),2),matrix([1,2,10,4],[4,5,6,20],[7,8,9,10]));
+
+s_test_case(Rayleigh(matrix([1,1],[1,1]),matrix([1],[1])),2);
+s_test_case(Rayleigh(matrix([1,1],[0,1]),matrix([1],[1])),3/2);
+s_test_case(Rayleigh(matrix([0,-1],[1,0]),matrix([%i],[2])),(4*%i)/5);
+
+s_test_case(alg_mult(matrix([1,1,0],[0,1,0],[0,0,1]),1),3);
+s_test_case(geo_mult(matrix([1,1,0],[0,1,0],[0,0,1]),1),2);
+s_test_case(alg_mult(matrix([1,1,0],[0,1,0],[0,0,2]),2),1);
+s_test_case(geo_mult(matrix([1,1,0],[0,1,0],[0,0,2]),2),1);
+s_test_case(alg_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
+s_test_case(geo_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
+
+s_test_case(projection_matrix(matrix([1,2,3],[4,5,6],[7,8,10])),ident(3));
+s_test_case(projection_matrix(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([5/6,1/3,-(1/6)],[1/3,1/3,1/3],[-(1/6),1/3,5/6]));
+
+s_test_case(eigenvectorp(c(1,0),ident(2)),true);
+s_test_case(eigenvectorp(matrix([0],[1]),matrix([1,1],[0,1])),false);
+s_test_case(eigenvectorp(c(1,0),ident(2),1),true);
+s_test_case(eigenvectorp(c(1,0),ident(2),2),false);
+s_test_case(eigenvectorp(c(2,0),ident(2),1),true);
+s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0])),true);
+s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0]),%i),true);
+s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0]),-%i),false);
+
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2])),true);
+s_test_case(eigenvaluep(2,matrix([1,0],[0,2])),true);
+s_test_case(eigenvaluep(3,matrix([1,0],[0,2])),false);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(1,0)),true);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(2,0)),true);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(0,1)),false);
+s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0])),true);
+s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0]),matrix([%i],[1])),true);
+s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0]),matrix([1],[%i])),false);
+
+s_test_case(get_eigenvalue(matrix([0],[0]),ident(2)),false);
+s_test_case(get_eigenvalue(matrix([0],[1]),matrix([1,1],[0,1])),false);
+s_test_case(get_eigenvalue(matrix([1],[0]),matrix([2,1],[0,1])),2);
+s_test_case(get_eigenvalue(matrix([%i],[1]),matrix([0,-1],[1,0])),%i);
+
+s_test_case(get_eigenvector(2,ident(2)),[]);
+s_test_case(get_eigenvector(2,matrix([2,1],[0,1])),[matrix([1],[0])]);
+s_test_case(get_eigenvector(1,ident(2)),[matrix([1],[0]),matrix([0],[1])]);
+s_test_case(get_eigenvector(2*%i,matrix([0,-2],[2,0])),[matrix([1],[-%i])]);
+s_test_case(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2])),[matrix([1],[0],[-1]),matrix([0],[1],[2])]);
+s_test_case(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2]),true),[matrix([1/sqrt(2)],[0],[-(1/sqrt(2))]),matrix([1/sqrt(3)],[1/sqrt(3)],[1/sqrt(3)])]);
+
+s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),true);
+s_test_case(linear_combinationp(matrix([1+t+s],[2+t],[3+t+s])),true);
+s_test_case(linear_combinationp(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),true);
+s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),false);
+
+s_test_case(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case(vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),[matrix([1+s^2],[2],[3+s^2]),[matrix([0],[0],[0]),matrix([1],[1],[1])],[s,t]]);
+
+s_test_case(vector_parametric_display([matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
+s_test_case(vector_parametric_display(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s]))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
+
+s_test_case(point_in_affine_spacep(matrix([1],[1]),[matrix([0],[1]),[matrix([1],[-1])]]),false);
+s_test_case(point_in_affine_spacep(matrix([1],[1]),[matrix([0],[1]),[matrix([1],[-1])],[t]]),false);
+s_test_case(point_in_affine_spacep(matrix([1/2],[1/2]),[matrix([0],[1]),[matrix([1],[-1])]]),true);
+s_test_case(point_in_affine_spacep(matrix([1/2],[1/2]),[matrix([0],[1]),[matrix([1],[-1])],[t]]),true);
+s_test_case(point_in_affine_spacep(matrix([1],[102],[3]),[matrix([0],[100],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])]]),true);
+
+s_test_case(vector_in_spacep(matrix([1],[2],[3]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),true);
+s_test_case(vector_in_spacep(matrix([1],[2],[3]),[matrix([4],[5],[6]),matrix([7],[8],[10])]),false);
+s_test_case(vector_in_spacep(matrix([1],[2]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
+s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
+s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])],true),true);
+
+s_test_case(QR(matrix([1,3,5],[1,1,0],[1,1,2],[1,3,3])),[matrix([1/2,1/2,1/2],[1/2,-(1/2),-(1/2)],[1/2,-(1/2),1/2],[1/2,1/2,-(1/2)]),matrix([2,4,5],[0,2,3],[0,0,2])]);
+s_test_case(QR(matrix([1,1],[2,2])),[]);
+
+s_test_case(get_Jordan_form(1),[]);
+s_test_case(get_Jordan_form(matrix([1,2])),[]);
+s_test_case(get_Jordan_form(matrix([1,1],[0,1])),[ident(2),matrix([1,1],[0,1])]);
+s_test_case(get_Jordan_form(matrix([1,2],[2,3])),[matrix([1,1],[-((sqrt(5)-1)/2),(sqrt(5)+1)/2]),matrix([2-sqrt(5),0],[0,sqrt(5)+2])]);
+s_test_case(get_Jordan_form(matrix([8,-3],[12,-4])),[matrix([6,1],[12,0]),matrix([2,1],[0,2])]);
+
+s_test_case(diagonalise(1),[]);
+s_test_case(diagonalise(matrix([1,2])),[]);
+s_test_case(diagonalise(matrix([8,-3],[12,-4])),[]);
+s_test_case(diagonalise(matrix([1,2],[3,4])),[matrix([1,1],[-(sqrt(33)-3)/4,(sqrt(33)+3)/4]),matrix([-(sqrt(33)-5)/2,0],[0,(sqrt(33)+5)/2])]);
+s_test_case(diagonalise(matrix([1,2],[2,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-1/sqrt(2)]),matrix([3,0],[0,-1])]);
+s_test_case(diagonalise(matrix([1,2],[1,2])),[matrix([1,1],[-1/2,1]),matrix([0,0],[0,3])]);
+s_test_case(diagonalise(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[-1/sqrt(2),1/sqrt(2)]),matrix([0,0],[0,2])]);
+
+s_test_case(SVD_red(matrix([0,0],[0,0])),[matrix([]),matrix([]),matrix([])]);
+s_test_case(SVD_red(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
+s_test_case(SVD_red(matrix([1,1],[1,1])),[matrix([1/sqrt(2)],[1/sqrt(2)]),matrix([2]),matrix([1/sqrt(2),1/sqrt(2)])]);
+s_test_case(SVD_red(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0],[1/sqrt(6),1/sqrt(2)],[1/sqrt(6),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case(SVD_red(matrix([1,1,0],[1,0,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([sqrt(2)/sqrt(3),1/sqrt(6),1/sqrt(6)],[0,1/sqrt(2),-1/sqrt(2)])]);
+
+s_test_case(pinv(matrix([0,0],[0,0])),matrix([0,0],[0,0]));
+s_test_case(pinv(matrix([1,1],[1,1])),matrix([1/4,1/4],[1/4,1/4]));
+s_test_case(pinv(matrix([1,0],[0,1],[1,1])),matrix([2/3,-(1/3),1/3],[-(1/3),2/3,1/3]));
+s_test_case(pinv(matrix([1,0,1],[0,1,1])),matrix([2/3,-(1/3)],[-(1/3),2/3],[1/3,1/3]));
+
+s_test_case(SVD(matrix([0,0],[0,0])),[matrix([1,0],[0,1]),matrix([0,0],[0,0]),matrix([1,0],[0,1])]);
+s_test_case(SVD(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
+s_test_case(SVD(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([2,0],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case(SVD(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0,1/sqrt(3)],[1/sqrt(6),1/sqrt(2),-(1/sqrt(3))],[1/sqrt(6),-(1/sqrt(2)),-(1/sqrt(3))]),matrix([sqrt(3),0],[0,1],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case(SVD(matrix([1,1,0],[1,0,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([sqrt(3),0,0],[0,1,0]),matrix([sqrt(2)/sqrt(3),1/sqrt(6),1/sqrt(6)],[0,1/sqrt(2),-1/sqrt(2)],[1/sqrt(3),-(1/sqrt(3)),-(1/sqrt(3))])]);
+
+s_test_case(format_as_coeff(2), 2);
+s_test_case(format_as_coeff(-2), "(-2)");
+s_test_case(format_as_coeff(g-h), "(g-h)");
+s_test_case(format_as_coeff(g(x)), g(x));
+s_test_case(format_as_coeff(-g(x)), "(-g(x))");
+s_test_case(format_as_coeff(2*h), 2*h);
+s_test_case(format_as_coeff(-2*h), "(-2*h)");
+s_test_case(format_as_coeff(""), "");
+s_test_case(format_as_coeff("2"), "2");
+s_test_case(format_as_coeff(ev(2*k-2,simp)), "(2*k-2)");
+s_test_case(disp_eqns([2*x+y-z+(-3)*w = 7,-x-2*y+(-7)*w = -1,3*z = 0,x+w = 0,0 = 0],[x,y,z,w]),"\\begin{array} {rcrcrcrcr}2x& + & y& - & z& - & 3w& = &7\\\\-x& - & 2y& & & - & 7w& = &-1\\\\& & & & 3z& & & = &0\\\\x& & & & & + & w& = &0\\\\& & & & & & 0& = &0\\end{array}");
+s_test_case(mat_disp_eqns(matrix([2,1,-1,-3],[-1,-2,0,-7],[0,0,3,0],[1,0,0,1],[0,0,0,0]),matrix([7],[-1],[0],[0],[0]),[x,y,z,w]),"\\begin{array} {rcrcrcrcr}2x& + & y& - & z& - & 3w& = &7\\\\-x& - & 2y& & & - & 7w& = &-1\\\\& & & & 3z& & & = &0\\\\x& & & & & + & w& = &0\\\\& & & & & & 0& = &0\\end{array}");
+s_test_case(mat_disp_eqns(matrix([-2, k-1, -1],[0, 2*k+2, 0], [-1, k, -2]),matrix([k-1],[1],[-1]),[x,y,z]), "\begin{array} {rcrcrcr}-2x& + & (k-1)y& - & z& = &k-1\\&  & (2*k+2)y& & & = &1\\-x& + & ky& - & 2z& = &-1\end{array}")

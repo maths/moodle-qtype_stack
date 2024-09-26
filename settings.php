@@ -85,7 +85,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
-        get_string('settingcastimeout_desc', 'qtype_stack'), 20, PARAM_INT, 3));
+        get_string('settingcastimeout_desc', 'qtype_stack'), 30, PARAM_INT, 3));
 
 $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
         get_string('settingcasresultscache', 'qtype_stack'),

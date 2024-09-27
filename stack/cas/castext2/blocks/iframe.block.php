@@ -135,7 +135,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $astyle .= 'display:none;';
         }
 
-        $attributes = ['style' => $astyle, 'id' => $divid];
+        $attributes = ['style' => $astyle, 'id' => $divid, 'class' => $divid];
 
         if ($content === '') {
             // For now we ensure that the created document will always have some content.

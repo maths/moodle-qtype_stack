@@ -872,6 +872,11 @@
         "description":"Maxima has a very wide range of optional packages. Read about options for adding more Maxima packages to your installation of STACK."
         },
         {
+        "file":"Moodle_app.md",
+        "title":"Maintaining Moodle App compatibility - STACK Documentation",
+        "description":"A rundown of the files which allow STACK to operate in the Moodle App."
+        },
+        {
         "file":"Parser.md",
         "title":"Building the parser",
         "description":"This document describes the design of the parser for dealing with students' answers and Maxima statements."
@@ -1102,7 +1107,7 @@
         "title":"Vector Calculus - STACK Documentation",
         "description":"This page provides advice for writing STACK questions in vector calculus."
         }
-      ] 
+      ]
       }
     ]
 }

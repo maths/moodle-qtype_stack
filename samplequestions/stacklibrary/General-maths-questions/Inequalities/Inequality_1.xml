@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Inequality_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Solve the following inequality: \[ {@p@} \le 0.\] <br /> Write your answer as a logical sequence of inequalities, such as \(5\geq x\) and/or \(x\leq 13\).<br /> Solution : [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To solve the following inequality: \[ {@p@} \le 0.\]</p>
+<p>Factorise to give \(({@v - n1@})({@v - n2@}) \le 0.\)</p>
+<p>The product will be \(\le 0 \mbox{ if }{@v-n1@} \mbox{ is }\ge 0 \mbox{ and }{@v-n2@}\le0.\)<br /> <br /> This solution can be entered as \({@v@}&gt;={@n1@} \mbox{   and   } {@v@}&lt;={@n2@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[v:x;
+ n1:rand_with_step(-9,-1,1);
+ n2:rand_with_step(1,9,1);
+ p:expand((v - n1)*(v - n2));
+ correctanswer:v>=n1 and v<=n2;
+ wronganswer1:v>=n1 or v<=n2;
+ wronganswer2:v>n1 and v<n2;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@p@} \le 0, \mbox{ solution is }{@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>solve</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1959651692</deployedseed>
+    <deployedseed>1912647767</deployedseed>
+    <deployedseed>1656909886</deployedseed>
+    <deployedseed>1744235747</deployedseed>
+    <deployedseed>756699459</deployedseed>
+    <deployedseed>1284696583</deployedseed>
+    <deployedseed>1421009564</deployedseed>
+    <deployedseed>1877886445</deployedseed>
+    <deployedseed>604684630</deployedseed>
+    <deployedseed>498035618</deployedseed>
+    <deployedseed>1758617402</deployedseed>
+    <deployedseed>220913037</deployedseed>
+    <deployedseed>1399424942</deployedseed>
+    <deployedseed>1744326993</deployedseed>
+    <deployedseed>1676753852</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

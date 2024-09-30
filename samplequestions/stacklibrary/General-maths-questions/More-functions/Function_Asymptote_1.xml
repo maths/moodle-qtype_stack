@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Function_Asymptote_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the equation of the oblique asymptote to the graph of the rational function</p>
+<p>\[f(x)=\frac{@p4@}{@p2@}\]</p>
+<p>Enter your answer as a*{@v@} + b.</p>
+<p>\(y = \) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To find the equation of the oblique asymptote to the graph of the rational function</p>
+<p>\[f(x)=\frac{@p4@}{@p2@}\]</p>
+<p> divide the numerator by the denominator.</p>
+<p>The equation is y = {@correctanswer@}</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>v:x;
+ p2:rand_with_step(-5,-2,1)*v^3+rand_with_step(-6,6,1)*v+rand_with_step(-6,6,1);
+ p3:rand_with_step(2,5,1)*v+rand_with_step(-9,-1,1);
+ p4:expand(p3*p2);
+ correctanswer:p3;
+ wronganswer1:p2;
+ wronganswer2:p4;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(f(x)=\frac{@p4@}{@p2@} \) has oblique asymptote, y = \({@correctanswer@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>diff</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions>v</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wronganswer1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wronganswer2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1035383652</deployedseed>
+    <deployedseed>1079576194</deployedseed>
+    <deployedseed>1797064829</deployedseed>
+    <deployedseed>1367848883</deployedseed>
+    <deployedseed>1402158583</deployedseed>
+    <deployedseed>372069311</deployedseed>
+    <deployedseed>1980641809</deployedseed>
+    <deployedseed>1850437039</deployedseed>
+    <deployedseed>1498528576</deployedseed>
+    <deployedseed>13981078</deployedseed>
+    <deployedseed>1946578745</deployedseed>
+    <deployedseed>599313162</deployedseed>
+    <deployedseed>1988805317</deployedseed>
+    <deployedseed>1460451270</deployedseed>
+    <deployedseed>1055101300</deployedseed>
+    <deployedseed>446622125</deployedseed>
+    <deployedseed>483668896</deployedseed>
+    <deployedseed>2073473734</deployedseed>
+    <deployedseed>720736222</deployedseed>
+    <deployedseed>39931000</deployedseed>
+    <deployedseed>631314242</deployedseed>
+    <deployedseed>2107106368</deployedseed>
+    <deployedseed>830180955</deployedseed>
+    <deployedseed>499143989</deployedseed>
+    <deployedseed>317383412</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

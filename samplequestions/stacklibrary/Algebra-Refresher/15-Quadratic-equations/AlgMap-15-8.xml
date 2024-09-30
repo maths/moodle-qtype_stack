@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>AlgMap-15.8</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Solve the following quadratic equation by completing the square:
+
+\[ {@a*v^2+b*v+c@} = 0. \] 
+<br>
+Give the completed square form: [[input:cans]] \(=0\).
+[[validation:cans]]
+<br>[[feedback:comp]]
+<br>
+Give your answer as a set \(\left(\mbox {e.g.}\ \left\{x_1 , x_2\right\} \right)\): <br>
+<br>
+\({@v@} \in \) [[input:ans]] [[validation:ans]][[feedback:prt1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>When solving a more complicated quadratic; a better option, than factorising, is completing the square (The method by which we remove the {@v@} term). The general rule is:
+
+\[ ax^2+bx+c = a\left(x^2+\frac{b}{a}x+\frac{c}{a}x \right) = a\left(\left(x+\frac{b}{2a} \right)^2-\frac{b^2}{4a^2}+\frac{c}{a} = a\left(x+\frac{b}{2a} \right)^2-\frac{b^2}{4a}+c \right). \]
+
+Once you have removed the \(x\) term you can rearrange the formula to find \(\left( x+\frac{b}{2a} \right)^2\). Then you simply need to square root and rearrange to find \(x\).
+
+In this example:
+
+\[ {@a*v^2+b*v+c@} = 0, \]
+
+we extract the {@v^2@} coefficient, \({@a@}\):
+
+\[ {@a*(v^2+(b/a)*v+(c/a))@} = 0. \]
+
+Then we complete the square:
+
+\[ {@a*((v+b/(2*a))^2-(b^2)/(4*a^2)+(c/a))@} = 0. \]
+
+Multiply through by \({@a@}\):
+
+\[ {@a*(v+b/(2*a))^2-(b^2)/(4*a)+c@} = 0. \]
+
+Rearranging gives:
+
+\[ {@(v+b/(2*a))^2@} = {@(b^2-4*a*c)/(4*a^2)@}. \]
+
+Square root (remember to take plus and minus):
+
+\[ {@(v+b/(2*a))@} = \pm {@(sqrt(b^2-4*a*c))/(2*a)@}. \]
+
+Finally:
+
+\[ {@v@} = {@-b/(2*a)@} \pm {@sqrt(b^2-4*a*c)/(2*a)@}. \]
+
+Therefeore, our solution set is:
+
+\[ {@v@} \in \left\{ {@ta1@} , {@ta2@}    \right\}. \]</text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>v:rand([x,y,z,t]);
+a:rand(2)+2;
+b:rand(5)+8;
+c:rand(3)+1;
+ta1:-b/(2*a)+sqrt(b^2-4*a*c)/(2*a);
+ta2:-b/(2*a)-sqrt(b^2-4*a*c)/(2*a);
+cta:a*(v-b/(2*a))^2-b^2/(4*a)+c;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@a*v^2+b*v+c@} = {@cta@}. \]
+\[ {@v@} \in \left\{ {@ta1@} , {@ta2@}    \right\}. \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans</name>
+      <type>algebraic</type>
+      <tans>{ta1,ta2}</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>cans</name>
+      <type>algebraic</type>
+      <tans>cta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>comp</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CompSquare</answertest>
+        <sans>cans</sans>
+        <tans>cta</tans>
+        <testoptions>v</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>comp-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>comp-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans</sans>
+        <tans>{ta1, ta2 }</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>1-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>392051712</deployedseed>
+    <deployedseed>88585880</deployedseed>
+    <deployedseed>593778172</deployedseed>
+    <deployedseed>2014266606</deployedseed>
+    <deployedseed>1925287391</deployedseed>
+    <deployedseed>1869342821</deployedseed>
+    <deployedseed>410400814</deployedseed>
+    <deployedseed>478102689</deployedseed>
+    <deployedseed>1924401715</deployedseed>
+    <deployedseed>427896095</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans</name>
+        <value>{ta1, ta2}</value>
+      </testinput>
+      <testinput>
+        <name>cans</name>
+        <value>cta</value>
+      </testinput>
+      <expected>
+        <name>comp</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>comp-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans</name>
+        <value>{?,?}</value>
+      </testinput>
+      <testinput>
+        <name>cans</name>
+        <value>a*v^2+b*v+c</value>
+      </testinput>
+      <expected>
+        <name>comp</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>comp-0-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

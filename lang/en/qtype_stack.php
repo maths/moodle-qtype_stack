@@ -1539,8 +1539,20 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
-
-
+// Strings used by question library.
+$string['stack_library'] = 'STACK question library';
+$string['stack_library_destination'] = 'Questions will be imported into the following category:';
+$string['stack_library_error'] = 'Something went wrong. Please refresh the page and try again.';
+$string['stack_library_help'] = 'Rather than creating your own question, follow this link to go to the STACK question library. The STACK question library contains many pre-made STACK questions ready for you to import into Moodle. You can then use them as they are or edit them to fit your needs.';
+$string['stack_library_instructions_one'] = 'Select a question from the list below to view it here.';
+$string['stack_library_instructions_two'] = 'Click \'Import\' to import the question into the current question category.';
+$string['stack_library_instructions_three'] = 'To change question category:';
+$string['stack_library_instructions_three_one'] = 'Return to the question bank.';
+$string['stack_library_instructions_three_two'] = 'Start creating a new STACK question in the required category.';
+$string['stack_library_instructions_three_three'] = 'Follow the link in the question edit form to the STACK question library.';
+$string['stack_library_import'] = 'Import';
+$string['stack_library_importlist'] = 'Imported questions:';
+$string['stack_library_selected'] = 'Displayed question:';
 // API strings.
 $string['api_choose_file'] = 'Please select a question file';
 $string['api_choose_folder'] = 'Choose a STACK folder';

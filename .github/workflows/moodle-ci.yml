@@ -30,41 +30,47 @@ jobs:
     strategy:
       fail-fast: false
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
-        # We use a mix of SBCL and GCL, but mostly prefer SBCL as it is faster.
+        # We use a mix of SBCL and GCL.
+        # As of Sept 2024, only GCL is available for Maxima 5.44.0.
         include:
           - php: '8.2'
             moodle-branch: 'main'
             database: 'pgsql'
             maxima: 'GCL'
+            moodle-app: true
           - php: '8.2'
             moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
+            maxima: 'GCL'
+            moodle-app: true
           - php: '8.1'
             moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
+            moodle-app: true
           # Edinburgh is planning to run the setup below for 2023-24.
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'mariadb'
             maxima: 'GCL'
+            moodle-app: true
           - php: '7.4'
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
+            maxima: 'GCL'
+            moodle-app: null
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})
         run: |
           maxima="${{ (matrix.maxima == 'SBCL' && 'sbcl') || 'gcl' }}"
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-common_5.42.2-1_all.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-${maxima}_5.42.2-1_amd64.deb
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-common_5.44.0-1_all.deb \
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.44.0-Linux/maxima-${maxima}_5.44.0-1_amd64.deb
 
           sudo locale-gen en_AU.UTF-8
           sudo apt-get install libtinfo5
-          sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.42.2-1_all.deb maxima-${maxima}_5.42.2-1_amd64.deb
+          sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.44.0-1_all.deb maxima-${maxima}_5.44.0-1_amd64.deb
 
           echo "LANG=en_AU.UTF-8" >> $GITHUB_ENV
           echo "adjust_external_format();" | maxima
@@ -91,7 +97,7 @@ jobs:
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
- 
+
       - name: Install moodle-plugin-ci
         run: |
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
@@ -113,7 +119,7 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
 
           #cat ${{ github.workspace }}/moodle/config.php
- 
+
           cp ${{ github.workspace }}/moodledata/phpu_moodledata/stack/maxima_opt_auto ${{ github.workspace }}/maxima_opt_auto
           # Try a command on the command line.
           # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
@@ -122,6 +128,7 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
+          MOODLE_APP: ${{ matrix.moodle-app }}
 
       - name: PHP Lint
         if: ${{ always() }}

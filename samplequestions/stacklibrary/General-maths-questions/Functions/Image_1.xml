@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Image_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Determine the image set \({\rm im}(f)\) of the function\[ {@f1@}.\] Give your answer as an inequality in \(y\), e.g. \( y &lt;= \alpha\). [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The function can be rewritten by completing the square as \[{@f1@}=(x+{@n1@})^2+({@n2@})\] so that all values are larger than \({@n2@}\), and for \(x=-{@n1@}\) equals \({@n2@}\). <br /> Hence \[ {\rm im}(f) = \{y| y &gt;= {@n2@}\}\] <br /> and the answer is \[ y &gt;= {@n2@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[n1:rand_with_step(1, 4, 1);
+ n2:rand_with_step(-9, 9, 1);
+ f1:f(x)=expand((x+n1)^2+n2);
+ correctanswer:y >= n2;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Image \({@f1@} \mbox{ is }{@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>solve</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Wrong way round</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>136559073</deployedseed>
+    <deployedseed>1244037044</deployedseed>
+    <deployedseed>250710679</deployedseed>
+    <deployedseed>80250853</deployedseed>
+    <deployedseed>531850848</deployedseed>
+    <deployedseed>944063104</deployedseed>
+    <deployedseed>2018951757</deployedseed>
+    <deployedseed>1213115553</deployedseed>
+    <deployedseed>1856681567</deployedseed>
+    <deployedseed>1110855530</deployedseed>
+    <deployedseed>1710768998</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[y > n2]]></value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[y < n2]]></value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[y <=n2]]></value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[n2<=y]]></value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

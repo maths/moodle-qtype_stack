@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Hyperbola_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The standard equation of a hyperbola (after a shift) is of one of these two formats:</p>
+<p> \[ (1) \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1, \quad   (2) \frac{y^2}{b^2} - \frac{x^2}{a^2} = 1 .\]</p>
+<p>Find the equation in  standard (shifted) form of a hyperbola with centre \(({@xc@},{@yc@})\), a focus at \(({@xf1@},{@yf1@})\) and a directrix at \({@lhs(dir1)@} = \frac{@eccd^2@}{@c@}.\)</p>
+<p>Give your answer as a list containing (in this order) the format, the value of \(a\) and the value of \(b\). </p>
+<p>\( [ format, a, b] \) =  [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>If the directrix is a vertical line (\(x=\alpha\)) then the hyperbola with centre at \((0,0)\) will be in form (1),</p>
+<p>with the foci at \((a\cdot e,0)\) and \((-a\cdot e,0)\) and one directrix given by \(x = \frac{a}{e}\), and the other given by \(x=-\frac{a}{e}\).</p>
+<p>Hence \(a\) and \(e\) can be calculated and \(b\) is found using \(b^2 = a^2(e^2-1)\).</p>
+<p><br /> If the directrix is an horizontal line (\(y=\alpha\)) then the hyperbola with centre at \((0,0)\) will be in form (2),</p>
+<p>with the foci at \((0,b\cdot e)\) and \((0,-b\cdot e)\) and one directrix given by \(y = \frac{b}{e}\), and the other given by \(y=-\frac{b}{e}\).</p>
+<p>Hence \(b\) and \(e\) can be calculated and \(b\) is found using \(a^2 = b^2(e^2-1)\).</p>
+<p> </p>
+<p>In this case, the appropriate form is (\({@form@}\)) and \(a={@a@}, b={@b@}\).</p>
+<p>The equation of this conic is given by:</p>
+<p> \[ {@eq@} \].</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>xc:0;
+ yc:0;
+ a:rand(6)+2;
+ b:rand(6)+2;
+ form:rand(2)+1;
+ c:sqrt(a^2+b^2);
+ asym1:expand(a*b*((x-xc)/a+(y-yc)/b)=0);
+ asym2:expand(a*b*((x-xc)/a-(y-yc)/b)=0);
+ ecc: if form=2 then c/b else c/a;
+ eccd: if form=2 then b else a;
+ dir1: if form=2 then  y=yc else  x=xc;
+ dir2: if form=2 then b/ecc else a/ecc;
+ xf1: if form=2 then xc else xc + c;
+ xf2: if form=2 then xc else xc - c;
+ yf1: if form=2 then yc+c else yc;
+ yf2: if form=2 then yc-c else  yc;
+ sma: if form=2 then b else a;
+ eq: if form=2 then  -(x-xc)^2/a^2+(y-yc)^2/b^2=1 else (x-xc)^2/a^2-(y-yc)^2/b^2=1;
+ 
+ correctanswer:[form,a,b];
+ wrongform:[form-1,a,b];
+ wronga:[form,a-1,b];
+ wrongb:[form,a,b-1];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@eq@}, {@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1[1]</sans>
+        <tans>correctanswer[1]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You have the wrong form.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1[2]</sans>
+        <tans>correctanswer[2]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>Result-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer for \(a\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1[3]</sans>
+        <tans>correctanswer[3]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer for \(b\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1682366514</deployedseed>
+    <deployedseed>1035929810</deployedseed>
+    <deployedseed>247320811</deployedseed>
+    <deployedseed>524104602</deployedseed>
+    <deployedseed>719425781</deployedseed>
+    <deployedseed>1825932428</deployedseed>
+    <deployedseed>809529396</deployedseed>
+    <deployedseed>1217355616</deployedseed>
+    <deployedseed>808673642</deployedseed>
+    <deployedseed>1011298554</deployedseed>
+    <deployedseed>927798539</deployedseed>
+    <deployedseed>424471844</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wrongform</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronga</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wrongb</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -21,6 +21,8 @@ And a function to compute reduced row echelon form
 
     rref(m)
 
+(Note the Maxima functions `addrow` and `addcol` appends rows/columns onto the matrix.)
+
 ## Assigning individual elements ##
 
 To assign values to individual elements, use the simple syntax such as the following.

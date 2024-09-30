@@ -135,6 +135,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $astyle .= 'display:none;';
         }
 
+        // ISS1252 - Add id to class as well as id stripped by forceclean.
         $attributes = ['style' => $astyle, 'id' => $divid, 'class' => $divid];
 
         if ($content === '') {

@@ -673,7 +673,10 @@ var result = {
             // With JS With instant validation, we don't need the Check button, so hide it.
             if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                     questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-                            questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
+                    const input = questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit');
+                    if (input) {
+                        input.hidden = true;
+                    }
             }
         }
 
@@ -1538,7 +1541,15 @@ var result = {
             // This allows that div to contain some sort of loading
             // indicator until we plug in the frame.
             // Naturally the frame will then start to load itself.
-            document.getElementById(targetdivid).replaceChildren(frm);
+            let target = document.getElementById(targetdivid);
+            if (target) {
+                target.replaceChildren(frm);
+            } else {
+                let targets = document.getElementsByClassName(targetdivid);
+                if (targets.length) {
+                    targets[0].replaceChildren(frm);
+                }
+            }
             IFRAMES[iframeid] = frm;
         }
 

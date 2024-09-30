@@ -1625,6 +1625,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (!$filesexpected && $filesfound != []) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
             }
+            // ISS1249 - Check for large file size (> 1MB).
             foreach ($filesfound as $file) {
                 if ($file->get_filesize() > 1048576) {
                     $errors[] = stack_string('stackfilesizeerror');

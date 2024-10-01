@@ -223,12 +223,14 @@ class qtype_stack_edit_form extends question_edit_form {
         } else {
             $out = stack_string('stack_library');
             $liburlparams = [];
-            $liburlparams['category'] = optional_param('category', null, PARAM_INT);
             if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
                 $liburlparams['cmid'] = $cmid;
             }
             if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
                 $liburlparams['courseid'] = $courseid;
+            }
+            if ($cmid = optional_param('returnurl', null, PARAM_LOCALURL)) {
+                $liburlparams['returnurl'] = $cmid;
             }
             $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php', $liburlparams),
                     $out, []) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');

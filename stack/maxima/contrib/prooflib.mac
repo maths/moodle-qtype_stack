@@ -202,31 +202,11 @@ parsons_encode(steps) := block(
 );
 
 /*
- * Take the JSON from STACK Parson's block and return a proof function.
- */
-proof_parsons_interpret(st) := block([pf],
-  pf:first(first(stackjson_parse(st))),
-  pf:apply(proof, first(first(stackmap_get(pf, "used"))))
-);
-
-/*
  * Take the hashed JSON from STACK Parson's block and return a proof function.
  */
 parsons_decode(st) := block([pf],
   pf:first(first(stackjson_parse(st))),
   pf:apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used")))))
-);
-
-/*
- * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
- * Needed to create a "teacher's answer" in JSON block, including unused text.
-*/
-proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
-  tkeys:map(first, proof_steps),
-  skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
-  /* TO-DO: update this when we deal with trees (and have examples) */
-  skeys:map(lambda([skey], skey), flatten(skeys)),
-  return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
 );
 
 /*
@@ -242,6 +222,28 @@ proof_parsons_keys_used_unused_hash(proof_ans, proof_steps) := block([tkeys, ske
 );
 
 /* Construct the "used" and "available" keys when the teacher's answer is used. */
+parsons_answer(proof_ans, proof_steps) := block([pkeys],
+  /* Ensure all keys are string keys. */
+  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
+  pkeys:proof_parsons_keys_used_unused_hash(proof_ans, proof_steps),
+  sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
+);
+
+/******************************************************************/
+/*                                                                */
+/*  STACK Parson's block functions (legacy)                       */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Take the JSON from STACK Parson's block and return a proof function.
+ */
+proof_parsons_interpret(st) := block([pf],
+  pf:first(first(stackjson_parse(st))),
+  pf:apply(proof, first(first(stackmap_get(pf, "used"))))
+);
+
+/* Construct the "used" and "available" keys when the teacher's answer is used. */
 proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
   /* Ensure all keys are string keys. */
   if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
@@ -249,12 +251,16 @@ proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
   sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
 );
 
-/* Construct the "used" and "available" keys when the teacher's answer is used. */
-parsons_model_answer(proof_ans, proof_steps) := block([pkeys],
-  /* Ensure all keys are string keys. */
-  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
-  pkeys:proof_parsons_keys_used_unused_hash(proof_ans, proof_steps),
-  sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
+/*
+ * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
+ * Needed to create a "teacher's answer" in JSON block, including unused text.
+*/
+proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
+  tkeys:map(first, proof_steps),
+  skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
+  /* TO-DO: update this when we deal with trees (and have examples) */
+  skeys:map(lambda([skey], skey), flatten(skeys)),
+  return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
 );
 
 /******************************************************************/

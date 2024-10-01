@@ -176,7 +176,7 @@ class stack_string_input extends stack_algebraic_input {
         }
     }
 
-    private function ensure_string($ex) {
+    public function ensure_string($ex) {
         $ex = trim($ex);
         if (substr($ex, 0, 1) !== '"') {
             $ex = '"'.$ex.'"';

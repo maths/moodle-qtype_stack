@@ -14,14 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\util;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
 class StackPlotReplacer {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
     public static function replace_plots(&$plots, &$text, $nameprefix, $storeprefix) {
         $i = 0;
 
@@ -39,6 +44,7 @@ class StackPlotReplacer {
         }, $text);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
     public static function persist_plugin_files(\qtype_stack_question $question, $storeprefix) {
         global $CFG;
         foreach ($question->pluginfiles as $name => $content) {

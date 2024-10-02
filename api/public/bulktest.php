@@ -14,14 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 University of Edinburgh
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * API bulk test page.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 University of Edinburgh
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 require_once('../config.php');
 require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
+// @codingStandardsIgnoreStart
 ?>
 <html>
   <head>

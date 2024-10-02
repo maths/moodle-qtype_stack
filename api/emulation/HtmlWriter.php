@@ -20,7 +20,7 @@
  * @copyright 2009 Tim Hunt, 2010 Petr Skoda
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since Moodle 2.0
- * @package core
+ * @package    qtype_stack
  * @category output
  */
 class html_writer {
@@ -127,8 +127,6 @@ class html_writer {
     /**
      * Generates random html element id.
      *
-     * @staticvar int $counter
-     * @staticvar type $uniq
      * @param string $base A string fragment that will be included in the random ID.
      * @return string A unique ID
      */

@@ -14,15 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\dtos;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
 class StackGradingResponse {
-    /** @var boolean */
+    /** @var bool */
     public $isgradable;
     /** @var float */
     public $score;
@@ -34,9 +38,10 @@ class StackGradingResponse {
     public $specificfeedback;
     /** @var array */
     public $prts;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $gradingassets;
-     /** @var string */
-     public $responsesummary;
+    /** @var string */
+    public $responsesummary;
     /** @var array */
     public $iframes;
 

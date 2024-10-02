@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\controller;
 defined('MOODLE_INTERNAL') || die();
@@ -33,11 +36,9 @@ use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
 class ValidationController {
-    /**
-     * @throws \stack_exception
-     * @throws \Exception
-     */
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();

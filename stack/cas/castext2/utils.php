@@ -22,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/CTP_classes.php');
 require_once(__DIR__ . '/processor.class.php');
+require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
 require_once(__DIR__ . '/../../utils.class.php');
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 
@@ -115,7 +116,7 @@ class castext2_parser_utils {
     // parsed the response. Does not use the full maximaparser infrastructure
     // as the result is just an list of strings... well should be for all simple
     // blocks for now.
-    public static function postprocess_string(string $casresult): string {
+    public static function postprocess_string(string $casresult, castext2_placeholder_holder $holder): string {
         if (mb_substr($casresult, 0, 1) === '"') {
             // If it was flat.
             return stack_utils::maxima_string_to_php_string($casresult);
@@ -123,20 +124,20 @@ class castext2_parser_utils {
 
         $parsed = maxima_parser_utils::parse($casresult);
 
-        return self::postprocess_mp_parsed($parsed);
+        return self::postprocess_mp_parsed($parsed, null, $holder);
     }
 
     // Postprocesses the result from CAS. For those that have parsed the response
     // to PHP array/string form. Note that you need to give unescaped strings...
-    public static function postprocess_parsed(array $casresult, castext2_processor $processor=null): string {
+    public static function postprocess_parsed(array $casresult, ?castext2_processor $processor, castext2_placeholder_holder $holder): string {
         if ($processor === null) {
             $processor = new castext2_default_processor();
         }
-        return $processor->process($casresult[0], $casresult);
+        return $processor->process($casresult[0], $casresult, $holder);
     }
 
     // Postprocesses AST style result, as often one includes stuff in larger structures.
-    public static function postprocess_mp_parsed(MP_Node $result, castext2_processor $processor=null): string {
+    public static function postprocess_mp_parsed(MP_Node $result, ?castext2_processor $processor, castext2_placeholder_holder $holder): string {
         // Some common unpacking.
         if ($result instanceof MP_Root) {
             $result = $result->items[0];
@@ -147,7 +148,7 @@ class castext2_parser_utils {
         if ($result instanceof MP_String) {
             return $result->value;
         }
-        return self::postprocess_parsed(maxima_parser_utils::mp_to_php($result), $processor);
+        return self::postprocess_parsed(maxima_parser_utils::mp_to_php($result), $processor, $holder);
     }
 
     // Parses a string of castext code to an AST tree for use elsewhere.

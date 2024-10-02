@@ -34,7 +34,8 @@ class stack_cas_castext2_quid extends stack_cas_castext2_block {
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor, 
+        castext2_placeholder_holder $holder): string {
         $id = $params[1];
         // Use the input field naming to get the question usage level id.
         // Add some extra chars to avoid likely collisions with inputs, those cannot

@@ -50,17 +50,18 @@ class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor=null): string {
+    public function postprocess(array $params, castext2_processor $processor, 
+        castext2_placeholder_holder $holder): string {
         // First collapse the content.
         $content = [''];
         $dontproc = [];
         for ($i = 1; $i < count($params); $i++) {
             if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' &&
                     $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
-                $content[count($content) - 1] .= $processor->process($params[$i][0], $params[$i]);
+                $content[count($content) - 1] .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else if (is_array($params[$i])) {
                 $dontproc[count($content)] = true;
-                $content[] = $processor->process($params[$i][0], $params[$i]);
+                $content[] = $processor->process($params[$i][0], $params[$i], $holder, $processor);
                 $content[] = '';
             } else {
                 $content[count($content) - 1] .= $params[$i];

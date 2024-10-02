@@ -63,12 +63,13 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $flat;
     }
 
-    public function postprocess(array $params, castext2_processor $processor=null): string {
+    public function postprocess(array $params, castext2_processor $processor, 
+        castext2_placeholder_holder $holder): string {
         $content = '';
         // Just collapse it.
         for ($i = 1; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+                $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $content .= $params[$i];
             }

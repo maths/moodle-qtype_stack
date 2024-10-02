@@ -94,12 +94,13 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor, 
+        castext2_placeholder_holder $holder): string {
         // First collapse the content.
         $content    = '';
         for ($i = 4; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+                $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $content .= $params[$i];
             }

@@ -26,9 +26,9 @@ namespace api\util;
 
 use Slim\Interfaces\ErrorRendererInterface;
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class ErrorRenderer implements ErrorRendererInterface {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __invoke(\Throwable $exception, bool $displayerrordetails): string {
         $message = $exception instanceof \stack_exception ? $exception->getMessage() :
                                             "An Error occured while processing the question";

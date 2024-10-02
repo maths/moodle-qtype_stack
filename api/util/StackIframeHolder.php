@@ -30,12 +30,12 @@
 
 namespace api\util;
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackIframeHolder {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $iframes = [];
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function add_iframe($args) {
         for ($i = 0; $i < 5; $i++) {
             $args[$i] = json_decode($args[$i]);

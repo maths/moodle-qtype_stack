@@ -43,7 +43,7 @@ use api\dtos\StackTestResponse;
  * leaving display for the front end.
  */
 class TestController {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();

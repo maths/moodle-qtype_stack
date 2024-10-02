@@ -22,9 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class qtype_stack_renderer {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function fact_sheet($name, $fact) {
         $name = html_writer::tag('h5', $name);
         return html_writer::tag('div', $name.$fact, ['class' => 'factsheet']);

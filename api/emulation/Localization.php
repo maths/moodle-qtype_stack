@@ -25,14 +25,14 @@
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lang/multilang.php');
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function current_language() {
     $supportedlanguages = ['en', 'de'];
 
     return locale_lookup($supportedlanguages, $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en', true, 'en');
 }
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_string($identifier, $component, $a = null) {
     $userlanguage = current_language();
 
@@ -81,11 +81,11 @@ function get_string($identifier, $component, $a = null) {
 
 // Used for multilanguage questions, retrusn dependencies between languages.
 // We currently support only english and german, therefore this is not that relevant for us.
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_string_manager() {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Class
     return new class {
-        // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+        // phpcs:ignore moodle.Commenting.MissingDocblock.Function
         public function get_language_dependencies($lang) {
             return [];
         }

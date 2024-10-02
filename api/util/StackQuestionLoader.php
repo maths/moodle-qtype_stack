@@ -34,7 +34,7 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
         // TO-DO: Consider defaults.
         try {
@@ -300,7 +300,7 @@ class StackQuestionLoader {
         return ['question' => $question, 'testcases' => $testcases];
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function handlefiles(\SimpleXMLElement $files) {
         $data = [];
 
@@ -311,7 +311,7 @@ class StackQuestionLoader {
         return $data;
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function parseboolean(\SimpleXMLElement $element) {
         $v = (string) $element;
         if ($v === "0") {

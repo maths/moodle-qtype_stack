@@ -24,9 +24,9 @@
 
 namespace api\util;
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackPlotReplacer {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function replace_plots(&$plots, &$text, $nameprefix, $storeprefix) {
         $i = 0;
 
@@ -44,7 +44,7 @@ class StackPlotReplacer {
         }, $text);
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function persist_plugin_files(\qtype_stack_question $question, $storeprefix) {
         global $CFG;
         foreach ($question->pluginfiles as $name => $content) {

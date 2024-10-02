@@ -24,7 +24,7 @@
 
 namespace api\dtos;
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackTestResponse {
     /** @var string */
     public $name = '';

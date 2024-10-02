@@ -25,7 +25,7 @@
 namespace api\dtos;
 defined('MOODLE_INTERNAL') || die();
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackRenderResponse {
     /** @var string */
     public $questionrender;
@@ -43,7 +43,7 @@ class StackRenderResponse {
     public $iframes;
 }
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackRenderInput {
     /** @var int */
     public $validationtype;

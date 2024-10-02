@@ -24,9 +24,9 @@
 
 namespace api\util;
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackSeedHelper {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function initialize_seed($question, $seed) {
         if ($question->has_random_variants()) {
             // We require the xml to include deployed variants.

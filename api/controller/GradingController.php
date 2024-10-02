@@ -38,9 +38,9 @@ use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class GradingController {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
@@ -155,7 +155,7 @@ class GradingController {
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Missing
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function standard_prt_feedback(\qtype_stack_question $question, \prt_evaluatable $result, $feedbackstyle) {
         $class = '';
         if ($result->get_score() < 0.000001) {

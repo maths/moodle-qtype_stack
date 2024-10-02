@@ -12,7 +12,7 @@ We assume the following:
 
 1. You have access to a course with STACK installed.
 2. You are familiar with simple \(\LaTeX\) formatting for mathematics.  Some basic examples are provided in the [CASText](../Authoring/CASText.md) documentation.
-3. __We strongly recommend you do not use an HTML-aware editor when editing STACK questions containing GeoGebra.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following: `User Dashboard > Preferences > Editor preferences > Manage editors`
+3. __We strongly recommend you do not use an HTML-aware editor when editing STACK questions.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following: `User Dashboard > Preferences > Editor preferences > Manage editors`.
 
 ## Creating a minimal STACK question
 

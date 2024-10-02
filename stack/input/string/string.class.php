@@ -66,6 +66,9 @@ class stack_string_input extends stack_algebraic_input {
             $attributes['readonly'] = 'readonly';
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'string';
+
         return html_writer::empty_tag('input', $attributes);
     }
 
@@ -173,7 +176,7 @@ class stack_string_input extends stack_algebraic_input {
         }
     }
 
-    private function ensure_string($ex) {
+    public function ensure_string($ex) {
         $ex = trim($ex);
         if (substr($ex, 0, 1) !== '"') {
             $ex = '"'.$ex.'"';

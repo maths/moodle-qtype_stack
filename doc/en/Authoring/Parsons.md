@@ -13,10 +13,10 @@ Here is a basic example of use:
 ````
 [[parsons input="ans1"]]
 {
-  "1":"Assume that \\(n\\) is odd.",
-  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "assume":"Assume that \\(n\\) is odd.",
+  "ex":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
 }
 [[/parsons]]
 ````
@@ -25,26 +25,33 @@ Assume the question author writes a list `proof_steps` of pairs `["key", "string
 
 ````
 [[parsons input="ans1" ]]
-{# stackjson_stringify(proof_steps) #}
+{# parsons_encode(proof_steps) #}
 [[/parsons]]
 ````
 
-or they can avoid strings going via Maxima at all by writing JSON directly
+or they can avoid strings going via Maxima at all by writing JSON directly. 
 
 Both these approaches can be combined, assuming `proof_steps` is a list of pairs `["key", "string"]` as in previous examples.
 
 ````
 [[parsons input="ans1"]]
 {
-  "1":{#proof_steps[1][2]#},
-  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "assume":{#proof_steps[1][2]#},
+  "ex":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
 }
 [[/parsons]]
 ````
 
 Note the `\` character needs to be protected within strings, so for example we have to type `\\(n=2m+1\\)` rather than just `\(n=2m+1\)`.
+
+### Using numeric keys
+
+If writing JSON directly, using all numeric keys (either 
+as a numeric type or a string containing a number) is not supported and will throw a runtime error. This is because JavaScript 
+will re-order the steps in this case which voids any randomisation. If using Maxima arrays, the keys are automatically hashed so
+numeric keys may still be used.
 
 ## Customising the `[[parsons]]` block
 
@@ -54,7 +61,7 @@ The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", o
 
 ````
 [[parsons input="ans1"]]
-{ "steps": {# stackjson_stringify(proof_steps) #},
+{ "steps": {# parsons_encode(proof_steps) #},
   "options": {"sortable option 1" : value, ..., "sortable option n" : value},
   "headers" : ["Custom header for the answer list"], 
 }
@@ -108,6 +115,7 @@ Functionality and styling can be customised through the use of block parameters.
 9. `columns` : string containing an integer `"n"`. How many vertical answer lists to display. By default, this is not used. If it is specified, then the styling will change to a grid-format with multiple vertical answer lists of unspecified length.
 10. `rows` : string containing an integer `"m"`. How many horizontal answer lists to display. By default, this is not used. If it is specified and `columns` is _not_ specified, this will change to a grid-format with multiple horizontal answer lists of unspecified width. If both `columns` and `rows` are specified then this will provide a fixed length and width grid format, where items can be dragged to any position in the grid in any order. You cannot specify `rows` without specifying `columns`.
 11. `transpose` : `"true"` or `"false"`; `"false"` by default. While the student is able to re-orient between vertical and horizontal as they wish, the default on load is for columns to be vertical. If you wish them to default to being horizontal, then pass `transpose="true"`.
+12. `log` : `"true"` or `"false"`; `"false"` by default. When set to `"true"` the student's will contain their entire drag-and-drop move history for that attempt, along with the timestamp (number of seconds since 00:00 GMT 01/01/1970) of that move.
 
 ## Random generation of `proof_step` order
 
@@ -119,15 +127,14 @@ To create a random order, you must define steps as Maxima objects using a `proof
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
 3. Add in a question note such as `{@map(first, proof_steps)@}` to create a meaningful, minimal, question note giving the order of steps.
 
-Note, if you randomly generate random variants it is _strongly recommended_ you use text-based keys.  Keeping track of permuted numerical keys will be very difficult!
-
 ## Block connection with Maxima
 
 All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
 
-1. The maxima function `stackjson_stringify(proof_steps)` will convert a list of `proof_steps` into a JSON string.
-2. The maxima function `proof_parsons_interpret(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
-3. The maxima function `proof_parsons_key_json(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
+1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
+2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
+3. The maxima function `parsons_answer(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
+4. The maxima function `parsons_hash_map(proof_steps)` takes a two-dimensional steps array and returns a JSON string mapping original keys to their Base64 encodings.  This is useful for interpresting students' answers in offline research.
 
 ### Block parameters: `height` and `width`
 
@@ -136,12 +143,12 @@ Additional display options including `height` and `width` may also be passed to 
 ````
 [[parsons input="ans1" height="360px" width="100%"]]
 {
-  "1":"Assume that \\(n\\) is odd.",
-  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-  "5":"Assume that \\(n\\) is even.",
-  "6":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
+  "assume_odd":"Assume that \\(n\\) is odd.",
+  "ex_odd":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "assume_even":"Assume that \\(n\\) is even.",
+  "ex_even":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
 };
 [[/parsons]]
 ````
@@ -198,6 +205,46 @@ proof_steps:[
 ];
 ````
 
-## Adding trees to a Parson's block
+## Legacy versions
 
-STACK enables question authors to display the tree structure of an algebraic expression using castext `{@disptree(1+2+pi*x^3)@}`.
+Old versions of the parsons block used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
+`parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
+supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
+These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
+also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+
+## Obtaining attempt histories
+
+When `log = "true"` is used in the block header, the final input value submitted will contain an array containing the internal 
+representations of the attempt's move history, along with the timestamp at which each move occurs. Timestamps are measured as 
+number of seconds elapsed since 00:00 GMT 01/01/1970. 
+
+Given the following `proof_steps` variable within Question Variables:
+```
+proof_steps: [  
+  ["assume_odd", "Assume that \\(n\\) is odd."],
+  ["ex_odd", "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\)."],
+  ["expand", "\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]"],
+  ["def", "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\)."],
+  ["assume_even", "Assume that \\(n\\) is even."],
+  ["ex_even", "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."]
+];
+```
+the move history takes the following format
+```
+[
+    [
+        {"used" : ["assume_odd", ...], "available" : []}, 
+        1723723269679
+    ],
+    [
+        {"used" : ["assume_odd", ...], "available" : [...]}, 
+        1723723269675
+    ],
+    ...
+    [
+        {"used" : [], "available" : ["assume_odd", ...]},
+        1723723269667
+    ]
+]
+```

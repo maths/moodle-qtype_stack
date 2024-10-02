@@ -194,7 +194,7 @@ class TestController {
                 $passes = 1;
             } else {
                 $fails = 1;
-                $message = stack_string('default_test_fail');
+                $message = stack_string('defaulttestfail');
             }
         }
 

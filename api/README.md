@@ -18,7 +18,7 @@ The image requires maxima to be available via http. The URL can be configured vi
 version: "4.0"
 services:
   maxima:
-    image: mathinstitut/goemaxima:2023121100-latest
+    image: mathinstitut/goemaxima:2024072400-latest
     tmpfs:
       - "/tmp"
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
   stack:
-    image: URL to be confirmed
+    image: stackmaths/stackapi:2024072400-latest
     restart: unless-stopped
     ports:
       - '3080:80'
@@ -50,7 +50,7 @@ The application can also be installed manually, although this variant has only u
 
 The STACK service implemented in this repository provides a stateless REST-API with five distinct routes, which all expect and produce `application/json` requests/responses:
 
-- POST /render: Render a stack question
+- POST /render: Render a STACK question
 - POST /grade: Grade user input for a question
 - POST /validate: Validate a user's input
 - POST /download: Serves a file for questions that have download links
@@ -281,7 +281,9 @@ At this point a user should just need a working Docker setup and an up-to-date `
 
 This will download the goemaxima and stack-api images and run the containers in an enclosing container. Obviously, config will be the same as for whoever built the stack-api Docker image.
 
-Version numbers will need to match the latest STACK release in `docker-compose.dev.yml`, `docker-compose.yml`, `config_sample.txt` and `config.php`.
+Version numbers will need to match the latest STACK release in `docker-compose.dev.yml`, `docker-compose.yml`, `config_sample.txt` and `config.php`. **(Remember: config.php needs updated locally before building.)**
+
+Pre-built API images are available on Docker Hub at `stackmaths/stackapi`.
 
 ### High level overview
 
@@ -334,7 +336,7 @@ To be accessible directly, the following property/method visibility have been pr
 #### Minor changes in STACK 4.6.0
 
 - Some new language keys have been added.
-- Some imports inside the `question.php` and `mathsoutputfilterbase.class.php` files have been wrapped inside an if statement, to only be performed in non api contexts.
+- Some imports inside the `question.php` and `mathsoutputfilterbase.class.php` files have been wrapped inside an if statement, to only be performed in non-API contexts.
 - A new `get_ta_render_for_input` function has been added to the `qtype_stack_question` class.
 - A new `pluginfiles` property has been added to the `qtype_stack_question` class.
 - `iframe.block.php` handles plot URLs and iframe creation conditional on context (i.e API vs not API).

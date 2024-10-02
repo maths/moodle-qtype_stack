@@ -5,14 +5,15 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.7.0
+## Version 4.8.0
 
-DONE
+DONE.
 
-1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
-2. Add in stack preamble via `%_stack_preamble_end;` in the question variables to allow some variables to be available in inputs.  This fixes [issue #1207](https://github.com/maths/moodle-qtype_stack/issues/879) and [issue #1133](https://github.com/maths/moodle-qtype_stack/issues/1133).
+1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
+2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../Authoring/Workflow.md).
+3. Add in a library page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
 
-Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.7.0) include
+Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 
 1. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
 2. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
@@ -22,11 +23,17 @@ Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack
 
 ## Parson's block development track
 
-For v4.7.0:
+DONE
+
+1. Hashing for keys
+2. Add ability to log history of an attempt
+
+For v4.8.0:
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.
 3. Create templates from the start for different proof types
+4. Validate `proof_steps` for multiple keys having the same tag.
 
 Later
 
@@ -38,7 +45,6 @@ Later
 6. Confirmation for delete all?
 7. Alternative styling/signalling for clone mode?
 8. Better support (and documentation) for bespoke grading functions.
-9. Hashing keys
 10. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
 
 

@@ -124,6 +124,9 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'x-1', '(x^2-1)/(x+1)', 1, '', ''],
         ['AlgEquiv', '', '2^((1/5.1)*t)', '2^((1/5.1)*t)', 1, '', ''],
         ['AlgEquiv', '', '2^((1/5.1)*t)', '2^(0.196078431373*t)', 0, '', ''],
+        ['AlgEquiv', '', '1-root(2)', '1-2^(1/2)', 1, '', ''],
+        ['AlgEquiv', '', '1-root(2)', '1-sqrt(2)', 1, '', ''],
+        ['AlgEquiv', '', 'root(2,2)+1', '1+sqrt(2)', 1, '', ''],
         ['AlgEquiv', '', 'a^b*a^c', 'a^(b+c)', 1, '', ''],
         ['AlgEquiv', '', '(a^b)^c', 'a^(b*c)', 0, '', ''],
         ['AlgEquiv', '', '(assume(a>0),(a^b)^c)', 'a^(b*c)', 1, '', ''],
@@ -254,6 +257,11 @@ class stack_answertest_test_data {
         // The log(x) function is base e.
         ['AlgEquiv', '', 'log(root(x,n))', 'lg(x,10)/n', 0, '', ''],
         ['AlgEquiv', '', 'x^log(y)', 'y^log(x)', 1, '', ''],
+        // Example where some pre-processing is needed.
+        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
+        ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
+            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', ''],
+
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],
         ['AlgEquiv', '', '[1,2]', '[1,2,3]', 0, 'ATList_wronglen.', ''],
@@ -1018,6 +1026,9 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[zeroAdd]', '0+a', 'a', 1, '', ''],
         ['EqualComAssRules', '[zeroAdd]', 'a+0', 'a', 1, '', ''],
         ['EqualComAssRules', '[testdebug,zeroAdd]', '1*a', 'a', 0, 'ATEqualComAssRules: [1 nounmul a,a].', ''],
+        // This is a common example where EqualComAss is not adequate.
+        ['EqualComAssRules', '[zeroAdd]', '1/2*sin(3*x)', 'sin(3*x)/2', 0, '', ''],
+        ['EqualComAssRules', '[oneMul]', '1/2*sin(3*x)', 'sin(3*x)/2', 1, '', ''],
         ['EqualComAssRules', '[oneMul]', '1*a', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', '1*a', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', 'a/1', 'a', 1, '', ''],

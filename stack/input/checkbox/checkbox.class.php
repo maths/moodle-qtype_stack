@@ -45,7 +45,11 @@ class stack_checkbox_input extends stack_dropdown_input {
     public function contents_to_maxima($contents) {
         $vals = [];
         foreach ($contents as $key) {
-            $vals[] = $this->get_input_ddl_value($key);
+            // ISS1211 - Moodle App returns value of 0 if box not checked but
+            // always safe to ignore 0 thanks to stack_dropdown_input->key_order().
+            if ($key !== 0) {
+                $vals[] = $this->get_input_ddl_value($key);
+            }
         }
         if ($vals == [0 => '']) {
             return '';
@@ -72,6 +76,10 @@ class stack_checkbox_input extends stack_dropdown_input {
                 'value' => $key,
                 'id' => $fieldname.'_'.$key,
             ];
+
+            // Metadata for JS users.
+            $inputattributes['data-stack-input-type'] = 'checkbox';
+
             $labelattributes = [
                 'for' => $fieldname.'_'.$key,
             ];

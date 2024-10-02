@@ -378,7 +378,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             if ($this->get_cached('preamble-qv') !== null) {
-                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb', 
+                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
                     'blockexternal'));
             }
             // Context variables should be first.
@@ -732,6 +732,26 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return $this->questionnoteinstantiated->get_rendered($processor);
         }
         return stack_string('questionnote_missing');
+    }
+
+    public function get_question_todos() {
+        $hastodos = false;
+        $tags = [];
+        $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
+            $this->specificfeedback, $this->questiondescription];
+        $pat = '/\[\[todo/';
+        foreach ($fields as $field) {
+            // We _should_ use castext2_parser_utils::has_todoblocks($field) really, but this
+            // involves parsing the castext which is too slow.
+            if (preg_match($pat, $field ?? '')) {
+                $hastodos = true;
+                $tags = array_merge($tags, castext2_parser_utils::get_todoblocks($field));
+            }
+        }
+        // Unique tags, sorted.
+        $tags = array_unique($tags);
+        sort($tags);
+        return [$hastodos, $tags];
     }
 
     public function summarise_response(array $response) {
@@ -1575,7 +1595,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($stackversion < $checkpat['ver']) {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
-                if (preg_match($pat, $this->$field)) {
+                if (preg_match($pat, $this->$field ?? '')) {
                     $errors[] = stack_string('stackversioncomment', ['qfield' => stack_string($field)]);
                 }
             }
@@ -1604,6 +1624,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             if (!$filesexpected && $filesfound != []) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
+            }
+            // ISS1249 - Check for large file size (> 1MB).
+            foreach ($filesfound as $file) {
+                if ($file->get_filesize() > 1048576) {
+                    $errors[] = stack_string('stackfilesizeerror');
+                    break;
+                }
             }
         }
 

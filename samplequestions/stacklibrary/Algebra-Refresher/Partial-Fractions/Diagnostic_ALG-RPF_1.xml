@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Diagnostic_ALG-RPF_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Express</p>
+<p>\[{@f@}\]</p>
+<p>as a sum of partial fractions.</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Below are the rules of partial fractions.[[facts:alg_partial_fractions]]</p>
+<p>As a sum of partial fractions</p>
+<p>\[ {@f@}=\frac{A}{x}+\frac{B}{@lin@}+\frac{C}{@lin2@},\]</p>
+<p>and multiplying both sides through by {@denom@} we find</p>
+<p>\[\begin{array}{rcl}\displaystyle {@numerat@}&amp;\displaystyle =&amp;\displaystyle {@Alin2@} + {@Bxlin@} + {@Cx@},\\ &amp;\displaystyle =&amp;\displaystyle {@Ax2@} + {@double_cAx@} + {@c2*A@} + {@Bx2@} + {@cBx@} + {@Cx@},\\ &amp;\displaystyle =&amp;\displaystyle {@ApBx2@} + {@xterm@} + {@c2*A@}. \end{array}\] Matching coefficients \[\begin{array}{rcl}\displaystyle A + B&amp;\displaystyle =&amp;\displaystyle {@a@}\,\\ {@double_cA + cB@} + C&amp;\displaystyle =&amp;\displaystyle 0,\\ {@Ac2@}&amp;\displaystyle =&amp;\displaystyle {@b@}. \end{array}\] So, \[\begin{array}{rcl}\displaystyle A&amp;\displaystyle =&amp;\displaystyle {@Aval@},\\ B&amp;\displaystyle =&amp;\displaystyle {@a@} - A = {@a@} - {@Aval@},\\ &amp;\displaystyle =&amp;\displaystyle {@Bval@},\\ C&amp;\displaystyle =&amp;\displaystyle {@negdouble_cA - cB@} = {@negdouble_cAval@} - {@cBval@},\\ &amp;\displaystyle =&amp;\displaystyle {@Cval@}. \end{array}\] Therefore, \[{@f@}={@answer@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2018080600</text>
+    </stackversion>
+    <questionvariables>
+      <text>mag_a:rand(4)+2;
+sign_a:2*rand(2)-1;
+a:mag_a*sign_a;
+mag_b:rand(4)+2;
+sign_b:2*rand(2)-1;
+b:mag_b*sign_b;
+mag_c:rand(4)+2;
+sign_c:2*rand(2)-1;
+c:mag_c*sign_c;
+c2:c^2;
+double_c:2*c;
+negdouble_c:-double_c;
+double_b:2*b;
+ab:a*b;
+ac:a*c;
+numerat:a*x^2+b;
+lin:x+c;
+lin2:lin^2;
+Alin2:A * lin2;
+Ax2:A * x^2;
+Bxlin:B*x*lin;
+Bx2:B * x^2;
+Aval:b/c2;
+denom:x*lin2;
+f:numerat/denom;
+Bval:a-Aval;
+double_cA:double_c*A;
+double_cAx:double_cA*x;
+negdouble_cA:negdouble_c*A;
+negdouble_cAval:negdouble_c*Aval;
+cB:c*B;
+cBval:c*Bval;
+Cval:negdouble_c*Aval - cBval;
+Cx:C * x;
+cBx:c * B * x;
+Ac2:A * c2;
+ApBx2:(A + B)*x^2;
+xterm:(double_cA + cB + C)*x;
+answer:partfrac(f,x);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@f@}={@answer@}.\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>answer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>PartFrac</answertest>
+        <sans>ans1</sans>
+        <tans>answer</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ALG-RPF-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ALG-RPF-FALSE </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>293986022</deployedseed>
+    <deployedseed>1783557377</deployedseed>
+    <deployedseed>808795233</deployedseed>
+    <deployedseed>891415312</deployedseed>
+    <deployedseed>259767859</deployedseed>
+    <deployedseed>1915719900</deployedseed>
+    <deployedseed>1037662357</deployedseed>
+    <deployedseed>1265850524</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>answer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ALG-RPF-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>f</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ALG-RPF-FALSE </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

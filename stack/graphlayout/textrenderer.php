@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Displays a prt graph using an html table with text.
  *
@@ -31,7 +30,7 @@
  */
 class stack_prt_graph_text_renderer {
 
-    /*
+    /**
      * Hold the graph itself.
      */
     protected $g = null;

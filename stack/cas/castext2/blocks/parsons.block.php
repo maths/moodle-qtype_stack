@@ -68,6 +68,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Item width.
         $itemwidth = null;
 
+        // Whether to return full history or final answer
+        $log = 'false';
+
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
@@ -81,6 +84,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $itemheight = $value;
             } else if ($key === 'item-width') {
                 $itemwidth = $value;
+            } else if ($key === 'log') {
+                $log = $value;
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -284,7 +289,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Instantiate STACK sortable helper class.
         $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
                 $clone .'", "' . $columns .'", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
-                "' . $itemheight . '", "' . $itemwidth . '");' . "\n";
+                "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
         // Generate the two lists, headers and index in HTML.
         $code .= 'stackSortable.add_reorientation_button();' . "\n";
         $code .= 'stackSortable.create_row_col_divs();' . "\n";
@@ -524,14 +529,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input'
                     && $key !== 'clone' && $key !== 'columns' && $key !== 'rows' &&
-                    $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width') {
+                    $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width' && $key !== 'log') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
                         'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height',
-                        'item-width',
+                        'item-width', 'log'
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids),

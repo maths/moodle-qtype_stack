@@ -75,6 +75,10 @@ class docslib_test extends qtype_stack_testcase {
 
 
     public function test_stack_docs_render_markdown() {
+        global $CFG;
+        require_once($CFG->libdir . '/environmentlib.php');
+
+        $currentversion = normalize_version(get_config('', 'release'));
 
         $this->assertEquals("<p>Test</p>\n",
                 stack_docs_render_markdown('Test'));
@@ -83,5 +87,14 @@ class docslib_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
         // @codingStandardsIgnoreEnd
+        if (version_compare($currentversion, '4.1.0') >= 0) {
+            $page = 'Watch <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
+                'frameborder="0" allowfullscreen></iframe> This will help you.';
+            $rendered = "<p>Watch</p>\n\n" .
+                '<iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
+                'frameborder="0" allowfullscreen></iframe>' . "\n\n<p>This will help you.</p>\n";
+            $this->assert_content_with_maths_equals($rendered,
+                stack_docs_render_markdown($page));
+        }
     }
 }

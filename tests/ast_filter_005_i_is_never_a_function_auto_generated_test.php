@@ -119,6 +119,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1882,6 +1887,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

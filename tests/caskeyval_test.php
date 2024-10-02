@@ -77,6 +77,7 @@ class caskeyval_test extends qtype_stack_testcase {
                 // In the new setup the parsing of the keyvals does not match the sessions created above.
                 // This is because of a failure to split the text into statements.
                 // This is a serious drawback when we try to identify which statement is throwing an error!
+            ["a:x^2$ b:(x+1)^2", true, $cs1],
             ["a:x^2) \n b:(x+1)^2", false, $cs0],
             ['a:x^2); b:(x+1)^2', false, $cs0],
             ['a:1/0', true, $cs2],
@@ -99,6 +100,16 @@ class caskeyval_test extends qtype_stack_testcase {
     // the instantiated values.
     public function test_equations_1() {
         $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1; ta3:x=1 nounor x=2', null, 123);
+        $at1->instantiate();
+        $s = $at1->get_session();
+        $s->instantiate();
+        $this->assertEquals($s->get_by_key('ta1')->get_evaluationform(), 'ta1:x = 1');
+        $this->assertEquals($s->get_by_key('ta2')->get_evaluationform(), 'ta2:x^2-2*x = 1');
+        $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x = 1 nounor x = 2');
+    }
+
+    public function test_equations_2() {
+        $at1 = new stack_cas_keyval('ta1 : x=1$ ta2 : x^2-2*x=1$ ta3:x=1 nounor x=2', null, 123);
         $at1->instantiate();
         $s = $at1->get_session();
         $s->instantiate();
@@ -228,7 +239,7 @@ class caskeyval_test extends qtype_stack_testcase {
 
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
-        $expected = ['The characters @, $ and \ are not allowed in CAS input.'];
+        $expected = ['The characters @ and \ are not allowed in CAS input.'];
         $this->assertEquals($expected, $kv->get_errors());
     }
 

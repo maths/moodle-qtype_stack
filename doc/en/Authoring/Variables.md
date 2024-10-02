@@ -46,7 +46,7 @@ The question variables are evaluated when a variant of a question is created.   
 * General feedback (also known as the worked solution).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
-* Question variables are not available to inputs when a student is validating their answer, unless special ``context variables'' are defined in a preamble.
+* Question variables are not available to inputs when a student is validating their answer, unless special ''context variables'' are defined in a preamble.
 
 ### Question variables preamble and context variables
 
@@ -75,6 +75,11 @@ It is also possible to use an unnamed `lambda` function.  E.g. if you have a fun
     texput(tup,  lambda([z], block([a,b], [a,b]:args(z), sconcat("\\left[",tex1(a),",",tex1(b),"\\right)")))); 
 
 will display `tup(a,b)` as \( \left[a,b\right) \).
+
+To create a function `hat` so that input `hat(x)` is displayed as \(\hat{x}\) you can use:
+
+    /* In question variables. */
+    texput(hat, lambda([ex], sconcat("\\hat{", tex1(first(ex)), "}")));
 
 As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}^{\infty } {A}_{k}}\) you can use the following:
 

@@ -125,6 +125,12 @@ abstract class stack_input {
     protected $runtime = true;
 
     /**
+     * Filters to apply for display in validate_contents
+     * @var array
+     */
+    protected $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
+
+    /**
      * Constructor
      *
      * @param string $name the name of the input. This is the name of the
@@ -1038,6 +1044,7 @@ abstract class stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
+
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                 [], 'Root', $this->options->get_option('decimals'));
 
@@ -1052,7 +1059,8 @@ abstract class stack_input {
             }
 
             // Construct inert version of that.
-            $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
+            $protectfilters = $this->protectfilters;
+        
             if($this->get_extra_option('simp')) {
                 // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
                 // function to perform calculations on dispdp numbers.

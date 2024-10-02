@@ -33,6 +33,7 @@ For v4.8.0:
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.
 3. Create templates from the start for different proof types
+4. Validate `proof_steps` for multiple keys having the same tag.
 
 Later
 

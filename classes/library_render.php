@@ -38,6 +38,7 @@ use external_function_parameters;
 use external_single_structure;
 use external_value;
 use cache;
+use SimpleXMLElement;
 use stack_question_library;
 use api\util\StackQuestionLoader;
 
@@ -93,14 +94,33 @@ class library_render extends \external_api {
         if (!$result) {
             // Get contents of file and run through API question loader to render.
             $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
-            $question = StackQuestionLoader::loadxml($qcontents)['question'];
-            $render = static::call_question_render($question);
-            $result = [
-                'questionrender' => $render,
-                'questiontext' => $question->questiontext,
-                'questionvariables' => $question->questionvariables,
-            ];
-            $cache->set($filepath, $result);
+            try {
+                $question = StackQuestionLoader::loadxml($qcontents)['question'];
+                $render = static::call_question_render($question);
+                $result = [
+                    'questionrender' => $render,
+                    'questiontext' => $question->questiontext,
+                    'questionvariables' => $question->questionvariables,
+                ];
+                $cache->set($filepath, $result);
+            } catch (\stack_exception $e) {
+                // If the question is not a STACK question we can't render it
+                // but we staill want users to be able to import it.
+                if (strpos($e->getMessage(), 'not of type STACK') !== false) {
+                    $xmldata = new SimpleXMLElement($qcontents);
+                    $questiontext = (string) $xmldata->question->questiontext->text;
+                    $result = [
+                        'questionrender' => '<div class="formulation">' .
+                            get_string('stack_library_not_stack', 'qtype_stack') .
+                            '<br><br>' . $questiontext . '</div>',
+                        'questiontext' => $questiontext,
+                        'questionvariables' => '',
+                    ];
+                    $question->questiontext = (string) $xmldata->question->questiontext->text;
+                } else {
+                    throw $e;
+                }
+            }
         }
         return $result;
     }

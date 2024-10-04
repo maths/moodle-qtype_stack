@@ -30,9 +30,8 @@
 
     Example context (json):
     {
-      "questionbanklink": "http://stack.stack.virtualbox.org/edmundlocal/question/edit.php?cmid=19",
-      "catname": "Default for Course 1",
-      "catinfo": "Category for Course 1.",
+      "returnlink": "http://stack.stack.virtualbox.org/edmundlocal/question/edit.php?cmid=19",
+      "category": "HTML string of category dropdown",
       "files": [
         {
           "label": "Algebra-Refresher",
@@ -64,7 +63,7 @@
 
 <div class="qtype_stack_question_library">
   <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
-  <p><a href="{{questionbanklink}}">{{#pix}} i/files, core {{/pix}}{{#str}} questionbank, core_question {{/str}}</a></p>
+  <p><a href="{{returnlink}}">{{#pix}} i/arrow-left, core {{/pix}}{{returntext}}</a></p>
   <div class="row">
     <div class="col-lg-6">
       <div class="que stack stack_library_display">
@@ -78,17 +77,6 @@
             </li>
             <li>
               {{#str}} stack_library_instructions_three, qtype_stack {{/str}}
-              <ol>
-                <li>
-                  {{#str}} stack_library_instructions_three_one, qtype_stack {{/str}}
-                </li>
-                <li>
-                  {{#str}} stack_library_instructions_three_two, qtype_stack {{/str}}
-                </li>
-                <li>
-                  {{#str}} stack_library_instructions_three_three, qtype_stack {{/str}}
-                </li>
-              </ol>
             </li>
           </ul>
         </div>
@@ -96,22 +84,30 @@
       <p class="stack-library-error alert alert-danger" hidden>
         {{#str}} stack_library_error, qtype_stack {{/str}}
       </p>
-      <div class="alert alert-secondary">
-        <div style="float: left; margin: 5px 20px 30px 0px;">
-          <button class="btn btn-primary library-import-link" style="width:100px;" type="button" data-filepath="{{path}}">
-            {{#str}} stack_library_import, qtype_stack {{/str}}
-            <span class="loading-display" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
-          </button>
-        </div>
-        <div>
+      <div class="alert alert-secondary" style="position: relative; color: black;">
         {{#str}} stack_library_destination, qtype_stack {{/str}}
-        <br>
-        <b>{{catname}}</b>
-        {{#catinfo}}
-          - {{{catinfo}}}
-        {{/catinfo}}
+        <br><br>
+        <div>
+          {{{category}}}
         </div>
-
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="stack-library-import-success" hidden>
+              <span>
+                {{#str}} stack_library_success, qtype_stack {{/str}}
+              </span>
+              <span class="stack-library-import-success-file">
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-primary library-import-link" style="width:100px; float:right"
+                type="button" data-filepath="{{path}}">
+              {{#str}} stack_library_import, qtype_stack {{/str}}
+              <span class="loading-display" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
+            </button>
+          </div>
+        </div>
       </div>
       <div class="formulation stack-library-file-list">
         {{#files}}

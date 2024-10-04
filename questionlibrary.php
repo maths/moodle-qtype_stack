@@ -31,40 +31,48 @@ require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionlibrary.class.php');
+require_once(__DIR__ . '/classes/form/category_form.php');
 
+use category_form;
 
 if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $cm = get_coursemodule_from_id(false, $cmid);
     require_login($cm->course, false, $cm);
-    $liburlparams['cmid'] = $cmid;
-    $qburlparams['cmid'] = $cmid;
-
+    $thiscontext = context_module::instance($cmid);
+    $urlparams['cmid'] = $cmid;
+    $returntext = get_string('stack_library_quiz_return', 'qtype_stack');
 } else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
     require_login($courseid);
-    $liburlparams['courseid'] = $courseid;
-    $qburlparams['courseid'] = $courseid;
+    $thiscontext = context_course::instance($courseid);
+    $urlparams['courseid'] = $courseid;
+    $returntext = get_string('stack_library_qb_return', 'qtype_stack');
 }
 
-// Check user has add capability for the required category.
-$categoryid = required_param('category', PARAM_INT);
-$category = $DB->get_record('question_categories', ['id' => $categoryid], 'name, info, contextid');
-$thiscontext = context::instance_by_id($category->contextid);
+// Check user has add capability for the required context.
 require_capability('moodle/question:add', $thiscontext);
-$liburlparams['category'] = $categoryid;
+
+$contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
+$contexts = $contexts->having_cap('moodle/question:add');
 
 // Initialise $PAGE.
 $PAGE->set_context($thiscontext);
-$PAGE->set_url('/question/type/stack/questionlibrary.php', $liburlparams);
+$PAGE->set_url('/question/type/stack/questionlibrary.php', $urlparams);
 $title = stack_string('stack_library');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();
 
-$questionbanklink = new moodle_url('/question/edit.php', $qburlparams);
+if ($backurl = optional_param('returnurl', null, PARAM_LOCALURL)) {
+    $returnlink = new moodle_url($backurl);
+} else {
+    $returnlink = new moodle_url('/question/edit.php', $urlparams);
+    $returntext = get_string('stack_library_qb_return', 'qtype_stack');
+}
+
 $PAGE->requires->js_amd_inline(
     'require(["qtype_stack/library"], '
-    . 'function(library,){library.setup(' . $categoryid . ');});'
+    . 'function(library,){library.setup();});'
 );
 
 // Get list of files.
@@ -75,13 +83,14 @@ if (!$files) {
     $cache->set('library_file_list', $files);
 }
 
+$mform = new category_form(null, ['qcontext' => $contexts]);
 // Prepare data for template.
 $outputdata = new StdClass();
-$outputdata->questionbanklink = $questionbanklink->out();
-$outputdata->catname = $category->name;
-$outputdata->catinfo = $category->info;
+$outputdata->returnlink = $returnlink->out();
+$outputdata->returntext = $returntext;
 $outputdata->files = $files->children;
-$x = json_encode($files->children);
+$outputdata->category = $mform->render();
+
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 
 // Finish output.

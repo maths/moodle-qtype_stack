@@ -1253,3 +1253,8 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     border: 1px solid lightblue;
     border-radius: 10px;
 }
+.stack-library-import-success {
+    padding: 5px 0 5px 10px;
+    background-color: lightgreen;
+    border-radius: 10px;
+}

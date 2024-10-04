@@ -34,6 +34,8 @@ define([
     let rawDiv = null;
     let variablesDiv = null;
     let importListDiv = null;
+    let importSuccessDiv = null;
+    let importSuccessFileDiv = null;
     let displayedDiv = null;
     let errorDiv = null;
     let currentPath = null;
@@ -41,16 +43,16 @@ define([
     /**
      * Sets up event listeners.
      *
-     * @param {int} cId ID of question category that questions will be imported into.
      */
-    function setup(cId) {
-        categoryId = cId;
+    function setup() {
         libraryDiv = document.querySelector('.stack_library_display');
         rawDiv = document.querySelector('.stack_library_raw_display');
         variablesDiv = document.querySelector('.stack_library_variables_display');
         importListDiv = document.querySelector('.stack-library-imported-list');
         displayedDiv = document.querySelector('.stack_library_selected_question');
         errorDiv = document.querySelector('.stack-library-error');
+        importSuccessDiv = document.querySelector('.stack-library-import-success');
+        importSuccessFileDiv = document.querySelector('.stack-library-import-success-file');
         loading(true);
         const linksArray = document.querySelectorAll('.library-file-link');
         linksArray.forEach(function(elem) {
@@ -58,6 +60,19 @@ define([
         });
         const importButton = document.querySelector('.library-import-link');
         importButton.addEventListener('click', libraryImport);
+        // Remove number of questions from category dropdown as we're not
+        // updating them and that will confuse users.
+        const catOptions = document.querySelectorAll('#id_category option');
+        for (let option of catOptions) {
+            let optionText = option.text;
+            const sections = optionText.split('(');
+            if (sections.length > 1) {
+                if (sections[0] || sections.length > 2) {
+                    sections.pop();
+                    option.text = sections.join('(');
+                }
+            }
+        }
         loading(false);
     }
 
@@ -72,6 +87,7 @@ define([
         currentPath = filepath;
         loading(true);
         errorDiv.hidden = true;
+        categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_render',
             args: {category: categoryId, filepath: filepath},
@@ -83,6 +99,7 @@ define([
                 displayedDiv.innerHTML = currentPath.split('/').pop();
                 document.querySelectorAll('.library-secondary-info')
                     .forEach(el => el.removeAttribute('hidden'));
+                document.querySelector('.library-import-link').removeAttribute('disabled');
                 // This fires the Maths filters for content in the validation div.
                 CustomEvents.notifyFilterContentUpdated(libraryDiv);
             },
@@ -104,6 +121,7 @@ define([
         errorDiv.hidden = true;
         const filepath = currentPath;
         loading(true);
+        categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_import',
             args: {category: categoryId, filepath: filepath},
@@ -111,6 +129,8 @@ define([
                 loading(false);
                 if (response.success) {
                     importListDiv.innerHTML = importListDiv.innerHTML + '<br>' + currentPath.split('/').pop();
+                    importSuccessFileDiv.innerHTML = currentPath.split('/').pop();
+                    importSuccessDiv.removeAttribute('hidden');
                 } else {
                     errorDiv.hidden = false;
                 }
@@ -133,9 +153,9 @@ define([
             document.querySelector('.loading-display').removeAttribute('hidden');
             document.querySelector('.library-import-link').setAttribute('disabled', 'disabled');
             document.querySelectorAll('.library-file-link').forEach(el => el.setAttribute('disabled', 'disabled'));
+            importSuccessDiv.setAttribute('hidden', true);
         } else {
             document.querySelector('.loading-display').setAttribute('hidden', true);
-            document.querySelector('.library-import-link').removeAttribute('disabled');
             document.querySelectorAll('.library-file-link').forEach(el => el.removeAttribute('disabled'));
         }
     }

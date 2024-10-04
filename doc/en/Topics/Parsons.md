@@ -57,10 +57,30 @@ Define the following question variables:
 
 ````
 stack_include("contribl://prooflib.mac");
-ta:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");
+
+proof_steps: [
+    ["assume", "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
+    ["defn_rat", "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where "],
+    ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers."],
+    ["defn_log", "Using the definition of logarithm:"],
+    ["defn_log2", "\\[ 3 = 2^{\\frac{p}{q}}\\]"],
+    ["alg", "\\[ 3^q = 2^p\\]"],
+    ["alg_int", "The left hand side is always odd and the right hand side is always even."],
+    ["contra", "This is a contradiction."],
+    ["conc", "Hence \\(\\log_2(3)\\) is irrational."]
+];
+
+proof_steps: random_permutation(proof_steps);
+
+ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "alg_int", "contra", "conc");
 ````
 
 The optional library `prooflib.mac` contain many useful functions for dealing with student's answers which represent proofs.
+
+The variable `proof_steps` holds all the keys that will be displayed on the string. 
+Each step is indexed by a key identifier, which are used to refer to the steps throughout the question (for example, when constructing the model answer).
+
+We can randomise the order the strings will be shown on the mpage through `random_permutation`.
 
 The variable `ta` holds the teacher's answer which is a proof construction function `proof`.  The arguments to this function are string keys, e.g. `"alg"` which refer to lines in the proof.  The teacher expects these lines in this order.
 
@@ -71,39 +91,37 @@ The example question text below contains a Parson's block. Within the header of 
 ````
 <p>Show that \(\log_2(3)\) is irrational. </p>
 [[parsons input="ans1"]]
-{
-    "assume" : "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational.",
-    "defn_rat" : "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where ",
-    "defn_rat2" : "\\(p\\) and \\(q\\neq 0\\) are positive integers.",
-    "defn_log" : "Using the definition of logarithm:",
-    "defn_log2" : "\\[ 3 = 2^{\\frac{p}{q}}\\]",
-    "alg" : "\\[ 3^q = 2^p\\]",
-    "alg_int" : "The left hand side is always odd and the right hand side is always even.",
-    "contra" : "This is a contradiction.",
-    "conc" : "Hence \\(\\log_2(3)\\) is irrational."
-};
+{# parsons_encode(proof_steps) #}
 [[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
 
 Notes:
 
-1. The Parson's block requires a JSON object containing `"key":"string"` pairs. The `string` will be shown to the student.  The student's answer will be returned in terms of the `key` tags. Numbers (either as numeric type or a string containing a number) cannot be used inside the JSON due to JavaScript automatically ordering the steps; the use of numeric keys here will throw a runtime error. If using Maxima arrays, numeric keys may be used as these steps will be hashed.
-2. The `\` character in the string must be protected!  Notice that `\(...\)` needs to be typed as `\\(...\\)`.
-3. The [Parson's block](../Authoring/Parsons.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
+1. The function `parsons_encode` turns the variable `proof_steps` into a JSON object with hashed keys, as expected by the `parsons` block.
+2. The [Parson's block](../Authoring/Parsons.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
+
+## Question note
+
+Due to the randomisation of the proof steps, we need to add a question note. One that simply gives the order of the keys is as follows.
+
+```
+{@ map(first, proof_steps) @}
+```
 
 ## Input: ans1
 
 1. The _Input type_ field should be **Parsons**.
 2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_answer(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
-3. Set the option "Student must verify" to "no".
+3. Set the option "Student must verify" to "No".
+4. Set the option "Show the validation" to "No".
 
 ## Potential response tree: prt1
 
 Define the feedback variables:
 
 ````
-sa:parsons_decode(ans1);
+sa: parsons_decode(ans1);
 ````
 
 The student's answer will be a _JSON string_, but we need to interpret which of the strings have been used and in what order.  The `parsons_decode` function takes a JSON string and  builds a proof representation object.
@@ -117,7 +135,7 @@ The following Parson's question is an _if and only if_ proof, containing two blo
 ````
 stack_include("contribl://prooflib.mac");
 
-ta:proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"), proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));
+ta: proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"), proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));
 
 proof_steps: [
     ["assodd",     "Assume that \\(n\\) is odd."],
@@ -134,10 +152,14 @@ proof_steps: [
     ["conc_even",  "Hence \\(n^2\\) is even."]
 ];
 
+/* Permute the steps randomly. */ 
+proof_steps: random_permutation(proof_steps);
+
 /* Generate the alternative proofs. */
-tal:proof_alternatives(ta);
+tal: proof_alternatives(ta);
+
 /* Create a set of flattened proofs. */
-tas:setify(map(proof_flatten, tal));
+tas: setify(map(proof_flatten, tal));
 ````
 
 The complete question text is
@@ -150,15 +172,19 @@ The complete question text is
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
 
-Notice the function `parsons_encode` turns the variable `proof_steps` into a JSON object with hashed keys.
-
-Notice in this example the teacher's proof is nested.  This can be seen if we use numerical keys, not string keys and define
+Notice in this example the teacher's proof is nested. This can be seen if we use numerical keys, not string keys and define
 
 ````
 ta:proof_iff(proof(1,2,3,4,5),proof(6,7,8,9,10,11));
 ````
 
-The two blocks can be in either order.  Prooflib provides a function to automatically create both options.  Notice the command `tal:proof_alternatives(ta);` in the question variables.  The variable `tal` will be a list of both options for the if and only if proof.  Note that `proof_alternatives` will recurse over all sub-proofs.  Types of supported proof structure are documented within the prooflib file.  Then we have to "flatten" each of these proofs to a set of list-based proofs: `tas:setify(map(proof_flatten, tal));`
+The two blocks can be in either order. 
+Prooflib provides a function to automatically create both options. 
+Notice the command `tal:proof_alternatives(ta);` in the question variables. 
+The variable `tal` will be a list of both options for the if and only if proof. 
+Note that `proof_alternatives` will recurse over all sub-proofs. 
+Types of supported proof structure are documented within the prooflib file. 
+Then we have to "flatten" each of these proofs to a set of list-based proofs: `tas:setify(map(proof_flatten, tal));`
 
 There is one change in input from the above example:
 
@@ -190,20 +216,14 @@ Can you see the differences between these proofs?
 
 We have much more sophisticated [general assessment tools](../Proof/Proof_assessment.md) for establishing the edit distance between the student's and teacher's proof and providing feedback on how to correct a partially correct proof.  These are documented elsewhere.
 
-## Polish and tidy the question.
-
-Note that all connection between the Parson's block and a string input is JSON format.  Therefore input `ans1` is a string, and we convert to and from JSON at various places in the process.
-
-It is likely you will want to randomly permute the strings in the `proof_steps` list before the student sees them.  This is documented in the [Parson's block reference documentation](../Authoring/Parsons.md).
-
 ## "The teacher's answer is"....
 
 To display a correct proof as a "teacher's answer"
 
 1. Create a new input `ans2`.
-2. The _Input type_ field should be **Parsons**.
+2. The _Input type_ field should be **String**.
 3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps_prune(proof_steps))`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).  We choose to prune out the narrative here (with `proof_steps_prune`), which isn't really appropriate when saying "A correct answer would be....".
-4. Set the option "Student must verify" to "no" and "Show the validation" to "no".
+4. Set the option "Student must verify" to "No" and "Show the validation" to "No".
 
 This input is not used in any PRT.
 

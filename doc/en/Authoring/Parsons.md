@@ -6,52 +6,34 @@ STACK provides a `[[parsons]] ... [[/ parsons]]` [question block](Question_block
 
 Users interact with the strings, dragging them into a tree structure.  Note, a list is a special case of a more structured tree.  The block can be linked to a STACK input so that the student's configuration can be stored and/or assessed.  This page is reference documentation for the `[[parsons]]` block.  Documentation on how to use this block in a complete question is given under topics: [Authoring Parson's problems](../Topics/Parsons.md).
 
-## Authoring JSON within the question text itself.
+## Basic usage
 
 Here is a basic example of use:
 
+#### Question variables
+
+The question author should write all steps to be shown to the student as a list of pairs of the form `["key", "string"]`, where 
+`"string"` is what is shown to the student on the question page. Throughout the question the author uses `"key"` to reference 
+the steps. Note the `\` character needs to be protected within strings, so for example we have to type `\\(n=2m+1\\)` rather than just `\(n=2m+1\)`.
+
+```
+stack_include("contribl://prooflib.mac");
+
+proof_steps: [
+    ["assume", "Assume that \\(n\\) is odd."],
+    ["ex", "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\)."],
+    ["expand", "\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]"],
+    ["def", "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\)."],
+];
+```
+
+#### Question text 
+
 ````
 [[parsons input="ans1"]]
-{
-  "assume":"Assume that \\(n\\) is odd.",
-  "ex":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-}
-[[/parsons]]
-````
-
-Assume the question author writes a list `proof_steps` of pairs `["key", "string"]` in Maxima (as in the examples), in the question variables with both the correct and incorrect strings.
-
-````
-[[parsons input="ans1" ]]
 {# parsons_encode(proof_steps) #}
 [[/parsons]]
 ````
-
-or they can avoid strings going via Maxima at all by writing JSON directly. 
-
-Both these approaches can be combined, assuming `proof_steps` is a list of pairs `["key", "string"]` as in previous examples.
-
-````
-[[parsons input="ans1"]]
-{
-  "assume":{#proof_steps[1][2]#},
-  "ex":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-}
-[[/parsons]]
-````
-
-Note the `\` character needs to be protected within strings, so for example we have to type `\\(n=2m+1\\)` rather than just `\(n=2m+1\)`.
-
-### Using numeric keys
-
-If writing JSON directly, using all numeric keys (either 
-as a numeric type or a string containing a number) is not supported and will throw a runtime error. This is because JavaScript 
-will re-order the steps in this case which voids any randomisation. If using Maxima arrays, the keys are automatically hashed so
-numeric keys may still be used.
 
 ## Customising the `[[parsons]]` block
 
@@ -134,7 +116,6 @@ All communication to and from the Parsons block uses the JSON format.  However, 
 1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
 2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
 3. The maxima function `parsons_answer(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
-4. The maxima function `parsons_hash_map(proof_steps)` takes a two-dimensional steps array and returns a JSON string mapping original keys to their Base64 encodings.  This is useful for interpresting students' answers in offline research.
 
 ### Block parameters: `height` and `width`
 
@@ -142,14 +123,7 @@ Additional display options including `height` and `width` may also be passed to 
 
 ````
 [[parsons input="ans1" height="360px" width="100%"]]
-{
-  "assume_odd":"Assume that \\(n\\) is odd.",
-  "ex_odd":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "expand":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-  "def":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-  "assume_even":"Assume that \\(n\\) is even.",
-  "ex_even":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
-};
+{# parsons_encode(proof_steps) #}
 [[/parsons]]
 ````
 
@@ -160,48 +134,9 @@ Since HTML can be embedded into strings dragged within a Parson's block, images 
 STACK-generated [plots](../Plots/index.md) can also be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the javascript code.
 
 ````
-[[parsons input="ans1"]]
-{
-  "A":"The inverse function of \\(f(x)=x^2\\) has graph",
-  "B":{#plot(x^2,[x,-1,1],[size,250,250])#},
-};
-[[/parsons]]
-````
-
-Notice that since the value of `plot(...)` is a Maxima string of `<img>` tag, there is no need to add in string quotes when defining the JSON above.  The `{#...#}` will print `"` as part of the output.  However, for convenience string quotes are removed from the display form `{@...@}` (as typically you just want the plot without quotes).  Hence this is an alternative.
-
-````
-[[parsons input="ans1"]]
-{
-  "A":"The inverse function of \\(f(x)=x^2\\) has graph",
-  "B":"{@plot(sqrt(x),[x,-1,1],[size,250,250])@}",
-};
-[[/parsons]]
-````
-
-An alternative is to use the Maxima `castext` function, e.g.
-
-    s1:castext("Consider this graph {@plot(x^2,[x,-1,1],[size,250,250])@}");
-
-and then use the value of `s1`, in the Parson's block within the question text
-
-````
-[[parsons input="ans1"]]
-{
-  "A":"The inverse function of \\(f(x)=x^2\\) has graph",
-  "B":"{@s1@}",
-};
-[[/parsons]]
-````
-
-A last direct example of question variables
-
-````
-proof_steps:[
-  [ "A", plot(sqrt(x),[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
-  [ "B", plot(x,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
-  [ "C", plot(x^2,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
-  [ "D", plot(x^3,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])]
+proof_steps: [
+    ["A", "The inverse function of \\(f(x)=x^2\\) has graph"],
+    ["B", plot(x^2,[x,-1,1],[size,250,250])]
 ];
 ````
 

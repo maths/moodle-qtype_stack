@@ -7510,7 +7510,7 @@
       "function": "?"
   },
   "stringdisp": {
-      "variable": "f"
+      "variable": "t"
   },
   "stringout": {
       "function": "f",

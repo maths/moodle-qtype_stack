@@ -386,7 +386,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // The feedback does not come as bits anymore the whole thing is concatenated in CAS
         // and CASText converts any formats to HTML already, pluginfiles as well.
         $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
-            FORMAT_HTML, ['noclean' => true, 'para' => false]);
+            FORMAT_HTML, ['noclean' => true, 'para' => false, 'allowid' => true]);
         // Replace the secured bits.
         $feedback = $result->apply_placeholder_holder($feedback);
 

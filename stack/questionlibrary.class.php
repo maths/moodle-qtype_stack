@@ -82,6 +82,7 @@ class stack_question_library {
         $formatoptions = new stdClass();
         $formatoptions->noclean = true;
         $formatoptions->para = false;
+        $formatoptions->allowid = true;
         $questiontext = format_text($questiontext, FORMAT_HTML, $formatoptions);
 
         foreach ($question->inputs as $name => $input) {

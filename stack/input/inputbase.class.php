@@ -1533,7 +1533,6 @@ abstract class stack_input {
         // TO-DO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
-        $val = '';
 
         $decimal = '.';
         $listsep = ',';

@@ -465,4 +465,37 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($correctresponse,
             $el->get_teacher_answer_display(null, null));
     }
+
+    public function test_decimals() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $ta = '[[3.1415,false],[[a,b,c,2.78],true]]';
+        $el = stack_input_factory::make('radio', 'ans1', $ta, $options, array('options' => ''));
+        $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" ' .
+            'value="" id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">' .
+            '(Clear my choice)</label></div><div class="option"><br /></div><div class="option">' .
+            '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" checked="checked" ' .
+            'data-stack-input-type="radio" /><label for="stack1__ans1_1"><span ' .
+            'class="filter_mathjaxloader_equation"><span class="nolink">\(3{,}1415\)</span></span>' .
+            '</label></div><div class="option"><input type="radio" name="stack1__ans1" value="2" ' .
+            'id="stack1__ans1_2" data-stack-input-type="radio" /><label for="stack1__ans1_2">' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\left[ a ; b ; c ; 2{,}78 \right] \)</span></span></label></div></div>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+            stack_input::SCORE, ['1'], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(['ans1' => '1'],
+            $options, $ta, new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('1'), $state->contents);
+        $this->assertEquals('3.1415', $state->contentsmodified);
+        $state = $el->validate_student_response(['ans1' => '2'],
+            $options, $ta, new stack_cas_security());
+        $this->assertEquals(array('2'), $state->contents);
+        $this->assertEquals('[a,b,c,2.78]', $state->contentsmodified);
+        $this->assertEquals($ta, $el->get_teacher_answer());
+        $el->adapt_to_model_answer($ta);
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\left[ a ; b ; c ; 2{,}78 \right] \)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
 }

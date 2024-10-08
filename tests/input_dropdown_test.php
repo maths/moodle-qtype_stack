@@ -347,4 +347,45 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($correctresponse,
             $el->get_teacher_answer_display(null, null));
     }
+
+    public function test_decimals() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $ta = '[[3.1415,true],[[a,b,c,2.78],false],[2.78,false,"Euler constant"]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, $options, array('options' => ''));
+
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select ' .
+            'menustack1__ans1" name="stack1__ans1"><option selected="selected" value="">(Clear my choice)' .
+            '</option><option value="1"><code>3,1415</code></option><option value="2">' .
+            '<code>[a;b;c;2,78]</code></option><option value="3">Euler constant</option></select>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+            stack_input::BLANK, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select ' .
+            'menustack1__ans1" name="stack1__ans1"><option value="">(Clear my choice)' .
+            '</option><option selected="selected" value="1"><code>3,1415</code></option><option value="2">' .
+            '<code>[a;b;c;2,78]</code></option><option value="3">Euler constant</option></select>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+            stack_input::SCORE, ['1'], '', '', '', '', ''), 'stack1__ans1', false, null));
+
+        $state = $el->validate_student_response(array('ans1' => '1'),
+            $options, $ta, new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('1'), $state->contents);
+        $this->assertEquals('3.1415', $state->contentsmodified);
+        $state = $el->validate_student_response(array('ans1' => '2'),
+            $options, $ta, new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('2'), $state->contents);
+        $this->assertEquals('[a,b,c,2.78]', $state->contentsmodified);
+        $state = $el->validate_student_response(array('ans1' => '3'),
+            $options, $ta, new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals('2.78', $state->contentsmodified);
+
+        $this->assertEquals($ta, $el->get_teacher_answer());
+        $el->adapt_to_model_answer($ta);
+        $expected = 'A correct answer is: <code>3,1415</code>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
 }

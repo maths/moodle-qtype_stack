@@ -403,6 +403,7 @@ $string['verifyquestionandupdate'] = 'Verify the question text and update the fo
 $string['youmustconfirm'] = 'You must confirm here.';
 
 // Strings used by input elements.
+$string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';
 $string['booleangotunrecognisedvalue'] = 'Invalid input.';
 $string['dropdowngotunrecognisedvalue'] = 'Invalid input.';
 $string['pleaseananswerallparts'] = 'Please answer all parts of the question.';

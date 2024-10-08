@@ -1904,7 +1904,10 @@ class stack_answertest_test_data {
         ['Int', 'x', 'atan((x-2)/(x-1))+c', 'atan(2*x-3)', 1, 'ATInt_true.', ''],
         ['Int', 'x', 'atan((x-2)/(x-1))', 'atan(2*x-3)', 0, 'ATInt_const.', ''],
         ['Int', 'x', 'atan((x-1)/(x-2))', 'atan(2*x-3)', 0, 'ATInt_generic.', ''],
-        // These onse currently fail for mathematical reasons.
+        ['Int', 'x', 'atan((x-1)/(x+1))+c', 'atan(x)', 1, 'ATInt_true.', ''],
+        // This really does have an odd constant of integration!
+        ['Int', 'x', 'atan((a*x+1)/(a-x))', 'atan(x)', 1, 'ATInt_true.', ''],
+        // These ones currently fail for mathematical reasons.
         [
             'Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)',

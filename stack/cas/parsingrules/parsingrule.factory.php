@@ -178,7 +178,7 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_802_singleton_units();
             case '901_remove_comments':
                 return new stack_ast_filter_901_remove_comments();
-            case '909_parsons_decode_state_for_display' : 
+            case '909_parsons_decode_state_for_display' :
                 return new stack_ast_filter_909_parsons_decode_state_for_display();
             case '910_inert_float_for_display':
                 return new stack_ast_filter_910_inert_float_for_display();

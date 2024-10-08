@@ -42,7 +42,7 @@ class stack_question_library {
      * @throws \stack_exception
      * @return string HTML render of question text
      */
-    public static function render_question(object $question):string {
+    public static function render_question(object $question): string {
         StackSeedHelper::initialize_seed($question, null);
 
         // Handle Pluginfiles.
@@ -107,7 +107,7 @@ class stack_question_library {
      * @param string directory within samplequestions to be examined
      * @return object StdClass Representation of the file system
      */
-    public static function get_file_list(string $dir):object {
+    public static function get_file_list(string $dir): object {
         $files = glob($dir);
         $results = new stdClass();
         $labels = explode('/', $dir);

@@ -356,7 +356,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     /*
      * Top-level function for turning AST into a string representation.
      */
-    public function ast_to_string($root = null, $parameters = []) : string {
+    public function ast_to_string($root = null, $parameters = []): string {
 
         if ($root === null) {
             $root = $this->ast;

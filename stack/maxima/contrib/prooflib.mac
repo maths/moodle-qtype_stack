@@ -362,7 +362,10 @@ proof_disp_replacesteps_html(ex, proof_steps) := block(
 /**
  * Take a proof, and any proof steps and display them using proof CSS.
  */
-proof_display(proof_ans, proof_steps) := ev(proof_disp_replacesteps_html(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
+proof_display(p_ans, p_steps) := block([p1],
+    p1:proof_disp_replacesteps_html(p_ans, p_steps), 
+    ev(p1,map(lambda([ex], ex=dispproof), proof_types))
+);
 
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],

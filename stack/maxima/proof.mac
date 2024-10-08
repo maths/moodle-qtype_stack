@@ -18,3 +18,5 @@
 /* These need to be in the STACK core, e.g. error trapping etc     */
 /* *************************************************************** */
 
+/* WIP: copy some of the contrib functions over before release. */
+load("contrib/prooflib.mac");

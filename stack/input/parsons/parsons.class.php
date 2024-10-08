@@ -20,6 +20,8 @@ require_once(__DIR__ . '/../string/string.class.php');
 
 class stack_parsons_input extends stack_string_input {
 
+    protected $steps;
+
     /**
      * Filters to apply for display in validate_contents
      * @var array
@@ -73,17 +75,28 @@ class stack_parsons_input extends stack_string_input {
      * @return array response to submit for this input.
      */
     public function get_correct_response($in) {
-        // This is the same as the string method, except we replace the dummy `0` timestamp coming from Maxima with the actual 
+        // Extract actual correct answer from the steps
+        [$value, $steps] = json_decode(stack_utils::maxima_string_to_php_string($in));
+        // We replace the dummy `0` timestamp coming from Maxima with the actual 
         // Unix time (we do this here because Maxima does not have an in-built unix time function)
-        $value_obj = json_decode(stack_utils::maxima_string_to_php_string($in));
-        $value_obj[0][1] = time();
-        $value = $this->ensure_string(stack_utils::php_string_to_maxima_string(json_encode($value_obj)));
+        $value[0][1] = time();
+        $value = $this->ensure_string(stack_utils::php_string_to_maxima_string(json_encode($value)));
+        // Store the steps as a property to be accessed by other methods
+        $this->steps = $this->maxima_proof_steps_to_stdClass($steps);
 
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
             $value = '';
         }
 
         return $this->maxima_to_response_array($value);
+    }
+
+    private function maxima_proof_steps_to_stdClass($steps) {
+        $object = new stdClass();
+        foreach ($steps as $item) {
+            $object->{$item[0]} = $item[1];
+        }
+        return $object;
     }
 
     /**
@@ -100,6 +113,16 @@ class stack_parsons_input extends stack_string_input {
      * This avoids the need to write 'hideanswer' for Parson's questions.
      */
     public function get_teacher_answer_display($value, $display) {
-        return '';
+        // Extract actual correct answer from the steps
+        [$value, $steps] = json_decode(stack_utils::maxima_string_to_php_string($value));
+        $value = stack_utils::unhash_parsons_string(json_encode($value));
+        $steps = stack_utils::php_string_to_maxima_string(json_encode($steps));
+        $ans = 'proof("' . implode('","', json_decode($value)[0][0]->used[0][0]) . '")';
+        return 'proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))';
+        /*var_dump($value);
+        var_dump(json_decode($value)[0][0]->used[0][0]);
+        var_dump('proof("' . implode('","', json_decode($value)[0][0]->used[0][0]) . '")');
+        die();
+        return '';*/
     }
 }

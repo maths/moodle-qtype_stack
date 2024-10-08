@@ -226,7 +226,7 @@ parsons_answer(proof_ans, proof_steps) := block([pkeys],
   /* Ensure all keys are string keys. */
   if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
   pkeys:proof_parsons_keys_used_unused_hash(proof_ans, proof_steps),
-  sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
+  sconcat("[[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]], ", proof_steps, "]")
 );
 
 /******************************************************************/

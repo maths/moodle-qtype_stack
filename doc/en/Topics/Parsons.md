@@ -112,11 +112,11 @@ Due to the randomisation of the proof steps, we need to add a question note. One
 ## Input: ans1
 
 1. The _Input type_ field should be **Parsons**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_answer(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
+2. The _Model answer_ field should be a list `[ta, proof_steps]`.
 3. Set the option "Student must verify" to "No".
 4. Set the option "Show the validation" to "No".
 
-## Potential response tree: prt1
+## Potential response tree
 
 Define the feedback variables:
 
@@ -131,6 +131,8 @@ Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to con
 # Example question 2: a proof with interchangeable block order
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
+
+## Question variables
 
 ````
 stack_include("contribl://prooflib.mac");
@@ -162,6 +164,8 @@ tal: proof_alternatives(ta);
 tas: setify(map(proof_flatten, tal));
 ````
 
+## Question text 
+
 The complete question text is
 
 ````
@@ -186,11 +190,24 @@ Note that `proof_alternatives` will recurse over all sub-proofs.
 Types of supported proof structure are documented within the prooflib file. 
 Then we have to "flatten" each of these proofs to a set of list-based proofs: `tas:setify(map(proof_flatten, tal));`
 
-There is one change in input from the above example:
+## Question note
 
-1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `parsons_answer(ta, proof_steps)`.
+Due to the randomisation of the proof steps, we need to add a question note. One that simply gives the order of the keys is as follows.
 
-In this example all steps are used, however if you add extra steps (distracters) then the model answer field has to separate these into used and unused lists, hence both the teacher's answer `ta` and the whole `proof_steps` list is needed.
+```
+{@ map(first, proof_steps) @}
+```
+
+## Input
+
+The "Input" should be set exactly as in the previous example.
+
+1. The _Input type_ field should be **Parsons**.
+2. The _Model answer_ field should be a list `[ta, proof_steps]`.
+3. Set the option "Student must verify" to "No".
+4. Set the option "Show the validation" to "No".
+
+## Potential reponse tree
 
 As before, define the feedback variables to interpret the JSON as a proof:
 
@@ -216,21 +233,10 @@ Can you see the differences between these proofs?
 
 We have much more sophisticated [general assessment tools](../Proof/Proof_assessment.md) for establishing the edit distance between the student's and teacher's proof and providing feedback on how to correct a partially correct proof.  These are documented elsewhere.
 
-## "The teacher's answer is"....
-
-To display a correct proof as a "teacher's answer"
-
-1. Create a new input `ans2`.
-2. The _Input type_ field should be **String**.
-3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps_prune(proof_steps))`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).  We choose to prune out the narrative here (with `proof_steps_prune`), which isn't really appropriate when saying "A correct answer would be....".
-4. Set the option "Student must verify" to "No" and "Show the validation" to "No".
-
-This input is not used in any PRT.
-
 # Legacy versions
 
 Old versions of the parsons block (before 2024072500) used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
-`parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
-supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
+`parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`, and used the `String` input type. Legacy versions of questions are still 
+supported and should function as previously, so long as the `String` input type is used. However it is strongly recommended to update questions to use the new functions.
 These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
 also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).

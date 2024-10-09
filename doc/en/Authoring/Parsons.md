@@ -115,7 +115,6 @@ All communication to and from the Parsons block uses the JSON format.  However, 
 
 1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
 2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
-3. The maxima function `parsons_answer(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
 
 ### Block parameters: `height` and `width`
 

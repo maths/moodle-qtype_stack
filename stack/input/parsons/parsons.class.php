@@ -116,9 +116,34 @@ class stack_parsons_input extends stack_string_input {
         // Extract actual correct answer from the steps
         [$value, $steps] = json_decode(stack_utils::maxima_string_to_php_string($value));
         $value = stack_utils::unhash_parsons_string(json_encode($value));
-        $steps = stack_utils::php_string_to_maxima_string(json_encode($steps));
+        $steps = json_encode($steps);
         $ans = 'proof("' . implode('","', json_decode($value)[0][0]->used[0][0]) . '")';
-        return 'proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))';
+        //var_dump('proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))');
+        //die();
+        $ta = 'p1:proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))';
+        var_dump($ta);
+        //var_dump($ta);
+        //die();
+        $cs = stack_ast_container::make_from_teacher_source($ta);
+        $ct = castext2_evaluatable::make_from_source('{@p1@}', 'proofdisplay');
+        $at1 = new stack_cas_session2([$cs, $ct], null, 0);
+        if ($ct->get_valid()) {
+            $at1->instantiate();
+            $displaytext = $ct->get_rendered();
+        }
+        
+        //var_dump($at1->get_errors());
+        //die();
+        if ('' != $at1->get_errors()) {
+            $this->errors[] = $at1->get_errors();
+            return;
+        }
+        
+        //var_dump($cs->get_display());
+        //die();
+        return $displaytext;
+        //die();
+        //return 'proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))';
         /*var_dump($value);
         var_dump(json_decode($value)[0][0]->used[0][0]);
         var_dump('proof("' . implode('","', json_decode($value)[0][0]->used[0][0]) . '")');

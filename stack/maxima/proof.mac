@@ -18,3 +18,4 @@
 /* These need to be in the STACK core, e.g. error trapping etc     */
 /* *************************************************************** */
 
+load("contrib/prooflib.mac");

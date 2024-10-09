@@ -110,6 +110,10 @@ class stack_parsons_input extends stack_string_input {
      * This avoids the need to write 'hideanswer' for Parson's questions.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->extraoptions['hideanswer']) {
+            return '';
+        }
+        
         $ta = 'apply(proof_display, ' . $value . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);

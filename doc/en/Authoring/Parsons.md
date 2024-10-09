@@ -141,11 +141,17 @@ proof_steps: [
 
 ## Legacy versions
 
-Old versions of the parsons block used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
-`parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`. Legacy versions of questions are still 
-supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
-These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
-also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+We recently changed the way we deal with Parsons problems, adding in a special input type to support them.
+These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. 
+This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+
+| Use   | Old versions              | New versions          |
+|-------|---------------------------|-----------------------|
+| Block | `stackjson_stringify`      | `parsons_encode`      |
+| Input | `proof_parsons_key_json`   | `parsons_answer`      | 
+| PRT   | `proof_parsons_interpret`  | `parsons_decode`      |
+
+Legacy versions of questions are still supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
 
 ## Obtaining attempt histories
 

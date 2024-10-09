@@ -707,20 +707,19 @@ $string['healthcheckparsons'] = 'Parson\'s drag-and-drop proof block';
 $string['healthcheckparsonsintro'] = 'There should be a drag-and-drop Parson\'s proof block below linked to an input block. The input box should be empty to begin with and will populate with a JSON corresponding to the state of the Parson\'s drag-and-drop lists as one starts to move the items.';
 $string['healthcheckparsonssample'] = '<div class="formulation">
 [[parsons input="fakeparsonsinput"]]
-{
-    "assume":    "Assume, for a contradiction, that there are only a finite number of prime numbers.",
-    "false_hyp": "List all the prime numbers \\\\( p_1, p_2, \\\\dots, p_n\\\\).",
-    "obs1":      "Every natural number is either a member of this list, or is divisible by a number on this list.",
-    "gadget":    "Consider \\\\(N=p_1\\\\times p_2 \\\\times \\\\cdots \\\\times p_n +1.\\\\)",
-    "notmem1":   "For all \\\\(k=1,\\\\dots, n\\\\) the number \\\\(N > p_k\\\\)",
-    "notmem2":   "Hence \\\\(N\\\\neq p_k\\\\).",
-    "notmem3":   "Therefore \\\\(N\\\\) is not a member of the list.",
-    "div1":      "For all \\\\(k=1,\\\\dots, n\\\\) when we divide \\\\(N\\\\) by \\\\(p_k\\\\) we get remainder \\\\(1\\\\).",
-    "div2":      "Hence \\\\(N\\\\) is not divisible by any \\\\(p_k\\\\).",
-    "contra1":   "\\\\(N\\\\) is not a member of the list and is not divisible by a number on this list.",
-    "contra2":   "This contradicts the fact that every number is either a member of this list, or is divisible by a number on this list.",
-    "conc":      "Therefore the list of prime numbers is not finite."
-};
+{# stackjson_stringify([[base64("assume"), "Assume, for a contradiction, that there are only a finite number of prime numbers."],
+ [base64("false_hyp"), "List all the prime numbers \\\\( p_1, p_2, \\\\dots, p_n\\\\)."],
+ [base64("obs1"), "Every natural number is either a member of this list, or is divisible by a number on this list."],
+ [base64("gadget"), "Consider \\\\(N=p_1\\\\times p_2 \\\\times \\\\cdots \\\\times p_n +1.\\\\)"],
+ [base64("notmem1"), "For all \\\\(k=1,\\\\dots, n\\\\) the number \\\\(N > p_k\\\\)"],
+ [base64("notmem2"), "Hence \\\\(N\\\\neq p_k\\\\)."],
+ [base64("notmem3"), "Therefore \\\\(N\\\\) is not a member of the list."],
+ [base64("div1"), "For all \\\\(k=1,\\\\dots, n\\\\) when we divide \\\\(N\\\\) by \\\\(p_k\\\\) we get remainder \\\\(1\\\\)."],
+ [base64("div2"), "Hence \\\\(N\\\\) is not divisible by any \\\\(p_k\\\\)."],
+ [base64("contra1"), "\\\\(N\\\\) is not a member of the list and is not divisible by a number on this list."],
+ [base64("contra2"), "This contradicts the fact that every number is either a member of this list, or is divisible by a number on this list."],
+ [base64("conc"), "Therefore the list of prime numbers is not finite."]
+]) #}
 [[/parsons]]
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
 $string['healthcheckgeogebra'] = 'GeoGebra block';

@@ -77,14 +77,11 @@ class stack_parsons_input extends stack_string_input {
             $value = '';
         }
         // Extract actual correct answer from the steps.
-        $ta = 'p1:apply(parsons_answer, ' . $in . ')';
+        $ta = 'apply(parsons_answer, ' . $in . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
-        $ct = castext2_evaluatable::make_from_source('{@p1@}', 'proofans');
-        $at1 = new stack_cas_session2([$cs, $ct], null, 0);
-        if ($ct->get_valid()) {
-            $at1->instantiate();
-            $value = $ct->get_rendered();
-        }
+        $at1 = new stack_cas_session2([$cs], null, 0);
+        $at1->instantiate();
+        $value = json_decode($cs->get_value());
 
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
@@ -95,7 +92,7 @@ class stack_parsons_input extends stack_string_input {
         Unix time (we do this here because Maxima does not have an in-built unix time function). */
         $value = $this->replace_dummy_time($value);
         $value = $this->ensure_string(stack_utils::php_string_to_maxima_string($value));
-
+        
         return $this->maxima_to_response_array($value);
     }
 
@@ -113,22 +110,17 @@ class stack_parsons_input extends stack_string_input {
      * This avoids the need to write 'hideanswer' for Parson's questions.
      */
     public function get_teacher_answer_display($value, $display) {
-        $ta = 'p1:apply(proof_display, ' . $value . ')';
-  
+        $ta = 'apply(proof_display, ' . $value . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
-        $ct = castext2_evaluatable::make_from_source('{@p1@}', 'proofdisplay');
-        $at1 = new stack_cas_session2([$cs, $ct], null, 0);
-        if ($ct->get_valid()) {
-            $at1->instantiate();
-            $displaytext = $ct->get_rendered();
-        }
+        $at1 = new stack_cas_session2([$cs], null, 0);
+        $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
             return;
         }
 
-        return $displaytext;
+        return stack_utils::maxima_string_strip_mbox($cs->get_display());
     }
 
     /**

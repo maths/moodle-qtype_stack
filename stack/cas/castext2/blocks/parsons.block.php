@@ -27,7 +27,6 @@ stack_cas_castext2_iframe::register_counter('///PARSONS_COUNT///');
 
 class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
-    /** This is not something we want people to edit in general. */
     public static $namedversions = [
         'cdn' => [
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js',

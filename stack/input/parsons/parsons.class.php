@@ -88,11 +88,11 @@ class stack_parsons_input extends stack_string_input {
             return;
         }
 
-        /* We replace the dummy `0` timestamp coming from Maxima with the actual 
+        /* We replace the dummy `0` timestamp coming from Maxima with the actual
         Unix time (we do this here because Maxima does not have an in-built unix time function). */
         $value = $this->replace_dummy_time($value);
         $value = $this->ensure_string(stack_utils::php_string_to_maxima_string($value));
-        
+
         return $this->maxima_to_response_array($value);
     }
 
@@ -101,10 +101,10 @@ class stack_parsons_input extends stack_string_input {
      * We unhash here to provide meaningful information in response history for authors.
      */
     public function summarise_response($name, $state, $response) {
-        $ans_display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
-        return $name . ': ' . $ans_display . ' [' . $state->status . ']';
+        $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
+        return $name . ': ' . $display . ' [' . $state->status . ']';
     }
-    
+
     /**
      * Do not show the JSON containing teacher answer as feedback.
      * This avoids the need to write 'hideanswer' for Parson's questions.

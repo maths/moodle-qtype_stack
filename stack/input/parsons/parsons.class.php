@@ -20,8 +20,6 @@ require_once(__DIR__ . '/../string/string.class.php');
 
 class stack_parsons_input extends stack_string_input {
 
-    protected $steps;
-
     /**
      * Filters to apply for display in validate_contents
      * @var array
@@ -75,28 +73,30 @@ class stack_parsons_input extends stack_string_input {
      * @return array response to submit for this input.
      */
     public function get_correct_response($in) {
-        // Extract actual correct answer from the steps
-        [$value, $steps] = json_decode(stack_utils::maxima_string_to_php_string($in));
-        // We replace the dummy `0` timestamp coming from Maxima with the actual 
-        // Unix time (we do this here because Maxima does not have an in-built unix time function)
-        $value[0][1] = time();
-        $value = $this->ensure_string(stack_utils::php_string_to_maxima_string(json_encode($value)));
-        // Store the steps as a property to be accessed by other methods
-        $this->steps = $this->maxima_proof_steps_to_stdClass($steps);
-
-        if (trim($value) == 'EMPTYANSWER' || $value === null) {
+        if (trim($in) == 'EMPTYANSWER' || $in === null) {
             $value = '';
         }
+        // Extract actual correct answer from the steps
+        $ta = 'p1:apply(parsons_answer, ' . $in . ')';
+        $cs = stack_ast_container::make_from_teacher_source($ta);
+        $ct = castext2_evaluatable::make_from_source('{@p1@}', 'proofans');
+        $at1 = new stack_cas_session2([$cs, $ct], null, 0);
+        if ($ct->get_valid()) {
+            $at1->instantiate();
+            $value = $ct->get_rendered();
+        }
+
+        if ('' != $at1->get_errors()) {
+            $this->errors[] = $at1->get_errors();
+            return;
+        }
+
+        // We replace the dummy `0` timestamp coming from Maxima with the actual 
+        // Unix time (we do this here because Maxima does not have an in-built unix time function)
+        $value = $this->replace_dummy_time($value);
+        $value = $this->ensure_string(stack_utils::php_string_to_maxima_string($value));
 
         return $this->maxima_to_response_array($value);
-    }
-
-    private function maxima_proof_steps_to_stdClass($steps) {
-        $object = new stdClass();
-        foreach ($steps as $item) {
-            $object->{$item[0]} = $item[1];
-        }
-        return $object;
     }
 
     /**
@@ -113,17 +113,8 @@ class stack_parsons_input extends stack_string_input {
      * This avoids the need to write 'hideanswer' for Parson's questions.
      */
     public function get_teacher_answer_display($value, $display) {
-        // Extract actual correct answer from the steps
-        [$value, $steps] = json_decode(stack_utils::maxima_string_to_php_string($value));
-        $value = stack_utils::unhash_parsons_string(json_encode($value));
-        $steps = json_encode($steps);
-        $ans = 'proof("' . implode('","', json_decode($value)[0][0]->used[0][0]) . '")';
-        //var_dump('proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))');
-        //die();
-        $ta = 'p1:proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))';
-        var_dump($ta);
-        //var_dump($ta);
-        //die();
+        $ta = 'p1:apply(proof_display, ' . $value . ')';
+  
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $ct = castext2_evaluatable::make_from_source('{@p1@}', 'proofdisplay');
         $at1 = new stack_cas_session2([$cs, $ct], null, 0);
@@ -131,23 +122,24 @@ class stack_parsons_input extends stack_string_input {
             $at1->instantiate();
             $displaytext = $ct->get_rendered();
         }
-        
-        //var_dump($at1->get_errors());
-        //die();
+
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
             return;
         }
-        
-        //var_dump($cs->get_display());
-        //die();
+    
         return $displaytext;
-        //die();
-        //return 'proof_display(' . $ans . ', proof_steps_prune(' . $steps . '))';
-        /*var_dump($value);
-        var_dump(json_decode($value)[0][0]->used[0][0]);
-        var_dump('proof("' . implode('","', json_decode($value)[0][0]->used[0][0]) . '")');
-        die();
-        return '';*/
+    }
+
+    /**
+     * This is used to replace the dummy `0` timestamp coming from Maxima with Unix time.
+     *
+     * @param string $in
+     * @return string
+     */
+    private function replace_dummy_time($in) {
+        $json = json_decode($in);
+        $json[0][1] = time();
+        return json_encode($json);
     }
 }

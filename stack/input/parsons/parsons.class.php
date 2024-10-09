@@ -24,11 +24,11 @@ class stack_parsons_input extends stack_string_input {
      * Filters to apply for display in validate_contents
      * @var array
      */
-    protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display', 
+    protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display',
         '912_inert_string_for_display'];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
-        // This is the same as `string` input render except we hide the input box
+        // This is the same as `string` input render except we hide the input box.
 
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -42,7 +42,7 @@ class stack_parsons_input extends stack_string_input {
             'size'  => $this->parameters['boxWidth'] * 1.1,
             'spellcheck'     => 'false',
             'class'     => 'maxima-string',
-            'style'     => 'display:none'
+            'style'     => 'display:none',
         ];
 
         if ($this->is_blank_response($state->contents)) {
@@ -76,7 +76,7 @@ class stack_parsons_input extends stack_string_input {
         if (trim($in) == 'EMPTYANSWER' || $in === null) {
             $value = '';
         }
-        // Extract actual correct answer from the steps
+        // Extract actual correct answer from the steps.
         $ta = 'p1:apply(parsons_answer, ' . $in . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $ct = castext2_evaluatable::make_from_source('{@p1@}', 'proofans');
@@ -91,8 +91,8 @@ class stack_parsons_input extends stack_string_input {
             return;
         }
 
-        // We replace the dummy `0` timestamp coming from Maxima with the actual 
-        // Unix time (we do this here because Maxima does not have an in-built unix time function)
+        /* We replace the dummy `0` timestamp coming from Maxima with the actual 
+        Unix time (we do this here because Maxima does not have an in-built unix time function). */
         $value = $this->replace_dummy_time($value);
         $value = $this->ensure_string(stack_utils::php_string_to_maxima_string($value));
 
@@ -104,12 +104,12 @@ class stack_parsons_input extends stack_string_input {
      * We unhash here to provide meaningful information in response history for authors.
      */
     public function summarise_response($name, $state, $response) {
-        $ans_display = stack_utils::unhash_parsons_string_maxima($state->contents[0]); 
+        $ans_display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
         return $name . ': ' . $ans_display . ' [' . $state->status . ']';
     }
     
     /**
-     * Do not show the JSON containing teacher answer as feedback. 
+     * Do not show the JSON containing teacher answer as feedback.
      * This avoids the need to write 'hideanswer' for Parson's questions.
      */
     public function get_teacher_answer_display($value, $display) {
@@ -127,7 +127,7 @@ class stack_parsons_input extends stack_string_input {
             $this->errors[] = $at1->get_errors();
             return;
         }
-    
+
         return $displaytext;
     }
 

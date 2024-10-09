@@ -18,4 +18,213 @@
 /* These need to be in the STACK core, e.g. error trapping etc     */
 /* *************************************************************** */
 
-load("contrib/prooflib.mac");
+
+/******************************************************************/
+/* Types of proof.                                                */
+/*                                                                */
+/* proof()       - general, unspecified proof                     */
+/* proof_c()     - general proof, with commutative arguments      */
+/* proof_opt()   - proof_opt()                                    */
+/*                                                                */
+/* proof_iff()   - if any only if                                 */
+/* proof_cases() - proof by exhaustive cases, the first element   */
+/*                 is assumed to justify the cases.               */
+/* proof_goal()  - proof by establishing a goal, the last element */
+/*                 is assumed to justify by the previous cases.   */
+/* proof_ind()   - proof by induction                             */
+/*                                                                */
+/******************************************************************/
+
+/* General proof functions                                        */
+/* Please update Proof/Proof_CAS_library.md and                   */
+/* stack/maxima/contrib/prooflib.mac with new types.              */
+
+/* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
+proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_goal, proof_ind];
+
+/******************************************************************/
+/*                                                                */
+/*  STACK Parson's block functions                                */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Hashes the keys of a two-dimensional steps array using Base64 hashing. We use Base64 due to its
+ * reversibility.
+ */
+hash_keys_array(steps) := block(
+  return(map(lambda([item], join([base64(first(item))], rest(item, 1))), steps))
+);
+
+/*
+ * Turns a list of Base64-hashed keys into a list containing their original strings.
+ */
+unhash_keys_list(hashed_list) := block(
+  return(map(lambda([item], base64_decode(item)), hashed_list))
+);
+
+/*
+ * Takes a two-dimensional steps array and returns a JSON string mapping original keys to their Base64 encodings.
+ */
+parsons_hash_map(steps) := block(
+  return(stackjson_stringify(cons("stack_map", makelist([steps[i][1], base64(steps[i][1])], i, 1, length(steps)))))
+);
+
+/*
+ * Turns a two-dimensional proof steps array into a JSON string with Base64-hashed keys.
+ */
+parsons_encode(steps) := block(
+  return(stackjson_stringify(hash_keys_array(steps)))
+);
+
+/*
+ * Take the hashed JSON from STACK Parson's block and return a proof function.
+ */
+parsons_decode(st) := block([pf],
+  pf:first(first(stackjson_parse(st))),
+  pf:apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used")))))
+);
+
+/*
+ * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
+ * Needed to create a "teacher's answer" in JSON block, including unused text.
+*/
+proof_parsons_keys_used_unused_hash(proof_ans, proof_steps) := block([tkeys, skeys],
+  tkeys:map(first, hash_keys_array(proof_steps)),
+  skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
+  /* TO-DO: update this when we deal with trees (and have examples) */
+  skeys:map(lambda([skey], base64(skey)), flatten(skeys)),
+  return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
+);
+
+/* Construct the "used" and "available" keys when the teacher's answer is used. */
+parsons_answer(proof_ans, proof_steps) := block([pkeys],
+  /* Ensure all keys are string keys. */
+  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
+  pkeys:proof_parsons_keys_used_unused_hash(proof_ans, proof_steps),
+  sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
+);
+
+/******************************************************************/
+/*                                                                */
+/*  Display functions                                             */
+/*                                                                */
+/******************************************************************/
+
+/*
+ *  Return the step "k" from the proof "pf".
+ */
+proof_getstep(k, pf) := block([keylist],
+    if integerp(k) then return(second(pf[k])),
+    keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
+    if not(emptyp(keylist)) then return(second(first(keylist))),
+    /* If the string is not in the pf list, then just return it unchanged.
+       Teachers can use this to adapt proofs which use some of the steps.
+    */
+    k
+);
+
+/*
+ * This function replaces integers and keys with the literal strings from the proof.
+ */
+proof_disp_replacesteps(ex, proof_steps) := block(
+   if integerp(ex) or stringp(ex) then return(proof_getstep(ex, proof_steps)),
+   if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   /* Flatten any optional steps now. */
+   if is(op(ex)=proof_opt) then return(proof_disp_replacesteps(first(args(ex)), proof_steps)),
+   apply(op(ex), map(lambda([ex2], proof_disp_replacesteps(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Take a proof "ex" and a list "pf" of [key, step] pairs and translate this into a proof tree with
+ * the keys replaced by corresponding strings.
+ */
+proof_keys_sub(ex, proof_steps):= block(
+   if integerp(ex) then return(first(proof_steps[ex])),
+   if stringp(ex) then return(ex),
+   apply(op(ex), map(lambda([ex2], proof_keys_sub(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Take a proof "ex" and a list "pf" of [key, step] pairs and translate this into a proof tree with
+ * the keys replaced by corresponding integers.
+ */
+proof_keys_int(ex, proof_steps):= block(
+   if integerp(ex) then return(ex),
+   if stringp(ex) then return(first(sublist_indices(proof_steps, lambda([ex2], is(ex=first(ex2)))))),
+   apply(op(ex), map(lambda([ex2], proof_keys_int(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Replace displayed LaTeX mathematics delimiters with inline.
+ */
+proof_inline_maths(st) := ssubst("\\)", "\\]", ssubst("\\(", "\\[", st));
+
+/*
+ * Prune out any narrative from the proof steps: used to display a proof without narrative.
+*/
+proof_line_prune(pfs) := [first(pfs), second(pfs)];
+proof_steps_prune(proof_steps) := map(proof_line_prune, proof_steps);
+
+/*
+ *  Return the step "k" from the proof "pf" wrapped in html divs, and with any narrative.
+ */
+proof_getstep_html(k, pf) := block([keylist],
+    if integerp(k) then return(proof_line_html(pf[k])),
+    keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
+    if not(emptyp(keylist)) then return(proof_line_html(first(keylist))),
+    /* If the string is not in the pf list, then just return it unchanged.
+       Teachers can use this to adapt proofs which use some of the steps.
+    */
+    k
+);
+
+/*
+  Wrap lines in html <div> tags, and add narrative if it exists. 
+  pfs is a line from the proof_steps array.
+*/
+proof_line_html(pfs) := block([st],
+  st:"",
+  if is(length(pfs)>2) then
+      st:proof_comment_disp(third(pfs)),
+  proof_line_disp(second(pfs), st)
+);
+
+/*
+ * This function replaces integers and keys with the html-wrapped strings from the proof.
+ */
+proof_disp_replacesteps_html(ex, proof_steps) := block(
+   if integerp(ex) or stringp(ex) then return(proof_getstep_html(ex, proof_steps)),
+   if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   /* Flatten any optional steps now. */
+   if is(op(ex)=proof_opt) then return(proof_disp_replacesteps(first(args(ex)), proof_steps)),
+   apply(op(ex), map(lambda([ex2], proof_disp_replacesteps_html(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Take a proof, and any proof steps and display them using proof CSS.
+ */
+proof_display(p_ans, p_steps) := block([p1],
+    p1:proof_disp_replacesteps_html(p_ans, p_steps), 
+    ev(p1,map(lambda([ex], ex=dispproof), proof_types))
+);
+
+/* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
+dispproof([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex)], ["</div>"])))
+);
+
+/**
+ * Take a proof, and any proof steps and display them using paragraphs.
+ */
+proof_display_para(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof_para), proof_types));
+
+/* Flatten to a paragraph. */
+dispproof_para([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
+);
+
+proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</div>");
+proof_comment_disp(ex):=    sconcat("<div class='proof-comment'>", ex,       "</div>");
+proof_column_disp(ex):=     sconcat("<div class='proof-column'>",  ex,       "</div>");
+proof_column_disp2(ex):=    sconcat("<div class='proof-column2'>", ex,       "</div>");

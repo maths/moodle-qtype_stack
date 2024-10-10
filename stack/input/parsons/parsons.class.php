@@ -20,6 +20,58 @@ require_once(__DIR__ . '/../string/string.class.php');
 
 class stack_parsons_input extends stack_string_input {
 
+    protected $types;
+
+    /**
+     * If new functionality is added to the Parson's block that require new answer functions then they should be added to 
+     * the following two functions. 
+     * 
+     * Each if clause should test the fully evaluated input. For example, in Parson's questions 
+     * for proof, this full evaluated input looks like `[proof..., [["a", "A"], ["b", "B"]]]`. So we can test it by 
+     * checking the existence of proof near the beginning. Each if clause should then return an array of two elements of the 
+     * form `[answer_function, required_args]` according to the relevant Maxima answer function. For example in proof questions, 
+     * the answer function `proof_answer` takes two arguments, which are already included in the evaluated input `$in`. 
+     * 
+     * NOTE: If the input does NOT represent a valid JSON, 
+     * then it should be added before any lines in which the key contains `json_decode`. Similarly any clauses involving 
+     * `json_decode` should go at the end.
+     * 
+     * @param string $in
+     * @return array
+     */
+    private static function answer_function($in) {
+        if (self::is_proof_question($in)) {
+            return ["parsons_answer", $in];
+        } else if (count(json_decode($in)) === 3) {
+            // In this case input looks like `[ta, steps, 3]` and only the first two are needed for `group_answer`.
+            return ["group_answer", json_encode(array_slice(json_decode($in), 0, 2))];
+        } else if (count(json_decode($in)) === 4) {
+            // In this case input looks like `[ta, steps, 3, 2]` and only the first three are needed for `match_answer`.
+            return ["match_answer", json_encode(array_slice(json_decode($in), 0, 3))];
+        }
+    }
+
+    /**
+     * Analogous to `answer_function` above but works for unevaluated inputs. So these are never valid JSONs. On the other hand 
+     * since they are unevaluated we can safely assume any commas represent list delimiters, so we can mostly explode and implode.
+     * 
+     * NOTE: These will be checked in the order they are given in the return array. If the input does NOT represent a valid JSON, 
+     * then it should be added before any lines in which the key contains `json_decode`. Similarly any keys involving 
+     * `json_decode` should go at the end of the array.
+     * 
+     * @param string $in
+     * @return array
+     */
+    private static function answer_function_testcase($ta) {
+        if (count(explode(",", $ta)) === 2) {
+            return ["parsons_answer", $ta];
+        } else if (count(explode(",", $ta)) === 3) {
+            return ["group_answer", implode(",", array_slice(explode(",", $ta), 0, 2)) . "]"];
+        } else if (count(explode(",", $ta)) === 4) {
+            return ["match_answer", implode(",", array_slice(explode(",", $ta), 0, 3)) . "]"];
+        }
+    }
+
     /**
      * Filters to apply for display in validate_contents
      * @var array
@@ -77,21 +129,11 @@ class stack_parsons_input extends stack_string_input {
             $value = '';
         }
 
-        // Check if the question is a proof, grouping or matching question.
-        if ($this->is_proof_question($in)) {
-            $answerFun = 'parsons_answer';
-        } else if ($this->is_group_question($in)) {
-            $answerFun = 'group_answer';
-            // Get only the first two elements if it's a grouping question.
-            $in = json_encode(array_slice(json_decode($in), 0, 2));
-        } else if ($this->is_match_question($in)) {
-            $answerFun = 'match_answer';
-            // Get only the first three elements if it's a matching question (`match_answer` takes three arguments in this case).s
-            $in = json_encode(array_slice(json_decode($in), 0, 3));
-        }
+        // Get the relevant Maxima function and arguments.
+        [$answerfun, $args] = $this::answer_function($in);
 
         // Extract actual correct answer from the steps.
-        $ta = 'apply(' . $answerFun . ',' . $in . ')'; 
+        $ta = 'apply(' . $answerfun . ',' . $args . ')'; 
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
@@ -114,21 +156,8 @@ class stack_parsons_input extends stack_string_input {
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {
-        if ($this->is_proof_question_testcase($this->teacheranswer)) {
-            $answerFun = 'parsons_answer';
-            $ta = $this->teacheranswer;
-        } else if ($this->is_group_question_testcase($this->teacheranswer)) {
-            $answerFun = 'group_answer';
-            // Get only the first two elements if it's a grouping question.
-            $ta = implode(",", array_slice(explode(",", $this->teacheranswer), 0, 2)) . "]";
-        } else if ($this->is_match_question_testcase($this->teacheranswer)) {
-            $answerFun = 'match_answer';
-            // Get only the first three elements if it's a matching question (`match_answer` takes three arguments in this case).s
-            $ta = implode(",", array_slice(explode(",", $this->teacheranswer), 0, 3)) . "]";
-        }
-    
-        $ta = 'apply(' . $answerFun . ',' . $ta . ')'; 
-
+        [$answerfun, $args] = self::answer_function_testcase($this->teacheranswer);
+        $ta = 'apply(' . $answerfun . ',' . $args . ')';
         return $ta;
     }
 
@@ -154,7 +183,7 @@ class stack_parsons_input extends stack_string_input {
         if (!$this->is_proof_question($value)) {
             return '';
         }
-        
+
         $ta = 'apply(proof_display, ' . $value . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
@@ -174,7 +203,7 @@ class stack_parsons_input extends stack_string_input {
      * @param string $in
      * @return string
      */
-    private function replace_dummy_time($in) {
+    private static function replace_dummy_time($in) {
         $json = json_decode($in);
         $json[0][1] = time();
         return json_encode($json);
@@ -183,67 +212,11 @@ class stack_parsons_input extends stack_string_input {
     /**
      * Proof questions have model answer with two elements [ta, steps], and ta begins with `proof`.
      * In this case we cannot use `json_decode` and count the number of elements, because the list is not valid JSON.
-     * 
+     *
      * @param string $in
-     * @return bool 
+     * @return bool
      */
-    private function is_proof_question($in) {
-
+    private static function is_proof_question($in) {
         return substr($in, 1, 5) === 'proof';
-    }
-
-    /**
-     * In test case construction teacher answer is the unevaluated version of [ta, steps], so we check by exploding and counting.
-     * This is safe since we can assume only `","` appears to delineate elements of the top level in the array, unlike 
-     * the full evaluated version (which looks like `[proof("a", "b"), [["a", "A"], ["b", "B"]]]`)
-     * 
-     * @param string $ta
-     * @return bool 
-     */
-    private function is_proof_question_testcase($ta) {
-        return count(explode(",", $ta)) === 2;
-    }
-
-    /**
-     * Grouping questions have model answer with three elements [ta, steps, columns], which are expected in their evaluated
-     * form (so `ta` really is a 2d array).
-     * 
-     * @param string $in
-     * @return bool 
-     */
-    private function is_group_question($in) {
-        return count(json_decode($in)) === 3;
-    }
-
-    /**
-     * Grouping questions have model answer with three elements [ta, steps, columns], which are expected in their unevaluated form.
-     * `json_decode` does not work here since the elements are not strings. So we explode and count.
-     * 
-     * @param string $ta
-     * @return bool 
-     */
-    private function is_group_question_testcase($ta) {
-        return count(explode(",", $ta)) === 3;
-    }
-
-    /**
-     * Matching questions have model answer with four elements [ta, steps, columns, rows].
-     * 
-     * @param string $in
-     * @return bool 
-     */
-    private function is_match_question($in) {
-        return count(json_decode($in)) === 4;
-    }
-
-    /**
-     * Matching questions have model answer with four elements [ta, steps, columns, rows], which are expected in their unevaluated 
-     * form. `json_decode` does not work here since the elements are not strings. So we explode and count.
-     * 
-     * @param string $ta
-     * @return bool 
-     */
-    private function is_match_question_testcase($ta) {
-        return count(explode(",", $ta)) === 4;
     }
 }

@@ -31,7 +31,7 @@ class stack_parsons_input extends stack_string_input {
      * the answer function `proof_answer` takes two arguments, which are already included in the evaluated input `$in`.
      *
      * NOTE: If the input does NOT represent a valid JSON,
-     * then it should be added before any lines in which the key contains `json_decode`. Similarly any clauses involving
+     * then it should be added before any lines in which the if-clause `json_decode`. Similarly any clauses involving
      * `json_decode` should go at the end.
      *
      * @param string $in

@@ -42,6 +42,86 @@
 /* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
 proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_goal, proof_ind];
 
+proofp(ex) := block(
+  if atom(ex) then true,
+  if elementp(op(ex), setify(proof_types)) then return(true),
+  return(false)
+);
+
+s_test_case(proofp(proof(1,2,3)), true);
+s_test_case(proofp(proof_iff(1,2)), true);
+s_test_case(proofp(sin(x)), false);
+
+proof_validatep(ex) := block(
+  if atom(ex) then return(true),
+  if op(ex) = proof_opt then
+      if not(is(length(args(ex)) = 1)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  if op(ex) = proof_iff then
+      if not(is(length(args(ex)) = 2)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  if op(ex) = proof_ind then
+      if not(is(length(args(ex)) = 4)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  /* Validate all remaning proof types. */
+  if proofp(ex) then return(all_listp(proof_validatep, args(ex))),
+  return(false)
+);
+
+s_test_case(proof_validatep(proof(1,2,3)), true);
+s_test_case(proof_validatep(proof(1,2,proof(4,5,6))), true);
+s_test_case(proof_validatep(proof(1,2,proof_iff(4,5))), true);
+/* proof_opt must have exactly one sub-proof. */
+s_test_case(proof_validatep(proof(1,2,proof_opt(4,5))), false);
+/* proof_iff must have exactly two sub-proofs. */
+s_test_case(proof_validatep(proof(1,2,proof_iff(4))), false);
+s_test_case(proof_validatep(proof(1,2,proof_iff(4,5,6))), false);
+/* proof_ind must have exactly four sub-proofs. */
+s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5),6)), true);
+s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5))), false);
+s_test_case(proof_validatep(proof(1,proof_opt(2),proof_iff(4,5))), true);
+
+
+/* Is this a type of proof which can reorder its arguments? */
+proof_commutep(ex):=block(
+    if atom(ex) then false,
+    if is(op(ex)=proof_c) then return(true),
+    if is(op(ex)=proof_iff) then return(true),
+    return(false)
+);
+
+/* Takes a proof tree and flattens this to a list. */
+proof_flatten(ex) := apply(proof, flatten(ev(ex, map(lambda([ex2], ex2="["), proof_types))));
+
+s_test_case(proof_flatten(proof_iff(proof(A,B),proof(C))), proof(A,B,C));
+s_test_case(proof_flatten(proof_c(proof(A,proof(B,C)),proof(D))), proof(A,B,C,D));
+
+/*
+ * Create a normalised proof tree.
+ * To establish equivalence of proof trees we compare the normalised form.
+ * This basically sorts and "simplifies" its arguments.
+ * We also remove the proof_opt tag.
+*/
+proof_normal(ex) := block(
+  if atom(ex) then return(ex),
+  if op(ex) = proof_opt then return(first(args(ex))),
+  /* Only sort arguments to types of proof which commute. */
+  if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
+  /* Some proof types have subsets of arguments which commute. */
+  if op(ex) = proof_cases then return(apply(proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
+  if op(ex) = proof_goal then return(apply(proof_goal, append(sort(map(proof_normal, reverse(rest(reverse(args(ex)))))), [first(reverse(args(ex)))]))),
+  if op(ex) = proof_ind then return(apply(proof_ind,append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
+  return(apply(op(ex), map(proof_normal, args(ex))))
+);
+
+s_test_case(proof_normal(proof_c(B,A,D,C)), proof_c(A,B,C,D));
+s_test_case(proof_normal(proof_iff(B,A)), proof_iff(A,B));
+s_test_case(proof_normal(proof_ind(D,C,B,A)), proof_ind(D,B,C,A));
+s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
+s_test_case(proof_normal(proof_goal(D,C,B,A)), proof_goal(B,C,D,A));
+s_test_case(proof_normal(proof_iff(proof_c(proof_opt(C),A), B)), proof_iff(proof_c(A,C),B));
+
+
 /******************************************************************/
 /*                                                                */
 /*  STACK Parson's block functions                                */

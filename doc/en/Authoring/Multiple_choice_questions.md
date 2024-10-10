@@ -359,6 +359,16 @@ For example, the question variables could be something like
     i3:"<img src='http://www.maths.ed.ac.uk/~csangwin/Pics/z3.jpg' />"
     ta:[[1,true,i1],[2,false,i2],[3,false,i3]]
 
+## Partial Marking for MCQs ##
+
+Due to the wide variety of partially correct options in a typical MCQ, the usual method of creating a node in a PRT for each partially correct option and then traversing the tree is both brittle and unwieldy. To get around this, you can use the fact that the Score in a PRT can be defined by a Maxima value between 0 and 1 to dynamically generate the score.
+
+The following example (written in the feedback variables of a PRT with student solution called `ans1` and the MCQ called `MCQ`) checks if the student has checked any incorrect solutions, and if they have assigns them 0. If they haven't, it assigns them the fraction they got correct:
+
+     incorrectInputs : sublist(ans1, lambda([x], member(x, mcq_incorrect(MCQ))));
+     mark : if emptyp(incorrectInputs) then length(ans1) / length(mcq_correct(MCQ)) else 0;
+
+In this example, the output value `mark` can be placed into the Score of the false route in the MCQ PRT to get the desired marking.
 
 ## Writing question tests ##
 

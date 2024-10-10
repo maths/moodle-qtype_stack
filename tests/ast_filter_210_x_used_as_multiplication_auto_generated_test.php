@@ -159,6 +159,11 @@ class ast_filter_210_x_used_as_multiplication_auto_generated_test extends qtype_
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1902,6 +1907,11 @@ class ast_filter_210_x_used_as_multiplication_auto_generated_test extends qtype_
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

@@ -99,6 +99,11 @@ class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1872,6 +1877,11 @@ class ast_filter_997_string_security_auto_generated_test extends qtype_stack_ast
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

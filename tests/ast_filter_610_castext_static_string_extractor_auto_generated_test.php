@@ -89,6 +89,11 @@ class ast_filter_610_castext_static_string_extractor_auto_generated_test extends
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -1867,6 +1872,11 @@ class ast_filter_610_castext_static_string_extractor_auto_generated_test extends
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

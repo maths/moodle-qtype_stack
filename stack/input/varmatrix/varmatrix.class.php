@@ -118,6 +118,16 @@ class stack_varmatrix_input extends stack_input {
             }
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'varmatrix';
+        if ($this->options->get_option('decimals') === ',') {
+            $attributes['data-stack-input-decimal-separator']  = ',';
+            $attributes['data-stack-input-list-separator'] = ';';
+        } else {
+            $attributes['data-stack-input-decimal-separator']  = '.';
+            $attributes['data-stack-input-list-separator'] = ',';
+        }
+
         $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
         return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
     }

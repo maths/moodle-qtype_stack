@@ -40,25 +40,17 @@ use api\controller\TestController;
 use api\util\StackIframeHolder;
 use stack_api_test_data;
 use Psr\Http\Message\ResponseInterface as ResponseInt;
+use Psr\Http\Message\StreamInterface as StreamInt;
 use Psr\Http\Message\ServerRequestInterface as RequestInt;
 use qtype_stack_testcase;
-
-/**
- * Class to fake the response output object and store the actual JSON
- */
-class MockBody {
-    public object $output;
-    public function write() {
-        $this->output = json_decode(func_get_args()[0]);
-        return $this->output;
-    }
-}
 
 /**
  * @group qtype_stack
  * @covers \qtype_stack
  */
 class api_controller_test extends qtype_stack_testcase {
+    /** @var object used to store output */
+    public object $output;
     /** @var object used to store output */
     public object $result;
     /** @var array the api call data */
@@ -113,11 +105,27 @@ class api_controller_test extends qtype_stack_testcase {
             ->setMethods($methods)
             ->getMock();
 
-        $this->result = new MockBody();
+        $reflection = new \ReflectionClass(StreamInt::class);
+        $methods = [];
+        foreach ($reflection->getMethods() as $method) {
+            $methods[] = $method->name;
+        }
 
-        // The controllers call getBody() on the response object but then call write() on the result.
-        // We return a MockBody object with a write method which updates the test's result property
-        // so we can actually perform some asserts.
+        $this->result = $this->getMockBuilder(StreamInt::class)
+            ->setMockClassName('StreamInterface')
+            ->setMethods($methods)
+            ->getMock();
+
+        $this->result->expects($this->any())->method('write')->will($this->returnCallback(
+            function() {
+                $this->output = json_decode(func_get_args()[0]);
+                return 1;
+            })
+        );
+
+        // The controllers call getBody() on the response object but then call write() on the result
+        // so we have to mock both. We override the write method to write to a propery of the testsuite
+        // so we have something easily accessible to perform some asserts on.
         $this->response->expects($this->any())->method('getBody')->will($this->returnCallback(
             function() {
                 return $this->result;
@@ -140,18 +148,18 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->result->output->questionrender);
-        $this->assertEquals(86, $this->result->output->questionseed);
-        $this->assertEquals('matrix([35,30],[28,24])', $this->result->output->questioninputs->ans1->samplesolution->_val);
+        $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->output->questionrender);
+        $this->assertEquals(86, $this->output->questionseed);
+        $this->assertEquals('matrix([35,30],[28,24])', $this->output->questioninputs->ans1->samplesolution->_val);
         $this->assertMatchesRegularExpression('/^<div class="matrixsquarebrackets"><table class="matrixtable"/',
-                $this->result->output->questioninputs->ans1->render);
-        $this->assertMatchesRegularExpression('/^<p>To multiply matrices/', $this->result->output->questionsamplesolutiontext);
-        $this->assertEquals(0, count((array)$this->result->output->questionassets));
-        $this->assertContains(86, $this->result->output->questionvariants);
-        $this->assertContains(219862533, $this->result->output->questionvariants);
-        $this->assertContains(1167893775, $this->result->output->questionvariants);
-        $this->assertEquals(3, count($this->result->output->questionvariants));
-        $this->assertEquals(0, count($this->result->output->iframes));
+                $this->output->questioninputs->ans1->render);
+        $this->assertMatchesRegularExpression('/^<p>To multiply matrices/', $this->output->questionsamplesolutiontext);
+        $this->assertEquals(0, count((array)$this->output->questionassets));
+        $this->assertContains(86, $this->output->questionvariants);
+        $this->assertContains(219862533, $this->output->questionvariants);
+        $this->assertContains(1167893775, $this->output->questionvariants);
+        $this->assertEquals(3, count($this->output->questionvariants));
+        $this->assertEquals(0, count($this->output->iframes));
     }
 
     public function test_render_specified_seed() {
@@ -159,33 +167,33 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->result->output->questionrender);
-        $this->assertEquals(219862533, $this->result->output->questionseed);
+        $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->output->questionrender);
+        $this->assertEquals(219862533, $this->output->questionseed);
     }
 
     public function test_render_plots() {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('plots');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(4, count((array)$this->result->output->questionassets));
-        $this->assertEquals(true, isset($this->result->output->questionassets->{'input-ans1-1-0.svg'}));
-        $this->assertEquals(true, isset($this->result->output->questionassets->{'input-ans1-2-0.svg'}));
-        $this->assertEquals(true, isset($this->result->output->questionassets->{'input-ans1-3-0.svg'}));
-        $this->assertEquals(true, isset($this->result->output->questionassets->{'input-ans1-4-0.svg'}));
+        $this->assertEquals(4, count((array)$this->output->questionassets));
+        $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-1-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-2-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-3-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
     }
 
     public function test_render_iframes() {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('iframes');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(1, count($this->result->output->iframes));
+        $this->assertEquals(1, count($this->output->iframes));
     }
 
     public function test_render_download() {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('download');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/javascript\:download\(\'data.csv\'\, 1\)/s', $this->result->output->questionrender);
+        $this->assertMatchesRegularExpression('/javascript\:download\(\'data.csv\'\, 1\)/s', $this->output->questionrender);
     }
 
     public function test_validation() {
@@ -195,8 +203,8 @@ class api_controller_test extends qtype_stack_testcase {
         $vc = new ValidationController();
         $vc->__invoke($this->request, $this->response, []);
         $this->assertMatchesRegularExpression('/\\\[ \\\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s',
-                $this->result->output->validation);
-        $this->assertEquals(0, count($this->result->output->iframes));
+                $this->output->validation);
+        $this->assertEquals(0, count($this->output->iframes));
     }
 
     public function test_grade() {
@@ -205,17 +213,17 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['inputName'] = 'ans1';
         $gc = new GradingController();
         $gc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(true, $this->result->output->isgradable);
-        $this->assertEquals(1, $this->result->output->score);
-        $this->assertEquals(1, $this->result->output->scores->prt1);
-        $this->assertEquals(1, $this->result->output->scores->total);
-        $this->assertEquals(1, $this->result->output->scoreweights->prt1);
-        $this->assertEquals(5, $this->result->output->scoreweights->total);
-        $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->result->output->specificfeedback);
-        $this->assertStringContainsString('correct', $this->result->output->prts->prt1);
-        $this->assertEquals(0, count((array)$this->result->output->gradingassets));
-        $this->assertEquals('Seed: 86; ans1: matrix([35,30],[28,24]) [valid]; prt1: !', $this->result->output->responsesummary);
-        $this->assertEquals(0, count($this->result->output->iframes));
+        $this->assertEquals(true, $this->output->isgradable);
+        $this->assertEquals(1, $this->output->score);
+        $this->assertEquals(1, $this->output->scores->prt1);
+        $this->assertEquals(1, $this->output->scores->total);
+        $this->assertEquals(1, $this->output->scoreweights->prt1);
+        $this->assertEquals(5, $this->output->scoreweights->total);
+        $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
+        $this->assertStringContainsString('correct', $this->output->prts->prt1);
+        $this->assertEquals(0, count((array)$this->output->gradingassets));
+        $this->assertEquals('Seed: 86; ans1: matrix([35,30],[28,24]) [valid]; prt1: !', $this->output->responsesummary);
+        $this->assertEquals(0, count($this->output->iframes));
     }
 
     public function test_grade_scores() {
@@ -224,18 +232,18 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['inputName'] = 'ans1';
         $gc = new GradingController();
         $gc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(true, $this->result->output->isgradable);
-        $this->assertEqualsWithDelta(0.9, $this->result->output->score, 0.0001);
-        $this->assertEquals(1, $this->result->output->scores->prt1);
-        $this->assertEquals(1, $this->result->output->scores->prt2);
-        $this->assertEquals(0, $this->result->output->scores->prt3);
-        $this->assertEquals(1, $this->result->output->scores->prt4);
-        $this->assertEqualsWithDelta(0.9, $this->result->output->scores->total, 0.0001);
-        $this->assertEqualsWithDelta(0.7, $this->result->output->scoreweights->prt1, 0.0001);
-        $this->assertEqualsWithDelta(0.1, $this->result->output->scoreweights->prt2, 0.0001);
-        $this->assertEqualsWithDelta(0.1, $this->result->output->scoreweights->prt3, 0.0001);
-        $this->assertEqualsWithDelta(0.1, $this->result->output->scoreweights->prt4, 0.0001);
-        $this->assertEquals(10, $this->result->output->scoreweights->total);
+        $this->assertEquals(true, $this->output->isgradable);
+        $this->assertEqualsWithDelta(0.9, $this->output->score, 0.0001);
+        $this->assertEquals(1, $this->output->scores->prt1);
+        $this->assertEquals(1, $this->output->scores->prt2);
+        $this->assertEquals(0, $this->output->scores->prt3);
+        $this->assertEquals(1, $this->output->scores->prt4);
+        $this->assertEqualsWithDelta(0.9, $this->output->scores->total, 0.0001);
+        $this->assertEqualsWithDelta(0.7, $this->output->scoreweights->prt1, 0.0001);
+        $this->assertEqualsWithDelta(0.1, $this->output->scoreweights->prt2, 0.0001);
+        $this->assertEqualsWithDelta(0.1, $this->output->scoreweights->prt3, 0.0001);
+        $this->assertEqualsWithDelta(0.1, $this->output->scoreweights->prt4, 0.0001);
+        $this->assertEquals(10, $this->output->scoreweights->total);
     }
 
     public function test_download() {
@@ -258,7 +266,7 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
         $tc->__invoke($this->request, $this->response, []);
-        $results = $this->result->output;
+        $results = $this->output;
         $this->assertEquals('test_3_matrix', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
         $this->assertEquals(true, $results->isgeneralfeedback );
@@ -278,7 +286,7 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
         $tc->__invoke($this->request, $this->response, []);
-        $results = $this->result->output;
+        $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
         $this->assertEquals(false, $results->isgeneralfeedback );
@@ -299,7 +307,7 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
         $tc->__invoke($this->request, $this->response, []);
-        $results = $this->result->output;
+        $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(true, $results->isupgradeerror);
         $this->assertEquals(false, $results->isgeneralfeedback );
@@ -315,14 +323,14 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
         $tc->__invoke($this->request, $this->response, []);
-        $results = $this->result->output;
+        $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
         $this->assertEquals(false, $results->isgeneralfeedback );
         $this->assertEquals(false, $results->isdeployedseeds);
         $this->assertEquals(false, $results->israndomvariants);
         $this->assertEquals(false, $results->istests);
-        $this->assertEquals(stack_string('default_test_fail'), $results->results->noseed->messages);
+        $this->assertEquals(stack_string('defaulttestfail'), $results->results->noseed->messages);
         $this->assertEquals(1, $results->results->noseed->fails);
         $this->assertEquals(0, $results->results->noseed->passes);
     }
@@ -333,7 +341,7 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
         $tc->__invoke($this->request, $this->response, []);
-        $results = $this->result->output;
+        $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
         $this->assertEquals(false, $results->isgeneralfeedback );

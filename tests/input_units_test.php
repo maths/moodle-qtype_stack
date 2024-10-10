@@ -44,7 +44,8 @@ class input_units_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('units', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="" />',
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="" '
+                .'data-stack-input-type="units" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -53,7 +54,8 @@ class input_units_test extends qtype_stack_testcase {
         // We must have some units for this input type.
         $el = stack_input_factory::make('units', 'ans1', '0');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="0" />',
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="0" '
+                .'data-stack-input-type="units" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::INVALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -61,7 +63,8 @@ class input_units_test extends qtype_stack_testcase {
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('units', 'test', 'm/s');
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="m/s" />',
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="m/s" '
+                .'data-stack-input-type="units" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['m/s'], '', '', '', '', ''),
                         'stack1__test', false, null));
     }
@@ -71,7 +74,8 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(
                 '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="9.81*m/s^2" '
-                .'readonly="readonly" />',
+                .'readonly="readonly" data-stack-input-type="units" data-stack-input-decimal-separator="." '
+                .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['9.81*m/s^2'], '', '', '', '', ''),
                         'stack1__input', true, null));
     }
@@ -82,7 +86,8 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(
                 '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units-right input-monospace" value="9.81*m/s^2" '
-                .'readonly="readonly" />',
+                .'readonly="readonly" data-stack-input-type="units" data-stack-input-decimal-separator="." '
+                .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['9.81*m/s^2'], '', '', '', '', ''),
                         'stack1__input', true, null));
     }
@@ -93,7 +98,8 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(
                 '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units input-monospace" value="9.81*m/s^2" '
-                .'readonly="readonly" />',
+                .'readonly="readonly" data-stack-input-type="units" data-stack-input-decimal-separator="." '
+                .'data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['9.81*m/s^2'], '', '', '', '', ''),
                         'stack1__input', true, null));
     }
@@ -102,7 +108,8 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'input', '-9.81*m/s^2');
         $el->set_parameter('boxWidth', 30);
         $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" size="33" style="width: 27.1em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="-9.81*m/s^2" />',
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="-9.81*m/s^2" '
+                .'data-stack-input-type="units" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['-9.81*m/s^2'], '', '', '', '', ''),
                         'stack1__input', false, null));
     }
@@ -111,7 +118,8 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('syntaxHint', '?*m/s^2');
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="?*m/s^2" />',
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="?*m/s^2" data-stack-input-type="units" '
+                .'data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
@@ -121,7 +129,8 @@ class input_units_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'Remove me');
         $el->set_parameter('syntaxAttribute', 1);
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic-units" placeholder="Remove me" />',
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" placeholder="Remove me" '
+                .'data-stack-input-type="units" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
@@ -929,7 +938,8 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '10000*m/s^2');
         $el->set_parameter('options', 'allowempty');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" '
-                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="" />',
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="" '
+                .'data-stack-input-type="units" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
         $state = $el->validate_student_response(['sans1' => ''], $options, '9.81*m/s^2',

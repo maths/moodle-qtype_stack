@@ -75,9 +75,9 @@ The expression `(make_multsgn("cross"), a*b)` uses parentheses as an abbreviatio
 
 The value of this option `onum` will only put a multiplication sign between numbers.  This means you will see \(3\times 5\, x\) and not \(3\, 5\, x\) as you would if you have "none".
 
-There is a special atom which controls the multiplication symbol.  If you would like a dot then define
+There is a special atom which controls the multiplication symbol used with option `onum`.  If you would like a dot then define
 
-    texput(multsgnonlyfornumberssym, "\\times");
+    texput(multsgnonlyfornumberssym, "\\cdot");
 
 in the question variables.
 
@@ -113,7 +113,7 @@ Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elem
 
 A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
 
-STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n](x)\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostophie to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
+STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostophie to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
 
 ### sqrt(-1) {#sqrt_minus_one} ###
 
@@ -133,6 +133,23 @@ and affects the way they are displayed.
 | symj     | -1               | i^2       | j^2   | j    | _i_   | _j_
 
 Note the use of both Roman and italic symbols in this table.
+
+If you are using \(i,j,k\) as basis vectors then consider the following in your question variables 
+
+    /* Below means set the ComplexNo option in the question to "symi". */
+    make_complexJ("symi");
+    ordergreat(i,j,k);
+    texput(i,"\\vec{i}");
+    texput(j,"\\vec{j}");
+    texput(k,"\\vec{k}");
+    %_stack_preamble_end;
+    /* These are examples. */
+    p:3*i+4*j+5*k;
+    q:a*i+b*j+c*k;
+
+Then, your expressions `p` and `q` will be displayed repectively as \[{3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}}\] and \[{a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}}.\]
+Further examples are given in the [vectors](../CAS/Matrix.md#vectors).documentation.
+
 
 ### Matrix parentheses ###
 

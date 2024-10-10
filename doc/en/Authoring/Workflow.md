@@ -78,7 +78,48 @@ Rather than second-guess what students _might_ get wrong it is more effective to
 
 The question description, and descriptions within PRT nodes, can be used to describe intentions and problems to other team members.  These fields are only available question authors, and are never shown to students.
 
-You can use the `[[todo]]...[[/todo]]` question block to indicate unfinished questions.  Authors with the capability to use the "STACK diagnostic tools" can create a list of questions containing this block, making it easy for them to locate questions needing attention.
+You can use the `[[todo]]...[[/todo]]` question block to indicate unfinished questions.  See below.
 
 You can use the `[[escape]]...[[/escape]]` and `[[comment]]...[[/comment]]` blocks to remove broken content which is preventing a question from being saved.  Maxima code can be removed with code comments: `/* .... */`, but these comments cannot be used in castext.
+
+## Using tags within the `[[todo]]` blocks
+
+Authoring collaboratively can be better organised by using tags within the `[[todo]]` blocks.  For example
+
+    [[todo tags="tag1,tag2,..."]]Please fix ...[[/todo]]
+    
+Tags are a comma separated list of strings.  Whitespace will be trimmed from the ends of tags.
+
+* Tags can represent a user (e.g. using their name, username) to alert an issue is for them to resolve.
+* Tags can represent a stage in an agreed workflow, e.g. "draft", "for review", "stage 2".
+* Tags can represent an issue, e.g. "iss1231" to remind authors to update the question when a fix to a bug/issue finally goes live on a production server.
+
+It is entirely up to individual users to decide on what and how to use tags.
+
+By design, "todo" tags are _not_ tied to userid fields in the moodle site.  Instead tags are site-neutral so they can be preserved in cross-site collaboration.
+
+## Finding questions with `[[todo]]` blocks
+
+Any logged-in user can navigate to the URL
+
+    ../moodle/question/type/stack/adminui/todo.php
+    
+on the moodle site.  This page will list
+
+1. Any courses in which they are teacher.
+2. Any questions in that course which contain STACK questions with `[[todo]]` blocks.
+3. Questions which contain `[[todo]]` blocks are arranged into groups by tag, and additionally there is a list of questions with `[[todo]]` blocks without any tags.
+
+Notice that, by design, any teachers on the course can see all tags. The purpose of the `[[todo]]` block is _not_ to provide a private list of tickets for an individual user to address.  Rather, it is a public list of tags.  In this way, if users choose to use tags to flag issues for users, every teacher can see outstanding tags including those intended for them and those raised by them for someone else.
+
+We anticipate lists of questions with `[[todo]]` blocks will be rather short, and so questions are displayed on a simple page.
+
+Since `[[todo]]` blocks can be added anywhere, they could be used in the Question Description field.  Once these are resolved, the Question Description field can be used to store an audit trail, and any metadata, as required by a particular collaborative workflow.
+
+## Future ideas.
+
+If using tags within the `[[todo]]` blocks becomes popular may
+
+1. Hook into Moodle's "cron" system to alert teachers to questions with `[[todo]]` blocks via email.
+2. Hook into the Moodle question bank to flag questions with outstanding `[[todo]]` blocks more visibly in the question bank.
 

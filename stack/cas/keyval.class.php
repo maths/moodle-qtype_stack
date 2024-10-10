@@ -104,9 +104,8 @@ class stack_cas_keyval {
 
         $str = str_replace('?', 'QMCHAR', $str);
 
-        // CAS keyval may not contain @ or $ outside strings.
-        // We should certainly prevent the $ to make sure statements are separated by ;, although Maxima does allow $.
-        if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
+        // CAS keyval may not contain @ outside strings.
+        if (strpos($str, '@') !== false) {
             $this->errors[] = new $this->errclass(stack_string('illegalcaschars'), $this->context);
             $this->valid = false;
             return false;
@@ -394,7 +393,7 @@ class stack_cas_keyval {
                 // This is the edge case where we re-order i,j,k to be i+j+k, not the Maxima default k+j+i.
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $contextvariables[] = $statement;
-                } 
+                }
                 // Test for end of context variables.
                 if ($item->statement instanceof MP_Identifier) {
                     if ($item->statement->value == '%_stack_preamble_end') {

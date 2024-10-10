@@ -46,7 +46,7 @@ class input_string_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('string', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" />',
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -54,7 +54,7 @@ class input_string_test extends qtype_stack_testcase {
     public function test_render_hello_world() {
         $el = stack_input_factory::make('string', 'ans1', '"Hello world"');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" />',
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
         $this->assertEquals('The answer Hello world would be correct.',

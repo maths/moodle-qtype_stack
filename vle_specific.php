@@ -204,7 +204,7 @@ function stack_get_mathjax_url(): string {
             $urlstring = substr($mathjaxconfigurl, 0, $questionpos);
             parse_str($querystring, $queryparams);
             $queryparams = array_merge(['config' => 'TeX-AMS-MML_HTMLorMML'], $queryparams);
-            $querystring = http_build_query($queryparams, null, '&', PHP_QUERY_RFC3986);
+            $querystring = http_build_query($queryparams, '', '&', PHP_QUERY_RFC3986);
             $url = $urlstring . '?' . $querystring;
         } else {
             $url = $mathjaxconfigurl . '?config=TeX-AMS-MML_HTMLorMML';
@@ -302,6 +302,11 @@ function stack_fetch_included_content(string $url) {
             $islocalfile = true;
             $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
         }
+    } else if (strpos($lc, 'cors://') === 0) {
+        $good = true;
+        $islocalfile = true;
+        $translated = __DIR__ . '/corsscripts/' . $path;
+
     }
 
     if ($good) {

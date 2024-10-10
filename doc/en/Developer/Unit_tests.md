@@ -109,6 +109,18 @@ Note you need to make sure the `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` variabl
 
 To make sure the CAS cache is cleared after each unit test, revert back to the `db` settings for `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` as described above.  This will be slow...
 
+## Running Moodle unit tests on other plugins without maxima.
+
+It is possible that you want to install the `qtype_stack` PHP code, but not complete the installation of Maxima, and then run the PHP unit tests on a different plugin.  Trying to run unit tests on an incomplete install _should_ fail badly.  By default it does, and by design we have set it up to fail when you execute
+
+    php admin/tool/phpunit/cli/init.php
+
+on the whole moodle.  If you need to avoid this failure then
+
+    define('QTYPE_STACK_TEST_CONFIG_PLATFORM', 'none');
+
+within the config.php.  See [issue #1104](https://github.com/maths/moodle-qtype_stack/issues/1104) for discussion of this feature.
+
 # Other configuration issues
 
 Moodle overrides the PHP debug message settings.  To see errors and warnings, go to

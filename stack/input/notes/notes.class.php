@@ -65,6 +65,9 @@ class stack_notes_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'notes';
+
         return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes) .
             html_writer::tag('div', "", ['class' => 'clearfix']);
     }

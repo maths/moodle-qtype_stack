@@ -319,4 +319,7 @@ Please note that the STACK and GeoGebra syntax do not match perfectly.  For exam
 1. GeoGebra boolean types should come through to STACK as just return true/false (not 0,1).
 2. Suppport set/watch of more complex objects.
 
+### Disclaimer
+
+The creation of these resources has been (partially) funded by the ERASMUS+ grant program of the European Union under grant No. 2021-1-DE01-KA220-HED-000032031. Neither the European Commission nor the project's national funding agency DAAD are responsible for the content or liable for any losses or damage resulting of the use of these resources.
 

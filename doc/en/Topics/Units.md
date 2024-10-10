@@ -159,6 +159,14 @@ try to split the expression into units and numbers, and the return the units and
 
 The function `stack_units_split` is deprecated.  DO NOT USE.
 
+## Fine-tuning the display ##
+
+By default STACK's TeX function prints out `stackunits(10,m/s)` as \( 10\, m/s\).  That is, without any multiplication sign between the numerical part and the units.  In some edge cases you might want to add this multiplication sign in.  To do this, use
+
+    texput(multsgnstackunits, "\\cdot");
+
+in the question variables.  In castext you can use, e.g. `{@(texput(multsgnstackunits, "\\cdot "), stackunits(1, s^-1))@}` to create output \({1\cdot s^ {- 1 }}\).
+
 ## Custom units ##
 
 The teacher may want to use their own units. For example, the core `unit` package in Maxima does not include `mm` (millimetre), it is defined there as a word `millimetre`.  This is one reason for creating our own custom units package.

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Complex_Cube_Roots</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider the complex number \[z = {@z@}.\] Give the modulus and argument of all its cube roots. <br /> Use each row in the table below to specify a cube root, with the modulus in the first column and the argument in the second. Each argument should be entered as a multiple of \(\pi\) and should fall in the interval \([-\pi,\pi ]\). [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>For the complex number \[z = {@z@}\] The modulus \(|z| = {@absz@}\) and the argument of \(z = {@argz@}\) <br /> Therefore the cube roots of \(z\) have a modulus of \[\sqrt[3]{z} = \sqrt[3]{@absz@} = {@solm@}\] \[\] The arguments of \(z = {@argz@}\) or \({@argz+2*pi@}\) or \({@argz-2*pi@}\) <br /> Giving the arguments of the cube roots as \( \frac{@argz@}{3}\) ,\(\frac{@argz+2*pi@}{3}\) and \(\frac{@argz-2*pi@}{3}\) equal to \({@sola1@}\),\({@sola2@}\),\({@sola3@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>ns:1-2*rand(2);
+ fr:rand([Pi/6,Pi/3,Pi/4,Pi/2,3*Pi/4,2*Pi/3]);
+ argz:ns*fr;
+ absz:rand(8)+2;
+ zr:absz*cos(argz);
+ zi:ev(absz*sin(argz),simp);
+ z:ev(zr+zi*i,simp);
+ solm:ev((absz)^(1/3),simp);
+ sola1:argz/3;
+ sola2:argz/3+2*Pi/3;
+ sola3:argz/3-2*Pi/3;
+ sol1:matrix([solm,sola1],[solm,sola2],[solm,sola3]);
+ sol2:ev(subst(matrix=set,sol1),optsubst=true);
+ wrong1:matrix([solm,sola1+ 2*pi],[solm,sola2],[solm,sola3]);
+ wrong2:matrix([solm,sola1],[solm,sola2+pi],[solm,sola3]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Cube roots of \({@z@}\), \({@sol1@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>sol1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>3.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>studentset:ev(subst(matrix=set,ans1),optsubst=true);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>studentset</sans>
+        <tans>sol2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>107808546</deployedseed>
+    <deployedseed>1106901571</deployedseed>
+    <deployedseed>483477406</deployedseed>
+    <deployedseed>1094129344</deployedseed>
+    <deployedseed>32820494</deployedseed>
+    <deployedseed>1370038133</deployedseed>
+    <deployedseed>752323133</deployedseed>
+    <deployedseed>1681912352</deployedseed>
+    <deployedseed>923906566</deployedseed>
+    <deployedseed>484804823</deployedseed>
+    <deployedseed>1793262771</deployedseed>
+    <deployedseed>698285591</deployedseed>
+    <deployedseed>393542112</deployedseed>
+    <deployedseed>338310215</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sol1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wrong1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wrong2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -20,6 +20,7 @@
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 require_once('../config.php');
 require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
+require_once(__DIR__ . '/../../stack/questionlibrary.class.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
 ?>
@@ -28,7 +29,8 @@ require_login();
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="cors.php?name=sortable.min.css" />
     <style>
       .CodeMirror { border: 1px solid #ddd;}
@@ -62,6 +64,13 @@ require_login();
         color:black;
         text-decoration:none;
       }
+      .stack-library-file-list {
+    padding: 20px 0px 20px 0px;
+    height: 400px;
+    overflow-y: scroll;
+    border: 1px solid lightblue;
+    border-radius: 10px;
+}
     </style>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -506,17 +515,29 @@ require_login();
           </a>
         </div>
         <?php echo stack_string('api_choose_q')?>:
-        <select id="file_selector" placeholder="Select question" autocomplete="off" onchange="getQuestionFile(this.value)">
-          <option value="" selected><?php echo stack_string('api_choose_file')?></option>
         <?php
-        $filenames = scandir('../../samplequestions');
-        foreach ($filenames as $filename) {
-            if (strtolower(pathinfo($filename, PATHINFO_EXTENSION)) == 'xml') {
-                echo'<option value="cors.php?name=' . $filename . '&question=true">' . $filename . '</option>';
+        $files = stack_question_library::get_file_list('../../samplequestions/*');
+        function render_directory($dirdetails) {
+            echo '<div style="margin-left: 30px;">';
+            foreach ($dirdetails as $file) {
+                if (!$file->isdirectory) {
+                    echo '<button class="btn btn-link library-file-link" type="button" onclick="getQuestionFile(\'cors.php?name='
+                        . $file->path . '&question=true\')">' .
+                        $file->label . '</button><br>';
+                } else {
+                    echo '<button class="btn btn-link" type="button" data-toggle="collapse" ' .
+                      'data-target="#' . $file->divid . '" aria-expanded="false" aria-controls="' . $file->divid . '">' .
+                      $file->label . '</button><br><div class="collapse" id="' . $file->divid . '">';
+                    render_directory($file->children);
+                    echo '</div>';
+                }
             }
+            echo '</div>';
         }
+        echo '<div class="stack-library-file-list">';
+        render_directory($files->children);
+        echo '</div>';
         ?>
-        </select>
         <?php echo stack_string('api_local_file')?>:
         <input type="file" id="local-file" name="local-file" accept=".xml" onchange="getLocalQuestionFile(this.files[0])"/>
         <div id="stackapi_question_select_holder"></div>

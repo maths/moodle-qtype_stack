@@ -42,6 +42,11 @@ class ast_filter_996_call_modification_auto_generated_test extends qtype_stack_a
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''%_E((%_C(diff),%_E(diff(x,y))))",
+                      [],
+                      true, false);
+
         $this->expect('(-b+-sqrt(b^2))/(2*a)',
                       '(-b+-(%_C(sqrt),sqrt(b^2)))/(2*a)',
                       [],
@@ -570,6 +575,11 @@ class ast_filter_996_call_modification_auto_generated_test extends qtype_stack_a
 
         $this->expect('"+"(a,b)',
                       '(%_C("+"),"+"(a,b))',
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''%_E((%_C(diff),%_E(diff(x,y))))",
                       [],
                       true, false);
 

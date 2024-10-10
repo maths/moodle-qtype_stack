@@ -12,19 +12,21 @@ Read more about this in the [languages](../Languages.md) documentation.
 
 ## Comment blocks ##
 
-Comment blocks allow you to put content into CASText which will not be seen by students.
+Comment blocks allow you to put content into a CASText field which will not be seen by students.
 
-    [[ comment ]] Place comments here which will not appear to students. [[/ comment ]]
+    [[comment]] Place comments here which will not appear to students. [[/comment]]
 
 Before 4.4 the contents of the block needed to be syntactically correct CASText. That is no longer the case and you can much more easily use this block to comment our unfinished stuff.
 
 ## Todo blocks ##
 
-"todo" blocks allow you to put items into CASText which indicate future work needed.  This will not be seen by students.
+"todo" blocks allow you to put items into a main question CASText field (not feedback in the PRTs) which indicate future work needed.  This will not be seen by students.
 
-    [[ todo ]] Place requests to collaborators here. This will not appear to students. [[/ todo ]]
+    [[todo]] Place requests to collaborators here. This will not appear to students. [[/todo]]
 
-Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.  These blocks can also be found by the dependency checker.
+Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.
+
+You can access a page listing all questions with `[[todo]]` blocks which you can edit, in every course on which you are a teacher, by accessing the STACK question dashboard, or from the page `question/type/stack/adminui/index.php` on your local server.
 
 The todo block is similar to the comments block.  A different block is provided to facilitate searching for questions with specific "todo" items remaining.  The contents must be valid castext (unlike the comments block which can be anything) because in the future we may extend the functionality to display todo items in a teacher preview.  If you need to include invalid content either use the comment block, or escape block inside the todo, e.g.
 
@@ -34,7 +36,9 @@ The contents of this block are replaced by the static
 
     <!--- stack_todo --->
 
-to provide a searchable tag in instantiated text which is not visible in regular html, e.g. in the dependency checker.
+to stop these being read by a user (student), and to provide a searchable tag in instantiated text which is not visible in regular html.
+
+The `[[todo]]` can contain optional `tags` which are described in the [workflow](../Workflow.md) documentation.
 
 ## The debug block ##
 

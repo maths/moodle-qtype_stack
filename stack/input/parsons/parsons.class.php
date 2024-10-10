@@ -76,8 +76,22 @@ class stack_parsons_input extends stack_string_input {
         if (trim($in) == 'EMPTYANSWER' || $in === null) {
             $value = '';
         }
+
+        // Check if the question is a proof, grouping or matching question.
+        if ($this->is_proof_question($in)) {
+            $answerFun = 'parsons_answer';
+        } else if ($this->is_group_question($in)) {
+            $answerFun = 'group_answer';
+            // Get only the first two elements if it's a grouping question.
+            $in = json_encode(array_slice(json_decode($in), 0, 2));
+        } else if ($this->is_match_question($in)) {
+            $answerFun = 'match_answer';
+            // Get only the first three elements if it's a matching question (`match_answer` takes three arguments in this case).s
+            $in = json_encode(array_slice(json_decode($in), 0, 3));
+        }
+
         // Extract actual correct answer from the steps.
-        $ta = 'apply(parsons_answer, ' . $in . ')';
+        $ta = 'apply(' . $answerFun . ',' . $in . ')'; 
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
@@ -113,6 +127,11 @@ class stack_parsons_input extends stack_string_input {
         if ($this->extraoptions['hideanswer']) {
             return '';
         }
+
+        // For matching problems just hide the answer display.
+        if (!$this->is_proof_question($value)) {
+            return '';
+        }
         
         $ta = 'apply(proof_display, ' . $value . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
@@ -137,5 +156,37 @@ class stack_parsons_input extends stack_string_input {
         $json = json_decode($in);
         $json[0][1] = time();
         return json_encode($json);
+    }
+
+    /**
+     * Proof questions have model answer with two elements [ta, steps], and ta begins with `proof`.
+     * In this case we cannot use `json_decode` and count the number of elements, because the list is not valid JSON.
+     * 
+     * @param string $in
+     * @return bool 
+     */
+    private function is_proof_question($in) {
+
+        return substr($in, 1, 5) === 'proof';
+    }
+
+    /**
+     * Grouping questions have model answer with three elements [ta, steps, columns].
+     * 
+     * @param string $in
+     * @return bool 
+     */
+    private function is_group_question($in) {
+        return count(json_decode($in)) === 3;
+    }
+
+    /**
+     * Matching questions have model answer with four elements [ta, steps, columns, rows].
+     * 
+     * @param string $in
+     * @return bool 
+     */
+    private function is_match_question($in) {
+        return count(json_decode($in)) === 4;
     }
 }

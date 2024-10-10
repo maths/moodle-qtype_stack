@@ -295,7 +295,7 @@ class stack_equiv_input extends stack_input {
                 $notes['too_long'] = true;
                 $val='';
             }
-s
+
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                     [], 'Equivline', $this->options->get_option('decimals'));
 

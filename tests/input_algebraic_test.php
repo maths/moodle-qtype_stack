@@ -388,8 +388,7 @@ class input_algebraic_test extends qtype_stack_testcase {
     public function test_validate_student_response_too_long() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        // See the constant MAX_INPUT_LENGTH in class stack_ast_container_silent.
-        $sa = '1' . str_repeat('0', 65536);
+        $sa = '1' . str_repeat('0', 32768);
         $state = $el->validate_student_response(['sans1' => $sa], $options, 'x^2/(1+x^2)',
             new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);

@@ -53,6 +53,11 @@ abstract class stack_input {
     protected $name;
 
     /**
+     * @var integer the maximum length of a permitted input.
+     */
+    protected $maxinputlength = 32768;
+
+    /**
      * Special variables in the question which should be exposed to the inputs and answer tests.
      */
     protected $contextsession = [];
@@ -1043,6 +1048,14 @@ abstract class stack_input {
             if ($val === null) {
                 // One of those things logic nouns hid.
                 $val = '';
+            }
+
+            // Any student input which is too long is not even parsed.
+            if (strlen($val) > $this->maxinputlength) {
+                $valid = false;
+                $errors[] = stack_string('studentinputtoolong');
+                $notes['too_long'] = true;
+                $val='';
             }
 
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,

@@ -33,8 +33,6 @@ require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 class stack_ast_container_silent implements cas_evaluatable {
 
-    const MAX_INPUT_LENGTH = 65536;
-
     /**
      * The parsetree representing this ast after all modifications.
      */
@@ -155,24 +153,6 @@ class stack_ast_container_silent implements cas_evaluatable {
             $filterstoapply[] = '998_security';
         }
 
-        $astc = new static;
-        $astc->ast = null;
-        $astc->source = 's';
-        $astc->context = $context;
-        $astc->securitymodel = $securitymodel;
-        $astc->valid = null;
-        $astc->feedback = [];
-        // Always add nouns to student input.
-        $astc->nounify = 1;
-
-        // Any student input which is too long is not even parsed.
-        if (strlen($raw) > self::MAX_INPUT_LENGTH) {
-            $astc->valid = false;
-            $astc->errors = [stack_string('studentinputtoolong')];
-            $astc->answernotes = ['too_long'];
-            return $astc;
-        }
-
         // Use the corective parser as this comes from the student.
         $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
 
@@ -185,9 +165,17 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         // It is now ready to be created.
+        $astc = new static;
+        $astc->source = 's';
+        $astc->context = $context;
+        $astc->securitymodel = $securitymodel;
+        $astc->valid = null;
+        $astc->feedback = [];
         $astc->ast = $ast;
         $astc->errors = $errors;
         $astc->answernotes = $answernotes;
+        // Always add nouns to student input.
+        $astc->nounify = 1;
 
         return $astc;
     }

@@ -111,6 +111,28 @@ class stack_parsons_input extends stack_string_input {
     }
 
     /**
+     * @return string the teacher's answer, suitable for testcase construction.
+     */
+    public function get_teacher_answer_testcase() {
+        if ($this->is_proof_question_testcase($this->teacheranswer)) {
+            $answerFun = 'parsons_answer';
+            $ta = $this->teacheranswer;
+        } else if ($this->is_group_question_testcase($this->teacheranswer)) {
+            $answerFun = 'group_answer';
+            // Get only the first two elements if it's a grouping question.
+            $ta = implode(",", array_slice(explode(",", $this->teacheranswer), 0, 2)) . "]";
+        } else if ($this->is_match_question_testcase($this->teacheranswer)) {
+            $answerFun = 'match_answer';
+            // Get only the first three elements if it's a matching question (`match_answer` takes three arguments in this case).s
+            $ta = implode(",", array_slice(explode(",", $this->teacheranswer), 0, 3)) . "]";
+        }
+    
+        $ta = 'apply(' . $answerFun . ',' . $ta . ')'; 
+
+        return $ta;
+    }
+
+    /**
      * Provide a summary of the student's response for the Moodle reporting.
      * We unhash here to provide meaningful information in response history for authors.
      */
@@ -171,13 +193,37 @@ class stack_parsons_input extends stack_string_input {
     }
 
     /**
-     * Grouping questions have model answer with three elements [ta, steps, columns].
+     * In test case construction teacher answer is the unevaluated version of [ta, steps], so we check by exploding and counting.
+     * This is safe since we can assume only `","` appears to delineate elements of the top level in the array, unlike 
+     * the full evaluated version (which looks like `[proof("a", "b"), [["a", "A"], ["b", "B"]]]`)
+     * 
+     * @param string $ta
+     * @return bool 
+     */
+    private function is_proof_question_testcase($ta) {
+        return count(explode(",", $ta)) === 2;
+    }
+
+    /**
+     * Grouping questions have model answer with three elements [ta, steps, columns], which are expected in their evaluated
+     * form (so `ta` really is a 2d array).
      * 
      * @param string $in
      * @return bool 
      */
     private function is_group_question($in) {
         return count(json_decode($in)) === 3;
+    }
+
+    /**
+     * Grouping questions have model answer with three elements [ta, steps, columns], which are expected in their unevaluated form.
+     * `json_decode` does not work here since the elements are not strings. So we explode and count.
+     * 
+     * @param string $ta
+     * @return bool 
+     */
+    private function is_group_question_testcase($ta) {
+        return count(explode(",", $ta)) === 3;
     }
 
     /**
@@ -188,5 +234,16 @@ class stack_parsons_input extends stack_string_input {
      */
     private function is_match_question($in) {
         return count(json_decode($in)) === 4;
+    }
+
+    /**
+     * Matching questions have model answer with four elements [ta, steps, columns, rows], which are expected in their unevaluated 
+     * form. `json_decode` does not work here since the elements are not strings. So we explode and count.
+     * 
+     * @param string $ta
+     * @return bool 
+     */
+    private function is_match_question_testcase($ta) {
+        return count(explode(",", $ta)) === 4;
     }
 }

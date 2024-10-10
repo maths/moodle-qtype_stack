@@ -112,6 +112,24 @@ parsons_answer(proof_ans, proof_steps) := block([pkeys],
 /******************************************************************/
 
 /*
+ * Hashes the first element of each sublist in a two-dimensional steps array using Base64 hashing. 
+ *
+ * It will turn `[["a", "b"], ["c", "d"], ["e", "f"]]` into `[["YQ==", "b"], ["Yg==", "d"], ["ZQ==", "f"]]`.
+ */
+hash_keys_array(steps) := block(
+  return(map(lambda([item], join([base64(first(item))], rest(item, 1))), steps))
+);
+
+/*
+ * Hashes all strings in a two-dimensional steps array using Base64 hashing. 
+ *
+ * It will turn `[["a", "b"], ["c", "d"], ["e", "f"]]` into `[["YQ==", "Yg=="], ["Yg==", "ZA=="], ["ZQ==", "Zg=="]]`.
+ */
+hash_2d_array(arr) := block(
+    return(map(lambda([l], map(base64, l)), arr))
+);
+
+/*
  *  Return the step "k" from the proof "pf".
  */
 proof_getstep(k, pf) := block([keylist],
@@ -228,3 +246,61 @@ proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</
 proof_comment_disp(ex):=    sconcat("<div class='proof-comment'>", ex,       "</div>");
 proof_column_disp(ex):=     sconcat("<div class='proof-column'>",  ex,       "</div>");
 proof_column_disp2(ex):=    sconcat("<div class='proof-column2'>", ex,       "</div>");
+
+/******************************************************************/
+/*                                                                */
+/*  Matching functions                                            */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Auxiliary function.
+ *
+ * Takes a list of hashed answer keys and the full 2d steps array and returns the the all used hashed keys and unusued hashed keys.
+ * Needed to create a "teacher's answer" in JSON format, including unused text.
+ */
+match_keys_used_unused_hash(ans, steps) := block([tkeys],
+  tkeys:map(first, hash_keys_array(steps)),
+  skeys:hash_2d_array(ans),
+  return([skeys, listdifference(tkeys, ev(unique(flatten(skeys)), simp))])
+);
+
+/*
+ * Use this to transform the teacher's answer into the shape expected by the Parson's block.
+ * Returns an array of `[answer_keys, unused_keys]`, where `unused_keys` is always a flat
+ * list of keys that are in the question but not inside `ans`.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_reshape_hash(ans1)`. This will return `answer_keys` as an 
+ * array of shape `(columns, 1, ?)` if, where `?` represents variable dimension.
+ * 
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_reshape_hash(ans1, true)`. This will 
+ * return `answer_keys` as an array of shape `(columns, rows, 1)`.
+ */
+match_reshape_hash(ans, steps, [rows]) := block([tkeys, akeys],
+  tkeys: match_keys_used_unused_hash(ans, steps),
+  if rows=[] then akeys: map(lambda([keys], [keys]), first(tkeys)) 
+    else akeys:map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
+  return([akeys, second(tkeys)])
+);
+
+/*
+ * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_answer(ans1)`. 
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_answer(ans1, true)`. 
+ */
+match_answer(ans, steps, [rows]) := block([akeys, ukeys],
+  if rows=[] then [akeys, ukeys]: match_reshape_hash(ans, steps)
+    else [akeys, ukeys]: match_reshape_hash(ans, steps, rows),
+  sconcat("[[{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}, 0]]")
+);
+
+/*
+ * Alias for for the column-only usage `match_answer(ans_steps)` of `match_answer`.
+ */
+group_answer(ans, steps) := match_answer(ans, steps);

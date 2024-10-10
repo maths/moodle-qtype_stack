@@ -20,8 +20,6 @@ require_once(__DIR__ . '/../string/string.class.php');
 
 class stack_parsons_input extends stack_string_input {
 
-    protected $types;
-
     /**
      * If new functionality is added to the Parson's block that require new answer functions then they should be added to
      * the following two functions.

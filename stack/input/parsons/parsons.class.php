@@ -23,19 +23,19 @@ class stack_parsons_input extends stack_string_input {
     protected $types;
 
     /**
-     * If new functionality is added to the Parson's block that require new answer functions then they should be added to 
-     * the following two functions. 
-     * 
-     * Each if clause should test the fully evaluated input. For example, in Parson's questions 
-     * for proof, this full evaluated input looks like `[proof..., [["a", "A"], ["b", "B"]]]`. So we can test it by 
-     * checking the existence of proof near the beginning. Each if clause should then return an array of two elements of the 
-     * form `[answer_function, required_args]` according to the relevant Maxima answer function. For example in proof questions, 
-     * the answer function `proof_answer` takes two arguments, which are already included in the evaluated input `$in`. 
-     * 
-     * NOTE: If the input does NOT represent a valid JSON, 
-     * then it should be added before any lines in which the key contains `json_decode`. Similarly any clauses involving 
+     * If new functionality is added to the Parson's block that require new answer functions then they should be added to
+     * the following two functions.
+     *
+     * Each if clause should test the fully evaluated input. For example, in Parson's questions
+     * for proof, this full evaluated input looks like `[proof..., [["a", "A"], ["b", "B"]]]`. So we can test it by
+     * checking the existence of proof near the beginning. Each if clause should then return an array of two elements of the
+     * form `[answer_function, required_args]` according to the relevant Maxima answer function. For example in proof questions,
+     * the answer function `proof_answer` takes two arguments, which are already included in the evaluated input `$in`.
+     *
+     * NOTE: If the input does NOT represent a valid JSON,
+     * then it should be added before any lines in which the key contains `json_decode`. Similarly any clauses involving
      * `json_decode` should go at the end.
-     * 
+     *
      * @param string $in
      * @return array
      */
@@ -52,13 +52,13 @@ class stack_parsons_input extends stack_string_input {
     }
 
     /**
-     * Analogous to `answer_function` above but works for unevaluated inputs. So these are never valid JSONs. On the other hand 
+     * Analogous to `answer_function` above but works for unevaluated inputs. So these are never valid JSONs. On the other hand
      * since they are unevaluated we can safely assume any commas represent list delimiters, so we can mostly explode and implode.
-     * 
-     * NOTE: These will be checked in the order they are given in the return array. If the input does NOT represent a valid JSON, 
-     * then it should be added before any lines in which the key contains `json_decode`. Similarly any keys involving 
+     *
+     * NOTE: These will be checked in the order they are given in the return array. If the input does NOT represent a valid JSON,
+     * then it should be added before any lines in which the key contains `json_decode`. Similarly any keys involving
      * `json_decode` should go at the end of the array.
-     * 
+     *
      * @param string $in
      * @return array
      */
@@ -133,7 +133,7 @@ class stack_parsons_input extends stack_string_input {
         [$answerfun, $args] = $this::answer_function($in);
 
         // Extract actual correct answer from the steps.
-        $ta = 'apply(' . $answerfun . ',' . $args . ')'; 
+        $ta = 'apply(' . $answerfun . ',' . $args . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();

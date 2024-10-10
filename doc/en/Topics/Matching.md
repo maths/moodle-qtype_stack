@@ -131,7 +131,7 @@ steps : [
     ["sin", "\\(f(x) = \\sin(x)\\)"],
     ["abs", "\\(f(x) = |x|\\)"],
     ["sqrt", "\\(f(x) = \\sqrt{|x|}\\)"],
-    ["rec", "\\(f(x) = \\left\{\\begin{array}{ll}1/x &, x\\neq 0 \\\\ 0&, x=0\\end{array}\\right.\\)"],
+    ["rec", "\\(f(x) = \\left\\{\\begin{array}{ll}1/x &, x\\neq 0 \\\\ 0&, x=0\\end{array}\\right.\\)"],
     ["sgn", "\\(f(x) = \\text{sgn}(x)\\)"]
 ];
 
@@ -143,7 +143,7 @@ headers: [
     "Discontinuous"
 ];
 
-ans: [
+ta: [
     ["sq", "sin"], 
     ["abs", "sqrt"], 
     ["rec", "sgn"]
@@ -181,7 +181,7 @@ A question note is required due to the random permutation of `steps`. We use:
 ### Input: ans1
 
 1. The _Input type_ field should be **Parsons**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ans` using `match_answer(ans, steps)`.
+2. The _Model answer_ field should be a list `[ta, steps, 3]` containing the teacher answer, all possible steps and the number of columns.
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
 
@@ -199,7 +199,7 @@ In this case, the order _within_ a column really doesn't matter, but the order o
 So we may convert the columns of `sans` and `ans` to sets in feedback variables using `match_column_set` from `matchlib.mac`.
 ```
 sans: match_column_set(sans);
-ans: match_column_set(ans);
+tans: match_column_set(ta);
 ```
 We can then do a regular algebraic equivalence test between `sans` and `ans`. You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
 
@@ -249,7 +249,7 @@ headers: [
   "\\(d^2/d^2x\\)"
 ];
 
-ans: [
+ta: [
   ["f", "g"], 
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
@@ -285,7 +285,8 @@ A question note is required due to the random permutation of `steps`. We use:
 ### Input: ans1
 
 1. The _Input type_ field should be **Parsons**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `match_answer(ans, steps, true)`.
+2. The _Model answer_ field should be a list `[ta, steps, 3, 2]` containing the teacher answer, all possible steps, the number of columns, 
+and the number of rows.
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
 
@@ -302,7 +303,7 @@ This provides the student response as a two-dimensional array of the same format
 At this point the author may choose to assess by comparing `sans` and `ans` as they see fit. In this case, the _order of the rows themselves_ really doesn't matter, but the order of the rows does of course. So we may convert the list of rows of `sans` and `ans` to a set in feedback variables using `match_set_row` from `matchlib.mac`.
 ```
 sans: match_set_row(sans);
-ans: match_set_row(ans);
+tans: match_set_row(ta);
 ```
 We can then do a regular algebraic equivalence test between `sans` and `ans`. 
 You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
@@ -344,7 +345,7 @@ index: [
   "\\(y = x^3\\)"
 ]
 
-ans: [
+ta: [
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
 ];
@@ -376,7 +377,8 @@ A question note is required due to the random permutation of `steps`. We use:
 This is exactly the same as Example 2. 
 
 1. The _Input type_ field should be **Parsons**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `match_answer(ans, steps, true)`.
+2. The _Model answer_ field should be a list `[ta, steps, 2, 2]` containing the teacher answer, all possible steps, the number of columns, 
+and the number of rows.
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
 
@@ -386,9 +388,9 @@ As in Example 2, we first extract the two-dimensional array of used items from t
 ```
 sans: match_decode(ans1, true);
 ```
-At this point the author may choose to assess by comparing `sans` and `ans` as they see fit. 
-Since we have fixed the order of both dimensions, there is only one correct answer which is given by `ans`. 
-Hence we have a basic PRT which tests only algebraic equivalence between `sans` and `ans`. 
+At this point the author may choose to assess by comparing `sans` and `ta` as they see fit. 
+Since we have fixed the order of both dimensions, there is only one correct answer which is given by `ta`. 
+Hence we have a basic PRT which tests only algebraic equivalence between `sans` and `ta`. 
 As always, turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
 
 ## Example 4 : Using images
@@ -417,7 +419,7 @@ steps: random_permutation(steps);
 
 headers: ["Function", "\\(d/dx\\)", "\\(d^2/d^2x\\)"];
 
-ans: [
+ta: [
   ["f", "g"], 
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]

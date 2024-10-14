@@ -164,6 +164,7 @@ class stack_parsons_input extends stack_string_input {
      * We unhash here to provide meaningful information in response history for authors.
      */
     public function summarise_response($name, $state, $response) {
+        return '';
         $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
         return $name . ': ' . $display . ' [' . $state->status . ']';
     }
@@ -215,6 +216,6 @@ class stack_parsons_input extends stack_string_input {
      * @return bool
      */
     private static function is_proof_question($in) {
-        return substr($in, 1, 5) === 'proof';
+        return substr(trim($in), 1, 5) === 'proof';
     }
 }

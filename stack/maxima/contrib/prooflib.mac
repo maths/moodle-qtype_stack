@@ -116,69 +116,6 @@ proof_remove_nullproof(ex):= block(
 
 /******************************************************************/
 /*                                                                */
-/*  STACK Parson's block functions                                */
-/*                                                                */
-/******************************************************************/
-
-/*
- * Hashes the keys of a two-dimensional steps array using Base64 hashing. We use Base64 due to its
- * reversibility.
- */
-hash_keys_array(steps) := block(
-  return(map(lambda([item], join([base64(first(item))], rest(item, 1))), steps))
-);
-
-/*
- * Turns a list of Base64-hashed keys into a list containing their original strings.
- */
-unhash_keys_list(hashed_list) := block(
-  return(map(lambda([item], base64_decode(item)), hashed_list))
-);
-
-/*
- * Takes a two-dimensional steps array and returns a JSON string mapping original keys to their Base64 encodings.
- */
-parsons_hash_map(steps) := block(
-  return(stackjson_stringify(cons("stack_map", makelist([steps[i][1], base64(steps[i][1])], i, 1, length(steps)))))
-);
-
-/*
- * Turns a two-dimensional proof steps array into a JSON string with Base64-hashed keys.
- */
-parsons_encode(steps) := block(
-  return(stackjson_stringify(hash_keys_array(steps)))
-);
-
-/*
- * Take the hashed JSON from STACK Parson's block and return a proof function.
- */
-parsons_decode(st) := block([pf],
-  pf:first(first(stackjson_parse(st))),
-  pf:apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used")))))
-);
-
-/*
- * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
- * Needed to create a "teacher's answer" in JSON block, including unused text.
-*/
-proof_parsons_keys_used_unused_hash(proof_ans, proof_steps) := block([tkeys, skeys],
-  tkeys:map(first, hash_keys_array(proof_steps)),
-  skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
-  /* TO-DO: update this when we deal with trees (and have examples) */
-  skeys:map(lambda([skey], base64(skey)), flatten(skeys)),
-  return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
-);
-
-/* Construct the "used" and "available" keys when the teacher's answer is used. */
-parsons_answer(proof_ans, proof_steps) := block([pkeys],
-  /* Ensure all keys are string keys. */
-  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
-  pkeys:proof_parsons_keys_used_unused_hash(proof_ans, proof_steps),
-  sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
-);
-
-/******************************************************************/
-/*                                                                */
 /*  STACK Parson's block functions (legacy)                       */
 /*                                                                */
 /******************************************************************/
@@ -455,3 +392,70 @@ proof_assessment_display(saa, pf) := block([st, k],
   sconcat("<div class='proof'>", st, "</div>")
 );
 
+/* ********************************** */
+/* Bespoke graph                      */
+/* ********************************** */
+
+/*
+For example, in this proof
+
+proof_steps: [
+    ["H1",     "This step is not needed in the proof."],
+    ["S1",     "Assume that \\(3 \\cdot 2^{172} + 1\\) is a perfect square."],
+    ["S2", "There is a positive integer \\(k\\) such that \\(3 \\cdot 2^{172} + 1 = k^2\\)."],
+    ["S3",   "Since \\(3 \\cdot 2^{172} + 1 > 2^{172} = (2^{86})^2 > 172^2\\), we have \\(k > 172\\)."],
+    ["S4",   "We have \\(k^2 = 3 \\cdot 2^{172} + 1 < 3 \\cdot 2^{172} + 173\\)."],
+    ["S5",   "Also, \\(3 \\cdot 2^{172} + 173 = (3 \\cdot 2^{172} + 1) + 172 < k^2 + k\\). Further, \\(k^2 + k < (k + 1)^2\\)."],
+    ["C6",    "Since \\(k^2 < 3 \\cdot 2^{172} + 173 < (k + 1)^2\\) it is strictly between two successive squares \\(k^2\\) and \\((k + 1)^2\\), it cannot be a perfect square."]
+];
+
+we have two possible "interleaved" answers.
+
+sa1:["S1", "S2", "S3", "S4", "S5", "C6"];
+sa2:["S1", "S2", "S3", "S5", "S4", "C6"];
+
+These can be defined as a directed acyclic graph.
+
+tdag: [
+      ["S1", "S2", "S3", "S5", "C6"],
+      ["S1", "S2", "S4", "C6"]
+     ];
+*/
+
+/*
+This function checks if the student's answer (sa, a list)
+has the dependencies specified in the teachers graph (tdag).
+
+It returns a list of "problems" in the form of 
+ 1. Missing steps.
+ 2. Unnecessary steps.
+ 3. Order problems.
+*/
+proof_assessment_dag(sa, tdag) := block([ttags,stags,proof_problems],
+    ttags:setify(flatten(tdag)),
+    if safe_op(sa)="proof" then sa:args(sa),
+    stags:setify(flatten(sa)),
+    proof_problems:[],
+    /* Each key used in the teacher's proof must occur in the student's list. */
+    if not(subsetp(stags, ttags)) then proof_problems:[proof_step_extra(setdifference(stags, ttags))],
+    /* Only keys used in the teacher's proof should occur in the student's list. */
+    if not(subsetp(ttags, stags)) then proof_problems:append(proof_problems,[proof_step_missing(setdifference(ttags, stags))]),
+    /* For each list, we check that the keys occur in the specified order in the student's proof. */
+    proof_problems:flatten(append(proof_problems, map(lambda([ex], proof_dag_check_list(sa, ex)), tdag))),
+    /* Remove any duplicate problems. */
+    listify(setify(proof_problems))
+)$
+
+/*
+  Takes a list "l1", and makes sure sa respects the order of things in l1.
+*/
+proof_dag_check_list(sa, l1) := block([li1,li2,m1],
+  if is(length(l1) < 2) then return([]),
+  m1:[],
+  /* By design we only check adjacent elements in the list. */
+  li1:sublist_indices(sa, lambda([ex], ex=first(l1))),
+  li2:sublist_indices(sa, lambda([ex], ex=second(l1))),
+  /* Check if both steps appear. */
+  if not(emptyp(li1) or emptyp(li2)) and apply(max, li1) > apply(min,li2) then m1:[proof_step_must(first(l1), second(l1))],
+  append(m1, proof_dag_check_list(sa, rest(l1)))
+)$

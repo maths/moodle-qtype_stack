@@ -82,15 +82,15 @@ Therefore we provide a function which takes (a) the student's list (of Parsons k
 
 To author the graph we create lists of key-lists in Maxima as follows.  This is a list of lists, representing the edges of the graph..
 
-<pre>
-ta: [
-      ["S1", "S2"],
-      ["S2", "S3", "S5"],
-      ["S2", "S4"],
-      ["S4", "C6],
-      ["S5", "C6]
-     ];
-</pre>
+````
+tdag: [
+       ["S1", "S2"],
+       ["S2", "S3", "S5"],
+       ["S2", "S4"],
+       ["S4", "C6"],
+       ["S5", "C6"]
+      ];
+````
 
 1. Each key used in the teacher's proof must occur in the student's list.  Missing keys (i.e. steps) will be flagged.
 2. Only keys used in the teacher's proof should occur in the student's list.  Extra keys (i.e. steps) will be flagged.
@@ -99,10 +99,30 @@ ta: [
   * in the second list `["S2", "S3", "S5"]` we check that `"S2"` comes before `"S3"`, and `"S3"` comes before `"S4"`.  Note, by allowing lists with more than two keys we reduce the complexity of expressing long chains of steps.
 4. We do _not_ specify that nothing can be between steps.  That's a separate property which this test does not establish.  (Separate tools are needed to establish, e.g. "No other steps should occur between X and Y".)
 
+Hence, we could also write this graph as follows.
+
+````
+tdag: [
+       ["S1", "S2", "S3", "S5", "C6"],
+       ["S2", "S4", "C6"]
+      ];
+````
+
 Writing a graph is considerably more complex for a teacher than using the `proof()` functions, but of course it gives the teacher more flexibility with what to accept.  The two approaches can be combined.  If a student's answer is found to be incorrect, then we can still establish the closest distance to a proof the teacher considers to be correct to give automatic feedback on how a student should change their proof.
 
-## Bespoke feedback
+STACK provides functions to support assessment where the teacher specified a dependency graph.
 
-In addition to the automatic feedback, or as an alternative, a teacher can check other properties and define feedback as required.
+`saprob: proof_assessment_dag(sa, tdag)` takes (1) the student's answer (a list of tags) and (2) a graph specified as lists of key-lists and returns a list of "problems".  Problems with a student's graph can take three forms.
 
-E.g. a teacher might want to provide feedback such as _"It makes no sense to use \(M\) before it is defined!"_.
+1. `proof_step_missing({"C6"})` indicates the set of steps `{"C6"}` is missing from `sa`.
+2. `proof_step_extra({"H0"})` indicates the set of steps `{"H0"}` are not needed in `sa`.
+3. `proof_step_must("S1", "S1")` indicates that the step `"S1"` must come before step `"S2"` in the proof specified by the graph, but does not in `sa`.
+
+If the result of `proof_assessment_dag` is an empty list, the `sa` matches with the graph in `tdag`.
+
+If, for any reason, you don't want all three checks, then you can filter the list to retain only the relevant properties from that listed above.  E.g. if you only want `proof_step_must` to be established then use
+
+````
+saprob: proof_dag_check(sa, tdag);
+saprob:sublist(saprob, lambda([ex], op(ex)=proof_step_must));
+````

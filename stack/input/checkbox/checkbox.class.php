@@ -61,7 +61,6 @@ class stack_checkbox_input extends stack_dropdown_input {
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
-
         // Create html.
         $result = '';
         $values = $this->get_choices();

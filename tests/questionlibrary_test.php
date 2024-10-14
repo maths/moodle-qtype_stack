@@ -53,7 +53,7 @@ final class questionlibrary_test extends qtype_stack_testcase {
         $this->assertStringContainsString('<div class="formulation"><span class="filter_mathjaxloader_equation">' .
             'Differentiate <span class="nolink">\({x}^{-7}\)</span>', $qrender);
         $this->assertStringContainsString('<input type="text" name="stack_temp_R" id="stack_temp_R" size="16.5" ' .
-            'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" readonly="readonly" ' .
+            'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" ' .
             'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
             $qrender);
     }

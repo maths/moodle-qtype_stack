@@ -15,23 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Fake library_render class for use in unit tests.
- * Putting it elsewhere causes various problems.
+ * For to select category on STACK library page.
  *
  * @package qtype_stack
  * @copyright 2024 University of Edinburgh
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
+require_once("$CFG->libdir/formslib.php");
 
-namespace qtype_stack;
+class category_form extends moodleform {
+    // Add elements to form.
+    public function definition() {
+        $mform = $this->_form;
+        $mform->disable_form_change_checker();
+        $mform->addElement('questioncategory', 'category', '',
+            ['contexts' => $this->_customdata['qcontext']]);
+    }
 
-/**
- * Mock the question render call in library_render
- * as causes a timeout otherwise due to webservice testing setup.
- * Render is tested seperately in questionlibrary_test.php.
- */
-class fake_render extends library_render {
-    public static function call_question_render($question) {
-        return '<p>Hello World</p>';
+    // Custom validation should be added here.
+    public function validation($data, $files) {
+        return [];
     }
 }

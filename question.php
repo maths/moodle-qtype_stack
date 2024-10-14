@@ -1540,6 +1540,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
             ['pat' => 'texdecorate', 'ver' => 2018080600],
             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
+            ['pat' => 'proof_parsons_key_json', 'ver' => 2024092500, 'alt' => 'parsons_answer'],
+            ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {

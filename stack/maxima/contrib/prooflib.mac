@@ -53,61 +53,9 @@ tap:proof_display(proof_ans, proof_steps);
 /******************************************************************/
 
 /* General proof functions                                        */
-/* Please update Proof/Proof_CAS_library.md with new types.       */
+/* Please update Proof/Proof_CAS_library.md and                   */
+/* stack/maxima/proof.mac with new types.                         */
 
-/* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
-proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_goal, proof_ind];
-
-proofp(ex) := block(
-  if atom(ex) then true,
-  if elementp(op(ex), setify(proof_types)) then return(true),
-  return(false)
-);
-
-proof_validatep(ex) := block(
-  if atom(ex) then return(true),
-  if op(ex) = proof_opt then
-      if not(is(length(args(ex)) = 1)) then return(false)
-                                       else return(all_listp(proof_validatep, args(ex))),
-  if op(ex) = proof_iff then
-      if not(is(length(args(ex)) = 2)) then return(false)
-                                       else return(all_listp(proof_validatep, args(ex))),
-  if op(ex) = proof_ind then
-      if not(is(length(args(ex)) = 4)) then return(false)
-                                       else return(all_listp(proof_validatep, args(ex))),
-  /* Validate all remaning proof types. */
-  if proofp(ex) then return(all_listp(proof_validatep, args(ex))),
-  return(false)
-);
-
-/* Is this a type of proof which can reorder its arguments? */
-proof_commutep(ex):=block(
-    if atom(ex) then false,
-    if is(op(ex)=proof_c) then return(true),
-    if is(op(ex)=proof_iff) then return(true),
-    return(false)
-);
-
-/* Takes a proof tree and flattens this to a list. */
-proof_flatten(ex) := apply(proof, flatten(ev(ex, map(lambda([ex2], ex2="["), proof_types))));
-
-/*
- * Create a normalised proof tree.
- * To establish equivalence of proof trees we compare the normalised form.
- * This basically sorts and "simplifies" its arguments.
- * We also remove the proof_opt tag.
-*/
-proof_normal(ex) := block(
-  if atom(ex) then return(ex),
-  if op(ex) = proof_opt then return(first(args(ex))),
-  /* Only sort arguments to types of proof which commute. */
-  if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
-  /* Some proof types have subsets of arguments which commute. */
-  if op(ex) = proof_cases then return(apply(proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
-  if op(ex) = proof_goal then return(apply(proof_goal, append(sort(map(proof_normal, reverse(rest(reverse(args(ex)))))), [first(reverse(args(ex)))]))),
-  if op(ex) = proof_ind then return(apply(proof_ind,append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
-  return(apply(op(ex), map(proof_normal, args(ex))))
-);
 
 /******************************************************************/
 /*                                                                */
@@ -362,7 +310,10 @@ proof_disp_replacesteps_html(ex, proof_steps) := block(
 /**
  * Take a proof, and any proof steps and display them using proof CSS.
  */
-proof_display(proof_ans, proof_steps) := ev(proof_disp_replacesteps_html(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
+proof_display(p_ans, p_steps) := block([p1],
+    p1:proof_disp_replacesteps_html(p_ans, p_steps), 
+    ev(p1,map(lambda([ex], ex=dispproof), proof_types))
+);
 
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],

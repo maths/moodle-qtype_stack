@@ -134,7 +134,6 @@ class stack_string_input extends stack_algebraic_input {
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
             $value = '';
         }
-
         return $this->maxima_to_response_array($value);
     }
 

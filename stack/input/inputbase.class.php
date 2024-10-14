@@ -1060,7 +1060,7 @@ abstract class stack_input {
 
             // Construct inert version of that.
             $protectfilters = $this->protectfilters;
-        
+
             if($this->get_extra_option('simp')) {
                 // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
                 // function to perform calculations on dispdp numbers.
@@ -1533,7 +1533,6 @@ abstract class stack_input {
         // TO-DO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
-        $val = '';
 
         $decimal = '.';
         $listsep = ',';

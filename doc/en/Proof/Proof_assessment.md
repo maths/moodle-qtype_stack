@@ -126,3 +126,12 @@ If, for any reason, you don't want all three checks, then you can filter the lis
 saprob: proof_dag_check(sa, tdag);
 saprob:sublist(saprob, lambda([ex], op(ex)=proof_step_must));
 ````
+
+To use this in a potential response tree, check if `saprob` is empty.  If not, you can display feedback based on the properties described above using the following in the feedback.
+
+````
+{@proof_dag_problem_display(saprob, poof_steps)@}
+````
+
+An example question illustrating these features is given in the sample questions library under `Topics/Parsons-DAG.xml`.
+

@@ -41,8 +41,97 @@ The variable `pd` now contains the edit distance from the student's proof to the
 
 To display feedback use `{@proof_assessment_display(saa, proof_steps)@}` in a PRT feedback (or other castext).
 
-## Bespoke feedback
+## Proof assessment when steps within separate sub-hypotheses can be interleaved
 
-In addition to the automatic feedback, or as an alternative, a teacher can check other properties and define feedback as required.
+Consider the following proof.
 
-E.g. a teacher might want to provide feedback such as _"It makes no sense to use \(M\) before it is defined!"_.
+<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
+<div class="proof">
+<p>H1. Assume that \(3 \cdot 2^{172} + 1\) is a perfect square.</p>
+<p>S2. There is a positive integer \(k\) such that \(3 \cdot 2^{172} + 1 = k^2\).</p>
+<p>S3. Since \(3 \cdot 2^{172} + 1 > 2^{172} = (2^{86})^2 > 172^2\), we have \(k > 172\).</p>
+<p>S4. We have \(k^2 = 3 \cdot 2^{172} + 1 < 3 \cdot 2^{172} + 173\).</p>
+<p>S5. Also, \(3 \cdot 2^{172} + 173 = (3 \cdot 2^{172} + 1) + 172 < k^2 + k\). Further, \(k^2 + k < (k + 1)^2\).</p>
+<p>C6. Since \(3 \cdot 2^{172} + 173\) is strictly between two successive squares \(k^2\) and \((k + 1)^2\), it cannot be a perfect square.</p>
+</div>
+</div>
+
+In this proof has the following dependency structure.
+
+<pre>
+     S1
+      |
+     S2
+    / |
+  S3  |
+  |   S4
+  S5  |
+  |  / 
+  C6
+</pre>
+
+In particular, we have the following options for "correct" answers.
+
+1. `[S1, S2, S3, S4, S5, C6]`
+2. `[S1, S2, S4, S3, S5, C6]`
+3. `[S1, S2, S3, S5, S4, C6]`
+
+This graph dependency cannot be inferred from a proof tree type structure.  While it is considerably simpler for a teacher to write a proof as a tree, interleaved steps in a student's proof may not be wrong.
+
+Therefore we provide a function which takes (a) the student's list (of Parsons keys), and (b) a representation of the directed graph and uses the teacher's graph to conduct assessment.
+
+To author the graph we create lists of key-lists in Maxima as follows.  This is a list of lists, representing the edges of the graph..
+
+````
+tdag: [
+       ["S1", "S2"],
+       ["S2", "S3", "S5"],
+       ["S2", "S4"],
+       ["S4", "C6"],
+       ["S5", "C6"]
+      ];
+````
+
+1. Each key used in the teacher's proof must occur in the student's list.  Missing keys (i.e. steps) will be flagged.
+2. Only keys used in the teacher's proof should occur in the student's list.  Extra keys (i.e. steps) will be flagged.
+3. For each list, we check that the keys occur in the specified order in the student's proof.  E.g. 
+  * in the first list `["S1", "S2"]` we check that `"S1"` comes before `"S2"` in the student's proof.
+  * in the second list `["S2", "S3", "S5"]` we check that `"S2"` comes before `"S3"`, and `"S3"` comes before `"S4"`.  Note, by allowing lists with more than two keys we reduce the complexity of expressing long chains of steps.
+4. We do _not_ specify that nothing can be between steps.  That's a separate property which this test does not establish.  (Separate tools are needed to establish, e.g. "No other steps should occur between X and Y".)
+
+Hence, we could also write this graph as follows.
+
+````
+tdag: [
+       ["S1", "S2", "S3", "S5", "C6"],
+       ["S2", "S4", "C6"]
+      ];
+````
+
+Writing a graph is considerably more complex for a teacher than using the `proof()` functions, but of course it gives the teacher more flexibility with what to accept.  The two approaches can be combined.  If a student's answer is found to be incorrect, then we can still establish the closest distance to a proof the teacher considers to be correct to give automatic feedback on how a student should change their proof.
+
+STACK provides functions to support assessment where the teacher specified a dependency graph.
+
+`saprob: proof_assessment_dag(sa, tdag)` takes (1) the student's answer (a list of tags) and (2) a graph specified as lists of key-lists and returns a list of "problems".  Problems with a student's graph can take three forms.
+
+1. `proof_step_missing({"C6"})` indicates the set of steps `{"C6"}` is missing from `sa`.
+2. `proof_step_extra({"H0"})` indicates the set of steps `{"H0"}` are not needed in `sa`.
+3. `proof_step_must("S1", "S1")` indicates that the step `"S1"` must come before step `"S2"` in the proof specified by the graph, but does not in `sa`.
+
+If the result of `proof_assessment_dag` is an empty list, the `sa` matches with the graph in `tdag`.
+
+If, for any reason, you don't want all three checks, then you can filter the list to retain only the relevant properties from that listed above.  E.g. if you only want `proof_step_must` to be established then use
+
+````
+saprob: proof_dag_check(sa, tdag);
+saprob:sublist(saprob, lambda([ex], op(ex)=proof_step_must));
+````
+
+To use this in a potential response tree, check if `saprob` is empty.  If not, you can display feedback based on the properties described above using the following in the feedback.
+
+````
+{@proof_dag_problem_display(saprob, poof_steps)@}
+````
+
+An example question illustrating these features is given in the sample questions library under `Topics/Parsons-DAG.xml`.
+

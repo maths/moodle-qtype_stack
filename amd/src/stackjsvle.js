@@ -890,16 +890,7 @@ define([
             // This allows that div to contain some sort of loading
             // indicator until we plug in the frame.
             // Naturally the frame will then start to load itself.
-            // ISS1252 - Fall back to class as forceclean strips the id.
-            let target = document.getElementById(targetdivid);
-            if (target) {
-                target.replaceChildren(frm);
-            } else {
-                let targets = document.getElementsByClassName(targetdivid);
-                if (targets.length) {
-                    targets[0].replaceChildren(frm);
-                }
-            }
+            document.getElementById(targetdivid).replaceChildren(frm);
             IFRAMES[iframeid] = frm;
         }
 

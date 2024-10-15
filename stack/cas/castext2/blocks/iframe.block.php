@@ -80,7 +80,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         return [];
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         global $PAGE;
 
@@ -137,8 +137,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $astyle .= 'display:none;';
         }
 
-        // ISS1252 - Add id to class as well as id stripped by forceclean.
-        $attributes = ['style' => $astyle, 'id' => $divid, 'class' => $divid];
+        $attributes = ['style' => $astyle, 'id' => $divid];
 
         if ($content === '') {
             // For now we ensure that the created document will always have some content.
@@ -183,7 +182,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $code);
         }
         // Unpack held things if they happen to exist inside the IFRAME.
-        // That content would never go through the processing that that logic 
+        // That content would never go through the processing that that logic
         // protects against.
         $code = $holder->replace($code);
 

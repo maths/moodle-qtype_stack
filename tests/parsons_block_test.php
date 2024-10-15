@@ -58,7 +58,7 @@ class parsons_block_test extends qtype_stack_testcase {
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
             '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
             '} [[/parsons]]';
-        $expected = '<div style="width:100%;height:400px;" id="stack-iframe-holder-1" class="stack-iframe-holder-1"></div>';
+        $expected = '<div style="width:100%;height:400px;" id="stack-iframe-holder-1"></div>';
 
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);

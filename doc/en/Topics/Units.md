@@ -157,7 +157,7 @@ The functions
 
 try to split the expression into units and numbers, and the return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULLNUM`. If there are no numbers, `stack_units_units(ex)` returns `NULLUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.  (You could also use `first(args(ans1))` or `second(args(ans1))` respectively to access the numerical and units parts.)
 
-The reason for having `NULLNUM` is so that we can tell the difference between `m/s` and `1m/s`.  If you want to use the value in an answer test and don't care aboutthe difference (or what `NULLNUM=1`) then use `ev(stack_units_nums(ex),NULLNUM=1)`.
+The reason for having `NULLNUM` is so that we can tell the difference between `m/s` and `1m/s`.  If you want to use the value in an answer test and don't care about the difference (or want `NULLNUM=1`) then use `ev(stack_units_nums(ex),NULLNUM=1)`.
 
 The function `stack_units_split` is deprecated.  DO NOT USE.
 

@@ -1540,6 +1540,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
             ['pat' => 'texdecorate', 'ver' => 2018080600],
             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
+            ['pat' => 'proof_parsons_key_json', 'ver' => 2024092500, 'alt' => 'parsons_answer'],
+            ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
@@ -1624,6 +1626,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             if (!$filesexpected && $filesfound != []) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
+            }
+            // ISS1249 - Check for large file size (> 1MB).
+            foreach ($filesfound as $file) {
+                if ($file->get_filesize() > 1048576) {
+                    $errors[] = stack_string('stackfilesizeerror');
+                    break;
+                }
             }
         }
 

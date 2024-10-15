@@ -38,6 +38,7 @@ use external_function_parameters;
 use external_single_structure;
 use external_value;
 use cache;
+use SimpleXMLElement;
 use stack_question_library;
 use api\util\StackQuestionLoader;
 
@@ -67,6 +68,7 @@ class library_render extends \external_api {
             'questionrender' => new \external_value(PARAM_RAW, 'HTML render of question text'),
             'questiontext' => new \external_value(PARAM_RAW, 'Original question text'),
             'questionvariables' => new \external_value(PARAM_RAW, 'Question variable definitions'),
+            'questiondescription' => new \external_value(PARAM_RAW, 'Question description'),
         ]);
     }
 
@@ -76,7 +78,7 @@ class library_render extends \external_api {
      * @param int $category Question category id for eventual import. We really only
      * care that the user can add into any category at all at this stage.
      * @param string $filepath File path relative to samplequestions.
-     * @return array Array of question render, question text and question variables.
+     * @return array Array of question render, question text, description and question variables.
      */
     public static function render_execute($category, $filepath) {
         global $CFG, $DB;
@@ -93,14 +95,35 @@ class library_render extends \external_api {
         if (!$result) {
             // Get contents of file and run through API question loader to render.
             $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
-            $question = StackQuestionLoader::loadxml($qcontents)['question'];
-            $render = static::call_question_render($question);
-            $result = [
-                'questionrender' => $render,
-                'questiontext' => $question->questiontext,
-                'questionvariables' => $question->questionvariables,
-            ];
-            $cache->set($filepath, $result);
+            try {
+                $question = StackQuestionLoader::loadxml($qcontents)['question'];
+                $render = static::call_question_render($question);
+                $result = [
+                    'questionrender' => $render,
+                    'questiontext' => $question->questiontext,
+                    'questionvariables' => $question->questionvariables,
+                    'questiondescription' => $question->questiondescription,
+                ];
+                $cache->set($filepath, $result);
+            } catch (\stack_exception $e) {
+                // If the question is not a STACK question we can't render it
+                // but we staill want users to be able to import it.
+                if (strpos($e->getMessage(), 'not of type STACK') !== false) {
+                    $xmldata = new SimpleXMLElement($qcontents);
+                    $questiontext = (string) $xmldata->question->questiontext->text;
+                    $result = [
+                        'questionrender' => '<div class="formulation">' .
+                            get_string('stack_library_not_stack', 'qtype_stack') .
+                            '<br><br>' . $questiontext . '</div>',
+                        'questiontext' => $questiontext,
+                        'questionvariables' => '',
+                        'questiondescription' => '',
+                    ];
+                    $question->questiontext = (string) $xmldata->question->questiontext->text;
+                } else {
+                    throw $e;
+                }
+            }
         }
         return $result;
     }

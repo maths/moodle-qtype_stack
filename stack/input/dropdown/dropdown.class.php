@@ -165,6 +165,11 @@ class stack_dropdown_input extends stack_input {
         $correctanswer = [];
         $correctanswerdisplay = [];
         $duplicatevalues = [];
+        // Set up options for displaying decimals.
+        $decimal = '.';
+        if ($this->options && $this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+        }
         foreach ($values as $distractor) {
             $value = stack_utils::list_to_array($distractor, false);
             $ddlvalue = [];
@@ -243,7 +248,7 @@ class stack_dropdown_input extends stack_input {
                 } else {
                     $cs = stack_ast_container::make_from_teacher_source($display);
                     if ($cs->get_valid()) {
-                        $display = $cs->get_inputform(false, 0);
+                        $display = $cs->get_inputform(false, 0, false, $decimal);
                     }
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
@@ -306,7 +311,6 @@ class stack_dropdown_input extends stack_input {
         if ($at1->get_valid()) {
             $at1->instantiate();
         }
-
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
             return;
@@ -520,20 +524,14 @@ class stack_dropdown_input extends stack_input {
     /**
      * This is used by the question to get the teacher's correct response.
      * The dropdown type needs to intercept this to filter the correct answers.
-     * @param unknown_type $in
+     * @param string $value
      */
     public function get_correct_response($value) {
         // TO-DO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
-        $val = '';
 
-        $decimal = '.';
-        $listsep = ',';
-        if ($this->options->get_option('decimals') === ',') {
-            $decimal = ',';
-            $listsep = ';';
-        }
+        // In dropdowns, the whole answer is a Maxima list, so we don't actually respect the decimal option here.
         $params = [
             'checkinggroup' => true,
             'qmchar' => false,
@@ -543,8 +541,8 @@ class stack_dropdown_input extends stack_input {
             'dealias' => false, // This is needed to stop pi->%pi etc.
             'nounify' => 1, // We need to add nouns for checkboxes, e.g. %union.
             'nontuples' => false,
-            'decimal' => $decimal,
-            'listsep' => $listsep,
+            'decimal' => '.',
+            'listsep' => ',',
         ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);

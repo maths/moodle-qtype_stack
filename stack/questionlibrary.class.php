@@ -42,7 +42,7 @@ class stack_question_library {
      * @throws \stack_exception
      * @return string HTML render of question text
      */
-    public static function render_question(object $question):string {
+    public static function render_question(object $question): string {
         StackSeedHelper::initialize_seed($question, null);
 
         // Handle Pluginfiles.
@@ -88,7 +88,7 @@ class stack_question_library {
             $tavalue = $question->get_ta_for_input($name);
             $fieldname = 'stack_temp_' . $name;
             $state = $question->get_input_state($name, []);
-            $render = $input->render($state, $fieldname, true, [$tavalue]);
+            $render = $input->render($state, $fieldname, false, [$tavalue]);
             StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
             $questiontext = str_replace("[[input:{$name}]]",
                 $render,
@@ -107,7 +107,7 @@ class stack_question_library {
      * @param string directory within samplequestions to be examined
      * @return object StdClass Representation of the file system
      */
-    public static function get_file_list(string $dir):object {
+    public static function get_file_list(string $dir): object {
         $files = glob($dir);
         $results = new stdClass();
         $labels = explode('/', $dir);

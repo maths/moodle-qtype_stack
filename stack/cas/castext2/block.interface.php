@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/CTP_classes.php');
@@ -64,7 +65,7 @@ abstract class stack_cas_castext2_block {
      * identifiers to output though it as it cannot extract those from a session
      * like in the old times.
      */
-    abstract public function compile($format, $options):  ? MP_Node;
+    abstract public function compile($format, $options): ?MP_Node;
 
     /**
      * Should this block generate something else than direct string values it needs to
@@ -73,7 +74,7 @@ abstract class stack_cas_castext2_block {
      * Basically, a flat block promises that whatever it compiles to evaluates directly
      * to a string value and does not require any post processing.
      */
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         return true;
     }
 

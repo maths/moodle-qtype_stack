@@ -52,12 +52,12 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     /** @var qtype_stack */
     private $qtype;
 
-    public function setUp() :void {
+    public function setUp(): void {
         parent::setUp();
         $this->qtype = new qtype_stack();
     }
 
-    public function tearDown() :void {
+    public function tearDown(): void {
         $this->qtype = null;
         parent::tearDown();
     }

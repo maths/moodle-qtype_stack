@@ -2451,4 +2451,28 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({10\, \frac{m}{s}}\), \({1\cdot s^ {- 1 }}\), \({1\, s^ {- 1 }}\). ' .
             'Multiplication unaffected: \({a\cdot b}\).', $at1->get_rendered());
     }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_unexpected_lambda() {
+        $a2 = ['a:b+1', 'c:a-a(d+1)'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $at1 = castext2_evaluatable::make_from_source('{@c@}',
+            'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $expected = '\({b+1-\left(b+1\right)(d+1)}\)';
+        $this->assertEquals($expected, $at1->get_rendered());
+    }
 }

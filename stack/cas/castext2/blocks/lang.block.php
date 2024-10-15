@@ -13,13 +13,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 
 /**
- * A block for togling content based on a the active language.
+ * A block for toggling content based on the active language.
  * The active language is defined elsewhere and exists as an variable
  * in the session.
  */

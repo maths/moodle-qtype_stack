@@ -25,8 +25,6 @@
 
 namespace qtype_stack;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Mock the question render call in library_render
  * as causes a timeout otherwise due to webservice testing setup.

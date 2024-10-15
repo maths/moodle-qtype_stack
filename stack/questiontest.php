@@ -146,7 +146,7 @@ class stack_question_test {
             // Adapted from renderer.php prt_feedback_display.
             $feedback = $result->get_feedback();
             $feedback = format_text(stack_maths::process_display_castext($feedback),
-                    FORMAT_HTML, ['noclean' => true, 'para' => false]);
+                    FORMAT_HTML, ['noclean' => true, 'para' => false, 'allowid' => true]);
 
             $result->override_feedback($feedback);
             $results->set_prt_result($prtname, $result);

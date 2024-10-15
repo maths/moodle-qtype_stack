@@ -80,7 +80,8 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         return [];
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor, 
+        castext2_placeholder_holder $holder): string {
         global $PAGE;
 
         if (count($params) < 3) {
@@ -98,11 +99,11 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         for ($i = 2; $i < count($params); $i++) {
             if (is_array($params[$i])) {
                 if ($params[$i][0] === 'style') {
-                    $style .= $processor->process($params[$i][0], $params[$i]);
+                    $style .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
                 } else if ($params[$i][0] === 'script') {
-                    $scripts .= $processor->process($params[$i][0], $params[$i]);
+                    $scripts .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
                 } else {
-                    $content .= $processor->process($params[$i][0], $params[$i]);
+                    $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
                 }
             } else {
                 $content .= $params[$i];
@@ -181,6 +182,11 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $code = str_replace('!ploturl!',
             moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $code);
         }
+        // Unpack held things if they happen to exist inside the IFRAME.
+        // That content would never go through the processing that that logic 
+        // protects against.
+        $code = $holder->replace($code);
+
         // Escape some JavaScript strings.
         $args = [
             json_encode($frameid),
@@ -204,7 +210,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         self::$counters['///IFRAME_COUNT///'] = self::$counters['///IFRAME_COUNT///'] + 1;
 
         // Output the placeholder for this frame.
-        return html_writer::tag('div', '', $attributes);
+        return $holder->add_to_map(html_writer::tag('div', '', $attributes));
     }
 
     public function validate(&$errors=[], $options=[]): bool {

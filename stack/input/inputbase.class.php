@@ -1331,7 +1331,10 @@ abstract class stack_input {
                     $valid = true;
                 } else {
                     if ($rn instanceof MP_String || $rn instanceof MP_List) {
-                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        $holder = new castext2_placeholder_holder();
+                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        // No filtering here.
+                        $msg = $holder->replace($msg);
                         if (trim($msg) !== '') {
                             $valid = false;
                             $errors[] = $msg;
@@ -1361,7 +1364,9 @@ abstract class stack_input {
                     $valid = true;
                 } else {
                     if ($rn instanceof MP_String || $rn instanceof MP_List) {
-                        $display .= castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        $holder = new castext2_placeholder_holder();
+                        $tmp = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        $display .= $holder->replace($tmp);
                     }
                 }
             } else {

@@ -114,6 +114,8 @@ if (!$ses->get_valid()) {
 // Render it.
 $ses->instantiate();
 $content = $ct->get_rendered();
+// It might in theory use the holder.
+$content = $ct->apply_placeholder_holder($content);
 
 // Now pick some sensible headers.
 header('HTTP/1.0 200 OK');

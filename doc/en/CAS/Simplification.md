@@ -230,7 +230,7 @@ One problem is that `makelist` needs simplification.  To create sequences/series
     S1:ev(makelist(k,k,1,N),simp)
     S2:maplist(lambda([ex],ev(an,n=ex)),S1)
     S3:ev(S2,simp)
-    S4apply("+",S3)
+    S4:apply("+",S3)
 
 Of course, to print out one line in the worked solution you can also `apply("+",S2)` as well.
 
@@ -275,6 +275,23 @@ Maxima does have the ability to make assumptions, e.g. to assume that \(n\) is a
     sans1:ev(trigrat(ans1),simp);
 
 The variable `sans1` can then be used in the PRT.  Just note that `trigrat` writes powers of trig functions in terms of multiple angles.  This can have an effect of "expanding" out an expression.  E.g. `trigrat(cos(n)^20)` is probably still fine, but `trigrat(cos(n)^2000)` is probably not!  For this reason `trigrat` is not part of the default routines to establish equivalence.  Trig simplification, especially when we make assumptions on variables like \(n\), needs to be done on a question by question basis.
+
+## Function identifies which are compound quantities.
+
+Typically operators should be single identifiers, e.g. with \(f\) applied to \(x\) in \(f(x)\) the identifier is simple.  Maxima supports compound operators, e.g. `(X+1)(x,y,z);` is valid Maxima.
+This syntax is problematic, and typically results from a user error, e.g. of the following kind in question variables.
+
+```
+a:b+1;
+c:a-a(d+1);
+```
+
+We now have `a` as a variable and a function name.  By default, STACK restricts the ability of users to apply compound function identifiers (it is normally signified by an error).  However, for very advanced cases they can be useful.
+
+This option decides if we will allow application of compound operators.  It can use used in the question variables.
+
+`OPT_APPLY_COMPOUND:false;`
+
 
 ## Boolean functions
 

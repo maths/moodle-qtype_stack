@@ -200,6 +200,12 @@ declare ("#", commutative);
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex, v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
+/* This option decides if we will allow application of compound operators.
+   Typically operators should be single identifiers, e.g. f applied to x: f(x).
+   Maxima supports compound operators, e.g. (X+1)(x,y,z); is valid Maxima.
+*/
+OPT_APPLY_COMPOUND:false;
+
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then
     (texput(%i,"\\mathrm{i}"))
@@ -649,8 +655,12 @@ _APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
 /* Reset any feedback. */
 _RESET_FEEDBACK() := %FEEDBACK:stackmap_unset(%FEEDBACK,%stmt)$
 
-/* General error catching wrapper */
+/* General error catching wrapper, with check for non-atomic identifiers generated. */
 _EC(errcatched, reference) := if errcatched = []
+ then
+  (_APPEND_ERR([errormsgtostring()], reference), false)
+ else
+  if errcatch(all_ops_idp(errcatched)) = [] 
  then
   (_APPEND_ERR([errormsgtostring()], reference), false)
  else
@@ -665,6 +675,10 @@ _EC(errcatched, reference) := if errcatched = []
    a list just in case there is an error of some sort, if it is not
    a list then that append would do bad things. */
 _CS2v(_k,_v) := block([%_tmp],
+ /* Rather than use this error checking here, we've modified the output of grind's msz-mqapply
+ if errcatch(all_ops_idp(_v)) = []
+   then _v:STACKERROR,
+ */
  %_tmp:[[_k, string(_v)]],
  if listp(%_tmp) then _VALUES:append(_VALUES,%_tmp),
  0)$
@@ -675,6 +689,10 @@ _CS2l(_k,_v) := block([%_tmp],
 _CS2dv(_k,_v) := block([%_tmp, simp],
  /* We don't want to simplify products with zero to zero here. */
  simp:false,
+ /* Rather than use this error checking here, we've modified the output of grind's msz-mqapply
+ if errcatch(all_ops_idp(_v)) = []
+   then _v:STACKERROR,
+ */
  %_tmp:[[_k, stack_dispvalue(_v)]],
  if listp(%_tmp) then _DVALUES:append(_DVALUES,%_tmp),
  0)$

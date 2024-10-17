@@ -422,3 +422,190 @@ match_answer(ans, steps, [rows]) := block([akeys, ukeys],
  * Alias for for the column-only usage `match_answer(ans_steps)` of `match_answer`.
  */
 group_answer(ans, steps) := match_answer(ans, steps);
+
+/******************************************************************/
+/*                                                                */
+/*  Assessment and feedback functions                             */
+/*                                                                */
+/******************************************************************/
+
+/* ********************************** */
+/* Levenshtein distance               */
+/* ********************************** */
+
+/*
+  Levenshtein distance with swap tracking
+  s,t: lists to compare
+  Returns integer d, the Levensthein distance between s and t.
+  Returns the process of getting from s to t.
+  Original author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de modified by Chris Sangwin to track process.
+*/
+proof_damerau_levenstein(s, t) := block([c, m, n, XY, XYaction, i, j, d, temp, L, lm, li, dl_tags, simp],
+    simp:true,
+    if(s=t) then return([0,[]]), /* Equal strings result in 0, nothing to do. */
+    m:length(s),
+    n:length(t),
+    XY: matrix(makelist(i,i,0,n), makelist(0,i,1,n+1)),
+    XYaction: matrix(makelist(makelist(dl_add(t[k]),k,1,i),i,0,n), makelist([],i,1,n+1)),
+    for i:1 thru m do (
+        XY[2][1]:i,
+        XYaction[2][1]:makelist(dl_delete(s[k]),k,1,i),
+        for j:1 thru n do(
+            c:if is(s[i]=t[j]) then 0 else 1,
+            L:[XY[2][j]+1,     /* Insertion    */
+                XY[1][j+1]+1,  /* Deletion     */
+                XY[1][j]+c],   /* Substitution */
+            /* Add in the swap rule. */
+            /* The swapping costs nothing, but the cost comes from the subsequent dl_subs, which we filter out. */
+            if is(i<m and j<n) and not(is(s[i]=s[i+1]))
+                               and is(s[i]=t[j+1])
+                               and is(s[i+1]=t[j]) then L:append(L,[XY[1][j]]),
+            lm:apply(min,L),
+            li:last(sublist_indices(L, lambda([ex], is(ex=lm)))),
+            dl_tags:[append(XYaction[2][j],[dl_add(t[j])]),
+                          append(XYaction[1][j+1],[dl_delete(s[i])]),
+                          append(XYaction[1][j],[if is(c=0) then dl_ok(s[i]) else dl_subs(s[i],t[j])])],
+            if is(i<m and j<n) then dl_tags:append(dl_tags,  [append(XYaction[1][j],[dl_swap(s[i],s[i+1])])]),
+            XY[2][j+1]:L[li],
+            XYaction[2][j+1]:dl_tags[li]
+        ),
+        XY:rowswap(XY, 1, 2),
+        XYaction:rowswap(XYaction, 1, 2)
+      ),
+      return([XY[1][n+1],proof_damerau_levenstein_tidy(XYaction[1][n+1])])
+);
+
+/* dl_swap is always followed by a dl_subs, which we change. */
+proof_damerau_levenstein_tidy(L) := block(
+  if emptyp(L) then return(L),
+  if op(first(L))=dl_swap then return(append([first(L),dl_swap_follow(second(first(L)))], proof_damerau_levenstein_tidy(rest(rest(L))))),
+  return(append([first(L)], proof_damerau_levenstein_tidy(rest(L))))
+);
+
+/*
+  This function performs assessment of the student's proof.
+  sa is the student's proof
+  ta is a list of possible proofs, typically tal:proof_alternatives(ta), but this is not enforced for flexibility.
+     We assume the same keys are used in both.
+  It returns a list.
+  The fist item in the list is the "distance" from the student's proof in number of edits, using 
+*/
+proof_assessment(sa, tal) := block([sal, L, m, l],
+  sal:args(proof_flatten(sa)),
+  /* Lists are passed by reference, so let's copy for good measure since we flatten. */
+  L:map(lambda([ex], args(proof_flatten(ex))), copy(tal)),
+  /* Find distance from each proof, and the narrative */
+  L:map(lambda([ex], proof_damerau_levenstein(sal, ex)), L),
+  m:apply(min, map(first, L)),
+  l:first(sublist_indices(L, lambda([ex], is(first(ex)=m)))),
+  return(L[l]) 
+ );
+
+/* String values of the dl_functions used above. */
+dl_empty_disp(ex) := "";
+dl_add_disp(ex) := sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i></span> ", ex);
+dl_ok_disp(ex) := "<span style='font-size: 1.1em; color:green;'><i class='fa fa-check'></i></span>";
+dl_delete_disp(ex) := "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-right'></i></span>";
+dl_swap_disp([ex]) := "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-down'></i></span>";
+dl_swap_follow_disp(ex) := "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-up'></i></span>";
+dl_subs_disp([ex]) := sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-right'></i></span> ",
+                            "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i></span> ", second(ex));
+
+proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</div>");
+proof_comment_disp(ex):=    sconcat("<div class='proof-comment'>", ex,       "</div>");
+proof_column_disp(ex):=     sconcat("<div class='proof-column'>",  ex,       "</div>");
+proof_column_disp2(ex):=    sconcat("<div class='proof-column2'>", ex,       "</div>");
+
+dl_disp(ex):=ev(ex, dl_empty=dl_empty_disp, dl_ok=dl_ok_disp, dl_delete=dl_delete_disp, dl_add=dl_add_disp,
+                    dl_swap=dl_swap_disp, dl_swap_follow=dl_swap_follow_disp, dl_subs=dl_subs_disp);
+
+proof_assessment_display(saa, pf) := block([st, k],
+  /* An empty list is returned when we have a correct proof. */
+  if emptyp(saa) then return(""),
+  saa:proof_disp_replacesteps(saa, pf),
+  /* sal is now a list of strings from the proof. */
+  st:[],
+  for k:1 thru length(saa) do block([s0,s1],
+    s0:saa[k],
+    s1:first(s0),
+    if is(op(s0)=dl_add) then
+        st:append(st, [[dl_empty(null), s0]])
+    else
+        st:append(st, [[s1, s0]])
+  ),
+  /* Turn the st list of lists into a string to display. */
+    st:dl_disp(st),
+  for k:1 thru length(saa) do block(
+     st[k]:proof_line_disp(proof_column_disp(first(st[k])), proof_column_disp(second(st[k])))
+  ),
+  st:apply(sconcat, st),  
+  sconcat("<div class='proof'>", st, "</div>")
+);
+
+/* ********************************** */
+/* Bespoke graph                      */
+/* ********************************** */
+
+/*
+For example, in this proof
+
+proof_steps: [
+    ["H1",     "This step is not needed in the proof."],
+    ["S1",     "Assume that \\(3 \\cdot 2^{172} + 1\\) is a perfect square."],
+    ["S2", "There is a positive integer \\(k\\) such that \\(3 \\cdot 2^{172} + 1 = k^2\\)."],
+    ["S3",   "Since \\(3 \\cdot 2^{172} + 1 > 2^{172} = (2^{86})^2 > 172^2\\), we have \\(k > 172\\)."],
+    ["S4",   "We have \\(k^2 = 3 \\cdot 2^{172} + 1 < 3 \\cdot 2^{172} + 173\\)."],
+    ["S5",   "Also, \\(3 \\cdot 2^{172} + 173 = (3 \\cdot 2^{172} + 1) + 172 < k^2 + k\\). Further, \\(k^2 + k < (k + 1)^2\\)."],
+    ["C6",    "Since \\(k^2 < 3 \\cdot 2^{172} + 173 < (k + 1)^2\\) it is strictly between two successive squares \\(k^2\\) and \\((k + 1)^2\\), it cannot be a perfect square."]
+];
+
+we have two possible "interleaved" answers.
+
+sa1:["S1", "S2", "S3", "S4", "S5", "C6"];
+sa2:["S1", "S2", "S3", "S5", "S4", "C6"];
+
+These can be defined as a directed acyclic graph.
+
+tdag: [
+      ["S1", "S2", "S3", "S5", "C6"],
+      ["S1", "S2", "S4", "C6"]
+     ];
+*/
+
+/*
+This function checks if the student's answer (sa, a list)
+has the dependencies specified in the teachers graph (tdag).
+
+It returns a list of "problems" in the form of 
+ 1. Missing steps.
+ 2. Unnecessary steps.
+ 3. Order problems.
+*/
+proof_assessment_dag(sa, tdag) := block([ttags,stags,proof_problems],
+    ttags:setify(flatten(tdag)),
+    if safe_op(sa)="proof" then sa:args(sa),
+    stags:setify(flatten(sa)),
+    proof_problems:[],
+    /* Each key used in the teacher's proof must occur in the student's list. */
+    if not(subsetp(stags, ttags)) then proof_problems:[proof_step_extra(setdifference(stags, ttags))],
+    /* Only keys used in the teacher's proof should occur in the student's list. */
+    if not(subsetp(ttags, stags)) then proof_problems:append(proof_problems,[proof_step_missing(setdifference(ttags, stags))]),
+    /* For each list, we check that the keys occur in the specified order in the student's proof. */
+    proof_problems:flatten(append(proof_problems, map(lambda([ex], proof_dag_check_list(sa, ex)), tdag))),
+    /* Remove any duplicate problems. */
+    listify(setify(proof_problems))
+)$
+
+/*
+  Takes a list "l1", and makes sure sa respects the order of things in l1.
+*/
+proof_dag_check_list(sa, l1) := block([li1,li2,m1],
+  if is(length(l1) < 2) then return([]),
+  m1:[],
+  /* By design we only check adjacent elements in the list. */
+  li1:sublist_indices(sa, lambda([ex], ex=first(l1))),
+  li2:sublist_indices(sa, lambda([ex], ex=second(l1))),
+  /* Check if both steps appear. */
+  if not(emptyp(li1) or emptyp(li2)) and apply(max, li1) > apply(min,li2) then m1:[proof_step_must(first(l1), second(l1))],
+  append(m1, proof_dag_check_list(sa, rest(l1)))
+)$

@@ -56,6 +56,10 @@
      "globalyforbiddenvariable": true,
      "variable": "f"
   },
+  "OPT_APPLY_COMPOUND": {
+      "variable": "t",
+      "contextvariable": "true"
+  },
   "%and": {
       "operator": "s"
   },

@@ -530,3 +530,22 @@
     x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltsep '",") '" ; " '" , "))))
   (append l x))
 
+
+;; *************************************************************************************************
+;; Added 17 Oct 2024.
+;; 
+;; Change the output of mqapply, so that we explicitly print the "apply" function name
+;; E.g. (X+1)(x,y,z); is valid Maxima.  The STACK parser (in PHP) needs apply((X+1),[x,y,z]);
+;;
+
+;; Original code from grind.lisp
+;(defun msz-mqapply (x l r)
+;  (setq l (msize (cadr x) l (list #\( ) lop 'mfunction)
+;	r (msize-list (cddr x) nil (cons #\) r)))
+;  (cons (+ (car l) (car r)) (cons l (cdr r))))
+
+(defun msz-mqapply (x l r)
+  (setq l (msize (cadr x) (append '(#\( #\y #\l #\p #\p #\a ) l) '(#\, #\[ ) lop 'mfunction)
+	r (msize-list (cddr x) nil (append '(#\] #\)) r)))
+  (cons (+ (car l) (car r)) (cons l (cdr r))))
+

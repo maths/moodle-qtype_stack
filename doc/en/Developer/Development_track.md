@@ -12,6 +12,7 @@ DONE.
 1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
 2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../Authoring/Workflow.md).
 3. Add in a library page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
+4. Add in the option `OPT_APPLY_COMPOUND` to control whenn STACK accepts application of compound identifiers as function names.
 
 Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 

@@ -376,5 +376,43 @@ class caskeyval_test extends qtype_stack_testcase {
             '<span class="stacksyntaxexample">c:(b+1)-(b+1)<span class="stacksyntaxexamplehighlight">' .
             '*</span>(d+1)</span>.'];
         $this->assertEquals($expected, $kv->get_errors());
+
+        $tests = 'a:b+1; c:a-a(d+1);';
+        $kv = new stack_cas_keyval($tests);
+        $this->asserttrue($kv->get_valid());
+        $expected = [];
+        $this->assertEquals($expected, $kv->get_errors());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "STACK does not support non-atomic identifiers.  " .
+            "Attempt to apply a non-atomic identifier detected: b+1";
+        $this->assertEquals($expected, $s->get_errors());
+
+        $tests = 'OPT_APPLY_COMPOUND:true; a:b+1; c:a-a(d+1);';
+        $kv = new stack_cas_keyval($tests);
+        $this->asserttrue($kv->get_valid());
+        $expected = [];
+        $this->assertEquals($expected, $kv->get_errors());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "";
+        $this->assertEquals($expected, $s->get_errors());
+        $expected = "OPT_APPLY_COMPOUND:true;\n" .
+            "a:b+1;\n" .
+            "c:a-a(d+1);";
+        $this->assertEquals($expected, $s->get_keyval_representation());
+        $cs = $s->get_by_key('c');
+        $this->assertEquals('-apply((b+1),[d+1])+b+1', $cs->get_value());
+
+        $tests = 'a:[A+2,B,[1,2,3],D,E]; c:apply(a[1],a[3]);';
+        $kv = new stack_cas_keyval($tests);
+        $this->asserttrue($kv->get_valid());
+        $expected = [];
+        $this->assertEquals($expected, $kv->get_errors());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "STACK does not support non-atomic identifiers.  " .
+            "Attempt to apply a non-atomic identifier detected: A+2";
+        $this->assertEquals($expected, $s->get_errors());
     }
 }

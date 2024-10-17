@@ -209,8 +209,6 @@ sig_figs_from_str(strexp) := block([leadingzeros,indefinitezeros,trailingzeros,m
     return(r)
 )$
 
-
-
 FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic", "appendfile",
   "apropos", "assume_external_byte_order", "backtrace", "batch", "barsplot", "batchload",
   "boxchar", "boxplot", "bug_report", "build_info", "catch", "chdir", "close", "closefile",
@@ -263,6 +261,10 @@ all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
   %_edge : %_next_edge,
   %_next_edge : [],
   for %_tmp in %_edge do (
+   /* Ensure all operators are identifiers. */
+   if (not(OPT_APPLY_COMPOUND) and not(atom(%_tmp))) then
+     if not(atom(op(%_tmp))) then 
+       error(sconcat("STACK does not support non-atomic identifiers.  Attempt to apply a non-atomic identifier detected: ", safe_op(%_tmp))),
    %_op : safe_op(%_tmp),
    if not (%_op = "") then (
     %_result : append(%_result, [%_op]),
@@ -271,6 +273,27 @@ all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
   )
  ),
  %_result
+)$
+
+/* This checks if all operators in a generated expression are identifiers. */
+all_ops_idp(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op],
+ /* Returns a list of all the operators and functions
+    in use in the expression. Turn it to a bag if you need
+    the counts or a set if only the existence matters. */
+ %_next_edge : [%_expr],
+ while length(%_next_edge) > 0 do (
+  %_edge : %_next_edge,
+  %_next_edge : [],
+  for %_tmp in %_edge do (
+   /* Ensure all operators are identifiers. */
+   if (not(OPT_APPLY_COMPOUND) and not(atom(%_tmp))) then (
+     if not(atom(op(%_tmp))) then 
+       error(sconcat("STACK does not support non-atomic identifiers.  Attempt to apply a non-atomic identifier detected: ", safe_op(%_tmp))),
+     %_next_edge : append(%_next_edge, args(%_tmp))
+   )
+  )
+ ),
+ true
 )$
 
 %_C(%_id) := block([simp], simp:true,

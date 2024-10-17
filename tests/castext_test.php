@@ -2491,7 +2491,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
         $expected = '<h3>Rendering of text content failed.</h3><ul><li>STACK does not support non-atomic identifiers.' .
-            'Attempt to apply a non-atomic identifier detected: b+1</li></ul>';
+            '  Attempt to apply a non-atomic identifier detected: b+1</li></ul>';
         $this->assertEquals($expected, $at1->get_rendered());
     }
 }

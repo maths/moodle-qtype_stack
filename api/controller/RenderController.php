@@ -88,7 +88,9 @@ class RenderController {
         StackPlotReplacer::replace_plots($plots, $renderresponse->questionrender, "render", $storeprefix);
 
         $renderresponse->questionsamplesolutiontext = $translate->filter(
-            $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor),
+            $question->get_generalfeedback_castext()->apply_placeholder_holder(
+                $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor)
+            ),
             $language
         );
 

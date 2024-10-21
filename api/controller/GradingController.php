@@ -141,7 +141,9 @@ class GradingController {
         $gradingresponse->scores = $scores;
         $gradingresponse->scoreweights = $weights;
         $gradingresponse->specificfeedback = $translate->filter(
-            $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),
+            $question->specificfeedbackinstantiated->apply_placeholder_holder(
+                $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor)
+            ),
             $language
         );
         StackPlotReplacer::replace_plots($plots, $gradingresponse->specificfeedback, "specificfeedback", $storeprefix);
@@ -174,7 +176,9 @@ class GradingController {
 
         if ($question->$field) {
             return \html_writer::tag('div',
-                \stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor)),
+                \stack_maths::process_display_castext(
+                    $question->$field->apply_placeholder_holder($question->$field->get_rendered($question->castextprocessor))
+                ),
                 ['class' => $class]
             );
         }

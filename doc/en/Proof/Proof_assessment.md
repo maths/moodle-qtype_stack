@@ -1,6 +1,16 @@
 # Assessing Parson's problems and proofs
 
-Parsons problems result in a _tree_ representing the student's proof.  This document explains how to assess Parson's problems.
+## General remarks
+
+This document explains how to assess Parson's problems.  There are three sets of tools available in STACK.
+
+1. When a _tree_ is used to represent the structure of a teacher's proof, we can automatically create all alternative proofs.  Then we can establish whether a student's proof is one of these.  If not we automatically provide feedback explaining how to modify the student's proof to transform it to the closest correct proof.  E.g. swap two lines.  Generating alternatives and feedback is fully automated.  However, we assume a proof can be fully represented as a tree.
+2. Generally we have a directed graph representing dependencies of lines in a proof.  We have general tools for recording these dependencies, establishing if a student's proof satisfies them, and if not generating automatic feedback based on dependencies specified in a dependency graph.  The teacher has to create a dependency graph for each proof, but feedback is automatic.
+3. Teachers can encode specific dependency checks, and provide specific feedback when a student's proof meets/fails to meet certain criteria.  E.g. "This line uses the variable \(k\) but you have not yet introduced it in your proof".
+
+Each option above independent, and any/all could be used with a particular proof.
+
+## 1. Automatic assessment of proof defined as a tree
 
 [The Damerau-Levenshtein distance](../Topics/Levenshtein_distance.md) is a metric for measuring the difference between two strings. Informally, this is the _edit distance_ measuring  the minimum number of single-character edits (insertions, deletions, transition or substitutions) required to change one string into the other. STACK uses this metric to assess answers which are text strings.  The problem of assessing Parson's problems is very similar.
 
@@ -8,8 +18,6 @@ Parsons problems result in a _tree_ representing the student's proof.  This docu
 2. We want to automatically provide feedback detailing which edits will transform the student's proof into a "correct" proof, e.g. "Swap these two lines", "Insert a line here".
 
 Rather than a string of characters, we apply the metric to a list of `keys` tags in the `proof_steps` list, as defined in the [CAS library for representing text-based proofs](Proof_CAS_library.md).  Further, by tracking the steps in the algorithm we can provide automatic feedback about which edits are required to transform one list into another.
-
-## General automatic assessment tools
 
 We assume that the teacher's answer is `ta` is expressed using ["proof construction functions"](Proof_CAS_library.md) e.g.
 
@@ -41,7 +49,32 @@ The variable `pd` now contains the edit distance from the student's proof to the
 
 To display feedback use `{@proof_assessment_display(saa, proof_steps)@}` in a PRT feedback (or other castext).
 
-## Proof assessment when steps within separate sub-hypotheses can be interleaved
+## 2. Proof assessment when steps within separate sub-hypotheses can be interleaved
+
+Proofs often contain sub-proofs, in blocks.  In our design for the representation of proofs as tree structures, a teacher might decide one block precedes another, or that the order of these blocks is interchangeable.
+In some situations it is possible to interleave parts of two or more blocks without invalidating the proof from a strictly logical point of view.
+For example, in the teacher's proof we might have separate blocks such as
+
+<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
+<div class="proof">
+<p>Assume n is odd.<br/>
+   There exists j such that n=2j-1.</p>
+<p>...</p>
+<p>Assume m is even.<br/>
+   There exists k such that m=2k.</p>
+<p>...</p>
+</div>
+</div>
+However, a student might choose to interleave these clauses without a loss of strict logical correctness.
+
+<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
+<div class="proof">
+<p>Assume n is odd.<br/>
+   Assume m is even.</p>
+</p>...</p>
+</div>
+</div>
+This section explains general tools to assess proofs which allows steps to be interleaved.
 
 Consider the following proof.
 
@@ -135,3 +168,6 @@ To use this in a potential response tree, check if `saprob` is empty.  If not, y
 
 An example question illustrating these features is given in the sample questions library under `Topics/Parsons-DAG.xml`.
 
+## 3. General tools to provide bespoke feedback
+
+The last option is to encode specific dependencies, with feedback for each.

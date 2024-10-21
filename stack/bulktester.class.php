@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// Class for running the question tests in bulk.
-//
-// @copyright  2015 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Class for running the question tests in bulk.
+ *
+ * @copyright  2015 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../../../engine/bank.php');

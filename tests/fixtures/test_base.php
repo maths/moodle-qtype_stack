@@ -38,7 +38,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      */
     protected $lisp = 'SBCL';
 
-    public function setUp() :void {
+    public function setUp(): void {
         parent::setUp();
 
         stack_utils::clear_config_cache();
@@ -211,7 +211,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     }
 
     // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
-    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void {
         // TO-DO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
             parent::assertMatchesRegularExpression($pattern, $string, $message);
@@ -222,7 +222,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     // phpcs:enable
 
     // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
-    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
+    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = ''): void {
         // TO-DO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
             parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
@@ -245,7 +245,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough_test_base {
     protected $currentoutput = null;
 
-    public function setUp() :void {
+    public function setUp(): void {
         parent::setUp();
         qtype_stack_testcase::setup_test_maxima_connection($this);
         $this->resetAfterTest();
@@ -479,7 +479,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
     }
 
     // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
-    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void {
         // TO-DO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
             parent::assertMatchesRegularExpression($pattern, $string, $message);

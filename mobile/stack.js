@@ -13,7 +13,6 @@ var result = {
         if (!this.question) {
             return that.CoreQuestionHelperProvider.showComponentError(that.onAbort);
         }
-
         // Create a temporary div to ease extraction of parts of the provided html.
         const div = this.CoreDomUtilsProvider.convertToElement(this.question.html);
         div.innerHTML = this.question.html;
@@ -29,6 +28,11 @@ var result = {
         const radioAnswers = Array.from(multiAnswers).filter(item => item.querySelector('[type="radio"]'));
         const dropdowns = questiontext.querySelectorAll('select');
         const dashLink = questiontext.querySelector('.questiontestslink');
+        const validationerror = questiontext.querySelector('.validationerror');
+        if (validationerror) {
+            // Hide validation error as App will display.
+            validationerror.setAttribute('hidden', true);
+        }
         if (dashLink) {
             // Remove STACK dashboard links.
             dashLink.parentNode.removeChild(dashLink);
@@ -199,7 +203,9 @@ var result = {
                         create_iframe(...args);
                     }
                     // Make sure all the MathJax has rendered properly.
-                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+                    if (document.querySelector('.' + 'MathJax_Error')) {
+                        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+                    }
                 }
             });
 
@@ -667,7 +673,10 @@ var result = {
             // With JS With instant validation, we don't need the Check button, so hide it.
             if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                     questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-                            questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
+                    const input = questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit');
+                    if (input) {
+                        input.hidden = true;
+                    }
             }
         }
 

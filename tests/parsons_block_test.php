@@ -63,7 +63,7 @@ class parsons_block_test extends qtype_stack_testcase {
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $session->instantiate();
-        $this->assertEquals($expected, $at1->get_rendered());
+        $this->assertEquals($expected, $at1->apply_placeholder_holder($at1->get_rendered()));
     }
 
     /**

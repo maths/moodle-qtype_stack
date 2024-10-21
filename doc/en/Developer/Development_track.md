@@ -11,6 +11,7 @@ DONE.
 
 1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
 2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../Authoring/Workflow.md).
+3. Add in a library page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
 
 Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 
@@ -32,6 +33,7 @@ For v4.8.0:
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.
 3. Create templates from the start for different proof types
+4. Validate `proof_steps` for multiple keys having the same tag.
 
 Later
 

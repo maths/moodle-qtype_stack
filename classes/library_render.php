@@ -80,6 +80,7 @@ class library_render extends \external_api {
                 ])),
             'questiontext' => new \external_value(PARAM_RAW, 'Original question text'),
             'questionvariables' => new \external_value(PARAM_RAW, 'Question variable definitions'),
+            'questiondescription' => new \external_value(PARAM_RAW, 'Question description'),
         ]);
     }
 
@@ -89,7 +90,7 @@ class library_render extends \external_api {
      * @param int $category Question category id for eventual import. We really only
      * care that the user can add into any category at all at this stage.
      * @param string $filepath File path relative to samplequestions.
-     * @return array Array of question render, question text and question variables.
+     * @return array Array of question render, question text, description and question variables.
      */
     public static function render_execute($category, $filepath) {
         global $CFG, $DB;
@@ -125,6 +126,7 @@ class library_render extends \external_api {
                     'iframes' => $iframes,
                     'questiontext' => $question->questiontext,
                     'questionvariables' => $question->questionvariables,
+                    'questiondescription' => $question->questiondescription,
                 ];
                 $cache->set($filepath, $result);
             } catch (\stack_exception $e) {
@@ -139,6 +141,7 @@ class library_render extends \external_api {
                             '<br><br>' . $questiontext . '</div>',
                         'questiontext' => $questiontext,
                         'questionvariables' => '',
+                        'questiondescription' => '',
                     ];
                     $question->questiontext = (string) $xmldata->question->questiontext->text;
                 } else {

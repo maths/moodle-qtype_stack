@@ -419,6 +419,8 @@ class stack_inputvalidation_test_data {
         // The example below is an "odd" output from Maxima.
         ['sqrt(+x)', 'php_true', 'sqrt(+x)', 'cas_true', '+\sqrt{x}', '', ""],
         ['sqrt(x)^3', 'php_true', 'sqrt(x)^3', 'cas_true', '{\sqrt{x}}^3', '', ""],
+        // This was raised as issue #1281.
+        ['x^+5', 'php_true', 'x^+5', 'cas_true', 'x+^{5}', '', ""],
         // The example below is an "odd" output from Maxima. I'm not planning to fix this!
         ['1/sin(+x)', 'php_true', '1/sin(+x)', 'cas_true', '\frac{1+}{\sin \left( x \right)}', '', ""],
         ['"+"(a,b)', 'php_true', '"+"(a,b)', 'cas_true', 'a+b', '', "This is Maxima specific syntax."],

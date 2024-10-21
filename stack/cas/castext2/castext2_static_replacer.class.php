@@ -90,6 +90,7 @@ class castext2_static_replacer {
                 if ($node->parentnode->items[0] instanceof MP_String && (
                     $node->parentnode->items[0]->value === '%root' ||
                     $node->parentnode->items[0]->value === '%cs' ||
+                    $node->parentnode->items[0]->value === 'p h' ||
                     $node->parentnode->items[0]->value === 'demarkdown' ||
                     $node->parentnode->items[0]->value === 'demoodle' ||
                     ($node->parentnode->items[0]->value === 'jsxgraph' &&

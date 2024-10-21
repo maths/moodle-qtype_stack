@@ -335,8 +335,6 @@ class caskeyval_test extends qtype_stack_testcase {
                  'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
         $kv = new stack_cas_keyval($tests);
         $this->assertTrue($kv->get_valid());
-        $expected = [
-        ];
         $compiled = $kv->compile('kv-test');
 
         $expected = '(_EC(errcatch(stack_reset_vars(true)),"kv-test/1:1-1:2"),' .
@@ -356,8 +354,6 @@ class caskeyval_test extends qtype_stack_testcase {
             'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
         $kv = new stack_cas_keyval($tests);
         $this->assertTrue($kv->get_valid());
-        $expected = [
-        ];
         $compiled = $kv->compile('kv-test');
 
         $expected = '(_EC(errcatch(stack_reset_vars(true)),"kv-test/1:1-1:2"),' .
@@ -369,5 +365,16 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $compiled['statement']);
         $expected = '(_EC(errcatch(n1:1),"kv-test/1:24-1:2"),true)';
         $this->assertEquals($expected, $compiled['contextvariables']);
+    }
+
+    public function test_stack_compile_unexpected_lambda() {
+        // This is related to issue #1279.
+        $tests = 'c:(b+1)-(b+1)(d+1);';
+        $kv = new stack_cas_keyval($tests);
+        $this->assertfalse($kv->get_valid());
+        $expected = ['You seem to be missing * characters. Perhaps you meant to type ' .
+            '<span class="stacksyntaxexample">c:(b+1)-(b+1)<span class="stacksyntaxexamplehighlight">' .
+            '*</span>(d+1)</span>.'];
+        $this->assertEquals($expected, $kv->get_errors());
     }
 }

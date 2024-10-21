@@ -75,9 +75,11 @@ class RenderController {
         $plots = [];
 
         $renderresponse->questionrender = $translate->filter(
-            \stack_maths::process_display_castext(
-                $question->questiontextinstantiated->get_rendered(
-                    $question->castextprocessor
+            $question->questiontextinstantiated->apply_placeholder_holder(
+                \stack_maths::process_display_castext(
+                    $question->questiontextinstantiated->get_rendered(
+                        $question->castextprocessor
+                    )
                 )
             ),
             $language

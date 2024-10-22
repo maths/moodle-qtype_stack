@@ -96,6 +96,19 @@ define([
             done: function(response) {
                 loading(false);
                 libraryDiv.innerHTML = response.questionrender;
+                for (const iframe of response.iframes) {
+                    require(['qtype_stack/stackjsvle'],
+                        function(stackjsvle,) {
+                            stackjsvle.create_iframe(
+                                iframe.iframeid,
+                                iframe.content,
+                                iframe.targetdivid,
+                                iframe.title,
+                                iframe.scrolling,
+                                iframe.evil
+                            );
+                        });
+                  }
                 rawDiv.innerHTML = response.questiontext;
                 descriptionDiv.innerHTML = response.questiondescription;
                 variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");

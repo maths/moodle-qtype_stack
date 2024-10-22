@@ -39,11 +39,13 @@ interface castext2_processor {
     // The override helps when you want to chain things. Basically, use it to
     // give the top most processor to the lower ones so that they can pass things
     // back when processing nested things.
-    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder, castext2_processor $override = null): string;
+    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
+            castext2_processor $override = null): string;
 }
 
 class castext2_default_processor implements castext2_processor {
-    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,castext2_processor $override = null): string {
+    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
+            castext2_processor $override = null): string {
         $proc = $this;
         $block = null;
         if ($override !== null) {

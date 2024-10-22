@@ -149,7 +149,7 @@ STACK provides functions to support assessment where the teacher specified a dep
 
 1. `proof_step_missing({"C6"})` indicates the set of steps `{"C6"}` is missing from `sa`.
 2. `proof_step_extra({"H0"})` indicates the set of steps `{"H0"}` are not needed in `sa`.
-3. `proof_step_must("S1", "S1")` indicates that the step `"S1"` must come before step `"S2"` in the proof specified by the graph, but does not in `sa`.
+3. `proof_step_must("S1", "S2")` indicates that the step `"S1"` must come before step `"S2"` in the proof specified by the graph, but does not in `sa`.
 
 If the result of `proof_assessment_dag` is an empty list, the `sa` matches with the graph in `tdag`.
 

@@ -96,7 +96,7 @@ class GradingController {
 
             $feedbackstyle = $prt->get_feedbackstyle();
 
-            $feedback = $result->get_feedback();
+            $feedback = $result->apply_placeholder_holder($result->get_feedback());
             $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackstyle);
 
             switch ($feedbackstyle) {

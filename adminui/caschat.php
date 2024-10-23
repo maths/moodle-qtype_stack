@@ -151,7 +151,7 @@ if ($string) {
         $session = new stack_cas_session2($statements, $options);
         if ($ct->get_valid()) {
             $session->instantiate();
-            // Over here we are nto sending it through filters so we can directly
+            // Over here we are not sending it through filters so we can directly
             // restore the held ones.
             $displaytext  = $ct->apply_placeholder_holder($ct->get_rendered());
         }

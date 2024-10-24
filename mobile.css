@@ -80,6 +80,7 @@ div.stack-hint-content {
     max-width: 100%;
     resize: both;
     height: auto;
+    background-color: white;
 }
 #id_questionvariables,
 textarea[id*=feedbackvariables],

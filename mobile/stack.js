@@ -673,7 +673,10 @@ var result = {
             // With JS With instant validation, we don't need the Check button, so hide it.
             if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                     questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-                            questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
+                    const input = questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit');
+                    if (input) {
+                        input.hidden = true;
+                    }
             }
         }
 

@@ -56,6 +56,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
     // Cas errors.
     private $errors;
 
+    // A holder for the secured feedback bits.
+    private $holder = null;
+
     private $weight = 1;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
@@ -188,6 +191,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
         if ($this->feedback === null) {
             return null;
         }
+        if ($this->holder === null) {
+            $this->holder = new castext2_placeholder_holder();
+        }
         if ($this->renderedfeedback === null) {
             // Note that pure strings are even simpler...
             if (is_string($this->feedback)) {
@@ -202,7 +208,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
                     // This needs to happen before the postprocessing.
                     $value = $this->statics->replace($value);
                 }
-                $this->renderedfeedback = castext2_parser_utils::postprocess_parsed($value, $processor);
+                $this->renderedfeedback = castext2_parser_utils::postprocess_parsed($value, $processor, $this->holder);
             }
         }
         return trim($this->renderedfeedback);
@@ -270,5 +276,13 @@ class prt_evaluatable implements cas_raw_value_extractor {
 
     public function get_debuginfo(): string {
         return 'TO-DO DEBUGINFO';
+    }
+
+    // Applies the held back things to the filtered feedback.
+    public function apply_placeholder_holder(string $filtered): string {
+        if ($this->holder === null) {
+            return $filtered;
+        }
+        return $this->holder->replace($filtered);
     }
 }

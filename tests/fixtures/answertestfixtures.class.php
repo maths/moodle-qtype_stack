@@ -644,6 +644,9 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '6*stackunits(1,m)', 'stackunits(6,m)', 1, '', ''],
         ['AlgEquiv', '', 'stackunits(2,m)^2', 'stackunits(4,m^2)', 1, '', ''],
         ['AlgEquiv', '', 'stackunits(2,s)^2', 'stackunits(4,m^2)', 0, '', ''],
+        ['AlgEquiv', '', 'stack_units_nums(stackunits_make(m/s))', '1', 0, '', ''],
+        ['AlgEquiv', '', 'stack_units_nums(stackunits_make(m/s))', 'NULLNUM', 1, '', ''],
+        ['AlgEquiv', '', 'ev(stack_units_nums(stackunits_make(m/s)),NULLNUM=1)', '1', 1, '', ''],
         ['AlgEquiv', '', '-inf', 'minf', 0, '', 'Maxima does not simplify -inf (I agree!)'],
         [
             'AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+%i*sqrt(1-z^2))', -3,

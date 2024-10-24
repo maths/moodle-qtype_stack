@@ -33,6 +33,7 @@ define([
     let libraryDiv = null;
     let rawDiv = null;
     let variablesDiv = null;
+    let descriptionDiv = null;
     let importListDiv = null;
     let importSuccessDiv = null;
     let importSuccessFileDiv = null;
@@ -50,6 +51,7 @@ define([
         variablesDiv = document.querySelector('.stack_library_variables_display');
         importListDiv = document.querySelector('.stack-library-imported-list');
         displayedDiv = document.querySelector('.stack_library_selected_question');
+        descriptionDiv = document.querySelector('.stack_library_description_display');
         errorDiv = document.querySelector('.stack-library-error');
         importSuccessDiv = document.querySelector('.stack-library-import-success');
         importSuccessFileDiv = document.querySelector('.stack-library-import-success-file');
@@ -94,7 +96,21 @@ define([
             done: function(response) {
                 loading(false);
                 libraryDiv.innerHTML = response.questionrender;
+                for (const iframe of response.iframes) {
+                    require(['qtype_stack/stackjsvle'],
+                        function(stackjsvle,) {
+                            stackjsvle.create_iframe(
+                                iframe.iframeid,
+                                iframe.content,
+                                iframe.targetdivid,
+                                iframe.title,
+                                iframe.scrolling,
+                                iframe.evil
+                            );
+                        });
+                  }
                 rawDiv.innerHTML = response.questiontext;
+                descriptionDiv.innerHTML = response.questiondescription;
                 variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
                 displayedDiv.innerHTML = currentPath.split('/').pop();
                 document.querySelectorAll('.library-secondary-info')

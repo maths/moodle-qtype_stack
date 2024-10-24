@@ -129,6 +129,12 @@ The multilang filter will assume all of these belong together and will only disp
 
 If you have written a multilingual question, and a student wants to see it in a certain language, they have to change their preferred language. In Moodle, this is done by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. This will not only change the language of all question text (where multilingual blocks have been used), but also the language of the default Moodle and STACK interface (if this translation is available). The specific language pack has to be installed on your server by the server administrator to allow this. More information is available in the developer docs under [Translating STACK](../Developer/Language_packs.md).
 
+### Language within the CAS.
+
+STACK defines a variable `%_STACK_LANG`, which should be a string reflecting the language preference of the user of the question.  The default is `"en"`.  We also have a predicate function `is_lang(code)` which returns `true` if the current language set is `code`.
+
+A related issue is decimal separators.  An internal variable `stackfltsep` holds either `"."` or `","` to reflect the current option for the decimal separator option.
+
 ### Further reading
 
 The STACK project has been translated to many languages. Information on specific languages, installing language packs and how to contribute to translations can be found [here](../Developer/Language_packs.md).

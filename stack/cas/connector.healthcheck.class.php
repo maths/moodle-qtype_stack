@@ -286,7 +286,9 @@ class stack_cas_healthcheck {
             $test['details'] .= stack_string('errors') . $ct->get_errors();
             $test['details'] .= stack_string('debuginfo') . $session->get_debuginfo();
         } else {
-            $test['details'] .= html_writer::tag('p', stack_ouput_castext($ct->get_rendered()));
+            // This content is goind to a secure output where we do not do the two phase
+            // handlign the holder would want.
+            $test['details'] .= html_writer::tag('p', stack_ouput_castext($ct->apply_placeholder_holder($ct->get_rendered())));
         }
         $this->tests[] = $test;
     }

@@ -22,6 +22,7 @@ use stack_utils;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 require_once(__DIR__ . '/../doc/docslib.php');
 
@@ -38,6 +39,10 @@ class mathsoutputtex_test extends qtype_stack_testcase {
 
     public function test_tex_rendering() {
         $this->resetAfterTest();
+        global $CFG;
+        require_once($CFG->libdir . '/environmentlib.php');
+
+        $currentversion = normalize_version(get_config('', 'release'));
         set_config('mathsdisplay', 'tex', 'qtype_stack');
         stack_utils::clear_config_cache();
         filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
@@ -55,10 +60,12 @@ class mathsoutputtex_test extends qtype_stack_testcase {
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).'));
 
         // Test docs - make sure maths inside <textarea> is not rendered.
-        $this->assertMatchesRegularExpression('~^<p>.*\n' .
-                'Differentiate \\\\\\\\\[x\^2 \+ y\^2\\\\\\\\\] with respect to \\\\\\\\\(x\\\\\\\\\)\..*</p>\n$~',
+        if (version_compare($currentversion, '4.1.0') >= 0) {
+            $this->assertMatchesRegularExpression('~^<p>.*\n' .
+                'Differentiate \\\\\[x\^2 \+ y\^2\\\\\] with respect to \\\\\(x\\\\\)\..*</p>\n$~',
                 stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
-                        'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>'));
+                'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>'));
+        }
 
         // Test CAS text with inline maths.
         $this->assertEquals('What is \[x^2\]?', stack_maths::process_display_castext('What is \(x^2\)?'));

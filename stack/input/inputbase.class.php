@@ -39,6 +39,7 @@ abstract class stack_input {
     const GRAMMAR_FIX_INSERT_STARS = 1;
     const GRAMMAR_FIX_SPACES = 2;
     const GRAMMAR_FIX_SINGLE_CHAR = 4;
+    const GRAMMAR_FIX_FUNCTIONS = 16;
 
     /**
      * @var string the name of the input.
@@ -50,6 +51,11 @@ abstract class stack_input {
      *  create these inputs.
      */
     protected $name;
+
+    /**
+     * @var integer the maximum length of a permitted input.
+     */
+    protected $maxinputlength = 32768;
 
     /**
      * Special variables in the question which should be exposed to the inputs and answer tests.
@@ -122,6 +128,12 @@ abstract class stack_input {
      * @var bool.
      */
     protected $runtime = true;
+
+    /**
+     * Filters to apply for display in validate_contents
+     * @var array
+     */
+    protected $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
 
     /**
      * Constructor
@@ -661,7 +673,7 @@ abstract class stack_input {
     /**
      * Validate any attempts at this question.
      *
-     * @param array $response the student response to the question.
+     * @param array $response the student response to the input.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @param stack_cas_security $basesecurity declares the forbidden keys used in the question
@@ -713,7 +725,6 @@ abstract class stack_input {
         // At this sage, $valid records the PHP validation or other non-CAS issues.
         list($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines)
             = $this->validate_contents($contents, $secrules, $localoptions);
-
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
         $validationmethod = $this->get_validation_method();
@@ -994,6 +1005,11 @@ abstract class stack_input {
             $filterstoapply[] = '410_single_char_vars';
         }
 
+        // Assume single letter variable names = 16.
+        if ($grammarautofixes & self::GRAMMAR_FIX_FUNCTIONS) {
+            $filterstoapply[] = '441_split_unknown_functions';
+        }
+
         // Consolidate M_1 to M1 and so on.
         if ($this->get_extra_option('consolidatesubscripts', false)) {
             $filterstoapply[] = '420_consolidate_subscripts';
@@ -1033,6 +1049,15 @@ abstract class stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
+
+            // Any student input which is too long is not even parsed.
+            if (strlen($val) > $this->maxinputlength) {
+                $valid = false;
+                $errors[] = stack_string('studentinputtoolong');
+                $notes['too_long'] = true;
+                $val='';
+            }
+
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                 [], 'Root', $this->options->get_option('decimals'));
 
@@ -1047,8 +1072,16 @@ abstract class stack_input {
             }
 
             // Construct inert version of that.
+            $protectfilters = $this->protectfilters;
+
+            if($this->get_extra_option('simp')) {
+                // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
+                // function to perform calculations on dispdp numbers.
+                $val = 'stack_validate_simpnum(' . $val .')';
+                // Add in an extra Maxima function here so we can eventaually decide how many dps to display.
+            }
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
-                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array_merge($filterstoapply, $protectfilters),
                 [], 'Root', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
@@ -1298,7 +1331,10 @@ abstract class stack_input {
                     $valid = true;
                 } else {
                     if ($rn instanceof MP_String || $rn instanceof MP_List) {
-                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        $holder = new castext2_placeholder_holder();
+                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        // No filtering here.
+                        $msg = $holder->replace($msg);
                         if (trim($msg) !== '') {
                             $valid = false;
                             $errors[] = $msg;
@@ -1328,7 +1364,9 @@ abstract class stack_input {
                     $valid = true;
                 } else {
                     if ($rn instanceof MP_String || $rn instanceof MP_List) {
-                        $display .= castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        $holder = new castext2_placeholder_holder();
+                        $tmp = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        $display .= $holder->replace($tmp);
                     }
                 }
             } else {
@@ -1513,7 +1551,6 @@ abstract class stack_input {
         // TO-DO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
-        $val = '';
 
         $decimal = '.';
         $listsep = ',';

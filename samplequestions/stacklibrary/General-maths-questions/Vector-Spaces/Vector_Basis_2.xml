@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Vector_Basis_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find a basis for the rowspace of the matrix \[ {\bf A} = {@am@}. \] Enter the vectors in the basis as rows in the matrix below, adding zero rows when there are less then 5 vectors in the basis. [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The rank of the matrix {@am@} is {@rankam@}. <br /> So we look for a set of {@rankam@} rows from the matrix to form the basis set. Check the rank of the matrix formed by the chosen rows and if this is equal to {@rankam@} you have found a solution.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>am1:matrix([rand_with_step(-1,1,2),0,0,0,0],[0,rand_with_step(-1,1,2),0,0,0],[0,0,rand_with_step(-1,1,2),0,0],[0,0,0,rand_with_step(-1,1,2),0],[0,0,0,0,rand_with_step(-1,1,2)]);
+ A: for i:1 thru 4 do for j: i+1 thru 5 do am1[i,j]:ev(rand_with_step(-5,5,1));
+  am2:zeromatrix(5,3);
+  am2[1,1]:1;
+  am2[3,3]:1;
+  am3:matrix([rand_with_step(-1,1,2),0,0],[0,rand_with_step(-1,1,2),0],[0,0,rand_with_step(-1,1,2)]);
+  B:for i:1 thru 2 do for j: i+1 thru 3 do am3[i,j]:ev(rand_with_step(-5,5,1));
+  am:ev(transpose(am1).am2.am3);
+  rankam:rank(am);
+  zerorow:matrix([0,0,0]);
+  usualanswer:copymatrix(am);
+  usualanswer[2,1]:usualanswer[3,1];
+  usualanswer[2,2]:usualanswer[3,2];
+  usualanswer[2,3]:usualanswer[3,3];
+ C: for i:3 thru 5 do for j:1 thru 3 do usualanswer[i,j]:0;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@am@}\),\({@usualanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>usualanswer</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords> determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>rankans:rank(ans1);
+  ansrow3:row(ans1,3);
+  ansrow4:row(ans1,4);
+  ansrow5:row(ans1,5);
+  testans1:matrix([ans1[1,1],ans1[1,2],ans1[1,3]],[ans1[2,1],ans1[2,2],ans1[2,3]],[am[1,1],am[1,2],am[1,3]]);
+  detans1:determinant(testans1);
+  testans2:matrix([ans1[1,1],ans1[1,2],ans1[1,3]],[ans1[2,1],ans1[2,2],ans1[2,3]],[am[2,1],am[2,2],am[2,3]]);
+  detans2:determinant(testans2);
+  testans3:matrix([ans1[1,1],ans1[1,2],ans1[1,3]],[ans1[2,1],ans1[2,2],ans1[2,3]],[am[3,1],am[3,2],am[3,3]]);
+  detans3:determinant(testans3);
+  testans4:matrix([ans1[1,1],ans1[1,2],ans1[1,3]],[ans1[2,1],ans1[2,2],ans1[2,3]],[am[4,1],am[4,2],am[4,3]]);
+  detans4:determinant(testans4);
+  testans5:matrix([ans1[1,1],ans1[1,2],ans1[1,3]],[ans1[2,1],ans1[2,2],ans1[2,3]],[am[5,1],am[5,2],am[5,3]]);
+  detans5:determinant(testans5);
+  alldets:abs(detans1) +abs(detans2) + abs(detans3) + abs(detans4) + abs(detans5);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ansrow5</sans>
+        <tans>zerorow</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You do not have the correct number of non-zero rows.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ansrow4</sans>
+        <tans>zerorow</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You do not have the correct number of non-zero rows.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ansrow3</sans>
+        <tans>zerorow</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You do not have the correct number of non-zero rows.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>rankans</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>Result-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have the required number of linear independent vectors.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You do not have the required number of linear independent vectors</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>alldets</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-4-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>All vectors in your basis are in the rowspace.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-4-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Not all vectors in your basis are in the row space.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>724533190</deployedseed>
+    <deployedseed>1585033144</deployedseed>
+    <deployedseed>422519309</deployedseed>
+    <deployedseed>482005484</deployedseed>
+    <deployedseed>462215276</deployedseed>
+    <deployedseed>580911172</deployedseed>
+    <deployedseed>1693888773</deployedseed>
+    <deployedseed>1850546201</deployedseed>
+    <deployedseed>2043645276</deployedseed>
+    <deployedseed>604313298</deployedseed>
+    <deployedseed>1246936344</deployedseed>
+    <deployedseed>257078506</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>usualanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>am</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

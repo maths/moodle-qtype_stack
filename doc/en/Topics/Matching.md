@@ -131,7 +131,7 @@ steps : [
     ["sin", "\\(f(x) = \\sin(x)\\)"],
     ["abs", "\\(f(x) = |x|\\)"],
     ["sqrt", "\\(f(x) = \\sqrt{|x|}\\)"],
-    ["rec", "\\(f(x) = \\left\{\\begin{array}{ll}1/x &, x\\neq 0 \\\\ 0&, x=0\\end{array}\\right.\\)"],
+    ["rec", "\\(f(x) = \\left\\{\\begin{array}{ll}1/x &, x\\neq 0 \\\\ 0&, x=0\\end{array}\\right.\\)"],
     ["sgn", "\\(f(x) = \\text{sgn}(x)\\)"]
 ];
 
@@ -143,7 +143,7 @@ headers: [
     "Discontinuous"
 ];
 
-ans: [
+ta: [
     ["sq", "sin"], 
     ["abs", "sqrt"], 
     ["rec", "sgn"]
@@ -155,9 +155,8 @@ ans: [
 Here we should:
 - Write the question text itself.
 - Open the `parsons` block with `input` and `columns` header parameters.
-- Transfer the variables from _Question variables_ into a JSON inside the `parsons` block as appropriate.
+- Transfer the variables from _Question variables_ into a JSON inside the `parsons` block using `match_encode`.
 - Close the `parsons` block.
-- Set `style="display:none"` in the input div to hide the messy state from the student.
 
 ```
 <p>Recall that a function may be differentiable, continuous but 
@@ -165,11 +164,11 @@ not differentiable, or discontinuous. The following expressions define functions
 Drag the functions to their appropriate category. </p>
 [[parsons input="ans1" columns="3"]]
 {
-    "steps" : {#stackjson_stringify(steps)#},
+    "steps" : {#match_encode(steps)#},
     "headers" : {#headers#}
 }
 [[/parsons]]
-<p style="display:none">[[input:ans1]] [[validation:ans1]]</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
 ```
 
 ### Question note
@@ -181,19 +180,18 @@ A question note is required due to the random permutation of `steps`. We use:
 
 ### Input: ans1
 
-1. The _Input type_ field should be **String**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ans` using `match_correct(ans, steps)`.
+1. The _Input type_ field should be **Parsons**.
+2. The _Model answer_ field should be a list `[ta, steps, 3]` containing the teacher answer, all possible steps and the number of columns.
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
-5. Add `hideanswer` to _Extra options_.
 
-Steps 3, 4 and 5 are strongly recommended, otherwise the student will see unhelpful code representing the underlying state of their answer.
+Steps 3 and 4 are strongly recommended, otherwise the student will see unhelpful code representing the underlying state of their answer.
 
 ### Potential response tree: prt1
 
 Define the feedback variable
 ```
-sans: match_interpret(ans1);
+sans: match_decode(ans1);
 ```
 This provides the student response as a two-dimensional array of the same format as `ans`. 
 At this point the author may choose to assess by comparing `sans` and `ans` as they see fit. 
@@ -201,7 +199,7 @@ In this case, the order _within_ a column really doesn't matter, but the order o
 So we may convert the columns of `sans` and `ans` to sets in feedback variables using `match_column_set` from `matchlib.mac`.
 ```
 sans: match_column_set(sans);
-ans: match_column_set(ans);
+tans: match_column_set(ta);
 ```
 We can then do a regular algebraic equivalence test between `sans` and `ans`. You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
 
@@ -214,8 +212,8 @@ to the end of a growing column list.
 
 Much of this example is very similar to Example 1 above, with the following key differences:
 - The `parsons` block should include a specified `rows` parameter.
-- The `match_correct` function should use `true` as a third parameter inside _Model answer_.
-- The `match_interpret` function should use `true` as a third parameter inside the PRT.
+- The `match_answer` function should use `true` as a third parameter inside _Model answer_.
+- The `match_decode` function should use `true` as a third parameter inside the PRT.
 - We also define our PRT answer test differently, since we care only about the order within a row being preserved.
 However this difference is not _required_ and is due only to the nature of the question (i.e., what we want to assess from this question is 
 different from the one in Example 1), rather than from any system requirements.
@@ -251,7 +249,7 @@ headers: [
   "\\(d^2/d^2x\\)"
 ];
 
-ans: [
+ta: [
   ["f", "g"], 
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
@@ -263,19 +261,18 @@ ans: [
 Here we should:
 - Write the question text itself.
 - Open the `parsons` block with `input`, `columns` and `rows` header parameters.
-- Transfer the variables from _Question variables_ into a JSON inside the `parsons` block as appropriate.
+- Transfer the variables from _Question variables_ into a JSON inside the `parsons` block using `match_encode`.
 - Close the `parsons` block.
-- Set `style="display:none"` in the input div to hide the messy state from the student.
 
 ```
 <p>Drag the items to match up the functions with their derivatives. </p>
 [[parsons input="ans1" columns="3" rows="2"]]
 {
-    "steps" : {#stackjson_stringify(steps)#},
+    "steps" : {#match_encode(steps)#},
     "headers" : {#headers#}
 }
 [[/parsons]]
-<p style="display:none">[[input:ans1]] [[validation:ans1]]</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
 ```
 
 ### Question note
@@ -287,26 +284,26 @@ A question note is required due to the random permutation of `steps`. We use:
 
 ### Input: ans1
 
-1. The _Input type_ field should be **String**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `match_correct(ans, steps, true)`.
+1. The _Input type_ field should be **Parsons**.
+2. The _Model answer_ field should be a list `[ta, steps, 3, 2]` containing the teacher answer, all possible steps, the number of columns, 
+and the number of rows.
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
-5. Add `hideanswer` to _Extra options_.
 
-Steps 3, 4 and 5 are strongly recommended, otherwise the student will see unhelpful code representing the underlying state 
+Steps 3 and 4 are strongly recommended, otherwise the student will see unhelpful code representing the underlying state 
 of their answer.
 
 ### Potential response tree: prt1
 
 Define the feedback variable
 ```
-sans: match_interpret(ans1, true);
+sans: match_decode(ans1, true);
 ```
 This provides the student response as a two-dimensional array of the same format as `ans`. 
 At this point the author may choose to assess by comparing `sans` and `ans` as they see fit. In this case, the _order of the rows themselves_ really doesn't matter, but the order of the rows does of course. So we may convert the list of rows of `sans` and `ans` to a set in feedback variables using `match_set_row` from `matchlib.mac`.
 ```
 sans: match_set_row(sans);
-ans: match_set_row(ans);
+tans: match_set_row(ta);
 ```
 We can then do a regular algebraic equivalence test between `sans` and `ans`. 
 You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
@@ -348,7 +345,7 @@ index: [
   "\\(y = x^3\\)"
 ]
 
-ans: [
+ta: [
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
 ];
@@ -360,12 +357,12 @@ ans: [
 <p>Drag the items to match up the functions with their derivatives. </p>
 [[parsons input="ans1" columns="2" rows="2"]]
 {
-    "steps" : {#stackjson_stringify(steps)#},
+    "steps" : {#match_encode(steps)#},
     "headers" : {#headers#},
     "index" : {#index#}
 }
 [[/parsons]]
-<p style="display:none">[[input:ans1]] [[validation:ans1]]</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
 ```
 
 ### Question note
@@ -379,21 +376,21 @@ A question note is required due to the random permutation of `steps`. We use:
 
 This is exactly the same as Example 2. 
 
-1. The _Input type_ field should be **String**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `match_correct(ans, steps, true)`.
+1. The _Input type_ field should be **Parsons**.
+2. The _Model answer_ field should be a list `[ta, steps, 2, 2]` containing the teacher answer, all possible steps, the number of columns, 
+and the number of rows.
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
-5. Add `hideanswer` to _Extra options_.
 
 ### PRT
 
 As in Example 2, we first extract the two-dimensional array of used items from the students input.
 ```
-sans: match_interpret(ans1, true);
+sans: match_decode(ans1, true);
 ```
-At this point the author may choose to assess by comparing `sans` and `ans` as they see fit. 
-Since we have fixed the order of both dimensions, there is only one correct answer which is given by `ans`. 
-Hence we have a basic PRT which tests only algebraic equivalence between `sans` and `ans`. 
+At this point the author may choose to assess by comparing `sans` and `ta` as they see fit. 
+Since we have fixed the order of both dimensions, there is only one correct answer which is given by `ta`. 
+Hence we have a basic PRT which tests only algebraic equivalence between `sans` and `ta`. 
 As always, turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
 
 ## Example 4 : Using images
@@ -422,7 +419,7 @@ steps: random_permutation(steps);
 
 headers: ["Function", "\\(d/dx\\)", "\\(d^2/d^2x\\)"];
 
-ans: [
+ta: [
   ["f", "g"], 
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
@@ -435,11 +432,11 @@ ans: [
 <p>Drag the items to match up the functions with their derivatives. </p>
 [[parsons input="ans1" columns="3" rows="2" item-height="250" item-width="250"]]
 {
-    "steps" : {#stackjson_stringify(steps)#},
+    "steps" : {#match_encode(steps)#},
     "headers" : {#headers#},
 }
 [[/parsons]]
-<p style="display:none">[[input:ans1]] [[validation:ans1]]</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
 ```
 
 ### Question note, Inputs and PRT

@@ -302,6 +302,11 @@ function stack_fetch_included_content(string $url) {
             $islocalfile = true;
             $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
         }
+    } else if (strpos($lc, 'cors://') === 0) {
+        $good = true;
+        $islocalfile = true;
+        $translated = __DIR__ . '/corsscripts/' . $path;
+
     }
 
     if ($good) {

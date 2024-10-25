@@ -18,7 +18,7 @@ The image requires maxima to be available via http. The URL can be configured vi
 version: "4.0"
 services:
   maxima:
-    image: mathinstitut/goemaxima:2023121100-latest
+    image: mathinstitut/goemaxima:2024072400-latest
     tmpfs:
       - "/tmp"
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
   stack:
-    image: URL to be confirmed
+    image: stackmaths/stackapi:2024072400-latest
     restart: unless-stopped
     ports:
       - '3080:80'
@@ -281,7 +281,9 @@ At this point a user should just need a working Docker setup and an up-to-date `
 
 This will download the goemaxima and stack-api images and run the containers in an enclosing container. Obviously, config will be the same as for whoever built the stack-api Docker image.
 
-Version numbers will need to match the latest STACK release in `docker-compose.dev.yml`, `docker-compose.yml`, `config_sample.txt` and `config.php`.
+Version numbers will need to match the latest STACK release in `docker-compose.dev.yml`, `docker-compose.yml`, `config_sample.txt` and `config.php`. **(Remember: config.php needs updated locally before building.)**
+
+Pre-built API images are available on Docker Hub at `stackmaths/stackapi`.
 
 ### High level overview
 

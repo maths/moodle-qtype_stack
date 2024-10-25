@@ -7323,6 +7323,9 @@
   "stack_validate_typeless": {
       "function": "s"
   },
+  "stack_validate_simpnum": {
+      "function": "s"
+  },
   "stackeq": {
       "function": "s",
       "prefixinputform": "="

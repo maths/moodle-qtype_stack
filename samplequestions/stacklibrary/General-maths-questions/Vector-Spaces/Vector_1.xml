@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Vector_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Let \({\bf v_{1}}\) and \({\bf v_2}\) be the following vectors: <br /> \[ {\bf v_{1}} = {@c1@}, {\bf v_{2}} = {@c2@}.\] <br /> Compute \[ {@a1@} {\bf v_1} + {@b1@} {\bf v_2} .\] <br /> [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Given \[ {\bf v_{1}} = {@c1@}, {\bf v_{2}} = {@c2@}.\] <br /> \[ {@a1@} {\bf v_1} + {@b1@} {\bf v_2} = {@a1@}{@c1@}+{@b1@}{@c2@}\] \[ = {@vmult1@} + {@vmult2@} = {@correctanswer@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>Au:matrix([rand_with_step(-1,1,2),ev(rand(9)-4),ev(rand(9)-4)],[0,rand_with_step(-1,1,2),ev(rand(9)-4)],[0,0,rand_with_step(-1,1,2)]);
+ Bu:matrix([rand_with_step(-1,1,2),ev(rand(9)-4),ev(rand(9)-4)],[0,rand_with_step(-1,1,2),ev(rand(9)-4)],[0,0,rand_with_step(-1,1,2)]);
+ Amat:ev(transpose(Au) . Bu);
+ c1:col(Amat,1);
+ c2:col(Amat,2);
+ a1:rand(8)+ 2;
+ b1:rand(8)+ 2;
+ correctanswer:a1*c1+b1*c2;
+ wronganswer:(a1-1)*c1+(b1-1)*c2;
+ vmult1:matrix([0],[0],[0]);
+ vmult1[1,1]:a1*c1[1,1];
+ vmult1[2,1]:a1*c1[2,1];
+ vmult1[3,1]:a1*c1[3,1];
+ vmult2:matrix([0],[0],[0]);
+ vmult2[1,1]:b1*c2[1,1];
+ vmult2[2,1]:b1*c2[2,1];
+ vmult2[3,1]:b1*c2[3,1];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@a1@} {@c1@} + {@b1@} {@c2@}\) gives \({@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>correctanswer</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>294285686</deployedseed>
+    <deployedseed>2053539169</deployedseed>
+    <deployedseed>151189632</deployedseed>
+    <deployedseed>361951778</deployedseed>
+    <deployedseed>1156812808</deployedseed>
+    <deployedseed>541921123</deployedseed>
+    <deployedseed>1076970528</deployedseed>
+    <deployedseed>782495567</deployedseed>
+    <deployedseed>105552620</deployedseed>
+    <deployedseed>508428852</deployedseed>
+    <deployedseed>606452657</deployedseed>
+    <deployedseed>1814880386</deployedseed>
+    <deployedseed>687453788</deployedseed>
+    <deployedseed>949284973</deployedseed>
+    <deployedseed>1077558460</deployedseed>
+    <deployedseed>924485479</deployedseed>
+    <deployedseed>294595968</deployedseed>
+    <deployedseed>1972824967</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

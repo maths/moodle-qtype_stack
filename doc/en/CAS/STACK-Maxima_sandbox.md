@@ -39,6 +39,7 @@ An alternative approach on a Microsoft operating system is to copy the contents 
     %USERPROFILE%/Maxima/stacklocal.mac
 
 Using `load("stacklocal")` in any worksheet will load the STACK environement.
+On Linux you can copy the file `stacklocal.mac` to your home directory `~/.maxima/`.
 
 ### Using the answer tests
 
@@ -98,6 +99,57 @@ ensure it contains the following lines, possibly modified to reflect the directo
 
 Other versions of Maxima are similar.
 
+## Using preconfigured files on Linux and Windows
+
+Here you will find some notes to support you to install and use  the  STACK Sandbox in Maxima including the plotting options. The good note is, that Gnuplot is delivered with Maxima on Windows. We can use it. For Linux you will find a file `moodle-qtype_stack_master/stack/maxima/stacklocallinux.mac` and for Window `moodle-qtype_stack_master/stack/maxima/stacklocalwin.mac`. Goal is to use the commands `load("stacklocalwin.mac")` or `load("stacklocallinux.mac")` in your Maxima worksheets.
+
+### Preparation
+
+The Maxima variable  `maxima_userdir` returns the user Maxima directory on your Linux or Windows machine. This is used to reduce the installation effort and no admin rights are needed.
+
+Unzip the zip-file `moodle-qtype_stack-master.zip` in your `maxima_userdir`, so that the code resides in `maxima_userdir/moodle-qtype_stack_master/`.
+Create the additional directories:
+  1. `maxima_userdir/moodle-qtype_stack_master/tmp/`
+  2. `maxima_userdir/plots/`
+  2. `maxima_userdir/tmp/`
+
+
+On Windows the directories are afterwords
+  1. `%USERPROFILE%\maxima\moodle-qtype_stack_master\`
+  1. `%USERPROFILE%\maxima\moodle-qtype_stack_master\tmp\`
+  1. `%USERPROFILE%\maxima\plots\`
+  1. `%USERPROFILE%\maxima\tmp\`
+
+On Linux the directories are afterwords
+  1. `~/.maxima/moodle-qtype_stack_master/`
+  1. `~/.maxima/moodle-qtype_stack_master/tmp/`
+  1. `~/.maxima/plots/`
+  1. `~/.maxima/tmp/`
+
+To use the STACK Sandbox in Maxima, just copy the file `stacklocalwin.mac` or `stacklocallinux.mac` into your `maxima_userdir`. Thus it is available for the `load` command. 
+
+If git is available on your machine, you got to `maxima_userdir` in terminal an run the command `git pull https://github.com/maths/moodle-qtype_stack/` and move `moodle-qtype_stack` to `moodle-qtype_stack-master`.
+
+### Troubleshouting
+
+Sometimes one has to adjust the path to the directory where the svg are saved. Please try 
+`IMAGE_DIR:sconcat(maxima_userdir,"/plots/")` if `IMAGE_DIR:sconcat(maxima_userdir,"/plots")` does not work. (And vice versa).
+
+
+### Lets plot
+
+To show the plots produced by STACK a small loop way is used. STACK stores the plot in an SVG file, which is written to a temporary directory. To show the plots an html file `maxima_userdir/plots/test.html` is used. To generate the file use  `add2HTML(string,fileappend)` is used.
+The code looks like:
+```
+load("stacklocalwin.mac");
+res:plot(cos(x),[x,0,6]);
+add2HTML(res,false);
+showHTML();
+```
+A file `testPlot.wxm` is in `stack/maxima/` included.
+
+If you are not using Firefox on your Linux, you can adjust your browser in `stacklocallinux.mac`.
+
 ## Reflecting the settings on your server
 
 The healtcheck page (Moodle admin access only) displays the contents of the Maxima configuration file which is written to the sever.  This contains Maxima commands to update the path (which you probably don't want to copy) and also the function `STACK_SETUP(ex)` which configures your particular version of STACK.  You may want to replace `STACK_SETUP(ex)` in the sandbox with `STACK_SETUP(ex)` from the Moodle server. For most users this should not be needed, and is most useful for advanced debugging where significant differences between versions matters.
@@ -107,3 +159,5 @@ It is more important to match the version of the STACK code you downloaded from 
     https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/doc/doc.php/
 
 shows the version of the STACK code the demo site is running. 
+
+`{@stackmaximaversion@}` and `{@MAXIMA_VERSION@}` in a question text will return the STACK and Maxima version installed on your LMS.

@@ -219,6 +219,13 @@ function _validate_flat_steps(steps) {
     if (typeof(steps) == "string") {
         steps = _stackstring_objectify(steps);
     }
+
+    // Check whether all numeric keys are passed. Since keys in Maxima arrays are hashed, this only invalidates 
+    // the case where JSON's are authored with numeric keys directly inside the parson's block.
+    // Numeric keys are a problem because they are ordered by JS objects
+    if (Object.keys(steps).every((key) => !isNaN(parseInt(key)))) {
+        return false
+    }
     return Object.values(steps).every((val) => typeof(val) == "string");
 }
 
@@ -266,7 +273,8 @@ export function get_iframe_height() {
  *
  * @property {Object} steps - Object containing all steps.
  * @property {string} inputId - ID of the input element for storing state (optional).
- * @property {Object} state - Current state of used and available items.
+ * @property {Array} state - Current state of used and available items of the form [[{"used": [...], "available": [...]}, <timestamp>]].
+ * @property {Array} history - All states up to the current state.
  * @property {Object} userOptions - User-defined options merged with default options.
  * @property {boolean} clone - Flag indicating whether to clone elements during sorting.
  * @property {Object} options - Final options for sortable lists.
@@ -347,6 +355,7 @@ export const stack_sortable = class stack_sortable {
      *                         Affects styling.
      * @param {string|null} item_height - The height of each item in the sortable lists (including headers and indexes).
      * @param {string|null} item_width - The width of each item in the sortable lists (including headers and indexes).
+     * @param {string|'false'} log - Whether to use the full history or current state as input store.
      */
     constructor(steps,
             inputId = null,
@@ -358,7 +367,8 @@ export const stack_sortable = class stack_sortable {
             index = "",
             grid = false,
             item_height = null,
-            item_width = null) {
+            item_width = null,
+            log = "false") {
         this.steps = steps;
         this.inputId = inputId;
         this.orientation = orientation;
@@ -379,6 +389,9 @@ export const stack_sortable = class stack_sortable {
         this.container_height_width = (Object.keys(this.item_height_width).length !== 0) ?
             {"style" : this.item_height_width["style"]} : {};
         this.state = this._generate_state(this.steps, inputId, Number(this.columns), Number(this.rows));
+        // this.history logs all states in an attempt of the format [[<latest state>, <timestamp>], ..., [<initial state>, <timestamp>]]
+        this.history = this.state;
+        this.log = log;
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
             this.submitted = this.input.getAttribute("readonly") === "readonly"
@@ -574,7 +587,7 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     generate_available() {
-        this.state.available.forEach(key => this.available.append(this._create_li(key, this.item_height_width)));
+        this.state[0][0].available.forEach(key => this.available.append(this._create_li(key, this.item_height_width)));
     }
 
     /**
@@ -584,7 +597,7 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     generate_used() {
-        for (const [i, value] of this.state.used.entries()) {
+        for (const [i, value] of this.state[0][0].used.entries()) {
             if (this.rows !== "" && this.columns !== "") {
                 for (const [j, val] of value.entries()) {
                     this._apply_attrs(this.used[i][j], this.container_height_width);
@@ -630,12 +643,16 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     update_state(newUsed, newAvailable) {
-        var newState = {used: newUsed.map((usedList) => usedList.map((used) => used.toArray())), available: newAvailable.toArray()};
+        var newState = [[{used: newUsed.map((usedList) => usedList.map((used) => used.toArray())), available: newAvailable.toArray()}, this._get_current_seconds()]];
+        this.state = newState;
+        // Only log genuinely different states; this is because update_state is called once for each list (at least twice) on each update
+        if (JSON.stringify(newState[0][0]) !== JSON.stringify(this.history[0][0])) {
+            this.history.unshift(newState[0]);
+        }
         if (this.inputId !== null) {
-            this.input.value = JSON.stringify(newState);
+            this.input.value = (this.log === 'false') ? JSON.stringify(this.state) : JSON.stringify(this.history);
             this.input.dispatchEvent(new Event("change"));
         }
-        this.state = newState;
     }
 
     /**
@@ -1012,11 +1029,20 @@ export const stack_sortable = class stack_sortable {
                 Array(columns).fill().map(() => Array(rows).fill([]));
         let stateStore = document.getElementById(inputId);
         if (stateStore === null) {
-            return {used: usedState, available: [...Object.keys(steps)]};
+            return [[{used: usedState, available: [...Object.keys(steps)]}, this._get_current_seconds()]];
         }
         return (stateStore.value && stateStore.value != "") ?
             JSON.parse(stateStore.value) :
-            {used: usedState, available: [...Object.keys(steps)]};
+            [[{used: usedState, available: [...Object.keys(steps)]}, this._get_current_seconds()]];
+    }
+
+    /**
+     * Gets the current second elapsed since the start of the Unix epoch (1st January, 1970, 00:00 GMT)
+     * 
+     * @returns {number} Number of elapsed seconds
+     */
+    _get_current_seconds() {
+        return Math.floor(Date.now() / 1000);
     }
 
     /**
@@ -1130,7 +1156,7 @@ export const stack_sortable = class stack_sortable {
      */
     _resize_grid_container_heights(height) {
         if (this.rows !== "" && this.columns !== "") {
-            for (const [i, value] of this.state.used.entries()) 
+            for (const [i, value] of this.state[0][0].used.entries()) 
                 for (const [j, _] of value.entries()) {
                     this._resize_set_height(this.used[i][j], height + 12);
             }
@@ -1147,7 +1173,7 @@ export const stack_sortable = class stack_sortable {
      */
     _resize_grid_container_widths(width) {
         if (this.rows !== "" && this.columns !== "") {
-            for (const [i, value] of this.state.used.entries()) 
+            for (const [i, value] of this.state[0][0].used.entries()) 
                 for (const [j, _] of value.entries()) {
                     // Adjust the width if in horizontal orientation.
                     if (this.orientation === "row") {

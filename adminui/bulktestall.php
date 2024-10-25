@@ -50,15 +50,14 @@ if ($startfromcontextid) {
 }
 
 // Login and check permissions.
-$context = context_system::instance();
 require_login();
-require_capability('moodle/site:config', $context);
+$context = context_system::instance();
+require_capability('qtype/stack:usediagnostictools', $context);
+
 $PAGE->set_url('/question/type/stack/bulktestall.php', $urlparams);
 $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());
 $PAGE->set_title($title);
-
-require_login();
 
 // Create the helper class.
 $bulktester = new stack_bulk_tester();

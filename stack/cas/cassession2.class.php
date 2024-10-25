@@ -410,6 +410,10 @@ class stack_cas_session2 {
                             $asts[$key] = $value;
                         }
                     } catch (Exception $e) {
+                        // TODO: issue #1279 would change this exception to add in an error associated
+                        // with the values collected rather than a stack_exception.
+                        // We would then add something like this to allow the process to continue.
+                        // $asts[$key] = maxima_parser_utils::parse('null', 'Root', false);
                         throw new stack_exception('stack_cas_session: tried to parse the value ' .
                                 $value . ', but got the following exception ' . $e->getMessage());
                     }

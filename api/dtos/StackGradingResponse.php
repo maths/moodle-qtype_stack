@@ -22,7 +22,7 @@
 namespace api\dtos;
 
 class StackGradingResponse {
-    /** @var boolean */
+    /** @var bool */
     public $isgradable;
     /** @var float */
     public $score;

@@ -98,11 +98,14 @@ $qbankparams['lastchanged'] = $question->id;
 if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
+$todoparams = $qbankparams;
+$todoparams['contextid'] = $question->contextid;
 
 $questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
+$todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -153,6 +156,8 @@ if ($canedit) {
 }
 $links[] = html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
     stack_string('basicquestionreport'), ['class' => 'nav-link']);
+$links[] = html_writer::link($todolink, stack_string('seetodolist'),
+    ['class' => 'nav-link']);
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 
 flush();
@@ -179,7 +184,7 @@ $testscases = question_bank::get_qtype('stack')->load_question_tests($question->
 $defaulttest = null;
 $defaulttestresult = null;
 
-if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit) {
+if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit && $question->inputs !== []) {
     $defaulttest = stack_bulk_tester::create_default_test($question);
     question_bank::get_qtype('stack')->save_question_test($questionid, $defaulttest);
     $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
@@ -187,7 +192,7 @@ if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit) {
     echo html_writer::tag('p', stack_string_error('runquestiontests_auto'));
 }
 // Prompt user to create the default test case.
-if (empty($testscases) && $canedit) {
+if (empty($testscases) && $canedit && $question->inputs !== []) {
     // Add in a default test case and give it full marks.
     echo html_writer::start_tag('form', [
         'method' => 'get', 'class' => 'defaulttestcase',
@@ -202,7 +207,7 @@ if (empty($testscases) && $canedit) {
     echo html_writer::end_tag('form');
 }
 
-if (empty($testscases)) {
+if (empty($testscases) && $question->inputs !== []) {
     echo "\n<hr/>\n";
     $defaulttest = stack_bulk_tester::create_default_test($question);
     $defaulttestresult = $defaulttest->test_question($questionid, $seed, $context);
@@ -510,10 +515,6 @@ if ($question->has_random_variants()) {
     }
 }
 
-echo $OUTPUT->heading(stack_string('questiontestsfor', $seed), 2);
-
-\core\session\manager::write_close();
-
 // Execute the tests.
 $testresults = [];
 $allpassed = true;
@@ -524,32 +525,40 @@ foreach ($testscases as $key => $testcase) {
     }
 }
 
+\core\session\manager::write_close();
+
 if ($question->runtimeerrors || $generalfeedbackerr) {
     echo html_writer::tag('p', stack_string('errors'), ['class' => 'overallresult fail']);
     echo html_writer::tag('p', implode('<br />', array_keys($question->runtimeerrors)));
     echo html_writer::tag('p', stack_string('generalfeedback') . ': ' . $generalfeedbackerr);
 }
 
-// Display the test results.
-$addlabel = stack_string('addanothertestcase', 'qtype_stack');
-$basemsg = '';
-if ($question->has_random_variants()) {
-    $basemsg = stack_string('questiontestsfor', $seed) . ': ';
-}
-if (empty($testresults)) {
-    echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' . stack_string('notestcasesyet'));
-    $addlabel = stack_string('addatestcase', 'qtype_stack');
-} else if ($allpassed) {
-    echo html_writer::tag('p', $basemsg .
-        stack_string('stackInstall_testsuite_pass'), ['class' => 'overallresult pass']);
-} else {
-    echo html_writer::tag('p', $basemsg .
-        stack_string_error('stackInstall_testsuite_fail'), ['class' => 'overallresult fail']);
-}
+// Make sure the question has inputs, otherwise testing is uncessary.
+if ($question->inputs !== []) {
+    echo $OUTPUT->heading(stack_string('questiontestsfor', $seed), 2);
 
-if ($canedit) {
-    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-            $urlparams), $addlabel, 'get');
+    // Display the test results.
+    $addlabel = stack_string('addanothertestcase', 'qtype_stack');
+    $basemsg = '';
+    if ($question->has_random_variants()) {
+        $basemsg = stack_string('questiontestsfor', $seed) . ': ';
+    }
+
+    if (empty($testresults)) {
+        echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' . stack_string('notestcasesyet'));
+        $addlabel = stack_string('addatestcase', 'qtype_stack');
+    } else if ($allpassed) {
+        echo html_writer::tag('p', $basemsg .
+            stack_string('stackInstall_testsuite_pass'), ['class' => 'overallresult pass']);
+    } else {
+        echo html_writer::tag('p', $basemsg .
+            stack_string_error('stackInstall_testsuite_fail'), ['class' => 'overallresult fail']);
+    }
+
+    if ($canedit) {
+        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+                $urlparams), $addlabel, 'get');
+    }
 }
 
 foreach ($testresults as $key => $result) {

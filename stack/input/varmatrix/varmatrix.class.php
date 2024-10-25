@@ -118,6 +118,16 @@ class stack_varmatrix_input extends stack_input {
             }
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'varmatrix';
+        if ($this->options->get_option('decimals') === ',') {
+            $attributes['data-stack-input-decimal-separator']  = ',';
+            $attributes['data-stack-input-list-separator'] = ';';
+        } else {
+            $attributes['data-stack-input-decimal-separator']  = '.';
+            $attributes['data-stack-input-list-separator'] = ',';
+        }
+
         $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
         return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
     }
@@ -252,6 +262,13 @@ class stack_varmatrix_input extends stack_input {
             foreach ($contents as $row) {
                 $modifiedrow = [];
                 foreach ($row as $val) {
+                    // Any student input which is too long is not even parsed.
+                    if (strlen($val) > $this->maxinputlength) {
+                        $valid = false;
+                        $errors[] = stack_string('studentinputtoolong');
+                        $notes['too_long'] = true;
+                        $val='';
+                    }
                     $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                         [], 'Root', $localoptions->get_option('decimals'));
                     if ($answer->get_valid()) {

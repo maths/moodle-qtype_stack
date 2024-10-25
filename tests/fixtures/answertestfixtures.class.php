@@ -124,6 +124,9 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'x-1', '(x^2-1)/(x+1)', 1, '', ''],
         ['AlgEquiv', '', '2^((1/5.1)*t)', '2^((1/5.1)*t)', 1, '', ''],
         ['AlgEquiv', '', '2^((1/5.1)*t)', '2^(0.196078431373*t)', 0, '', ''],
+        ['AlgEquiv', '', '1-root(2)', '1-2^(1/2)', 1, '', ''],
+        ['AlgEquiv', '', '1-root(2)', '1-sqrt(2)', 1, '', ''],
+        ['AlgEquiv', '', 'root(2,2)+1', '1+sqrt(2)', 1, '', ''],
         ['AlgEquiv', '', 'a^b*a^c', 'a^(b+c)', 1, '', ''],
         ['AlgEquiv', '', '(a^b)^c', 'a^(b*c)', 0, '', ''],
         ['AlgEquiv', '', '(assume(a>0),(a^b)^c)', 'a^(b*c)', 1, '', ''],
@@ -254,6 +257,11 @@ class stack_answertest_test_data {
         // The log(x) function is base e.
         ['AlgEquiv', '', 'log(root(x,n))', 'lg(x,10)/n', 0, '', ''],
         ['AlgEquiv', '', 'x^log(y)', 'y^log(x)', 1, '', ''],
+        // Example where some pre-processing is needed.
+        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
+        ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
+            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', ''],
+
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],
         ['AlgEquiv', '', '[1,2]', '[1,2,3]', 0, 'ATList_wronglen.', ''],
@@ -636,6 +644,9 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '6*stackunits(1,m)', 'stackunits(6,m)', 1, '', ''],
         ['AlgEquiv', '', 'stackunits(2,m)^2', 'stackunits(4,m^2)', 1, '', ''],
         ['AlgEquiv', '', 'stackunits(2,s)^2', 'stackunits(4,m^2)', 0, '', ''],
+        ['AlgEquiv', '', 'stack_units_nums(stackunits_make(m/s))', '1', 0, '', ''],
+        ['AlgEquiv', '', 'stack_units_nums(stackunits_make(m/s))', 'NULLNUM', 1, '', ''],
+        ['AlgEquiv', '', 'ev(stack_units_nums(stackunits_make(m/s)),NULLNUM=1)', '1', 1, '', ''],
         ['AlgEquiv', '', '-inf', 'minf', 0, '', 'Maxima does not simplify -inf (I agree!)'],
         [
             'AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+%i*sqrt(1-z^2))', -3,
@@ -1018,6 +1029,9 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[zeroAdd]', '0+a', 'a', 1, '', ''],
         ['EqualComAssRules', '[zeroAdd]', 'a+0', 'a', 1, '', ''],
         ['EqualComAssRules', '[testdebug,zeroAdd]', '1*a', 'a', 0, 'ATEqualComAssRules: [1 nounmul a,a].', ''],
+        // This is a common example where EqualComAss is not adequate.
+        ['EqualComAssRules', '[zeroAdd]', '1/2*sin(3*x)', 'sin(3*x)/2', 0, '', ''],
+        ['EqualComAssRules', '[oneMul]', '1/2*sin(3*x)', 'sin(3*x)/2', 1, '', ''],
         ['EqualComAssRules', '[oneMul]', '1*a', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', '1*a', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', 'a/1', 'a', 1, '', ''],
@@ -1893,7 +1907,10 @@ class stack_answertest_test_data {
         ['Int', 'x', 'atan((x-2)/(x-1))+c', 'atan(2*x-3)', 1, 'ATInt_true.', ''],
         ['Int', 'x', 'atan((x-2)/(x-1))', 'atan(2*x-3)', 0, 'ATInt_const.', ''],
         ['Int', 'x', 'atan((x-1)/(x-2))', 'atan(2*x-3)', 0, 'ATInt_generic.', ''],
-        // These onse currently fail for mathematical reasons.
+        ['Int', 'x', 'atan((x-1)/(x+1))+c', 'atan(x)', 1, 'ATInt_true.', ''],
+        // This really does have an odd constant of integration!
+        ['Int', 'x', 'atan((a*x+1)/(a-x))', 'atan(x)', 1, 'ATInt_true.', ''],
+        // These ones currently fail for mathematical reasons.
         [
             'Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)',

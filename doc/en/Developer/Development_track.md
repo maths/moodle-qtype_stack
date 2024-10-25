@@ -7,7 +7,12 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.8.0
 
-1. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
+DONE.
+
+1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
+2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../Authoring/Workflow.md).
+3. Add in a library page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
+4. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
 
 Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 
@@ -19,11 +24,17 @@ Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack
 
 ## Parson's block development track
 
+DONE
+
+1. Hashing for keys
+2. Add ability to log history of an attempt
+
 For v4.8.0:
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.
 3. Create templates from the start for different proof types
+4. Validate `proof_steps` for multiple keys having the same tag.
 
 Later
 
@@ -35,7 +46,6 @@ Later
 6. Confirmation for delete all?
 7. Alternative styling/signalling for clone mode?
 8. Better support (and documentation) for bespoke grading functions.
-9. Hashing keys
 10. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
 
 

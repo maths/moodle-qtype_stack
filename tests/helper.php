@@ -252,7 +252,8 @@ class qtype_stack_test_helper extends question_test_helper {
                  "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
                  "truenextnode":"-1","trueanswernote":"PotResTree_1-0-1",
                  "truescore":1,"truescoremode":"=",
-                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1"
+                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1",
+                 "description": ""
                 }
               ]}');
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
@@ -4052,7 +4053,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ansq'] = stack_input_factory::make(
             'algebraic', 'ansq', 'ta', null,
             [
-                'boxWidth' => 20, 'forbidWords' => ''
+                'boxWidth' => 20, 'forbidWords' => '',
             ]);
 
         // By setting simp:true (the default) we check the re-ordering really happens.
@@ -4116,7 +4117,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ansq'] = stack_input_factory::make(
             'algebraic', 'ansq', 'veq', null,
             [
-                'boxWidth' => 20, 'forbidWords' => ''
+                'boxWidth' => 20, 'forbidWords' => '',
             ]);
 
         // By setting simp:true (the default) we check the re-ordering really happens.
@@ -7958,7 +7959,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->questiontext = [
             'text' => "<table> <tbody><tr> <td>Element1 location: [[input:ans1]] [[validation:ans1]]<br>
                 Element 2 location: [[input:ans2]] [[validation:ans2]]<br> Element1 id: [[input:element1]]<br>
-                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td>
+                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td></tr><tr>
                 <td> [[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref'
                 input-ref-element1='element1Ref' input-ref-element2='element2Ref']]
                 var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});

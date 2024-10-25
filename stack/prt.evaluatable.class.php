@@ -222,6 +222,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_answernotes() {
+        if ($this->score === null) {
+            $this->unpack();
+        }
         if ($this->bailed) {
             return $this->bailed;
         }

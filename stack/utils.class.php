@@ -475,6 +475,19 @@ class stack_utils {
     }
 
     /**
+     * Convert strings to protect LaTeX backslashes for use in Maxima strings.
+     * @param string in
+     * @return string out
+     * @access public
+     */
+    public static function protect_backslash_latex($string) {
+        $string = addslashes($string);
+        // We don't want to add slashes to strings within strings.
+        $string = str_replace('\\\\\"', '\"', $string);
+        return($string);
+    }
+
+    /**
      * Converts a CSV string into an array, removing empty entries.
      *
      * @param string in

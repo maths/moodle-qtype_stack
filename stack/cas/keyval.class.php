@@ -329,7 +329,7 @@ class stack_cas_keyval {
 
         foreach ($strings as $key => $string) {
             if ($this->pslash) {
-                $string = addslashes($string);
+                $string = stack_utils::protect_backslash_latex($string);
             }
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
         }

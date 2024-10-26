@@ -133,6 +133,12 @@ Once the PRT has started there is no way to "bail out", or disregard the results
 
 The PRT will return a note `prt1-bail` to indicate the tree attempted to execute but then stopped and "bailed out".  This is in contrast to the note `!` used to indicate the PRT did not execute at all.
 
-Here is an example question idea illustrating this idea.
+This feature can be useful with multiple inputs and _formative PRTs_.  Consider the following question asking a student to give up to three example expressions (E.g. "Give me an example of....").
 
-TODO: GK.
+1. We have three inputs `ans1`, `ans2` and `ans3`.  There is one PRT for each to establish the relevant properties.
+2. We have another PRT, checking they are all different.
+3. We have a formative PRT e.g. saying something like "All your examples are polynomials, please try something else".
+
+A student just types in two examples, leaving `ans3` empty.
+
+Set up all options with the `allowempty` option, and filter out `EMPTYANSWER` in the last two PRTs.  The last two PRTs can now work if a student only has two examples.  In the first three PRTs we can bail when they are empty.

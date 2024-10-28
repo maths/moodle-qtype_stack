@@ -131,6 +131,9 @@
   "%_stack_preamble_end": {
       "constant": "t"
   },
+  "%_stack_prt_stop_p": {
+      "variable": "t"
+  },
   "%stmt": {
       "variable": "f"
   },

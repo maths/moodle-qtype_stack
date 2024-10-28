@@ -13,6 +13,7 @@ DONE.
 2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../Authoring/Workflow.md).
 3. Add in a library page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
 4. Better document the sample proofs, and provide a generic Parsons question to make it easier to use them.  See the [Proof samples](../Proof/Proof_samples.md) documentation.
+5. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
 
 Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 

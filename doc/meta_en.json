@@ -720,6 +720,11 @@
         "description":"A catalogue of common proofs, and how to use them."
         },
         {
+        "file":"Proof_Parsons_workflow.md",
+        "title":"Workflow for authoring Parsons Problems",
+        "description":"A suggested workflow for authoring Parsons Problems, adding slashes to strings within Maxima variables."
+        },
+        {
         "file":"Proof_styles.md",
         "title":"CSS Styles for displaying proof",
         "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."

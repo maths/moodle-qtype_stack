@@ -377,4 +377,28 @@ class caskeyval_test extends qtype_stack_testcase {
             '*</span>(d+1)</span>.'];
         $this->assertEquals($expected, $kv->get_errors());
     }
+
+    public function test_stack_add_slash() {
+        // This is related to issue #1279.
+        $tests = 's1:"String with LaTeX:  \(x^2\).";';
+        $kv = new stack_cas_keyval($tests, null, 0, '', true);
+        $this->asserttrue($kv->get_valid());
+        $kv->compile('test');
+        $expected = 's1:"String with LaTeX:  \\\\(x^2\\\\).";';
+        $this->assertEquals($expected, $kv->get_raw());
+
+        /* This should not add slashes to quotes or other slashed things. */
+        $tests = 's1:"We now quote Euler: \"As the nature of the thing demands it...\"";';
+        $kv = new stack_cas_keyval($tests, null, 0, '', true);
+        $this->asserttrue($kv->get_valid());
+        $kv->compile('test');
+        $this->assertEquals($tests, $kv->get_raw());
+
+        /* This should not add slashes to comments. */
+        $tests = "/* Comments on maths: \(x^2\) */\ns1:x^2;";
+        $kv = new stack_cas_keyval($tests, null, 0, '', true);
+        $this->asserttrue($kv->get_valid());
+        $kv->compile('test');
+        $this->assertEquals($tests, $kv->get_raw());
+    }
 }

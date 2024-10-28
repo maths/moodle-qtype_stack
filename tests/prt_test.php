@@ -104,7 +104,9 @@ class prt_test extends qtype_stack_testcase {
 
         $this->assertFalse($prt->is_formative());
         $this->assertEquals(['Int' => true], $prt->get_answertests());
-        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'];
+        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            'testprt-bail' => 'testprt-bail',
+        ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.
@@ -248,6 +250,7 @@ class prt_test extends qtype_stack_testcase {
         $expected = [
             'NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
             '1-1-1' => '1-1-1', '1-1-0' => '1-1-0',
+            'multiprt-bail' => 'multiprt-bail',
         ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
@@ -333,7 +336,9 @@ class prt_test extends qtype_stack_testcase {
 
         $this->assertFalse($prt->is_formative());
         $this->assertEquals(['Int' => true], $prt->get_answertests());
-        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'];
+        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            'testprt-bail' => 'testprt-bail',
+        ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.

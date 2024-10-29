@@ -126,7 +126,7 @@ function stack_docs_no_found($links) {
 function stack_docs_page($links, $file) {
     $preprocess = true;
     // This auto-generated file does not need maths processing.
-    if (strpos($file, 'Answer_tests_results') !== false) {
+    if (strpos($file, 'Answer_Tests/Results') !== false) {
         $preprocess = false;
     }
     $body = '';
@@ -139,22 +139,24 @@ function stack_docs_page($links, $file) {
 }
 
 /**
+ * Process the markdown into html, respecting \ for maths, code in markdown (with \), and links to video.
  * @param string $page countent in Markdown format.
  * @param boolean $preprocess Do we need to process the maths in this page?.
  * @return string HTML content.
  */
 function stack_docs_render_markdown($page, $preprocess = true) {
 
-    // Put in links to images etc.
     if ($preprocess) {
         // Don't process the auto-generated answer test output.
         $page = stack_maths::pre_process_docs_page($page);
     }
+
     // Note the 'noclean' option is normally not permitted, however, this call to format_text is
     // only applied to fixed content stored in the STACK git repository as code, and not user-generated content.
-    // The 'filter' => true is to ensure we activate the mathjax filter.
-    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => true, 'noclean' => true]);
+    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false, 'noclean' => true]);
     $page = stack_maths::post_process_docs_page($page);
+    // The 'filter' => true is to ensure we activate the mathjax filter once the markdown has changed to html.
+    $page = format_text($page, FORMAT_HTML, ['filter' => true, 'noclean' => true]);
     return $page;
 }
 

@@ -73,7 +73,6 @@ class docslib_test extends qtype_stack_testcase {
                 $CFG->wwwroot . '/question/type/stack/doc.php/Students'));
     }
 
-
     public function test_stack_docs_render_markdown() {
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
@@ -85,8 +84,18 @@ class docslib_test extends qtype_stack_testcase {
 
         // @codingStandardsIgnoreStart
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
-                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
+                stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).'));
+        $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
+            stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
         // @codingStandardsIgnoreEnd
+
+        $md = "Text with maths: \\(x^3\\)\n\n    And how to type it in: \\(x^3\\)\n\nShould work!";
+        $ex = "<p>Text with maths: \\(x^3\\)</p>\n\n" .
+            "<pre><code>And how to type it in: \\(x^3\\)\n</code></pre>\n\n" .
+            "<p>Should work!</p>\n";
+        $this->assert_content_with_maths_equals($ex,
+            stack_docs_render_markdown($md));
+
         if (version_compare($currentversion, '4.1.0') >= 0) {
             $page = 'Watch <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
                 'frameborder="0" allowfullscreen></iframe> This will help you.';
@@ -96,5 +105,12 @@ class docslib_test extends qtype_stack_testcase {
             $this->assert_content_with_maths_equals($rendered,
                 stack_docs_render_markdown($page));
         }
+    }
+
+    public function test_stack_docs_render_markdown_with_proof() {
+        $md = '<div class="proof"><p>H1. Assume that \(3 \cdot 2^{172} + 1\) is a perfect square.</p></div>';
+        $ex = $md . "\n";
+        $this->assert_content_with_maths_equals($ex,
+            stack_docs_render_markdown($md));
     }
 }

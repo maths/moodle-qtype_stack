@@ -4941,7 +4941,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->render();
         $this->assert_content_with_maths_contains('\[ 5',
             $this->currentoutput);
-        $expected = 'Seed: 1; ans1: 5 [score]; firsttree: !';
+        $expected = 'Seed: 1; ans1: 5 [score]; firsttree: # =  | firsttree-bail';
         $this->check_response_summary($expected);
 
         // New answer which is wrong to check score and penalty.

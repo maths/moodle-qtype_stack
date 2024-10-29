@@ -1498,7 +1498,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "";
         $newarg['narrative'] = "";
         $newarg['casstring'] = '[-2.5*t-11.25 = 0,-2.5*t = 11.25,t = 11.25/-2.50,t = -4.500]';
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1507,7 +1507,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[4*x-6*y=-3 and 3*y+4*x=3, 4*x-6*y=-3 and 9*y=6, ".
             "4*x=1 and 3*y=2, x=0.25 and y=2/3]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
         $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;
 

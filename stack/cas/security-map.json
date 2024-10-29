@@ -2014,6 +2014,12 @@
   "disprule": {
       "function": "f"
   },
+  "dispdp": {
+      "function": "s"
+  },
+  "dispsf": {
+      "function": "s"
+  },
   "dispterms": {
       "function": "f"
   },

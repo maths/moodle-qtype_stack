@@ -1475,6 +1475,43 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = [];
+        $newarg['section'] = 'Floating point support';
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Basic test";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[4*x=2,x=0.500,x=1/2]';
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Basic test";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[4*x=6,x=0.33333,x=1/3]';
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR,QMCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[-2.5*t-11.25 = 0,-2.5*t = 11.25,t = 11.25/-2.50,t = -4.500]';
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Simultaneous equations";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[4*x-6*y=-3 and 3*y+4*x=3, 4*x-6*y=-3 and 9*y=6, ".
+            "4*x=1 and 3*y=2, x=0.25 and y=2/3]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = [];
         $newarg['section'] = 'Calculus';
         $samplearguments[] = $newarg;
 

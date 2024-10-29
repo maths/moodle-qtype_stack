@@ -58,7 +58,7 @@ Set the question text - before entering make sure that the editor is switched to
     [[geogebra set="c,m" watch="ans1"]]
     params["material_id"]="anr6ujyf";
     [[/geogebra]]
-    Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.
+    <p>Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.</p>
     [[input:ans1]][[validation:ans1]]
 
 Notice this uses the `[[geogebra]]` question block. Then complete the question as follows.
@@ -87,11 +87,12 @@ While the question sets and watches values inside the applet, the Moodle quiz al
 For this, add a tag remember with both points \(A\) and \(B\) to the block heading:
 
     [[geogebra set="c,m" watch="ans1" remember="A,B"]]
-    params["material_id"]="anr6ujyf";
-    [[/geogebra]]
-    Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.
+    params["material_id"]="anr6ujyf"; 
+    [[/geogebra]] 
+    <p>Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.</p>
     [[input:ans1]][[validation:ans1]]
     [[input:remember]][[validation:remember]]
+    
 
 Notice two changes.  (1) there is a `remember` argument in the geogebra block tag and (2) there is a new input in the question.  To actually store the coordinates of \(A\) and \(B\), we need to add in a new input `[[input:remember]][[validation:remember]]` at the end of the question text.  Verify the question text and update the form, to set up this new input as follows.
 
@@ -113,17 +114,17 @@ Then add in an answer note such as `\[ y={@m*x+c@} \]`.  [Authoring quick start 
 
 You could also have an additional algebraic input asking the student to find the equation of their line.  At this point there are lots of options for combining a geometric diagram within a larger question.
 
-You should hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
+You should hide the inputs from students with CSS after testing, e.g. `<span hidden="">...</span>`.
 
 For reference the full question text should now be
 
     [[geogebra set="c,m" watch="ans1" remember="A,B"]]
-    params["material_id"]="anr6ujyf";
-    [[/geogebra]]
-    Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.
-    <p style="display:none">
+    params["material_id"]="anr6ujyf"; 
+    [[/geogebra]] 
+    <p>Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.</p>
+    <span hidden="">
     [[input:ans1]][[validation:ans1]]
     [[input:remember]][[validation:remember]]
-    </p>
+    </span>
 
 

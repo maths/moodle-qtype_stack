@@ -152,7 +152,8 @@ function stack_docs_render_markdown($page, $preprocess = true) {
     }
     // Note the 'noclean' option is normally not permitted, however, this call to format_text is
     // only applied to fixed content stored in the STACK git repository as code, and not user-generated content.
-    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false, 'noclean' => true]);
+    // The 'filter' => true is to ensure we activate the mathjax filter.
+    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => true, 'noclean' => true]);
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }

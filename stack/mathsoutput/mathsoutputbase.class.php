@@ -41,16 +41,20 @@ abstract class stack_maths_output {
      * @return string the documentation content ready to pass to Markdown.
      */
     public function pre_process_docs_page($docs) {
-        // Double all the \ characters, since Markdown uses it as an escape char,
-        // but we use it for maths.
-        $docs = str_replace('\\', '\\\\', $docs);
 
-        // Re-double \ characters inside text areas, because we don't want maths
-        // renderered there.
-        return preg_replace_callback('~(<textarea[^>]*>)(.*?)(</textarea>)~s',
+        // Protect \ characters inside markdown `...`, and code and text areas,
+        // because we don't want maths renderered there.
+        // @codingStandardsIgnoreStart
+        $docs = preg_replace_callback('~(`)(.*?)(`)~s',
+            function ($match) {
+                return $match[1] . str_replace('\\', '&#92;', $match[2]) . $match[3];
+            }, $docs);
+        // @codingStandardsIgnoreEnd
+        $docs = preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
                 function ($match) {
-                    return $match[1] . str_replace('\\', '\\\\', $match[2]) . $match[3];
+                    return $match[1] . str_replace('\\', '&#92;', $match[2]) . $match[3];
                 }, $docs);
+        // Double all the remaining \ characters, since Markdown uses it as an escape char, but we use it for maths.
         $docs = str_replace('\\', '\\\\', $docs);
 
         return $docs;
@@ -64,10 +68,17 @@ abstract class stack_maths_output {
      */
     public function post_process_docs_page($html) {
         // Now, undo the doubling of the \\ characters inside <code> and <textarea> regions.
-        return preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
+        $html = preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
                 function ($match) {
-                    return $match[1] . str_replace('\\\\', '\\', $match[2]) . $match[3];
+                    return $match[1] . str_replace('&#92;', '\\', $match[2]) . $match[3];
                 }, $html);
+        // Using four spaces at the start of the line in markdown creates a code block.
+        // This will not have had \ changed to &#92; in pre-process, so they will have been doubled.
+        $html = preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
+            function ($match) {
+                return $match[1] . str_replace('\\\\', '\\', $match[2]) . $match[3];
+            }, $html);
+        $html = str_replace('\\\\', '\\', $html);
 
         return $html;
     }

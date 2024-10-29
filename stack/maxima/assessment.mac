@@ -1838,7 +1838,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(SA=true) then SA:all,
 
       SA:abs_replace_eq(SA),
-      SA:ev(SA, lg=logbasesimp),
+      SA:ev(SA, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
       exmod[ev(id, simp)]:SA,
       exmodsolve[ev(id, simp)]:stack_eval_arg_solver(SA),
 

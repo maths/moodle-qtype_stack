@@ -306,8 +306,8 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             instanceof MP_String && count($node->items) === 2) {
                         $params = [$node->items[0]->value, $node->items[1]->value];
                         $proc = new stack_cas_castext2_demarkdown([]);
-                        $n = new MP_String($proc->postprocess($params), new castext2_default_processor(),
-                                    new castext2_placeholder_holder());
+                        $n = new MP_String($proc->postprocess($params, new castext2_default_processor(),
+                                    new castext2_placeholder_holder()));
                         $n->position['castext'] = true;
                         $node->parentnode->replace($node, $n);
                         return false;

@@ -1,5 +1,5 @@
 /****************************************************************/
-thm:"Proposition: If \\((a_n)\\) diverges to infinity and \\((b_n)\\) converges to \\(b\in\mathbb{R}\\), then the sequence \\((a_n+b_n)\\) diverges to infinity.";
+thm:"Proposition: If \\((a_n)\\) diverges to infinity and \\((b_n)\\) converges to \\(b\\in\\mathbb{R}\\), then the sequence \\((a_n+b_n)\\) diverges to infinity.";
 
 /****************************************************************/
 proof_steps: [

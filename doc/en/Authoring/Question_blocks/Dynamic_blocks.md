@@ -16,6 +16,8 @@ The block will only do singular direct string match, and so use of this block is
 
 There is currently no "else" clause available with this block.
 
+An example question is available by importing `Doc-Examples\Reveal_block_example.xml`.
+
 ### Interaction with MCQ input types
 
 The reveal block can be used in conjunction with [MCQ](../Multiple_choice_questions.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.

@@ -69,27 +69,32 @@
         {
         "file":"Authoring_quick_start_4.md",
         "title":"Authoring Quick Start 4 - STACK Documentation",
-        "description":"The second part of the STACK authoring quick start deals with randomisation and deploying variants."
+        "description":"The forth part of the STACK authoring quick start deals with randomisation and deploying variants."
         },
         {
         "file":"Authoring_quick_start_5.md",
         "title":"Authoring Quick Start 5 - STACK Documentation",
-        "description":"The second part of the STACK authoring quick start deals with question tests."
+        "description":"The fifth part of the STACK authoring quick start deals with question tests."
         },
         {
         "file":"Authoring_quick_start_6.md",
         "title":"Authoring Quick Start 6 - STACK Documentation",
-        "description":"The second part of the STACK authoring quick start deals with multipart questions."
+        "description":"The sixth part of the STACK authoring quick start deals with importing question from libraries."
         },
         {
         "file":"Authoring_quick_start_7.md",
         "title":"Authoring Quick Start 7 - STACK Documentation",
-        "description":"The second part of the STACK authoring quick start deals with turning simplification off."
+        "description":"The seventh part of the STACK authoring quick start deals with multipart questions."
         },
         {
         "file":"Authoring_quick_start_8.md",
         "title":"Authoring Quick Start 8 - STACK Documentation",
-        "description":"The second part of the STACK authoring quick start shows you how to import and export questions, as well as how to create a Moodle quiz."
+        "description":"The eightth part of the STACK authoring quick start deals with turning simplification off."
+        },
+        {
+        "file":"Authoring_quick_start_9.md",
+        "title":"Authoring Quick Start 9 - STACK Documentation",
+        "description":"The ninth part of the STACK authoring quick start shows you how to create a Moodle quiz."
         }
       ]
       },

@@ -11,7 +11,7 @@ DONE.
 
 1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
 2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../Authoring/Workflow.md).
-3. Add in a library page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
+3. Add in a [question library](../AbInitio/Authoring_quick_start_6.md) page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
 4. Better document the sample proofs, and provide a generic Parsons question to make it easier to use them.  See the [Proof samples](../Proof/Proof_samples.md) documentation.
 5. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
 

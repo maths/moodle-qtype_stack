@@ -13,7 +13,7 @@ Currently STACK does not process the LaTeX itself.  It is displayed on the user'
 * Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line.
 * We do not support the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [MathJax](../Installation/Mathjax.md#delimiters) for more information.
-* Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
+* Don't use LaTeX text formatting features such as `\\` outside equations, instead use the HTML versions.
 * Anything enclosed between `{@` and `@}` delimiters is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\({@ stuff @}\)`, and that `{@ stuff @}` is sufficient.
  * To get a displayed equation centred on a line of its own, you must use `\[{@ stuff @}\]`, as in LaTeX.
@@ -71,9 +71,9 @@ It is common to want to use the dollar sign for currency.  However, this conflic
 
 If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
 
-## Facts ##
+## Facts and hints ##
 
-STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to CASText using the [fact sheet](Fact_sheets.md)
+STACK has an in-built formula sheet which is used for facts and hints".  Standard text can be added using the [fact sheet](../Authoring/Question_blocks/Fact_sheets.md)
 
 ## Reference materials ##
 

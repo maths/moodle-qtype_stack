@@ -142,6 +142,24 @@ Add]</pre></td>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/2*sin(3*x)</pre></td>
+  <td class="cell c3"><pre>sin(3*x)/2</pre></td>
+  <td class="cell c4"><pre>[zeroAdd]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/2*sin(3*x)</pre></td>
+  <td class="cell c3"><pre>sin(3*x)/2</pre></td>
+  <td class="cell c4"><pre>[oneMul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[oneMul]</pre></td>

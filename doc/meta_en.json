@@ -404,11 +404,6 @@
         "description":"An introduction to using equivalence reasoning in the STACK online assessment system."
         },
         {
-        "file":"Fact_sheets.md",
-        "title":"Fact Sheets - STACK Documentation",
-        "description":"STACK lets question authors easily embed standard facts into their questions."
-        },
-        {
         "file":"Future_proof.md",
         "title":"Ensuring a Question Works in the Future - STACK Documentation",
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
@@ -509,6 +504,11 @@
                 "file":"Dynamic_blocks.md",
                 "title":"Dynamic Blocks - STACK Documentation",
                 "description":"Information on using dynamic question blocks in STACK."
+                },
+                {
+                "file":"Fact_sheets.md",
+                "title":"Fact Sheets - STACK Documentation",
+                "description":"STACK lets question authors easily embed standard facts into their questions."
                 },
                 {
                 "file":"System_blocks.md",

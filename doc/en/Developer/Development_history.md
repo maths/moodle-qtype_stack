@@ -461,7 +461,7 @@ This contains numerous minor bug fixes and improvements.
    *  Provide a new option on how parentheses are displayed for matrices
    *  Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
  7.  Add the input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
- 8.  Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Fact_sheets.md) documentation.  
+ 8.  Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Question_blocks/Fact_sheets.md) documentation.  
  9.  Better install (auto OS detection), healthcheck and testing.
  10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authentication
 

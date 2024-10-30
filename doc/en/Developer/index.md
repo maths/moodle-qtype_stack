@@ -2,19 +2,7 @@
 
 The Developer documentations give information on STACK development, as well as instructions for developers who want to contribute to STACK.
 
-## Contributing to STACK
-
-STACK is open source, and as such relies on users to make contributions. These documents describe some ways you may consider to contribute.
-
-You may want to learn about [creating an input type](Creating_an_input_type.md).
-
-You could read about [Installing language pack and translating STACK](Language_packs.md).
-
-There is also information on [contributing to the documentation](Documentation.md).
-
 ## Development history
-
-If you want to track the development of STACK or report bugs then you should visit [GitHub](https://github.com/maths/moodle-qtype_stack).
 
 Work towards the next release of STACK is detailed on [Development track](Development_track.md).
 
@@ -22,14 +10,16 @@ Plans looking further into the future are described on [Future plans](Future_pla
 
 The past development history is documented on [Development history](Development_history.md).
 
+## Contributing to STACK
+
+You could read about [Installing language pack and translating STACK](Language_packs.md).
+
+There is also information on [contributing to the documentation](Documentation.md).
+
 ## Advanced topics
 
-The following topics describe advanced topics for developers and site admins.
+If you want to track the development of STACK or report bugs then you should visit [GitHub](https://github.com/maths/moodle-qtype_stack).
 
-You can read about running [unit tests](Unit_tests.md).
+We have separate [developer documentation](https://github.com/maths/moodle-qtype_stack/tree/master/doc/dev) for those wishing to contribute to the plugin codebase.  The developer docs are available on a local sever (but not on stack-assessment.org/)
 
-There is information on [clearing the cache](Question_state_caching.md).
 
-You can also read on [adding support for Maxima packages](Maxima_packages.md).
-
-You can read about the design of the [PHP interface to the CAS](PHP-CAS.md).

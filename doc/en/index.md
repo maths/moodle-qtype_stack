@@ -38,8 +38,4 @@ Information for students using STACK, including:
 
 #### **[Developers](Developer/index.md)**
 
-Topics for developers, including:
-
-* [A development history](Developer/Development_history.md).
-* [Translating the STACK interface](Developer/Language_packs.md).
-* [Creating an input type](Developer/Creating_an_input_type.md).
+Topics for developers, including [a development history](Developer/Development_history.md).

@@ -57,7 +57,7 @@ Later
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
-* Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](Syntax_Future.md)
+* Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](../../dev/Syntax_Future.md)
 
 ## Other
 

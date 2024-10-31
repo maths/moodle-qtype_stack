@@ -672,6 +672,9 @@ class stack_inputvalidation_test_data {
         ['xYz_123', 'php_true', 'xYz_123', 'cas_true', '{{\it xYz}}_{123}', '', ""],
         ['beta_47', 'php_true', 'beta_47', 'cas_true', '{\beta}_{47}', '', ""],
         ['3beta_47', 'php_true', '3*beta_47', 'cas_true', '3\cdot {\beta}_{47}', 'missing_stars', ""],
+        // Subscripts in function names.
+        ['a_b(x)', 'php_false', 'a_b(x)', 'cas_true', '', 'forbiddenFunction', ""],
+        ['inverse_erf(x)', 'php_false', 'inverse_erf(x)', 'cas_true', '', 'missing_stars | (402) | forbiddenVariable', ""],
 
         ['a,b,c', 'php_false', 'a,b,c', 'cas_true', '', 'unencapsulated_comma', "Unencapsulated commas"],
         ['3,14159', 'php_false', '3,14159', 'cas_true', '', 'unencapsulated_comma', ""],

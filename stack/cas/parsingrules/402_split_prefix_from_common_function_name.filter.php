@@ -60,6 +60,9 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
                     if (array_search('missing_stars', $answernotes) === false) {
                         $answernotes[] = 'missing_stars';
                     }
+                    if (array_search('(402)', $answernotes) === false) {
+                        $answernotes[] = '(402)';
+                    }
                     $node->parentnode->replace($node, $nop);
                     return false;
                 }

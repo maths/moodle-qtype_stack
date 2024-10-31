@@ -64,6 +64,9 @@ class stack_ast_filter_404_split_at_number_letter_number_boundary implements sta
                     if (array_search('missing_stars', $answernotes) === false) {
                         $answernotes[] = 'missing_stars';
                     }
+                    if (array_search('(404)', $answernotes) === false) {
+                        $answernotes[] = '(404)';
+                    }
                     // Initial identifier is turned to multiplication chain.
                     $temp = new MP_Identifier('rhs');
                     $replacement = new MP_Operation('*', new MP_Identifier($splits[0]), $temp);

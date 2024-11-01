@@ -1,17 +1,25 @@
 # Getting started with equivalence reasoning
 
+__NOTE: Reasoning by equivalence is still under active development. Features and behaviour may change in future versions, subject to trials with students and feedback from colleagues.__
 
-This guide shows you how to write STACK questions using the line by line [equivalence reasoning](../CAS/Equivalence_reasoning.md) input type.
+We currently provide support for 
 
-As an example, we want the students to expand the cubic \((x+2)^3\) showing their working in a stepwise fashion, line by line.
-The student's response to this question will allow us to test their knowledge and competency in the following:
+- basic single variable polynomials,
+- very simple inequalities,
+- simple simultaneous equations.
+
+There is no support for algebraic manipulations involving logarithms and trig functions although individual examples may work.
+
+## Writing your first question
+
+This guide shows you how to write STACK questions using the line by line equivalence reasoning input type.
+
+As an example, we want the students to expand the cubic \((x+2)^3\) showing their working in a stepwise fashion, line by line. The student's response to this question will allow us to test their knowledge and competency in the following:
 
 1. Expanding brackets
 2. Simplifying by collecting like terms
 
 Therefore we need them to show their working.
-
-## Minimal working question ##
 
 Create a new STACK question, give it a suitable name and then copy the following into the Question variables box:
 
@@ -92,7 +100,7 @@ At this point the question only checks
 
 Clearly, more is needed for a complete sensible question.
 
-At this point please read the [equivalence reasoning](../CAS/Equivalence_reasoning.md) input type documentation.
+At this point please read the [equivalence reasoning](Equivalence_input.md) input type documentation.
 
 ## Getting to the right place ##
 
@@ -121,7 +129,7 @@ Teachers can check the students answer is long enough or not too long by looking
 
 Teachers can check if specific expressions appear somewhere inside the student's answer.  To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.
 
-As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](../Authoring/Variables.md).
+As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](../../Authoring/Variables.md).
 
     foundfac:sublist(ans1,lambda([ex], equationp(ex) and is(rhs(ex)=0)));
     foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundfac), simp);
@@ -130,3 +138,17 @@ At this stage there are few in-built features within STACK.  A lot is possible, 
 
 This feature will be developed by use over the next few years.
 If you have experience, and views, on how this should work please contact the developers.
+
+## Longer term plans
+
+1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
+2. Define \(x\in X\) operator, for student use.
+3. Provide better tools for dealing with assessment, such as checking for particular steps.
+2. Provide better feedback to students about which steps they have taken and what goes wrong.
+
+In the long term, we may fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
+
+In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change.
+
+We would like to introduce the idea of a *model answer*.  STACK will then establish the extent to which the student's answer follows this model solution.
+

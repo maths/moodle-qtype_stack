@@ -1072,6 +1072,25 @@
             ]
         },
         {
+        "Equivalence_reasoning":[
+            {
+            "file":"index.md",
+            "title":"Equivalence reasoning questions - STACK Documentation",
+            "description":"How to allow students to work line by line in STACK questions."
+            },
+            {
+            "file":"Equivalence_input.md",
+            "title":"Equivalence reasoning input - STACK Documentation",
+            "description":"Reference documentation for the equivalence reasoning input."
+            },
+            {
+            "file":"Equivalence_assessment.md",
+            "title":"Equivalence reasoning assessment - STACK Documentation",
+            "description":"Reference documentation for the equivalence reasoning answer tests."
+            }
+            ]
+        },
+        {
        "GeoGebra":[
             {
             "file":"index.md",

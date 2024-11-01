@@ -41,7 +41,7 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 
 1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
 2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TO-DO: possible option to change shape at the input level?)
-3. Allow users to [systematically deploy](../Maintaining/Systematic_deployment.md) all variants of a question in a simple manner.
+3. Allow users to [systematically deploy](../Maintaining/Deploying_systematically.md) all variants of a question in a simple manner.
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
@@ -107,7 +107,7 @@ This is mainly a bug fix version.
 2. Load the `diag` package for better linear algebra support.
 3. Better layout on the question testing page.
 4. Question variables and feedback variables are now in monospace.
-5. Add in the `onum` option, i.e. `make_multsgn("onum")` in the [options](../Authoring/Options.md).
+5. Add in the `onum` option, i.e. `make_multsgn("onum")` in the [options](../Authoring/Question_options.md).
 
 ## Version 4.4.1
 
@@ -153,7 +153,7 @@ Released June 2022.
 Released December 2021.
 
 1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
-2. Support [variant matching](../Moodle/Variant_matching.md).
+2. Support [variant matching](../Maintaining/Deploying_matched_variants.md).
 3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists becase `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
 4. Allow students to type `arccos` etc. and treat these as synonyms of the trig functions.
 5. Substantially improve the basic question usage report.

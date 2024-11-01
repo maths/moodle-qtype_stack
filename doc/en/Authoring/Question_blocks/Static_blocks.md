@@ -30,7 +30,7 @@ The `[[todo]]` can contain optional `tags` e.g.
 
     [[todo tags="tag1,tag2,..."]]Please fix ...[[/todo]]
 
-The use of this tag is documented under [workflow](../../Maintaining/Workflow.md).
+The use of this tag is documented under [workflow](../../Maintaining/Authoring_workflow.md).
 
 You can access a page listing all questions with `[[todo]]` blocks which you can edit, in every course on which you are a teacher, by accessing the STACK question dashboard, or from the page `question/type/stack/adminui/index.php` on your local server.
 

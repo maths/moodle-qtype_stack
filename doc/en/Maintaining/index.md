@@ -41,7 +41,7 @@ You can bulk test all question tests on all variants of all question by using th
 
 STACK questions store the version of the STACK plug-in _last used_ to edit the question.  The bulk tester runs all question tests, and also checks for changes with the current STACK plug-in version.
 
-It is possible to [bulk test materials on other sites](Running_question_tests_other_site.md).  (Site admins will have the option to bulk test all materials, and there is also a command line bulk test option.)
+It is possible to [bulk test materials on other sites](Testing_questions_on_other_sites.md).  (Site admins will have the option to bulk test all materials, and there is also a command line bulk test option.)
 
 ## Identifying STACK questions using particular blocks
 

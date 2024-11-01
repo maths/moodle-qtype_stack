@@ -64,7 +64,7 @@ changed in a way that breaks any of your questions. To do this, go to
 and follow the "run the question tests in bulk script" link.
 
 It is even possible, with a bit of hacking, to [execute the question tests from
-one Moodle site on a different Moodle site](../Maintaining/Running_question_tests_other_site.md).
+one Moodle site on a different Moodle site](../Maintaining/Testing_questions_on_other_sites.md).
 For example you may be evaluating the latest release of STACK on a test server, and you would
 like to know if the upgrade will break any of your existing questions.
 (And you don't want to do a lot of exporting and importing.)

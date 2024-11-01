@@ -354,29 +354,14 @@
         "description":"Answers to questions frequently asked by question authors using STACK."
         },
         {
-        "file":"Authoring_quick_start.md",
-        "title":"Authoring Quick Start - STACK Documentation",
-        "description":"Links to the authoring quick start"
-        },
-        {
         "file":"CASText.md",
         "title":"CAS Text - STACK Documentation",
         "description":"Information on writing CAS Text in STACK, including useful LaTex and html code."
         },
         {
-        "file":"Sample_questions.md",
-        "title":"STACK Sample Questions",
-        "description":"Sample questions for the STACK question type."
-        },
-        {
         "file":"Answer_Tests/index.md",
         "title":"Answer Tests - STACK Documentation",
         "description":"Information about the different answer tests supported in the STACK online assessment system."
-        },
-        {
-        "file":"Answer_tests_Rule_based.md",
-        "title":"Rules-based answer tests",
-        "description":"Information about creating bespoke answer tests by specifying algebraic rules."
         },
         {
         "file":"Feedback.md",
@@ -399,16 +384,6 @@
         "description":"An introduction to using equivalence reasoning in the STACK online assessment system."
         },
         {
-        "file":"HELM.md",
-        "title":"HELM materials in STACK",
-        "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."
-        },
-        {
-        "file":"ImportExport.md",
-        "title":"Importing and Exporting - STACK Documentation",
-        "description":"Information on importing and exporting questions in STACK."
-        },
-        {
         "file":"Inclusions.md",
         "title":"Including external content in questions",
         "description":"Advice on including external content in questions."
@@ -417,16 +392,6 @@
         "file":"Inputs.md",
         "title":"Inputs - STACK Documentation",
         "description":"STACK supports many different types of student input, including algebraic input, numerical input and multi-line input."
-        },
-        {
-        "file":"JSXGraph.md",
-        "title":"JSXGraph - STACK Documentation",
-        "description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
-        },
-        {
-        "file":"Advanced_JSXGraph.md",
-        "title":"JSXGraph advanced usage - STACK Documentation",
-        "description":"Advanced features of JSXGraph in STACK questions."
         },
         {
         "file":"Variables.md",
@@ -439,19 +404,9 @@
         "description":"Information on writing STACK questions for several languages."
         },
         {
-        "file":"Matching.md",
-        "title":"Matching problems - STACK Documentation",
-        "description":"Documentation for writing drag and drop matching problems in a STACK question."
-        },
-        {
-        "file":"Options.md",
+        "file":"Question_options.md",
         "title":"Options - STACK Documentation",
         "description":"Documentation for the Option section in a STACK question."
-        },
-        {
-        "file":"Parsons.md",
-        "title":"Parson's problems blocks- STACK Documentation",
-        "description":"Reference documentation for the Parson's question block."
         },
         {
         "file":"Potential_response_trees.md",
@@ -464,11 +419,6 @@
                 "file":"index.md",
                 "title":"Question Blocks - STACK Documentation",
                 "description":"Information on using question blocks in STACK."
-                },
-                {
-                "file":"Static_blocks.md",
-                "title":"Static Blocks - STACK Documentation",
-                "description":"Information on using static question blocks in STACK."
                 },
                 {
                 "file":"Conditional_blocks.md",
@@ -486,6 +436,11 @@
                 "description":"STACK lets question authors easily embed standard facts into their questions."
                 },
                 {
+                "file":"Static_blocks.md",
+                "title":"Static Blocks - STACK Documentation",
+                "description":"Information on using static question blocks in STACK."
+                },
+                {
                 "file":"System_blocks.md",
                 "title":"System Blocks - STACK Documentation",
                 "description":"Information on using system question blocks in STACK."
@@ -496,11 +451,6 @@
         "file":"Question_note.md",
         "title":"Question Notes - STACK Documentation",
         "description":"Information on creating effective question notes for random questions in STACK."
-        },
-        {
-        "file":"Quiz.md",
-        "title":"Adding Questions to a Quiz - STACK Documentation",
-        "description":"Information on adding questions to a quiz in STACK."
         },
         {
         "file":"Serving_out_data.md",
@@ -635,11 +585,6 @@
         "file":"Validator.md",
         "title":"Creating bespoke validation - STACK Documentation",
         "description":"How to create bespoke validation of student's input."
-        },
-        {
-        "file":"Workflow.md",
-        "title":"Question authoring workflow - STACK Documentation",
-        "description":"This page suggests workflow for authoring STACK questions."
         }
       ]
       },
@@ -666,7 +611,7 @@
         "description":"Information on installing MathJax, the filter STACK uses to convert LaTeX code into display."
         },
         {
-        "file":"Maxima.md",
+        "file":"Maxima_installation.md",
         "title":"Installing Maxima - STACK Documentation",
         "description":"Instructions on downloading and compiling Maxima, the CAS used for STACK."
         },
@@ -710,6 +655,16 @@
         "description":"Information about deploying random variants in the STACK online assessment system."
         },
         {
+        "file":"Deploying_systematically.md",
+        "title":"Systematic deployment - STACK Documentation",
+        "description":"Information on how to systematically deploy all variants of a question."
+        },
+        {
+        "file":"Deploying_matched_variants.md",
+        "title":"Variant matching - STACK Documentation",
+        "description":"This is a relatively advanced feature which links together random variables between questions."
+        },
+        {
         "file":"Fixing_broken_questions.md",
         "title":"I have a misbehaving STACK question in a live Moodle quiz.  What should I do?",
         "description":"Advice on dealing with errors in STACK questions during a live quiz."
@@ -735,9 +690,9 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
-        "file":"Systematic_deployment.md",
-        "title":"Systematic deployment - STACK Documentation",
-        "description":"Information on how to systematically deploy all variants of a question."
+        "file":"Sample_questions.md",
+        "title":"STACK Sample Questions",
+        "description":"Sample questions for the STACK question type."
         },
         {
         "file":"Testing.md",
@@ -745,24 +700,24 @@
         "description":"Information on testing a STACK question."
         },
         {
+        "file":"Testing_questions_on_other_sites.md",
+        "title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
+        "description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
+        },
+        {
         "file":"Tidy_Tool.md",
         "title":"Tidy Tool - STACK Documentation",
         "description":"How to tidy up PRT node names with STACK's tidy tool."
         },
         {
-        "file":"Workflow.md",
-        "title":"Workflow - STACK Documentation",
-        "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
-        },
-        {
-        "file":"Running_question_tests_other_site.md",
-        "title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
-        "description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
-        },
-        {
         "file":"UpgradeDefaults.md",
         "title":"Upgrading Question Details - STACK Documentation",
         "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
+        },
+        {
+        "file":"Authoring_workflow.md",
+        "title":"Workflow - STACK Documentation",
+        "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
         }
       ]
       },
@@ -926,11 +881,6 @@
         "file":"Semi-automatic_Marking.md",
         "title":"Semi-automatic marking",
         "description":"Practical advice for combining STACK automatic marking with human-marked items."
-        },
-        {
-        "file":"Variant_matching.md",
-        "title":"Variant matching - STACK Documentation",
-        "description":"This is a relatively advanced feature which links together random variables between questions."
         }
       ]
       },
@@ -1069,7 +1019,7 @@
         "description":"This page describes how to give partial credit when you have muliple inputs, but don't know the order in which they are typed in."
         },
         {
-       "Drag_and_Drop":[
+        "Drag_and_drop":[
             {
             "file":"index.md",
             "title":"Drag and Drop questions - STACK Documentation",

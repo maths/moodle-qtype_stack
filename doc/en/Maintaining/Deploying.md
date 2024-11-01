@@ -17,7 +17,7 @@ Notes:
 3. Variants are different if and only if the evaluated [question note](../Authoring/Question_note.md) is different. Any number of instances can be requested and deployed but only one instance of each [question note](../Authoring/Question_note.md) can be deployed.  It is possible to deploy \(n\) variants in one go, but the system will give up if too many duplicate question notes are generated.  The teacher is responsible to ensure question variants are different if and only if the question notes are different.  The deployment management also allows specific variants to be dropped.  You can also return to the question preview window and try a specific deployed variant.
 4. Deployment is not required for authors to test questions: an instance is generated on-the-fly.
 5. Once a quiz is underway it is still possible in Moodle to edit a question, and to re-grade students' attempts.  This is useful in rare cases where there is a mistake, you want to improve the worked solution, you would like to add better feedback/partial credit for a particular etc.  However, do not change anything related to the random generation of questions!  Results are unpredictable, and may well result in a situation when the modified question is different to that answered by students taking the test prior to modifications...
-6. It is possible to [systematically deploy](../Maintaining/Systematic_deployment.md) all variants of a question in a simple manner.
+6. It is possible to [systematically deploy](Deploying_systematically.md) all variants of a question in a simple manner.
 
 ## How to deploy question variants ##
 
@@ -27,3 +27,10 @@ Notes:
 
 1. You can click on the seed numbers to view a particular random variant.  The testing page lists values of all the variables, displays the question and the worked solution.  The testing page is a very efficient way to look at your random variants.
 2. When you deploy new variants STACK will run all the question tests.  If a test fails, the generation process will stop with an error message, showing the failing test.
+
+## Systematic and matched variants
+
+1. It is possible to [deploy all variants systematically](Deploying_systematically.md).
+2. It is possible to [match variants between separate questions](Deploying_matched_variants.md).
+
+These are advanced features.

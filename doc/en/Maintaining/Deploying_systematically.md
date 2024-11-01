@@ -1,6 +1,6 @@
 # Systematic deployment
 
-STACK has the option to create [random variants](../CAS/Random.md) of questions.  However, users may need to systematically deploy all variants of a question in a simple manner.  For example, where there is a small number of cases and all should be readily available.
+STACK has the option to create [random variants](../CAS/Random.md) of questions, and it is very good practice to [deploy variants](Deploying.md) in advance.  However, users may need to systematically deploy all variants of a question in a simple manner.  For example, where there is a small number of cases and all should be readily available.
 
 Every CAS (Maxima) session contains a constant `stack_seed` which holds the integer value of the seed used by that variant of the question.
 

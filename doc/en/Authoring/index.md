@@ -15,7 +15,7 @@ A  "question" is the basic object in the system. The following table shows the f
 | [Question note](../Authoring/Question_note.md)                          | Two randomly generated question variants are different, if and only if the question note is different.  Use this field to store useful information which distinguishes variants.
 | [Inputs](Inputs.md)                                        | The inputs are the things, such as form boxes, with which the student actually interacts.
 | [Potential response trees](Potential_response_trees.md)    | These are the algorithms which establish the mathematical properties of the students' answers and generate feedback.
-| [Options](Options.md)                                      | Many behaviours can be changed with the options.
+| [Options](Question_options.md)                                      | Many behaviours can be changed with the options.
 
 The authoring documentation also covers topics on:
 
@@ -34,6 +34,6 @@ The authoring documentation also covers topics on:
 #### Other
 
 * Creating [multilingual questions](Languages.md).
-* Where to find [sample questions](Sample_questions.md).
+* Where to find [sample questions](../Maintaining/Sample_questions.md).
 * [Frequently asked questions](Author_FAQ.md).
 

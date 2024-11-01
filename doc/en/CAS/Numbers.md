@@ -46,7 +46,7 @@ The option [sqrt(-1)](../Authoring/Question_options.md#sqrt_minus_one) is set in
 
 The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.
 
-If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you may want to use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).
+If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you may want to use the [option for strict syntax](../Authoring/Inputs/index.md#Strict_Syntax).
 
 Internally Maxima represents floats in binary, and so even simple calculations which would be exact in base ten (e.g. adding 0.16 to 0.12) might end up in a recurring decimal float which is not exactly equal to the result you would type in directly.
 
@@ -182,6 +182,3 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `anyfloatex(ex)`            | Decides if any floats are in the expression.
 | `scientific_notationp(ex)` | Determines if \(ex\) is written in the form \(a10^n\) where \(a\) is an integer or float, and \(n\) is an integer.
 
-## See also
-
-[Maxima reference topics](index.md#reference)

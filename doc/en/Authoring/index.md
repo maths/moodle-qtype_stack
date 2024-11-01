@@ -13,27 +13,24 @@ A  "question" is the basic object in the system. The following table shows the f
 | [Question text](CASText.md#question_text)                  | This is the question the student actually sees
 | [General feedback](CASText.md#General_feedback/Worked_solution)            | The worked solution is only available after an item is closed.
 | [Question note](../Authoring/Question_note.md)                          | Two randomly generated question variants are different, if and only if the question note is different.  Use this field to store useful information which distinguishes variants.
-| [Inputs](Inputs.md)                                        | The inputs are the things, such as form boxes, with which the student actually interacts.
+| [Inputs](Inputs/index.md)                                        | The inputs are the things, such as form boxes, with which the student actually interacts.
 | [Potential response trees](Potential_response_trees.md)    | These are the algorithms which establish the mathematical properties of the students' answers and generate feedback.
 | [Options](Question_options.md)                                      | Many behaviours can be changed with the options.
 
 The authoring documentation also covers topics on:
 
 * [Question blocks](Question_blocks/index.md),
-
-#### [Input types](Inputs.md)
-
-* [Numerical input](Numerical_input.md),
-* [Units in input](../Topics/Units.md#Input_type),
-* [Equivalence reasoning](Equivalence_reasoning.md),
-* [Multiple choice questions](../Specialist_tools/Multiple_choice_questions.md),
-
 * Information on [the types of feedback in STACK](Feedback.md),
 * Using [Answer tests](Answer_Tests/index.md).
+
+#### [Input types](Inputs/index.md)
+
+* [Numerical input](Inputs/Numerical_input.md),
+* [Units in input](../Topics/Units.md#Input_type),
+* [Multiple choice questions](Inputs/Multiple_choice_input.md),
 
 #### Other
 
 * Creating [multilingual questions](Languages.md).
-* Where to find [sample questions](../Maintaining/Sample_questions.md).
 * [Frequently asked questions](Author_FAQ.md).
 

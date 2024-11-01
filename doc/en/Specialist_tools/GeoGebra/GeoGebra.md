@@ -98,7 +98,7 @@ Notice two changes.  (1) there is a `remember` argument in the geogebra block ta
 
 1. The `remember` input _must_ be of type string.
 2. For the "model answer" use the empty string `""`.
-3. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
+3. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs/Input_options.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
 4. Values in _remember_ are not available to the PRT and can not be used to calculate values in STACK feedback.
 
 ## 5. Polish and tidy the question.

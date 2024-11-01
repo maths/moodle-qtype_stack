@@ -379,19 +379,53 @@
         "description":"What errors that may appear during validation/saving of a question mean and what you can do about it."
         },
         {
-        "file":"Equivalence_reasoning.md",
-        "title":"Answer Tests - STACK Documentation",
-        "description":"An introduction to using equivalence reasoning in the STACK online assessment system."
-        },
-        {
         "file":"Inclusions.md",
         "title":"Including external content in questions",
         "description":"Advice on including external content in questions."
         },
         {
-        "file":"Inputs.md",
-        "title":"Inputs - STACK Documentation",
-        "description":"STACK supports many different types of student input, including algebraic input, numerical input and multi-line input."
+            "Inputs":[
+                {
+                "file":"index.md",
+                "title":"Question Inputs - STACK Documentation",
+                "description":"Information on using question blocks in STACK."
+                },
+                {
+                "file":"Input_options.md",
+                "title":"Question Input Options` - STACK Documentation",
+                "description":"Reference documentation on the input options in STACK."
+                },
+                {
+                "file":"Input_syntax.md",
+                "title":"Question Input Syntax` - STACK Documentation",
+                "description":"Reference documentation on the options for input syntax in STACK."
+                },
+                {
+                "file":"Matrix_input.md",
+                "title":"Matrix inputs - STACK Documentation",
+                "description":"Reference documentation on matrix input types in STACK."
+                },
+                {
+                "file":"Multiple_choice_input.md",
+                "title":"Multiple choice inputs - STACK Documentation",
+                "description":"Information on creating and manipulating multiple choice questions in STACK."
+                },
+                {
+                "file":"Multiline_input.md",
+                "title":"Multiline inputs - STACK Documentation",
+                "description":"Reference documentation on input types allowing multiline input STACK."
+                },
+                {
+               "file":"Numerical_input.md",
+               "title":"Numerical Input - STACK Documentation",
+               "description":"Information on STACK's numerical input type."
+               },
+               {
+               "file":"Text_input.md",
+               "title":"Text-based inputs - STACK Documentation",
+               "description":"Reference documentation on text-based inputs in STACK."
+               }
+        ]
         },
         {
         "file":"Variables.md",
@@ -466,11 +500,6 @@
         "file":"Expression_tree_display.md",
         "title":"Trees - STACK Documentation",
         "description":"Functions for displaying the tree representation of a mathematical expression."
-        },
-        {
-        "file":"Numerical_input.md",
-        "title":"Numerical Input - STACK Documentation",
-        "description":"Information on STACK's numerical input type."
         }
       ]
       },
@@ -495,11 +524,6 @@
         "file":"Equations.md",
         "title":"Asking Students to Solve Equations - STACK Documentation",
         "description":"It is quite common to ask students to solve an algebraic equation. This document contains information on doing so effectively in STACK."
-        },
-        {
-        "file":"Equivalence_reasoning.md",
-        "title":"Reasoning by Equivalence - STACK Documentation",
-        "description":"Comprehensive information on the equivalence reasoning answer type in STACK."
         },
         {
         "file":"Greek_letters.md",
@@ -970,6 +994,11 @@
         "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
         },
         {
+        "file":"Equivalence_reasoning.md",
+        "title":"Reasoning by Equivalence - STACK Documentation",
+        "description":"Comprehensive information on the equivalence reasoning answer type in STACK."
+        },
+        {
         "file":"Levenshtein_distance.md",
         "title":"Levenshtein distance and strings",
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
@@ -1007,11 +1036,6 @@
         "file":"Graphics.md",
         "title":" Plots and graphics in STACK - STACK Documentation",
         "description":"Documentation for including plots and graphics in STACK in a STACK question."
-        },
-        {
-        "file":"Multiple_choice_questions.md",
-        "title":"Multiple Choice Questions - STACK Documentation",
-        "description":"Information on creating and manipulating multiple choice questions in STACk."
         },
         {
         "file":"Unsorted_multi_input.md",

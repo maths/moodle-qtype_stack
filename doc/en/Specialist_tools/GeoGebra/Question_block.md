@@ -171,7 +171,7 @@ Set the question text:
 1. The `remember` input _must_ be of type string, and can not be used to calculate values in STACK feedback.
 2. For the "model answer" use the empty string `""`.
 3. The name "remember" is hard-wired (in this version).
-4. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
+4. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs/Input_options.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
 5. Once working, hide the "remember" input with CSS, e.g. `<p style="display:none">[[input:remember]][[validation:remember]]</p>` (but probably not while you develop the question!)
 
 ### Minimal example watching an indirect GGB object, e.g. angle k.

@@ -18,7 +18,7 @@ STACK has native support for the mathematics visualisation system [JSXGraph](../
 
 ## Alternatives to curve sketching
 
-What are the competencies that teachers are looking for when they want to test curve sketching? The answer is not clear. When teaching students about polynomials, let's say you want to give a student a function and ensure they can identify x and y-intercepts, stationary points and the general shapes of its curve. There are ways to assess these competencies without using curve sketching, for example by a [multiple choice question](../Specialist_tools/Multiple_choice_questions.md) like the one below, from "Fundamentals of Algebra and Calculus". However, note the limitations of MCQ's as discussed in [Philosophy of STACK](../About/The_philosophy_of_STACK.md).
+What are the competencies that teachers are looking for when they want to test curve sketching? The answer is not clear. When teaching students about polynomials, let's say you want to give a student a function and ensure they can identify x and y-intercepts, stationary points and the general shapes of its curve. There are ways to assess these competencies without using curve sketching, for example by a [multiple choice question](../Authoring/Inputs/Multiple_choice_input.md) like the one below, from "Fundamentals of Algebra and Calculus". However, note the limitations of MCQ's as discussed in [Philosophy of STACK](../About/The_philosophy_of_STACK.md).
 
 ![Assessing competencies with MCQ's](../../content/MCQ_curves.png)
 

@@ -16,9 +16,9 @@ Therefore we need them to show their working.
 Create a new STACK question, give it a suitable name and then copy the following into the Question variables box:
 
 
-	p:(x+2)^3;
-	taf:ev(expand(p),simp);
-	ta:[(x+2)^3,stackeq((x+2)*(x+2)^2),stackeq((x+2)*(x^2+4*x+4)),stackeq(x^3+4*x^2+4*x+2*x^2+8*x+8),stackeq(taf)];
+    p:(x+2)^3;
+    taf:ev(expand(p),simp);
+    ta:[(x+2)^3,stackeq((x+2)*(x+2)^2),stackeq((x+2)*(x^2+4*x+4)),stackeq(x^3+4*x^2+4*x+2*x^2+8*x+8),stackeq(taf)];
 
 The first variable, `p`, is the expression in the question. The variable `taf` is the final model answer.
 The variable `ta` is a list containing each step we are expecting our students to express as they work towards the final answer:
@@ -43,8 +43,8 @@ In this context the teacher's answer and the student's answer is a list.  The wh
 
 Copy the following text into the Question text box:
 
-	Expand {@p@}, remembering to show your working.
-	[[input:ans1]] [[validation:ans1]]
+    Expand {@p@}, remembering to show your working.
+    [[input:ans1]] [[validation:ans1]]
 
 ### Setting the input options ###
 
@@ -121,7 +121,7 @@ Teachers can check the students answer is long enough or not too long by looking
 
 Teachers can check if specific expressions appear somewhere inside the student's answer.  To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.
 
-As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](Variables.md).
+As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](../Authoring/Variables.md).
 
     foundfac:sublist(ans1,lambda([ex], equationp(ex) and is(rhs(ex)=0)));
     foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundfac), simp);

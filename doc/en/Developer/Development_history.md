@@ -130,7 +130,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 7. Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
 8. There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.
 9. One can now generate [text-files for download](../Authoring/Serving_out_data.md) with a special block in the question-text. CSV:s of student specific random data etc.
-10. Inline CASText is now a feature, it will become more relevant in the future input-system. For now you may [use it in MCQ labels](../Specialist_tools/Multiple_choice_questions.md#castextlabels).
+10. Inline CASText is now a feature, it will become more relevant in the future input-system. For now you may [use it in MCQ labels](../Authoring/Inputs/Multiple_choice_input.md#castextlabels).
 11. A new CASText block `[[jsstring]]` for generating JavaScript strings to be used in scripting is now available. It should help when one wants to construct complex values.
 12. There now exists a built in [language localisation system](../Authoring/Languages.md), that allows access to the language setting over at the CAS side. This mixes well with inline castext and allows localisation of MCQ labels.
 13. The number of CAS-evaluation sessions has been cut down significantly. Conversely, the amount of things happening in a single CAS-session has grown significantly. This may affect your Maxima load and the size of the CAS-cache. You may need to retune your operation if you have fine tuned it based on those details. This will also affect cache keys and values so tuning caching may also matter if one tunes everything.
@@ -331,7 +331,7 @@ Numerous minor bug fixes and improvements.
 * Add in the "string" input type.
 * Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).
 * Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
-* Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Numerical_input.md).
+* Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Inputs/Numerical_input.md).
 * Specify numerical precision for validation in numerical and units input types.
 * Refactor the inputs so that extra options can be added more easily, and shared between inputs.
 
@@ -681,7 +681,7 @@ Key features
 
 * [Precision](../Authoring/Answer_Tests/index.md#Precision) answer test added to allow significant to be checked.
 * [Form](../Authoring/Answer_Tests/index.md#Form) answer test added to test if an expression is in completed square form.
-* List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
+* List interaction element expanded to include checkboxes.
 * Move to Maxima's `random()` function, rather than generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)
 * Support for Maxima 5.20.1

@@ -18,7 +18,7 @@ This document describes the ways STACK provides feedback to students. It will no
 
 In STACK multi-part questions there is a complete separation between two important components.
 
-1. a list of [inputs](Inputs.md)
+1. a list of [inputs](Inputs/index.md)
 2. a list of [potential response trees](Potential_response_trees.md)
 
 Specific feedback is associated with each input and each potential response tree.  Typically, it is placed in the `Specific feedback` section, as that gives Moodle more control over when it is shown. However, the feedback tags can be positioned anywhere within the [question text](CASText.md#question_text).
@@ -37,7 +37,7 @@ it must be validated.  In particular, at each attempt, each input is assigned a 
 
 Normally a student will view a displayed form of their expression and submit it again.  This default behaviour is inappropriate for multiple choice/selection interactions, and can be changed for each input using the option "Student must verify".  Whether the student's answer is echoed back and shown is controlled by a separate option "Show the validation".  Validation errors are always shown.
 
-Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. \(i\) and \(j\) change meaning in different contexts, e.g. \(\sqrt{-1}\) or vector components.  See details about [options](Question_options.md).
+Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs/Input_options.md) do affect validity, such as _forbid floats_.   Some symbols, e.g. \(i\) and \(j\) change meaning in different contexts, e.g. \(\sqrt{-1}\) or vector components.  See details about [options](Question_options.md).
 
 # Potential response trees
 

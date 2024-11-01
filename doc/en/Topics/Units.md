@@ -55,7 +55,7 @@ The goal of this input is to validate against the pattern `number * units`.
 7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` or space between the numbers and units for implied multiplication.
 8. You may want the single letter variable names options here.  Note that since `km` literally means `k*m=1000*m` this is not a problem with most units.
 9. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
-10. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Numerical_input.md).
+10. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Inputs/Numerical_input.md).
 
 There are surprisingly few ambiguities in the units set up, but there will be some that the developers have missed (correctly dealing with ambiguous input is by definition an impossible problem!).  Please contact us with suggestions for improvements.
 

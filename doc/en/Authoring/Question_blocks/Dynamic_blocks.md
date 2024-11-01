@@ -20,7 +20,7 @@ An example question is available by importing `Doc-Examples\Reveal_block_example
 
 ### Interaction with MCQ input types
 
-The reveal block can be used in conjunction with [MCQ](../../Specialist_tools/Multiple_choice_questions.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
+The reveal block can be used in conjunction with [MCQ](../../Authoring/Inputs/Multiple_choice_input.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
 
     ta1:[[a,false],[b,false],[c,false],[d,false],[X,true,"Other"]];
     ta2:x^2;

@@ -1,6 +1,6 @@
 # Numerical input
 
-This is documentation for the numerical [input type](Inputs.md).
+This is reference documentation for the numerical input type.
 
 This input type _requires_ the student to type in a number of some kind.
 

@@ -1,18 +1,20 @@
-# Multiple choice questions
+# Multiple choice inputs
 
 The whole point of STACK is not to use multiple-choice questions, but instead to have the student enter an algebraic expression!  That said there are occasions where it is very useful, if not necessary, to use multiple-choice questions in their various forms.  STACK's use of a CAS is then very helpful to generate random variants of multiple-choice questions based on the mathematical values.
 
 This can also be one input in a multi-part randomly generated question. E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first,
 (ii) parts, (iii) substitution, (iv) replace with complex exponentials.  (Yes, this is a joke: all these methods can be made to work here!)  Another algebraic input can then be used for the answer.
 
-Please read the section on [inputs](../Authoring/Inputs.md) first.  If you are new to STACK please note that in STACK MCQs are *not* the place to start learning how to author questions.  Please look at the [authoring quick-start guide](../AbInitio/Authoring_quick_start_1.md).
+If you are new to STACK please note that in STACK MCQs are *not* the place to start learning how to author questions.  Please look at the [authoring quick-start guide](../../AbInitio/Authoring_quick_start_1.md).
+
+Please read the section on [inputs](../../Authoring/Inputs/index.md) first.  
 
 Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
 * Checkbox inputs return a *list* of the CAS objects selected;
 * Dropdown inputs and radio inputs return a single *expression*, which is the CAS object selected.
 
-The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](../Authoring/CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
+The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](../../Authoring/CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
 
 ## Model answer ##
 
@@ -29,7 +31,7 @@ For example
 
      ta:[[diff(p,x),true],[p,false],[int(p,x),false]]
 
-At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".   You must still use a [potential response tree](../Authoring/Potential_response_trees.md) to assess the student's answer as normal.
+At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".   You must still use a [potential response tree](../../Authoring/Potential_response_trees.md) to assess the student's answer as normal.
 
 Note the `value` expression must be constructed with noun functions where a noun alternative exists.  E.g. use `%union()` (the noun form) not `union()`.  STACK has to match up what the student selects, and this is an expression they might well type into an algebraic input.  In this situation functions in students' expressions are turned to noun forms.  Hence the teacher must also use noun forms in setting up the MCQ input options.
 
@@ -372,7 +374,7 @@ In this example, the output value `mark` can be placed into the Score of the fal
 
 ## Writing question tests ##
 
-Quality control of questions is important.  See the notes on [testing](../Maintaining/Testing.md) questions.
+Quality control of questions is important.  See the notes on [testing](../../Maintaining/Testing.md) questions.
 
 When entering test cases the question author must type in the CAS expression they expect to be the `value` of the student's answer (NOT the optional `display` field!).  For example, if the teacher's answer (to a checkbox) question is the following.
 

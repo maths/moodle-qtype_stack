@@ -25,7 +25,7 @@ There are lots of fields, but only a few are compulsory:
 3. The teacher's "model answer" (inside "Input: ans1" on a default question),
 4. A test of "correctness".
 
-By default a new question automatically has one [input](../Authoring/Inputs.md), and one algorithm to test correctness of the answer.
+By default a new question automatically has one [input](../Authoring/Inputs/index.md), and one algorithm to test correctness of the answer.
 
 ### Question name ###
 
@@ -49,7 +49,7 @@ Notes:
 
 ## Input: ans1
 
-Scroll down:  there will be an [inputs](../Authoring/Inputs.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
+Scroll down:  there will be an [inputs](../Authoring/Inputs/index.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
 
 For a minimal question, we must specify the _model answer_. Let this be
 
@@ -59,7 +59,7 @@ Notes
 
 1. The student's response is stored in the answer variable `ans1`.
 2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX. This means multiplication must be explicitly specified, using `*`.
-3. [Inputs](../Authoring/Inputs.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
+3. [Inputs](../Authoring/Inputs/index.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
 4. A question can have many inputs for multiple parts.  These are discussed later in a later part.
 
 ## Assessing correctness of a response - the Potential Response Tree (PRT)
@@ -130,7 +130,7 @@ First is "validation", and normally servers have "instant validation" enabled.  
 
 The second stage executes when a valid expression is entered, and this evaluates the potential response tree to assess the student's answer.
 
-This two-stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above, all example expressions have strict syntax.  Here we used expressions like `3*(x-1)^2`, with `*` symbols to denote multiplication.  You could choose to let students type in expressions like `3(x-1)^2` and accept implied multiplication. Note, however, that teacher input will always have to be strict to avoid ambiguity. Documentation on these options is given in the [inputs](../Authoring/Inputs.md) section.
+This two-stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above, all example expressions have strict syntax.  Here we used expressions like `3*(x-1)^2`, with `*` symbols to denote multiplication.  You could choose to let students type in expressions like `3(x-1)^2` and accept implied multiplication. Note, however, that teacher input will always have to be strict to avoid ambiguity. Documentation on these options is given in the [inputs](../Authoring/Inputs/index.md) section.
 
 # Next step #
 

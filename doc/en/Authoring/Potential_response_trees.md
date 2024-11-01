@@ -4,11 +4,11 @@ The potential response tree is the algorithm which establishes the mathematical 
 
 ## When is the tree used? ##
 
-Each potential response tree relies on one or more of the [inputs](Inputs.md). STACK automatically detects which elements are needed in the [answer tests](Answer_Tests/index.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted will the tree be traversed.
+Each potential response tree relies on one or more of the [inputs](../Authoring/Inputs/index.md). STACK automatically detects which elements are needed in the [answer tests](Answer_Tests/index.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted will the tree be traversed.
 
 ## Before the tree is traversed ##
 
-Each potential response tree can set Maxima's level of [simplification](../CAS/Simplification.md). Before the tree is traversed the [feedback variables](Variables.md#Feedback_variables) are evaluated. The feedback variables may depend on the values of the [question variables](Variables.md#Question_variable.s) and the [inputs](Inputs.md). The values of these variables are available to the [answer tests](Answer_Tests/index.md) and all [castext](CASText.md) fields within the tree, for example the feedback could be built using these variables.
+Each potential response tree can set Maxima's level of [simplification](../CAS/Simplification.md). Before the tree is traversed the [feedback variables](Variables.md#Feedback_variables) are evaluated. The feedback variables may depend on the values of the [question variables](Variables.md#Question_variable.s) and the [inputs](../Authoring/Inputs/index.md). The values of these variables are available to the [answer tests](Answer_Tests/index.md) and all [castext](CASText.md) fields within the tree, for example the feedback could be built using these variables.
 
 Notes:
 

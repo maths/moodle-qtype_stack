@@ -57,7 +57,7 @@ This is a job for a developer.  Please contact us.
 
 ## How can I use subscripts in STACK ##
 
-More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.  Also see the inputs extra option [consolidatesubscripts](Inputs.md).
+More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima_background.md) documentation.  Also see the inputs extra option [consolidatesubscripts](Inputs.md).
 
 ## How can I confirm my student's answer is fully simplified? ##
 

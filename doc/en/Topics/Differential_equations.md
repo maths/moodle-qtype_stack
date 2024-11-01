@@ -1,6 +1,6 @@
 # Differential Equations
 
-This page provides examples of how to represent and manipulate ordinary differential equations (ODEs) in [Maxima](../CAS/Maxima.md) when writing STACK questions.
+This page provides examples of how to represent and manipulate ordinary differential equations (ODEs) in [Maxima](../CAS/Maxima_background.md) when writing STACK questions.
 
 ## Representing ODEs
 

@@ -99,7 +99,7 @@ Then complete the question as follows.
 
 This should give a minimal working GGB question with "set".
 
-The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  STACK defines `ntuple` as data type allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../../CAS/Maxima.md#sets-lists-sequences-n-tuples).
+The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  STACK defines `ntuple` as data type allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../../CAS/Maxima_background.md#sets-lists-sequences-n-tuples).
 
 The question can readily be adapted by making `A` a randomly generated object, if required.
 

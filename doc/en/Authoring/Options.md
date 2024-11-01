@@ -8,7 +8,7 @@ See the entry on [simplification](../CAS/Simplification.md).  Default is `true`.
 
 ### Assume Positive {#Assume_Positive} ###
 
-This option sets the value of [Maxima](../CAS/Maxima.md)'s
+This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
     assume_pos
 
@@ -87,7 +87,7 @@ How logical symbols should be displayed. The values are language, e.g. \(A \text
 
 ### Surd for Square Root {#surd} ###
 
-This option sets the value of [Maxima](../CAS/Maxima.md)'s
+This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
     sqrtdispflag
 

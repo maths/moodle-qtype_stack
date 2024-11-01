@@ -14,7 +14,7 @@ The position of an input in the [question text](CASText.md#question_text) is den
 
     [[input:ans1]]
 
-Here `ans1` is the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
+Here `ans1` is the name of a [Maxima](../CAS/Maxima_background.md) variable to which the student's answer is to be assigned.
 This must only be letters followed (optionally) by numbers, as in this example. No special characters are permitted.
 The input name cannot be more than 18 characters long.
 
@@ -68,7 +68,7 @@ The support for scientific units includes an input type which enables teachers t
 
 The size of the matrix is inferred from the model answer.
 STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in.
-This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but does give the game away about the size of the required matrix.
+This is easier than typing in [Maxima](../CAS/Maxima_background.md)'s matrix command, but does give the game away about the size of the required matrix.
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
@@ -80,7 +80,7 @@ The shape of the parentheses surrounding the brackets is taken from the question
 
 #### Text area ####
 
-This input allows the user to type in multiple lines, where each line must be a valid algebraic expression.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list. Note, the teacher's answer and any syntax hint must be a list, of valid Maxima exprssions!  If you just pass in an expression strange behaviour may result.
+This input allows the user to type in multiple lines, where each line must be a valid algebraic expression.  STACK passes the result to [Maxima](../CAS/Maxima_background.md) as a list. Note, the teacher's answer and any syntax hint must be a list, of valid Maxima exprssions!  If you just pass in an expression strange behaviour may result.
 
 If the `allowempty` tag is used the student's answer will be `[EMPTYANSWER]` to ensure the type of the student's answer is always a list.
 
@@ -226,7 +226,7 @@ can have a minus sign and two unary minus signs are considered to be something w
 ### Check Students answer's type ### {#Check_Type}
 
 If this option is set to `yes` then unless the student's expression is the same
-[Maxima](../CAS/Maxima.md#Types_of_object) as the teacher's correct answer,
+[Maxima](../CAS/Maxima_background.md#Types_of_object) as the teacher's correct answer,
 then the attempt will be rejected as invalid.
 
 Type checking here is very simple, basically checking the student's answer is an equation, inequality, list, set, matrix to match that of the teacher.  The intention is not to be completely comprehensive, but to avoid obvious type mismatch.  E.g. this is very useful for ensuring the student has typed in an "equation", such as \(y=mx+c\)
@@ -335,7 +335,7 @@ There is a subtle (and perhaps confusing) difference between atoms in Maxima.  T
 
 (If you have genuine use for more patterns please contact the developers with examples!)
 
-More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.
+More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima_background.md) documentation.
 
 ### Extra option: checkvars ###
 

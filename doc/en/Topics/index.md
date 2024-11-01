@@ -12,6 +12,5 @@ Current topics include:
 * [Propositional Logic](Propositional_Logic.md)
 * [Scientific Units](Units.md)
 * [Vector Calculus](Vector_Calculus.md)
-* [Unsorted multi-input](Unsorted_multi_input.md) questions
 
-There is separate documentation on specialist tools, such as those needed for proof, [Parsons problems](../Specialist_tools).
+There is separate documentation on specialist tools, such as those needed for proof, drag and drop (Parsons problems), graphical interaction and so on.  Specialist tool documentaion is not linked to a single topic, but rather to a tool.

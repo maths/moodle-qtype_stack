@@ -16,7 +16,7 @@ This list is in approximate order of the size of the equivalence classes from mo
 | AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?
 | AlgEquiv                                          | Are they _algebraically equivalent_?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?
-| SameType                                          | Are the two expressions of the same [types of object](../../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
+| SameType                                          | Are the two expressions of the same [types of object](../../CAS/Maxima_background.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 
 ### AlgEquiv {#AlgEquiv}
 
@@ -29,7 +29,7 @@ This is the most commonly used test.  The pseudo code
     else
       false.
 
-This test will work with a variety of [types of object](../../CAS/Maxima.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
+This test will work with a variety of [types of object](../../CAS/Maxima_background.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
 
 * This test disregards whether [simplification](../../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
 * Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../../CAS/Predicate_functions.md).

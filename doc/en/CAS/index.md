@@ -1,6 +1,6 @@
 # Maxima and computer algebra use in STACK
 
-STACK uses the computer algebra system (CAS) [Maxima](Maxima.md).
+STACK uses the computer algebra system (CAS) [Maxima](Maxima_background.md).
 
 We recommend you download and use the graphical desktop interface WxMaxima
 

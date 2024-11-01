@@ -572,7 +572,7 @@
         "description":"Information on using matrices and vectors in the STACK online assessment system."
         },
         {
-        "file":"Maxima.md",
+        "file":"Maxima_background.md",
         "title":"Introduction to Maxima - STACK Documentation",
         "description":"An introduction to STACK's CAS system, Maxima."
         },
@@ -1020,11 +1020,6 @@
         "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
         },
         {
-        "file":"GeoGebra.md",
-        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
-        "description":"How to write a minimal question useing GeoGebra as a STACK input type."
-        },
-        {
         "file":"Levenshtein_distance.md",
         "title":"Levenshtein distance and strings",
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
@@ -1035,16 +1030,6 @@
         "description":"Information on working with linear algebra in a STACK question."
         },
         {
-        "file":"Matching.md",
-        "title":"Matching problems - STACK Documentation",
-        "description":"Documentation for writing drag and drop matching problems in a STACK question."
-        },
-        {
-        "file":"Proof.md",
-        "title":"Assessment of proof",
-        "description":"This file contains advice on assessing mathematical proof."
-        },
-        {
         "file":"Propositional_Logic.md",
         "title":"Propositional Logic - STACK Documentation",
         "description":"Support for propositional logic, using Maxima's logic package."
@@ -1053,11 +1038,6 @@
         "file":"Units.md",
         "title":"Scientific Units - STACK Documentation",
         "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
-        },
-        {
-        "file":"Unsorted_multi_input.md",
-        "title":"Partial credit for multiple inputs - STACK Documentation",
-        "description":"This page describes how to give partial credit when you have muliple inputs, but don't know the order in which they are typed in."
         },
         {
         "file":"Vector_Calculus.md",
@@ -1082,6 +1062,11 @@
         "file":"Multiple_choice_questions.md",
         "title":"Multiple Choice Questions - STACK Documentation",
         "description":"Information on creating and manipulating multiple choice questions in STACk."
+        },
+        {
+        "file":"Unsorted_multi_input.md",
+        "title":"Partial credit for multiple inputs - STACK Documentation",
+        "description":"This page describes how to give partial credit when you have muliple inputs, but don't know the order in which they are typed in."
         },
         {
        "Drag_and_Drop":[

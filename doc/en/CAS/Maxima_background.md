@@ -219,7 +219,7 @@ You can then plot this using
 
 # Maxima "gotcha"s! #
 
-  * See the section above on [assignment](Maxima.md#assignment).
+  * See the section above on [assignment](Maxima_background.md#assignment).
   * Maxima does not have a `degree` command for polynomials.  We define one via the `hipow` command.
   * Matrix multiplication is the dot, e.g. `A.B`. The star `A*B` gives element-wise multiplication.
   * The atoms `a1` and `a_1` are not considered to be algebraically equivalent.

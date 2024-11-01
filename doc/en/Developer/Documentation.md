@@ -4,6 +4,50 @@ User documentation is written in an extended implementation of the markup langua
 [MarkDown](http://daringfireball.net/projects/markdown/). This page is intended
 for people wishing to write, edit and translate the documentation.
 
+## Purpose and structure of the documentation
+
+Documentation serves a number of purposes.  The main documentation is for teachers writing STACK questions and using STACK questions.
+
+Secondary documentation is design for
+
+1. Students (e.g. how to type in answers)
+2. Installation of the plugin
+3. Developers of the plugin
+
+The main documentation is arranged as follows.
+
+* About the project, community, etc.
+* Quick-start
+* Authoring individual questions (basically reference)
+  * Reference of features, e.g. inputs, castext, answert tests.
+  * Maxima features
+* Specialist tools - quthoring questions linking many features
+  * JSXGraph
+  * GeoGebra
+  * Parsons
+  * Matching
+  * Plots
+* Using questions (not Moodle quiz features)
+  * Testing
+  * Deploying random variants
+  * Reporting
+* Collaboration
+, * quality control, testing and maintaining questions
+  * Workflow
+  * Sample questions/question library
+* Topics - authoring example questions in different mathematical topics.
+
+* Moodle-specific features
+  * Setting up a quiz
+  * Import/export
+
+* Installation
+* Development of the plugin
+  * Development process, and other public docs
+  * Details of development plans, code structure etc. (in `/dev/`)
+
+* Student-focused documentation
+
 ## Markdown language
 
 * The [markdown](http://daringfireball.net/projects/markdown/) project external site.

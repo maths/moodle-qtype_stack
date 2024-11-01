@@ -1,6 +1,6 @@
 # CSS Styles for displaying proof
 
-We support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.  General style was also introduced with the [HELM](../Reference/HELM.md) materials.
+We support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.  General style was also introduced with the [HELM](../../Reference/HELM.md) materials.
 
 Note, the precise style will also depend on the styles in your learning environment.  The `class="proof"` styles focus on block structure and layout, e.g. indenting blocks and column layout.  Colour and typeface are generally not specified in the proof styles (although a white background is defined).  Styles are defined in `styles.css` of the top-level of the STACK plugin.
 

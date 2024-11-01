@@ -1,6 +1,6 @@
-# Local Usage
+# Advanced reporting
 
-There are a number of [reporting options](../Authoring/Reporting.md) which are built-in and supported.  To use the features on this page requires moodle admin permission.
+There are a number of [reporting options](../Authoring/../Maintaining/Reporting.md) which are built-in and supported.  To use the features on this page requires moodle admin permission.
 
 It is often useful to know numbers about STACK usage on your local server.  To do this we need to work in the Moodle database.  E.g.
 

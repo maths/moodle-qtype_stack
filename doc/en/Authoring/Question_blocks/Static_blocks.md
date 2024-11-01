@@ -26,6 +26,12 @@ Before 4.4 the contents of the block needed to be syntactically correct CASText.
 
 Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.
 
+The `[[todo]]` can contain optional `tags` e.g.
+
+    [[todo tags="tag1,tag2,..."]]Please fix ...[[/todo]]
+
+The use of this tag is documented under [workflow](../../Maintaining/Workflow.md).
+
 You can access a page listing all questions with `[[todo]]` blocks which you can edit, in every course on which you are a teacher, by accessing the STACK question dashboard, or from the page `question/type/stack/adminui/index.php` on your local server.
 
 The todo block is similar to the comments block.  A different block is provided to facilitate searching for questions with specific "todo" items remaining.  The contents must be valid castext (unlike the comments block which can be anything) because in the future we may extend the functionality to display todo items in a teacher preview.  If you need to include invalid content either use the comment block, or escape block inside the todo, e.g.
@@ -38,7 +44,6 @@ The contents of this block are replaced by the static
 
 to stop these being read by a user (student), and to provide a searchable tag in instantiated text which is not visible in regular html.
 
-The `[[todo]]` can contain optional `tags` which are described in the [workflow](../Workflow.md) documentation.
 
 ## The debug block ##
 

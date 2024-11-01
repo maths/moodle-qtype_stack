@@ -4,14 +4,14 @@ This section of the STACK documentation contains information on how to author qu
 
 Current topics include:
 
-* [GeoGebra questions](GeoGebra.md)
 * [Curve sketching](Curve_sketching.md)
 * [Differential equations](Differential_equations.md)
 * [Discrete mathematics](Discrete_mathematics.md)
 * String similarity via the [Levenshtein distance](Levenshtein_distance.md)
 * [Linear algebra](Linear_algebra.md)
-* [Mathematical Proof](../Proof/index.md)
 * [Propositional Logic](Propositional_Logic.md)
 * [Scientific Units](Units.md)
 * [Vector Calculus](Vector_Calculus.md)
-* [Unsorted multi-input](Unsorted_multi_input.md) questions 
+* [Unsorted multi-input](Unsorted_multi_input.md) questions
+
+There is separate documentation on specialist tools, such as those needed for proof, [Parsons problems](../Specialist_tools).

@@ -1,5 +1,12 @@
 # Maintaining questions and question banks
 
+* [Creating question tests](Testing.md),
+* [Deploying variants](Deploying.md),
+* [Reporting](Reporting.md),
+* [Ensuring questions work in the future](Future_proof.md).
+
+
+
 This section of the documentation provides information on testing questions and maintaining question banks for the long term.  Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
 
     [...]/question/type/stack/adminui/index.php
@@ -16,13 +23,13 @@ If your institution restricts site admin status, then this capability will allow
 
 When you upgrade, or before you upgrade, please check the [release notes](../Developer/Development_history.md) carefully.
 
-The foundation of long-term maintenance is testing.  ___We strongly recommend all questions have [question tests](../Authoring/Testing.md).___  As a minimum we recommend the following test cases.
+The foundation of long-term maintenance is testing.  ___We strongly recommend all questions have [question tests](../Maintaining/Testing.md).___  As a minimum we recommend the following test cases.
 
 1. The answer a teacher recommends as the correct answer.
 2. Ensure not every answer is assessed as correct.
 3. Ideally, each separate feedback intended for students would be covered by a test case.
 
-Encourage question authors to [future proof](../Authoring/Future_proof.md) their materials.
+Encourage question authors to [future proof](../Maintaining/Future_proof.md) their materials.
 
 We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz, or on upgrade.
 
@@ -44,7 +51,7 @@ The dependency checker is available from the question setting page or from the "
 
     [...]/question/type/stack/adminui/index.php
 
-See also the notes on [local usage](Local_Usage.md) of STACK questions on your server.
+See also the notes on [local usageAdvanced_reporting.mdmd) of STACK questions on your server.
 
 ## Bulk change of the default settings
 

@@ -12,7 +12,7 @@ Each option above independent, and any/all could be used with a particular proof
 
 ## 1. Automatic assessment of proof defined as a tree
 
-[The Damerau-Levenshtein distance](../Topics/Levenshtein_distance.md) is a metric for measuring the difference between two strings. Informally, this is the _edit distance_ measuring  the minimum number of single-character edits (insertions, deletions, transition or substitutions) required to change one string into the other. STACK uses this metric to assess answers which are text strings.  The problem of assessing Parson's problems is very similar.
+[The Damerau-Levenshtein distance](../../Topics/Levenshtein_distance.md) is a metric for measuring the difference between two strings. Informally, this is the _edit distance_ measuring  the minimum number of single-character edits (insertions, deletions, transition or substitutions) required to change one string into the other. STACK uses this metric to assess answers which are text strings.  The problem of assessing Parson's problems is very similar.
 
 1. We want to establish the distance between the student's proof and a teacher's proof, and identify the closest proof from a list deemed acceptable by the teacher.
 2. We want to automatically provide feedback detailing which edits will transform the student's proof into a "correct" proof, e.g. "Swap these two lines", "Insert a line here".

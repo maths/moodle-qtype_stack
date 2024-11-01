@@ -1,6 +1,6 @@
 # Advanced JSXGraph: `stack_jxg.custom_bind`
 
-As stated in the general [JSXGraph-block docs](JSXGraph.md#manual_binding) binding together
+As stated in the general [JSXGraph-block docs](index.md#manual_binding) binding together
 STACK inputs and the state of the graph consists of three important things:
 
  1. We need to turn the state we wish to store into a string when it needs to be stored.

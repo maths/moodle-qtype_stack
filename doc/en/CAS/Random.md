@@ -8,9 +8,9 @@ This ensures that when a particular student returns they see the same variant of
 
 For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect. We are much more interested in simplicity, efficiency and reproducibility across platforms. Hence, we adopt pseudo-random numbers.
 
-It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../Authoring/Deploying.md).
+It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../Maintaining/Deploying.md).
 
-Users may also [systematically deploy](Systematic_deployment.md) all variants of a question in a simple manner.
+Users may also [systematically deploy](../Maintaining/Systematic_deployment.md) all variants of a question in a simple manner.
 
 ## rand() {#rand}
 

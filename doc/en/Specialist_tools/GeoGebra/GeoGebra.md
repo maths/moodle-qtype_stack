@@ -2,15 +2,15 @@
 
 Information from GeoGebra applets can be linked to STACK inputs and then assessed by potential response trees in the normal way.  The purpose of this document is to help you author your first question using GeoGebra as an input.
 
-Reference documentation for using [GeoGebra](../Authoring/GeoGebra.md) applets is elsewhere.
+Reference documentation for using [GeoGebra](../../Specialist_tools/GeoGebra/index.md) applets is elsewhere.
 
 ## Before we start
 
 This document assumes you have worked through the following sections of the Author quick-start guide.
 
-* [Authoring quick start 1](../AbInitio/Authoring_quick_start_1.md): A basic question.
-* [Authoring quick start 2](../AbInitio/Authoring_quick_start_2.md): Question variables.
-* [Authoring quick start 3](../AbInitio/Authoring_quick_start_3.md): Improving feedback.
+* [Authoring quick start 1](../../AbInitio/Authoring_quick_start_1.md): A basic question.
+* [Authoring quick start 2](../../AbInitio/Authoring_quick_start_2.md): Question variables.
+* [Authoring quick start 3](../../AbInitio/Authoring_quick_start_3.md): Improving feedback.
 
 __We strongly recommend you do not use an HTML-aware editor when editing STACK questions containing GeoGebra.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following:
 
@@ -71,7 +71,7 @@ Notice this uses the `[[geogebra]]` question block. Then complete the question a
 Notes
 
 * The tag `[[geogebra set="c,m" watch="ans1"]]` contains information about which variables within GeoGebra to _set_ and which to _watch_.
-* There are strict naming conventions which must be followed, e.g. names _must_ match in GeoGebra and in STACK.  This is explained in more detail in the [GeoGebra](../Authoring/GeoGebra.md) reference documentation.
+* There are strict naming conventions which must be followed, e.g. names _must_ match in GeoGebra and in STACK.  This is explained in more detail in the [GeoGebra](../../Specialist_tools/GeoGebra/index.md) reference documentation.
 
 ## 3. Preliminary test of the STACK question
 
@@ -98,7 +98,7 @@ Notice two changes.  (1) there is a `remember` argument in the geogebra block ta
 
 1. The `remember` input _must_ be of type string.
 2. For the "model answer" use the empty string `""`.
-3. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../Authoring/Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
+3. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
 4. Values in _remember_ are not available to the PRT and can not be used to calculate values in STACK feedback.
 
 ## 5. Polish and tidy the question.
@@ -110,7 +110,7 @@ Once you have the question working, you can add better feedback, add a worked so
     c:rand_with_step(2,3,1);
 ```
 
-Then add in an answer note such as `\[ y={@m*x+c@} \]`.  [Authoring quick start 4](../AbInitio/Authoring_quick_start_4.md) provides advice on randomisation.
+Then add in an answer note such as `\[ y={@m*x+c@} \]`.  [Authoring quick start 4](../../AbInitio/Authoring_quick_start_4.md) provides advice on randomisation.
 
 You could also have an additional algebraic input asking the student to find the equation of their line.  At this point there are lots of options for combining a geometric diagram within a larger question.
 

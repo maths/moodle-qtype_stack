@@ -1,8 +1,8 @@
 # CAS libraries for representing text-based proofs
 
-STACK provides libraries to represent and manage lines of a text-based proof in a tree structure.  This page is reference documentation for these CAS libraries.  For examples of how to use these see the topics page on using [Parson's problems](../Topics/Parsons.md).
+STACK provides libraries to represent and manage lines of a text-based proof in a tree structure.  This page is reference documentation for these CAS libraries.  For examples of how to use these see the topics page on using [Parson's problems](../../Specialist_tools/Parsons.md).
 
-To use these functions you have to [load an optional library](../Authoring/Inclusions.md) into each question.
+To use these functions you have to [load an optional library](../../Authoring/Inclusions.md) into each question.
 
 E.g. `stack_include_contrib("prooflib.mac")` will include the library published in the master branch on github, which will be at or just ahead of an official release.
 

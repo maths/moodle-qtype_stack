@@ -17,10 +17,10 @@ Question variables can be included in the tests; indeed these are needed to defi
 Each test assigns values to
 
 1. any/all of the inputs.  These values may, naturally, depend on the
-   [question variables](Variables.md#Question_variables).
+   [question variables](../Authoring/Variables.md#Question_variables).
 2. values for the score and any penalty.
-3. [Answer notes](Potential_response_trees.md#Answer_note) from each of
-   the [potential response trees](Potential_response_trees.md).
+3. [Answer notes](../Authoring/Potential_response_trees.md#Answer_note) from each of
+   the [potential response trees](../Authoring/Potential_response_trees.md).
 
 The teacher can opt to run the question tests from the preview window.  STACK automatically takes each test, assigns the values to inputs and attempts to submit it.  The results of the last answer note from each potential response tree is compared to that specified by the teacher.  Notice that this is a limitation of the system.  Specifying the complete route through the potential response tree would be too difficult and would discourage teachers from writing tests.
 

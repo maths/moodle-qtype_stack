@@ -1,19 +1,6 @@
-# GeoGebra in STACK
+# GeoGebra question block
 
-Author Tim Lutz - University of Edinburgh and University of Education Heidelberg, 2022-23.
-
-STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page is reference documentation when using GeoGebra applets both to display GeoGebra worksheets as part of a STACK question, and how to connect GeoGebra worksheets to a STACK input.
-
-To help with assessment, STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md).
-
-Please note that significant computation and calculation can be done within GeoGebra itself.  In many cases it might be much better to establish mathematical properties within the GeoGebra applet, and link the _results_ to STACK inputs.  These results could be the distance between relevant objects, or boolean results.
-
-A current restriction of the STACK design is that you cannot have a variable name in question variables which also matches the name of an input.
-For example, you cannot randomly generate the initial position of a point \(A\) with the "set" instruction, and also link this GeoGebra object to the input `input:A` with a "watch" instruction.
-In this situation you will need to have _dependent_ objects (probably hidden) in GeoGebra which match to inputs.
-(This is hard-wired into the design of STACK and cannot be changed, sorry.)
-
-__A note on licenses:__ Please note that [GeoGebra's license](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).  Users of STACK remain entirely responsible for complying with license for materials, and media embedded inside STACK questions.
+GeoGebra blocks are included with the `[[GeoGebra ...]]` block.  This page provides reference documentation of all features of that block.
 
 ## Adding a GeoGebra question block using the `material_id`
 
@@ -23,7 +10,7 @@ To include a GeoGebra applet into a STACK castext field (e.g. the question text)
 
 For the material [https://www.geogebra.org/m/seehz3km](https://www.geogebra.org/m/seehz3km) the `material_id` is: `seehz3km`
 
-An example `[[geogebra]]` [question block](Question_blocks/index.md) is shown below.
+An example `[[geogebra]]` [question block](../../Authoring/Question_blocks/index.md) is shown below.
 
     <p>You can show an applet:</p>
     [[geogebra]]
@@ -112,7 +99,7 @@ Then complete the question as follows.
 
 This should give a minimal working GGB question with "set".
 
-The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  STACK defines `ntuple` as data type allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../CAS/Maxima.md#sets-lists-sequences-n-tuples).
+The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  STACK defines `ntuple` as data type allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../../CAS/Maxima.md#sets-lists-sequences-n-tuples).
 
 The question can readily be adapted by making `A` a randomly generated object, if required.
 
@@ -157,7 +144,7 @@ Once the question is working you can hide the inputs from students, but for test
 Extensions to this basic question:
 
 1. The question can readily be adapted by making `ta1` a randomly generated object, if required.
-2. The answer test requires _exact_ positioning of point `A` on the required coordinates.  In this GGB sheet we have "snap to grid" so it is reasonable to ask for exact positioning of the point `A` in this case.  An alternative approximate positioning \( ||A-ta1||<0.1 \) can be established using the Num-GT answer test: `ATGT(0.1, Distance(A,ta1))`.  STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md), including `Distance` which is used here.
+2. The answer test requires _exact_ positioning of point `A` on the required coordinates.  In this GGB sheet we have "snap to grid" so it is reasonable to ask for exact positioning of the point `A` in this case.  An alternative approximate positioning \( ||A-ta1||<0.1 \) can be established using the Num-GT answer test: `ATGT(0.1, Distance(A,ta1))`.  STACK provides a number of [geometry related maxima functions](../../CAS/Geometry.md), including `Distance` which is used here.
 
 
 ## Using the "remember" sub-tag
@@ -184,7 +171,7 @@ Set the question text:
 1. The `remember` input _must_ be of type string, and can not be used to calculate values in STACK feedback.
 2. For the "model answer" use the empty string `""`.
 3. The name "remember" is hard-wired (in this version).
-4. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
+4. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
 5. Once working, hide the "remember" input with CSS, e.g. `<p style="display:none">[[input:remember]][[validation:remember]]</p>` (but probably not while you develop the question!)
 
 ### Minimal example watching an indirect GGB object, e.g. angle k.

@@ -1,6 +1,6 @@
 # Dynamic blocks
 
-Dynamic blocks deal with dynamic content such as Javascript and JSXGraph
+Dynamic blocks deal with dynamic content such as Javascript and JSXGraphs.  Many of the dynamic blocks are designed for use with specialist tools.
 
 ## Reveal block ##
 
@@ -20,7 +20,7 @@ An example question is available by importing `Doc-Examples\Reveal_block_example
 
 ### Interaction with MCQ input types
 
-The reveal block can be used in conjunction with [MCQ](../Multiple_choice_questions.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
+The reveal block can be used in conjunction with [MCQ](../../Specialist_tools/Multiple_choice_questions.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
 
     ta1:[[a,false],[b,false],[c,false],[d,false],[X,true,"Other"]];
     ta2:x^2;
@@ -53,7 +53,7 @@ Notes
 
 ## JSXGraph block ##
 
-STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../JSXGraph.md) elements.
+STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../../Specialist_tools/JSXGraph/index.md) elements.
 
     [[jsxgraph]]
       // boundingbox:[left, top, right, bottom]
@@ -76,7 +76,7 @@ Note, this block is _not_ designed to output Maxima expressions in JS format. Fo
 
 ## GeoGebra block ##
 
-STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org) both as static visuals and as a STACK input.  This block is documented fully on the [GeoGebra page](../GeoGebra.md).
+STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org) both as static visuals and as a STACK input.  This block is documented fully on the [GeoGebra page](../../Specialist_tools/GeoGebra/index.md).
 
 ## Parsons block ##
 

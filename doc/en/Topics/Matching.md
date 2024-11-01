@@ -1,10 +1,10 @@
 # Authoring drag and drop matching problems in STACK
 
-The drag-and-drop functionality of the [Parson's](Parsons.md) block in STACK can also be used to write matching and other grid-based problems, which can be answered by drag and drop. 
+The drag-and-drop functionality of the [Parson's](../Specialist_tools/Parsons.md) block in STACK can also be used to write matching and other grid-based problems, which can be answered by drag and drop. 
 
 This page provides a quick-start guide to authoring matching problems with the `parsons` block. 
 As of STACK v4.6.0, the `parsons` block has three main configurations (each of which support further customisation) which can be achieved by setting appropriate block header parameters `columns` and `rows` as appropriate:
-1. **Proof** (Example usage: `[[parsons]] ... [[/parsons]]`) : This was introduced in STACK v4.5.0, and a full guide can be found [here](Parsons.md).
+1. **Proof** (Example usage: `[[parsons]] ... [[/parsons]]`) : This was introduced in STACK v4.5.0, and a full guide can be found [here](../Specialist_tools/Parsons.md).
 2. **Grouping** (Example usage: `[[parsons columns="3"]] ... [[/parsons]]`) : 
 This will set up a number of columns, each of which behave similarly to the single left-hand column of the **Proof** configuration, where the student may drag and drop items starting at the top of each column. 
 This is useful when we are only interesting in grouping items together, and specific row positions do not matter, or when each column may have variable length.

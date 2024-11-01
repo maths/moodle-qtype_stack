@@ -4,8 +4,8 @@ Reviewing students' answers closes the learning cycle for teachers by allowing t
 
 To review work in more detail we need to use two important parts of the question. Please read the following two entries before continuing with this article.
 
-* The [question note](Question_note.md).
-* The [answer note](Potential_response_trees.md#Answer_note).
+* The [question note](../Authoring/Question_note.md).
+* The [answer note](../Authoring/Potential_response_trees.md#Answer_note).
 
 ## Moodle quiz features ##
 
@@ -15,7 +15,7 @@ For detailed reporting go to
 
     Quiz administration -> Results -> Reporting
 
-The "response" column shows the raw Maxima input value entered by the student and the validity status, e.g. "blank" (not reported), "invalid", "valid", "score".  The "response" column also shows the value of the [answer note](Potential_response_trees.md#Answer_note) for each potential response tree.
+The "response" column shows the raw Maxima input value entered by the student and the validity status, e.g. "blank" (not reported), "invalid", "valid", "score".  The "response" column also shows the value of the [answer note](../Authoring/Potential_response_trees.md#Answer_note) for each potential response tree.
 
 An example note is shown below.  In this question a student has answered with `(x-4)^6+c` for the input `ans1`.
 The potential response tree `prt1` has executed and the note is `ATInt_generic. | 1-0-F`.
@@ -72,4 +72,4 @@ Note, the question summary is stored in a database and will not be updated if yo
 
 ## Site-wide usage ##
 
-Moodle Admins can get stats on [site-wide STACK usage](../Maintaining/Local_Usage.md).
+Moodle Admins can get stats on [site-wide STACK usage](../Maintaining/Advanced_reporting.md).

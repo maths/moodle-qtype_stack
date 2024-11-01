@@ -42,7 +42,7 @@ STACK uses Maxima's assignment rules.
 The question variables are evaluated when a variant of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
 
 * Teacher's answers in [inputs](Inputs.md) are defined in terms of question variables.
-* [Question note](Question_note.md).
+* [Question note](../Authoring/Question_note.md).
 * General feedback (also known as the worked solution).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.

@@ -82,7 +82,7 @@ Each branch can then
 
 * Assign/update the score,
 * Assign formative [feedback](../Authoring/Feedback.md) to the student,
-* Leave an [answer note](../Authoring/Potential_response_trees.md#Answer_note) for statistical [reporting](../Authoring/Reporting.md) purposes,
+* Leave an [answer note](../Authoring/Potential_response_trees.md#Answer_note) for statistical [reporting](../Authoring/../Maintaining/Reporting.md) purposes,
 * Continue to the next potential response node, or end the process with `[stop]`.
 
 Let us configure the first node to determine if the student has differentiated correctly.

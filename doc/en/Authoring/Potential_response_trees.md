@@ -49,7 +49,7 @@ The answer note is a tag which is key for reporting purposes. It is designed to 
 
 The answer note is the concatenation of each answer note from the [answer tests](Answer_Tests/index.md) and then the corresponding true/false branch.  This note provides a record of the result of applying each test and the route taken through the tree.
 
-This field is given a default value automatically and is used for [reporting](Reporting.md) students' work.
+This field is given a default value automatically and is used for [reporting](../Maintaining/Reporting.md) students' work.
 
 This field may not be empty and for each node in a tree the string must be unique.
 

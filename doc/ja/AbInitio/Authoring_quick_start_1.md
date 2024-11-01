@@ -84,7 +84,7 @@
 
 * 点数を割り当て/更新する。
 * 学生に形成的[評価](../../en/Authoring/Feedback.md)を割り当てる。
-* 統計[レポート](../../en/Authoring/Reporting.md)用に[解答記録](../../en/Authoring/Potential_response_trees.md#Answer_note)を残す。
+* 統計[レポート](../../en/Authoring/../Maintaining/Reporting.md)用に[解答記録](../../en/Authoring/Potential_response_trees.md#Answer_note)を残す。
 * 次のポテンシャル・レスポンス・ノードに進むか，`[stop]`で処理を終了する。
 
 生徒が正しく振り分けられたどうかを判断するために，最初のノード（ノード1）を構成してみましょう。

@@ -56,7 +56,7 @@ We have a whole section of the documentation dedicated to [maintaining questions
 Please check the [release notes](../Developer/Development_history.md) carefully.
 
 Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all
-of the [question tests](../Authoring/Testing.md) to be sure that the behaviour of STACK has not
+of the [question tests](../Maintaining/Testing.md) to be sure that the behaviour of STACK has not
 changed in a way that breaks any of your questions. To do this, go to
 
     Site administration -> Plugins -> Question types -> STACK

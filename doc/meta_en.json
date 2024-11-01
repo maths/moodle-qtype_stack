@@ -379,11 +379,6 @@
         "description":"Information about creating bespoke answer tests by specifying algebraic rules."
         },
         {
-        "file":"Deploying.md",
-        "title":"Deploying - STACK Documentation",
-        "description":"Information about deploying random variants in the STACK online assessment system."
-        },
-        {
         "file":"Feedback.md",
         "title":"Feedback - STACK Documentation",
         "description":"Information about creating feedback for students in the STACK online assessment system."
@@ -402,16 +397,6 @@
         "file":"Equivalence_reasoning.md",
         "title":"Answer Tests - STACK Documentation",
         "description":"An introduction to using equivalence reasoning in the STACK online assessment system."
-        },
-        {
-        "file":"Future_proof.md",
-        "title":"Ensuring a Question Works in the Future - STACK Documentation",
-        "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
-        },
-        {
-        "file":"GeoGebra.md",
-        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
-        "description":"Reference documentation for GeoGebra blocks."
         },
         {
         "file":"HELM.md",
@@ -457,16 +442,6 @@
         "file":"Matching.md",
         "title":"Matching problems - STACK Documentation",
         "description":"Documentation for writing drag and drop matching problems in a STACK question."
-        },
-        {
-        "file":"Multiple_choice_questions.md",
-        "title":"Multiple Choice Questions - STACK Documentation",
-        "description":"Information on creating and manipulating multiple choice questions in STACk."
-        },
-        {
-        "file":"Notes_about_performance.md",
-        "title":"Notes about question performance",
-        "description":"Notes about question performance, and how to write questions which are efficient."
         },
         {
         "file":"Options.md",
@@ -528,11 +503,6 @@
         "description":"Information on adding questions to a quiz in STACK."
         },
         {
-        "file":"Reporting.md",
-        "title":"Reporting - STACK Documentation",
-        "description":"You can generate detailed reports for quizzes using STACK to assess how successful they are."
-        },
-        {
         "file":"Serving_out_data.md",
         "title":"Serving out data",
         "description":"How data sets can be served and downloaded by students, e.g. in statistics questions."
@@ -543,24 +513,9 @@
         "description":"Functions for typesetting mathematical tables, such a truth tables."
         },
         {
-        "file":"Testing.md",
-        "title":"Testing - STACK Documentation",
-        "description":"Information on testing a STACK question."
-        },
-        {
-        "file":"Tidy_Tool.md",
-        "title":"Tidy Tool - STACK Documentation",
-        "description":"How to tidy up PRT node names with STACK's tidy tool."
-        },
-        {
         "file":"Trees.md",
         "title":"Trees - STACK Documentation",
         "description":"Functions for displaying the tree representation of a mathematical expression."
-        },
-        {
-        "file":"Workflow.md",
-        "title":"Workflow - STACK Documentation",
-        "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
         },
         {
         "file":"Numerical_input.md",
@@ -597,7 +552,7 @@
         "description":"Comprehensive information on the equivalence reasoning answer type in STACK."
         },
         {
-        "file":"Greek.md",
+        "file":"Greek_letters.md",
         "title":"The Greek Alphabet - STACK Documentation",
         "description":"Information on displaying greek letters in STACK."
         },
@@ -622,6 +577,11 @@
         "description":"An introduction to STACK's CAS system, Maxima."
         },
         {
+        "file":"Maxima_plot.md",
+        "title":"Embedding Maxima-generated plots via the plot() command",
+        "description":"Embedding Maxima generated plots via the plot() command"
+        },
+        {
         "file":"Numbers.md",
         "title":"Numbers in STACK - STACK Documentation",
         "description":"Information on displaying numbers in STACK using the CAS Maxima."
@@ -640,11 +600,6 @@
         "file":"Random.md",
         "title":"Random Objects - STACK Documentation",
         "description":"Information on using different functions in STACK to generate random values."
-        },
-        {
-        "file":"Systematic_deployment.md",
-        "title":"Systematic deployment - STACK Documentation",
-        "description":"Information on how to systematically deploy all variants of a question."
         },
         {
         "file":"Real_Intervals.md",
@@ -685,54 +640,6 @@
         "file":"Workflow.md",
         "title":"Question authoring workflow - STACK Documentation",
         "description":"This page suggests workflow for authoring STACK questions."
-        }
-      ]
-      },
-      {
-      "Plots":[
-        {
-        "file":"index.md",
-        "title":"Plots - STACK Documentation",
-        "description":"Information on plotting graphs in STACK."
-        },
-        {
-        "file":"Plots.md",
-        "title":"Embedding Maxima-generated plots via the plot() command",
-        "description":"Embedding Maxima generated plots via the plot() command"
-        }
-      ]
-      },
-      {
-      "Proof":[
-        {
-        "file":"index.md",
-        "title":"Proof - STACK Documentation",
-        "description":"General discussion of assessment of proof with STACK."
-        },
-        {
-        "file":"Proof_assessment.md",
-        "title":"CAS libraries for assessing Parsons problems and proofs",
-        "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
-        },
-        {
-        "file":"Proof_CAS_library.md",
-        "title":"CAS libraries for representing text-based proofs",
-        "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
-        },
-        {
-        "file":"Proof_samples.md",
-        "title":"Sample mathematical proofs",
-        "description":"A catalogue of common proofs, and how to use them."
-        },
-        {
-        "file":"Proof_Parsons_workflow.md",
-        "title":"Workflow for authoring Parsons Problems",
-        "description":"A suggested workflow for authoring Parsons Problems, adding slashes to strings within Maxima variables."
-        },
-        {
-        "file":"Proof_styles.md",
-        "title":"CSS Styles for displaying proof",
-        "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
         }
       ]
       },
@@ -798,14 +705,54 @@
         "description":"Information on maintaining questions and question banks for the longer term."
         },
         {
+        "file":"Deploying.md",
+        "title":"Deploying - STACK Documentation",
+        "description":"Information about deploying random variants in the STACK online assessment system."
+        },
+        {
         "file":"Fixing_broken_questions.md",
         "title":"I have a misbehaving STACK question in a live Moodle quiz.  What should I do?",
         "description":"Advice on dealing with errors in STACK questions during a live quiz."
         },
         {
-        "file":"Local_Usage.md",
-        "title":" Local Usage - STACK Documentation",
+        "file":"Reporting.md",
+        "title":"Reporting - STACK Documentation",
+        "description":"You can generate detailed reports for quizzes using STACK to assess how successful they are."
+        },
+        {
+        "file":"Advanced_reporting.md",
+        "title":"Advanced reporting - STACK Documentation",
         "description":"Records direct database queries useful in Moodle to deal with establishing local use of STACK questions."
+        },
+        {
+        "file":"Notes_about_performance.md",
+        "title":"Notes about question performance",
+        "description":"Notes about question performance, and how to write questions which are efficient."
+        },
+        {
+        "file":"Future_proof.md",
+        "title":"Ensuring a Question Works in the Future - STACK Documentation",
+        "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
+        },
+        {
+        "file":"Systematic_deployment.md",
+        "title":"Systematic deployment - STACK Documentation",
+        "description":"Information on how to systematically deploy all variants of a question."
+        },
+        {
+        "file":"Testing.md",
+        "title":"Testing - STACK Documentation",
+        "description":"Information on testing a STACK question."
+        },
+        {
+        "file":"Tidy_Tool.md",
+        "title":"Tidy Tool - STACK Documentation",
+        "description":"How to tidy up PRT node names with STACK's tidy tool."
+        },
+        {
+        "file":"Workflow.md",
+        "title":"Workflow - STACK Documentation",
+        "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
         },
         {
         "file":"Running_question_tests_other_site.md",
@@ -1093,11 +1040,6 @@
         "description":"Documentation for writing drag and drop matching problems in a STACK question."
         },
         {
-        "file":"Parsons.md",
-        "title":"Parson's problems - STACK Documentation",
-        "description":"Documentation for writing Parson's problems in a STACK question."
-        },
-        {
         "file":"Proof.md",
         "title":"Assessment of proof",
         "description":"This file contains advice on assessing mathematical proof."
@@ -1122,6 +1064,107 @@
         "title":"Vector Calculus - STACK Documentation",
         "description":"This page provides advice for writing STACK questions in vector calculus."
         }
+      ]
+      },
+      {
+      "Specialist_tools":[
+        {
+        "file":"index.md",
+        "title":"Specialist_tools - STACK Documentation",
+        "description":"Information on how to author questions using specialist tools. "
+        },
+        {
+        "file":"Graphics.md",
+        "title":" Plots and graphics in STACK - STACK Documentation",
+        "description":"Documentation for including plots and graphics in STACK in a STACK question."
+        },
+        {
+        "file":"Multiple_choice_questions.md",
+        "title":"Multiple Choice Questions - STACK Documentation",
+        "description":"Information on creating and manipulating multiple choice questions in STACk."
+        },
+        {
+        "file":"Parsons.md",
+        "title":"Parson's problems - STACK Documentation",
+        "description":"Documentation for writing Parson's problems in a STACK question."
+        },
+        {
+       "GeoGebra":[
+            {
+            "file":"index.md",
+            "title":"GeoGebra - STACK Documentation",
+            "description":"How to include GeoGebra into STACK."
+            },
+            {
+            "file":"GeoGebra.md",
+            "title":"Authoring your first GeoGebra question in STACK - STACK Documentation",
+            "description":"More advanced use of JSXGraph in STACK ."
+            },
+            {
+            "file":"Question_block.md",
+            "title":"GeoGebra question block- STACK Documentation",
+            "description":"Reference documentation for the GeoGebra question block."
+            }
+            ]
+        },
+        {
+       "JSXGraph":[
+            {
+            "file":"index.md",
+            "title":"JSXGraph - STACK Documentation",
+            "description":"How to include JSXGraph into STACK."
+            },
+            {
+            "file":"Example_plots.md",
+            "title":"JSXGraph Example plots- STACK Documentation",
+            "description":"A catalogue of example JSXGraph plots for STACK."
+            },
+            {
+            "file":"Advanced_JSXGraph.md",
+            "title":"More advanced use of JSXGraph in STACK - STACK Documentation",
+            "description":"More advanced use of JSXGraph in STACK ."
+            },
+            {
+            "file":"Question_block.md",
+            "title":"JSXGraph question block- STACK Documentation",
+            "description":"Reference documentation for the JSXGraph question block."
+            }
+            ]
+        },
+        {
+       "Proof":[
+            {
+            "file":"index.md",
+            "title":"Proof - STACK Documentation",
+            "description":"General discussion of assessment of proof with STACK."
+            },
+            {
+            "file":"Proof_assessment.md",
+            "title":"CAS libraries for assessing Parsons problems and proofs",
+            "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
+            },
+            {
+            "file":"Proof_CAS_library.md",
+            "title":"CAS libraries for representing text-based proofs",
+            "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
+            },
+            {
+            "file":"Proof_samples.md",
+            "title":"Sample mathematical proofs",
+            "description":"A catalogue of common proofs, and how to use them."
+            },
+            {
+            "file":"Proof_Parsons_workflow.md",
+            "title":"Workflow for authoring Parsons Problems",
+            "description":"A suggested workflow for authoring Parsons Problems, adding slashes to strings within Maxima variables."
+            },
+            {
+            "file":"Proof_styles.md",
+            "title":"CSS Styles for displaying proof",
+            "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
+            }
+          ]
+      }
       ]
       }
     ]

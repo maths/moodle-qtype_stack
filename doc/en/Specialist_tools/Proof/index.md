@@ -4,12 +4,12 @@ In STACK the basic assumption is that a student's answer will be a mathematical 
 
 This page contains a general discussion of the nature of mathematical writing, especially proof.  For further information see:
 
-1. The topics page on [using Parson's problems](../Topics/Parsons.md) to assess proof.
-2. Reference documentation on the [Parson's problems block](../Authoring/Parsons.md).
+1. The topics page on [using Parson's problems](../../Specialist_tools/Parsons.md) to assess proof.
+2. Reference documentation on the [Parson's problems block](../../Authoring/Parsons.md).
 3. Reference documentation on [CAS libraries for representing text-based proofs](Proof_CAS_library.md).
 4. Reference documentation on [CSS Styles for displaying proof](Proof_styles.md).
 5. Example proofs are distributed with the STACK source code within [`stack/maxima/contrib`](https://https://github.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/).
-6. Note also the functions for displaying [trees](../Authoring/Trees.md) which may be useful in some situations.
+6. Note also the functions for displaying [trees](../../Authoring/Trees.md) which may be useful in some situations.
 7. Advice on workflow for [authoring Parson's problems](Proof_Parsons_workflow.md).
 
 A discussion of [_Practical Online Assessment of Mathematical Proof_](https://www.tandfonline.com/doi/abs/10.1080/0020739X.2021.1896813) was given by Sangwin, C.J. and Bickerton, R. (2023), International Journal of Mathematical Education in Science and Technology}, 53(10) doi:10.1080/0020739X.2021.1896813.  This included more structured questions making use of
@@ -17,7 +17,7 @@ A discussion of [_Practical Online Assessment of Mathematical Proof_](https://ww
 * faded worked examples and,
 * reading comprehension questions.
 
-Colleagues assessing proof might also consider [semi-automatic marking](../Moodle/Semi-automatic_Marking.md) and using [Parson's problems](../Topics/Parsons.md) for drag and drop proof construction tasks.
+Colleagues assessing proof might also consider [semi-automatic marking](../../Moodle/Semi-automatic_Marking.md) and using [Parson's problems](../../Specialist_tools/Parsons.md) for drag and drop proof construction tasks.
 
 ## The nature of mathematical proof
 
@@ -37,7 +37,7 @@ STACK supports representation and display of mathematical proof as trees, with s
 5. Help teachers present proof in a consistent way within their course.
 6. Make it simpler for teachers to write correct proofs.
 7. Provide mechanisms for dynamically altering the level of detail, e.g. hiding or revealing steps and narrative.
-8. Provide mechanisms for assessing solutions to [Parson's problems](../Topics/Parsons.md) and provide feedback to students.
+8. Provide mechanisms for assessing solutions to [Parson's problems](../../Specialist_tools/Parsons.md) and provide feedback to students.
 
 The goals do not include automatic proof checking.
 

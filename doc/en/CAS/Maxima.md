@@ -5,7 +5,7 @@ A computer algebra system (CAS) is software that allows the manipulation of math
   * using a [predicate function](Predicate_functions.md) to find if a single expression has a property.  For example, are any of the numbers floating points?
   * comparing two expressions using an answer test to compare two expressions.  For example, is the student's expression equivalent to the teacher's?
 
-Maxima is also used for [randomly generating](Random.md) structured mathematical objects which become parts of a question and [plotting graphs](../Plots/index.md) of functions.
+Maxima is also used for [randomly generating](Random.md) structured mathematical objects which become parts of a question and [plotting graphs](Maxima_plot.md) of functions.
 
 To write more than very simple STACK questions you will need to use some Maxima commands. This documentation does not provide a detailed tutorial on Maxima. A very good introduction is given in [Minimal Maxima](http://maxima.sourceforge.net/docs/tutorial/en/minimal-maxima.pdf), which this document assumes you have read.
 
@@ -43,7 +43,7 @@ The absolute value function in Maxima is entered as `abs()`.  STACK also permits
 
 STACK also redefined a small number of functions
 
-* The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented [here](../Plots/Plots.md).  This ensures your image files are available on the server.
+* The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented [here](Maxima_plot.md).  This ensures your image files are available on the server.
 * The random number command `random` is not used in STACK questions.  Use the command `rand` instead, which is documented [here](Random.md).  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
 
 ## Parts of Maxima expressions {#Parts_of_Maxima_expressions}

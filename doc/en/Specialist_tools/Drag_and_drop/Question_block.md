@@ -101,6 +101,10 @@ Functionality and styling can be customised through the use of block parameters.
 11. `transpose` : `"true"` or `"false"`; `"false"` by default. While the student is able to re-orient between vertical and horizontal as they wish, the default on load is for columns to be vertical. If you wish them to default to being horizontal, then pass `transpose="true"`.
 12. `log` : `"true"` or `"false"`; `"false"` by default. When set to `"true"` the student's will contain their entire drag-and-drop move history for that attempt, along with the timestamp (number of seconds since 00:00 GMT 01/01/1970) of that move.
 
+## Sortable options
+
+The final JSON key allowed inside the `parsons` block is `"options"` whose value can be a JSON containing options that can be used to customise the functionality of the drag-and-drop list. See [the Parsons guide](Parsons.md) for how to include these, and [the Sortable library](https://github.com/SortableJS/Sortable#options) for further details on possible customisations.
+
 ## Random generation of `proof_step` order
 
 To track which random variants of a question a student sees, and make sure they return to the same variant, we need to perform all randomisation at the Maxima level.

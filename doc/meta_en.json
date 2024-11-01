@@ -1084,11 +1084,6 @@
         "description":"Information on creating and manipulating multiple choice questions in STACk."
         },
         {
-        "file":"Parsons.md",
-        "title":"Parson's problems - STACK Documentation",
-        "description":"Documentation for writing Parson's problems in a STACK question."
-        },
-        {
        "Drag_and_Drop":[
             {
             "file":"index.md",
@@ -1096,14 +1091,19 @@
             "description":"How to include Drag and Drop questions into STACK."
             },
             {
-            "file":"Matching.md",
-            "title":"Authoring your first Matching question in STACK - STACK Documentation",
-            "description":"Authoring your first Matching question in STACK ."
-            },
-            {
             "file":"Parsons.md",
             "title":"Authoring your first Parsons question in STACK - STACK Documentation",
             "description":"Authoring your first Parsons question in STACK ."
+            },
+            {
+            "file":"Grouping.md",
+            "title":"Authoring your first grouping question in STACK - STACK Documentation",
+            "description":"Authoring your first grouping question in STACK ."
+            },
+            {
+            "file":"Grid.md",
+            "title":"Authoring your first grid question in STACK - STACK Documentation",
+            "description":"Authoring your first grid question in STACK ."
             },
             {
             "file":"Question_block.md",

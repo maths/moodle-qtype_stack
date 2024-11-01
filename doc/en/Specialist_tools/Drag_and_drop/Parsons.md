@@ -4,7 +4,7 @@ Parson’s problems require students to assemble pre-written blocks (typically c
 
 This page provides a quick-start to authoring whole questions.  There are a number of parts to authoring a Parson's problem:
 
-1. [Defining strings](../../Specialist_tools/Proof/Proof_CAS_library.md) and creating drag and drop area using the [Parson's block](../../Authoring/Parsons.md).
+1. [Defining strings](../../Specialist_tools/Proof/Proof_CAS_library.md) and creating drag and drop area using the [Parson's block](Question_block.md).
 2. Linking the Parson's block to a STACK input (string input).
 3. [Assessing the student's answer](../../Specialist_tools/Proof/Proof_assessment.md) and providing meaningful feedback automatically.
 
@@ -99,7 +99,7 @@ The example question text below contains a Parson's block. Within the header of 
 Notes:
 
 1. The function `parsons_encode` turns the variable `proof_steps` into a JSON object with hashed keys, as expected by the `parsons` block.
-2. The [Parson's block](../../Authoring/Parsons.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
+2. The [Parson's block](Question_block.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
 
 ## Question note
 

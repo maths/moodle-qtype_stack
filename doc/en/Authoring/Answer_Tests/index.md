@@ -72,8 +72,8 @@ Documentation is grouped as follows.
   * SRegExp
 8. [Other](Other.md) specific subject tests, e.g. sets, logical expressions.
   * Sets
-  * [Equiv](../../CAS/Equivalence_reasoning.md)
-  * [EquivFirst](../../CAS/Equivalence_reasoning.md)
+  * [Equiv](../../Specialist_tools/Equivalence_reasoning/index.md)
+  * [EquivFirst](../../Specialist_tools/Equivalence_reasoning/index.md)
   * [PropLogic](../../Topics/Propositional_Logic.md)
 
 ## Pre-processing students' answers ##

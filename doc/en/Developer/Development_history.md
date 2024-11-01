@@ -369,7 +369,7 @@ Other changes.
 
 Released July 2017.
 
-This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../CAS/Equivalence_reasoning.md).
+This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../Specialist_tools/Equivalence_reasoning/index.md).
 
 Other new features and enhancements in this release.
 

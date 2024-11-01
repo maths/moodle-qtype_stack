@@ -47,7 +47,7 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 6. Confirm support for PHP 8.2, (fixes issue #986).
 7. Add in a [GeoGebra block](../Specialist_tools/GeoGebra/index.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
 8. Add in an option `margin` to control margins around STACK-generated plots.
-9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
+9. Add in better support for proof as [Parson's problems](../Specialist_tools/Drag_and_drop/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
 
 There are also numerous minor improvements and bug fixes.
 
@@ -103,7 +103,7 @@ Released January 2023.
 
 This is mainly a bug fix version.
 
-1. Add in functionality to display Maxima expressions as [trees](../Authoring/Trees.md) with CSS using  `disptree`.
+1. Add in functionality to display Maxima expressions as [trees](../Authoring/Expression_tree_display.md) with CSS using  `disptree`.
 2. Load the `diag` package for better linear algebra support.
 3. Better layout on the question testing page.
 4. Question variables and feedback variables are now in monospace.
@@ -299,7 +299,7 @@ Note: newer versions of Maxima require that a variable has been initialised as a
 
 Note: the behaviour of the Maxima `addrow` function has changed.  Use the bulk test script to identify questions which are affected. Note, once you save a question you will update the version number, and this will prevent questions using `addrow` from being identified.
 
-* Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
+* Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Specialist_tools/JSXGraph/index.md)
 * Add in a version number to STACK questions.
 * Update reasoning by equivalence.  This includes the following.
   1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \text{ and } b=s \text{ and } c=t\). See `poly_equate_coeffs` in assessment.mac

@@ -1,6 +1,6 @@
 # CAS libraries for representing text-based proofs
 
-STACK provides libraries to represent and manage lines of a text-based proof in a tree structure.  This page is reference documentation for these CAS libraries.  For examples of how to use these see the topics page on using [Parson's problems](../../Specialist_tools/Parsons.md).
+STACK provides libraries to represent and manage lines of a text-based proof in a tree structure.  This page is reference documentation for these CAS libraries.  For examples of how to use these see the topics page on using [Parson's problems](../../Specialist_tools/Drag_and_drop/index.md).
 
 To use these functions you have to [load an optional library](../../Authoring/Inclusions.md) into each question.
 

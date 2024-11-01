@@ -10,7 +10,7 @@ This list is in approximate order of the size of the equivalence classes from mo
 
 | Test                                              | Description (see below for more details)
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| CasEqual                                          | Are the [parse trees](../Trees.md) of the two expressions equal?
+| CasEqual                                          | Are the [parse trees](../Expression_tree_display.md) of the two expressions equal?
 | [EqualComAss](Rule_based.md)                      | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?
 | [EqualComAssRules](Rule_based.md)                 | Are they equal up to commutativity, associativity and with optional rules such as \(0\times x \rightarrow 0\)?
 | AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?

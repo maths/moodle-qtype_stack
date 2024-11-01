@@ -186,7 +186,7 @@ Currently, students can enter expressions with "implied ntuples" E.g
 
 Matrices have options to control the display of the braces.  Matrices are displayed without commas.
 
-If you are interacting with javascript do not use `sequenceify`.  If you are interacting with javascript, such ss [JSXGraph](../Authoring/JSXGraph.md), then you may want to output a list of _values_ without all the LaTeX and without Maxima's normal bracket symbols. You can use
+If you are interacting with javascript do not use `sequenceify`.  If you are interacting with javascript, such ss [JSXGraph](../Specialist_tools/JSXGraph/index.md), then you may want to output a list of _values_ without all the LaTeX and without Maxima's normal bracket symbols. You can use
 
     stack_disp_comma_separate([a,b,sin(pi)]);
 

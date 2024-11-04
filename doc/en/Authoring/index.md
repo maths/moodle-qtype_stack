@@ -19,15 +19,10 @@ A  "question" is the basic object in the system. The following table shows the f
 
 The authoring documentation also covers topics on:
 
+* [Input types](Inputs/index.md)
+* [Answer tests](Answer_Tests/index.md).
 * [Question blocks](Question_blocks/index.md),
 * Information on [the types of feedback in STACK](Feedback.md),
-* Using [Answer tests](Answer_Tests/index.md).
-
-#### [Input types](Inputs/index.md)
-
-* [Numerical input](Inputs/Numerical_input.md),
-* [Units in input](../Topics/Units.md#Input_type),
-* [Multiple choice questions](Inputs/Multiple_choice_input.md),
 
 #### Other
 

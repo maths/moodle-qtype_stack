@@ -19,6 +19,8 @@ This directory contains sub-directories with large libraries of questions:
 * `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/content/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 * `General-maths-questions` contains questions in a variety of other topics.
+* `Doc-Examples` contains questions linked to documentation pages.  These are not intended as exemplar questions!  (They may be incomplete, and illustrate a starting point for an exercise for question authors to complete.)
+* `Topics` contains questions linked to the [mathematical topics](../Topics/index.md) using a matching naming/directory structure.
 
 We would encourage colleagues to release their materials under a creative commons licence.  Please contact the developers.
 
@@ -32,62 +34,9 @@ We have also release a course containing all the HELM materials, which are compr
 
 You can "restore" these into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed variants.  It also has a large question bank, with questions not arranged into quizzes.
 
-# Materials released with STACK #
-
-The file `sample_questions.xml` contains the following questions.
-
-### `test_1_basic_integral` ###
-
-This is a simple, single part integral question with randomization.
-
-### `test_2_rectangle` ###
-
-A rectangle has length 6cm greater than its width. If it has an area of 27cm\(^2\), find the dimensions of the rectangle.
-
-This is a multi-part question which illustrates _follow-through marking_.  Get the first part wrong, but the second part correct based on the first part to see the feedback.
-
-### `test_3_matrix` ###
-
-This question creates two random matrices and asks students to multiply them together.  See the notes on [matrices](../CAS/Matrix.md).
-
-### `test_4_complex` ###
-
-Given a complex number \(z=ae^{ib}\) determine \(|z^{n}|\) and \(\arg(z^{n})\).  Where \(a\), \(b\) and \(n\) are randomly generated numbers.
-
-See the [authoring quick start 7](../AbInitio/Authoring_quick_start_7.md).
-
-### `test_5_cubic-spline` ###
-
-In this question a student is asked to find a cubic spline.  This question illustrates the following.
-
-* Separate properties are established, i.e. the answer is a cubic, has the right end point values and correct derivatives at the end points.
-* Plots are incorporated, including a plot of a student's incorrect answer.
-
-### `text_6_odd_even` ###
-
-In this question a student is asked to give examples of odd and even functions.
-
-* There are four separate parts.  Separate properties are established by each.
-* For two of the parts there are non-unique correct answers.
-* Feedback based on calculations of students' answers is included.
-
-### `text_7_solve_quadratic` ###
-
-In this question a student is asked to solve a quadratic by working line by line.
-
-## `ODE_2nd_order_linear.xml` ##
-
-This file contains three example questions on 2nd order linear ODEs with constant coefficients.  They illustrate the need to establish multiple independent properties, even in cases where the teacher might be tempted to _look_ at the specific answer.
-
-## `MCQ-sample-questions.xml` ##
-
-This file contains two example multiple choice questions. (Not the place to start when authoring in STACK: see the authoring guide for more details.)
-
-
-## Open Educational Resources ##
+# Open Educational Resources #
 
 * The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These are now part of the [demonstration course](https://stack2.maths.ed.ac.uk/demo2018/).
-
-Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/)
+* Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/)
 
 

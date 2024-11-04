@@ -109,7 +109,7 @@ The final JSON key allowed inside the `parsons` block is `"options"` whose value
 
 To track which random variants of a question a student sees, and make sure they return to the same variant, we need to perform all randomisation at the Maxima level.
 
-To create a random order, you must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../../Specialist_tools/Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
+To create a random order, you must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../../Topics/Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
 
 1. Define a variable `proof_steps` as normal.
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
@@ -120,7 +120,7 @@ To create a random order, you must define steps as Maxima objects using a `proof
 All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
 
 1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
-2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../../Specialist_tools/Proof/Proof_CAS_library.md).
+2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../../Topics/Proof/Proof_CAS_library.md).
 
 ### Block parameters: `height` and `width`
 

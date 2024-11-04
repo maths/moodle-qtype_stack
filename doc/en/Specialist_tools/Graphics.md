@@ -5,7 +5,7 @@ Plots and graphics can be placed into any of the [CASText](../Authoring/CASText.
 There are a number of ways to embed plots, images, diagrams etc into STACK.
 
 1. Embed an external image, using the HTML `<img>` tag.
-2. Maxima plots can be used in STACK questions using the [`plot` command](../CAS/Maxima_plot.md) which provides access to some of the functionality of `plot2d`.
+2. [Maxima plots](../CAS/Maxima_plot.md) can be used in STACK questions using the `plot` command which provides access to some of the functionality of `plot2d`.
 3. Create an image with [JSXGraph](../Specialist_tools/JSXGraph/index.md).
 4. For graph theory [discrete graphs](../Topics/Discrete_mathematics.md) can be created directly using STACK's [`plot` command](Plots.md) command by building a combination of discrete and line plots.
 

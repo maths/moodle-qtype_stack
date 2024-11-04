@@ -1027,14 +1027,48 @@
         "file":"Vector_Calculus.md",
         "title":"Vector Calculus - STACK Documentation",
         "description":"This page provides advice for writing STACK questions in vector calculus."
-        }
+        },
+        {
+       "Proof":[
+            {
+            "file":"index.md",
+            "title":"Proof - STACK Documentation",
+            "description":"General discussion of assessment of proof with STACK."
+            },
+            {
+            "file":"Proof_assessment.md",
+            "title":"CAS libraries for assessing Parsons problems and proofs",
+            "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
+            },
+            {
+            "file":"Proof_CAS_library.md",
+            "title":"CAS libraries for representing text-based proofs",
+            "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
+            },
+            {
+            "file":"Proof_samples.md",
+            "title":"Sample mathematical proofs",
+            "description":"A catalogue of common proofs, and how to use them."
+            },
+            {
+            "file":"Proof_Parsons_workflow.md",
+            "title":"Workflow for authoring Parsons Problems",
+            "description":"A suggested workflow for authoring Parsons Problems, adding slashes to strings within Maxima variables."
+            },
+            {
+            "file":"Proof_styles.md",
+            "title":"CSS Styles for displaying proof",
+            "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
+            }
+          ]
+      }
       ]
       },
       {
       "Specialist_tools":[
         {
         "file":"index.md",
-        "title":"Specialist_tools - STACK Documentation",
+        "title":"Specialist tools - STACK Documentation",
         "description":"Information on how to author questions using specialist tools. "
         },
         {
@@ -1137,41 +1171,7 @@
             "description":"Reference documentation for the JSXGraph question block."
             }
             ]
-        },
-        {
-       "Proof":[
-            {
-            "file":"index.md",
-            "title":"Proof - STACK Documentation",
-            "description":"General discussion of assessment of proof with STACK."
-            },
-            {
-            "file":"Proof_assessment.md",
-            "title":"CAS libraries for assessing Parsons problems and proofs",
-            "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
-            },
-            {
-            "file":"Proof_CAS_library.md",
-            "title":"CAS libraries for representing text-based proofs",
-            "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
-            },
-            {
-            "file":"Proof_samples.md",
-            "title":"Sample mathematical proofs",
-            "description":"A catalogue of common proofs, and how to use them."
-            },
-            {
-            "file":"Proof_Parsons_workflow.md",
-            "title":"Workflow for authoring Parsons Problems",
-            "description":"A suggested workflow for authoring Parsons Problems, adding slashes to strings within Maxima variables."
-            },
-            {
-            "file":"Proof_styles.md",
-            "title":"CSS Styles for displaying proof",
-            "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
-            }
-          ]
-      }
+        }
       ]
       }
     ]

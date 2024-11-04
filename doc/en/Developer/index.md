@@ -2,19 +2,15 @@
 
 The Developer documentations give information on STACK development, as well as instructions for developers who want to contribute to STACK.
 
-## Development history
-
-Work towards the next release of STACK is detailed on [Development track](Development_track.md).
-
-Plans looking further into the future are described on [Future plans](Future_plans.md).
-
-The past development history is documented on [Development history](Development_history.md).
+* The [development history](Development_history.md) records past development.
+* The [development track](Development_track.md) gives work planned for the next release.
+* The [future plans](Future_plans.md) looks further into the future. 
 
 ## Contributing to STACK
 
-You could read about [Installing language pack and translating STACK](Language_packs.md).
-
 There is also information on [contributing to the documentation](Documentation.md).
+
+You could read about [Installing language pack and translating STACK](Language_packs.md).
 
 ## Advanced topics
 

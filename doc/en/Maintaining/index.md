@@ -1,11 +1,11 @@
-# Maintaining questions and question banks
+# Testing, using and maintaining questions
+
+This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
 
 * [Creating question tests](Testing.md),
 * [Deploying variants](Deploying.md),
 * [Reporting](Reporting.md),
 * [Ensuring questions work in the future](Future_proof.md).
-
-
 
 This section of the documentation provides information on testing questions and maintaining question banks for the long term.  Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
 

@@ -4,9 +4,9 @@ Parson’s problems require students to assemble pre-written blocks (typically c
 
 This page provides a quick-start to authoring whole questions.  There are a number of parts to authoring a Parson's problem:
 
-1. [Defining strings](../../Specialist_tools/Proof/Proof_CAS_library.md) and creating drag and drop area using the [Parson's block](Question_block.md).
+1. [Defining strings](../../Topics/Proof/Proof_CAS_library.md) and creating drag and drop area using the [Parson's block](Question_block.md).
 2. Linking the Parson's block to a STACK input (string input).
-3. [Assessing the student's answer](../../Specialist_tools/Proof/Proof_assessment.md) and providing meaningful feedback automatically.
+3. [Assessing the student's answer](../../Topics/Proof/Proof_assessment.md) and providing meaningful feedback automatically.
 
 While drag and drop is certainly not new in automatic assessment, these problems have become popular in computer science, e.g. Parsons (2006).
 
@@ -24,7 +24,7 @@ We might expect/require two conscious and separate blocks
 The order in which these two sub-proofs are presented is (normally) irrelevant.  That is the _if and only if_ proof construct allows its two sub-proofs to commute.  This is precisely the same sense in which \(A=B\) and \(B=A\) are equivalent. There are _blocks_ within the proof which can change order. Furthermore, since proofs are often nested blocks these sub-proofs may themselves have acceptable options for correctness.
 Proofs often contain local variables.  Use of explicit block-structures clarify the local scope of variables, and the local scope of assumptions.
 
-STACK provides ["proof construction functions"](../../Specialist_tools/Proof/Proof_CAS_library.md) with arguments. For example, an if and only if proof would be represented as `proof_iff(A,B)`.  Here `A` and `B` are either sub-proofs or strings to be shown to the student.
+STACK provides ["proof construction functions"](../../Topics/Proof/Proof_CAS_library.md) with arguments. For example, an if and only if proof would be represented as `proof_iff(A,B)`.  Here `A` and `B` are either sub-proofs or strings to be shown to the student.
 
 If the student has an opportunity to indicate more structure, then the assessment logic becomes considerably simpler, more reliable and transparent. Actually, we think there is significant educational merit in making this structure explicit and consciously separating proof-structure from the finer grained details. It is true that professional mathematicians often omit indicating explicit structure, they abbreviate and omit whole blocks ("the other cases are similar") but these are all further examples of expert reversal.
 
@@ -231,7 +231,7 @@ Notice this proof has two sub-proofs, which can occur in any order.  Therefore w
 Can you see the differences between these proofs?
 ````
 
-We have much more sophisticated [general assessment tools](../../Specialist_tools/Proof/Proof_assessment.md) for establishing the edit distance between the student's and teacher's proof and providing feedback on how to correct a partially correct proof.  These are documented elsewhere.
+We have much more sophisticated [general assessment tools](../../Topics/Proof/Proof_assessment.md) for establishing the edit distance between the student's and teacher's proof and providing feedback on how to correct a partially correct proof.  These are documented elsewhere.
 
 # Legacy versions
 

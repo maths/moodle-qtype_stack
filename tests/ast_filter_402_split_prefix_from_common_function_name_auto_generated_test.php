@@ -39,32 +39,37 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect('Bgcd(3,2)',
                       'B*gcd(3,2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_*erf(x)',
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('arcsin(x)',
                       'arc*sin(x)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('bsin(t)',
                       'b*sin(t)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('partialdiff(x,y,1)',
                       'partial*diff(x,y,1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('xsin(1)',
                       'x*sin(1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('ycos(2)',
                       'y*cos(2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
     }
@@ -75,32 +80,37 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect('Bgcd(3,2)',
                       'B*gcd(3,2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_*erf(x)',
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('arcsin(x)',
                       'arc*sin(x)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('bsin(t)',
                       'b*sin(t)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('partialdiff(x,y,1)',
                       'partial*diff(x,y,1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('xsin(1)',
                       'x*sin(1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('ycos(2)',
                       'y*cos(2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
     }
@@ -656,6 +666,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
                       [],
                       true, false);
 
@@ -2412,6 +2427,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
                       [],
                       true, false);
 

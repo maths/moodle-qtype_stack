@@ -440,14 +440,14 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function definition_input($inputname, MoodleQuickForm $mform, $counts) {
 
-        $mform->addElement('header', $inputname . 'header', stack_string('inputheading', $inputname));
+        $mform->addElement('header', $inputname . 'inputheader', stack_string('inputheading', $inputname));
 
         $qtype = new qtype_stack();
         if ($counts[$qtype::INPUTS] == 0 && $counts[$qtype::VALIDATIONS] == 0) {
             $mform->addElement('static', $inputname . 'warning', '', stack_string('inputwillberemoved', $inputname));
             $mform->addElement('advcheckbox', $inputname . 'deleteconfirm', '', stack_string('inputremovedconfirm'));
             $mform->setDefault($inputname . 'deleteconfirm', 0);
-            $mform->setExpanded($inputname . 'header');
+            $mform->setExpanded($inputname . 'inputheader');
         }
 
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
@@ -549,13 +549,13 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function definition_prt($prtname, MoodleQuickForm $mform, $count, $graph, $inputnames) {
 
-        $mform->addElement('header', $prtname . 'header', stack_string('prtheading', $prtname));
+        $mform->addElement('header', $prtname . 'prtheader', stack_string('prtheading', $prtname));
 
         if ($count == 0) {
             $mform->addElement('static', $prtname . 'prtwarning', '', stack_string('prtwillberemoved', $prtname));
             $mform->addElement('advcheckbox', $prtname . 'prtdeleteconfirm', '', stack_string('prtremovedconfirm'));
             $mform->setDefault($prtname . 'prtdeleteconfirm', 0);
-            $mform->setExpanded($prtname . 'header');
+            $mform->setExpanded($prtname . 'prtheader');
         }
 
         $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), ['size' => 3]);

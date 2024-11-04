@@ -796,6 +796,23 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
+    public function test_validate_student_response_allowwords_402() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
+
+        $state = $el->validate_student_response(['sans1' => 'inverse_erf(x)+1'], $options, '2*x',
+            new stack_cas_security(false, '', '', ['ta']));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | (402) | forbiddenVariable', $state->note);
+
+        $el->set_parameter('allowWords', 'inverse_erf');
+        $state = $el->validate_student_response(['sans1' => 'inverse_erf(x)+1'], $options, '2*x',
+            new stack_cas_security(false, '', '', ['ta']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_validate_student_response_forbidwords_none() {
         // Some functions are converted to "noun" forms.
         // When we give feedback "your last answer was..." we want the correct forms, not the "nounint" alternatives.

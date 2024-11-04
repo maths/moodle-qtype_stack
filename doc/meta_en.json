@@ -561,6 +561,11 @@
         "description":"Information on displaying numbers in STACK using the CAS Maxima."
         },
         {
+        "file":"Numerical_rounding.md",
+        "title":"Rounding of floating point numbers in STACK - STACK Documentation",
+        "description":"Information on floating point numbers in STACK using the CAS Maxima."
+        },
+        {
         "file":"Permutations.md",
         "title":"Writing a permutation as a product of disjoint cycles",
         "description":"Information on authoring questions involving permutation as a product of disjoint cycles."

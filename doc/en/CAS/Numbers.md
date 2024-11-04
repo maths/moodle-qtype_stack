@@ -4,7 +4,7 @@ Separate pages document
 
 1. [numerical answer tests](../Authoring/Answer_Tests/Numerical.md),
 2. [complex numbers](Complex_numbers.md).
-
+3. [numerical rounding](Numerical_rounding.md).
 
 ## Precise Constants ##
 
@@ -48,21 +48,7 @@ The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflic
 
 If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you may want to use the [option for strict syntax](../Authoring/Inputs/index.md#Strict_Syntax).
 
-Internally Maxima represents floats in binary, and so even simple calculations which would be exact in base ten (e.g. adding 0.16 to 0.12) might end up in a recurring decimal float which is not exactly equal to the result you would type in directly.
-
-Try `452-4.52*10^2` in desktop Maxima, which is not zero, therefore `ATAlgEquiv(452,4.52*10^2)` fails. (Maxima 5.44.0, November 2022).  \(4.52\times 10^2\) ends up with recurring 9s when represented as a binary float, so it is not algebraically equivalent to the integer \(452\).
-
-Rounding like this can also occur in calculations, for example
-
-    p1:0.29;
-    p2:0.18;
-    p3:0.35;
-    v0:1-(p1+p2+p3);
-    v1:0.18;
-
-Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783\times 10^{-17}\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
-
-As another example, try `100.4-80.0;` in a desktop Maxima session.
+Please read the separate documentation on [numerical rounding](Numerical_rounding.md).
 
 ## Maxima and floats with trailing zeros ##
 
@@ -134,19 +120,6 @@ The global variables `stackfltfmt` and `stackfltsep` should have independent eff
 If you use the option for a comma then items in sets, lists and as arguments to functions will no longer be separated by a comma.  To avoid conflicting notation, items will be separated by a semicolon (`;`).
 
 If you separate decimal groups of digits with commas, e.g. if `stackfltfmt:"~:d"`, then these commas are replaced by spaces to avoid ambiguity.  The replacement of commas occurs in integers as well as floats to make sure commas in integers cause no confusion.
-
-
-## Notes about numerical rounding ##
-
-There are two ways to round numbers ending in a digit \(5\).
-
-* Always round up, so that \(0.5\rightarrow 1\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 3\) etc.
-* Another common system is to use ``Bankers' Rounding". Bankers Rounding is an algorithm for rounding quantities to integers, in which numbers which are equidistant from the two nearest integers are rounded to the nearest even integer. \(0.5\rightarrow 0\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 2\) etc.  The supposed advantage to bankers rounding is that in the limit it is unbiased, and so produces better results with some statistical processes that involve rounding.
-* In experimental work, the number of significant figures requires sometimes depends on the first digits of the number.  For example, if the first digit is a \(1\) or \(2\) then we need to take an extra significant figure to ensure the relative error is suitably small.  The maxima string functions can be used to check the first digit of a number until we have bespoke internal functions to make this check.
-
-Maxima's `round(ex)` command rounds multiples of 1/2 to the nearest even integer, i.e. Maxima implements Bankers' Rounding.  We do not currently have an option to always round up.
-
-STACK has defined the function `significantfigures(x,n)` to conform to convention of rounding up.
 
 ## STACK numerical functions and predicates ##
 

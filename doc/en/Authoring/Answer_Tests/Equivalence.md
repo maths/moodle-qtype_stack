@@ -55,7 +55,7 @@ There are also some cases which Maxima can't establish as being equivalent.  For
 
 This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot establish these are equivalent.  There are some other examples in the test suite which fail for mathematical reasons.  In cases like this, where you know you have a number, you may need to supplement the AlgEquiv test with another numerical test.
 
-We recommend you do _not_ use algebraic equivalence testing for floating point numbers.  Instead use one of the [numerical tests](Numerical.md).  Examples of why algebraic equivalence fails when you might expect it to pass, e.g. `ATAlgEquiv(452,4.52*10^2)` (Maxima 5.44.0, November 2022), are given in the documentation on [numbers](../../CAS/Numbers.md).
+We recommend you do _not_ use algebraic equivalence testing for floating point numbers.  Instead use one of the [numerical tests](Numerical.md).  Examples of why algebraic equivalence fails when you might expect it to pass, e.g. `ATAlgEquiv(452,4.52*10^2)` (Maxima 5.44.0, November 2022), are given in the documentation on [numerical rounding](../../CAS/Numbers.md).
 
 ### EqualComAss ###
 

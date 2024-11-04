@@ -34,11 +34,14 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/blocks/iframe.block.php');
 require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../lang/multilang.php');
+
+use stack_cas_castext2_iframe;
 
 // Unit tests for {@link stack_cas_castext2_parsons}.
 
@@ -52,6 +55,9 @@ class parsons_block_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_basic_parsons_block() {
+        // This needs reset as the class variable must be being upped in a different
+        // test and the value is bleeding through.
+        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
         $raw = '[[parsons]]{' .
             '"1":"Assume that \\(n\\) is odd.",' .
             '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .

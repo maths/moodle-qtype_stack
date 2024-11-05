@@ -57,7 +57,8 @@ jobs:
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'mariadb'
             maxima: 'GCL'
-            moodle-app: true
+          # App CI currently broken for PHP 7.4 - Issue MOBILE-4694.
+            moodle-app: null
           - php: '7.4'
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'

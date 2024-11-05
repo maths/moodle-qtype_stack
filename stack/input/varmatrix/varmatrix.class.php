@@ -88,6 +88,10 @@ class stack_varmatrix_input extends stack_input {
 
         // Sort out size of text area.
         $sizecontent = $current;
+        if ($this->options && $this->options->get_option('decimals') == ',') {
+            // The utility list_to_array expects commas to have meaning at this point.
+            $sizecontent = str_replace(',', '.', $sizecontent);
+        }
         if ($this->is_blank_response($state->contents) && $this->parameters['syntaxAttribute'] == '1') {
             $sizecontent = $attributes['placeholder'];
         }

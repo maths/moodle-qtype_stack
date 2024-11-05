@@ -29,6 +29,17 @@ var result = {
         const dropdowns = questiontext.querySelectorAll('select');
         const dashLink = questiontext.querySelector('.questiontestslink');
         const validationerror = questiontext.querySelector('.validationerror');
+        const inputs = questiontext.querySelectorAll('input[type="text"]');
+        inputs.forEach(function(input) {
+            let width = input.style.width;
+            if (width.endsWith('em')) {
+                width = width.replace('em', '');
+                width = width * 1.1;
+                width = width + 'em';
+                input.style.width = width;
+            }
+        });
+
         if (validationerror) {
             // Hide validation error as App will display.
             validationerror.setAttribute('hidden', true);

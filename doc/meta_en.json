@@ -1107,6 +1107,11 @@
             "file":"Question_block.md",
             "title":"Parsons question block- STACK Documentation",
             "description":"Reference documentation for the Parsons question block."
+            },
+            {
+            "file":"Troubleshooting.md",
+            "title":"Parsons question block- STACK Documentation",
+            "description":"Documentation with advice on troubleshooting/fixing Parsons question block questions."
             }
             ]
         },

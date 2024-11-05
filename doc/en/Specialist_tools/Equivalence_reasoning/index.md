@@ -1,8 +1,6 @@
 # Getting started with equivalence reasoning
 
-__NOTE: Reasoning by equivalence is still under active development. Features and behaviour may change in future versions, subject to trials with students and feedback from colleagues.__
-
-We currently provide support for 
+The reasoning by equivalence capacity is, by design, relatively simple.  We currently provide support for 
 
 - basic single variable polynomials,
 - very simple inequalities,

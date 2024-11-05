@@ -34,7 +34,7 @@ var result = {
             let width = input.style.width;
             if (width.endsWith('em')) {
                 width = width.replace('em', '');
-                width = width * 1.1;
+                width = width * 1.3;
                 width = width + 'em';
                 input.style.width = width;
             }

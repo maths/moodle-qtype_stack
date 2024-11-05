@@ -64,7 +64,7 @@ ta1:2;</text>
       <text></text>
     </questionnote>
     <questiondescription format="html">
-      <text>This is a graph theory question which illustrates JSX graphs. More information on JSX graphs is given in multiple locations in the docs, this particular example is based on the `discree mathematics and graph theory` topic. This can be found on your server at `[YOUR SERVER ADDRESS]/question/type/stack/doc/doc.php/Topics/Discrete_mathematics.md` .</text>
+      <text></text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

@@ -53,6 +53,7 @@ $string['stackversionerror']      = 'This question uses {$a->pat} in the {$a->qf
 $string['stackversionerroralt']   = 'An alternative is {$a}.';
 $string['stackversionmulerror']   = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
 $string['stackversionregexp']     = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
+$string['stackfilesizeerror']      = 'One or more files (e.g. images) is more than 1MB in size.';
 $string['stackfileuseerror']      = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
 $string['stackversioncomment']    = 'This question appears to use /*...*/ style comments in the {$a->qfield}, which are no longer supported.';
 
@@ -85,6 +86,7 @@ $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">bulk test script</a> lets you easily run all the STACK question tests in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
+$string['todo_desc'] = 'The <a href="{$a->link}">"to do"</a> page finds questions with <tt>[[todo]]</tt> blocks.';
 $string['dependenciesintro_desc'] = 'The <a href="{$a->link}">dependencies</a>, checker finds questions with dependencies such as JSXGraph or inclusion of external maxima code.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
@@ -191,6 +193,7 @@ $string['inputtypeequiv'] = 'Equivalence reasoning';
 $string['inputtypestring'] = 'String';
 $string['inputtypenumerical'] = 'Numerical';
 $string['inputtypegeogebra'] = 'GeoGebra';
+$string['inputtypeparsons'] = 'Parsons';
 $string['numericalinputmustnumber'] = 'This input expects a number.';
 $string['numericalinputvarsforbidden'] = 'This input expects a number, and so may not contain variables.';
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';
@@ -220,6 +223,8 @@ $string['insertstarsassumesinglechar'] = 'Insert stars assuming single-character
 $string['insertspaces'] = 'Insert stars for spaces only';
 $string['insertstarsspaces'] = 'Insert stars for implied multiplication and for spaces';
 $string['insertstarsspacessinglechar'] = 'Insert stars assuming single-character variables, implied and for spaces';
+$string['insertspacesfunctions'] = 'Insert stars for implied multiplication, spaces, and no user-functions';
+$string['insertspacesfunctionssingle'] = 'Insert stars for implied multiplication, spaces, no user-functions and assuming single-character var';
 $string['decimals'] = 'Decimal separator';
 $string['decimals_help'] = 'Choose the symbol, and options, for the decimal separator.';
 $string['decimals_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#decimals';
@@ -398,6 +403,7 @@ $string['verifyquestionandupdate'] = 'Verify the question text and update the fo
 $string['youmustconfirm'] = 'You must confirm here.';
 
 // Strings used by input elements.
+$string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';
 $string['booleangotunrecognisedvalue'] = 'Invalid input.';
 $string['dropdowngotunrecognisedvalue'] = 'Invalid input.';
 $string['pleaseananswerallparts'] = 'Please answer all parts of the question.';
@@ -600,6 +606,9 @@ $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
+$string['seetodolist'] = '<i class="fa fa-exclamation-triangle"></i> Find <tt>[[todo]]</tt> blocks';
+$string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags.';
+$string['seetodolist_help'] = 'Clicking on the question name takes you to the dashboard.  You can also preview the question.';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
 $string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';
@@ -608,6 +617,10 @@ $string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardle
 $string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used';
 $string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant';
 $string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used';
+$string['rawdata'] = 'Raw data';
+$string['selectquiz'] = 'Select quiz to analyze results';
+$string['splitsummary'] = 'Split summary';
+$string['variants'] = 'Variants';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
@@ -618,6 +631,7 @@ $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';
 $string['savechat'] = 'Save back to question';
 $string['savechatmsg'] = 'Question variables and general feedback saved back to the question.';
+$string['pslash'] = 'Protect slashes within Maxima string variables: ';
 $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
 $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
@@ -695,20 +709,19 @@ $string['healthcheckparsons'] = 'Parson\'s drag-and-drop proof block';
 $string['healthcheckparsonsintro'] = 'There should be a drag-and-drop Parson\'s proof block below linked to an input block. The input box should be empty to begin with and will populate with a JSON corresponding to the state of the Parson\'s drag-and-drop lists as one starts to move the items.';
 $string['healthcheckparsonssample'] = '<div class="formulation">
 [[parsons input="fakeparsonsinput"]]
-{
-    "assume":    "Assume, for a contradiction, that there are only a finite number of prime numbers.",
-    "false_hyp": "List all the prime numbers \\\\( p_1, p_2, \\\\dots, p_n\\\\).",
-    "obs1":      "Every natural number is either a member of this list, or is divisible by a number on this list.",
-    "gadget":    "Consider \\\\(N=p_1\\\\times p_2 \\\\times \\\\cdots \\\\times p_n +1.\\\\)",
-    "notmem1":   "For all \\\\(k=1,\\\\dots, n\\\\) the number \\\\(N > p_k\\\\)",
-    "notmem2":   "Hence \\\\(N\\\\neq p_k\\\\).",
-    "notmem3":   "Therefore \\\\(N\\\\) is not a member of the list.",
-    "div1":      "For all \\\\(k=1,\\\\dots, n\\\\) when we divide \\\\(N\\\\) by \\\\(p_k\\\\) we get remainder \\\\(1\\\\).",
-    "div2":      "Hence \\\\(N\\\\) is not divisible by any \\\\(p_k\\\\).",
-    "contra1":   "\\\\(N\\\\) is not a member of the list and is not divisible by a number on this list.",
-    "contra2":   "This contradicts the fact that every number is either a member of this list, or is divisible by a number on this list.",
-    "conc":      "Therefore the list of prime numbers is not finite."
-};
+{# stackjson_stringify([[base64("assume"), "Assume, for a contradiction, that there are only a finite number of prime numbers."],
+ [base64("false_hyp"), "List all the prime numbers \\\\( p_1, p_2, \\\\dots, p_n\\\\)."],
+ [base64("obs1"), "Every natural number is either a member of this list, or is divisible by a number on this list."],
+ [base64("gadget"), "Consider \\\\(N=p_1\\\\times p_2 \\\\times \\\\cdots \\\\times p_n +1.\\\\)"],
+ [base64("notmem1"), "For all \\\\(k=1,\\\\dots, n\\\\) the number \\\\(N > p_k\\\\)"],
+ [base64("notmem2"), "Hence \\\\(N\\\\neq p_k\\\\)."],
+ [base64("notmem3"), "Therefore \\\\(N\\\\) is not a member of the list."],
+ [base64("div1"), "For all \\\\(k=1,\\\\dots, n\\\\) when we divide \\\\(N\\\\) by \\\\(p_k\\\\) we get remainder \\\\(1\\\\)."],
+ [base64("div2"), "Hence \\\\(N\\\\) is not divisible by any \\\\(p_k\\\\)."],
+ [base64("contra1"), "\\\\(N\\\\) is not a member of the list and is not divisible by a number on this list."],
+ [base64("contra2"), "This contradicts the fact that every number is either a member of this list, or is divisible by a number on this list."],
+ [base64("conc"), "Therefore the list of prime numbers is not finite."]
+]) #}
 [[/parsons]]
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
 $string['healthcheckgeogebra'] = 'GeoGebra block';
@@ -955,7 +968,7 @@ $string['stackBlock_parsons_unknown_named_version'] = 'The Parson\'s block only 
 $string['stackBlock_parsons_unknown_mathjax_version'] = 'The Parson\'s block only supports MathJax versions {$a->mjversion} for the mathjax parameter.';
 $string['stackBlock_parsons_ref']         = 'The Parson\'s block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_parsons_param']       = 'The Parson\'s block supports only these parameters in this context: \'{$a->param}\'.';
-$string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a either a JSON of the form {#stackjson_stringify(steps)#}, where \'steps\' is the two-dimensional Maxima array containing key, value pairs of items, or of the form {\'steps\' : {#stackjson_stringify(steps)#}, \'options\' : {JSON containing Sortable options}, \'header\' : [List of headers], \'available_header\' : \'string containing header for the available list\', \'index\' : [List containing the index]}, where the \'options\', \'header\', \'available_header\', and \'index\' keys are optional. Alternatively, the contents of the Parsons block may contain raw JSON equivalents. Make sure that the \'steps\' Maxima variable is of the correct format. Note that all steps must be strings. See https://docs.stack-assessment.org/en/Authoring/Parsons/ for details.';
+$string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a either a JSON of the form {#stackjson_stringify(steps)#}, where \'steps\' is the two-dimensional Maxima array containing key, value pairs of items, or of the form {\'steps\' : {#stackjson_stringify(steps)#}, \'options\' : {JSON containing Sortable options}, \'header\' : [List of headers], \'available_header\' : \'string containing header for the available list\', \'index\' : [List containing the index]}, where the \'options\', \'header\', \'available_header\', and \'index\' keys are optional. Alternatively, the contents of the Parsons block may contain raw JSON equivalents. If using raw JSON inside the Parsons bock, numeric keys are not supported due to issues with re-ordering; please use descriptive tags. Note that all steps must be strings. See https://docs.stack-assessment.org/en/Authoring/Parsons/ for details.';
 $string['stackBlock_incorrect_header_length'] = 'The list of headers should have the same length as the number of columns passed to the block header.';
 $string['stackBlock_incorrect_available_header_type'] = 'The header for the available list should be passed as a string or a list of length one.';
 $string['stackBlock_incorrect_index_length'] = 'The length of the index should be one more than the number of rows passed to the block header. An item in the top-left corner should always go in the index';
@@ -1529,8 +1542,21 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
-
-
+// Strings used by question library.
+$string['stack_library'] = 'STACK question library';
+$string['stack_library_destination'] = 'Questions will be imported into the following category:';
+$string['stack_library_error'] = 'Something went wrong. Please refresh the page and try again.';
+$string['stack_library_help'] = 'Rather than creating your own question, follow this link to go to the STACK question library. The STACK question library contains many pre-made STACK questions ready for you to import into Moodle. You can then use them as they are or edit them to fit your needs.';
+$string['stack_library_instructions_one'] = 'Select a question from the list below to view it here.';
+$string['stack_library_instructions_two'] = 'Click \'Import\' to import the question into the current question category.';
+$string['stack_library_instructions_three'] = 'Use the dropdown list to change category.';
+$string['stack_library_import'] = 'Import';
+$string['stack_library_importlist'] = 'Imported questions:';
+$string['stack_library_selected'] = 'Displayed question:';
+$string['stack_library_success'] = 'Successful import of:';
+$string['stack_library_not_stack'] = 'This is not a STACK question and so cannot be fully rendered here but you can still import it.';
+$string['stack_library_quiz_return'] = 'Return to quiz';
+$string['stack_library_qb_return'] = 'Return to question bank';
 // API strings.
 $string['api_choose_file'] = 'Please select a question file';
 $string['api_choose_folder'] = 'Choose a STACK folder';

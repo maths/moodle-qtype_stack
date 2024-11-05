@@ -166,14 +166,14 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // It is now ready to be created.
         $astc = new static;
-        $astc->ast = $ast;
         $astc->source = 's';
         $astc->context = $context;
         $astc->securitymodel = $securitymodel;
-        $astc->errors = $errors;
-        $astc->answernotes = $answernotes;
         $astc->valid = null;
         $astc->feedback = [];
+        $astc->ast = $ast;
+        $astc->errors = $errors;
+        $astc->answernotes = $answernotes;
         // Always add nouns to student input.
         $astc->nounify = 1;
 
@@ -356,7 +356,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     /*
      * Top-level function for turning AST into a string representation.
      */
-    public function ast_to_string($root = null, $parameters = []) : string {
+    public function ast_to_string($root = null, $parameters = []): string {
 
         if ($root === null) {
             $root = $this->ast;

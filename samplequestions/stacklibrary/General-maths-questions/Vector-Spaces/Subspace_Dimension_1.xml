@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Subspace_Dimension_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Determine the dimension of the subspace spanned by the set \[ \left\{ {@l1@},\ {@l2@},\ {@l3@} \right \}.\] <br /> dimension = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>If we place the vectors in the spanning set \( \left\{ {@l1@},\ {@l2@},\ {@l3@} \right \}\) in the rows of a matrix, i.e., <br /> \[ {@r5@}, \] <br /> then the dimension of the subspace is the same as the dimension of the row space of this matrix, which is the rank of this matrix.</p>
+<p>The rank of a matrix is the number of non-zero rows in the Echelon form of the matrix. A possible Echelon form of this matrix is \[ {@ech@} \] Hence, the rank of this matrix and the dimension of the subspace is {@correctanswer@}</p>
+<p> </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>r1:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
+ r2:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
+ r3:rand(3);
+ r1[1,1]:if r3=1 then 0 else r1[1,1];
+ r1[1,1]:if r3=2 then 0 else r1[1,1];
+ r1[1,2]:if r3=2 then 0 else r1[1,2];
+ r1[2,2]:if r3=2 then 0 else r1[2,2];
+ r4:ev(invert(r2).transpose(r1).r2);
+ r5:transpose(r4);
+ l1:row(r5,1);
+ l2:row(r5,2);
+ l3:row(r5,3);
+ correctanswer:rank(r5);
+ ech:echelon(r5);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Dimension of \( \left\{ {@l1@},\ {@l2@},\ {@l3@} \right \}\) is \({@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>rank</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>860787050</deployedseed>
+    <deployedseed>600871230</deployedseed>
+    <deployedseed>111448011</deployedseed>
+    <deployedseed>1191590699</deployedseed>
+    <deployedseed>1862266291</deployedseed>
+    <deployedseed>61925731</deployedseed>
+    <deployedseed>1083273846</deployedseed>
+    <deployedseed>1801011737</deployedseed>
+    <deployedseed>1016518899</deployedseed>
+    <deployedseed>222407666</deployedseed>
+    <deployedseed>221002492</deployedseed>
+    <deployedseed>61974036</deployedseed>
+    <deployedseed>1379190283</deployedseed>
+    <deployedseed>647243481</deployedseed>
+    <deployedseed>757990323</deployedseed>
+    <deployedseed>812366451</deployedseed>
+    <deployedseed>328250285</deployedseed>
+    <deployedseed>1554834721</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer-1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

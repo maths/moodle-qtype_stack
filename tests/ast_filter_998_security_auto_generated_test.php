@@ -87,6 +87,16 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
                       ['unknownFunctionCase'],
                       false, true);
 
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['forbiddenFunction'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
+                      ['forbiddenFunction'],
+                      false, true);
+
         $this->expect('a,b,c',
                       'a,b=true,c=true',
                       ['unencapsulated_comma'],
@@ -361,6 +371,16 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
         $this->expect('Sin(x)',
                       'Sin(x)',
                       ['unknownFunctionCase'],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['forbiddenFunction'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
+                      ['forbiddenFunction'],
                       false, true);
 
         $this->expect('a ** b',

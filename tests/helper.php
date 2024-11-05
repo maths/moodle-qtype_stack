@@ -74,6 +74,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'feedback',           // Test teacher-defined input feedback and complex numbers.
             'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
             'exdowncase',         // Test the ordergreat function with exdowncase.
+            'bailout',            // Test the ability to bail out of a PRT using %stack_prt_stop_p.
             // Test questions for all the various input types.
             'algebraic_input',
             'algebraic_input_right',
@@ -251,7 +252,8 @@ class qtype_stack_test_helper extends question_test_helper {
                  "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
                  "truenextnode":"-1","trueanswernote":"PotResTree_1-0-1",
                  "truescore":1,"truescoremode":"=",
-                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1"
+                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1",
+                 "description": ""
                 }
               ]}');
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
@@ -4051,7 +4053,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ansq'] = stack_input_factory::make(
             'algebraic', 'ansq', 'ta', null,
             [
-                'boxWidth' => 20, 'forbidWords' => ''
+                'boxWidth' => 20, 'forbidWords' => '',
             ]);
 
         // By setting simp:true (the default) we check the re-ordering really happens.
@@ -4115,7 +4117,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ansq'] = stack_input_factory::make(
             'algebraic', 'ansq', 'veq', null,
             [
-                'boxWidth' => 20, 'forbidWords' => ''
+                'boxWidth' => 20, 'forbidWords' => '',
             ]);
 
         // By setting simp:true (the default) we check the re-ordering really happens.
@@ -4178,6 +4180,71 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'firsttree-1-1';
         $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_bailout() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'bailout';
+        $q->questionvariables = "veq:{1,2,3};";
+        $q->questiontext = "What is the largest from {@veq@}? [[input:ans1]][[validation:ans1]]";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', '3', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => ''
+            ]);
+        
+        // By setting simp:true (the default) we check the re-ordering really happens.
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '%stack_prt_stop_p:if is(ans1=5) then true else false;';
+        $prt->feedbackvariables .= 'k:ans1^2;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = 'Use the test ability to bail out';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '3';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
@@ -7892,7 +7959,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->questiontext = [
             'text' => "<table> <tbody><tr> <td>Element1 location: [[input:ans1]] [[validation:ans1]]<br>
                 Element 2 location: [[input:ans2]] [[validation:ans2]]<br> Element1 id: [[input:element1]]<br>
-                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td>
+                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td></tr><tr>
                 <td> [[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref'
                 input-ref-element1='element1Ref' input-ref-element2='element2Ref']]
                 var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});

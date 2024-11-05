@@ -349,6 +349,26 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('a+b\cdot j', $r->get_display());
     }
 
+    public function test_multiplication_option_complexno_vector_order() {
+
+        $cs = ['ordergreat(i,j,k)', 'texput(i,"\\\\vec{i}")', 'texput(j,"\\\\vec{j}")', 'texput(k,"\\\\vec{k}")',
+            'p:j*4+3*i+5*k', 'q:j*b+a*i+c*k'];
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $options->set_option('complexno', 'symi');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $p = $at1->get_by_key('p');
+        $this->assertEquals('3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}', $p->get_display());
+        $q = $at1->get_by_key('q');
+        $this->assertEquals('a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}', $q->get_display());
+    }
+
     public function test_multiplication_option_complexno_symj() {
 
         $cs = ['p:a+b*%i', 'q:a+b*i', 'r:a+b*j'];

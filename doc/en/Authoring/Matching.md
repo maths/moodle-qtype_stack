@@ -7,15 +7,25 @@ The combinations of these two parameters define three possible layout configurat
 2. **Column grouping** (`[[parsons columns="n"]] [[/parsons]]`) : If `columns="n"` is specified and `rows` is unspecified, this will lay out `n` _vertically arranged_ answer lists that items must be dragged to and an additional vertical available list that items must be dragged from. In this case, the lists can be arbitrary length and must be grown from the top downwards just as in the **Proof** layout. Via the reorientation button, the student is able to switch orientation between this and a row grouping setting (where answer lists are arranged as rows that are arbitrary length and grow from the left rightwards).
 4. **Grid** (`[[parsons columns="n" rows="m"]] [[/parsons]]`) : If both `columns="n"` and `rows="m"` are specified, then this will lay out an `m` by `n` answer grid that items must be dragged to and a vertical available list that items must be dragged from. In this case, individual items can be passed to any position in the grid. The user also has the option to re-orient the grid to have `m` columns and `n` rows via the reorientation button.
 
-The basic usage of all four modes are the exact same as [the Proof case](Parsons.md#authoring-json-within-the-question-text-itself), one can just modify the block parameters as specified. For example
+The basic usage of all four modes are the exact same as [the Proof case](Parsons.md#Basic-usage), one can just modify the block parameters as specified. For example:
+
+#### Question variables
+
+```
+stack_include_contrib("matchlib.mac");
+
+steps: [
+    ["f", "\\(y = x^2\\)"],
+    ["g", "\\(y = x^3\\)"],
+    ["quad", "Quadratic"],
+    ["cubic", "Cubic"],
+]
+```
+
+#### Question text
 ```
 [[parsons columns="2"]]
-{
-    "f" : "\\(y = x^2\\)",
-    "g" : "\\(y = x^3\\)",
-    "quad" : "Quadratic",
-    "cubic" : "Cubic",
-}
+{# match_encode(steps) #}
 [[/parsons]]
 ```
 ## Clone mode
@@ -31,15 +41,25 @@ The re-orientation button allows the student to switch between vertical and hori
 By default, answer lists in groupings and grid layouts will get default headers indexed by positive whole numbers. The available list will get a default header of "Drag from here:". These will become row indexes in **Row grouping** layout, or when the user presses the re-orient button.
 
 Answer list headers can be changed by assigning the key `"headers"` key an an array of strings containing the new headers. The single header for the available list can be changed by assigning the `"available_header"` key to a string.
+
+#### Question variables
+
+```
+stack_include_contrib("matchlib.mac");
+
+steps: [
+    ["f", "\\(y = x^2\\)"],
+    ["g", "\\(y = x^3\\)"],
+    ["quad", "Quadratic"],
+    ["cubic", "Cubic"],
+]
+```
+
+#### Question text 
 ```
 [[parsons columns="2"]]
 {
-    "steps": {
-        "f" : "\\(y = x^2\\)",
-        "g" : "\\(y = x^3\\)",
-        "quad" : "Quadratic",
-        "cubic" : "Cubic",
-    },
+    "steps" : {# match_encode(steps) #},
     "headers" : ["Equation", "Type"],
     "available_header" : "Available items"
 }
@@ -57,10 +77,7 @@ To change this, one can pass an index to the JSON as follows:
 ```
 [[parsons columns="1" rows="2"]]
 {
-    "steps": {
-        "quad" : "Quadratic",
-        "cubic" : "Cubic",
-    },
+    "steps": {# match_encode(steps) #},
     "headers" : ["Type"]
     "available_header" : "Available items"
     "index" : ["Equation", "\\(y = x^2\\)", "\\(y = x^3\\)"]

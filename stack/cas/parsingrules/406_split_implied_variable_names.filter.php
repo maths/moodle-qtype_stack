@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  *
  * f(x(x+f(1))) => f(x*(x+f(1)))
  *
- * Tags the stars and adds 'missing_stars' answernote.
+ * Tags the stars and adds 'missing_stars' and the specific 'Variable_function' answernote.
  */
 class stack_ast_filter_406_split_implied_variable_names implements stack_cas_astfilter {
 

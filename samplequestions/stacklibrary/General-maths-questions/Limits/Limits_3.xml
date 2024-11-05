@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Limits_3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Evaluate the limit given below.</p>
+<p>\[ \lim_{{@v@} \rightarrow {@ av@}} {\left(\frac{@fn@}{@fd@}\right) }.  \]</p>
+<p>If the limit does not exist, enter the value 1111 as your answer.</p>
+<p>The limit is: [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The limit of the function</p>
+<p>\[ \lim_{{@v@} \rightarrow {@ av@}} {\left(\frac{@fn@}{@fd@}\right) }  \]</p>
+<p> is the same as the limit found by multiplying both numerator and denominator with the conjugate of the denominator:</p>
+<p>\[ \lim_{{@v@} \rightarrow {@ av@}} {\left(\frac{@fn@}{@fd@} \frac{@fdc@}{@fdc@}  \right) },  \]</p>
+<p>which equals to</p>
+<p>\[ \lim_{{@v@} \rightarrow {@ av@}} {\left(\frac{@fn*fdc@}{@ (v - av) @} \right) },  \]</p>
+<p>or, cancelling out the term in \( {@(v - av)@} \), equals</p>
+<p>\[ \lim_{{@v@} \rightarrow {@ av@}} {\left( {@ bv*fdc@} \right) } = {@correctanswer@}.  \]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>v:x;
+av:rand_with_step(3,9,1);
+bv:rand_with_step(2,10,1);
+cv:rand_with_step(3,9,1);
+dv:av+cv;
+fn:bv*(v-av);
+fd:sqrt(2*v+cv)-sqrt(v+dv);
+fdc:sqrt(2*v+cv)+sqrt(v+dv);
+f:fn/fd;
+correctanswer:limit(fn/fd,v,av);
+wronganswer:0;
+ p3 : expand(p1/(v^degr1));
+ p4 : expand(p2/(v^degr1));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( \lim_{{@v@} \rightarrow {@ av@}} {\left(\frac{@fn@}{@fd@}\right) } ={@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords> limit</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>262667249</deployedseed>
+    <deployedseed>464039592</deployedseed>
+    <deployedseed>1860251500</deployedseed>
+    <deployedseed>1018200705</deployedseed>
+    <deployedseed>1336931519</deployedseed>
+    <deployedseed>2061581738</deployedseed>
+    <deployedseed>2114621328</deployedseed>
+    <deployedseed>1184421713</deployedseed>
+    <deployedseed>1098197550</deployedseed>
+    <deployedseed>12151503</deployedseed>
+    <deployedseed>194788689</deployedseed>
+    <deployedseed>73132538</deployedseed>
+    <deployedseed>1554420197</deployedseed>
+    <deployedseed>12590706</deployedseed>
+    <deployedseed>1961292359</deployedseed>
+    <deployedseed>1420754276</deployedseed>
+    <deployedseed>350164826</deployedseed>
+    <deployedseed>1874574466</deployedseed>
+    <deployedseed>760977438</deployedseed>
+    <deployedseed>560245542</deployedseed>
+    <deployedseed>2040731232</deployedseed>
+    <deployedseed>1669630266</deployedseed>
+    <deployedseed>1794164195</deployedseed>
+    <deployedseed>1033048877</deployedseed>
+    <deployedseed>427721170</deployedseed>
+    <deployedseed>811899583</deployedseed>
+    <deployedseed>401734084</deployedseed>
+    <deployedseed>740928659</deployedseed>
+    <deployedseed>651446701</deployedseed>
+    <deployedseed>209278572</deployedseed>
+    <deployedseed>182873456</deployedseed>
+    <deployedseed>1117475639</deployedseed>
+    <deployedseed>946932314</deployedseed>
+    <deployedseed>150398223</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>1111</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer-1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with STACK.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -27,7 +28,6 @@ stack_cas_castext2_iframe::register_counter('///PARSONS_COUNT///');
 
 class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
-    /* This is not something we want people to edit in general. */
     public static $namedversions = [
         'cdn' => [
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js',
@@ -38,7 +38,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         ],
     ];
 
-    public function compile($format, $options):  ? MP_Node {
+    public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
 
         // Define iframe params.
@@ -68,6 +68,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Item width.
         $itemwidth = null;
 
+        // Whether to return full history or final answer.
+        $log = 'false';
+
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
@@ -81,6 +84,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $itemheight = $value;
             } else if ($key === 'item-width') {
                 $itemwidth = $value;
+            } else if ($key === 'log') {
+                $log = $value;
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -284,7 +289,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Instantiate STACK sortable helper class.
         $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
                 $clone .'", "' . $columns .'", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
-                "' . $itemheight . '", "' . $itemwidth . '");' . "\n";
+                "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
         // Generate the two lists, headers and index in HTML.
         $code .= 'stackSortable.add_reorientation_button();' . "\n";
         $code .= 'stackSortable.create_row_col_divs();' . "\n";
@@ -370,12 +375,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor, 
+        castext2_placeholder_holder $holder): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
@@ -383,7 +389,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         return [];
     }
 
-    public function validate (
+    public function validate(
         &$errors = [],
         $options = []
     ): bool {
@@ -524,14 +530,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input'
                     && $key !== 'clone' && $key !== 'columns' && $key !== 'rows' &&
-                    $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width') {
+                    $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width' && $key !== 'log') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
                         'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height',
-                        'item-width',
+                        'item-width', 'log',
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids),

@@ -13,13 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
-defined('MOODLE_INTERNAL') || die();
 
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../../locallib.php');
 require_once(__DIR__ . '/../../../utils.class.php');
-
 
 /**
  * Special block handling the post processing using
@@ -43,7 +42,8 @@ class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_caste
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor, 
+        castext2_placeholder_holder $holder): string {
         if (count($params) < 2) {
             // Nothing at all.
             return '';

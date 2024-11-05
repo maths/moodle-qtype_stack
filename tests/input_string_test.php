@@ -46,7 +46,7 @@ class input_string_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('string', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" />',
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -54,7 +54,7 @@ class input_string_test extends qtype_stack_testcase {
     public function test_render_hello_world() {
         $el = stack_input_factory::make('string', 'ans1', '"Hello world"');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" />',
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
         $this->assertEquals('The answer Hello world would be correct.',
@@ -215,5 +215,24 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals($cm, $state->contentsmodified);
         $this->assertEquals($cd, $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_too_long() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('string', 'sans1', '"Hello world"');
+        // Maxima is very slow to parse long strings.
+        $sa = '"Hell' . str_repeat('o', 1000) . ' world"';
+        $state = $el->validate_student_response(['sans1' => $sa], $options, '"Hello world"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+
+        $sa = '"Hell' . str_repeat('o', 262144) . ' world"';
+        $state = $el->validate_student_response(['sans1' => $sa], $options, 'x^2/(1+x^2)',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('too_long', $state->note);
+        $this->assertEquals('Your input is longer than permitted by STACK.', $state->errors);
     }
 }

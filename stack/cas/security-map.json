@@ -131,6 +131,9 @@
   "%_stack_preamble_end": {
       "constant": "t"
   },
+  "%_stack_prt_stop_p": {
+      "variable": "t"
+  },
   "%stmt": {
       "variable": "f"
   },
@@ -2010,6 +2013,12 @@
   },
   "disprule": {
       "function": "f"
+  },
+  "dispdp": {
+      "function": "s"
+  },
+  "dispsf": {
+      "function": "s"
   },
   "dispterms": {
       "function": "f"
@@ -7318,6 +7327,9 @@
       "function": "s"
   },
   "stack_validate_typeless": {
+      "function": "s"
+  },
+  "stack_validate_simpnum": {
       "function": "s"
   },
   "stackeq": {

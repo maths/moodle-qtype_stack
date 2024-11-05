@@ -53,7 +53,8 @@ class input_equiv_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         $this->assertEquals('<textarea class="equivinput" name="stack1__ans1" id="stack1__ans1" rows="3" cols="25" ' .
-                'autocapitalize="none" spellcheck="false"></textarea>',
+                'autocapitalize="none" spellcheck="false" data-stack-input-type="equiv" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator=","></textarea>',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -63,7 +64,8 @@ class input_equiv_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint',
             '[r1=0,r2=0,r3=0,r4=0,r5=0,r6=0,t*h*i*s+i*s+a+v*e*r*y+l*o*n*g+e*x*p*r*e*s*s*i*o*n=g*o*o*d+t*e*s*t!]');
         $this->assertEquals("<textarea class=\"equivinput\" name=\"stack1__ans1\" id=\"stack1__ans1\" " .
-            "rows=\"8\" cols=\"50\" autocapitalize=\"none\" spellcheck=\"false\">" .
+            "rows=\"8\" cols=\"50\" autocapitalize=\"none\" spellcheck=\"false\" data-stack-input-type=\"equiv\" " .
+            "data-stack-input-decimal-separator=\".\" data-stack-input-list-separator=\",\">" .
             "r1 = 0\nr2 = 0\nr3 = 0\nr4 = 0\nr5 = 0\nr6 = 0\n" .
             "t*h*i*s+i*s+a+v*e*r*y+l*o*n*g+e*x*p*r*e*s*s*i*o*n = g*o*o*d+t*e*s*t!" .
             "</textarea>",
@@ -78,7 +80,8 @@ class input_equiv_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxAttribute', '1');
         $this->assertEquals("<textarea class=\"equivinput\" name=\"stack1__ans1\" id=\"stack1__ans1\" " .
             "rows=\"7\" cols=\"25\" autocapitalize=\"none\" spellcheck=\"false\" " .
-            "placeholder=\"r1 = 0\nr2 = 0\nr3 = 0\nr4 = 0\nr5 = 0\nr6 = 0\">" .
+            "placeholder=\"r1 = 0\nr2 = 0\nr3 = 0\nr4 = 0\nr5 = 0\nr6 = 0\" data-stack-input-type=\"equiv\" " .
+            "data-stack-input-decimal-separator=\".\" data-stack-input-list-separator=\",\">" .
             "</textarea>",
             $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'stack1__ans1', false, null));
@@ -88,7 +91,8 @@ class input_equiv_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         $el->set_parameter('syntaxHint', 'firstline');
         $this->assertEquals('<textarea class="equivinput" name="stack1__ans1" id="stack1__ans1" rows="3" cols="25" ' .
-                'autocapitalize="none" spellcheck="false">x^2 = 4</textarea>',
+                'autocapitalize="none" spellcheck="false" data-stack-input-type="equiv" ' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator=",">x^2 = 4</textarea>',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
     }
@@ -98,7 +102,8 @@ class input_equiv_test extends qtype_stack_testcase {
         // Note the syntax hint must be a list.
         $el->set_parameter('syntaxHint', '[x^2=3]');
         $this->assertEquals('<textarea class="equivinput" name="stack1__ans1" id="stack1__ans1" rows="3" cols="25" ' .
-                'autocapitalize="none" spellcheck="false">x^2 = 3</textarea>',
+                'autocapitalize="none" spellcheck="false" data-stack-input-type="equiv" ' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator=",">x^2 = 3</textarea>',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
     }
@@ -223,7 +228,9 @@ class input_equiv_test extends qtype_stack_testcase {
             ' \color{green}{\Leftrightarrow}&x=2\,{\text{ or }}\, x=3& \cr \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
         $this->assertEquals('<textarea class="equivinput" name="q140:1_ans1" id="q140:1_ans1" rows="3" cols="25" ' .
-                'autocapitalize="none" spellcheck="false">x^2-5*x+6=0' . "\n" . 'x=2 or x=3</textarea>',
+                'autocapitalize="none" spellcheck="false" data-stack-input-type="equiv" ' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator=",">x^2-5*x+6=0' .
+                "\n" . 'x=2 or x=3</textarea>',
                 $el->render($state, 'q140:1_ans1', false, null));
         $this->assertEquals('<span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr' .
@@ -811,6 +818,33 @@ class input_equiv_test extends qtype_stack_testcase {
         $cr = $el->get_correct_response($val);
         $sans1 = "x^2 = -4\nx^2+4 = 0\n{}";
         $sansv = '[x^2 = -4,x^2+4 = 0,{}]';
+
+        $this->assertEquals($cr['sans1'], $sans1);
+        $this->assertEquals($cr['sans1_val'], $sansv);
+    }
+
+    public function test_validate_student_response_floats() {
+        $options = new stack_options();
+        $val = '[4*x=2,x=1/2]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(['sans1' => "4*x=2\nx=0.5000"], $options,
+            $val, new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('[4*x = 2,x = dispdp(0.5000,4)]',
+            $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &4\cdot x=2& \cr \color{green}{\Leftrightarrow}' .
+            '&x=0.5000& \cr \end{array} \]',
+            $state->contentsdisplayed);
+
+        $ta = $el->get_teacher_answer();
+        $this->assertEquals($ta, $val);
+
+        $cr = $el->get_correct_response($val);
+        $sans1 = "4*x = 2\nx = 1/2";
+        $sansv = '[4*x = 2,x = 1/2]';
 
         $this->assertEquals($cr['sans1'], $sans1);
         $this->assertEquals($cr['sans1_val'], $sansv);

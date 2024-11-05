@@ -32,37 +32,37 @@ class stack_question_test_result {
     /**
      * @var array input name => actual value put into this input.
      */
-    public $inputvalues;
+    public $inputvalues = [];
 
     /**
      * @var array input name => modified value of this input.
      */
-    public $inputvaluesmodified;
+    public $inputvaluesmodified = [];
 
     /**
      * @var array input name => the displayed value of that input.
      */
-    public $inputdisplayed;
+    public $inputdisplayed = [];
 
     /**
      * @var array input name => any errors created by invalid input.
      */
-    public $inputerrors;
+    public $inputerrors = [];
 
      /**
       * @var array input name => the input statues. One of the stack_input::STATUS_... constants.
       */
-    public $inputstatuses;
+    public $inputstatuses = [];
 
      /**
       * @var array prt name => stack_potentialresponse_tree_state object
       */
-    public $actualresults;
+    public $actualresults = [];
 
      /**
       * @var array prt name => debuginfo
       */
-    public $debuginfo;
+    public $debuginfo = [];
 
     /**
      * @var float Store the question penalty to check defaults.
@@ -192,8 +192,9 @@ class stack_question_test_result {
             if (is_null($state->expectedpenalty)) {
                 $penalty = $this->questionpenalty;
             }
-            // If we have a "NULL" expected answer note we just ignore what happens to penalties here.
-            if ('NULL' !== $state->expectedanswernote) {
+            // If we have a "NULL" expected answer note, or we bailed, we just ignore what happens to penalties here.
+            if ('NULL' !== $state->expectedanswernote &&
+                $prtname . '-bail' !== $state->expectedanswernote) {
                 if (is_null($state->penalty) ||
                         abs($penalty - $state->penalty) > 10E-6) {
                     $state->testoutcome = false;

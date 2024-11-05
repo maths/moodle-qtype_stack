@@ -41,7 +41,7 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 
 1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
 2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TO-DO: possible option to change shape at the input level?)
-3. Allow users to [systematically deploy](../Maintaining/Deploying_systematically.md) all variants of a question in a simple manner.
+3. Allow users to [systematically deploy](../STACK_question_admin/Deploying_systematically.md) all variants of a question in a simple manner.
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
@@ -79,7 +79,7 @@ This is a bug-fix release.
 
 Released May 2023.
 
-__Action required__ Check that all your materials using `[[jsxgraph]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../Maintaining/index.md) section.
+__Action required__ Check that all your materials using `[[jsxgraph]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../STACK_question_admin/index.md) section.
 
 1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
 2. Better cleaning of unicode from students' input strings.
@@ -153,7 +153,7 @@ Released June 2022.
 Released December 2021.
 
 1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
-2. Support [variant matching](../Maintaining/Deploying_matched_variants.md).
+2. Support [variant matching](../STACK_question_admin/Deploying_matched_variants.md).
 3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists becase `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
 4. Allow students to type `arccos` etc. and treat these as synonyms of the trig functions.
 5. Substantially improve the basic question usage report.
@@ -266,7 +266,7 @@ New features in v4.3:
 * Add in input option 'align'.
 * Add in input option 'nounits'.
 * Add in input option 'compact' to input "Show the validation" parameter.
-* Add in a [basic question use report](../Authoring/../Maintaining/Reporting.md) page, linked from the question testing page.
+* Add in a [basic question use report](../Authoring/../STACK_question_admin/Reporting.md) page, linked from the question testing page.
 * Add in house styles to help typeset [proof](../Topics/Proof/Proof_styles.md).
 * Add cache to help reduce parsing overhead.
 
@@ -559,7 +559,7 @@ Key features
 * STACK can now work with either MathJax, the Moodle TeX filter, or the OU's maths rendering filter.
 * The Maxima libraries `powers` and `format` have been removed.
 * We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [MathJax](../Installation/Mathjax.md#delimiters) for more information on this change.
-* The expressions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../Maintaining/Testing.md#Simplification).
+* The expressions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../STACK_question_admin/Testing.md#Simplification).
 
 ### Full development log
 

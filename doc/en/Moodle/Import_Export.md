@@ -8,7 +8,7 @@ Go to
 
     Question bank => Import
 
-Choose "Moodle XML format" and the question bank category you wish to import your questions to.  Then select files to import. Some [sample questions](../Maintaining/Sample_questions.md) are supplied with STACK in this format.
+Choose "Moodle XML format" and the question bank category you wish to import your questions to.  Then select files to import. Some [sample questions](../STACK_question_admin/Sample_questions.md) are supplied with STACK in this format.
 
 ## Exporting STACK questions
 

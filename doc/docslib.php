@@ -40,7 +40,17 @@ require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
 function stack_docs_index($dir, $relpath = '') {
     // Write a list describing the directory structure, recursive, discriminates for .md files.
     $exclude = ['index.md', 'Site_map.md'];
-    $details = ['AbInitio', 'Results', 'Developer', 'Reference', 'Installation'];
+    $details = ['AbInitio',
+                'Results',
+                'Developer',
+                'Reference',
+                'Installation',
+                'Proof',
+                'Drag and drop',
+                'Equivalence reasoning',
+                'GeoGebra',
+                'JSXGraph',
+    ];
 
     if (!is_dir($dir)) {
         return '';

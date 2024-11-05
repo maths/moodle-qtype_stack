@@ -374,7 +374,7 @@ In this example, the output value `mark` can be placed into the Score of the fal
 
 ## Writing question tests ##
 
-Quality control of questions is important.  See the notes on [testing](../../Maintaining/Testing.md) questions.
+Quality control of questions is important.  See the notes on [testing](../../STACK_question_admin/Testing.md) questions.
 
 When entering test cases the question author must type in the CAS expression they expect to be the `value` of the student's answer (NOT the optional `display` field!).  For example, if the teacher's answer (to a checkbox) question is the following.
 

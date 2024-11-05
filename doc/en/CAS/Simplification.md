@@ -288,4 +288,4 @@ Some further examples are given elsewhere:
 * An example of a question with `simp:false` is discussed in [authoring quick start 7](../AbInitio/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
-Note also that [question tests](../Maintaining/Testing.md#Simplification) do not simplify test inputs.
+Note also that [question tests](../STACK_question_admin/Testing.md#Simplification) do not simplify test inputs.

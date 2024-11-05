@@ -1,6 +1,6 @@
 # Inclusions
 
-This is an expert level topic, please avoid this feature unless you feel that you understand the implications and consequences of it. Note that using this feature goes against the self-contained material principle present in [the future proof guidelines](../Maintaining/Future_proof.md).
+This is an expert level topic, please avoid this feature unless you feel that you understand the implications and consequences of it. Note that using this feature goes against the self-contained material principle present in [the future proof guidelines](../STACK_question_admin/Future_proof.md).
 
 That being said, a common request on the wish-list has been to provide some means of sharing code between questions. The inclusion-feature is the first step towards such a feature, however, it is not perfect nor do we expect it to be the solution that will finally be selected. But we provide it now that the back-end has the tools to provide it, for those adventurous enough.
 

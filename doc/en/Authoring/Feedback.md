@@ -13,7 +13,7 @@ This document describes the ways STACK provides feedback to students. It will no
   In mathematics, summative feedback is most often _quantitative_,  either a mark or a percentage.
 * _Evaluative assessment_ is to measure the effectiveness of the teaching or the
   assessment of students.  Such assessments could have quality enhancement or quality audit functions.
-  See [reporting](../Maintaining/Reporting.md). The ability to automatically generate data about an individual student or
+  See [reporting](../STACK_question_admin/Reporting.md). The ability to automatically generate data about an individual student or
   across a cohort is one particular strength of CAA, potentially enabling regular, detailed evaluative assessment.
 
 In STACK multi-part questions there is a complete separation between two important components.
@@ -45,7 +45,7 @@ Each [potential response tree](Potential_response_trees.md) returns three outcom
 
 1. a numerical score,
 2. text for the students,
-3. an [answer note](Potential_response_trees.md#Answer_note) for use by the teacher during [reporting](../Maintaining/Reporting.md).
+3. an [answer note](Potential_response_trees.md#Answer_note) for use by the teacher during [reporting](../STACK_question_admin/Reporting.md).
 
 These correspond approximately to summative, formative and evaluative functions of assessment respectively.
 The [general feedback](CASText.md#General_feedback) (known as worked solution in previous versions) is fixed and may not depend on the student's answers.

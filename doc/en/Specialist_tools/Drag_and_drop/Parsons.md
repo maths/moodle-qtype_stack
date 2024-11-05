@@ -35,28 +35,21 @@ Notes
 
 ## Troubleshooting
 
-If your Parson's problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then
-double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described below. They should be a subset of 
-```
-{"steps", "options", "headers", "available_header"}
-```
-and a superset of 
-```
-{"steps"}
-```
-For technical reasons we cannot currently validate errors in teacher's authoring for this.
+Please see the [troubleshooting](Troubleshooting.md) page for known issues and how to resolve them.
+
+## Examples 
 
 Please follow the examples below to understand how the components work.  Then we provide two tools.
 
 1. Advice on workflow for [authoring Parson's problems](../../Topics/Proof/Proof_Parsons_workflow.md).
 2. Template questions in the [STACK question library](../../Maintaining/Sample_questions.md#STACK_library), under `Topics\Parsons-proof-template.xml` which you can load and use immediately.
 
-# Example 1: a minimal Parson's question
+## Example 1: a minimal Parson's question
 
 The following is a minimal Parson's question where there student is expected to create a list in one and only one order.
 It shows the proof that _\(\log_2(3)\) is irrational_.
 
-## Question variables
+### Question variables
 
 Define the following question variables:
 
@@ -89,7 +82,7 @@ We can randomise the order the strings will be shown on the mpage through `rando
 
 The variable `ta` holds the teacher's answer which is a proof construction function `proof`.  The arguments to this function are string keys, e.g. `"alg"` which refer to lines in the proof.  The teacher expects these lines in this order.
 
-## Question text
+### Question text
 
 The example question text below contains a Parson's block. Within the header of the Parson's block, ensure that `input="ans1"` is included, where `ans1` is the identifier of the input. Place the following in the _Question text_ field:
 
@@ -106,7 +99,7 @@ Notes:
 1. The function `parsons_encode` turns the variable `proof_steps` into a JSON object with hashed keys, as expected by the `parsons` block.
 2. The [Parson's block](Question_block.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
 
-## Question note
+### Question note
 
 Due to the randomisation of the proof steps, we need to add a question note. One that simply gives the order of the keys is as follows.
 
@@ -114,14 +107,14 @@ Due to the randomisation of the proof steps, we need to add a question note. One
 {@ map(first, proof_steps) @}
 ```
 
-## Input: ans1
+### Input: ans1
 
 1. The _Input type_ field should be **Parsons**.
 2. The _Model answer_ field should be a list `[ta, proof_steps]`.
 3. Set the option "Student must verify" to "No".
 4. Set the option "Show the validation" to "No".
 
-## Potential response tree
+### Potential response tree
 
 Define the feedback variables:
 
@@ -133,11 +126,11 @@ The student's answer will be a _JSON string_, but we need to interpret which of 
 
 Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to confirm the student's answer is the same as the teacher's answer.
 
-# Example question 2: a proof with interchangeable block order
+## Example question 2: a proof with interchangeable block order
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
 
-## Question variables
+### Question variables
 
 ````
 stack_include("contribl://prooflib.mac");
@@ -169,7 +162,7 @@ tal: proof_alternatives(ta);
 tas: setify(map(proof_flatten, tal));
 ````
 
-## Question text 
+### Question text 
 
 The complete question text is
 
@@ -195,7 +188,7 @@ Note that `proof_alternatives` will recurse over all sub-proofs.
 Types of supported proof structure are documented within the prooflib file. 
 Then we have to "flatten" each of these proofs to a set of list-based proofs: `tas:setify(map(proof_flatten, tal));`
 
-## Question note
+### Question note
 
 Due to the randomisation of the proof steps, we need to add a question note. One that simply gives the order of the keys is as follows.
 
@@ -203,7 +196,7 @@ Due to the randomisation of the proof steps, we need to add a question note. One
 {@ map(first, proof_steps) @}
 ```
 
-## Input
+### Input
 
 The "Input" should be set exactly as in the previous example.
 
@@ -212,7 +205,7 @@ The "Input" should be set exactly as in the previous example.
 3. Set the option "Student must verify" to "No".
 4. Set the option "Show the validation" to "No".
 
-## Potential reponse tree
+### Potential reponse tree
 
 As before, define the feedback variables to interpret the JSON as a proof:
 
@@ -238,7 +231,7 @@ Can you see the differences between these proofs?
 
 We have much more sophisticated [general assessment tools](../../Topics/Proof/Proof_assessment.md) for establishing the edit distance between the student's and teacher's proof and providing feedback on how to correct a partially correct proof.  These are documented elsewhere.
 
-# Legacy versions
+## Legacy versions
 
 Old versions of the parsons block (before 2024072500) used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
 `parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`, and used the `String` input type. Legacy versions of questions are still 

@@ -5,6 +5,10 @@ This is useful when we are only interesting in grouping items together, and spec
 
 Example usage: `[[parsons columns="3"]] ... [[/parsons]]`.
 
+## Troubleshooting
+
+Please see the [troubleshooting](Troubleshooting.md) page for known issues and how to resolve them.
+
 ## Simple example
 
 #### Question variables

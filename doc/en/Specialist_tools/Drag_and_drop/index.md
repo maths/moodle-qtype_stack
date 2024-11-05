@@ -2,9 +2,8 @@
 
 Drag and drop problems are often referred to as "Parson's problems".
 
-You can add in drag and drop functionality using the `[[parsons ..]]` [question block](Question_block.md).  This can be used in three ways in STACK.  How to author example questions in major areas:
-
-As of STACK v4.6.0, the `parsons` block has three main configurations (each of which support further customisation) which can be achieved by setting appropriate block header parameters `columns` and `rows` as appropriate:
+You can add in drag and drop functionality using the `[[parsons ..]]` [question block](Question_block.md). 
+As of STACK v4.6.0, the `parsons` block has three main configurations (each of which support further customisation) which can be achieved by setting block header parameters `columns` and `rows` as appropriate:
 
 1. **Proof** (Example usage: `[[parsons]] ... [[/parsons]]`) : This was introduced in STACK v4.5.0, and a full guide can be found under [Parsons problems](Parsons.md).
 2. **Grouping** (Example usage: `[[parsons columns="3"]] ... [[/parsons]]`) : 

@@ -24,10 +24,10 @@ The state of the problem at any given point in time during question answer takes
 {used: usedState, available: availableState}
 ```
 
-where `usedState` and `availableState` are arrays containing the keys specified in `steps` of the JSON in the answer. In all cases, `availableState` is a flat array of variable length. The shape of `usedState`` depends on which of the four layouts is being used. We give examples below.
+where `usedState` and `availableState` are arrays containing the keys specified in `steps` of the JSON in the answer. In all cases, `availableState` is a flat array of variable length. The shape of `usedState` depends on which of the four layouts is being used. We give examples below.
 
 1. **Proof**: In this case `usedState` will have shape `(1, 1, ?)`, where `?` indicates the variable dimension. For example:
-````
+```
 [[parsons input="ans1"]]
 {
   "1":"Assume that \\(n\\) is odd.",
@@ -36,7 +36,7 @@ where `usedState` and `availableState` are arrays containing the keys specified 
   "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
 }
 [[/parsons]]
-````
+```
 might have, at a given time, a state that looks like:
 ```
 {
@@ -105,4 +105,4 @@ might have, at a given time, a state that looks like:
     ],
     available : ["h", "cubic"]
 }
-`
+```

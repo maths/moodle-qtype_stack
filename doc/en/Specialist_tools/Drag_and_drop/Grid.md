@@ -4,6 +4,10 @@ This will set up a grid of shape `(columns, rows)`, where the student may drag a
 
 Example usage: `[[parsons columns="3" rows="2"]] ... [[/parsons]]`
 
+## Troubleshooting
+
+Please see the [troubleshooting](Troubleshooting.md) page for known issues and how to resolve them.
+
 ## Example: Grid example
 
 Here, the student is asked to drag functions and their derivatives to relevant columns and rows. 

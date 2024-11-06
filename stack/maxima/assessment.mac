@@ -507,12 +507,11 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
     simp:false,
     %_pf:ev(polarform(ex), simp),
     /* Purely imaginary numbers somtimes return just %e^{...} */
-    if is(part(%_pf,1)=%e) then return(%_pf),
+    if is(safe_op(%_pf)="^") then return(%_pf),
     /* We really do have something in the form r*%e^theta to pick apart. */
-    %_pf:args(%_pf),
-    %_r:first(%_pf),
-    %_theta:part(second(%_pf),2),
-    ev(%_r, simp) * %e^(ev(%i*imagpart(%_theta), simp))
+    %_r:ev(cabs(%_pf),simp),
+    %_theta:ev(carg(%_pf),simp),
+    %_r * %e^(ev(%i*%_theta, simp))
 )$
 /* 
   polarform_simp(1+%i);
@@ -525,6 +524,8 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
   polarform_simp(-2*%i);
   polarform_simp(sqrt(3)+%i*sqrt(3));
   polarform_simp(1/sqrt(2)*(-1+%i));
+  polarform_simp((7*%e^((%i*%pi)/6))/3);
+  polarform_simp(5*sqrt(3)/8+5/8*%i);
 */
 
 

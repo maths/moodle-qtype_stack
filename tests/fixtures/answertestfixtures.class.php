@@ -315,6 +315,8 @@ class stack_answertest_test_data {
         ],
         // Without sets the following examples should be equal.
         ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', -3, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', 'map(expand,{5/4*%e^(%i*%pi/6)})', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
+
         ['AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''],
         [
             'AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)',

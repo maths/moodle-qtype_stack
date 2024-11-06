@@ -16,10 +16,7 @@ and features we attach to them. The catalogue is stored in
 
     stack/cas/security-map.json
 
-This JSON file is being updated manually and through the data collected by 
-the [census](Census.md) and can be extended freely to track new features 
-as things progress. This documentation section describes what is currently 
-being contained in that map.
+This JSON file is being updated manually and through the data collected by  the census (see developer docs `dev/Census.md`) and can be extended freely to track new features as things progress. This documentation section describes what is currently being contained in that map.
 
 If a function from a maxima library is not in the security map then it is most likley
 that we have not reviewed it.  Please contact the developers.

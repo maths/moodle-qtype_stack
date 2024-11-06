@@ -2,7 +2,7 @@
 
 A predicate function takes an expression and returns Boolean values `true` or `false`.
 
-The convention in [Maxima](Maxima.md) is to end predicate
+The convention in [Maxima](Maxima_background.md) is to end predicate
 functions with the letter "p". Many predicate functions exist
 already within Maxima.  Some of the more useful to us are
 listed below.   STACK defines an additional range of predicate

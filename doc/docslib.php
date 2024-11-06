@@ -40,7 +40,17 @@ require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
 function stack_docs_index($dir, $relpath = '') {
     // Write a list describing the directory structure, recursive, discriminates for .md files.
     $exclude = ['index.md', 'Site_map.md'];
-    $details = ['AbInitio', 'Results', 'Developer', 'Reference', 'Installation'];
+    $details = ['AbInitio',
+                'Results',
+                'Developer',
+                'Reference',
+                'Installation',
+                'Proof',
+                'Drag and drop',
+                'Equivalence reasoning',
+                'GeoGebra',
+                'JSXGraph',
+    ];
 
     if (!is_dir($dir)) {
         return '';
@@ -154,8 +164,10 @@ function stack_docs_render_markdown($page, $preprocess = true) {
     // Note the 'noclean' option is normally not permitted, however, this call to format_text is
     // only applied to fixed content stored in the STACK git repository as code, and not user-generated content.
     $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false, 'noclean' => true]);
+//    var_dump($page);
     $page = stack_maths::post_process_docs_page($page);
     // The 'filter' => true is to ensure we activate the mathjax filter once the markdown has changed to html.
+//    var_dump($page);
     $page = format_text($page, FORMAT_HTML, ['filter' => true, 'noclean' => true]);
     return $page;
 }

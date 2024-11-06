@@ -10,9 +10,11 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 DONE.
 
 1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
-2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../Authoring/Workflow.md).
-3. Add in a library page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
-4. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
+2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../STACK_question_admin/Authoring_workflow.md).
+3. Add in a [question library](../AbInitio/Authoring_quick_start_6.md) page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
+4. Better document the sample proofs, and provide a generic Parsons question to make it easier to use them.  See the [Proof samples](../Topics/Proof/Proof_samples.md) documentation.
+5. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
+6. Major update of the docs to separate out referenece, know how and topics.
 
 Issues with [github milestone 4.8.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.8.0) include
 
@@ -56,7 +58,7 @@ Later
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
-* Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](Syntax_Future.md)
+* Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](../../dev/Syntax_Future.md)
 
 ## Other
 

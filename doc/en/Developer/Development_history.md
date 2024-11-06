@@ -11,7 +11,7 @@ Released July 2024.
 3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019).  This will allow better copy/paste to and from desktop maxima.
 4. Add in an option to fine-tune the multiplication sign used for scientific units:  `multsgnstackunits`.  See discussion in [issue #1080](https://github.com/maths/moodle-qtype_stack/issues/1080).
 5. Add in the "Deploy from n to m" deature to systematically deploy seeds.
-6. Restyling of response analyis page.
+6. Restyling of response analysis page.
 
 ## Version 4.6.0
 
@@ -26,7 +26,7 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
 7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
-8. Add in support for drag and drop matching problems, as [grid](../Specialist_tools/Drag_and_drop/Grid.md) and [grouping](../Specialist_tools/Drag_and_drop/Grouping.md).
+8. Add in support for drag and drop [matching problems](../Authoring/Matching.md).
 
 
 ## Version 4.5.0-hf2
@@ -42,13 +42,13 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 
 1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
 2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TO-DO: possible option to change shape at the input level?)
-3. Allow users to [systematically deploy](../STACK_question_admin/Deploying_systematically.md) all variants of a question in a simple manner.
+3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
-7. Add in a [GeoGebra block](../Specialist_tools/GeoGebra/index.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
+7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
 8. Add in an option `margin` to control margins around STACK-generated plots.
-9. Add in better support for proof as [Parson's problems](../Specialist_tools/Drag_and_drop/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
+9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
 
 There are also numerous minor improvements and bug fixes.
 
@@ -80,7 +80,7 @@ This is a bug-fix release.
 
 Released May 2023.
 
-__Action required__ Check that all your materials using `[[jsxgraph]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../STACK_question_admin/index.md) section.
+__Action required__ Check that all your materials using `[[jsxgraph]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../Maintaining/index.md) section.
 
 1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
 2. Better cleaning of unicode from students' input strings.
@@ -104,11 +104,11 @@ Released January 2023.
 
 This is mainly a bug fix version.
 
-1. Add in functionality to display Maxima expressions as [trees](../Authoring/Expression_tree_display.md) with CSS using  `disptree`.
+1. Add in functionality to display Maxima expressions as [trees](../Authoring/Trees.md) with CSS using  `disptree`.
 2. Load the `diag` package for better linear algebra support.
 3. Better layout on the question testing page.
 4. Question variables and feedback variables are now in monospace.
-5. Add in the `onum` option, i.e. `make_multsgn("onum")` in the [options](../Authoring/Question_options.md).
+5. Add in the `onum` option, i.e. `make_multsgn("onum")` in the [options](../Authoring/Options.md).
 
 ## Version 4.4.1
 
@@ -131,7 +131,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 7. Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
 8. There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.
 9. One can now generate [text-files for download](../Authoring/Serving_out_data.md) with a special block in the question-text. CSV:s of student specific random data etc.
-10. Inline CASText is now a feature, it will become more relevant in the future input-system. For now you may [use it in MCQ labels](../Authoring/Inputs/Multiple_choice_input.md#castextlabels).
+10. Inline CASText is now a feature, it will become more relevant in the future input-system. For now you may [use it in MCQ labels](../Authoring/Multiple_choice_questions.md#castextlabels).
 11. A new CASText block `[[jsstring]]` for generating JavaScript strings to be used in scripting is now available. It should help when one wants to construct complex values.
 12. There now exists a built in [language localisation system](../Authoring/Languages.md), that allows access to the language setting over at the CAS side. This mixes well with inline castext and allows localisation of MCQ labels.
 13. The number of CAS-evaluation sessions has been cut down significantly. Conversely, the amount of things happening in a single CAS-session has grown significantly. This may affect your Maxima load and the size of the CAS-cache. You may need to retune your operation if you have fine tuned it based on those details. This will also affect cache keys and values so tuning caching may also matter if one tunes everything.
@@ -154,7 +154,7 @@ Released June 2022.
 Released December 2021.
 
 1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
-2. Support [variant matching](../STACK_question_admin/Deploying_matched_variants.md).
+2. Support [variant matching](../Moodle/Variant_matching.md).
 3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists becase `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
 4. Allow students to type `arccos` etc. and treat these as synonyms of the trig functions.
 5. Substantially improve the basic question usage report.
@@ -267,8 +267,8 @@ New features in v4.3:
 * Add in input option 'align'.
 * Add in input option 'nounits'.
 * Add in input option 'compact' to input "Show the validation" parameter.
-* Add in a [basic question use report](../Authoring/../STACK_question_admin/Reporting.md) page, linked from the question testing page.
-* Add in house styles to help typeset [proof](../Topics/Proof/Proof_styles.md).
+* Add in a [basic question use report](../Authoring/Reporting.md) page, linked from the question testing page.
+* Add in house styles to help typeset [proof](../Proof/Proof_styles.md).
 * Add cache to help reduce parsing overhead.
 
 
@@ -300,7 +300,7 @@ Note: newer versions of Maxima require that a variable has been initialised as a
 
 Note: the behaviour of the Maxima `addrow` function has changed.  Use the bulk test script to identify questions which are affected. Note, once you save a question you will update the version number, and this will prevent questions using `addrow` from being identified.
 
-* Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Specialist_tools/JSXGraph/index.md)
+* Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 * Add in a version number to STACK questions.
 * Update reasoning by equivalence.  This includes the following.
   1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \text{ and } b=s \text{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
@@ -332,7 +332,7 @@ Numerous minor bug fixes and improvements.
 * Add in the "string" input type.
 * Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).
 * Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
-* Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Inputs/Numerical_input.md).
+* Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Numerical_input.md).
 * Specify numerical precision for validation in numerical and units input types.
 * Refactor the inputs so that extra options can be added more easily, and shared between inputs.
 
@@ -370,7 +370,7 @@ Other changes.
 
 Released July 2017.
 
-This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../Specialist_tools/Equivalence_reasoning/index.md).
+This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../CAS/Equivalence_reasoning.md).
 
 Other new features and enhancements in this release.
 
@@ -462,7 +462,7 @@ This contains numerous minor bug fixes and improvements.
    *  Provide a new option on how parentheses are displayed for matrices
    *  Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
  7.  Add the input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
- 8.  Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Question_blocks/Fact_sheets.md) documentation.  
+ 8.  Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Fact_sheets.md) documentation.  
  9.  Better install (auto OS detection), healthcheck and testing.
  10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authentication
 
@@ -521,7 +521,7 @@ Changes since 3.0:
 
 * Fix instant validation for text-area inputs.
 * With "Check the type of the response" set to "Yes", if an expression is given and an equation is entered, the error generated is: "Your answer is an equation, but the expression to which it is being compared is not. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." This might confuse students. They don't know what " the expression to which it is being compared" is! Perhaps this warning could be reworded something like: "You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." We should have more messages for each type of failed situation....
-* Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../CAS/Maxima_plot.md#alttext) for more details.
+* Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../Plots/Plots.md#alttext) for more details.
 * Assorted other accessibility fixes.
 * Standard PRT feedback options are now processed as CAS text.
 * There was a bug where clearing the CAS cache broke images in the question text. Now fixed.
@@ -560,7 +560,7 @@ Key features
 * STACK can now work with either MathJax, the Moodle TeX filter, or the OU's maths rendering filter.
 * The Maxima libraries `powers` and `format` have been removed.
 * We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [MathJax](../Installation/Mathjax.md#delimiters) for more information on this change.
-* The expressions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../STACK_question_admin/Testing.md#Simplification).
+* The expressions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../Authoring/Testing.md#Simplification).
 
 ### Full development log
 
@@ -682,7 +682,7 @@ Key features
 
 * [Precision](../Authoring/Answer_Tests/index.md#Precision) answer test added to allow significant to be checked.
 * [Form](../Authoring/Answer_Tests/index.md#Form) answer test added to test if an expression is in completed square form.
-* List interaction element expanded to include checkboxes.
+* List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
 * Move to Maxima's `random()` function, rather than generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)
 * Support for Maxima 5.20.1

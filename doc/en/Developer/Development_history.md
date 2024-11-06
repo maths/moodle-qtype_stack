@@ -11,6 +11,7 @@ Released July 2024.
 3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019).  This will allow better copy/paste to and from desktop maxima.
 4. Add in an option to fine-tune the multiplication sign used for scientific units:  `multsgnstackunits`.  See discussion in [issue #1080](https://github.com/maths/moodle-qtype_stack/issues/1080).
 5. Add in the "Deploy from n to m" deature to systematically deploy seeds.
+6. Restyling of response analyis page.
 
 ## Version 4.6.0
 

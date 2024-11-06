@@ -581,6 +581,11 @@
         "description":"Information on using different functions in STACK to generate random values."
         },
         {
+        "file":"Rules.md",
+        "title":"Rules and patterns - STACK Documentation",
+        "description":"How to use Maxima's rule system (e.g. let) in STACK to generate custom simplification."
+        },
+        {
         "file":"Real_Intervals.md",
         "title":"Real intervals - STACK Documentation",
         "description":"Information on representing, displaying and manipulating intervals in the real line."

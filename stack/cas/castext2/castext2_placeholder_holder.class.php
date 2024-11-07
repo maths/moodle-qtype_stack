@@ -56,10 +56,10 @@ class castext2_placeholder_holder {
     public function add_to_map(string $value): string {
         $key = array_search($value, $this->map);
         if ($key === false) {
-        	// Note that the count is unique for only the matching segment of CASText.
-        	// One must never merge postprocessed CASText before the values have been
-        	// returned in place. Basically, `format_text` immediately after
-        	// postprocessing and replacement immediately after `format_text`.
+            // Note that the count is unique for only the matching segment of CASText.
+            // One must never merge postprocessed CASText before the values have been
+            // returned in place. Basically, `format_text` immediately after
+            // postprocessing and replacement immediately after `format_text`.
             $k = count($this->map) + 1;
             $key = "[[placeholder:$k]]"; // Assume that this is never present in normal content.
             // For this placeholder we match the input, validation and feedback syntax

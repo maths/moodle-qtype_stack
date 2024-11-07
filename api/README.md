@@ -118,7 +118,7 @@ The grading route returns the following fields:
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
 - a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets)
-- a string field `responsesummary` containing a summary of response. (See [Reporting](../doc/en/Authoring/Reporting.md).)
+- a string field `responsesummary` containing a summary of response. (See [Reporting](../doc/en/Authoring/../STACK_question_admin/Reporting.md).)
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 
 ### Validate route

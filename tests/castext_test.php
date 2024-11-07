@@ -2494,4 +2494,75 @@ class castext_test extends qtype_stack_testcase {
             '  Attempt to apply a non-atomic identifier detected: b+1</li></ul>';
         $this->assertEquals($expected, $at1->get_rendered());
     }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_format_moodle() {
+        $a2 = ['p1:diff(sin(x^2),x)'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $at1 = castext2_evaluatable::make_from_source("Find the integral of \n{@p1@}.",
+            'test-case');
+        $this->assertTrue($at1->get_valid(FORMAT_MOODLE));
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $expected = "Find the integral of <br />\n" .
+            '\({2\cdot x\cdot \cos \left( x^2 \right)}\).';
+        $this->assertEquals($expected, $at1->get_rendered());
+
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $at1 = castext2_evaluatable::make_from_source("Find the integral of \n{@p1@}.",
+            'test-case');
+        $this->assertTrue($at1->get_valid(FORMAT_HTML));
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $expected = "Find the integral of \n" .
+            '\({2\cdot x\cdot \cos \left( x^2 \right)}\).';
+        $this->assertEquals($expected, $at1->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_format_moodle_parsons() {
+        $a2 = ['thm:"The Great and Wonderful Theorem"',
+               'proof_steps:[["s1","Proof step 1"],["s2","Proof step 2"]]'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $at1 = castext2_evaluatable::make_from_source("Prove {@thm@}\n" .
+            "[[parsons]]{# parsons_encode(proof_steps) #}[[/parsons]]",
+            'test-case');
+        $this->assertTrue($at1->get_valid(FORMAT_MOODLE));
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $expected = "Prove The Great and Wonderful Theorem<br />\n[[placeholder:1]]";
+        $this->assertEquals($expected, $at1->get_rendered());
+
+        $txt = "This question is an example of how to use a directed acyclic graph (DAG) " .
+               "in assessment of a Parsons problem.";
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $at1 = castext2_evaluatable::make_from_source($txt, 'qd');
+        $this->assertTrue($at1->get_valid(FORMAT_MOODLE));
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $expected = $txt;
+        $this->assertEquals($expected, $at1->get_rendered());
+    }
 }

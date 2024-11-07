@@ -186,4 +186,4 @@ foreach ($availabletests as $anstest) {
 
 $page = get_string('fact_sheet_preamble', 'qtype_stack');
 $page .= stack_fact_sheets::generate_docs();
-file_put_contents('../doc/en/Authoring/Fact_sheets.md', $page);
+file_put_contents('../doc/en/Authoring/Question_blocks/Fact_sheets.md', $page);

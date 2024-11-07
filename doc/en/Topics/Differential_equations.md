@@ -1,6 +1,6 @@
 # Differential Equations
 
-This page provides examples of how to represent and manipulate ordinary differential equations (ODEs) in [Maxima](../CAS/Maxima.md) when writing STACK questions.
+This page provides examples of how to represent and manipulate ordinary differential equations (ODEs) in [Maxima](../CAS/Maxima_background.md) when writing STACK questions.
 
 ## Representing ODEs
 
@@ -205,7 +205,7 @@ Generating these kinds of problems is relatively simple: we just need to create 
 Let us assume we have two real roots.  We might expect an answer \( Ae^{\lambda_1 t}+Be^{\lambda_2 t} \).
 We might have an unusual, but correct, answer such as  \( Ae^{\lambda_1 t}\left(1+Be^{\lambda_2 t}\right) \).  Hence, we can't just "look at the answer".
 
-A [sample question](../Authoring/Sample_questions.md) of this type is provided by STACK, in which we have the following question variables.
+Take question variables.
 
     sa1 : subst(y(t)=ans1,ode);
     sa2 : ev(sa1,nouns);

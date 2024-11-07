@@ -49,6 +49,9 @@ class stack_cas_keyval {
     private $options;
     private $seed;
 
+    /** @var bool to hold when we add slashes to Maxima strings. */
+    private $pslash;
+
     // For error mapping keyvals do need a context.
     private $context;
 
@@ -58,7 +61,7 @@ class stack_cas_keyval {
      */
     public $errclass = 'stack_cas_error';
 
-    public function __construct($raw, $options = null, $seed=null, $ctx='') {
+    public function __construct($raw, $options = null, $seed=null, $ctx='', $pslash=false) {
         $this->raw          = $raw;
         $this->statements   = [];
         $this->errors       = [];
@@ -66,6 +69,7 @@ class stack_cas_keyval {
         $this->seed         = $seed;
         $this->context      = $ctx;
         $this->security     = new stack_cas_security();
+        $this->pslash       = $pslash;
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
@@ -256,6 +260,10 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
+    public function get_raw() {
+        return $this->raw;
+    }
+
     public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
             $updatearray['read'] = [];
@@ -312,6 +320,7 @@ class stack_cas_keyval {
         $str = $this->raw;
         // Similar QMCHAR protection as previously.
         $strings = stack_utils::all_substring_strings($str);
+
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }
@@ -319,7 +328,14 @@ class stack_cas_keyval {
         $str = str_replace('?', 'QMCHAR', $str);
 
         foreach ($strings as $key => $string) {
+            if ($this->pslash) {
+                $string = stack_utils::protect_backslash_latex($string);
+            }
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
+        }
+
+        if ($this->pslash) {
+            $this->raw = str_replace('QMCHAR', '?', $str);
         }
 
         // And then the parsing.

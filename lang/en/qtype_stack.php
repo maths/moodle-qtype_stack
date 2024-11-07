@@ -59,6 +59,7 @@ $string['stackversioncomment']    = 'This question appears to use /*...*/ style 
 
 // Strings used on the editing form.
 $string['generalerrors']     = 'There are errors in your question.  Please check carefully below.';
+$string['usetextarea']     = 'We strongly recommend you use the "textarea" editor for STACK questions.  Other editors may change content, and this is likely to break questions with Javascript and other code when you save your question.  Go to Preferences -> Editor Preferences and choose the "Plain text area".';
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
 $string['answernote'] = 'Answer note';
@@ -72,16 +73,16 @@ $string['answernoterequired'] = 'Answer note must not be empty.';
 $string['answernoteunique'] = 'Duplicate answer notes detected in this potential response tree.';
 $string['assumepositive'] = 'Assume positive';
 $string['assumepositive_help'] = 'This option sets the value of Maxima\'s assume_pos variable.';
-$string['assumepositive_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#Assume_Positive';
+$string['assumepositive_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#Assume_Positive';
 $string['assumereal'] = 'Assume real';
 $string['assumereal_help'] = 'This option sets the assume_real variable.';
-$string['assumereal_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#Assume_Real';
+$string['assumereal_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#Assume_Real';
 $string['autosimplify'] = 'Auto-simplify';
 $string['autosimplify_help'] = 'Sets the variable "simp" within Maxima for this question.  E.g. question variables, question text etc.  The value set in each potential response tree will over ride this for any expressions subsequently defined within the tree.';
-$string['autosimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
+$string['autosimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Simplification.md';
 $string['autosimplifyprt'] = 'Auto-simplify';
 $string['autosimplifyprt_help'] = 'Sets the variable "simp" within Maxima for the feedback variables defined in this potential response tree. Note that whether expressions in PRT notes are simplified before use depends on the answer test. For example, arguments to AlgEquiv are simplified, while those for EqualComAss are not.';
-$string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
+$string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Simplification.md';
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
@@ -93,7 +94,7 @@ $string['checkanswertype_help'] = 'If yes, answers which are of a different "typ
 $string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
 $string['complexno'] = 'Meaning and display of sqrt(-1)';
 $string['complexno_help'] = 'Controls the meaning and display of the symbol i and sqrt(-1)';
-$string['complexno_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#sqrt_minus_one.';
+$string['complexno_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#sqrt_minus_one.';
 $string['defaultmarkzeroifnoprts'] = 'The default mark must be 0 if this question has no PRTs.';
 $string['defaultprtcorrectfeedback'] = 'Correct answer, well done.';
 $string['defaultprtincorrectfeedback'] = 'Incorrect answer.';
@@ -106,10 +107,10 @@ $string['branchfeedback_help'] = 'This is CASText which may depend on any of the
 $string['inputtest'] = 'Input test';
 $string['inversetrig'] = 'Inverse trigonometric functions';
 $string['inversetrig_help'] = 'Controls how inverse trigonometric functions are displayed in CAS output.';
-$string['inversetrig_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#inverse_trig';
+$string['inversetrig_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#inverse_trig';
 $string['logicsymbol'] = 'Logic symbols';
 $string['logicsymbol_help'] = 'Controls how logical symbols should be displayed in CAS output.';
-$string['logicsymbol_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#logicsymbol';
+$string['logicsymbol_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#logicsymbol';
 $string['logicsymbollang'] = 'Language';
 $string['logicsymbolsymbol'] = 'Symbolic';
 $string['matrixparens'] = 'Default shape of matrix parentheses';
@@ -227,10 +228,10 @@ $string['insertspacesfunctions'] = 'Insert stars for implied multiplication, spa
 $string['insertspacesfunctionssingle'] = 'Insert stars for implied multiplication, spaces, no user-functions and assuming single-character var';
 $string['decimals'] = 'Decimal separator';
 $string['decimals_help'] = 'Choose the symbol, and options, for the decimal separator.';
-$string['decimals_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#decimals';
+$string['decimals_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#decimals';
 $string['scientificnotation'] = 'Scientific notation';
 $string['scientificnotation_help'] = 'Choose the format of scientific notation.';
-$string['scientificnotation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#scientificnotation';
+$string['scientificnotation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#scientificnotation';
 $string['scientificnotation_10'] = 'n * 10^m';
 $string['scientificnotation_E'] = 'n E m';
 $string['multcross'] = 'Cross';
@@ -238,7 +239,7 @@ $string['multdot'] = 'Dot';
 $string['multonlynumbers'] = 'Only numbers';
 $string['multiplicationsign'] = 'Multiplication sign';
 $string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
-$string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
+$string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#multiplication';
 $string['mustverify'] = 'Student must verify';
 $string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them as a forced two step process before this input is made available to the scoring mechanism.  Syntax errors are always reported back.';
 $string['mustverify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Student_must_verify';
@@ -311,7 +312,7 @@ $string['questionnote_missing'] = 'The question note is empty.  Please add a mea
 $string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  The question note is used to distinguish between different random variants of the question.';
 $string['questionsimplify'] = 'Question-level simplify';
 $string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
-$string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
+$string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Simplification.md';
 $string['questionwarnings'] = 'Question warnings';
 $string['questionwarnings_help'] = 'Question warnings are issues you might want to address, but which are not outright errors.';
 $string['questiontext'] = 'Question text';
@@ -353,7 +354,7 @@ $string['specificfeedback'] = 'Specific feedback';
 $string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.';
 $string['sqrtsign'] = 'Surd for square root';
 $string['sqrtsign_help'] = 'Controls how surds are displayed.';
-$string['sqrtsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#surd';
+$string['sqrtsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#surd';
 $string['strictsyntax'] = 'Strict syntax';
 $string['strictsyntax_help'] = 'This option is no longer used and will be removed.';
 $string['strictsyntax_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/';
@@ -631,6 +632,7 @@ $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';
 $string['savechat'] = 'Save back to question';
 $string['savechatmsg'] = 'Question variables and general feedback saved back to the question.';
+$string['pslash'] = 'Protect slashes within Maxima string variables: ';
 $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
 $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
@@ -998,7 +1000,7 @@ $string['stackBlock_geogebra_link_help']   = 'You want to edit this material? If
 $string['stackBlock_geogebra_heading']     = 'GeoGebra materials';
 // Define the stackBlock GeoGebra strings for global admin options.
 $string['stackBlock_geogebra_settingdefaultoptions'] = 'Options for GeoGebra in STACK';
-$string['stackBlock_geogebra_settingdefaultoptions_desc'] = 'The documentation for using GeoGebra with STACK is under Authoring/GeoGebra.md';
+$string['stackBlock_geogebra_settingdefaultoptions_desc'] = 'The documentation for using GeoGebra with STACK is under Specialist_tools/GeoGebra/';
 $string['stackBlock_geogebrabaseurl'] = 'Link to GeoGebra hosting (optional)';
 $string['stackBlock_geogebrabaseurl_help'] = 'Here you can add a custom link, if you host GeoGebra scripts on your own server. If you just want to use a specific GeoGebra version, use: https://www.geogebra.org/apps/5.0.498.0/web3d (e.g. for version 5.0.498.0)';
 
@@ -1254,7 +1256,7 @@ $string['fact_sheet_preamble'] = '# Hints
 
 STACK contains a "formula sheet" of useful fragments which a teacher may wish to include in a consistent way.  This is achieved through the "hints" system.
 
-Hints can be included in any [CASText](CASText.md).
+Hints can be included in any [CASText](../../Authoring/CASText.md).
 
 To include a hint, use the syntax
 

@@ -629,6 +629,16 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
                       [],
                       true, false);
 
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
+                      [],
+                      true, false);
+
         $this->expect('3.75*Btu',
                       '3.75*Btu',
                       [],
@@ -2397,6 +2407,16 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       true, false);
 

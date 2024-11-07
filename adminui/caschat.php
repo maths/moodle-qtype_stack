@@ -74,6 +74,7 @@ $displaytext = '';
 $debuginfo = '';
 $errs = '';
 $varerrs = [];
+$pslash = false;
 
 if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
     // ISS-1110 Handle calls from questiontestrun.php.
@@ -97,6 +98,7 @@ if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
     $inps   = optional_param('inputs', '', PARAM_RAW);
     $string = optional_param('cas', '', PARAM_RAW);
     $simp   = optional_param('simp', '', PARAM_RAW);
+    $pslash = optional_param('pslash', '', PARAM_RAW);
 }
 $savedb = false;
 $savedmsg = '';
@@ -114,6 +116,9 @@ if ('on' == $simp) {
 } else {
     $simp = false;
 }
+if ('on' == $pslash) {
+    $pslash = true;
+}
 // Initially simplification should be on.
 if (!$vars && !$string) {
     $simp = true;
@@ -126,7 +131,7 @@ if ($string) {
 
     $session = new stack_cas_session2([], $options);
     if ($vars || $inps) {
-        $keyvals = new stack_cas_keyval($vars . "\n" . $inps, $options, 0);
+        $keyvals = new stack_cas_keyval($vars . "\n" . $inps, $options, 0, '', $pslash);
         $keyvals->get_valid();
         $varerrs = $keyvals->get_errors();
         if ($keyvals->get_valid()) {
@@ -141,6 +146,9 @@ if ($string) {
             if ($kvcode['statement']) {
                 $statements[] = new stack_secure_loader($kvcode['statement'], 'caschat');
             }
+            if ($pslash) {
+                $vars = $keyvals->get_raw();
+            }
         }
     }
 
@@ -151,7 +159,7 @@ if ($string) {
         $session = new stack_cas_session2($statements, $options);
         if ($ct->get_valid()) {
             $session->instantiate();
-            // Over here we are nto sending it through filters so we can directly
+            // Over here we are not sending it through filters so we can directly
             // restore the held ones.
             $displaytext  = $ct->apply_placeholder_holder($ct->get_rendered());
         }
@@ -241,6 +249,11 @@ if ($questionid && !$varerrs) {
         ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat')]);
 }
 $fout .= html_writer::end_tag('p');
+
+$fout .= html_writer::start_tag('p') . stack_string('pslash');
+$fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash']);
+$fout .= html_writer::end_tag('p');
+
 echo html_writer::tag('form', $fout, ['action' => $PAGE->url, 'method' => 'post']);
 
 if ('' != trim($debuginfo)) {

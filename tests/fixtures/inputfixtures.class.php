@@ -65,7 +65,8 @@ class stack_inputvalidation_test_data {
         ['12.5 3', 'php_false', '', '', '', 'spaces', ""],
 
         ['1x', 'php_true', '1*x', 'cas_true', '1\cdot x', 'missing_stars', ""],
-        ['x1', 'php_true', 'x*1', 'cas_true', 'x\cdot 1', 'missing_stars', ""],
+        // Default input base class filters don't insert *s here.
+        ['x1', 'php_true', 'x1', 'cas_true', 'x_{1}', '', ""],
         ['1', 'php_true', '1', 'cas_true', '1', '', "Numbers"],
         ['.1', 'php_true', 'dispdp(.1,1)', 'cas_true', '0.1', '', ""],
         ['0.2000', 'php_true', 'dispdp(0.2000,4)', 'cas_true', '0.2000', '', ""],
@@ -99,7 +100,8 @@ class stack_inputvalidation_test_data {
         ['3e-2', 'php_true', 'displaysci(3,0,-2)', 'cas_true', '3 \times 10^{-2}', '', ""],
         ['52%', 'php_false', '52%', '', '', 'finalChar', ""],
         ['5.20%', 'php_false', '5.20%', '', '', 'finalChar', ""],
-        ['3.67x10^2', 'php_true', 'dispdp(3.67,2)*x*10^2', 'cas_true', '3.67\cdot x\cdot 10^2', 'missing_stars', ""],
+        ['3.67x10^2', 'php_true', 'dispdp(3.67,2)*x10^2', 'cas_true', '3.67\cdot x_{10}^2', 'missing_stars', ""],
+        ['3.67*x 10^2', 'php_false', 'dispdp(3.67,2)*x*10^2', 'cas_true', '', 'spaces', ""],
         ['1+i', 'php_true', '1+i', 'cas_true', '1+\mathrm{i}', '', ""],
         ['3-i', 'php_true', '3-i', 'cas_true', '3-\mathrm{i}', '', ""],
         ['-3+i', 'php_true', '-3+i', 'cas_true', '-3+\mathrm{i}', '', ""],
@@ -117,17 +119,19 @@ class stack_inputvalidation_test_data {
         ['"Hello world"', 'php_true', '"Hello world"', 'cas_true', '\text{Hello world}', '', ''],
         // In the continuous integration, "\"We \u{1F497} STACK!\" works with GCL but not with SBCL.
         ['x', 'php_true', 'x', 'cas_true', 'x', '', "Names for variables etc."],
-        ['a1', 'php_true', 'a*1', 'cas_true', 'a\cdot 1', 'missing_stars', ""],
-        ['a12', 'php_true', 'a*12', 'cas_true', 'a\cdot 12', 'missing_stars', ""],
-        ['ab123', 'php_true', 'ab*123', 'cas_true', '{\it ab}\cdot 123', 'missing_stars', ""],
+        // Cases below represent a difference between 403 (used by default) and 404 (not used) adding * for a1.
+        // That is for letter then number.
+        ['a1', 'php_true', 'a1', 'cas_true', 'a_{1}', '', ""],
+        ['a12', 'php_true', 'a12', 'cas_true', 'a_{12}', '', ""],
+        ['ab123', 'php_true', 'ab123', 'cas_true', '{\it ab}_{123}', '', ""],
         [
-            'a9b', 'php_true', 'a*9*b', 'cas_true', 'a\cdot 9\cdot b',
-            'missing_stars', "Note the subscripting and the implied multiplication.",
+            'a9b', 'php_true', 'a9*b', 'cas_true', 'a_{9}\cdot b',
+            'missing_stars | (403)', "Note the subscripting and the implied multiplication.",
         ],
-        ['ab98cd', 'php_true', 'ab*98*cd', 'cas_true', '{\it ab}\cdot 98\cdot {\it cd}', 'missing_stars', ''],
+        ['ab98cd', 'php_true', 'ab98*c*d', 'cas_true', '{\it ab}_{98}\cdot c\cdot d', 'missing_stars | (403)', ''],
         ["a'", 'php_false', '', '', '', 'apostrophe', ""],
         ['X', 'php_true', 'X', 'cas_true', 'X', '', ""],
-        ['aXy1', 'php_false', 'aXy*1', 'cas_true', '', 'missing_stars | forbiddenVariable', ""],
+        ['aXy1', 'php_true', 'aXy1', 'cas_true', '{\it aXy}_{1}', '', ""],
         // In STACK 4.3, the parser accepts these as functions.
         ['f(x)', 'php_true', 'f(x)', 'cas_true', 'f\left(x\right)', '', "Functions"],
         ['f(x)^2', 'php_true', 'f(x)^2', 'cas_true', 'f^2\left(x\right)', '', ""],
@@ -135,6 +139,8 @@ class stack_inputvalidation_test_data {
         ['x(t+1)', 'php_true', 'x(t+1)', 'cas_true', 'x\left(t+1\right)', '', ""],
         // Because we are using x as a variable, we do insert a * here!
         ['x(x+1)', 'php_true', 'x*(x+1)', 'cas_true', 'x\cdot \left(x+1\right)', 'missing_stars | Variable_function', ""],
+        ['f(x(x+f(1)))', 'php_true', 'f(x*(x+f(1)))', 'cas_true', 'f\left(x\cdot \left(x+f\left(1\right)\right)\right)',
+            'missing_stars | Variable_function', ""],
         ['x(sin(t)+1)', 'php_true', 'x(sin(t)+1)', 'cas_true', 'x\left(\sin \left( t \right)+1\right)', '', ""],
         ['b/a(x)', 'php_true', 'b/a(x)', 'cas_true', '\frac{b}{a\left(x\right)}', '', ""],
         ['3b+5/a(x)', 'php_true', '3*b+5/a(x)', 'cas_true', '3\cdot b+\frac{5}{a\left(x\right)}', 'missing_stars', ""],
@@ -404,11 +410,11 @@ class stack_inputvalidation_test_data {
         // The next case is important: please don't call the result of a function f(x), with an argument (2).
         ['f(x)(2)', 'php_true', 'f(x)*(2)', 'cas_true', 'f\left(x\right)\cdot 2', 'missing_stars', ""],
         [
-            'xsin(1)', 'php_true', 'x*sin(1)', 'cas_true', 'x\cdot \sin \left( 1 \right)', 'missing_stars',
+            'xsin(1)', 'php_true', 'x*sin(1)', 'cas_true', 'x\cdot \sin \left( 1 \right)', 'missing_stars | (402)',
             "single-letter variable name followed by known function is an implicit multiplication",
         ],
-        ['ycos(2)', 'php_true', 'y*cos(2)', 'cas_true', 'y\cdot \cos \left( 2 \right)', 'missing_stars', ""],
-        ['Bgcd(3,2)', 'php_true', 'B*gcd(3,2)', 'cas_true', 'B\cdot 1', 'missing_stars', ""],
+        ['ycos(2)', 'php_true', 'y*cos(2)', 'cas_true', 'y\cdot \cos \left( 2 \right)', 'missing_stars | (402)', ""],
+        ['Bgcd(3,2)', 'php_true', 'B*gcd(3,2)', 'cas_true', 'B\cdot 1', 'missing_stars | (402)', ""],
         ['+1', 'php_true', '+1', 'cas_true', '+1', '', "Unary plus"],
         // Note: no + in front of the LaTeX below.
         ['+0.200', 'php_true', '+dispdp(0.200,3)', 'cas_true', '+0.200', '', ""],
@@ -468,7 +474,7 @@ class stack_inputvalidation_test_data {
         ['root(x,3)', 'php_true', 'root(x,3)', 'cas_true', '\sqrt[3]{x}', '', ''],
         ['root(2,-3)', 'php_true', 'root(2,-3)', 'cas_true', '\sqrt[-3]{2}', '', ''],
         // Parser rules in 4.3, identify cases where known functions (cf) are prefixed with single letter variables.
-        ['bsin(t)', 'php_true', 'b*sin(t)', 'cas_true', 'b\cdot \sin \left( t \right)', 'missing_stars', ""],
+        ['bsin(t)', 'php_true', 'b*sin(t)', 'cas_true', 'b\cdot \sin \left( t \right)', 'missing_stars | (402)', ""],
         // So we have added gcf as a function so it is not g*cf...
         ['gcf(x,y)', 'php_true', 'gcf(x,y)', 'cas_true', '{\it gcf}\left(x , y\right)', '', ""],
         [
@@ -567,7 +573,7 @@ class stack_inputvalidation_test_data {
             "Note the use of the apostrophe here to make an inert function.",
         ],
         ["'diff(x,y)", 'php_false', '', 'cas_true', '', 'apostrophe', "Not ideal...arises because we don't 'simplify'."],
-        ['partialdiff(x,y,1)', 'php_false', '', '', '', 'missing_stars | forbiddenVariable', ""],
+        ['partialdiff(x,y,1)', 'php_false', '', '', '', 'missing_stars | (402) | forbiddenVariable', ""],
         ['limit(y,x,3)', 'php_true', 'limit(y,x,3)', 'cas_true', '\lim_{x\rightarrow 3}{y}', '', ""],
         ['mod(x,y)', 'php_true', 'mod(x,y)', 'cas_true', 'x \rm{mod} y', '', ""],
         ['binomial(n,m)', 'php_true', 'binomial(n,m)', 'cas_true', '{{n}\choose{m}}', '', ""],
@@ -666,6 +672,10 @@ class stack_inputvalidation_test_data {
         ['xYz_123', 'php_true', 'xYz_123', 'cas_true', '{{\it xYz}}_{123}', '', ""],
         ['beta_47', 'php_true', 'beta_47', 'cas_true', '{\beta}_{47}', '', ""],
         ['3beta_47', 'php_true', '3*beta_47', 'cas_true', '3\cdot {\beta}_{47}', 'missing_stars', ""],
+        // Subscripts in function names.
+        ['a_b(x)', 'php_false', 'a_b(x)', 'cas_true', '', 'forbiddenFunction', ""],
+        ['inverse_erf(x)', 'php_false', 'inverse_erf(x)', 'cas_true', '', 'missing_stars | (402) | forbiddenVariable', ""],
+
         ['a,b,c', 'php_false', 'a,b,c', 'cas_true', '', 'unencapsulated_comma', "Unencapsulated commas"],
         ['3,14159', 'php_false', '3,14159', 'cas_true', '', 'unencapsulated_comma', ""],
         ['0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', '', 'unencapsulated_comma', ""],
@@ -897,7 +907,8 @@ class stack_inputvalidation_test_data {
         $filterstoapply[] = '180_char_based_superscripts';
 
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
-        $filterstoapply[] = '404_split_at_number_letter_number_boundary';
+        $filterstoapply[] = '403_split_at_number_letter_boundary';
+        // Filter '404_split_at_number_letter_number_boundary' is not used by input base class.
         $filterstoapply[] = '406_split_implied_variable_names';
 
         $filterstoapply[] = '502_replace_pm';

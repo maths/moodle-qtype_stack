@@ -102,6 +102,16 @@ class ast_filter_541_no_unknown_functions_auto_generated_test extends qtype_stac
                       ['unknownFunction'],
                       false, true);
 
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['unknownFunction'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
+                      ['unknownFunction'],
+                      false, true);
+
         $this->expect('a(x)',
                       'a(x)',
                       ['unknownFunction'],
@@ -350,6 +360,16 @@ class ast_filter_541_no_unknown_functions_auto_generated_test extends qtype_stac
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      ['unknownFunction'],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['unknownFunction'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       ['unknownFunction'],
                       false, true);
 

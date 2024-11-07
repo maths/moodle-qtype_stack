@@ -58,7 +58,7 @@ The level of simplification performed by Maxima can be controlled by changing Ma
 When `simp` is set to `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
 This is most useful for dealing with very elementary expressions, and for [showing working](../CAS/Matrix.md#Showing-working).
 
-This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
+This variable can be set at the question level using the [options](../Authoring/Question_options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
 
 When `simp` is set to `false`, you can evaluate an expression with simplification turned on by using `ev(..., simp)`, for example:
 
@@ -276,7 +276,7 @@ Maxima does have the ability to make assumptions, e.g. to assume that \(n\) is a
 
 The variable `sans1` can then be used in the PRT.  Just note that `trigrat` writes powers of trig functions in terms of multiple angles.  This can have an effect of "expanding" out an expression.  E.g. `trigrat(cos(n)^20)` is probably still fine, but `trigrat(cos(n)^2000)` is probably not!  For this reason `trigrat` is not part of the default routines to establish equivalence.  Trig simplification, especially when we make assumptions on variables like \(n\), needs to be done on a question by question basis.
 
-## Function identifies which are compound quantities.
+## Function identifiers which are compound quantities.
 
 Typically operators should be single identifiers, e.g. with \(f\) applied to \(x\) in \(f(x)\) the identifier is simple.  Maxima supports compound operators, e.g. `(X+1)(x,y,z);` is valid Maxima.
 This syntax is problematic, and typically results from a user error, e.g. of the following kind in question variables.
@@ -305,4 +305,4 @@ Some further examples are given elsewhere:
 * An example of a question with `simp:false` is discussed in [authoring quick start 7](../AbInitio/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
-Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.
+Note also that [question tests](../STACK_question_admin/Testing.md#Simplification) do not simplify test inputs.

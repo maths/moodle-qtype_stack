@@ -1,7 +1,6 @@
 # Authoring quick start 4: randomisation
 
-[1 - First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
-
+1 - [First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - question library](Authoring_quick_start_6.md) | [7 - Multipart questions](Authoring_quick_start_7.md) | [8 - Simplification](Authoring_quick_start_8.md) | [9 - Quizzes](Authoring_quick_start_9.md)
 
 This part of the authoring quick start guide deals with randomisation. The following video explains the process:
 
@@ -33,7 +32,7 @@ ta: int(exp, x)+c;
 
 In this new question we are asking the student to find the anti-derivative of a question with a definite form \( a_1(x-a_2)^{-nn} \). `a1`, `a2` and `nn` are all variables which are assigned random positive integers.  These are then used to define the variable `exp`, used in the question itself. We also have the CAS integrate the expression `exp` and store the result in the variable `ta`. It is good practice to use variables names with more than one character as single-character variables, like `x`, are meant for student input.
 
-Remember that when generating random questions in STACK we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK, which you should use instead of [Maxima](../CAS/Maxima.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. `rand` can be used to generate random numbers and also to make selections from a list. `rand(n)` will select a random integer from 0 up to, **and not including**, `n`. So  `rand(3)` will select a random number from the list  `[0,1,2]` .
+Remember that when generating random questions in STACK we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK, which you should use instead of [Maxima](../CAS/Maxima_background.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. `rand` can be used to generate random numbers and also to make selections from a list. `rand(n)` will select a random integer from 0 up to, **and not including**, `n`. So  `rand(3)` will select a random number from the list  `[0,1,2]` .
 
 ## Question note
 

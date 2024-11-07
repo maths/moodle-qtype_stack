@@ -20,6 +20,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
+require_once(__DIR__ . '/../../../../api/util/StackIframeHolder.php');
 
 use api\util\StackIframeHolder;
 
@@ -197,7 +198,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         ];
 
         // As the content is large we cannot simply use the js_amd_call.
-        if (get_config('qtype_stack', 'stackapi')) {
+        if (get_config('qtype_stack', 'stackapi') || StackIframeHolder::$islibrary) {
             StackIframeHolder::add_iframe($args);
         } else {
             $PAGE->requires->js_amd_inline(

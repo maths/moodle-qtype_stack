@@ -296,7 +296,8 @@ class stack_equiv_input extends stack_input {
                 $val='';
             }
 
-            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules,
+                    array_merge($filterstoapply, $this->protectfilters),
                     [], 'Equivline', $this->options->get_option('decimals'));
 
             // Is the student permitted to include comments in their answer?
@@ -319,7 +320,7 @@ class stack_equiv_input extends stack_input {
 
             // Construct inert version of that.
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
-                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array_merge($filterstoapply, $this->protectfilters),
                 [], 'Equivline', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
@@ -365,9 +366,10 @@ class stack_equiv_input extends stack_input {
         }
         $errorfree = true;
         $rows = [];
+
         foreach ($caslines as $index => $cs) {
             $row = [];
-            $fb = $cs->get_feedback();
+            $fb = trim($cs->get_feedback());
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 $row[] = '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)';
                 if ($errors[$index]) {

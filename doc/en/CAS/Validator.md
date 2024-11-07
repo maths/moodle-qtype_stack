@@ -1,10 +1,10 @@
 # Bespoke validators and feedback
 
-The extra option `validator` to a particular [input](../Authoring/Inputs.md) allows additional bespoke validation, based on a function defined by the question author.  For example, you could require that the student's answer is a _list of exactly three equations_.
+The extra option `validator` to a particular [input](../Authoring/Inputs/index.md) allows additional bespoke validation, based on a function defined by the question author.  For example, you could require that the student's answer is a _list of exactly three equations_.
 
-The extra option `feedback` to a particular [input](../Authoring/Inputs.md) allows additional bespoke feedback, based on a function defined by the question author.
+The extra option `feedback` to a particular [input](../Authoring/Inputs/index.md) allows additional bespoke feedback, based on a function defined by the question author.
 
-Please check [existing, supported, validation options](../Authoring/Inputs.md#options) before defining your own!
+Please check [existing, supported, validation options](../Authoring/Inputs/index.md) before defining your own!
 
 For example, to check a list has at most three elements define the function named `validate_listlength` in the question variables, e.g.
 

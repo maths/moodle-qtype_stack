@@ -6,6 +6,13 @@ Let's assume we ask a student to break down integration using linearity for exam
 \[ \int x^2+\sin(x) \mathrm{d} x = \int {\color{red}?} \mathrm{d} x + \int {\color{red}?} \mathrm{d} x\]
 where the `?` are inputs `ans1` and `ans2`.  We might expect `ans1=x^2` but of course we could also have `ans1=sin(x)`.
 
+Another option is to create a _set_ from multiple inputs.
+
+1. Establish basic properties of each input with one a corresponding PRT.
+2. Establish the overall properties of the set of solutions.
+
+An example question is given in the stack library under `Topics\Complex_cube_roots.xml`.
+
 ### Use the feedback variables
 
 One option is to define `sans:ans1+ans2` in the feedback variables.  Then the PRT can check `sans` is equivalent to the integrand up to commutativity and associativity (or something else if you perefer). The problem with this is the difficulty in awarding partial credit.

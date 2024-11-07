@@ -73,9 +73,14 @@ Here are some design choices.
 
 If question level simplification is on, then the value will probably get re-simplified to Cartesian form.
 
-The predicate `complex_exponentialp(ex)` determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).  Needs `simp:false`.
+The predicate `complex_exponentialp(ex)` determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).
 Note this test is strict
 
 1. we must have \(r\geq 0\);
 2. we must have \(-\pi < \theta \leq \pi\).
 3. we expect negative real numbers to be written as \(r e^{i\pi}\).
+
+This predicate needs `simp:false`.  In particular do not test using the `ATAlgEquiv` test, which always simplifies its arguments.  Instead test with `ATCasEqual(complex_exponentialp(ans1),true)` to avoid automatic simplification of `ans1` back to Cartesian form _before_ applying the predicate!
+
+An example question is given in the stack library under `Topics\Complex_cube_roots.xml`.
+

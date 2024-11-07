@@ -1238,6 +1238,7 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'imag_numberp(%e^(%pi/2))', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3)', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-3)', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^%i)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
@@ -1245,8 +1246,12 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'complex_exponentialp(%e^(%i)/4)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(-%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'true', 1, 'ATCASEqual_true.', ''],
+        // We must have -p1<theta<=pi.
+        ['CasEqual', '', 'complex_exponentialp(3*%e^(-7*%i*%pi/3))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(7*%e^(3*%i*%pi))', 'false', 1, 'ATCASEqual_true.', ''],
+        // We must have r>0.
+        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'false', 1, 'ATCASEqual_true.', ''],
         // The below test case is 0 because this is a general expression with variables.
         ['CasEqual', '', 'complex_exponentialp(-(r*exp(i*atan(bb/aa))))', 'true', 0, 'ATCASEqual_false.', ''],
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.

@@ -573,7 +573,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
-                stack_string('feedbackvariables'), ['rows' => 3, 'cols' => 80]);
+                stack_string('feedbackvariables'), ['rows' => 4, 'cols' => 80]);
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 
         $inputnames = implode(', ', $inputnames);
@@ -689,7 +689,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
-                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 2], $this->editoroptions);
+                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 4], $this->editoroptions);
             $mform->addHelpButton($prtname . $branch . 'feedback[' . $nodekey . ']', 'branchfeedback', 'qtype_stack');
         }
 

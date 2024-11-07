@@ -430,7 +430,7 @@ class responseanalysis_test extends qtype_stack_testcase {
         self::$question2 = test_question_maker::make_question('stack', 'test3');
     }
 
-    public function set_question():void {
+    public function set_question(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
@@ -441,7 +441,7 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->report->reports_sort();
     }
 
-    public function set_question_mult():void {
+    public function set_question_mult(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();

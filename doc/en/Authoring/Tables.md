@@ -14,7 +14,8 @@ However, there are some special rules for the tex display.
 3. There are currently no options for customising printing of borders, etc.
 4. You can highlight entries in the table using the command `texcolor("col", ex)`.  Note however, this will also underline any entries (as colour alone is poor accessibility practice.).
 
-The table `T0` is displayed as \[ {\begin{array}{c|c} x & x^3\\ \hline -1 & -1 \\ 0 & 0 \\ 1 & 1 \\ 2 & 8 \\ 3 & 27\end{array}} \].
+The table `T0` is displayed as 
+\[ \begin{array}{c|c} x & x^3\\ \hline -1 & -1 \\ 0 & 0 \\ 1 & 1 \\ 2 & 8 \\ 3 & 27\end{array} \].
 
 `table_bool_abbreviate:true` is a boolean variable.  If set to `true` (the default) boolean entries `true/false` will be abbreviated to `T/F` respectively when creating the LaTeX for display, to keep the table small and tidy looking.  All other entries in the table are typeset normally.  This only affects the LaTeX display, and table entries remain boolean.
 

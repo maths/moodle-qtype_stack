@@ -38,6 +38,8 @@ $links = [
         ['link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php')]),
     get_string('bulktestindexintro_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php')]),
+    get_string('todo_desc', 'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/todo.php')]),
     get_string('dependenciesintro_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/dependencies.php')]),
     get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
@@ -83,7 +85,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
-        get_string('settingcastimeout_desc', 'qtype_stack'), 20, PARAM_INT, 3));
+        get_string('settingcastimeout_desc', 'qtype_stack'), 30, PARAM_INT, 3));
 
 $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
         get_string('settingcasresultscache', 'qtype_stack'),

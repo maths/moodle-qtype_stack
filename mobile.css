@@ -1,0 +1,1259 @@
+/* Style for hint question block */
+details.stack-hint {
+    padding: 2px;
+    display: block;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    width: fit-content;
+}
+
+div.stack-hint-content {
+    padding: 10px;
+}
+
+/* Styles used when questions are being attempted. */
+.que.stack .stackruntimeerrror {
+    color: #c02200;
+    font-size: 100%;
+    font-weight: bold;
+}
+.que.stack .stacksyntaxexample {
+    color: #1f536b;
+    font-family: monospace;
+    font-size: 100%;
+    font-weight: bold;
+}
+.que.stack .stacksyntaxexamplehighlight {
+    color: #f00;
+}
+.que.stack .stackinputfeedback.standard {
+    border: 1px solid #eee;
+    background-color: #fff;
+    margin: 0.2em 0.2em 0.5em;
+    padding: 0.5em 0.5em 0;
+}
+.que.stack .stackinputfeedback.equiv {
+    vertical-align: top;
+    display: inline-block;
+    background-color: #fff;
+    margin: 0;
+    padding: 0.2em;
+}
+.que.stack .stackinputfeedback.compact {
+    margin: 3px 3px 3px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 0.3em;
+}
+.stackinputfeedback .MathJax_Display {
+    margin: 0.5em 0;
+}
+.que.stack .stackinputerror {
+    padding: 0.2em 0.2em 0.2em;
+    margin: 3px 3px 3px;
+    display: block;
+}
+.que.stack .stackinputnotice {
+    font-size: x-small;
+    color: #888;
+}
+.que.stack .stackinputfeedback.empty {
+    display: none;
+}
+.que.stack .stackinputfeedback.waiting,
+.que.stack .stackinputfeedback.loading {
+    color: #888;
+    min-height: 1em;
+}
+.que.stack .stackinputfeedback.loading {
+    background: #fff url('../pix/loading_small.gif') no-repeat top right;
+}
+.que.stack .stackinputfeedback.waiting .stacksyntaxexample,
+.que.stack .stackinputfeedback.loading .stacksyntaxexample {
+    color: #84aec1;
+}
+.que.stack textarea {
+    vertical-align: top;
+    display: inline-block;
+    max-width: 100%;
+    resize: both;
+    height: auto;
+    background-color: white;
+}
+#id_questionvariables,
+textarea[id*=feedbackvariables],
+textarea[name=maximavars] {
+    min-width: 100%;
+    font-family: monospace;
+}
+.que.stack input[type=checkbox] {
+    margin-right: 0.4em;
+}
+.que.stack input[type=radio] {
+    margin-right: 0.4em;
+}
+.que.stack input[type=text] {
+    max-width: 100%;
+    padding: 2px !important;
+}
+.que.stack .geogebra-right,
+.que.stack .numerical-right,
+.que.stack .algebraic-right,
+.que.stack .algebraic-units-right {
+    max-width: 100%;
+    text-align: right;
+}
+.que.stack .input-monospace {
+    font-family: monospace;
+}
+
+.que.stack .formulation .stackprtfeedback {
+    background: #fcf8e3;
+    margin: 0.2em -0.2em 0.5em;
+    padding: 0.2em 0.5em 0.2em 0.2em;
+    display: inline-block;
+    vertical-align: top;
+}
+.que.stack .formulation .stackprtfeedback .correct,
+.que.stack .formulation .stackprtfeedback .partiallycorrect,
+.que.stack .formulation .stackprtfeedback .incorrect {
+    background: transparent;
+    font-weight: 700;
+}
+.que.stack .formulation .questiontestslink {
+    float: right;
+    font-size: 0.8em;
+    margin: -0.3em -0.3em;
+}
+body.pagelayout-embedded .que.stack .formulation .questiontestslink {
+    display: none;
+}
+
+.que.stack .formulation .answer .option {
+    margin: 0.7em;
+}
+
+.que.stack .matrixtable {
+    border-collapse: collapse;
+}
+
+.que.stack div.matrixroundbrackets {
+    display: inline-block;
+    border: 0;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    border-radius: 1em;
+    padding: 0.5em;
+}
+
+.que.stack div.matrixnobrackets {
+    display: inline-block;
+    border: 0;
+    padding: 0.5em;
+}
+
+.que.stack div.matrixbarbrackets {
+    display: inline-block;
+    border: 0;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    padding: 0.5em;
+}
+
+.que.stack div.matrixsquarebrackets {
+    display: inline-block;
+    background-image:
+        linear-gradient(#000, #000),
+        linear-gradient(#000, #000),
+        linear-gradient(#000, #000),
+        linear-gradient(#000, #000);
+    background-repeat: no-repeat;
+    background-size: 8px 2px;
+    background-position: top left, top right, bottom left, bottom right;
+    border: solid #000;
+    border-width: 0 2px;
+    padding: 0.5em;
+}
+
+.que.stack textarea.varmatrixinput {
+    overflow: hidden;
+    white-space: pre;
+    min-width: 3rem;
+    min-height: 3rem;
+    width: 3rem;
+    height: 3rem;
+    outline: none;
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+.que.stack textarea.equivinput {
+    overflow: hidden;
+    white-space: pre;
+    outline: none;
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+.que.stack .stack-ion-select {
+    display: inline-block;
+    width: fit-content;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+}
+
+body.path-question-type-stack-doc blockquote {
+    border-left: 5px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 1em 10px .1em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
+}
+
+/* Support for proof. */
+.proof,
+.proof-block {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 3px;
+    margin: 2px 4px;
+    overflow: hidden;
+}
+.proof-block {
+    border: none;
+    border-left: 3px solid;
+    margin-top: 1em;
+    padding-left: 1em;
+}
+
+/* Proofs have lines, containing columns.  Clear floats after the columns. */
+.proof-line {
+    width: 100%;
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Create columns that floats next to each other. */
+.proof-num {
+    float: left;
+    width: 25px;
+    padding: 1px;
+}
+.proof-comment {
+    background: rgba(255, 255, 255, 0.7);
+    float: right;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding: 2px;
+    margin: 2px;
+}
+.proof-step,
+.proof-column,
+.proof-column-2 {
+    float: left;
+    padding: 1px;
+}
+/* Proof columns have a fixed width.  Comments and steps do not.  */
+.proof-column,
+.proof-column-2 {
+    width: 48%;
+}
+.proof-column-2 {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+@media screen and (max-width: 900px) {
+    .proof-column {
+        width: 100%;
+    }
+    .proof-column-2 {
+        width: 100%;
+    }
+}
+
+/* Style some proofs as numbered steps. */
+ol.proof-steps {
+    counter-reset: li;
+    margin-left: 0;
+    padding-left: 0;
+    margin-top: 0;
+}
+ol.proof-steps > li {
+    position: relative;
+    margin-left: 2em;
+    padding: 0.5em;
+    list-style: none;
+    line-height: 1.5em;
+}
+ol.proof-steps > li > p {
+    margin: 0;
+}
+ol.proof-steps > li:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    top: 7px;
+    left: -2em;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: .2em;
+    margin-top: 0;
+    border-style: none;
+    border-radius: 50%;
+    line-height: 1.4em;
+    text-align: center;
+    z-index: 2;
+    background-color: #039;
+    color: white;
+    font-weight: 600;
+    vertical-align: middle;
+    padding-top: 1px;
+}
+
+ol.proof-steps > li:after {
+    position: absolute;
+    left: -19px;
+    top: 10px;
+    content: "";
+    height: 100%;
+    width: 0;
+    border-left: 3px solid #039;
+    z-index: 1;
+}
+ol.proof-steps > li:last-of-type:after {
+    border: none;
+}
+ol.proof-steps > li:before {
+    content: counter(li, decimal);
+}
+ol.proof-steps ol.proof-steps > li:before {
+    content: counter(li, lower-latin);
+}
+ol.proof-steps ol.proof-steps ol.proof-steps > li:before {
+    content: counter(li, lower-roman);
+}
+
+/* Styles for the editing form. */
+body#page-question-type-stack .fitem_fgroup .accesshide,
+body#page-question-type-stack-questiontestedit .fitem_fgroup .accesshide {
+    font: inherit;
+    left: 0;
+    position: static;
+}
+body#page-question-type-stack div[id^=fgroup_id_][id*=node_] {
+    margin-top: 2em;
+    background: #ddf;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fgroup_id_][id*=nodewhentrue_],
+body#page-question-type-stack div[id^=fitem_id_][id*=truefeedback_] {
+    background: #cfc;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fgroup_id_][id*=nodewhenfalse_],
+body#page-question-type-stack div[id^=fitem_id_][id*=falsefeedback_] {
+    background: #fcc;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fitem_id_][id*=truefeedback_],
+body#page-question-type-stack div[id^=fitem_id_][id*=falsefeedback_] {
+    padding-bottom: 0.3em;
+}
+body#page-question-type-stack div[id^=fitem_id_][id*=nodeadd] {
+    margin-top: 2em;
+}
+
+/* Styles for the supporting scripts, healthcheck, etc. */
+body.path-question-type-stack dt {
+    font-weight: bold;
+}
+body.path-question-type-stack dd {
+    margin-left: 2em;
+}
+body#page-question-type-stack-healthcheck textarea {
+    font-family: monospace;
+    width: 100%;
+    white-space: pre;
+}
+body#page-question-type-stack-healthcheck div.box {
+    background: #ddd;
+}
+body#page-question-type-stack-healthcheck div.box h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+body#page-question-type-stack-healthcheck div.box h3 {
+    margin-top: 0.7em;
+    margin-bottom: 0.3em;
+}
+body#page-question-type-stack-healthcheck div.box pre {
+    margin-bottom: 0;
+}
+body.path-question-type-stack table.stacktestsuite .notes td,
+body.path-question-type-stack p.notes {
+    font-weight: bold;
+}
+body.path-question-type-stack table.stacktestsuite .pass td,
+body.path-question-type-stack p.pass {
+    background-color: #dfd;
+}
+body.path-question-type-stack table.stacktestsuite .fail td,
+body.path-question-type-stack p.fail {
+    background-color: #fdd;
+}
+body.path-question-type-stack table.stacktestsuite .expectedfail td {
+    background-color: #ffd;
+}
+body.path-question-type-stack table.stacktestsuite pre {
+    font-size: 0.8em;
+    background: #fff9;
+    padding: 0.25rem;
+    max-width: 60em;
+}
+body.path-question-type-stack .stacktestsuite td {
+    padding: 0.3rem;
+}
+body.path-question-type-stack .stacktestsuite .MathJax_Display {
+    margin: 0;
+}
+body.path-question-type-stack .stacktestsuite {
+    margin-bottom: 0.5rem;
+}
+.questionvariables pre {
+    white-space: pre-wrap;
+}
+body.path-question-type-stack h2.fail,
+body.path-question-type-stack h3 span.fail {
+    color: #f00;
+}
+body.path-question-type-stack h2.pass,
+body.path-question-type-stack h3 span.pass {
+    color: #080;
+}
+body.path-question-type-stack .overallresult {
+    color: white;
+    font-weight: bold;
+    padding: 0.5em;
+}
+body.path-question-type-stack .overallresult.fail {
+    background: #f00;
+}
+body.path-question-type-stack .overallresult.pass {
+    background: #080;
+}
+body.path-question-type-stack .testcasebuttons div,
+body.path-question-type-stack .testcasebuttons form {
+    display: inline;
+}
+
+body.path-question-type-stack pre.questiontext,
+body#page-question-type-stack-replacedollars div.questiontext,
+body.path-question-type-stack .questionnote,
+body.path-question-type-stack .questionvariables {
+    background: #eee;
+    padding: 1em;
+}
+body.path-question-type-stack div.questionvariables {
+    padding-bottom: 0.1em;
+}
+body.path-question-type-stack .factsheet {
+    color: #000;
+    border: 1px solid #000;
+    background: #eee;
+    padding: 1em;
+}
+
+body.path-question-type-stack .undeployedvariant .singlebutton,
+body.path-question-type-stack .undeployedvariant .singlebutton div,
+body.path-question-type-stack .undeployedvariant .singlebutton form {
+    display: inline;
+}
+body.path-question-type-stack .switchtovariant {
+    margin-top: 1em;
+}
+
+.displayequation {
+    display: block;
+    text-align: left;
+    margin: 0.5em 0 0.5em 2em;
+}
+.stack_plot {
+    text-align: center;
+}
+body#page-question-type-stack-replacedollars pre.questiontext {
+    white-space: pre-wrap;
+}
+body#page-question-type-stack-replacedollars pre del {
+    color: red;
+    font-weight: bold;
+}
+body#page-question-type-stack-replacedollars pre ins {
+    color: green;
+    font-weight: bold;
+}
+
+body.ie:not(.ie11) .stack_abstract_graph {
+    /* Once IE can cope, we can delete this rule. */
+    display: none;
+}
+.stack_abstract_graph {
+    background: #ffc;
+    margin: 5px;
+}
+.stack_abstract_graph path {
+    stroke-width: 3px;
+    fill: none;
+}
+.stack_abstract_graph path.left {
+    stroke: #0d0;
+}
+.stack_abstract_graph circle.left {
+    fill: #0d0;
+}
+.stack_abstract_graph path.right {
+    stroke: #a00;
+}
+.stack_abstract_graph circle.right {
+    fill: #a00;
+}
+.stack_abstract_graph path.cross {
+    stroke: #f00;
+    stroke-linecap: round;
+}
+.stack_abstract_graph text {
+    font-family: Verdana, sans-serif;
+}
+.stack_abstract_graph text.nodelabel {
+    font-size: 0.8em;
+    fill: #fff;
+    alignment-baseline: middle;
+    text-anchor: middle;
+}
+.stack_abstract_graph text.edgelabel {
+    font-size: 0.8em;
+    fill: #000;
+    alignment-baseline: middle;
+}
+.stack_abstract_graph text.edgelabel.left {
+    text-anchor: end;
+}
+.stack_abstract_graph text.edgelabel.right {
+    text-anchor: start;
+}
+.stack_abstract_graph circle.node {
+    fill: #00f;
+}
+
+/* This should all be inherited in some way from the theme settings. */
+#basic-modal-content {
+    display: none;
+}
+
+/* Overlay */
+#simplemodal-overlay {
+    background-color: #000;
+    cursor: wait;
+}
+
+/* Container */
+#simplemodal-container {
+    height: 360px;
+    width: 600px;
+    border: 4px solid #444;
+    padding: 12px;
+    background-color: inherit;
+}
+#simplemodal-container .simplemodal-data {
+    padding: 8px;
+}
+#simplemodal-container a.modalCloseImg {
+    background: url('../pix/x.png') no-repeat;
+    width: 25px;
+    height: 29px;
+    display: inline;
+    z-index: 3200;
+    position: absolute;
+    top: -15px;
+    right: -16px;
+    cursor: pointer;
+}
+
+/*! jQuery UI - v1.12.1 - 2019-05-02
+* http://jqueryui.com
+* Includes: core.css, autocomplete.css, menu.css, theme.css
+* Copyright jQuery Foundation and other contributors; Licensed MIT */
+
+/* Layout helpers
+----------------------------------*/
+.ui-helper-hidden {
+    display: none;
+}
+.ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+.ui-helper-reset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    line-height: 1.3;
+    text-decoration: none;
+    font-size: 100%;
+    list-style: none;
+}
+.ui-helper-clearfix:before,
+.ui-helper-clearfix:after {
+    content: "";
+    display: table;
+    border-collapse: collapse;
+}
+.ui-helper-clearfix:after {
+    clear: both;
+}
+.ui-helper-zfix {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    opacity: 0;
+}
+
+.ui-front {
+    z-index: 100;
+}
+
+/* Interaction Cues
+----------------------------------*/
+.ui-state-disabled {
+    pointer-events: none;
+}
+
+/* Icons
+----------------------------------*/
+.ui-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -.25em;
+    position: relative;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+.ui-widget-icon-block {
+    left: 50%;
+    margin-left: -8px;
+    display: block;
+}
+
+/* Misc visuals
+----------------------------------*/
+
+/* Overlays */
+.ui-widget-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.ui-autocomplete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: default;
+}
+.ui-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    outline: 0;
+}
+.ui-menu .ui-menu {
+    position: absolute;
+}
+.ui-menu .ui-menu-item {
+    margin: 0;
+    cursor: pointer;
+}
+.ui-menu .ui-menu-item-wrapper {
+    position: relative;
+    padding: 3px 1em 3px .4em;
+}
+.ui-menu .ui-menu-divider {
+    margin: 5px 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    border-width: 1px 0 0 0;
+}
+.ui-menu .ui-state-focus,
+.ui-menu .ui-state-active {
+    margin: -1px;
+}
+
+/* icon support */
+.ui-menu-icons {
+    position: relative;
+}
+.ui-menu-icons .ui-menu-item-wrapper {
+    padding-left: 2em;
+}
+
+/* left-aligned */
+.ui-menu .ui-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: .2em;
+    margin: auto 0;
+}
+
+/* right-aligned */
+.ui-menu .ui-menu-icon {
+    left: auto;
+    right: 0;
+}
+
+/* Component containers
+----------------------------------*/
+.ui-widget {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+}
+.ui-widget .ui-widget {
+    font-size: 1em;
+}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+}
+.ui-widget.ui-widget-content {
+    border: 1px solid #c5c5c5;
+}
+.ui-widget-content {
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+}
+.ui-widget-content a {
+    color: #333;
+}
+.ui-widget-header {
+    border: 1px solid #ddd;
+    background: #e9e9e9;
+    color: #333;
+    font-weight: bold;
+}
+.ui-widget-header a {
+    color: #333;
+}
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+/* We use html here because we need a greater specificity to make sure disabled works properly when clicked or hovered */
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active {
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: normal;
+    color: #454545;
+}
+.ui-state-default a,
+.ui-state-default a:link,
+.ui-state-default a:visited,
+a.ui-button,
+a:link.ui-button,
+a:visited.ui-button,
+.ui-button {
+    color: #454545;
+    text-decoration: none;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-button:hover,
+.ui-button:focus {
+    border: 1px solid #ccc;
+    background: #ededed;
+    font-weight: normal;
+    color: #2b2b2b;
+}
+.ui-state-hover a,
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited,
+.ui-state-focus a,
+.ui-state-focus a:hover,
+.ui-state-focus a:link,
+.ui-state-focus a:visited,
+a.ui-button:hover,
+a.ui-button:focus {
+    color: #2b2b2b;
+    text-decoration: none;
+}
+
+.ui-visual-focus {
+    box-shadow: 0 0 3px 1px rgb(94, 158, 214);
+}
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+    border: 1px solid #003eff;
+    background: #007fff;
+    font-weight: normal;
+    color: #fff;
+}
+.ui-icon-background,
+.ui-state-active .ui-icon-background {
+    border: #003eff;
+    background-color: #fff;
+}
+.ui-state-active a,
+.ui-state-active a:link,
+.ui-state-active a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Misc visuals
+----------------------------------*/
+
+/* Corner radius */
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-left,
+.ui-corner-tl {
+    border-top-left-radius: 3px;
+}
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-right,
+.ui-corner-tr {
+    border-top-right-radius: 3px;
+}
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
+    border-bottom-left-radius: 3px;
+}
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+    border-bottom-right-radius: 3px;
+}
+
+/* Overlays */
+.ui-widget-overlay {
+    background: #aaa;
+    opacity: .3;
+}
+.ui-widget-shadow {
+    -webkit-box-shadow: 0 0 5px #666;
+    box-shadow: 0 0 5px #666;
+}
+
+/* Styles for varmatrix_input */
+.varmatrixinputdiv {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    position: relative;
+    display: inline-block;
+    padding: 5px;
+    min-width: 20px;
+    min-height: 20px;
+}
+.varmatrixinputspan {
+    outline: none;
+    background: white;
+    padding: 3px;
+}
+.varmatrixBorderTopLeft {
+    background: black;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 1px;
+}
+.varmatrixBorderTopRight {
+    background: black;
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 1px;
+}
+.varmatrixBorderBottomLeft {
+    background: black;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 1px;
+}
+.varmatrixBorderBottomRight {
+    background: black;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 1px;
+}
+
+/*****************************************
+                   HELM
+*****************************************/
+.HELM_exercise {
+    font-weight: bold;
+    font-size: 110%;
+}
+.HELM_exercise:before {
+    font-family: "FontAwesome";
+    content: "\f040";
+    padding-right: 0.5rem;
+    font-size: 120%;
+    display: inline-block;
+}
+h4.HELM_example,
+.HELM_example {
+    font-size: 95%;
+    background: #1e92cc;
+    color: #fff;
+    text-shadow: none;
+    padding: 0.5em;
+    display: inline-block;
+    margin: -0.5em -0.5em 0.5em 0;
+    border-radius: 0.2em;
+}
+h4.HELM_example:before,
+.HELM_example:before {
+    font-family: "FontAwesome";
+    content: "\f046";
+    display: inline-block;
+    padding-right: 0.5em;
+    vertical-align: middle;
+    font-weight: 500;
+    font-size: 120%;
+}
+.HELM_solution {
+    font-size: 95%;
+    color: #1e92cc;
+}
+.HELM_part {
+    background: #1e92cc;
+    color: #fff;
+    text-shadow: none;
+    border-radius: 0.2em;
+    padding: 0.3rem;
+    margin-left: 1em;
+}
+ol.HELM_parts {
+    list-style: none;
+    counter-reset: helm-parts;
+    float: left;
+    width: 100%;
+}
+ol.HELM_parts li {
+    counter-increment: helm-parts;
+    margin-bottom: 1.5rem;
+}
+
+ol.HELM_parts li:before {
+    content: "(" counter(helm-parts, lower-alpha) ")";
+    margin-left: -2.2rem;
+    margin-top: -0.3rem;
+    background: #1e92cc;
+    border-radius: 0.2rem;
+    color: white;
+    text-shadow: none;
+    padding: 0.3rem;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    float: left;
+    clear: left;
+}
+
+ol.HELM_parts_inline {
+    list-style: none;
+    padding: 0;
+    counter-reset: helm-parts;
+    float: left;
+    width: 100%;
+}
+ol.HELM_parts_inline > li {
+    counter-increment: helm-parts;
+    display: inline;
+    margin-left: -2.2rem;
+}
+ol.HELM_parts_inline > li::before {
+    content: "(" counter(helm-parts, lower-alpha) ")";
+    margin-right: 1ex;
+    margin-top: -0.3rem;
+    background: #1e92cc;
+    border-radius: 0.2rem;
+    color: white;
+    text-shadow: none;
+    padding: 0.3rem;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+}
+ol.HELM_parts_inline > li:not(:last-child)::after {
+    content: "";
+    margin-right: 4rem;
+}
+/* Make ordered lists within ordered lists display in lower-roman (i) style. */
+ol.HELM_parts > li > ol.HELM_parts > li:before {
+    content: "(" counter(helm-parts, lower-roman) ")";
+}
+
+div.HELM_keypoint {
+    border: 1px solid #1e92cc;
+    border-left-width: 3px;
+    padding: 0.2rem 1rem;
+}
+.HELM_keypoint h4 {
+    font-size: 110%;
+    color: #1e92cc;
+}
+.HELM_keypoint h4:before {
+    font-family: "FontAwesome";
+    content: "\f0a9";
+    padding-right: 0.5rem;
+    font-size: 120%;
+    display: inline-block;
+}
+
+/* Define HELM table styling. */
+table.HELM_table {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+table.HELM_table th {
+    border-bottom: 1px solid black;
+}
+table.HELM_table td,
+table.HELM_table th {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid black;
+}
+table.HELM_table td:last-child,
+table.HELM_table th:last-child {
+    border-right: 0;
+}
+
+/* RTL support */
+
+/* Student answer form fields */
+.que.stack .algebraic,
+.que.stack .algebraic-units,
+.que.stack .numerical,
+.que.stack .maxima-string,
+.que.stack .maxima-list,
+.que.stack .equiv,
+.que.stack .equivinput,
+.que.stack .varmatrixinput,
+.que.stack .matrixtable,
+/* Question authoring form */
+#page-question-type-stack textarea#id_questionvariables,
+#page-question-type-stack input#id_variantsselectionseed,
+#page-question-type-stack #id_questionnote,
+#page-question-type-stack #id_prt1feedbackvariables,
+#page-question-type-stack input#id_ans1modelans,
+#page-question-type-stack input#id_ans1allowwords,
+#page-question-type-stack input#id_ans1options {
+    display: inline-block;
+    /*rtl:ignore*/
+    direction: ltr;
+}
+/* Properly display inversetrig values, in RTL mode */
+#page-question-type-stack #id_inversetrig option {
+    unicode-bidi: plaintext;
+}
+
+/* Trees: https://codepen.io/ross-angus/pen/jwxMjL
+Copyright (c) 2022 by Ross Angus (https://codepen.io/ross-angus/pen/jwxMjL)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/* It's supposed to look like a tree diagram. */
+.algebratree,
+.algebratree ul,
+.algebratree li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.algebratree {
+    margin: 0 0 1em;
+    text-align: center;
+}
+.algebratree,
+.algebratree ul {
+    display: table;
+}
+.algebratree ul {
+    width: 100%;
+}
+.algebratree li {
+    display: table-cell;
+    padding: .5em 0;
+    vertical-align: top;
+}
+/* _________ */
+.algebratree li:before {
+    outline: solid 1px #666;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.algebratree li:first-child:before {
+    left: 50%;
+}
+.algebratree li:last-child:before {
+    right: 50%;
+}
+.algebratree span.atom,
+.algebratree span.op,
+.algebratree span.cell,
+.algebratree code {
+    border: solid .1em #666;
+    border-radius: .2em;
+    display: inline-block;
+    margin: 0 .2em .5em;
+    padding: .2em .5em;
+    position: relative;
+}
+/* If the tree represents DOM structure. */
+.algebratree span.atom {
+    border-radius: .5em;
+    color: DarkRed;
+    background-color: LightCyan;
+}
+.algebratree code,
+.algebratree span.op {
+    border-radius: .2em;
+    color: Red;
+    background-color: LemonChiffon;
+}
+/* | */
+.algebratree ul:before,
+.algebratree span.atom:before,
+.algebratree span.op:before,
+.algebratree span.cell:before,
+.algebratree code:before {
+    outline: solid 1px #666;
+    content: "";
+    height: .5em;
+    left: 50%;
+    position: absolute;
+}
+.algebratree ul:before {
+    top: -.5em;
+}
+.algebratree span.atom:before,
+.algebratree span.op:before,
+.algebratree span.cell:before,
+.algebratree code:before {
+    top: -.55em;
+}
+/* The root node doesn't connect upwards. */
+.algebratree > li {
+    margin-top: 0;
+}
+.algebratree > li:before,
+.algebratree > li:after,
+.algebratree > li > span.atom:before,
+.algebratree > li > span.op:before,
+.algebratree > li > span.cell:before,
+.algebratree > li > code:before {
+    outline: none;
+}
+
+/* Response Analysis */
+.stack-collapse-header {
+    cursor: pointer;
+}
+.stack-collapse-header:not(.collapsed):before {
+    font-family: FontAwesome;
+    content: "\f0d7";
+    font-weight: bold;
+    display: inline-block;
+}
+.stack-collapse-header.collapsed:before {
+    font-family: FontAwesome;
+    content: "\f0da";
+    font-weight: bold;
+    display: inline-block;
+}
+.stack-ra-report::marker {
+    font-size: 1.4rem;
+}
+.stack-ra-question {
+    max-width: 800px;
+    background-color: rgb(230, 247, 255);
+    border-radius: 10px;
+    padding: 1em;
+    white-space: pre-line;
+}
+.stack-ra-question * {
+    margin: 0;
+}

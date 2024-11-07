@@ -65,7 +65,7 @@ class api_controller_test extends qtype_stack_testcase {
      *
      * @return void
      */
-    public function setUp():void {
+    public function setUp(): void {
         parent::setUp();
         set_config('stackapi', true, 'qtype_stack');
         StackIframeHolder::$iframes = [];
@@ -135,11 +135,11 @@ class api_controller_test extends qtype_stack_testcase {
         $this->response->expects($this->any())->method('withHeader')->willReturn($this->response);
     }
 
-    public function tearDown():void {
+    public function tearDown(): void {
         \stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
     }
 
-    public static function tearDownAfterClass():void {
+    public static function tearDownAfterClass(): void {
         // Should not really be necessary.
         set_config('stackapi', false, 'qtype_stack');
     }

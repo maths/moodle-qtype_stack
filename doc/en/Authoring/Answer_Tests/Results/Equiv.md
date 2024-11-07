@@ -2458,6 +2458,61 @@ ckeq(2*x)]</pre></td>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[4*x=2,x=0.500,x=1/2]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &4\cdot x=2& \cr \color{green}{\Leftrightarrow}&x=0.5& \cr \color{green}{\Leftrightarrow}&x=\frac{1}{2}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[4*x=6,x=0.33333,x=1/3]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &4\cdot x=6& \cr \color{red}{?}&x=0.33333& \cr \color{red}{?}&x=\frac{1}{3}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[-2.5*t-11.25 = 0,-2.5*t = 11.
+25,t = 11.25/-2.50,t = -4.500]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &-2.5\cdot t-11.25=0& \cr \color{green}{\Leftrightarrow}&-2.5\cdot t=11.25& \cr \color{green}{\Leftrightarrow}&t=\frac{11.25}{-2.5}& \cr \color{green}{\Leftrightarrow}&t=-4.5& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[4*x-6*y=-3 and 3*y+4*x=3, 4*x
+-6*y=-3 and 9*y=6, 4*x=1 and 3
+*y=2, x=0.25 and y=2/3]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left\{\begin{array}{l}4\cdot x-6\cdot y=-3\cr 3\cdot y+4\cdot x=3\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}4\cdot x-6\cdot y=-3\cr 9\cdot y=6\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}4\cdot x=1\cr 3\cdot y=2\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}x=0.25\cr y=\frac{2}{3}\cr \end{array}\right.& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[-12+3*noundiff(y(x),x)+8-8*no
 undiff(y(x),x)=0,-5*noundiff(y
 (x),x)=4,noundiff(y(x),x)=-4/5

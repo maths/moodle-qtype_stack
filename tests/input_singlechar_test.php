@@ -46,7 +46,7 @@ class input_singlechar_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('singleChar', 'ans1', null);
         $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
-                'value="" autocapitalize="none" spellcheck="false" />',
+                'value="" autocapitalize="none" spellcheck="false" data-stack-input-type="singlechar" />',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', '', ''),
                         'question__ans1', false, null));
     }
@@ -54,7 +54,7 @@ class input_singlechar_test extends qtype_stack_testcase {
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('singleChar', 'test', null);
         $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
-                'value="Y" autocapitalize="none" spellcheck="false" />',
+                'value="Y" autocapitalize="none" spellcheck="false" data-stack-input-type="singlechar" />',
                 $el->render(new stack_input_state(stack_input::VALID, ['Y'], '', '', '', '', ''),
                         'question__ans1', false, null));
     }
@@ -62,7 +62,7 @@ class input_singlechar_test extends qtype_stack_testcase {
     public function test_render_disabled() {
         $el = stack_input_factory::make('singleChar', 'input', null);
         $expected = '<input type="text" name="question__stack1" id="question__stack1" size="1" maxlength="1" ' .
-            'value="a" autocapitalize="none" spellcheck="false" readonly="readonly" />';
+            'value="a" autocapitalize="none" spellcheck="false" readonly="readonly" data-stack-input-type="singlechar" />';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(stack_input::VALID, ['a'], '', '', '', '', ''),
                         'question__stack1', true, null));

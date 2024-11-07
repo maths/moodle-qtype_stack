@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Matrices_Inverse_3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Let \({\bf A}\) be the matrix</p>
+<p> \[{\bf A}={@matrixa@}\]</p>
+<p>Find the inverse of \({\bf A}\), if it is invertible. If \({\bf A}\) is not invertible, return the zero matrix \({\bf O}\).</p>
+<p> [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Augment matrix \({\bf A}\) with a 3 by 3 identity matrix:</p>
+<p>\[{@auga@}\]<br />There is  +1 in the upper left-hand corner so create 0's below it by adding \({@-mrow2@}\) times row 1 to row 2 and \({@-mrow3@}\) times row 1 to row 3</p>
+<p>\[{@temp1@}\]<br />Now there is  +1 in entry [2,2] of the matrix so create 0's above and below it by adding \({@-mr1@}\) times row 2 to row 1 and \({@-mr3@}\) times row 2 to row 3<br />\[{@temp2@}\]<br />Now there is  +1 in entry [3,3] of the matrix so create 0's above it by adding \({@-mro1@}\) times row 3 to row 1 and \({@-mro2@}\) times row 3 to row 2<br />\[{@temp3@}\]<br />The left half of this matrix is the identity matrix and the right half is the inverse of \({\bf A}\)</p>
+<p>Therefore \({\bf A^{-1}} = {@correctanswer@}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>matrixb:matrix([1,((-1)^rand(2))*(rand(4)+1),((-1)^rand(2))*(rand(4)+1)],[0,1,((-1)^rand(2))*(rand(4)+1)],[0,0,1]);
+ matrixc:transpose(matrixb);
+ matrixa:matrixc . matrixb;
+ auga: addcol(matrixa,[1,0,0],[0,1,0],[0,0,1]);
+ 
+ mrow2:auga[2,1];
+ mrow3:auga[3,1];
+ temp1:matrix([auga[1,1],auga[1,2],auga[1,3],auga[1,4],auga[1,5],auga[1,6]],[auga[2,1]-mrow2*auga[1,1],auga[2,2]-mrow2*auga[1,2],auga[2,3]-mrow2*auga[1,3],auga[2,4]-mrow2*auga[1,4],auga[2,5]-mrow2*auga[1,5],auga[2,6]-mrow2*auga[1,6]],[auga[3,1]-mrow3*auga[1,1],auga[3,2]-mrow3*auga[1,2],auga[3,3]-mrow3*auga[1,3],auga[3,4]-mrow3*auga[1,4],auga[3,5]-mrow3*auga[1,5],auga[3,6]-mrow3*auga[1,6]]);
+ mr1:temp1[1,2];
+ mr3:temp1[3,2];
+ temp2:matrix([temp1[1,1]-mr1*temp1[2,1],temp1[1,2]-mr1*temp1[2,2],temp1[1,3]-mr1*temp1[2,3],temp1[1,4]-mr1*temp1[2,4],temp1[1,5]-mr1*temp1[2,5],temp1[1,6]-mr1*temp1[2,6]],[temp1[2,1],temp1[2,2],temp1[2,3],temp1[2,4],temp1[2,5],temp1[2,6]],[temp1[3,1]-mr3*temp1[2,1],temp1[3,2]-mr3*temp1[2,2],temp1[3,3]-mr3*temp1[2,3],temp1[3,4]-mr3*temp1[2,4],temp1[3,5]-mr3*temp1[2,5],temp1[3,6]-mr3*temp1[2,6]]);
+ mro1:temp2[1,3];
+ mro2:temp2[2,3];
+ temp3:matrix([temp2[1,1]-mro1*temp2[3,1],temp2[1,2]-mro1*temp2[3,2],temp2[1,3]-mro1*temp2[3,3],temp2[1,4]-mro1*temp2[3,4],temp2[1,5]-mro1*temp2[3,5],temp2[1,6]-mro1*temp2[3,6]],[temp2[2,1]-mro2*temp2[3,1],temp2[2,2]-mro2*temp2[3,2],temp2[2,3]-mro2*temp2[3,3],temp2[2,4]-mro2*temp2[3,4],temp2[2,5]-mro2*temp2[3,5],temp2[2,6]-mro2*temp2[3,6]],[temp2[3,1],temp2[3,2],temp2[3,3],temp2[3,4],temp2[3,5],temp2[3,6]]);
+ correctanswer:invert(matrixa);
+ wronganswer1:matrixa;
+ wronganswer2:zeromatrix(3,3);
+ wronganswer3:ident(3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>For \({\bf A}={@matrixa@}\) , \({\bf A^{-1}} = {@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant, invert</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wronganswer1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>This is the original matrix. You need to invert it, if possible!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wronganswer2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The matrix \({\bf A}\) is invertible.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>Result-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wronganswer3</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>This is the identity matrix.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1245272642</deployedseed>
+    <deployedseed>1905493080</deployedseed>
+    <deployedseed>1546628230</deployedseed>
+    <deployedseed>1678200685</deployedseed>
+    <deployedseed>1658755309</deployedseed>
+    <deployedseed>264442536</deployedseed>
+    <deployedseed>1712342046</deployedseed>
+    <deployedseed>278770552</deployedseed>
+    <deployedseed>1101249210</deployedseed>
+    <deployedseed>1116034019</deployedseed>
+    <deployedseed>952130324</deployedseed>
+    <deployedseed>2061512361</deployedseed>
+    <deployedseed>824176946</deployedseed>
+    <deployedseed>91791853</deployedseed>
+    <deployedseed>1297299777</deployedseed>
+    <deployedseed>173980504</deployedseed>
+    <deployedseed>846748990</deployedseed>
+    <deployedseed>1146184904</deployedseed>
+    <deployedseed>182694735</deployedseed>
+    <deployedseed>1135095505</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer3</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// Class for running the question tests in bulk.
-//
-// @copyright  2015 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Class for running the question tests in bulk.
+ *
+ * @copyright  2015 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../../../engine/bank.php');
@@ -305,7 +307,7 @@ class stack_bulk_tester {
                 }
 
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
-                if (!$tests) {
+                if (!$tests && $question->inputs !== []) {
                     $notests[] = $questionnamelink;
                     if ($outputmode == 'web') {
                         $questionproblems[] = html_writer::tag('li', stack_string('bulktestnotests'));
@@ -450,7 +452,7 @@ class stack_bulk_tester {
             return [false, "Attempting to start the question threw an exception!"];
         }
 
-        if (!$tests) {
+        if (!$tests && $question->inputs !== []) {
             $defaulttest = self::create_default_test($question);
             $defaulttestresult = $defaulttest->test_question($qid, $seed, $context);
             if ($defaulttestresult->passed()) {

@@ -10,7 +10,7 @@ The test simplifies both sets, and does a comparison based on the simplified ver
 
 ### Equiv and EquivFirstLast ###
 
-These answer tests are used with [equivalence reasoning](../../CAS/Equivalence_reasoning.md).  See the separate documentation.
+These answer tests are used with [equivalence reasoning](../../Specialist_tools/Equivalence_reasoning/index.md).  See the separate documentation.
 
 ### PropLogic ###
 

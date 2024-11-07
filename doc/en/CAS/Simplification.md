@@ -58,7 +58,7 @@ The level of simplification performed by Maxima can be controlled by changing Ma
 When `simp` is set to `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
 This is most useful for dealing with very elementary expressions, and for [showing working](../CAS/Matrix.md#Showing-working).
 
-This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
+This variable can be set at the question level using the [options](../Authoring/Question_options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
 
 When `simp` is set to `false`, you can evaluate an expression with simplification turned on by using `ev(..., simp)`, for example:
 
@@ -288,4 +288,4 @@ Some further examples are given elsewhere:
 * An example of a question with `simp:false` is discussed in [authoring quick start 7](../AbInitio/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
-Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.
+Note also that [question tests](../STACK_question_admin/Testing.md#Simplification) do not simplify test inputs.

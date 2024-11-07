@@ -127,6 +127,16 @@ class ast_filter_542_no_functions_at_all_auto_generated_test extends qtype_stack
                       ['noFunction'],
                       false, true);
 
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['noFunction'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
+                      ['noFunction'],
+                      false, true);
+
         $this->expect('a(x)',
                       'a(x)',
                       ['noFunction'],
@@ -670,6 +680,16 @@ class ast_filter_542_no_functions_at_all_auto_generated_test extends qtype_stack
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      ['noFunction'],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['noFunction'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       ['noFunction'],
                       false, true);
 

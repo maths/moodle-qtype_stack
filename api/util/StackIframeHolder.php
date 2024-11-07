@@ -29,6 +29,8 @@ namespace api\util;
 
 class StackIframeHolder {
     public static $iframes = [];
+    /** @var bool Are we on the library page? */
+    public static $islibrary = false;
 
     public static function add_iframe($args) {
         for ($i = 0; $i < 5; $i++) {

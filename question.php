@@ -734,6 +734,26 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return stack_string('questionnote_missing');
     }
 
+    public function get_question_todos() {
+        $hastodos = false;
+        $tags = [];
+        $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
+            $this->specificfeedback, $this->questiondescription];
+        $pat = '/\[\[todo/';
+        foreach ($fields as $field) {
+            // We _should_ use castext2_parser_utils::has_todoblocks($field) really, but this
+            // involves parsing the castext which is too slow.
+            if (preg_match($pat, $field ?? '')) {
+                $hastodos = true;
+                $tags = array_merge($tags, castext2_parser_utils::get_todoblocks($field));
+            }
+        }
+        // Unique tags, sorted.
+        $tags = array_unique($tags);
+        sort($tags);
+        return [$hastodos, $tags];
+    }
+
     public function summarise_response(array $response) {
         // Provide seed information on student's version via the normal moodle quiz report.
         $bits = ['Seed: ' . $this->seed];
@@ -1520,6 +1540,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
             ['pat' => 'texdecorate', 'ver' => 2018080600],
             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
+            ['pat' => 'proof_parsons_key_json', 'ver' => 2024092500, 'alt' => 'parsons_answer'],
+            ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
@@ -1604,6 +1626,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             if (!$filesexpected && $filesfound != []) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
+            }
+            // ISS1249 - Check for large file size (> 1MB).
+            foreach ($filesfound as $file) {
+                if ($file->get_filesize() > 1048576) {
+                    $errors[] = stack_string('stackfilesizeerror');
+                    break;
+                }
             }
         }
 
@@ -2142,5 +2171,30 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function has_cap(string $capname): bool {
         return $this->has_question_capability($capname);
+    }
+
+    /**
+     * Apply {@link format_text()} to some content with appropriate settings for
+     * this question.
+     *
+     * Overridden here to turn on `allowid` in the format options.
+     *
+     * @param string $text some content that needs to be output.
+     * @param int $format the FORMAT_... constant.
+     * @param question_attempt $qa the question attempt.
+     * @param string $component used for rewriting file area URLs.
+     * @param string $filearea used for rewriting file area URLs.
+     * @param bool $clean Whether the HTML needs to be cleaned. Generally,
+     *      parts of the question do not need to be cleaned, and student input does.
+     * @return string the text formatted for output by format_text.
+     */
+    public function format_text($text, $format, $qa, $component, $filearea, $itemid,
+            $clean = false) {
+        $formatoptions = new stdClass();
+        $formatoptions->noclean = !$clean;
+        $formatoptions->para = false;
+        $formatoptions->allowid = true;
+        $text = $qa->rewrite_pluginfile_urls($text, $component, $filearea, $itemid);
+        return format_text($text, $format, $formatoptions);
     }
 }

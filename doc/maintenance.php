@@ -73,6 +73,7 @@ function report($d) {
                         if ($meta === []) {
                             $a[] = [$fpath, 'W', "No metadata"];
                         } else {
+                            
                             if (array_key_exists('description', $meta)) {
                                 if (strlen($meta['description']) > 160) {
                                     $a[] = [$fpath, 'W', "Metadata description is > 160 characters."];

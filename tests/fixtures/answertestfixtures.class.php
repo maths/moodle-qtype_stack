@@ -2721,7 +2721,18 @@ class stack_answertest_test_data {
         ['LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''],
         ['LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''],
         ['LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', ''],
-    ];
+
+        ['Validator', 'validate_nofunctions', '1/0', '0', -1, 'ATValidator_STACKERROR_SAns.', ''],
+        ['Validator', '1/0', 'x', '0', -1, 'ATValidator_STACKERROR_Opt.', ''],
+        ['Validator', 'op', 'x', 'null', -1, 'ATValidator_STACKERROR_ev.', ''],
+        ['Validator', '[validate_nofunctions]', 'x^2+sin(1)', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'validate_nodef', 'f(x)', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'sin', 'x', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'first', '[1,2,3]', 'null', 0, 'ATValidator_res_not_string.', ''],
+        ['Validator', 'validate_nofunctions', 'x^2+sin(1)', 'null', 1, '', ''],
+        ['Validator', 'validate_nofunctions', 'f(x)', 'null', 0, '', ''],
+
+        ];
 
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();

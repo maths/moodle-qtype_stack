@@ -2,6 +2,22 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.8.0
+
+Released November 2024.
+
+1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
+2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../STACK_question_admin/Authoring_workflow.md).
+3. Add in a [question library](../AbInitio/Authoring_quick_start_6.md) page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
+4. Major update of the docs to separate out referenece, know how and topics.
+5. Better document the sample proofs, and provide a generic Parsons question to make it easier to use them.  See the [Proof samples](../Topics/Proof/Proof_samples.md) documentation.
+6. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
+7. Allow use of Maxima `let` commands, to generate [rules and patterns](../CAS/Rules.md) for bespoke simplification.
+8. Provisional support for STACK questions in the Moodle App. STACK questions of all input types now function in the Moodle App while online, complete with input validation. Dropdowns and checkboxes use native elements. This feature should be considered as in beta and under trial while we gather feedback on compatability with a wider range of devices, Moodle installations and questions. Existing questions may need work to fit better on a mobile screen. (Be sure to use App version 4.5+ to avoid a Moodle bug with MathJax in non-STACK questions.)
+9. Improve Parsons blocks by (i) hashing for keys, and (ii) Add ability to log history of an attempt (for research).
+10. Add in a new [answer test based on a validator function](../Authoring/Answer_Tests/Other.md).
+
+
 ## Version 4.7.0
 
 Released July 2024.

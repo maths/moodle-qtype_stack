@@ -1725,6 +1725,26 @@ ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     return([true, false, AnswerNote, FeedBack])
 )$
 
+ATValidator(SA, SB, SO) := block([SAsimp, SOsimp, res],
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATValidator_STACKERROR_SAns"),""]),
+    /* SB is ignored. */
+    if (is(_EC(errcatch(SOsimp:ev(SO, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATValidator_STACKERROR_Opt"),""]),
+
+    if (is(_EC(errcatch(res:ev(apply(SO, [SA]))), "") = false)) then
+        return(StackBasicReturn(false, false, "ATValidator_STACKERROR_ev")),
+    if is(safe_op(res)=string(SO)) then
+        (_EC(errcatch(1/0), ""), return(StackBasicReturn(false, false, "ATValidator_not_fun"))),
+    if not(stringp(res)) then
+        (_EC(errcatch(1/0), ""), return(StackBasicReturn(false, false, "ATValidator_res_not_string"))),
+
+    if is(res="") then
+        return([true, true, "", ""]),
+    return([true, false, "", res])
+)$
+
 /* ********************************** */
 /* Levenshtein distance               */
 /* ********************************** */

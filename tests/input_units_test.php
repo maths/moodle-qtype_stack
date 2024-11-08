@@ -177,7 +177,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '9.81*m/s^2+tans'], $options, '9.81*m/s^2',
                 new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('forbiddenVariable', $state->note);
+        $this->assertEquals('invalid_op', $state->note);
     }
 
     public function test_validate_student_response_6() {
@@ -187,7 +187,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '9.81*m/s^2*sillyname(x)'],
                 $options, '9.81*m/s^2', new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('forbiddenFunction', $state->note);
+        $this->assertEquals('forbiddenFunction | forbiddenVariable', $state->note);
     }
 
     public function test_validate_student_response_7() {
@@ -197,7 +197,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '9.81m/s^2+tans'], $options, '9.81*m/s^2',
                 new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars | forbiddenVariable', $state->note);
+        $this->assertEquals('missing_stars | invalid_op', $state->note);
     }
 
     public function test_validate_student_response_both_units() {
@@ -256,7 +256,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
         $this->assertEquals('9.81', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81 \]', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_missing_units_2() {
@@ -268,7 +268,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
         $this->assertEquals('%pi*sin(2)', $state->contentsmodified);
-        $this->assertEquals('\[ \pi\, \sin \left( 2 \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">pi*sin(2)</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_bad_units() {
@@ -278,9 +278,9 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '9.81+m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals("Units_SA_bad_units", $state->note);
+        $this->assertEquals("invalid_op", $state->note);
         $this->assertEquals('9.81+m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81+{\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81+m/s^2</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_bad_spaces() {
@@ -308,14 +308,16 @@ class input_units_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_student_edgecase() {
+        // This edge case is solved with the use of the 802 filter.
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
         $el->set_parameter('insertStars', 0);
         $state = $el->validate_student_response(['sans1' => '1'], $options, '9.81',
                 new stack_cas_security(true, '', '', ['tans']));
-        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals("Units_SA_no_units", $state->note);
         $this->assertEquals('1', $state->contentsmodified);
-        $this->assertEquals('\[ 1 \]', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">1</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_calculation() {
@@ -326,7 +328,8 @@ class input_units_test extends qtype_stack_testcase {
             new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9.4*m-53*cm', $state->contentsmodified);
-        $this->assertEquals('\[ 9.4\, \mathrm{m}-53\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">9.4*m-53*cm</span>',
+            $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_powers_ten() {
@@ -393,6 +396,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
         $el->set_parameter('insertStars', 0);
+        // Currently, if the teacher does not use units then the student doesn't need to.
+        // Filter 802 would change this, and we'd need a separate check.
         $state = $el->validate_student_response(['sans1' => '9.81'], $options, '9.81',
                 new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -481,6 +486,19 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars', $state->note);
     }
 
+    public function test_validate_student_response_insertstars_dot() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7.81*m*s');
+        // We need the brackets here to really make sure it looks like num*op.
+        $state = $el->validate_student_response(['sans1' => '7.81*(m.s)'], $options, '7.81*m*s',
+            new stack_cas_security(true, '', '', ['ta']));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('invalid_op', $state->note);
+        $this->assertEquals('This input expects a numerical value followed or multiplied by an expression defining an unit, e.g. <code>1.23*W/m^2</code>. Note that the unit required here may be something else.', $state->errors);
+        $this->assertEquals('7.81*(m . s)', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">7.81*(m.s)</span>', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_wrongtype_false_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
@@ -488,7 +506,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => 'y=9.81*m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals("SA_not_expression", $state->note);
+        $this->assertEquals("", $state->note);
     }
 
     public function test_validate_student_response_sum() {
@@ -499,7 +517,7 @@ class input_units_test extends qtype_stack_testcase {
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9.81+m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81+{\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81+m/s^2</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_rational_number_1() {
@@ -736,7 +754,7 @@ class input_units_test extends qtype_stack_testcase {
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('QMCHAR*m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ \color{red}{?}\, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">?*m/s^2</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_display_zero() {
@@ -773,6 +791,7 @@ class input_units_test extends qtype_stack_testcase {
         $el->set_parameter('insertStars', 1);
         $state = $el->validate_student_response(['sans1' => 'sqrt(2)*m', 'sans1_val' => 'sqrt(2)*m'],
                 $options, '1.41*m', new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
@@ -808,6 +827,7 @@ class input_units_test extends qtype_stack_testcase {
         // In the algebraic input this would be VALID as the hz/Hz test is only done for units.
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9*hz', $state->contentsmodified);
+        // This is broken by 802.
         $this->assertEquals('unitssynonym', $state->note);
         $this->assertEquals('9*hz', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">9*hz</span>', $state->contentsdisplayed);
@@ -822,6 +842,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '5*hr'],
                 $options, '5*hr', new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        // This is broken by 802.
         $this->assertEquals('unitssynonym', $state->note);
         $this->assertEquals('5*hr', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">5*hr</span>', $state->contentsdisplayed);
@@ -884,11 +905,11 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '9.81+-0.01m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars | Units_SA_errorbounds_invalid', $state->note);
+        $this->assertEquals('missing_stars', $state->note);
         $this->assertEquals('9.81#pm#0.01*m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81\pm 0.01\, {\mathrm{m}}/{\mathrm{s}^2} \]',
+        $this->assertEquals('<span class="stacksyntaxexample">9.81+-0.01m/s^2</span>',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
-        $this->assertEquals('\( \left[ \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
+        $this->assertEquals('', $state->lvars);
     }
 
     public function test_validate_student_minsf_maxsf_equal_true() {
@@ -971,6 +992,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '3.14*moles'], $options, '3.14*mol',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        // This is broken by 802.
         $this->assertEquals('unitssynonym', $state->note);
         $this->assertEquals('3.14*moles', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">3.14*moles</span>', $state->contentsdisplayed);
@@ -985,6 +1007,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '3.14*Moles'], $options, '3.14*mol',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        // This is broken by 802.
         $this->assertEquals('unitssynonym', $state->note);
         $this->assertEquals('3.14*Moles', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">3.14*Moles</span>', $state->contentsdisplayed);
@@ -1012,6 +1035,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '7*mmhg'], $options, '7*mmHg',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        // This testcase is broken by 802.
         $this->assertEquals('unknownUnitsCase', $state->note);
         $this->assertEquals('7*mmhg', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">7*mmhg</span>', $state->contentsdisplayed);
@@ -1040,10 +1064,13 @@ class input_units_test extends qtype_stack_testcase {
                 new stack_cas_security(true));
         // If we do not toggle units then mamu if forbiddenly long.
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('forbiddenVariable', $state->note);
+        $this->assertEquals('Units_SA_no_units', $state->note);
         $this->assertEquals('520*mamu', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">520*mamu</span>', $state->contentsdisplayed);
-        $this->assertEquals('Forbidden variable or constant: <span class="stacksyntaxexample">mamu</span>.', $state->errors);
+        $this->assertEquals('The input contains a variable name when just units were expected. ' .
+            'This input expects a numerical value followed or multiplied by an expression defining ' .
+            'an unit, e.g. <code>1.23*W/m^2</code>. Note that the unit required here may be something else.',
+            $state->errors);
     }
 
     public function test_validate_student_response_brackets() {
@@ -1071,7 +1098,8 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars | Illegal_x10', $state->note);
         $this->assertEquals('523.2*x10^2*m', $state->contentsmodified);
         $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
-                'Please use <code>*</code> for multiplication.', $state->errors);
+                'Please use <code>*</code> for multiplication. ' .
+                'The input contains a variable name when just units were expected.', $state->errors);
 
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
@@ -1079,7 +1107,7 @@ class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '9.34x10^3.4'], $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars | Illegal_x10 | Units_SA_bad_units', $state->note);
+        $this->assertEquals('missing_stars | Illegal_x10 | Units_SA_no_units', $state->note);
         $this->assertEquals('9.34*x*10^3.4', $state->contentsmodified);
         $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
                 'Please use <code>*</code> for multiplication. Your answer must have units, ' .

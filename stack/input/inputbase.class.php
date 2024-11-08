@@ -950,6 +950,7 @@ abstract class stack_input {
         $grammarautofixes = $this->get_parameter('grammarAutofixes', 0);
 
         $filterstoapply = [];
+        $filteroptions = [];
 
         if ($this->get_parameter('forbidFloats', false)) {
             $filterstoapply[] = '101_no_floats';
@@ -973,6 +974,13 @@ abstract class stack_input {
         $filterstoapply[] = '504_insert_tuples_for_groups';
         // Then ban the rest.
         $filterstoapply[] = '505_no_evaluation_groups';
+
+        // We don't add 802 to the numerical input type.
+        if (get_class($this) === 'stack_units_input') {
+            $filterstoapply[] = '802_singleton_units';
+            // Typically units inputs require units.
+            $filteroptions['802_singleton_units'] = [];
+        }
 
         // Remove scripts and other related things from string-values.
         $filterstoapply[] = '997_string_security';
@@ -1015,7 +1023,7 @@ abstract class stack_input {
             $filterstoapply[] = '420_consolidate_subscripts';
         }
 
-        return [$secrules, $filterstoapply];
+        return [$secrules, $filterstoapply, $filteroptions];
     }
 
     /**
@@ -1039,7 +1047,7 @@ abstract class stack_input {
         $notes = [];
         $ilines = [];
 
-        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        list ($secrules, $filterstoapply, $filteroptions) = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
         $secrulesd = clone $secrules;
         $secrulesd->add_allowedwords('dispdp,displaysci');
@@ -1059,7 +1067,7 @@ abstract class stack_input {
             }
 
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                [], 'Root', $this->options->get_option('decimals'));
+                $filteroptions, 'Root', $this->options->get_option('decimals'));
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
@@ -1082,7 +1090,7 @@ abstract class stack_input {
             }
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
                 array_merge($filterstoapply, $protectfilters),
-                [], 'Root', $this->options->get_option('decimals'));
+                $filteroptions, 'Root', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
 

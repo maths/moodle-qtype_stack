@@ -23,7 +23,7 @@ require_once(__DIR__ . '/801_singleton_numeric.filter.php');
  * that consists of a numeric part and a part that describes a unit
  * or combination of units.
  *
- * Essenttialy, this filter ensures that the answer does not include
+ * Essentially, this filter ensures that the answer does not include
  * any of the following operations:
  *  - Non prefix versions of `+` and `-`.
  *  - Powers of numeric values other than integer powers of ten.
@@ -144,6 +144,9 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $node = $node->statement;
             }
             $node->position['invalid'] = true;
+            if (array_search('Units_SA_no_units', $answernotes) === false) {
+                $answernotes[] = 'Units_SA_no_units';
+            }
             $formfail = true;
         }
 
@@ -170,8 +173,11 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
         // Check ops to ensure singleton value.
         $opfail = false;
         foreach ($ops as $op) {
-            if ($op->op === '+' || $op->op === '-') {
+            if ($op->op === '+' || $op->op === '-' || $op->op === '.') {
                 $op->position['invalid'] = true;
+                if (array_search('invalid_op', $answernotes) === false) {
+                    $answernotes[] = 'invalid_op';
+                }
                 $opfail = true;
             } else if ($op->op === '/' || $op->op === '*') {
                 // Fine.

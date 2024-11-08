@@ -200,6 +200,7 @@ class stack_inputvalidation_test_data {
             'matrix([a,b],[c,d])', 'php_true', 'matrix([a,b],[c,d])', 'cas_true',
             '\left[\begin{array}{cc} a & b \\\\ c & d \end{array}\right]', '', 'Matrices',
         ],
+        ['A.B', 'php_true', 'A . B', 'cas_true', 'A\cdot B', '', ""],
         ['stackvector(a)', 'php_true', 'stackvector(a)', 'cas_true', '{\bf a}', '', 'Vectors'],
         ['a[2]', 'php_true', 'a[2]', 'cas_true', 'a_{2}', '', "Maxima arrays"],
         ['a[n+1]', 'php_true', 'a[n+1]', 'cas_true', 'a_{n+1}', '', ""],

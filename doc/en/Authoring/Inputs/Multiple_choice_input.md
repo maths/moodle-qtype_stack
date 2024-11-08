@@ -7,7 +7,7 @@ This can also be one input in a multi-part randomly generated question. E.g. you
 
 If you are new to STACK please note that in STACK MCQs are *not* the place to start learning how to author questions.  Please look at the [authoring quick-start guide](../../AbInitio/Authoring_quick_start_1.md).
 
-Please read the section on [inputs](../../Authoring/Inputs/index.md) first.  
+Please read the section on [inputs](../../Authoring/Inputs/index.md) first.
 
 Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
@@ -15,6 +15,8 @@ Multiple choice input types return a CAS object which is then assessed by the po
 * Dropdown inputs and radio inputs return a single *expression*, which is the CAS object selected.
 
 The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](../../Authoring/CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
+
+Example questions are in the stack library under `Features\MCQ_....`.
 
 ## Model answer ##
 

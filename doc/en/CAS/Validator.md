@@ -2,9 +2,13 @@
 
 The extra option `validator` to a particular [input](../Authoring/Inputs/index.md) allows additional bespoke validation, based on a function defined by the question author.  For example, you could require that the student's answer is a _list of exactly three equations_.
 
-The extra option `feedback` to a particular [input](../Authoring/Inputs/index.md) allows additional bespoke feedback, based on a function defined by the question author.
+The extra option `feedback` to a particular [input](../Authoring/Inputs/index.md) allows additional bespoke feedback, based on a function defined by the question author.  This does not create an invalid input.
 
 Please check [existing, supported, validation options](../Authoring/Inputs/index.md) before defining your own!
+
+You cannot overwrite certain non-optional core validation, but all validation that is optional can naturally be turned off and a replacement given through this system. For example, you can use this system to give much more question-specific feedback.  Rather than forbid the variable `t` with the forbidden words system (non-specific error) you could define something very question specific.
+
+    validate_contains_t(ex):= if member(t,listofvars(ex)) then return("You can't use t here because the independent variable is x.") else return("").
 
 For example, to check a list has at most three elements define the function named `validate_listlength` in the question variables, e.g.
 

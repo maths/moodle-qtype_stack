@@ -2957,10 +2957,29 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertTrue($session->is_instantiated());
         $p = $session->get_by_key('p');
         $this->assertEquals('cos(x)^6-2*cos(x)^3+1', $p->get_value());
+    }
 
-        $cases = ['matchdeclare ([A], true)',
-            // TODO: expand the parser because the let rules have a return value like A*I->I which we can't parse.
-            // The block below returns "true" which side-steps the problem.
+    public function test_let_matrix() {
+        $cases = ['orderless(I);',
+            'matchdeclare([a],true)',
+            '(let(I*a, a), let(I^2, I), true)',
+            'p:letsimp(expand((A+I)^3))',
+        ];
+        $s1 = [];
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case, '', new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        $p = $session->get_by_key('p');
+        $this->assertEquals('A^3+3*A^2+3*A+I', $p->get_value());
+
+        $cases = ['orderless(I)',
+            'matchdeclare ([A], true)',
             '(let(A*I,A), true)',
             'p:letsimp(expand((X-I)^3))',
         ];

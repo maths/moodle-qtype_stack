@@ -28,6 +28,8 @@ where `num` is the part interpreted to be the numerical portion, and `units` is 
 
 ## Examples  ##
 
+An example question is given in the stacklibrary `Topics\Topics_units_basic.xml`
+
 ### Example 1  ###
 
 Let us assume that the correct answer is `12.1*m/s^2`.

@@ -104,6 +104,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', '8^(1/5)*(cos(%pi/15)+%i*sin(%pi/15))', 1, '', ''],
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''],
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''],
+        ['AlgEquiv', '', '5/4*%e^(%i*%pi/6)', '5*sqrt(3)/8+5/8*%i', 1, '', ''],
         ['AlgEquiv', '', '%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''],
 
         ['AlgEquiv', '', 'inf', 'inf', 1, '', 'Infinity'],
@@ -312,6 +313,11 @@ class stack_answertest_test_data {
             'AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', '',
         ],
+        // Without sets the following examples should be equal.
+        ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', -3, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', 'map(expand,{5/4*%e^(%i*%pi/6)})', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
+        ['AlgEquiv', '', 'ratsimp({5/4*%e^(%i*%pi/6)})', 'ratsimp({5*sqrt(3)/8+5/8*%i})', 1, '', ''],
+
         ['AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''],
         [
             'AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)',
@@ -1232,6 +1238,7 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'imag_numberp(%e^(%pi/2))', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3)', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-3)', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^%i)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
@@ -1239,8 +1246,12 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'complex_exponentialp(%e^(%i)/4)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(-%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'true', 1, 'ATCASEqual_true.', ''],
+        // We must have -p1<theta<=pi.
+        ['CasEqual', '', 'complex_exponentialp(3*%e^(-7*%i*%pi/3))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(7*%e^(3*%i*%pi))', 'false', 1, 'ATCASEqual_true.', ''],
+        // We must have r>0.
+        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'false', 1, 'ATCASEqual_true.', ''],
         // The below test case is 0 because this is a general expression with variables.
         ['CasEqual', '', 'complex_exponentialp(-(r*exp(i*atan(bb/aa))))', 'true', 0, 'ATCASEqual_false.', ''],
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.

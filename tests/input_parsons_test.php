@@ -45,16 +45,18 @@ class input_parsons_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('parsons', 'ans1', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' 
-                . 'size="16.5" spellcheck="false" class="maxima-string" style="display:none" value="" data-stack-input-type="string" />',
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" '
+                . 'size="16.5" spellcheck="false" class="maxima-string" style="display:none" value="" '
+                . 'data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
     public function test_render_hello_world() {
         $el = stack_input_factory::make('parsons', 'ans1', '"Hello world"');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' 
-                . 'size="16.5" spellcheck="false" class="maxima-string" style="display:none" value="0" data-stack-input-type="string" />',
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" '
+                . 'size="16.5" spellcheck="false" class="maxima-string" style="display:none" value="0" '
+                . 'data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
         // Parson's input type never gets displayed
@@ -79,11 +81,13 @@ class input_parsons_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
-        $state = $el->validate_student_response(['sans1' => '[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},0]]'], $options, '"A random string"',
+        $state = $el->validate_student_response(['sans1' => '[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},0]]'],
+            $options, '"A random string"',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]"', $state->contentsmodified);
-        $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:'
+                . '[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
         $this->assertEquals('',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
@@ -97,7 +101,7 @@ class input_parsons_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"\'[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]\'"', $state->contentsmodified);
-        // This will fail internal evaluation in the Parson's decode filter due to the extra quotes, so will remain unhashed
+        // This will fail internal evaluation in the Parson's decode filter due to the extra quotes, so will remain unhashed.
         $this->assertEquals('\[ \text{&apos;[[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;aGVsbG8=&quot;,&quot;d29ybGQ=&quot;]},0]]&apos;} \]', $state->contentsdisplayed);
     }
 
@@ -110,7 +114,7 @@ class input_parsons_test extends qtype_stack_testcase {
             $options, '"A random string"', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"[\"aGVsbG8=\",\"d29ybGQ=\"]"', $state->contentsmodified);
-        // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed
+        // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed.
         $this->assertEquals('\[ \text{[&quot;aGVsbG8=&quot;,&quot;d29ybGQ=&quot;]} \]', $state->contentsdisplayed);
     }
 
@@ -122,8 +126,9 @@ class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},"I am invalid timestamp"]]'],
             $options, '"A random string"', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('"[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},\"I am invalid timestamp\"]]"', $state->contentsmodified);
-        // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed
+        $this->assertEquals('"[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},\"I am invalid timestamp\"]]"',
+            $state->contentsmodified);
+        // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed.
         $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;aGVsbG8=&quot;,&quot;d29ybGQ=&quot;]},&quot;I am invalid timestamp&quot;]]} \]', $state->contentsdisplayed);
     }
 
@@ -134,8 +139,10 @@ class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => ' [[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},0]]  '], $options, '"A random string"',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('" [[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]  "', $state->contentsmodified);
-        $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
+        $this->assertEquals('" [[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]  "',
+            $state->contentsmodified);
+        $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:'
+                . '[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_parsons_empty() {

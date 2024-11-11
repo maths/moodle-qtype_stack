@@ -4269,9 +4269,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', '3', null,
             [
-                'boxWidth' => 20, 'forbidWords' => ''
+                'boxWidth' => 20, 'forbidWords' => '',
             ]);
-        
+
         // By setting simp:true (the default) we check the re-ordering really happens.
         $q->options->set_option('simplify', true);
 

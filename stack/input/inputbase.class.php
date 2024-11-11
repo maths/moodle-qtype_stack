@@ -53,7 +53,7 @@ abstract class stack_input {
     protected $name;
 
     /**
-     * @var integer the maximum length of a permitted input.
+     * @var int the maximum length of a permitted input.
      */
     protected $maxinputlength = 32768;
 
@@ -1055,7 +1055,7 @@ abstract class stack_input {
                 $valid = false;
                 $errors[] = stack_string('studentinputtoolong');
                 $notes['too_long'] = true;
-                $val='';
+                $val = '';
             }
 
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
@@ -1074,7 +1074,7 @@ abstract class stack_input {
             // Construct inert version of that.
             $protectfilters = $this->protectfilters;
 
-            if($this->get_extra_option('simp')) {
+            if ($this->get_extra_option('simp')) {
                 // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
                 // function to perform calculations on dispdp numbers.
                 $val = 'stack_validate_simpnum(' . $val .')';

@@ -51,7 +51,7 @@ class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         // First collapse the content.
         $content = [''];

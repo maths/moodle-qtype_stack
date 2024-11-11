@@ -140,7 +140,7 @@ class stack_inputvalidation_test_data {
         // Because we are using x as a variable, we do insert a * here!
         ['x(x+1)', 'php_true', 'x*(x+1)', 'cas_true', 'x\cdot \left(x+1\right)', 'missing_stars | Variable_function', ""],
         ['f(x(x+f(1)))', 'php_true', 'f(x*(x+f(1)))', 'cas_true', 'f\left(x\cdot \left(x+f\left(1\right)\right)\right)',
-            'missing_stars | Variable_function', ""],
+            'missing_stars | Variable_function', "", ],
         ['x(sin(t)+1)', 'php_true', 'x(sin(t)+1)', 'cas_true', 'x\left(\sin \left( t \right)+1\right)', '', ""],
         ['b/a(x)', 'php_true', 'b/a(x)', 'cas_true', '\frac{b}{a\left(x\right)}', '', ""],
         ['3b+5/a(x)', 'php_true', '3*b+5/a(x)', 'cas_true', '3\cdot b+\frac{5}{a\left(x\right)}', 'missing_stars', ""],

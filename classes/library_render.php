@@ -116,7 +116,7 @@ class library_render extends \external_api {
                 foreach (StackIframeHolder::$iframes as $iframe) {
                     $iframes[] = [
                         'iframeid' => $iframe['0'],
-                        'content' =>$iframe['1'],
+                        'content' => $iframe['1'],
                         'targetdivid' => $iframe['2'],
                         'title' => $iframe['3'],
                         'scrolling' => $iframe['4'],

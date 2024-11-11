@@ -261,7 +261,7 @@ class stack_answertest_test_data {
         // Example where some pre-processing is needed.
         ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
         ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
-            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', ''],
+            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', '', ],
 
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],

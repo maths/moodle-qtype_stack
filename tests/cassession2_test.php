@@ -352,7 +352,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_multiplication_option_complexno_vector_order() {
 
         $cs = ['ordergreat(i,j,k)', 'texput(i,"\\\\vec{i}")', 'texput(j,"\\\\vec{j}")', 'texput(k,"\\\\vec{k}")',
-            'p:j*4+3*i+5*k', 'q:j*b+a*i+c*k'];
+            'p:j*4+3*i+5*k', 'q:j*b+a*i+c*k', ];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }

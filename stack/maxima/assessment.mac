@@ -821,8 +821,7 @@ dispsf(x, n) := sigfigsfun(x, n, true);
 
   If x is not a real number, then return x without a warning.
 */
-scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
-  oldsimp:simp,
+scientific_notation([a]) := block([simp, x, ex, ex2, ex3, exn],
   simp:false,
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
@@ -841,10 +840,8 @@ scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
       ex3:ex2*10^ex,
       /* The use of significantfigures here means we don't use banker's rounding but round up. */
       if not(is(exn=false)) then ex3:displaysci(significantfigures(ex2, exn+1), exn, ex),
-      simp:oldsimp,
       return(ex3)
   ),
-  simp:oldsimp,
   return(first(a))
 )$
 

@@ -313,6 +313,12 @@ The language strings are not CAStext, they are simply raw strings.  It is possib
 
 The argument `"i"` here displays the expression "inline", other options are `""` (you are responsible for maths environments), `"d"` (displayed), and `"di"` (inline but using displaystyle).  If you construct strings in this way the display of any equations will not respect the display options in the particular input since variables are typically defined in the question variables and the input options are not available at that point in the code base.
 
+For checkbox and radio inputs you could add modest HTML style to your strings.  E.g.
+
+    ta:[[A, false, "(A) This is <b>bold</b>"], [B, true, "(B) this is <em>emphasis</em>"]];
+
+Dropdown lists are created with the HTML `<select>` and `<option>` elements.  There is no support for HTML (or LaTeX) within dropdown lists.  You can use HTML-entities within a string field: see the separate documentation on this. 
+
 ## Inline CASText as MCQ labels ## {#castextlabels}
 
 Since 4.4 it has been possible to write more complex labels using inline CASText. Inline CASText is basically a static string value wrapped in special function call and how one would use it is as follows:

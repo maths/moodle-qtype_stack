@@ -313,8 +313,7 @@ class stack_varmatrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        // We don't use the decimals option below, because we've already used it above.
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
             [], 'Root', '.');
         $inertform->get_valid();

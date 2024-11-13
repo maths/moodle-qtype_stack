@@ -649,7 +649,7 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('matrix([a1,a_2],[1+x^2,abc_45])', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">matrix([a1,a_2],[1+x^2,abc_45])</span>',
+        $this->assertEquals('\[ \left[\begin{array}{cc} a_{1} & {a}_{2} \\\\ 1+x^2 & {{\it abc}}_{45} \end{array}\right] \]',
             $state->contentsdisplayed);
 
         // Matrix inside should be forbidden.

@@ -74,7 +74,7 @@ See the examples below for more details.
 In **Grouping** and **Grid** configurations, the height and width of individual items will by default auto-resize so that all their heights and widths are set to contain the largest item content. 
 This will also apply to headers and index items as well.
 
-This can be overriden via the `item-height` and `item-width` header parameters. Parameter values should be a string containing a number, and this will set the pixels of the height/width. 
+This can be overridden via the `item-height` and `item-width` header parameters. Parameter values should be a string containing a number, and this will set the pixels of the height/width. 
 The default is `50px` (`item-height="50"`) for height, and the width is automatically deduced from the page layout and number of columns for the vertical orientation, or it is `100px` (`item-width="100"`) for the horizontal configuration. 
 This may be needed if autosizing does not quite work as expected.
 
@@ -430,7 +430,7 @@ ta: [
 
 ```
 <p>Drag the items to match up the functions with their derivatives. </p>
-[[parsons input="ans1" columns="3" rows="2" item-height="250" item-width="250"]]
+[[parsons input="ans1" columns="3" rows="2"]]
 {
     "steps" : {#match_encode(steps)#},
     "headers" : {#headers#},

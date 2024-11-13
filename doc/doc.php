@@ -63,6 +63,12 @@ if (substr($_SERVER['REQUEST_URI'], -7) == 'doc.php') {
 } else {
     $uri = get_file_argument();
 }
+
+// Are we asking for the "dev" docs, which are now only local.
+if (substr($uri, 0, 4) == '/dev') {
+    $docsroot = $CFG->dirroot . '/question/type/stack/doc';
+}
+
 $segs    = explode('/', $uri);
 $lastseg = $segs[count($segs) - 1];
 

@@ -143,7 +143,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
 
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         if (count($params) === 2) {
             return stack_string($params[1]);

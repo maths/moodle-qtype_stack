@@ -42,7 +42,7 @@ class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_caste
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         if (count($params) < 2) {
             // Nothing at all.

@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * the forceclean logic of issue #1252
  *
  * Unlike `castext2_static_replacer` the map inside of this is not something we store,
- * it is something that comes from other compilation results during execution and 
+ * it is something that comes from other compilation results during execution and
  * exists only over the filtering phase.
  */
 class castext2_placeholder_holder {

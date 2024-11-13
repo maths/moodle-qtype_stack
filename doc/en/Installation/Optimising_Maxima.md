@@ -26,7 +26,7 @@ The above can be used with either a direct Maxima connection, or with the image 
 
 ## Compiled Lisp image of the STACK libraries ##
 
-[Maxima](../CAS/Maxima.md) can be run with a number of different [Lisp implementations](http://maxima.sourceforge.net/lisp.html).
+[Maxima](../CAS/Maxima_background.md) can be run with a number of different [Lisp implementations](http://maxima.sourceforge.net/lisp.html).
 Although CLISP is the most portable - due to being interpreted - other Lisps can give faster execution.
 
 ## Create Maxima Image ##

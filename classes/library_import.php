@@ -65,6 +65,7 @@ class library_import extends \external_api {
     public static function import_execute_returns() {
         return new \external_single_structure([
             'success' => new \external_value(PARAM_BOOL, 'Success'),
+            'questionid' => new \external_value(PARAM_INT, 'Question id'),
         ]);
     }
 
@@ -115,6 +116,7 @@ class library_import extends \external_api {
 
         $response = new \stdClass();
         $response->success = true;
+        $response->questionid = $qformat->questionids[0];
 
         // Log import.
         $eventparams = [

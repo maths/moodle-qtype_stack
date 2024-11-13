@@ -374,7 +374,7 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertfalse($kv->get_valid());
         $expected = ['You seem to be missing * characters. Perhaps you meant to type ' .
             '<span class="stacksyntaxexample">c:(b+1)-(b+1)<span class="stacksyntaxexamplehighlight">' .
-            '*</span>(d+1)</span>.'];
+            '*</span>(d+1)</span>.', ];
         $this->assertEquals($expected, $kv->get_errors());
     }
 

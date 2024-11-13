@@ -28,7 +28,7 @@ class stack_ast_filter_650_string_protect_slash implements stack_cas_astfilter {
             }
             return true;
         };
-        
+
         $ast->callbackRecurse($strings);
         return $ast;
     }

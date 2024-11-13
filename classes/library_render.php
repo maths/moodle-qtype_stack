@@ -78,9 +78,11 @@ class library_render extends \external_api {
                     'scrolling' => new \external_value(PARAM_BOOL, 'Iframe details'),
                     'evil' => new \external_value(PARAM_BOOL, 'Iframe details'),
                 ])),
+            'questionname' => new \external_value(PARAM_RAW, 'Question name'),
             'questiontext' => new \external_value(PARAM_RAW, 'Original question text'),
             'questionvariables' => new \external_value(PARAM_RAW, 'Question variable definitions'),
             'questiondescription' => new \external_value(PARAM_RAW, 'Question description'),
+            'isstack' => new \external_value(PARAM_BOOL, 'Is this a STACK question?'),
         ]);
     }
 
@@ -114,7 +116,7 @@ class library_render extends \external_api {
                 foreach (StackIframeHolder::$iframes as $iframe) {
                     $iframes[] = [
                         'iframeid' => $iframe['0'],
-                        'content' =>$iframe['1'],
+                        'content' => $iframe['1'],
                         'targetdivid' => $iframe['2'],
                         'title' => $iframe['3'],
                         'scrolling' => $iframe['4'],
@@ -124,9 +126,11 @@ class library_render extends \external_api {
                 $result = [
                     'questionrender' => $render,
                     'iframes' => $iframes,
+                    'questionname' => $question->name,
                     'questiontext' => $question->questiontext,
                     'questionvariables' => $question->questionvariables,
                     'questiondescription' => $question->questiondescription,
+                    'isstack' => true,
                 ];
                 $cache->set($filepath, $result);
             } catch (\stack_exception $e) {
@@ -135,15 +139,18 @@ class library_render extends \external_api {
                 if (strpos($e->getMessage(), 'not of type STACK') !== false) {
                     $xmldata = new SimpleXMLElement($qcontents);
                     $questiontext = (string) $xmldata->question->questiontext->text;
+                    $questionname = (string) $xmldata->question->name->text;
                     $result = [
                         'questionrender' => '<div class="formulation">' .
                             get_string('stack_library_not_stack', 'qtype_stack') .
                             '<br><br>' . $questiontext . '</div>',
+                        'iframes' => [],
+                        'questionname' => $questionname,
                         'questiontext' => $questiontext,
                         'questionvariables' => '',
                         'questiondescription' => '',
+                        'isstack' => false,
                     ];
-                    $question->questiontext = (string) $xmldata->question->questiontext->text;
                 } else {
                     throw $e;
                 }

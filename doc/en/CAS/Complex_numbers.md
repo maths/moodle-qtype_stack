@@ -42,9 +42,9 @@ will display as \(\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \righ
 
 You must remove inert forms before expressions are evaluated by the potential response tree, for example in the feedback variables.  For example, `disp_complex(a, b)` is not algebraically equivalent to `a+b*%i`.
 
-## Polar forms
+## Polar and Exponential form
 
-A complex number written as \(r e^{i\theta}\) is in _polar form_.  The Maxima function `polarform` re-writes a complex number in this form, however with `simp:false` it does not simplify the expressions for the modulus \(r\) or argument \(\theta\) (in STACK). Attempting to re-simplify the expression only returns the number to Cartesian form!
+A complex number written as \(r e^{i\theta}\) is in _exponential form_ or _polar form_.  The Maxima function `polarform` re-writes a complex number in this form, however with `simp:false` it does not simplify the expressions for the modulus \(r\) or argument \(\theta\) (in STACK). Attempting to re-simplify the expression only returns the number to Cartesian form!
 
 As a minimal example, try the following.
 
@@ -72,3 +72,15 @@ Here are some design choices.
 2. If \(r=1\) then this is not displayed. E.g. `polarform_simp(1/sqrt(2)*(-1+%i))` is \(e^{\frac{3\,i\,\pi}{4}}\).
 
 If question level simplification is on, then the value will probably get re-simplified to Cartesian form.
+
+The predicate `complex_exponentialp(ex)` determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).
+Note this test is strict
+
+1. we must have \(r\geq 0\);
+2. we must have \(-\pi < \theta \leq \pi\).
+3. we expect negative real numbers to be written as \(r e^{i\pi}\).
+
+This predicate needs `simp:false`.  In particular do not test using the `ATAlgEquiv` test, which always simplifies its arguments.  Instead test with `ATCasEqual(complex_exponentialp(ans1),true)` to avoid automatic simplification of `ans1` back to Cartesian form _before_ applying the predicate!
+
+An example question is given in the stack library under `Topics\Complex_cube_roots.xml`.
+

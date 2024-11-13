@@ -50,7 +50,7 @@ class docslib_test extends qtype_stack_testcase {
                         'LTI</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
-                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima_installation.md">Maxima installation</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Migration.md">Migration</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Optimising_Maxima.md">' .
                         'Optimising Maxima</a></li>' .
@@ -76,7 +76,6 @@ class docslib_test extends qtype_stack_testcase {
     public function test_stack_docs_render_markdown() {
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
-
         $currentversion = normalize_version(get_config('', 'release'));
 
         $this->assertEquals("<p>Test</p>\n",
@@ -112,5 +111,19 @@ class docslib_test extends qtype_stack_testcase {
         $ex = $md . "\n";
         $this->assert_content_with_maths_equals($ex,
             stack_docs_render_markdown($md));
+    }
+
+    public function test_stack_docs_render_markdown_with_table() {
+        global $CFG;
+        require_once($CFG->libdir . '/environmentlib.php');
+        $currentversion = normalize_version(get_config('', 'release'));
+
+        $md = "\\[ {\\begin{array}{c|c} x & x^3\\\\ \\hline -1 & -1 \\\\ 0 & 0 \\\\ 1 & 1 \\end{array}} \\]";
+        $ex = "<p>\\[ {\begin{array}{c|c} x &amp; x^3\\\\ \hline -1 &amp; -1 \\\\ " .
+            "0 &amp; 0 \\\\ 1 &amp; 1 \\end{array}} \\]</p>\n";
+        if (version_compare($currentversion, '4.1.0') >= 0) {
+            $this->assert_content_with_maths_equals($ex,
+                stack_docs_render_markdown($md));
+        }
     }
 }

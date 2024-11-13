@@ -475,45 +475,53 @@ imag_numberp(ex) := block(
 )$
 
 /* Decide if a number is written in complex exponential form, r*%e^(%i*theta).
+   Positive real numbers are fine.
+   Negative real numbers must be like -1=%e^(%i*%pi).
+   This insists on -pi<theta<=pi.
    Needs simp:false.                                                           */
-complex_exponentialp(ex):=block([ex2],
+complex_exponentialp(ex):=block([ex2,atres],
     /* Edge case of a real number! */
-    if ev(real_numberp(ex), simp) then return(true),
-    ex2:ex,
-    if safe_op(ex)="-" then return(complex_exponentialp(first(args(ex)))),
-    if safe_op(ex)="*" then
-        if not(is(real_numberp(first(args(ex))))) then
-            return(false)
-        else
-            ex2:second(args(ex)),
-    if safe_op(ex)="/" then
-        if not(is(real_numberp(second(args(ex))))) then
-            return(false)
-        else
-            ex2:first(args(ex)),
-    /* Case of r=1, which is not written, or stripped off by the above code. */
-    if safe_op(ex2)="^" then
-        if is(equal(first(args(ex2)),%e)) and is(imag_numberp(second(args(ex2)))) then
-            return(true),
-    if safe_op(ex2)="exp" and is(imag_numberp(first(args(ex2)))) then return(true),
+    /* Negative numbers must be in the form r*e^(%i*t) as well. */
+    ex2:ev(polarform(ev(ex,simp)), simp),
+    ex2:polarform_simp(ex2),
+    atres:ATEqualComAssRules(ex2,ex,[oneMul,oneDiv,idPow]),
+    if second(atres) then return(true),
     return(false)
 )$
 
-polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
+/*
+complex_exponentialp(1);
+complex_exponentialp(1*%e^(%i*%pi));
+complex_exponentialp(7/4*%e^(i*%pi/2));
+complex_exponentialp(7*%e^(i*%pi/2)/4);
+complex_exponentialp(%e^(i*%pi/2));
+complex_exponentialp(1*%e^(i*%pi/2));
+complex_exponentialp(%e^%i);
+
+complex_exponentialp(-1);
+complex_exponentialp(2+0*%i);
+complex_exponentialp(1*%e^(-%i*%pi));
+complex_exponentialp(1*%e^(0*%i));
+complex_exponentialp(-3*%e^(-3*%i*%pi));
+complex_exponentialp(-1+%i);
+complex_exponentialp(3*%e^(-7*%i*%pi/3));
+*/
+
+polarform_simp(ex) := block([%_r, %_theta, %_pf,simp],
     /* We can't return a meaningful value for arg(ex) so we just return 0. */
     if is(ev(ex, simp)=0) then return(0),
     /* It is a design choice to return a positive real number, rather than r*%e^0, or r*%e^(%i*0). */
     if ev(real_numberp(ex) and ex>0, simp) then return(ex),
     simp:false,
     %_pf:ev(polarform(ex), simp),
-    /* Purely imaginary numbers somtimes return just %e^{...} */
-    if is(part(%_pf,1)=%e) then return(%_pf),
     /* We really do have something in the form r*%e^theta to pick apart. */
-    %_pf:args(%_pf),
-    %_r:first(%_pf),
-    %_theta:part(second(%_pf),2),
-    ev(%_r, simp) * %e^(ev(%i*imagpart(%_theta), simp))
+    %_r:ev(cabs(%_pf),simp),
+    %_theta:ev(carg(%_pf),simp),
+    %_theta:ev(trigreduce(%_theta),simp),
+    if (is(%_r=1)) then return(%e^(ev(%i*%_theta, simp))),
+    %_r * %e^(ev(%i*%_theta, simp))
 )$
+
 /* 
   polarform_simp(1+%i);
   polarform_simp(0);
@@ -523,8 +531,14 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
   polarform_simp(2*%i);
   polarform_simp(-%i);
   polarform_simp(-2*%i);
+  polarform_simp(%i/2);
   polarform_simp(sqrt(3)+%i*sqrt(3));
   polarform_simp(1/sqrt(2)*(-1+%i));
+  polarform_simp((7*%e^((%i*%pi)/6))/3);
+  polarform_simp(5*sqrt(3)/8+5/8*%i);
+  polarform_simp(%e^%i);
+  polarform_simp(1/2*%e^(%i*%pi));
+  polarform_simp(1/(2*%pi)*%e^(%i*%pi));
 */
 
 

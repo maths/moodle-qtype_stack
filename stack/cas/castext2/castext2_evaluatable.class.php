@@ -330,7 +330,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
 
     /**
      * Replaces the placeholders related to this CASText using the tokens
-     * collected during processing. 
+     * collected during processing.
      */
     public function apply_placeholder_holder(string $filtered): string {
         return $this->holder->replace($filtered);

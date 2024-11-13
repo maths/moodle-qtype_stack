@@ -64,7 +64,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $flat;
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         $content = '';
         // Just collapse it.

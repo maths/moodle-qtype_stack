@@ -104,6 +104,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', '8^(1/5)*(cos(%pi/15)+%i*sin(%pi/15))', 1, '', ''],
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''],
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''],
+        ['AlgEquiv', '', '5/4*%e^(%i*%pi/6)', '5*sqrt(3)/8+5/8*%i', 1, '', ''],
         ['AlgEquiv', '', '%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''],
 
         ['AlgEquiv', '', 'inf', 'inf', 1, '', 'Infinity'],
@@ -260,7 +261,7 @@ class stack_answertest_test_data {
         // Example where some pre-processing is needed.
         ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
         ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
-            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', ''],
+            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', '', ],
 
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],
@@ -312,6 +313,11 @@ class stack_answertest_test_data {
             'AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', '',
         ],
+        // Without sets the following examples should be equal.
+        ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', -3, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', 'map(expand,{5/4*%e^(%i*%pi/6)})', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
+        ['AlgEquiv', '', 'ratsimp({5/4*%e^(%i*%pi/6)})', 'ratsimp({5*sqrt(3)/8+5/8*%i})', 1, '', ''],
+
         ['AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''],
         [
             'AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)',
@@ -1232,6 +1238,7 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'imag_numberp(%e^(%pi/2))', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3)', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-3)', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^%i)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
@@ -1239,8 +1246,12 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'complex_exponentialp(%e^(%i)/4)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(-%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'true', 1, 'ATCASEqual_true.', ''],
+        // We must have -p1<theta<=pi.
+        ['CasEqual', '', 'complex_exponentialp(3*%e^(-7*%i*%pi/3))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(7*%e^(3*%i*%pi))', 'false', 1, 'ATCASEqual_true.', ''],
+        // We must have r>0.
+        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'false', 1, 'ATCASEqual_true.', ''],
         // The below test case is 0 because this is a general expression with variables.
         ['CasEqual', '', 'complex_exponentialp(-(r*exp(i*atan(bb/aa))))', 'true', 0, 'ATCASEqual_false.', ''],
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.
@@ -2721,7 +2732,18 @@ class stack_answertest_test_data {
         ['LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''],
         ['LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''],
         ['LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', ''],
-    ];
+
+        ['Validator', 'validate_nofunctions', '1/0', '0', -1, 'ATValidator_STACKERROR_SAns.', ''],
+        ['Validator', '1/0', 'x', '0', -1, 'ATValidator_STACKERROR_Opt.', ''],
+        ['Validator', 'op', 'x', 'null', -1, 'ATValidator_STACKERROR_ev.', ''],
+        ['Validator', '[validate_nofunctions]', 'x^2+sin(1)', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'validate_nodef', 'f(x)', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'sin', 'x', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'first', '[1,2,3]', 'null', 0, 'ATValidator_res_not_string.', ''],
+        ['Validator', 'validate_nofunctions', 'x^2+sin(1)', 'null', 1, '', ''],
+        ['Validator', 'validate_nofunctions', 'f(x)', 'null', 0, '', ''],
+
+        ];
 
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();

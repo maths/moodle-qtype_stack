@@ -199,7 +199,7 @@ class stack_matrix_input extends stack_input {
                     $valid = false;
                     $errors[] = stack_string('studentinputtoolong');
                     $notes['too_long'] = true;
-                    $val='';
+                    $val = '';
                 }
 
                 $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,

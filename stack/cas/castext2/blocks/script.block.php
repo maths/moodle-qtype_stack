@@ -63,7 +63,7 @@ class stack_cas_castext2_script extends stack_cas_castext2_block {
         return [];
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
 
         $parameters = json_decode($params[1], true);

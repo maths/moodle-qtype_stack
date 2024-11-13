@@ -2517,7 +2517,7 @@ class castext_test extends qtype_stack_testcase {
      */
     public function test_format_moodle_parsons() {
         $a2 = ['thm:"The Great and Wonderful Theorem"',
-               'proof_steps:[["s1","Proof step 1"],["s2","Proof step 2"]]'];
+               'proof_steps:[["s1","Proof step 1"],["s2","Proof step 2"]]', ];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);

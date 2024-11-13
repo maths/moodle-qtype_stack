@@ -738,7 +738,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $hastodos = false;
         $tags = [];
         $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
-            $this->specificfeedback, $this->questiondescription];
+            $this->specificfeedback, $this->questiondescription, ];
         $pat = '/\[\[todo/';
         foreach ($fields as $field) {
             // We _should_ use castext2_parser_utils::has_todoblocks($field) really, but this

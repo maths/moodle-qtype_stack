@@ -3397,6 +3397,55 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
+    public function test_unitsmulti() {
+
+        $q = \test_question_maker::make_question('stack', 'unitsmulti');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/rate law for the reaction/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $this->process_submission(['ans1' => 'A*k', 'ans2' => '', '-submit' => 1]);
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: A*k [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', 'A*k');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(['ans1' => 'A*k', 'ans1_val' => 'A*k', 'ans2' => '', '-submit' => 1]);
+        // This example is complete because the PRT depends only on ans1.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1.0, 0.0);
+        $this->render();
+        $expected = 'Seed: 1; ans1: A*k [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', 'A*k');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
     public function test_equiv_quad_1() {
 
         // Create the stack question 'equiv_quad'.

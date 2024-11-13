@@ -28,6 +28,8 @@ where `num` is the part interpreted to be the numerical portion, and `units` is 
 
 ## Examples  ##
 
+An example question is given in the stacklibrary `Topics\Topics_units_basic.xml`
+
 ### Example 1  ###
 
 Let us assume that the correct answer is `12.1*m/s^2`.
@@ -55,7 +57,7 @@ The goal of this input is to validate against the pattern `number * units`.
 7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` or space between the numbers and units for implied multiplication.
 8. You may want the single letter variable names options here.  Note that since `km` literally means `k*m=1000*m` this is not a problem with most units.
 9. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
-10. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Numerical_input.md).
+10. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Inputs/Numerical_input.md).
 
 There are surprisingly few ambiguities in the units set up, but there will be some that the developers have missed (correctly dealing with ambiguous input is by definition an impossible problem!).  Please contact us with suggestions for improvements.
 
@@ -130,7 +132,7 @@ The function `stack_unit_si_declare(true)` declares variables as units.  (Note t
 * If you do not declare `stack_unit_si_declare(true)` in the question variables you may need to do so in the feedback text itself.
 * If you are manipulating two expressions and you want to ensure they both use the same units use `stack_unit_si_to_si_base(ex)` on each.  This ensures only the base units of SI are used.  E.g. `stack_unit_si_to_si_base(stackunits(12.1,km))` gives `stackunits(12100.0,m)`.
 
-This function declares all units in one go, and there is no way to declare only a subset. Indeed, using only a subset would disrupt the conversion logic.  Defining all the units restricts the number of variable names available in a particular question, e.g. \(F\) is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). If you need to fine-tune the display how do to so if explained in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.
+This function declares all units in one go, and there is no way to declare only a subset. Indeed, using only a subset would disrupt the conversion logic.  Defining all the units restricts the number of variable names available in a particular question, e.g. \(F\) is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). If you need to fine-tune the display how do to so if explained in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima_background.md) documentation.
 
 The function `stackunits_make(ex)` takes the expression `ex` and, if this is a product of numbers and units, it returns an inert function `stackunits` with arguments `stackunits(numbers, symbols)`.  Note, symbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
 

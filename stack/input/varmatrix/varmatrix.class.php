@@ -88,6 +88,10 @@ class stack_varmatrix_input extends stack_input {
 
         // Sort out size of text area.
         $sizecontent = $current;
+        if ($this->options && $this->options->get_option('decimals') == ',') {
+            // The utility list_to_array expects commas to have meaning at this point.
+            $sizecontent = str_replace(',', '.', $sizecontent);
+        }
         if ($this->is_blank_response($state->contents) && $this->parameters['syntaxAttribute'] == '1') {
             $sizecontent = $attributes['placeholder'];
         }
@@ -267,7 +271,7 @@ class stack_varmatrix_input extends stack_input {
                         $valid = false;
                         $errors[] = stack_string('studentinputtoolong');
                         $notes['too_long'] = true;
-                        $val='';
+                        $val = '';
                     }
                     $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                         [], 'Root', $localoptions->get_option('decimals'));
@@ -309,9 +313,10 @@ class stack_varmatrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
+        // We don't use the decimals option below, because we've already used it above.
         $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
-            [], 'Root', $this->options->get_option('decimals'));
+            [], 'Root', '.');
         $inertform->get_valid();
 
         $caslines = [];

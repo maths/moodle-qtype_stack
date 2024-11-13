@@ -156,6 +156,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
         global $OUTPUT;
+        global $USER;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -194,6 +195,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
+        if (get_user_preferences('htmleditor', '', $USER) !== 'textarea') {
+            $warnings = '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
+        }
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
@@ -569,7 +573,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
-                stack_string('feedbackvariables'), ['rows' => 3, 'cols' => 80]);
+                stack_string('feedbackvariables'), ['rows' => 4, 'cols' => 80]);
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 
         $inputnames = implode(', ', $inputnames);
@@ -685,7 +689,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
-                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 2], $this->editoroptions);
+                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 4], $this->editoroptions);
             $mform->addHelpButton($prtname . $branch . 'feedback[' . $nodekey . ']', 'branchfeedback', 'qtype_stack');
         }
 

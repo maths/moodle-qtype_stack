@@ -188,6 +188,12 @@ if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
 
+/* Issue #615 suggests we make matrix multiplication much more promenent. 
+   This is possible, but would be confused with notation for Hadamard product.
+
+   texput(".","\\circ ",infix);
+*/
+
 int([ex]) := apply(integrate, ex); /* Allows integrate to be called with int().  Avoid alias to allow nouns to work. */
 alias(cosec,csc);                  /* Corresponds to current student expectations. */
 alias(cosech,csch);                /* Corresponds to current student expectations. */
@@ -1723,6 +1729,26 @@ ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
         return([true, true, AnswerNote, FeedBack]),
 
     return([true, false, AnswerNote, FeedBack])
+)$
+
+ATValidator(SA, SB, SO) := block([SAsimp, SOsimp, res],
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATValidator_STACKERROR_SAns"),""]),
+    /* SB is ignored. */
+    if (is(_EC(errcatch(SOsimp:ev(SO, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATValidator_STACKERROR_Opt"),""]),
+
+    if (is(_EC(errcatch(res:ev(apply(SO, [SA]))), "") = false)) then
+        return(StackBasicReturn(false, false, "ATValidator_STACKERROR_ev")),
+    if is(safe_op(res)=string(SO)) then
+        (_EC(errcatch(1/0), ""), return(StackBasicReturn(false, false, "ATValidator_not_fun"))),
+    if not(stringp(res)) then
+        (_EC(errcatch(1/0), ""), return(StackBasicReturn(false, false, "ATValidator_res_not_string"))),
+
+    if is(res="") then
+        return([true, true, "", ""]),
+    return([true, false, "", res])
 )$
 
 /* ********************************** */

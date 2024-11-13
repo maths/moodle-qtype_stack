@@ -86,15 +86,15 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
       | Algebraic input (answer box sizes test)                          | 1  |
     When I entered the "quiz" activity "Test quiz" on course "Course 1" as "student" in the app
     And I press "Attempt quiz now" in the app
-    Then the "style" attribute of "[id$='ans1']" "css_element" should contain "width: 1em"
-    Then the "style" attribute of "[id$='ans2']" "css_element" should contain "width: 1.9em"
-    Then the "style" attribute of "[id$='ans3']" "css_element" should contain "width: 2.8em"
-    Then the "style" attribute of "[id$='ans4']" "css_element" should contain "width: 3.7em"
-    Then the "style" attribute of "[id$='ans5']" "css_element" should contain "width: 4.6em"
-    Then the "style" attribute of "[id$='ans7']" "css_element" should contain "width: 6.4em"
-    Then the "style" attribute of "[id$='ans10']" "css_element" should contain "width: 9.1em"
-    Then the "style" attribute of "[id$='ans15']" "css_element" should contain "width: 13.6em"
-    Then the "style" attribute of "[id$='ans20']" "css_element" should contain "width: 18.1em"
+    Then the "style" attribute of "[id$='ans1']" "css_element" should contain "width: 1.3em"
+    Then the "style" attribute of "[id$='ans2']" "css_element" should contain "width: 2.47em"
+    Then the "style" attribute of "[id$='ans3']" "css_element" should contain "width: 3.64em"
+    Then the "style" attribute of "[id$='ans4']" "css_element" should contain "width: 4.81em"
+    Then the "style" attribute of "[id$='ans5']" "css_element" should contain "width: 5.98em"
+    Then the "style" attribute of "[id$='ans7']" "css_element" should contain "width: 8.32em"
+    Then the "style" attribute of "[id$='ans10']" "css_element" should contain "width: 11.83em"
+    Then the "style" attribute of "[id$='ans15']" "css_element" should contain "width: 17.68em"
+    Then the "style" attribute of "[id$='ans20']" "css_element" should contain "width: 23.53em"
     And I set the input "ans1" to "===" in the STACK app question
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I should see "This answer is invalid."

@@ -30,11 +30,8 @@ Note that some of the more complex examples will not work on STACK. Just keep th
 ## Can I add HTML to CAS-enabled text? ##
 
 Yes.  You can use HTML tags as usual.  For example, you can use these tags to insert references to images etc.
-It's even possible to embed question values within image tags to allow calls to third-party dynamic graph generators.
 
-The Simple Venn sample question demonstrates using the [Google charts](http://code.google.com/apis/chart/) API:
-
-![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
+We recommend you do not include arbitrary `<script>` tags with JS code.  Future versions of STACK will likely be much more strict about cross-site scripting.
 
 ## How can I test out STACK specific functions in a Maxima session? ##
 
@@ -57,7 +54,7 @@ This is a job for a developer.  Please contact us.
 
 ## How can I use subscripts in STACK ##
 
-More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.  Also see the inputs extra option [consolidatesubscripts](Inputs.md).
+More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Subscripts.md) documentation.  Also see the inputs extra option [consolidatesubscripts](Inputs/Input_options.md).
 
 ## How can I confirm my student's answer is fully simplified? ##
 

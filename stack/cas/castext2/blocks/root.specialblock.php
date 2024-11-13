@@ -130,7 +130,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
      * should execute whatever additional logic is needed. Register JavaScript and such
      * things it must then return the content that will take this blocks place.
      */
-    public function postprocess(array $params, castext2_processor $processor, 
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         if (count($params) < 2) {
             // Nothing at all.

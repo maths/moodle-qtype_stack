@@ -7,7 +7,7 @@
     </name>
     <questiontext format="moodle_auto_format">
       <text><![CDATA[<p>Drag the items to match up the functions with their derivatives. </p>
-[[parsons input="ans1" columns="3" rows="2" item-height="250" item-width="250"]]
+[[parsons input="ans1" columns="3" rows="2"]]
 {
     "steps" : {#match_encode(steps)#},
     "headers" : {#headers#},

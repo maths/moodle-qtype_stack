@@ -168,6 +168,12 @@ To use this in a potential response tree, check if `saprob` is empty.  If not, y
 
 An example question illustrating these features is given in the sample questions library under `Topics/Parsons-DAG.xml`.
 
-## 3. General tools to provide bespoke feedback
+## 3. General tools in `builder.mac` to provide bespoke feedback
 
-The last option is to encode specific dependencies, with feedback for each.
+The last option is to encode specific dependencies, with feedback for each.  The advantage is that teachers can mange meaningful feedback for individual steps, but of course that is more work than using the auto-generated feedback. 
+
+You can load the optional library `builder.mac` to use tools to manage bespoke feedback.
+
+An example question is given in the stacklibrary `Doc-Examples\Parsons-3-builder.xml`
+
+This example combines both the automatic feedback in Section 1 where the proof is defined as a tree (a list in our example), with the bespoke feedback for many of the steps.

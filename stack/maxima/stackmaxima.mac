@@ -150,9 +150,9 @@ matchfix("|", "|");
 /* Load STACK packages                */
 /* ********************************** */
 
+load("errortostring.lisp");
 /* This must come before stacktex.lisp as the latter relies on compiled functions in utils.mac. */
 load("utils.mac");
-load("errortostring.lisp");
 
 load("assessment.mac");
 load("validator.mac");

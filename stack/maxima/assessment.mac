@@ -531,11 +531,14 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf,simp],
   polarform_simp(2*%i);
   polarform_simp(-%i);
   polarform_simp(-2*%i);
+  polarform_simp(%i/2);
   polarform_simp(sqrt(3)+%i*sqrt(3));
   polarform_simp(1/sqrt(2)*(-1+%i));
   polarform_simp((7*%e^((%i*%pi)/6))/3);
   polarform_simp(5*sqrt(3)/8+5/8*%i);
   polarform_simp(%e^%i);
+  polarform_simp(1/2*%e^(%i*%pi));
+  polarform_simp(1/(2*%pi)*%e^(%i*%pi));
 */
 
 

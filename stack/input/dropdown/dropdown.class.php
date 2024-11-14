@@ -398,7 +398,9 @@ class stack_dropdown_input extends stack_input {
         // In the case of dropdown create the object directly here.
         $value = $this->contents_to_maxima($contents);
 
-        $answer = stack_ast_container::make_from_student_source($value, '', $secrules, $filterstoapply);
+        // Teacher source is justitified here because all the expressions come from teachers.
+        // Some of these expressions might contain an apostrophe, e.g. 'diff(f,x) which would be forbidden from students.
+        $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules, $filterstoapply);
         $answer->get_valid();
 
         $note = $answer->get_answernote(true);

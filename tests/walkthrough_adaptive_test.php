@@ -3693,7 +3693,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_checkbox_union() {
-
         $q = \test_question_maker::make_question('stack', 'checkbox_union');
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -3712,7 +3711,48 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
             );
+    }
 
+    public function test_checkbox_noun_diff() {
+        $q = \test_question_maker::make_question('stack', 'checkbox_noun_diff');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/operation should you use/'),
+            new question_pattern_expectation('/mathrm/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $this->process_submission(['ans1_1' => '1', 'submit' => 1]);
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of the correct answer.
+        $this->process_submission(['ans1_1' => '1', 'ans1_val' => '[\'diff(f,x,1)]', '-submit' => 1]);
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $expected = 'Seed: 1; ans1: [noundiff(f,x)] [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
     }
 
     public function test_test0_do_not_show_penalties() {

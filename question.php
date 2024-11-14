@@ -810,6 +810,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $teacheranswer;
     }
 
+    /*
+     * This function returns an array of values for inputs which could be typed into Maxima.
+     * Used in the caschat function as possible input values.
+     */
+    public function get_correct_response_testcase() {
+        $teacheranswer = [];
+        if ($this->runtimeerrors || $this->get_cached('units') === null) {
+            return [];
+        }
+        foreach ($this->inputs as $name => $input) {
+            $teacheranswer[$name] = $input->get_teacher_answer_testcase($this->tas[$name]->get_dispvalue());
+        }
+        return $teacheranswer;
+    }
+
     public function is_same_response(array $prevresponse, array $newresponse) {
         foreach ($this->get_expected_data() as $name => $notused) {
             if (!question_utils::arrays_same_at_key_missing_is_blank(

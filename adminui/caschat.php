@@ -84,7 +84,7 @@ if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
         $simp = '';
     }
     $questionvarsinputs = '';
-    foreach ($question->get_correct_response() as $key => $val) {
+    foreach ($question->get_correct_response_testcase() as $key => $val) {
         if (substr($key, -4, 4) !== '_val') {
             $questionvarsinputs .= "\n{$key}:{$val};";
         }

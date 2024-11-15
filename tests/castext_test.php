@@ -2546,4 +2546,73 @@ class castext_test extends qtype_stack_testcase {
         $expected = $txt;
         $this->assertEquals($expected, $at1->get_rendered());
     }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_sqrtdispflag() {
+        // Test 1.
+        $a2 = ['p1:1+sqrt(x)'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 7);
+
+        $txtinput = '{@p1@}, {@(sqrtdispflag:false,p1)@}, {@p1@}';
+        // Notice the 3rd expression is still using ^(1/2) because the sqrtdispflag:false becomes global.
+        $expected = '\({\sqrt{x}+1}\), \({x^{\frac{1}{2}}+1}\), \({x^{\frac{1}{2}}+1}\)';
+        $at1 = castext2_evaluatable::make_from_source($txtinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($expected, $at1->get_rendered());
+
+        // Test 2.
+        $a2 = ['p1:1+sqrt(x)'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 7);
+        
+        $txtinput = '{@p1@}, {@block([sqrtdispflag],sqrtdispflag:false,p1)@}, {@p1@}';
+        // None of the expressions use ^(1/2) because the sqrtdispflag:false is a local variable.
+        $expected = '\({\sqrt{x}+1}\), \({\sqrt{x}+1}\), \({\sqrt{x}+1}\)';
+        $at1 = castext2_evaluatable::make_from_source($txtinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($expected, $at1->get_rendered());
+
+        // Test 3.
+        $a2 = ['p1:1+sqrt(x)'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 7);
+
+        $txtinput = '{@p1@}, {@(sqrtdispflag:false,p1)@}, {@(sqrtdispflag:true,p1)@}';
+        // Need to explicitly switch back in the _next_ expresion. Akward.
+        $expected = '\({\sqrt{x}+1}\), \({x^{\frac{1}{2}}+1}\), \({\sqrt{x}+1}\)';
+        $at1 = castext2_evaluatable::make_from_source($txtinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($expected, $at1->get_rendered());
+    }
 }

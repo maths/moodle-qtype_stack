@@ -91,15 +91,26 @@ This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
     sqrtdispflag
 
-When false the prefix function `sqrt(x)` will be displayed as \(x^{1/2}\).
-Please note that Maxima (by default) does not like to use the \(\sqrt{}\) symbol.
-The internal representation favours fractional powers, for very good reasons.
-In  Maxima 5.19.1 we get:
+When false the prefix function `sqrt(x)` will be displayed as \(x^{1/2}\).  This setting is _global_ to the question, and having both notations co-exist in one question is very tricky.  You need to have `simp:false` throughout the question.
+
+By default Maxima does not like to use the \(\sqrt{}\) symbol. The internal representation favours fractional powers, for very good reasons. In  Maxima we get:
 
     (%i1) 4*sqrt(2);
     (%o1) 2^(5/2)
     (%i2) 6*sqrt(2);
     (%o2) 3*2^(3/2)
+
+Furthermore, if you execute this in a Maxima session
+
+    simp:true;
+    p:1+sqrt(x);
+    ?print(p);
+
+Then the displayed value of `p` is \(\sqrt{x}+1\) whereas the internal representation of `p` is
+
+    ((MPLUS SIMP) 1 ((MEXPT SIMP) $X ((RAT SIMP) 1 2))) 
+
+This means that internally Maxima has converted `sqrt(x)` to `x^(1/2)`, even though it is by default displayed as `sqrt`.  This is an example where the displayed form (text and LaTeX) does not match Maxima's internal representation.
 
 Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elements of Algebra*, L. Euler wrote the following.
 

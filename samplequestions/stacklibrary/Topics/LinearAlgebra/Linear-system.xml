@@ -3,7 +3,7 @@
 <!-- question: 112379  -->
   <question type="stack">
     <name>
-      <text>A1.2023-24.Q12: linear systems</text>
+      <text>Linear systems</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Consider the following linear system, \(A\mathbf{x} = \mathbf{b}\), which has a parameter \(k\).
@@ -136,7 +136,7 @@ taw1: transpose(apply(matrix,[taw1]));
       <text>\( {@QAM@} \rightarrow {@TAM1@} \) Inconsistent: \(k={@k1@}\). Infinite solutions: \(k={@k2@}\). \(\mathbf{x} = {@ta4@} \). </text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text></text>
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

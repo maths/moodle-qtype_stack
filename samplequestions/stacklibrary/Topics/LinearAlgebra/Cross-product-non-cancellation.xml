@@ -40,7 +40,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
       <text>{#version#}</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text></text>
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

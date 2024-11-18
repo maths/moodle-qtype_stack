@@ -3,7 +3,7 @@
 <!-- question: 112263  -->
   <question type="stack">
     <name>
-      <text>A1.2022-23.Q14: PC (Dot product formula proof)</text>
+      <text>Dot product formula proof comprehension</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Consider each line in the proof below. Select from the following list the corresponding dot product rule number which justifies each step.</p>
@@ -163,7 +163,7 @@ ta36:5;
       <text></text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text></text>
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

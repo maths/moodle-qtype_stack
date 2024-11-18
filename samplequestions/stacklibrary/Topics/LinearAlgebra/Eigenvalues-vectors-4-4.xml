@@ -3,10 +3,10 @@
 <!-- question: 112437  -->
   <question type="stack">
     <name>
-      <text>A1.2023-24.Q04a: Eigen[vals/vecs] of structured 4*4 matrices.</text>
+      <text>Eigenvalues and vectors of of structured 4*4 matrices.</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>(Be aware that you are asked to upload your working for this question in Q5 below)<br></p><p>Find the eigenvalues \(\lambda_1, \lambda_2,\lambda_3, \lambda_4\) of \[M={@M@},\] and their corresponding eigenvectors.</p>
+      <text><![CDATA[<p>Find the eigenvalues \(\lambda_1, \lambda_2,\lambda_3, \lambda_4\) of \[M={@M@},\] and their corresponding eigenvectors.</p>
 <p>\(\lambda_1 = \) [[input:l1]] [[validation:l1]]<br>This has corresponding eigenvector&nbsp;[[input:sev1]] [[validation:sev1]]</p>
 <p>\(\lambda_2 = \) [[input:l2]] [[validation:l2]]<br>This has corresponding eigenvector&nbsp;[[input:sev2]] [[validation:sev2]]</p>
 <p>\(\lambda_3 = \) [[input:l3]] [[validation:l3]]<br>This has corresponding eigenvector&nbsp;[[input:sev3]] [[validation:sev3]]</p>

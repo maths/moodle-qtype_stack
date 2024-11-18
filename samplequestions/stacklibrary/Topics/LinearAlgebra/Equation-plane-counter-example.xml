@@ -3,7 +3,7 @@
 <!-- question: 112262  -->
   <question type="stack">
     <name>
-      <text>A1.2022-23.Q20: Subspace and planes in R3</text>
+      <text>Subspace and planes in R3</text>
     </name>
     <questiontext format="moodle_auto_format">
       <text><![CDATA[<p>Let \(\mathbf{x} = \mathbf{p} + s\mathbf{u} + t\mathbf{v} \) be the vector equation of a plane in \(\mathbb{R}^3\).  Then the plane passes through the origin if and only if \(\mathbf{p}=\mathbf{0}\)?  If false provide a counter example, otherwise leave the equation of a plane blank.</p>
@@ -45,7 +45,7 @@ tac:transpose(tan).tap;</text>
       <text>.</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text></text>
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

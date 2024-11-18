@@ -3,7 +3,7 @@
 <!-- question: 112264  -->
   <question type="stack">
     <name>
-      <text>A1.2022-23.Q22: PC Span Proof (no formative feedback)</text>
+      <text>Span proof</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Complete the following proof.</p>
@@ -117,7 +117,7 @@ For the direction \(U \subseteq W\).
       <text>.</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text></text>
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

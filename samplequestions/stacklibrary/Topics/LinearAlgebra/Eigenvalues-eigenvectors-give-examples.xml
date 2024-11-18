@@ -7,19 +7,15 @@
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>A \(2\times2\) matrix \(A\) has eigenvalues \(\lambda_1 = 1\), \(\lambda_2 = {@a2@}\).</p>
-
-<ol class="HELM_parts">
-
+<ol>
     <li>
         <p>Find the characteristic polynomial of \(A\).</p>
         <p>\(c_A(x)=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
     </li>
-
     <li>
         <p>Give an example of matrix \(A\).</p>
         <p>[[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
     </li>
-
     <li>
         <p>Find the eigenvectors of \(A\) in part (b).</p>
         <div style="padding: 0.5em">
@@ -42,9 +38,8 @@
 </ol>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p dir="ltr" style="text-align: left;"></p>
-<h4>Worked Solution</h4>
-  <ol class="HELM_parts">
+      <text><![CDATA[<h4>Worked Solution</h4>
+  <ol>
   <li><p> The theorem of characteristic polynomial: If \(A\) is an \(n\times n\) matrix, a number \(\lambda\) is an eigenvalue of \(A\) if and only if \(c_A(\lambda) = 0\), that is if and only if \(\lambda\) is a root of the characteristic polynomial \(c_A(x)\).
 In this question, we have eigenvalues \(\lambda_1 = 1\) and \(\lambda_2 = {@a2@}\). By the theorem, the characteristic polynomial is \((x-1)(x-{@a2@})\).</p></li>
 

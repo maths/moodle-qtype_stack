@@ -1,87 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 112222  -->
+<!-- question: 4524  -->
   <question type="stack">
     <name>
       <text>Matrix Algebra - give an example</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<ol class="HELM_parts">
-    <li>Give an example of matrices \(A\), \(B\) such that \(A\cdot B =\left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \) and both \(A , \, B \neq \left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \)
-        <div style="padding:0.5em">\(A=\)[[input:a1A]][[validation:a1A]] , \(B=\)[[input:a1B]][[validation:a1B]][[feedback:prt1]]
+      <text><![CDATA[<ol>
+ <li>Give an example of matrices \(A\), \(B\) such that \(A\cdot B =\left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \) and both \(A , \, B \neq \left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \)
 
-        </div>
-    </li>
-
-    <li>
-        <p>Give a different pair of nonzero matrices \(C\), \(D\) such that \(C\cdot D =\left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \).</p>
-        <div style="padding:0.5em">\(C=\)[[input:a2A]][[validation:a2A]] , \(D=\)[[input:a2B]][[validation:a2B]][[feedback:prt2]]</div>
-    </li>
-
-    <li>
-        <p>Consider the following statement:</p>
-        <div class="editor-indent" style="margin-left: 30px;"><p>There do not exist \(2 \times 2 \) matrices \(E, \, F\) with rank\((E)\)\(=\)rank\((F)\)\(=2\) such that \(E\cdot F = \left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \).</p></div>
-      <p>Select whether it is true or false, and give either a proof or counterexample as appropriate.</p>
+<div style="padding:0.5em">\(A=\)[[input:a1A]][[validation:a1A]] , \(B=\)[[input:a1B]][[validation:a1B]][[feedback:prt1]]</div></li>
+<li>Give a different pair of nonzero matrices \(C\), \(D\) such that \(C\cdot D =\left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \).
+<div style="padding:0.5em">\(C=\)[[input:a2A]][[validation:a2A]] , \(D=\)[[input:a2B]][[validation:a2B]][[feedback:prt2]]</div></li>
+<li>Consider the following statement:
+<p>There do not exist \(2 \times 2 \) matrices \(E, \, F\) with rank\((E)\)\(=\)rank\((F)\)\(=2\) such that \(E\cdot F = \left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \).</p>
+<p>Select whether it is true or false, and give either a proof or counterexample as appropriate.</p>
         <div>This statement is [[input:a4]][[validation:a4]] [[feedback:prt4]]</div>
-        <div id="q6_a4_true">
-            <p>Proof:</p>[[input:a4_true]][[validation:a4_true]]</div>
-        <div id="q6_a4_false">
+       [[reveal input="a4" value="true"]]
+            <p>Proof:</p>[[input:a4_true]][[validation:a4_true]]
+       [[/reveal]]
+       [[reveal input="a4" value="false"]]
             <p>Counterexample:</p>
             <div style="padding:0.5em">\(E=\)[[input:a3A]][[validation:a3A]] , \(F=\)[[input:a3B]] [[validation:a3B]] [[feedback:prt3]]</div>
-        </div>
+       [[/reveal]]
     </li>
-</ol>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        /* identify the dropdown and the elements it should control */
-        var dropdown = document.querySelector('[id*="_a4"]');
-        var div_true = document.querySelector('[id*="q6_a4_true"]');
-        var div_false = document.querySelector('[id*="q6_a4_false"]');
-        /* the toggle_display function sets the visibility of the elements based on the value of the dropdown */
-        var toggle_display = function() {
-            div_true.style.display = dropdown.value == "1" ? "block" : "none";
-            div_false.style.display = dropdown.value == "2" ? "block" : "none";
-        };
-        /* toggle_display will be triggered whenever the dropdown changes, and also once on page load */
-        dropdown.onchange = toggle_display;
-        toggle_display();
-    });
-</script>]]></text>
+</ol>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[<h4>Worked Solution</h4>
-<p></p>
-We denote the row of matrix \(A\) by \(A_i\), columns of matrix \(B\) by \(b_j\) and columns of matrix \(AB\) by \((ab)_j\). Then the matrix \(AB={@zmatrix@}\) are made up of two column vectors, namely \((ab)_1={@cvec@}\) and \((ab)_2={@cvec@}\). <p></p>
+<p>We denote the row of matrix \(A\) by \(A_i\), columns of matrix \(B\) by \(b_j\) and columns of matrix \(AB\) by \((ab)_j\). Then the matrix \(AB={@zmatrix@}\) are made up of two column vectors, namely \((ab)_1={@cvec@}\) and \((ab)_2={@cvec@}\). <p></p>
 Thus, we break this problem down into two parts which are \((ab)_1=A \cdot b_1={@cvec@}\) and \((ab)_2=A \cdot b_2={@cvec@}\).  <p></p>
-Note that this is a linear transformation from \(\mathbb{R}^2\) to \(\mathbb{R}^2\) as \(A\) maps \(b_1\) to \({@cvec@}\) and \(b_2\) to \({@cvec@}\). <p></p><p></p>
-
-By the dimension theorem, \(\text{dim}(\mathbb{R}^2)= \text{nullity}(A)+\text{rank}(A)\). <p></p>
-As \(A\neq{@zmatrix@}\), \(\text{nullity}(A)&lt;2\). On the other hand, \(b_1\neq{@cvec@}\) and \(b_2\neq{@cvec@}\) is in the null space of \(A\) so, \(\text{nullity}(A)\neq0\) which implies that \(\text{nullity}(A)=1\). This means that the rows or columns of the matrix \(A\) are linearly dependent. <p></p> <p></p>
-
-Again, from the dimension theorem, we know that \(\text{rank}(B)\neq2\) since if \(\text{rank}(B)=2\) then \(\text{nullity}(A)=2\) which contradicts our assumption that \(A\) cannot be the zero matrix. From our assumption, we also know that \(\text{rank}(B)\neq0\) as \(B\) cannot be the zero matrix. Hence, similar to \(A\), \(B\) has \(\text{rank}=1\). <p></p> <p></p>
-
+Note that this is a linear transformation from \(\mathbb{R}^2\) to \(\mathbb{R}^2\) as \(A\) maps \(b_1\) to \({@cvec@}\) and \(b_2\) to \({@cvec@}\).
+</p>
+<p>By the dimension theorem, \(\text{dim}(\mathbb{R}^2)= \text{nullity}(A)+\text{rank}(A)\).
+As \(A\neq{@zmatrix@}\), \(\text{nullity}(A)&lt;2\). On the other hand, \(b_1\neq{@cvec@}\) and \(b_2\neq{@cvec@}\) is in the null space of \(A\) so, \(\text{nullity}(A)\neq0\) which implies that \(\text{nullity}(A)=1\). This means that the rows or columns of the matrix \(A\) are linearly dependent. 
+</p>
+<p>
+Again, from the dimension theorem, we know that \(\text{rank}(B)\neq2\) since if \(\text{rank}(B)=2\) then \(\text{nullity}(A)=2\) which contradicts our assumption that \(A\) cannot be the zero matrix. From our assumption, we also know that \(\text{rank}(B)\neq0\) as \(B\) cannot be the zero matrix. Hence, similar to \(A\), \(B\) has \(\text{rank}=1\).</p>
+<p>
 To find an example of matrices \(A,B\) which satisfies the condition, we set \(A\) to be any matrix with linearly dependent columns or rows. Then solve for \(B\).
-For example, \(A\) can be of the form \(\left( \begin{array}{cc} a &amp; a \\ ca &amp; ca \end{array} \right)\) for any \(c,a \in \mathbb{R}\). <p></p><p></p>
-One such example is \(A={@ta1A@}\). An example for \(B\) which satisfies the condition would be \(B={@ta1B@}\). <p></p>]]></text>
+For example, \(A\) can be of the form \(\left( \begin{array}{cc} a &amp; a \\ ca &amp; ca \end{array} \right)\) for any \(c,a \in \mathbb{R}\).</p><p>
+One such example is \(A={@ta1A@}\). An example for \(B\) which satisfies the condition would be \(B={@ta1B@}\).</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2021072200</text>
+      <text>2024111500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[ta1A:matrix([1,1],[2,2]);
+      <text>ta1A:matrix([1,1],[2,2]);
 ta1B:matrix([2,2],[-2,-2]);
 ta2A:matrix([1,1],[-1,-1]);
 ta2B:matrix([1,1],[-1,-1]);
 ta3A:matrix([null,null],[null,null]);
 ta3B:matrix([null,null],[null,null]);
-ta4:[["true",true],["false",false]];
-t4:"true";
+ta4:true;
 zmatrix:matrix([0,0],[0,0]);
-cvec:matrix([0],[0]);]]></text>
+cvec:matrix([0],[0]);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text></text>
@@ -223,7 +200,7 @@ cvec:matrix([0],[0]);]]></text>
     </input>
     <input>
       <name>a4</name>
-      <type>dropdown</type>
+      <type>boolean</type>
       <tans>ta4</tans>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -277,7 +254,7 @@ if notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elsei
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
@@ -285,7 +262,7 @@ if notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elsei
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
@@ -302,7 +279,7 @@ if notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elsei
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
@@ -310,7 +287,7 @@ if notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elsei
           <text><![CDATA[\(A\cdot B \neq \left( \begin{array}{cc} 0&amp;0 \\ 0&amp;0 \end{array}\right)\) in this case.]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
@@ -327,7 +304,7 @@ if notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elsei
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-3-T</trueanswernote>
@@ -335,7 +312,7 @@ if notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elsei
           <text>You gave the zero matrix as an answer, we are looking for nonzero matrices.</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-3-F</falseanswernote>
@@ -366,7 +343,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
@@ -374,7 +351,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
@@ -391,7 +368,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-2-T</trueanswernote>
@@ -399,7 +376,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
           <text><![CDATA[\(A\cdot B \neq \left( \begin{array}{cc} 0&amp;0 \\ 0&amp;0 \end{array}\right)\) in this case.]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt2-2-F</falseanswernote>
@@ -416,7 +393,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-3-T</trueanswernote>
@@ -424,7 +401,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
           <text>You gave the zero matrix as an answer, we are looking for nonzero matrices.</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>3</falsenextnode>
         <falseanswernote>prt2-3-F</falseanswernote>
@@ -441,7 +418,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-4-T</trueanswernote>
@@ -449,7 +426,7 @@ if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 el
           <text>\(A\) or \(B\) or both have been given in part(a) of the question!</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-4-F</falseanswernote>
@@ -479,7 +456,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
@@ -487,7 +464,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
@@ -504,7 +481,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-2-T</trueanswernote>
@@ -512,7 +489,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
           <text><![CDATA[\(A\cdot B \neq \left( \begin{array}{cc} 0&amp;0 \\ 0&amp;0 \end{array}\right)\) in this case.]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt3-2-F</falseanswernote>
@@ -529,7 +506,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-3-T</trueanswernote>
@@ -537,7 +514,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
           <text>Both of the matrices you have given have rank less than 2.</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-3-F</falseanswernote>
@@ -559,11 +536,11 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
         <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>a4</sans>
-        <tans>t4</tans>
+        <tans>ta4</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt4-1-T</trueanswernote>
@@ -571,7 +548,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-1-F</falseanswernote>
@@ -747,7 +724,7 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
       </testinput>
       <testinput>
         <name>a4</name>
-        <value>first(mcq_correct(ta4))</value>
+        <value>ta4</value>
       </testinput>
       <testinput>
         <name>a4_true</name>

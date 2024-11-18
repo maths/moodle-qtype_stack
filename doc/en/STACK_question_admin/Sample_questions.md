@@ -24,6 +24,8 @@ This directory contains sub-directories with large libraries of questions:
 
 We would encourage colleagues to release their materials under a creative commons licence.  Please contact the developers.
 
+A significant advantage of using questions from the STACK library is that they are distributed with the source code, and therefore use features which match your version of STACK.
+
 # Moodle courses released with STACK #
 
 STACK is released with a demonstration course which contains hundreds of tested STACK questions.  Many have a full worked solution and random variants, and this represents a substantial resource.

@@ -47,7 +47,7 @@ Unless you want to discuss something confidential with the developers, please do
   * Create `maximalocal.mac.template` as described in `Adding_new_version.md` in goemaxima docs (or just copy from previous goemaxima version).
   * In `buildimage.sh` set `maximaver` and `sbclver` e.g. `maximaver="5.45.1" sbclver="2.2.6"`. (`maximaver` should match `maximalocal.mac.template`)
   * `./buildweb.sh` (You may need to install `go` first: `sudo snap install go --classic`).
-  * `.buildimage.s 2024072400` (If Docker struggles to fetch metadata `sudo vi ~/.docker/config.json` and change `credsStore` to `credStore`).
+  * `./buildimage.sh 2024072400` (If Docker struggles to fetch metadata `sudo vi ~/.docker/config.json` and change `credsStore` to `credStore`).
   * You should have now created a `goemaxima:2024072400-dev` image locally.
 * Temporarily update STACK API locally:
   * Update maxima image in STACK API to `goemaxima:2024072400-dev` in `docker-compose.dev.yml`.

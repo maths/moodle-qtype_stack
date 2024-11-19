@@ -2,7 +2,7 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/top/Calculus-Refresher/CR_Int_13</text>
+      <text>top/stacklibrary/Calculus-Refresher/CR_Int_13</text>
     </category>
     <info format="moodle_auto_format">
       <text>Integration by parts</text>

@@ -2,10 +2,10 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/stacklibrary/Algebra-Refresher/10. Expressions: single-term common factors</text>
+      <text>top/stacklibrary/Topics/LinearAlgebra</text>
     </category>
     <info format="moodle_auto_format">
-      <text/>
+      <text>Examples questions tied to STACK documentation topics: Linear algebra</text>
     </info>
     <idnumber/>
   </question>

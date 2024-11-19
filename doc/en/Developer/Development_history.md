@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.8.1
+
+Released November 2024.
+
+Rename directories and files in the STACK library to avoid problems with the auto-generated .zip file.
+
 ## Version 4.8.0
 
 Released November 2024.

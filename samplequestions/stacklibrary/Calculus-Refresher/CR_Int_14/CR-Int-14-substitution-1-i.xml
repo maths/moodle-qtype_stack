@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Integrate {@p@} with respect to {@v@} using the substitution \(u={@ppp@}\).
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[We need to calculate \[\int {@p@} d{@v@}\] by means of the substitution \(u={@ppp@}\) <hint>calc_int_methods_substitution</hint>.
@@ -22,7 +21,7 @@ Hence,
    &\displaystyle =&\displaystyle  \int {@subst(u,ppp,p)/diff(ppp,v)@} d{@u@} \\
    &\displaystyle =&\displaystyle  {@int(subst(u,ppp,p)/diff(ppp,v),u)+c@} \\
    &\displaystyle =&\displaystyle  {@int(p,v)+c@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

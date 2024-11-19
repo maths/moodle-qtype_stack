@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to calculate \[\int {@p@} d{@v@}\] we need to express \[{@p@}\] as the sum of its partial fractions <hint>alg_partial_fractions</hint>.
@@ -36,7 +35,7 @@ Hence,
    &\displaystyle =&\displaystyle  {@rdm3@} \int {@ppp1@} d{@v@} + {@rdm3@} \int {@ppp2@} d{@v@} + {@rdm3@} \int {@ppp3@} d{@v@} \\
    &\displaystyle =&\displaystyle  {@rdm2*int(ppp1,v)@} + {@rdm2*int(ppp2,v)@} + {@rdm3*int(ppp3,v)@} +c \\
    &\displaystyle =&\displaystyle  {@rdm2*int(ppp1,v)+rdm2*int(ppp2,v)+rdm3*int(ppp3,v)@} +c
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

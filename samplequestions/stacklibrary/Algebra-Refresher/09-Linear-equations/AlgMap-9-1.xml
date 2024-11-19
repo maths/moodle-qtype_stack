@@ -37,7 +37,7 @@ ta:(k2-k1)/cf1;</text>
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ {@cf1*v+k1@} = {@k2@} \Rightarrow {@v@} = {@ta@}. \] </text>
+      <text>\[ {@cf1*v+k1@} = {@k2@} \Rightarrow {@v@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

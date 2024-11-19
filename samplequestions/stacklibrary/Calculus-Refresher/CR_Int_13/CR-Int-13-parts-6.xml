@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Integrate {@p@} with respect to {@v@} using the method of integration by parts.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[To solve this problem we will have to use the method of integration by parts <hint>calc_int_methods_parts</hint> as follows:
@@ -32,8 +31,7 @@ So,
 \[\begin{array}{rcl}\displaystyle 
 2\int {@p@} d{@v@} &\displaystyle =&\displaystyle  {@pp1*pp1@} + c \\
 \int {@p@} d{@v@} &\displaystyle =&\displaystyle  {@int(p,v)@} + k
- \end{array}\] 
-]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

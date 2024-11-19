@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find the following integral:\[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[We need to calculate \[\int {@p@} d{@v@}\] by means of the substitution \(u={@pp1@}\) <hint>calc_int_methods_substitution</hint>.
@@ -19,7 +18,7 @@ Hence,
 
 \[\begin{array}{rcl}\displaystyle  
 \int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int {@pp2/u@} \frac{d{@u@}}{@diff(pp1,v)@} \\&\displaystyle =&\displaystyle  \int {@1/u@} d{@u@} \\&\displaystyle =&\displaystyle  {@int(1/u,u)+c@} \\&\displaystyle =&\displaystyle  {@int(p,v)+c@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

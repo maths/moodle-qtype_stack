@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 4564  -->
   <question type="stack">
     <name>
       <text>Subspace (reveal example)</text>
@@ -38,7 +37,7 @@ For example, \(w_1 = \) [[input:answ1]] [[validation:answ1]] is in \(W\) and
     <defaultgrade>3</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2023051500</text>
     </stackversion>
@@ -67,13 +66,13 @@ taw1:transpose(matrix([null,null,null]));
 taw2:null;</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text>{@Ws@}</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -87,13 +86,15 @@ taw2:null;</text>
     <prtincorrect format="html">
       <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans0</name>
       <type>boolean</type>
@@ -101,16 +102,16 @@ taw2:null;</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans1</name>
@@ -119,16 +120,16 @@ taw2:null;</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans2</name>
@@ -137,16 +138,16 @@ taw2:null;</text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>5</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans3</name>
@@ -157,14 +158,14 @@ taw2:null;</text>
       <insertstars>5</insertstars>
       <syntaxhint>[?, ...]</syntaxhint>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ansv1</name>
@@ -173,16 +174,16 @@ taw2:null;</text>
       <boxsize>2</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>5</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ansv2</name>
@@ -191,16 +192,16 @@ taw2:null;</text>
       <boxsize>2</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>5</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>answ1</name>
@@ -209,16 +210,16 @@ taw2:null;</text>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>5</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>answ2</name>
@@ -227,16 +228,16 @@ taw2:null;</text>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>5</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -244,7 +245,7 @@ taw2:null;</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -252,11 +253,11 @@ taw2:null;</text>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>issubspace</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
@@ -264,7 +265,7 @@ taw2:null;</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -283,19 +284,19 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
@@ -308,23 +309,23 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>deg</sans>
         <tans>1</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt2-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -333,23 +334,23 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(ans2, matrix([0],[0],[0]))</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>3</truenextnode>
         <trueanswernote>prt2-3-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-3-F</falseanswernote>
         <falsefeedback format="html">
@@ -358,27 +359,27 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>3</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>cspace(ans2)</sans>
         <tans>cspace(Ws)</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-4-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-4-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -388,23 +389,23 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>false</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
@@ -417,15 +418,15 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans0</sans>
         <tans>not(point_in_space(Ws,matrix([0],[0],[0])))</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-2-T</trueanswernote>
         <truefeedback format="html">
@@ -433,7 +434,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -447,27 +448,27 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>false</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt4-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -476,23 +477,23 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,ansv1)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt4-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -501,23 +502,23 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,ansv2)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>3</truenextnode>
         <trueanswernote>prt4-3-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-3-F</falseanswernote>
         <falsefeedback format="html">
@@ -526,15 +527,15 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>3</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,ansv1+ansv2)</sans>
         <tans>false</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt4-4-T</trueanswernote>
         <truefeedback format="html">
@@ -542,7 +543,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-4-F</falseanswernote>
         <falsefeedback format="html">
@@ -556,27 +557,27 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>false</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt5-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -585,23 +586,23 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,answ1)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt5-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -610,15 +611,15 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,answ2*answ1)</sans>
         <tans>false</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt5-3-T</trueanswernote>
         <truefeedback format="html">
@@ -626,7 +627,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-3-F</falseanswernote>
         <falsefeedback format="html">
@@ -636,10 +637,10 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
     </prt>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans1</name>
@@ -655,19 +656,19 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ansv1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansv2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ2</name>
-        <value></value>
+        <value/>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -683,29 +684,29 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </expected>
       <expected>
         <name>prt3</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt4</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt5</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans1</name>
@@ -721,19 +722,19 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ansv1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansv2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ2</name>
-        <value></value>
+        <value/>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -749,29 +750,29 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </expected>
       <expected>
         <name>prt3</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt4</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt5</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans1</name>
@@ -787,19 +788,19 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ansv1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansv2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ2</name>
-        <value></value>
+        <value/>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -810,31 +811,31 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       <expected>
         <name>prt2</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt2-4-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt3</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt4</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt5</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>4</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
         <value>true</value>
@@ -845,7 +846,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ans2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans3</name>
@@ -853,19 +854,19 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ansv1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansv2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ2</name>
-        <value></value>
+        <value/>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -875,8 +876,8 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </expected>
       <expected>
         <name>prt2</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
@@ -887,20 +888,20 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </expected>
       <expected>
         <name>prt4</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt5</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>5</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
         <value>false</value>
@@ -911,7 +912,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ans2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans3</name>
@@ -919,19 +920,19 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ansv1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansv2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ2</name>
-        <value></value>
+        <value/>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -941,8 +942,8 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </expected>
       <expected>
         <name>prt2</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
@@ -954,10 +955,10 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
     </qtest>
     <qtest>
       <testcase>6</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans1</name>
@@ -965,7 +966,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ans2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans3</name>
@@ -995,14 +996,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </expected>
       <expected>
         <name>prt2</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt3</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
@@ -1031,7 +1032,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ans2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ans3</name>
@@ -1039,51 +1040,50 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </testinput>
       <testinput>
         <name>ansv1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansv2</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ1</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>answ2</name>
-        <value></value>
+        <value/>
       </testinput>
       <expected>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt1-1-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt2</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt3</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt3-2-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt4</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt5</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
   </question>
-
 </quiz>

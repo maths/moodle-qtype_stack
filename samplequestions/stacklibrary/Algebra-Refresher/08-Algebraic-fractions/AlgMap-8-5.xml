@@ -24,7 +24,7 @@
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ \frac{@b-a@}{@a-b@} = {@ta@}. \] </text>
+      <text>\[ \frac{@b-a@}{@a-b@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

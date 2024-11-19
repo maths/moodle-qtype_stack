@@ -14,8 +14,7 @@ Write this quadratic in factored form: [[input:ansf]]\(=0\). [[validation:ansf]]
 <br>
 Solve this equation, giving your answer as a set \(\left(\mbox{e.g. }\left\{x_1 , x_2\right\}\right)\): <br>
 <br>
-\({@v@} \in \) [[input:ans]] [[validation:ans]][[feedback:prt1]]
-]]></text>
+\({@v@} \in \) [[input:ans]] [[validation:ans]][[feedback:prt1]]]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[There are multiple ways of solving quadratic equations but if you can spot how to factorise the quadratic then this method is by far the fastest and simplest. In this example we can factorise the quadratic to give: 

@@ -8,8 +8,7 @@
       <text>By expressing the integrand as the sum of its partial fractions, find the following definite integral:
 \[ \int^{@rdm4@}_{@rdm5@} {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to calculate \[\int {@p@} d{@v@}\] we need to express \[{@p@}\] as the sum of its partial fractions <hint>alg_partial_fractions</hint>.
@@ -39,8 +38,7 @@ Then,
   \int^{@rdm4@}_{@rdm5@} {@p@} d{@v@} &\displaystyle =&\displaystyle  F({@rdm4@}) - F({@rdm5@}) \\
    &\displaystyle =&\displaystyle  {@subst(rdm4,v,pq)@} - \left[{@subst(rdm5,v,pq)@}\right] \\
    &\displaystyle =&\displaystyle  {@subst(rdm4,v,pq)-subst(rdm5,v,pq)@}
- \end{array}\] 
-]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

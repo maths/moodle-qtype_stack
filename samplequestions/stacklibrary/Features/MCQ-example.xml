@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 12805  -->
   <question type="stack">
     <name>
       <text>MCQ_example_Remainder Theorem T/F</text>
@@ -10,12 +9,12 @@
  [[input:ans1]] [[validation:ans1]]]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024092500</text>
     </stackversion>
@@ -43,9 +42,7 @@ statements:makelist([sconcat("(",ascii(96+i),")"),statements[i][1],statements[i]
 statements:maplist(lambda([ex],[ex[1],ex[2],sconcat("<b>",ex[1],"</b> ",ex[3])]),statements);
 /* Produce lists of correct and incorrect statements: */
 tans:mcq_correct(statements);
-incorr:maplist(first, sublist(statements, lambda([ex], not(second(ex)))));
-
-]]></text>
+incorr:maplist(first, sublist(statements, lambda([ex], not(second(ex)))));]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -77,7 +74,7 @@ The marking counts the number correct and the number incorrect.  You are then ab
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>checkbox</type>
@@ -85,16 +82,16 @@ The marking counts the number correct and the number incorrect.  You are then ab
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -108,8 +105,7 @@ The marking counts the number correct and the number incorrect.  You are then ab
   PRT score fields can be variables so, should you choose to, and use that value to assign a score.
 */
 
-nocorrect:cardinality(intersection(setify(tans),setify(ans1)));
-]]></text>
+nocorrect:cardinality(intersection(setify(tans),setify(ans1)));]]></text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -117,7 +113,7 @@ nocorrect:cardinality(intersection(setify(tans),setify(ans1)));
         <answertest>Sets</answertest>
         <sans>setify(ans1)</sans>
         <tans>setify(tans)</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
@@ -125,7 +121,7 @@ nocorrect:cardinality(intersection(setify(tans),setify(ans1)));
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-0-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
@@ -171,10 +167,9 @@ nocorrect:cardinality(intersection(setify(tans),setify(ans1)));
       <expected>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt1-0-F</expectedanswernote>
       </expected>
     </qtest>
   </question>
-
 </quiz>

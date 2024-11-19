@@ -28,8 +28,7 @@ t:c/d;
 ta1:(s^2+2*t^2);
 ta2:(3-s*t);
 ta:ta1/ta2;
-simp:false;
-</text>
+simp:false;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>

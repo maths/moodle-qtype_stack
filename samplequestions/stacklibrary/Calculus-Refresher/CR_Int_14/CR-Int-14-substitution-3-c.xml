@@ -53,15 +53,13 @@ pp2:(v+rdm3)^(1/2);
 p:v*pp2;
 dumvar7:u;
 q:rhs(solve(u=pp2,v)[1]);
-q1:int(p,v);
-]]></text>
+q1:int(p,v);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} = {@int(p,v,rdm2,rdm1)@}\]
-</text>
+      <text>\[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} = {@int(p,v,rdm2,rdm1)@}\]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

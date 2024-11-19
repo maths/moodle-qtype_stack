@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \(\frac{dy}{dx}\) where \({@p@}=0\) using implicit differentiation.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text>Differentiating implicitly we obtain:

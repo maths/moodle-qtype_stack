@@ -8,8 +8,7 @@
       <text>Find the following derivative:
 \[ \frac{d}{d{@v@}}[{@p@}]. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[To solve this question, you will have to use the chain rule <hint>calc_chain_rule</hint> more than once. 
@@ -37,8 +36,7 @@ So,
    &\displaystyle =&\displaystyle  e^g \cdot {@diff(pp,v)@} \\
    &\displaystyle =&\displaystyle  e^{@pp@}{@diff(pp,v)@} \\
    &\displaystyle =&\displaystyle  {@diff(p,v)@}
- \end{array}\] 
-]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

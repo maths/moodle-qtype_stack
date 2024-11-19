@@ -38,7 +38,7 @@ ta:factor((cf1*v+a)*(cf2*v+b));</text>
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ {@expand((cf1*v+a)*(cf2*v+b))@} = {@ta@}. \] </text>
+      <text>\[ {@expand((cf1*v+a)*(cf2*v+b))@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

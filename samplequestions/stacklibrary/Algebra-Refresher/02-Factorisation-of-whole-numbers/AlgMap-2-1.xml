@@ -25,7 +25,7 @@ ta:factor(n);</text>
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>{@n@} = {@ta@} </text>
+      <text>{@n@} = {@ta@}</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

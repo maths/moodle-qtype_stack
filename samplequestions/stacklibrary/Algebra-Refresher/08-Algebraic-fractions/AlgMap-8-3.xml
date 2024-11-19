@@ -26,7 +26,7 @@ ta:ev(1/a,simp);</text>
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ \frac{@v@}{@ev(a*v,simp)@} = {@ta@}. \] </text>
+      <text>\[ \frac{@v@}{@ev(a*v,simp)@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

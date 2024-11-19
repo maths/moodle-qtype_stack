@@ -157,7 +157,7 @@ fta:ev(factor(ta),simp);</text>
       </expected>
     </qtest>
     <qtest>
-      <testcase>3</testcase>
+      <testcase>2</testcase>
       <description/>
       <testinput>
         <name>ans</name>

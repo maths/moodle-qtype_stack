@@ -28,8 +28,7 @@ f:e+rand(4)+1;
 g:rand(5)+1;
 h:g+rand(4)+1;
 ta:((a/b)+(c/d))/((e/f)+(g/h));
-simp:false;
-</text>
+simp:false;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>

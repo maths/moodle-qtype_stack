@@ -8,8 +8,7 @@
       <text>Find the following derivative:
 \[ \frac{d}{d{@v@}}[{@p@}]. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the product rule <hint>calc_product_rule</hint> as follows:
@@ -18,7 +17,7 @@
   \frac{d}{d{@v@}}[{@p@}] &\displaystyle =&\displaystyle  \left[\frac{d}{d{@v@}}[{@pp1@}]\right]\cdot {@pp2@} + {@pp1@}\cdot \left[\frac{d}{d{@v@}}[{@pp2@}]\right] \\
    &\displaystyle =&\displaystyle  {@diff(pp1,v)@}\cdot {@pp2@} + {@pp1@}\cdot [{@diff(pp2,v)@}] \\
    &\displaystyle =&\displaystyle  {@diff(p,v)@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

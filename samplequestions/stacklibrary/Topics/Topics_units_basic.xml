@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 4503  -->
   <question type="stack">
     <name>
       <text>Scientific units template</text>
@@ -11,12 +10,12 @@
 <p>Please give your answer to \(4\) significant figures.</p>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024092500</text>
     </stackversion>
@@ -36,14 +35,13 @@ ta1:stackunits_make(ev(d/t,stackunits="*"));
 ta:stackunits(dispsf(stack_units_nums(ta1), 4), stack_units_units(ta1));
 
 /* Uses compatible units. (Just an example) */
-ta2:stackunits(dispsf(stack_units_nums(ta1/1000), 4), km/m*stack_units_units(ta1));
-]]></text>
+ta2:stackunits(dispsf(stack_units_nums(ta1/1000), 4), km/m*stack_units_units(ta1));]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="html">
-      <text></text>
+      <text/>
     </questionnote>
     <questiondescription format="markdown">
       <text><![CDATA[This is a sample question using basic scientific units.
@@ -74,7 +72,7 @@ Note some of the feedback in the question tests.]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>units</type>
@@ -82,10 +80,10 @@ Note some of the feedback in the question tests.]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -99,7 +97,7 @@ Note some of the feedback in the question tests.]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -111,19 +109,19 @@ Note some of the feedback in the question tests.]]></text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -150,8 +148,8 @@ Note some of the feedback in the question tests.]]></text>
       </testinput>
       <expected>
         <name>prt1</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
@@ -164,14 +162,14 @@ Note some of the feedback in the question tests.]]></text>
       </testinput>
       <expected>
         <name>prt1</name>
-        <expectedscore></expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>4</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>ta2</value>
@@ -184,5 +182,4 @@ Note some of the feedback in the question tests.]]></text>
       </expected>
     </qtest>
   </question>
-
 </quiz>

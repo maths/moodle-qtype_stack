@@ -33,7 +33,7 @@ Now you have an equation for \(x\).</text>
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[{@a@} = {@sqrt(b+x)@} \Rightarrow x = {@ta@}.\] </text>
+      <text>\[{@a@} = {@sqrt(b+x)@} \Rightarrow x = {@ta@}.\]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

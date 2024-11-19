@@ -27,14 +27,13 @@ d:7;
 c:rand([1,2,3,4,5,6,8,9]);
 ta:(a/b)+(c/d);
 lcm:lcm(b,d);
-simp:false;
-</text>
+simp:false;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[{@a/b@}+{@c/d@} = {@ta@}.\] </text>
+      <text>\[{@a/b@}+{@c/d@} = {@ta@}.\]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

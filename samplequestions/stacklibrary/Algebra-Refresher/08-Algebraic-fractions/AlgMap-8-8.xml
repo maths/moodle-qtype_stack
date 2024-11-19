@@ -29,7 +29,7 @@ ta:ev((a*f*(v-c))/(b*f*(v-c)^3),simp);</text>
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ \frac{@ev(a*f*(v-c),simp)@}{@ev(b*f*(v-c)^3,simp)@} = {@ta@}. \] </text>
+      <text>\[ \frac{@ev(a*f*(v-c),simp)@}{@ev(b*f*(v-c)^3,simp)@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

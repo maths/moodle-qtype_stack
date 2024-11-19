@@ -26,8 +26,7 @@ d:b;
 c:d+rand(3)+1;
 ta:(a/b)-(c/d);
 lcm:lcm(b,d);
-simp:false;
-</text>
+simp:false;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>

@@ -37,7 +37,7 @@ ta:35/4;</text>
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ {@(3-v)/5+3@} = {@(2*v+1)/10@} \Rightarrow {@v@} = {@ta@}. \] </text>
+      <text>\[ {@(3-v)/5+3@} = {@(2*v+1)/10@} \Rightarrow {@v@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

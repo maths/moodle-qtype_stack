@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Simplify and integrate {@p@} with respect to {@v@}.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Using the distributive law and the properties of exponentials <hint>alg_indices</hint> we get that
@@ -24,7 +23,7 @@ So, using linearity in integration <hint>calc_int_linearity_rule</hint>,
    &\displaystyle =&\displaystyle  \int {@pp2*ppp1@} d{@v@} - \int {@pp2*ppp2@} d{@v@} \\
    &\displaystyle =&\displaystyle  {@int(pp2*ppp1,v)@} - {@int(pp2*ppp2,v)@} + c \\
    &\displaystyle =&\displaystyle  {@int(p,v)@} + c
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

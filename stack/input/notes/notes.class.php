@@ -230,4 +230,13 @@ class stack_notes_input extends stack_input {
     public function get_api_solution_render($tadisplay) {
         return '';
     }
+
+    protected function ajax_to_response_array($in) {
+        // ISS1317 EJMF - Notes are treated the same as textareas on the front end so
+        // we need to add this to match the textarea input and avoid
+        // <br> appearing in the validation display.
+        $in = explode('<br>', $in);
+        $in = implode("\n", $in);
+        return [$this->name => $in];
+    }
 }

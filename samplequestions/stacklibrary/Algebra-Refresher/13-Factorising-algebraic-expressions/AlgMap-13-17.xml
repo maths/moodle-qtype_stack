@@ -32,7 +32,7 @@ which is now clearly a difference of two squares. So factorising gives:
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ {@(a+b)^2-(a+c)^2@} = {@ta@}. \] </text>
+      <text>\[ {@(a+b)^2-(a+c)^2@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

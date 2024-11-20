@@ -8,8 +8,7 @@
       <text>Find the following derivative:
 \[ \frac{d}{d{@v@}}\left( {@p@}\right). \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[To solve this problem you will need to use the product rule <hint>calc_product_rule</hint> and the quotient rule<hint>calc_quotient_rule</hint>. 
@@ -35,7 +34,7 @@ Hence,
    &\displaystyle =&\displaystyle  \frac{[{@diff(p1,v)@}]{@p2@} - {@p1@}[{@diff(p2,v)@}]}{[{@p2@}]^2} \\
    &\displaystyle =&\displaystyle  \frac{{@diff(p1,v)*p2@} - {@p1*diff(p2,v)@}}{@p2^2@} \\
    &\displaystyle =&\displaystyle  {@factor(diff(p,v))@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

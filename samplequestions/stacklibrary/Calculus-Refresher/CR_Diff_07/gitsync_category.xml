@@ -2,7 +2,7 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/top/Calculus-Refresher/CR_Diff_07</text>
+      <text>top/stacklibrary/Calculus-Refresher/CR_Diff_07</text>
     </category>
     <info format="moodle_auto_format">
       <text>Implicit differentiation</text>

@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[By linearity <hint>calc_int_linearity_rule</hint>:
@@ -17,7 +16,7 @@
    &\displaystyle =&\displaystyle  {@rdm1@}\int {@ppp1@} d{@v@} + {@rdm3@}\int {@ppp2@} d{@v@} + \int {@pp3@} d{@v@} \\
    &\displaystyle =&\displaystyle  {@rdm1*int(ppp1,v)@} + {@rdm3*int(ppp2,v)@} + {@int(pp3,v)@} +c \\
    &\displaystyle =&\displaystyle  {@int(p,v)+c@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

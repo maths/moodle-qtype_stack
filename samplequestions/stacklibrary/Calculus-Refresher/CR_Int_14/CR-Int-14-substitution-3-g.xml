@@ -8,8 +8,7 @@
       <text>Evaluate the following definite integral: \[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@}\]
 Hint: Use the substitution \(u = {@pp2@}\)
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[We need to solve \[\int {@p@} d{@v@}\] using the substitution \(u = {@pp2@}\) <hint>calc_int_methods_substitution</hint>.
@@ -36,7 +35,7 @@ Then,
 \int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} &\displaystyle =&\displaystyle  F({@rdm1@}) - F({@rdm2@}) \\
    &\displaystyle =&\displaystyle  {@subst(rdm1,v,q1)@}-{@subst(rdm2,v,q1)@} \\
    &\displaystyle =&\displaystyle  {@subst(rdm1,v,q1)-subst(rdm2,v,q1)@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
@@ -61,8 +60,7 @@ q1:int(p,v);]]></text>
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} = {@int(p,v,rdm2,rdm1)@}\]
-</text>
+      <text>\[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} = {@int(p,v,rdm2,rdm1)@}\]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

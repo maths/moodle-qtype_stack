@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Differentiate {@p@} with respect to {@v@}.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the chain rule <hint>calc_chain_rule</hint> as follows:
@@ -23,7 +22,7 @@ So \(f({@v@})=ln(g({@v@}))\). So,
    &\displaystyle =&\displaystyle  {@diff(log(g),g)@}\cdot {@diff(pp,v)@} \\
    &\displaystyle =&\displaystyle  \left[{@subst(pp,g,diff(log(g),g))@}\right][{@diff(pp,v)@}] \\
    &\displaystyle =&\displaystyle  {@diff(p,v)@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

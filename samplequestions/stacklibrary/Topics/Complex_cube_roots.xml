@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 12793  -->
   <question type="stack">
     <name>
       <text>Complex roots/unsorted multi-input answers</text>
@@ -84,7 +83,7 @@ We can immediately see from the sign of \(z\) that \(\theta = \displaystyle {@ar
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024092500</text>
     </stackversion>
@@ -175,7 +174,7 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>SAns1</name>
       <type>numerical</type>
@@ -183,16 +182,16 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
       <boxsize>4</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>SAns2</name>
@@ -201,16 +200,16 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>SAns3</name>
@@ -219,16 +218,16 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>SAns4</name>
@@ -237,16 +236,16 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>SAns5</name>
@@ -255,16 +254,16 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -272,19 +271,19 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>SAns1</sans>
         <tans>Tans1</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
         <truefeedback format="html">
@@ -292,7 +291,7 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -302,15 +301,15 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>SAns2</sans>
         <tans>Tans2</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
@@ -318,7 +317,7 @@ We then have one PRT which checks the _set_ of answers is correct.]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -345,23 +344,23 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>AlgEquiv</answertest>
         <sans>SAnssc</sans>
         <tans>{z}</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
@@ -370,19 +369,19 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>Sets</answertest>
         <sans>SAnss</sans>
         <tans>TAnss</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -396,7 +395,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
       <autosimplify>0</autosimplify>
       <feedbackstyle>2</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -404,19 +403,19 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>AlgEquiv</answertest>
         <sans>SAns3^3</sans>
         <tans>z</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -429,19 +428,19 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>CasEqual</answertest>
         <sans>complex_exponentialp(SAns3)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -455,7 +454,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>2</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -463,19 +462,19 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>AlgEquiv</answertest>
         <sans>SAns4^3</sans>
         <tans>z</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt4-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt4-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -488,19 +487,19 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>CasEqual</answertest>
         <sans>complex_exponentialp(SAns4)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt4-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -514,7 +513,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
       <autosimplify>0</autosimplify>
       <feedbackstyle>2</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -522,19 +521,19 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>AlgEquiv</answertest>
         <sans>SAns5^3</sans>
         <tans>z</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt5-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt5-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -547,19 +546,19 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
         <answertest>CasEqual</answertest>
         <sans>complex_exponentialp(SAns5)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt5-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -576,7 +575,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
     <deployedseed>1940161873</deployedseed>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>SAns1</name>
         <value>Tans1</value>
@@ -630,7 +629,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>SAns1</name>
         <value>Twrong1</value>
@@ -684,7 +683,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>SAns1</name>
         <value>Tans1</value>
@@ -738,7 +737,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
     </qtest>
     <qtest>
       <testcase>4</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>SAns1</name>
         <value>Tans1</value>
@@ -768,7 +767,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
       <expected>
         <name>prt2</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt3-1-F</expectedanswernote>
       </expected>
       <expected>
@@ -792,7 +791,7 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
     </qtest>
     <qtest>
       <testcase>5</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>SAns1</name>
         <value>Tans1</value>
@@ -881,5 +880,4 @@ SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
 </tag>
     </tags>
   </question>
-
 </quiz>

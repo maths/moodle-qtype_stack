@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Integrate {@p@} with respect to {@v@}.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[If \(u\) and \(v\) are both functions of \(x\) then \[\int u dv = uv - \int v du.\]
@@ -24,7 +23,7 @@ So,
    &\displaystyle =&\displaystyle  {@pp1@}{@int(pp2,v)@} - \int {@int(pp2,v)@}{@diff(pp1,v)@}d{@v@} \\
    &\displaystyle =&\displaystyle  {@pp1*int(pp2,v)@} - \int {@int(pp2,v)*diff(pp1,v)@}d{@v@} \\
    &\displaystyle =&\displaystyle  {@pp1*int(pp2,v)-int((int(pp2,v)*diff(pp1,v)),v)@} + c
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

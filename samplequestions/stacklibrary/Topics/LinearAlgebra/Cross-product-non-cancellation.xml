@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 12811  -->
   <question type="stack">
     <name>
       <text>Cross-product-non-cancellation.</text>
@@ -18,7 +17,7 @@
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024092500</text>
     </stackversion>
@@ -62,7 +61,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>checkbox</type>
@@ -70,16 +69,16 @@ incorr1:mcq_incorrect(ta1);]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -87,15 +86,15 @@ incorr1:mcq_incorrect(ta1);]]></text>
       <autosimplify>0</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>setify(ans1)</sans>
         <tans>setify(corr1)</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
@@ -103,7 +102,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-0-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
@@ -111,20 +110,20 @@ incorr1:mcq_incorrect(ta1);]]></text>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-0-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>subsetp(setify(ans1),setify(corr1))</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
@@ -132,32 +131,32 @@ incorr1:mcq_incorrect(ta1);]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>CasEqual</answertest>
         <sans>cardinality(ev(intersection(setify(incorr1),setify(ans1)),simp))</sans>
         <tans>0</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-3-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-3-F</falseanswernote>
         <falsefeedback format="html">
@@ -177,7 +176,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     <deployedseed>1201499788</deployedseed>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>[incorr1[1]]</value>
@@ -191,7 +190,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>corr1</value>
@@ -205,7 +204,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>[corr1[1],incorr1[1]]</value>
@@ -219,7 +218,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </qtest>
     <qtest>
       <testcase>4</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>[corr1[1]]</value>
@@ -227,7 +226,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
       <expected>
         <name>prt1</name>
         <expectedscore>0.5000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt1-2-T</expectedanswernote>
       </expected>
     </qtest>
@@ -236,5 +235,4 @@ incorr1:mcq_incorrect(ta1);]]></text>
 </tag>
     </tags>
   </question>
-
 </quiz>

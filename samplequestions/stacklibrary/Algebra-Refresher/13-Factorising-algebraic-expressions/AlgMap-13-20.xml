@@ -36,7 +36,7 @@ Then factor out \(x+y\) to give:
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[ {@(a*x+a*y-b*x-b*y)@} = {@ta@}. \] </text>
+      <text>\[ {@(a*x+a*y-b*x-b*y)@} = {@ta@}. \]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>

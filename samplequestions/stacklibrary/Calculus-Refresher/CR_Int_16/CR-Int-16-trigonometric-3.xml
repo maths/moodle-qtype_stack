@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Use the identity \[\sin(A)\cos(A)=\frac{\sin(2A)}{2}\] to find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Since \[{@p@} = {@q@}\] it follows that
@@ -16,7 +15,7 @@
 \[\begin{array}{rcl}\displaystyle 
  \int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int {@q@} d{@v@} \\
    &\displaystyle =&\displaystyle  {@int(q,v)@}+c
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

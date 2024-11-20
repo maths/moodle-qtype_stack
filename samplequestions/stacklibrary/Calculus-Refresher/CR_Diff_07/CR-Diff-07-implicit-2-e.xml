@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \(\frac{dy}{dx}\) where \({@p@}=0\) using implicit differentiation.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text>Differentiating implicity with respect to x we obtain:
@@ -16,7 +15,7 @@
 \[ \frac{dy}{dx}\left({@exp(y)-1/y@}\right) = {@1/x-1@}. \]
 \[\frac{dy}{dx} = {@(1/x-1)/(exp(y)-1/y)@}. \]
 Rationalising and factorising gives:
-\[\frac{dy}{dx} = {@ans@}.\] </text>
+\[\frac{dy}{dx} = {@ans@}.\]</text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

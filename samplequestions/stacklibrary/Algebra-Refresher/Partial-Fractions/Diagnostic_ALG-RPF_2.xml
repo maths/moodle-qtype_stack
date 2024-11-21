@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Diagnostic_ALG-RPF_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Express \[{@f@}\] as a sum of partial fractions. [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Below are the rules of partial fractions.[[facts:alg_partial_fractions]]<br></p><p>So, given \[ {@f@}=\frac{A}{@den1@} + \frac{B}{@den2@} + \frac{C}{@den2_squared@},\] then multiplying through by the denominator {@den@} we have that \[ {@numerat@} = {@Aden2_squared@} + {@Bden1_den2@}+{@Cden1@}. \] Setting \(x = {@mc@}\) we see that \(A = {@Aval@}\) and letting \(x = {@md@}\) we find that \(C = {@Cval@}\). Putting \(x = 0\) we can also see that \(B = {@Bval@}\). Therefore \[ {@f@}={@answer@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2018080600</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:rand(9)+1;
+mag_b:rand(9)+1;
+sign_b:2*rand(2)-1;
+b:mag_b*sign_b;
+c:2*rand(2)-1;
+mag_d:rand(8)+2;
+sign_d:2*rand(2)-1;
+d:mag_d*sign_d;
+numerat:a*x+b;
+den1:x+c;
+den2:x+d;
+den2_squared:den2^2;
+Aden2_squared:A * den2_squared;
+Bden1_den2:B * den1 * den2;
+Cden1:C * den1;
+den:den1 * den2_squared;
+f:numerat/den;
+c_minus_d:c-d;
+mc:-c;
+md:-d;
+Aval:(b-a*c)/c_minus_d^2;
+Cval:(b-a*d)/c_minus_d;
+Bval:(b - Aval*d^2 - c*Cval)/(c*d);
+answer:partfrac(f,x);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[
+{@f@}={@answer@}.\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>answer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>PartFrac</answertest>
+        <sans>ans1</sans>
+        <tans>answer</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ALG-RPF-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>ALG-RPF-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>answer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>ALG-RPF-1-FALSE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ALG-RPF-2-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>f</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>NO-CHANGE</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>This seems to be the same expression that you started with.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>NOT-PARTIAL</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Although your expression is algebraically equal to the correct answer, it is not in partial fractions form.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1789456223</deployedseed>
+    <deployedseed>175097597</deployedseed>
+    <deployedseed>1809205925</deployedseed>
+    <deployedseed>1154605606</deployedseed>
+    <deployedseed>1554161675</deployedseed>
+    <deployedseed>1648077087</deployedseed>
+    <deployedseed>965772348</deployedseed>
+    <deployedseed>1608889528</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>answer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ALG-RPF-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>7*x</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ALG-RPF-2-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>f</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>NO-CHANGE</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

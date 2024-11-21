@@ -248,6 +248,7 @@ class stack_potentialresponse_tree_lite {
         foreach ($nodenotes as $note) {
             $notes[$note] = $note;
         }
+        $notes[$this->name . '-bail'] = $this->name . '-bail';
         return $notes;
     }
 
@@ -379,6 +380,7 @@ class stack_potentialresponse_tree_lite {
                 '%PRT_PATH:[],' . // The nodes visited and their answertest notes.
                 '%PRT_EXIT_NOTE: [],' . // The notes for nodes not the answertests.
                 '%_EXITS:{},'; // This tracks the exits from nodes so that we can decide the next node.
+                '%stack_prt_stop_p:false,'; // Should we bail from the PRT?
 
         // We build a trace here to help question authors understand and debug questions.
         if ($this->feedbackvariables === null) {
@@ -409,6 +411,7 @@ class stack_potentialresponse_tree_lite {
         $usage['write']['%PRT_PATH'] = true;
         $usage['write']['%PRT_EXIT_NOTE'] = true;
         $usage['write']['%_EXITS'] = true;
+        $usage['write']['%stack_prt_stop_p'] = true;
 
         // For the feedback we might want to provide extra information related to
         // feedback vars. Basically, for the debug-block we tell that these are
@@ -424,6 +427,9 @@ class stack_potentialresponse_tree_lite {
             }
             $body .= $fv['statement'] . ',';
         }
+
+        // Add in the bailout clause here.
+        $body .= 'if is(%stack_prt_stop_p=true) then return(["STACK_PRT_STOP!", "'. $this->name .'-bail"]),';
 
         // Let's build the node precedence map, i.e. through which edges are nodes reachable.
         $precedence = [];

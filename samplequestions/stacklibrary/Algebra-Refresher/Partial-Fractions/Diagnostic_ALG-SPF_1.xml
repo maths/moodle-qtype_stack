@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Diagnostic_ALG-SPF_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the expression \[{@f@}\] as a sum of partial fractions. [[input:Sanswer]]</p>
+<p>[[validation:Sanswer]]</p>
+<p>&nbsp;</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Below are the rules of partial fractions.[[facts:alg_partial_fractions]]</p>
+<p>Applying these rules, we find that \[ {@f@} = \frac{A}{@den1@} + \frac{B}{@den2@},\] and multiplying through by the denominator {@den@} we see that: \[ {@numerat@} = {@Aden2@} + {@Bden1@}. \] Setting \(x = {@mc@}\) we see that \(A = {@Aval@}\) and setting \(x = {@sconcat(md)@}\) we see that \(B = {@Bval@}\). Therefore, \[ {@f@} = {@answer@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2018080600</text>
+    </stackversion>
+    <questionvariables>
+      <text>mag_Aval:rand(9)+1;
+sign_Aval:2*rand(2)-1;
+Aval:mag_Aval*sign_Aval;
+mag_Bval:rand(9)+1;
+sign_Bval:2*rand(2)-1;
+Bval:mag_Bval*sign_Bval;
+c:2*rand(2)-1;
+mag_d:rand(8)+2;
+sign_d:2*rand(2)-1;
+d:mag_d*sign_d;
+a:Aval + Bval;
+b:Aval*d + Bval*c;
+den1:x+c;
+den2:x+d;
+den:den1 * den2;
+numerat:a*x+b;
+f:numerat/den;
+displayed_lhs:d*A + c*B;
+answer:partfrac(f,x);
+mc:-c;
+md:-d;
+Aden2:A * den2;
+Bden1:B * den1;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@f@} = {@answer@}.\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>Sanswer</name>
+      <type>algebraic</type>
+      <tans>answer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>PartFrac</answertest>
+        <sans>Sanswer</sans>
+        <tans>answer</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ALG-SPF-TRUE </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ALG-SPF-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>696196718</deployedseed>
+    <deployedseed>1786509387</deployedseed>
+    <deployedseed>2079648554</deployedseed>
+    <deployedseed>155995399</deployedseed>
+    <deployedseed>1395261885</deployedseed>
+    <deployedseed>1830899643</deployedseed>
+    <deployedseed>777113138</deployedseed>
+    <deployedseed>948619802</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>Sanswer</name>
+        <value>answer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ALG-SPF-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>Sanswer</name>
+        <value>f</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ALG-SPF-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>Sanswer</name>
+        <value>answer+1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ALG-SPF-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -2148,7 +2148,7 @@ ta:append(ta,[tao]);]]></text>
       <text><![CDATA[<p>Solve {@p@}.</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>sangwinc<br></p>]]></text>
+      <text></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>

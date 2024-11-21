@@ -39,7 +39,7 @@ class stack_prt_graph_node extends stack_abstract_graph_node {
     public $casstatement;
 
     /**
-     * @var boolean Is the feedback from this test igored?
+     * @var bool Is the feedback from this test igored?
      */
     public $quiet;
 
@@ -53,6 +53,13 @@ class stack_prt_graph_node extends stack_abstract_graph_node {
      */
     public $falsenote;
 
+    /**
+     *
+     * @param string $casstatement
+     * @param bool $quiet
+     * @param string $truenote
+     * @param string $falsenote
+     */
     public function add_prt_text($casstatement, $quiet, $truenote, $falsenote) {
         $this->casstatement = $casstatement;
         $this->quiet        = $quiet;

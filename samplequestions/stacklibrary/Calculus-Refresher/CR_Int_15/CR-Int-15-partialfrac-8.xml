@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>CR-Int-15-partialfrac-8</text>
+    </name>
+    <questiontext format="html">
+      <text>Find \[ \int {@p@} d{@v@}. \] Note that the degree of the numerator is greater then the degree of the denominator.
+
+[[input:ans1]] [[validation:ans1]]</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[Since the degree of the numerator is greater than the degree of the denominator we need to use long division the get a simpler form to express \[{@p@}.\] <hint>alg_partial_fractions</hint>
+
+Using long division we get that \[{@p@} = {@factor(simplify(pp1+pp2))@} + {@pp3@}\]
+
+Now, 
+
+\[{@factor(simplify(pp1+pp2))@} = {@A@}{@ppp1@} + {@B@}{@ppp2@}\]
+
+So, multiplying by {@1/ppp1/ppp2@} both sides we get
+
+\[\begin{array}{rcl}\displaystyle 
+ {@simplify((pp1+pp2)/ppp1/ppp2)@} &\displaystyle =&\displaystyle  {@A/ppp2@} + {@B/ppp1@} \\
+   &\displaystyle =&\displaystyle  {@expand(A/ppp2)+expand(B/ppp1)@}
+ \end{array}\] 
+
+So, equating cefficients in {@v@} we get that a system of equations that can be solved to get \(A = {@rdm4@}\) and \(B = {@rdm5@}\)
+
+Hence, \[{@p@} = {@q@}\]
+
+So,
+
+\[\begin{array}{rcl}\displaystyle 
+ \int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int {@q@} d{@v@} \\
+   &\displaystyle =&\displaystyle  {@rdm4@} \int {@ppp1@} d{@v@} + {@rdm5@} \int {@ppp2@} d{@v@} + \int ({@pp3@}) d{@v@} \\
+   &\displaystyle =&\displaystyle  {@rdm4*int(ppp1,v)@} + {@rdm5*int(ppp2,v)@} + {@int(pp3,v)@}+c \\
+   &\displaystyle =&\displaystyle  {@rdm4*int(ppp1,v)+rdm5*int(ppp2,v)+int(pp3,v)@}+c
+ \end{array}\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>v:x;
+rdm1:1+rand(3);
+rdm2:rdm1+1;
+rdm3:-rand(8)-1;
+rdm4:2+rand(10);
+rdm5:-1-rand(2);
+ppp1:1/(v+rdm1);
+ppp2:1/(v+rdm2);
+pp1:rdm4*ppp1;
+pp2:rdm5*ppp2;
+pp3:v+rdm3;
+q:pp1+pp2+pp3;
+p:(factor(q));
+dumvar13:A;
+dumvar14:B;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\int {@p@}d{@v@} = {@int(p,v)@}+c\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>int(p,v)+c</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans1</sans>
+        <tans>int(p,v)+c</tans>
+        <testoptions>v</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>148308678</deployedseed>
+    <deployedseed>136894398</deployedseed>
+    <deployedseed>1309633495</deployedseed>
+    <deployedseed>1384963056</deployedseed>
+    <deployedseed>1943627708</deployedseed>
+    <deployedseed>872624967</deployedseed>
+    <deployedseed>506828446</deployedseed>
+    <deployedseed>1030293042</deployedseed>
+    <deployedseed>1682077395</deployedseed>
+    <deployedseed>290280354</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(int(p,v)+c,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(int(p,v),simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

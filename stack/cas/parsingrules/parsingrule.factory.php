@@ -60,10 +60,12 @@ require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
 require_once(__DIR__ . '/601_castext.filter.php');
 require_once(__DIR__ . '/602_castext_simplifier.filter.php');
 require_once(__DIR__ . '/610_castext_static_string_extractor.filter.php');
+require_once(__DIR__ . '/650_string_protect_slash.filter.php');
 require_once(__DIR__ . '/680_gcl_sconcat.filter.php');
 require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 require_once(__DIR__ . '/802_singleton_units.filter.php');
 require_once(__DIR__ . '/901_remove_comments.filter.php');
+require_once(__DIR__ . '/909_parsons_decode_state_for_display.filter.php');
 require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
 require_once(__DIR__ . '/912_inert_string_for_display.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
@@ -169,6 +171,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_602_castext_simplifier();
             case '610_castext_static_string_extractor':
                 return new stack_ast_filter_610_castext_static_string_extractor();
+            case '650_string_protect_slash':
+                return new stack_ast_filter_650_string_protect_slash();
             case '680_gcl_sconcat':
                 return new stack_ast_filter_680_gcl_sconcat();
             case '801_singleton_numeric':
@@ -177,6 +181,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_802_singleton_units();
             case '901_remove_comments':
                 return new stack_ast_filter_901_remove_comments();
+            case '909_parsons_decode_state_for_display' :
+                return new stack_ast_filter_909_parsons_decode_state_for_display();
             case '910_inert_float_for_display':
                 return new stack_ast_filter_910_inert_float_for_display();
             case '912_inert_string_for_display':
@@ -234,7 +240,9 @@ class stack_parsing_rule_factory {
                 '541_no_unknown_functions', '542_no_functions_at_all',
                 '601_castext', '602_castext_simplifier', '680_gcl_sconcat',
                 '610_castext_static_string_extractor',
+                '650_string_protect_slash',
                 '801_singleton_numeric', '802_singleton_units', '901_remove_comments',
+                '909_parsons_decode_state_for_display',
                 '910_inert_float_for_display',
                 '912_inert_string_for_display',
                 '990_no_fixing_spaces', '991_no_fixing_stars',

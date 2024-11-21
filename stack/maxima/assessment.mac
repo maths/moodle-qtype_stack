@@ -475,45 +475,53 @@ imag_numberp(ex) := block(
 )$
 
 /* Decide if a number is written in complex exponential form, r*%e^(%i*theta).
+   Positive real numbers are fine.
+   Negative real numbers must be like -1=%e^(%i*%pi).
+   This insists on -pi<theta<=pi.
    Needs simp:false.                                                           */
-complex_exponentialp(ex):=block([ex2],
+complex_exponentialp(ex):=block([ex2,atres],
     /* Edge case of a real number! */
-    if ev(real_numberp(ex), simp) then return(true),
-    ex2:ex,
-    if safe_op(ex)="-" then return(complex_exponentialp(first(args(ex)))),
-    if safe_op(ex)="*" then
-        if not(is(real_numberp(first(args(ex))))) then
-            return(false)
-        else
-            ex2:second(args(ex)),
-    if safe_op(ex)="/" then
-        if not(is(real_numberp(second(args(ex))))) then
-            return(false)
-        else
-            ex2:first(args(ex)),
-    /* Case of r=1, which is not written, or stripped off by the above code. */
-    if safe_op(ex2)="^" then
-        if is(equal(first(args(ex2)),%e)) and is(imag_numberp(second(args(ex2)))) then
-            return(true),
-    if safe_op(ex2)="exp" and is(imag_numberp(first(args(ex2)))) then return(true),
+    /* Negative numbers must be in the form r*e^(%i*t) as well. */
+    ex2:ev(polarform(ev(ex,simp)), simp),
+    ex2:polarform_simp(ex2),
+    atres:ATEqualComAssRules(ex2,ex,[oneMul,oneDiv,idPow]),
+    if second(atres) then return(true),
     return(false)
 )$
 
-polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
+/*
+complex_exponentialp(1);
+complex_exponentialp(1*%e^(%i*%pi));
+complex_exponentialp(7/4*%e^(i*%pi/2));
+complex_exponentialp(7*%e^(i*%pi/2)/4);
+complex_exponentialp(%e^(i*%pi/2));
+complex_exponentialp(1*%e^(i*%pi/2));
+complex_exponentialp(%e^%i);
+
+complex_exponentialp(-1);
+complex_exponentialp(2+0*%i);
+complex_exponentialp(1*%e^(-%i*%pi));
+complex_exponentialp(1*%e^(0*%i));
+complex_exponentialp(-3*%e^(-3*%i*%pi));
+complex_exponentialp(-1+%i);
+complex_exponentialp(3*%e^(-7*%i*%pi/3));
+*/
+
+polarform_simp(ex) := block([%_r, %_theta, %_pf,simp],
     /* We can't return a meaningful value for arg(ex) so we just return 0. */
     if is(ev(ex, simp)=0) then return(0),
     /* It is a design choice to return a positive real number, rather than r*%e^0, or r*%e^(%i*0). */
     if ev(real_numberp(ex) and ex>0, simp) then return(ex),
     simp:false,
     %_pf:ev(polarform(ex), simp),
-    /* Purely imaginary numbers somtimes return just %e^{...} */
-    if is(part(%_pf,1)=%e) then return(%_pf),
     /* We really do have something in the form r*%e^theta to pick apart. */
-    %_pf:args(%_pf),
-    %_r:first(%_pf),
-    %_theta:part(second(%_pf),2),
-    ev(%_r, simp) * %e^(ev(%i*imagpart(%_theta), simp))
+    %_r:ev(cabs(%_pf),simp),
+    %_theta:ev(carg(%_pf),simp),
+    %_theta:ev(trigreduce(%_theta),simp),
+    if (is(%_r=1)) then return(%e^(ev(%i*%_theta, simp))),
+    %_r * %e^(ev(%i*%_theta, simp))
 )$
+
 /* 
   polarform_simp(1+%i);
   polarform_simp(0);
@@ -523,8 +531,14 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
   polarform_simp(2*%i);
   polarform_simp(-%i);
   polarform_simp(-2*%i);
+  polarform_simp(%i/2);
   polarform_simp(sqrt(3)+%i*sqrt(3));
   polarform_simp(1/sqrt(2)*(-1+%i));
+  polarform_simp((7*%e^((%i*%pi)/6))/3);
+  polarform_simp(5*sqrt(3)/8+5/8*%i);
+  polarform_simp(%e^%i);
+  polarform_simp(1/2*%e^(%i*%pi));
+  polarform_simp(1/(2*%pi)*%e^(%i*%pi));
 */
 
 
@@ -558,11 +572,14 @@ commonfaclist(l) := block([i, a, ret],
  return(ret) )$
 
 /*
- * Returns a list of factors of ex without multiplicities. 
+ * Returns a list of factors of ex with or without multiplicities. 
  * @param[scalar expression] ex, expression to be factored.
- * @return[list] the list of factors, without multiplicities.
+ * @param[boolean] multiples, if true the list can contain multiplicities.
+ * @return[list] the list of factors.
  */
-factorlist(ex) := block([simp:false, ret:"", ex2],
+factorlist([param]) := block([simp:false, ret:"", ex, ex2, multiples],
+  ex:first(param),
+  if length(param)>1 and second(param) then multiples:true else multiples:false, 
   ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),
   if safe_op(ex)="-" then ex:first(args(ex)),
@@ -570,8 +587,8 @@ factorlist(ex) := block([simp:false, ret:"", ex2],
      ret:[ex]
   else
      ret:args(ex),
-  /* Strip off powers. */
-  ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
+  /* Strip off powers? */
+  if multiples#true then ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
   return(ret)
 )$
 
@@ -807,8 +824,7 @@ dispsf(x, n) := sigfigsfun(x, n, true);
 
   If x is not a real number, then return x without a warning.
 */
-scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
-  oldsimp:simp,
+scientific_notation([a]) := block([simp, x, ex, ex2, ex3, exn],
   simp:false,
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
@@ -827,10 +843,8 @@ scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
       ex3:ex2*10^ex,
       /* The use of significantfigures here means we don't use banker's rounding but round up. */
       if not(is(exn=false)) then ex3:displaysci(significantfigures(ex2, exn+1), exn, ex),
-      simp:oldsimp,
       return(ex3)
   ),
-  simp:oldsimp,
   return(first(a))
 )$
 
@@ -1835,7 +1849,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(SA=true) then SA:all,
 
       SA:abs_replace_eq(SA),
-      SA:ev(SA, lg=logbasesimp),
+      SA:ev(SA, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
       exmod[ev(id, simp)]:SA,
       exmodsolve[ev(id, simp)]:stack_eval_arg_solver(SA),
 

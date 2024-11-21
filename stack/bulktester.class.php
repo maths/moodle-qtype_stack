@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// Class for running the question tests in bulk.
-//
-// @copyright  2015 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Class for running the question tests in bulk.
+ *
+ * @copyright  2015 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../../../engine/bank.php');
@@ -97,6 +99,42 @@ class stack_bulk_tester {
                                          JOIN {question_bank_entries} be
                                          ON be.id = v.questionbankentryid
                                          WHERE be.id = qbe.id)", $qcparams);
+    }
+
+    /**
+     * Find all stack questions in a given category with a todo block, returning only
+     * the latest version of each question.
+     * @param type $categoryid the id of a question category of interest
+     * @return all stack question ids in any state and any version in the given
+     * category. Each row in the returned list of rows has an id, name and version number.
+     */
+    public function stack_questions_in_category_with_todo($categoryid) {
+        global $DB;
+
+        // See question/engine/bank.php around line 500, but this does not return the last version.
+        $qcparams['readystatus'] = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
+        return $DB->get_records_sql_menu("
+                SELECT q.id, q.name AS id2
+                FROM {question} q
+                JOIN {question_versions} qv ON qv.questionid = q.id
+                JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                JOIN {qtype_stack_options} qso ON qso.questionid = q.id
+                WHERE qbe.questioncategoryid = {$categoryid}
+                       AND q.parent = 0
+                       AND qv.status = :readystatus
+                       AND q.qtype = 'stack'
+                       AND qv.version = (SELECT MAX(v.version)
+                                         FROM {question_versions} v
+                                         JOIN {question_bank_entries} be
+                                         ON be.id = v.questionbankentryid
+                                         WHERE be.id = qbe.id)
+                       AND (
+                            q.questiontext REGEXP '[[][[]todo'
+                            OR q.generalfeedback REGEXP '[[][[]todo'
+                            OR qso.questionnote REGEXP '[[][[]todo'
+                            OR qso.specificfeedback REGEXP '[[][[]todo'
+                            OR qso.questiondescription REGEXP '[[][[]todo'
+                        )", $qcparams);
     }
 
     /**

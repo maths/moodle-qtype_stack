@@ -193,8 +193,15 @@ class stack_matrix_input extends stack_input {
         $modifiedcontents = [];
         foreach ($contents as $row) {
             $modifiedrow = [];
-            $inertrow = [];
             foreach ($row as $val) {
+                // Any student input which is too long is not even parsed.
+                if (strlen($val) > $this->maxinputlength) {
+                    $valid = false;
+                    $errors[] = stack_string('studentinputtoolong');
+                    $notes['too_long'] = true;
+                    $val = '';
+                }
+
                 $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                     [], 'Root', $this->options->get_option('decimals'));
                 if ($answer->get_valid()) {
@@ -224,7 +231,7 @@ class stack_matrix_input extends stack_input {
             unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
             $modifiedforbid = implode(',', $modifiedforbid);
             $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
-            $secrules->set_forbiddenwords($modifiedforbid);
+            $secrules->set_forbiddenwords(trim($modifiedforbid));
             // Cumbersome, and cannot deal with matrix being within an alias...
             // But first iteration and so on.
         }
@@ -233,8 +240,7 @@ class stack_matrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        // We don't use the decimals option below, because we've already used it above.
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
             [], 'Root', '.');
         $inertform->get_valid();

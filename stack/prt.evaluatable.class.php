@@ -56,6 +56,12 @@ class prt_evaluatable implements cas_raw_value_extractor {
     // Cas errors.
     private $errors;
 
+    // Did we bailout of execution?
+    private $bailed = false;
+
+    // A holder for the secured feedback bits.
+    private $holder = null;
+
     private $weight = 1;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
@@ -114,6 +120,10 @@ class prt_evaluatable implements cas_raw_value_extractor {
         // Do the simpler parse of the value. The full MaximaParser
         // would obviously work but would be more expensive.
         $value = castext2_parser_utils::string_to_list($this->evaluated, true);
+        if ($value[0] === '"STACK_PRT_STOP!"') {
+            $this->bailed = [trim(stack_utils::maxima_string_to_php_string($value[1]))];
+            return;
+        }
         // Note, the above means we can't have lists in the answer notes currently.
         if (count($value) < 4) {
             return;
@@ -188,6 +198,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
         if ($this->feedback === null) {
             return null;
         }
+        if ($this->holder === null) {
+            $this->holder = new castext2_placeholder_holder();
+        }
         if ($this->renderedfeedback === null) {
             // Note that pure strings are even simpler...
             if (is_string($this->feedback)) {
@@ -202,13 +215,19 @@ class prt_evaluatable implements cas_raw_value_extractor {
                     // This needs to happen before the postprocessing.
                     $value = $this->statics->replace($value);
                 }
-                $this->renderedfeedback = castext2_parser_utils::postprocess_parsed($value, $processor);
+                $this->renderedfeedback = castext2_parser_utils::postprocess_parsed($value, $processor, $this->holder);
             }
         }
         return trim($this->renderedfeedback);
     }
 
     public function get_answernotes() {
+        if ($this->score === null) {
+            $this->unpack();
+        }
+        if ($this->bailed) {
+            return $this->bailed;
+        }
         $path = $this->get_path();
         $notes = [];
         if ($path === null || !is_array($path)) {
@@ -270,5 +289,13 @@ class prt_evaluatable implements cas_raw_value_extractor {
 
     public function get_debuginfo(): string {
         return 'TO-DO DEBUGINFO';
+    }
+
+    // Applies the held back things to the filtered feedback.
+    public function apply_placeholder_holder(string $filtered): string {
+        if ($this->holder === null) {
+            return $filtered;
+        }
+        return $this->holder->replace($filtered);
     }
 }

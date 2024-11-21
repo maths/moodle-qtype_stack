@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Differential_Equation_3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Solve the following differential equation: \[ \frac{dy}{dx} - {@n1*n2@} -{@n1@}x^2+{@n2@}y^2+y^2x^2 = 0. \] Use the letter \(c\) to denote the arbitrary constant occuring in the general solution.<br> y(x) = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><span>Rearranging the differential equation gives \[\frac{dy}{dx}-{@n1@}({@n2@}+x^2)+y^2({@n2@}+x^2)=0\] and therefore \[\frac{dy}{dx}=({@n1@}-y^2)({@n2@}+x^2),\] so that </span><br /><span>\[\frac{dy}{{@n1@}-y^2}=({@n2@}+x^2)dx.\]</span><br /><span>Integrating both sides yields: \[\int\frac{dy}{{@n1@}-y^2}=\int({@n2@}+x^2)dx\]</span><br /><span>To integrate the left hand side, rearrange \[\frac{dy}{{@n1@}-y^2}=\frac{dy}{{@n1@}(1-\frac{y^2}{@n1@})}\] Let \(\frac{y}{@sqrt(n1)@} = \tanh(u)\) \[\frac{dy}{@sqrt(n1)@}=(1-\tanh^2(u))du = (1-\frac{y^2}{@n1@})du\] \[\frac{dy}{(1-\frac{y^2}{@n1@})}={@sqrt(n1)@}du.\]</span><br /><span>Therefore \[\int\frac{dy}{{@n1@}-y^2}=\frac{1}{@n1@}\int\frac{dy}{@1-y^2/n1@}=\frac{1}{@n1@}\int{@sqrt(n1)@}du=\frac{u}{@sqrt(n1)@}.\]</span><br /><span>Integrating the right hand side gives \[\int({@n2@}+x^2)dx={@n2@}x+\frac{x^3}{3}+c.\] Therefore \[\frac{u}{@sqrt(n1)@}={@n2@}x+\frac{x^3}{3}+c,\] so that \[u={@sqrt(n1)@}\left({@n2@}x+\frac{x^3}{3}+c\right)\] and hence \[\tanh(u)=\tanh\left({@sqrt(n1)@}\left({@n2@}x+\frac{x^3}{3}+c\right)\right)\]</span><br /><span>Therefore \[\frac{y}{@sqrt(n1)@}=\tanh\left({@sqrt(n1)@}\left({@n2@}x+\frac{x^3}{3}+c\right)\right)\] and \[y={@correctanswer@}\]</span></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>n1:rand(8)+2;
+n2:rand(6)+2;
+correctanswer:sqrt(n1)*tanh(sqrt(n1)*(n2*x+x^3/3+c));
+correctanswer2:sqrt(n1)*tanh(sqrt(n1)*(n2*x+x^3/3)+c);
+wronganswer1:sqrt(n1)*tanh(sqrt(n1)*(n2*x+x^3/3+p));
+wronganswer2:sqrt(n1)*tanh(sqrt(n1)*(n2*x+x^3/3));
+wronganswer3:rat(exponentialize(correctanswer));
+wronganswer4:sqrt(n1)*tanh(sqrt(n1)*(n2*x+x^3/3)+p);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\frac{dy}{dx} - {@n1*n2@} -{@n1@}x^2+{@n2@}y^2+y^2x^2 = 0\)  gives {@correctanswer@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>studentderiv:ev(diff(ans1,x),simp);
+studentrhs:n1*(n2 + x^2)*(sech(atanh(ans1/sqrt(n1))))^2;
+RH:factor(-(-n1*n2-n1*x^2+n2*y^2+y^2*x^2));
+RHA:ev(RH,y=ans1);
+stuvars:setify(listofvars(ans1));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>studentderiv</sans>
+        <tans>RHA</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not satisfy the differential equation.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>elementp(c,stuvars)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer does satisfy the differential equation, and does contain a constant. However it is in a strange form. Perhaps you could ask your tutor about how to write this in an equivalent form which is "simpler".</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does satisfy the differential equation but either does not have a constant specified or you did not use \(c\) (small case) as instructed.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1148576613</deployedseed>
+    <deployedseed>1448354838</deployedseed>
+    <deployedseed>1247893491</deployedseed>
+    <deployedseed>2076280914</deployedseed>
+    <deployedseed>1396259465</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer/sqrt(n1)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>6</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer3</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>7</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer4</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Complex_Square_Root</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find, in the form \(a + bi\), where \(a\) and \(b\) are real, a square root of \[{@nc@}\] <br />\(a + bi\) = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let \[\sqrt{@nc@} = a+ib\] Squaring gives us \[{@nc@} = a^2 + 2abi - b^2\] Therefore equating the real part\[{@renc@} = a^2-b^2\] and the imaginary part\[{@imnc@} = 2ab\] Hence \[b=\frac{@imnc@}{2a}=\frac{@imnc/2@}{a}\] \[{@renc@}={@a^2@}-\frac{@imnc*imnc/4@}{@a^2@}\] \[{@a^4-renc*a^2-imnc*imnc/4@}=0\] Finding the positive solution of this equation as a quadratic in {@a^2@} gives \[{@a^2@}=\frac{{@renc@}+\sqrt{{@renc*renc@}+{@imnc*imnc@}}}{2}=\frac{{@renc@}+\sqrt{@renc*renc+imnc*imnc@}}{2}=\frac{{@renc@}+{@sqrt(renc*renc+imnc*imnc)@}}{2}={@(renc+sqrt(renc*renc+imnc*imnc))/2@}\] Therefore \[ a= {@aequals@} \mbox{   and   } b = \frac{@imnc/2@}{@aequals@}={@bequals@}\]</p>
+<p>or \[ a= {@-aequals@} \mbox{   and   } b = \frac{@-imnc/2@}{@aequals@}={@-bequals@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>aval:(-1)^rand(2)*(rand(4)+1);
+bval:(-1)^rand(2)*(rand(4)+1);
+nc:expand((aval + i*bval)^2);
+renc:realpart(nc);
+imnc:imagpart(nc);
+aequals:sqrt((renc+sqrt(renc*renc+imnc*imnc))/2);
+bequals:imnc/(2*aequals);
+correctanswer:ev(aval+bval*i,simp);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@sqrt(nc)@} = {@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>exp, ^, sqrt</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sansr:ev(realpart(ans1),simp);
+sansi:ev(imagpart(ans1),simp);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>-correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1078453536</deployedseed>
+    <deployedseed>1443747858</deployedseed>
+    <deployedseed>1933857818</deployedseed>
+    <deployedseed>1571353917</deployedseed>
+    <deployedseed>1096494695</deployedseed>
+    <deployedseed>2043079792</deployedseed>
+    <deployedseed>1426780912</deployedseed>
+    <deployedseed>365510636</deployedseed>
+    <deployedseed>588510632</deployedseed>
+    <deployedseed>1620464514</deployedseed>
+    <deployedseed>1045113210</deployedseed>
+    <deployedseed>421122559</deployedseed>
+    <deployedseed>778511892</deployedseed>
+    <deployedseed>599336009</deployedseed>
+    <deployedseed>1027641886</deployedseed>
+    <deployedseed>1419235100</deployedseed>
+    <deployedseed>789998774</deployedseed>
+    <deployedseed>1918318499</deployedseed>
+    <deployedseed>2124662487</deployedseed>
+    <deployedseed>2127819727</deployedseed>
+    <deployedseed>516983406</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>-correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>aequals-bequals*i</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>-aequals+bequals*i</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sqrt(nc)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

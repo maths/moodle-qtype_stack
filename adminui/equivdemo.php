@@ -133,7 +133,9 @@ foreach ($samplearguments as $argument) {
             $ac = stack_ast_container::make_from_teacher_source('stack_calculus:' . $val, '', new stack_cas_security());
 
             $cs1 = stack_ast_container::make_from_student_source($cskey . ':' . $argument['casstring'],
-                    '', new stack_cas_security());
+                '', new stack_cas_security(),
+                // The filters below match the input base class protectfilters.
+                ['910_inert_float_for_display', '912_inert_string_for_display']);
 
             $casstrings[$cskey] = $cs1->get_inputform(false, 1);
             $casstrings['D'.$i] = $argument['debuglist'];
@@ -268,9 +270,9 @@ if ($debug) {
     // Have a second text area to facilitate pasting the arguments into separate lines in Maxima.
     $script = '';
     foreach ($casstrings as $key => $val) {
-        $script .= $key . ':' . $val . "\$\n";
+        $script .= $val . "\$\n";
     }
-    $script .= "\n".'disp_stack_eval_arg(A22, true, true, true, DL);';
+    $script .= "\n".'disp_stack_eval_arg(' . $key .', true, true, true, DL);';
     echo html_writer::tag('textarea', $script,
             ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']);
     echo '<hr />';

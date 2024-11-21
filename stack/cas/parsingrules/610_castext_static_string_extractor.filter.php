@@ -46,6 +46,7 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
                 if ($node->parentnode->items[0] instanceof MP_String && (
                     $node->parentnode->items[0]->value === '%root' ||
                     $node->parentnode->items[0]->value === '%cs' ||
+                    $node->parentnode->items[0]->value === 'p h' ||
                     $node->parentnode->items[0]->value === 'demarkdown' ||
                     $node->parentnode->items[0]->value === 'demoodle' ||
                     (($node->parentnode->items[0]->value === 'iframe' ||

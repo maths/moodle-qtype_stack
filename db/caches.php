@@ -30,4 +30,7 @@ $definitions = [
         // STACK does its own static acceleration.
         'staticacceleration' => false,
     ],
+    'librarycache' => [
+        'mode' => cache_store::MODE_APPLICATION,
+    ],
 ];

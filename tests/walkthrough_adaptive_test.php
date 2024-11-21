@@ -3397,6 +3397,55 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
+    public function test_unitsmulti() {
+
+        $q = \test_question_maker::make_question('stack', 'unitsmulti');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/rate law for the reaction/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $this->process_submission(['ans1' => 'A*k', 'ans2' => '', '-submit' => 1]);
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: A*k [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', 'A*k');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(['ans1' => 'A*k', 'ans1_val' => 'A*k', 'ans2' => '', '-submit' => 1]);
+        // This example is complete because the PRT depends only on ans1.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1.0, 0.0);
+        $this->render();
+        $expected = 'Seed: 1; ans1: A*k [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', 'A*k');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
     public function test_equiv_quad_1() {
 
         // Create the stack question 'equiv_quad'.
@@ -3644,7 +3693,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_checkbox_union() {
-
         $q = \test_question_maker::make_question('stack', 'checkbox_union');
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -3663,7 +3711,48 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
             );
+    }
 
+    public function test_checkbox_noun_diff() {
+        $q = \test_question_maker::make_question('stack', 'checkbox_noun_diff');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/operation should you use/'),
+            new question_pattern_expectation('/mathrm/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $this->process_submission(['ans1_1' => '1', 'submit' => 1]);
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of the correct answer.
+        $this->process_submission(['ans1_1' => '1', 'ans1_val' => '[\'diff(f,x,1)]', '-submit' => 1]);
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $expected = 'Seed: 1; ans1: [noundiff(f,x)] [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
     }
 
     public function test_test0_do_not_show_penalties() {
@@ -4885,6 +4974,74 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             $this->currentoutput);
         $expected = 'Seed: 1; ansq: 13*X^2-8*y*x+5*y^2 = 48 [score]; firsttree: # = 0 | ' .
             'ATCASEqual_false. | firsttree-0-0 | ATEquation_lhs_notrhs | firsttree-1-0';
+        $this->check_response_summary($expected);
+    }
+
+    public function test_input_validator_bailout() {
+        $q = test_question_maker::make_question('stack', 'bailout');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+        $this->assert_content_with_maths_contains('\({\left \{1 , 2 , 3 \right \}}\)',
+            $this->currentoutput);
+
+        // Process a validate request.
+        $this->process_submission(['ans1' => '3', '-submit' => 1]);
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        // Check order of variables in validation of answer matches what students type.
+        $expected = 'Seed: 1; ans1: 3 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assert_content_with_maths_contains('\[ 3',
+            $this->currentoutput);
+        $ia = '3';
+        $this->process_submission(['ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1]);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 3',
+            $this->currentoutput);
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 1 | firsttree-0-1';
+        $this->check_response_summary($expected);
+
+        // New answer which bailed out.
+        $ia = '5';
+        $this->process_submission(['ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1]);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 5',
+            $this->currentoutput);
+        $expected = 'Seed: 1; ans1: 5 [score]; firsttree: # =  | firsttree-bail';
+        $this->check_response_summary($expected);
+
+        // New answer which is wrong to check score and penalty.
+        $ia = '2';
+        $this->process_submission(['ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1]);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 0, 0.25);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 2',
+            $this->currentoutput);
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 0 | firsttree-0-0';
         $this->check_response_summary($expected);
     }
 }

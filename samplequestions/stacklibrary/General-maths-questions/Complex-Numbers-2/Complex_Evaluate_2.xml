@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Complex_Evaluate_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Given that \(z\) is the complex number \[{@z1@}\] evaluate \({@z^n4@}\). Give your answers in the form \(p + qi\). [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let \(r_1\) be the modulus of \(z\) and \(\theta_1\) be the argument \[ r1=\sqrt{x^2+y^2}=\sqrt{\left({@zr1@}\right)^2+\left({@zi1@}\right)^2}=\sqrt{@zr1^2+zi1^2@}={@r1@}\] \[\tan(\theta_1)=\frac{@zi1@}{@zr1@}={@zi1/zr1@}\] \[\theta_1={@theta1@}\] Therefore \[r = r_1^{@n4@}={@r1@}^{@n4@}={@r1^n4@}\] \[\theta={@n4@}\cdot \theta_1={@n4@}\cdot{@theta1@}={@n4*theta1@}\] and the principal argument is \[\theta={@principaltheta@}\] Hence, the real part is found as \[p = {@r1^n4@} \cos({@principaltheta@}) = {@r1^n4@}\cdot {@zcos@} = {@znr2@},\] and the imaginary part is found as \[q = {@r1^n4@} \sin({@principaltheta@}) = {@r1^n4@}\cdot {@zsin@} = {@zni2@}\]</p>
+<p> </p>
+<p>Hence the answer is \({@zn@}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>zset1:[Pi/6,Pi/4,Pi/3,2*Pi/3,3*Pi/4,5*Pi/6];
+ n1:rand(2)+2;
+ n2:rand(6)+1;
+ n3:rand(2)+1;
+ n4:rand(3)+5;
+ arg1:(-1)^n3 * zset1[n2];
+ 
+ z1:ev(n1*cos(arg1)+n1*sin(arg1)*i,simp);
+ zr1:ev(realpart(z1),simp);
+ zi1:ev(imagpart(z1),simp);
+ theta1:carg(z1);
+ r1:sqrt(zr1^2+zi1^2);
+ principaltheta:%pi - mod (%pi - n4*theta1, 2*%pi);
+ n4:if(principaltheta=0) then n4+1 else n4;
+principaltheta:%pi - mod (%pi - n4*theta1, 2*%pi);
+ zn4:ev(z1^n4,expand);
+ znr:ev(realpart(zn4),simp);
+ zni:ev(imagpart(zn4),simp);
+ 
+ solmod:n1^n4;
+ zn:ev(solmod*cos(principaltheta) + solmod*sin(principaltheta)*i, simp);
+ zcos:ev(cos(principaltheta),simp);
+ zsin:ev(sin(principaltheta),simp);
+ znr2:solmod*zcos;
+ zni2:solmod*zsin;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>For \(z={@z1@}\), find \({@z^n4@}\) giving {@zn@}.</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>zn</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sansr:ev(realpart(ans1),simp);
+ sansi:ev(imagpart(ans1),simp);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>zn</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sansr</sans>
+        <tans>znr</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The real part of your answer is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The real part of your answer is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sansi</sans>
+        <tans>zni</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The imaginary part of your answer is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The imaginary part of your answer is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>zn</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is equivalent to the correct answer, but not in the required format \(p + q i\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2144937971</deployedseed>
+    <deployedseed>950305691</deployedseed>
+    <deployedseed>1391543948</deployedseed>
+    <deployedseed>1975515581</deployedseed>
+    <deployedseed>1273524506</deployedseed>
+    <deployedseed>1201046303</deployedseed>
+    <deployedseed>1904980379</deployedseed>
+    <deployedseed>1719752272</deployedseed>
+    <deployedseed>2083333415</deployedseed>
+    <deployedseed>1620855897</deployedseed>
+    <deployedseed>976282276</deployedseed>
+    <deployedseed>266459927</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>zn</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>(2*znr2 + 2*zni2*i)/2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>zn + 1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>zn + i</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

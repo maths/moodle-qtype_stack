@@ -46,9 +46,9 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     }
 
     public function post_process_docs_page($html) {
-        $html = str_replace('&#92;', '\\', $html);
-        $html = $this->find_and_render_equations($html);
         $html = parent::post_process_docs_page($html);
+        $html = str_replace('&#92;', '\\', $html);
+        $html = str_replace('&amp;#92;', '\\', $html);
         return $html;
     }
 

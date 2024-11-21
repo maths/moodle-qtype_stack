@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -33,6 +34,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
             'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
         ],
+        'cdn-1.10.1' => [
+            'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraph.min.css',
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraphcore.min.js',
+        ],
         'cdn-1.8.0' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraph.min.css',
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraphcore.min.js',
@@ -47,7 +52,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         ],
     ];
 
-    public function compile($format, $options):  ? MP_Node {
+    public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
 
         // We need to transfer the parameters forward.
@@ -193,12 +198,13 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 

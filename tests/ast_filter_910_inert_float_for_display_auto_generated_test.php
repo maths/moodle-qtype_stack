@@ -804,6 +804,16 @@ class ast_filter_910_inert_float_for_display_auto_generated_test extends qtype_s
                       [],
                       true, false);
 
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
+                      [],
+                      true, false);
+
         $this->expect('X',
                       'X',
                       [],
@@ -2417,6 +2427,16 @@ class ast_filter_910_inert_float_for_display_auto_generated_test extends qtype_s
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       true, false);
 

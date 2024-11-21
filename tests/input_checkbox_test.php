@@ -348,7 +348,7 @@ class input_checkbox_test extends qtype_stack_testcase {
         $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
     }
 
-    public function test_simp_false() {        
+    public function test_simp_false() {
 
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[abs(x-5)=abs(5-x),true],[1+1,false],[x=3 nounor x=1,false]]',
@@ -511,7 +511,7 @@ class input_checkbox_test extends qtype_stack_testcase {
             '<span class="nolink">\(\int {f}{\;\mathrm{d}t}\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
             stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, array()));
-        $state = $el->validate_student_response(array('ans1_1' => '1'),
+        $state = $el->validate_student_response(['ans1_1' => '1'],
             $options, $ta, new stack_cas_security());
 
         $this->assertEquals(stack_input::SCORE, $state->status);
@@ -521,6 +521,35 @@ class input_checkbox_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer($ta);
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
             '\(\frac{\mathrm{d} f}{\mathrm{d} x}\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
+
+    public function test_decimals() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $ta = '[[3.1415,true],[[a,b,c,2.78],false]]';
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, $options, array('options' => ''));
+        $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
+            'id="stack1__ans1_1" data-stack-input-type="checkbox" checked="checked" /><label for="stack1__ans1_1">' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(3{,}1415\)</span></span></label></div>' .
+            '<div class="option"><input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" ' .
+            'data-stack-input-type="checkbox" /><label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
+            '<span class="nolink">\(\left[ a ; b ; c ; 2{,}78 \right] \)</span></span></label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+            stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, array()));
+        $state = $el->validate_student_response(['ans1_1' => '1'],
+            $options, $ta, new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('1'), $state->contents);
+        $this->assertEquals('[3.1415]', $state->contentsmodified);
+        $state = $el->validate_student_response(['ans1_1' => '2'],
+            $options, $ta, new stack_cas_security());
+        $this->assertEquals(array('2'), $state->contents);
+        $this->assertEquals('[[a,b,c,2.78]]', $state->contentsmodified);
+        $this->assertEquals($ta, $el->get_teacher_answer());
+        $el->adapt_to_model_answer($ta);
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(3{,}1415\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 }

@@ -192,8 +192,9 @@ class stack_question_test_result {
             if (is_null($state->expectedpenalty)) {
                 $penalty = $this->questionpenalty;
             }
-            // If we have a "NULL" expected answer note we just ignore what happens to penalties here.
-            if ('NULL' !== $state->expectedanswernote) {
+            // If we have a "NULL" expected answer note, or we bailed, we just ignore what happens to penalties here.
+            if ('NULL' !== $state->expectedanswernote &&
+                $prtname . '-bail' !== $state->expectedanswernote) {
                 if (is_null($state->penalty) ||
                         abs($penalty - $state->penalty) > 10E-6) {
                     $state->testoutcome = false;

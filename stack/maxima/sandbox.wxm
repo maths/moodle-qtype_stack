@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 20.12.1 ] */
+/* [ Created with wxMaxima version 23.08.0 ] */
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
@@ -102,6 +102,37 @@ debug:true;
 /* [wxMaxima: input   end   ] */
 
 
+/* [wxMaxima: input   start ] */
+ATAntidiff(x^3/3*c, x^3/3, x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ATAddConst(x^3/3+3*c, x^3/3, [x,NONSTRICT]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+emptyp(listofvars(3));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+simp: false;
+expr : 1/x + 2*x/(x^2+1);
+ta : int(expr, x)+C;
+ATInt(ta, ta,x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+simp: true;
+expr : 1/x + 2*x/(x^2+1);
+ta : int(expr, x)+C;
+ATInt(ta, ta,x);
+/* [wxMaxima: input   end   ] */
+
+
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 20.12.1"$
+"Created with wxMaxima 23.08.0"$

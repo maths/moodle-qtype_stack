@@ -9,7 +9,7 @@
 <p>{@thm@}</p>
 
 [[parsons input="ans1"]]
-{# stackjson_stringify(proof_steps) #}
+{# parsons_encode(proof_steps) #}
 [[/parsons ]]
 <p style="display:none">[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
@@ -21,7 +21,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024072400</text>
+      <text>2024112000</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_include("contribl://prooflib.mac");
@@ -84,8 +84,8 @@ tas:setify(map(proof_flatten, tal));]]></text>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
-      <type>string</type>
-      <tans>proof_parsons_key_json(ta, proof_steps)</tans>
+      <type>parsons</type>
+      <tans>[ta, proof_steps]</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -106,7 +106,7 @@ tas:setify(map(proof_flatten, tal));]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>sa:proof_parsons_interpret(ans1);
+        <text>sa:parsons_decode(ans1);
 [pd, saa]:proof_assessment(sa, tal);</text>
       </feedbackvariables>
       <node>

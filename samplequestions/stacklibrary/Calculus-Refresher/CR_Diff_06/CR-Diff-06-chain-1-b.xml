@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Differentiate {@p@} with respect to {@v@}.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the chain rule <hint>calc_chain_rule</hint> as follows:
@@ -23,7 +22,7 @@ So \(f({@v@})=g({@v@})^{@rdm2@}\). So,
    &\displaystyle =&\displaystyle  {@rdm2@}g^{{@rdm2@}-1}\cdot (-{@rdm1@}){@v@}^{{@rdm1@}-1} \\
    &\displaystyle =&\displaystyle  -{@rdm1*rdm2@}{@v@}^{@rdm1-1@}({@pp@})^{@rdm2-1@} \\
    &\displaystyle =&\displaystyle  -{@rdm1*rdm2*v^(rdm1-1)*pp^(rdm2-1)@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

@@ -92,6 +92,16 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
                       ['function_stars'],
                       true, false);
 
+        $this->expect('a_b(x)',
+                      'a_b*(x)',
+                      ['function_stars'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf*(x)',
+                      ['function_stars'],
+                      true, false);
+
         $this->expect('a(x)',
                       'a*(x)',
                       ['function_stars'],
@@ -315,6 +325,16 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
 
         $this->expect('Sin(x)',
                       'Sin*(x)',
+                      ['function_stars'],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b*(x)',
+                      ['function_stars'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf*(x)',
                       ['function_stars'],
                       true, false);
 

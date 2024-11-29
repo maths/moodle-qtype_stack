@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Differentiate \[\left({@pp1@}\right)\left({@pp2@}\right)\] with respect to {@v@}.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the product rule <hint>calc_product_rule</hint> as follows:
@@ -17,7 +16,7 @@
   \frac{d}{d{@v@}}[{@p@}] &\displaystyle =&\displaystyle  \left[\frac{d}{d{@v@}}({@pp1@})\right]\cdot {@pp2@} + ({@pp1@})\cdot \left[\frac{d}{d{@v@}}[{@pp2@}]\right] \\
    &\displaystyle =&\displaystyle  \left({@diff(pp1,v)@}\right)\cdot {@pp2@} + \left({@pp1@}\right)\cdot {@diff(pp2,v)@} \\
    &\displaystyle =&\displaystyle  {@diff(p,v)@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

@@ -162,7 +162,7 @@ parsons_encode(steps) := block(
  */
 parsons_decode(st) := block([pf],
   pf:first(first(stackjson_parse(st))),
-  pf:apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used")))))
+  pf:ev(apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used"))))),simp)
 );
 
 /*
@@ -326,6 +326,44 @@ proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</
 proof_comment_disp(ex):=    sconcat("<div class='proof-comment'>", ex,       "</div>");
 proof_column_disp(ex):=     sconcat("<div class='proof-column'>",  ex,       "</div>");
 proof_column_disp2(ex):=    sconcat("<div class='proof-column2'>", ex,       "</div>");
+
+/***************************************************/
+/* Display problems with proofs assesed by graphs. */
+/***************************************************/
+
+/* This function takes a list of problems, and the proof_steps, and displays feedback to the student. */
+proof_dag_problem_display(saprob, poof_steps) := block(
+    if not(listp(saprob)) then error("proof_dag_problem_display: first argument must be a list."),
+    if emptyp(saprob) then return(""),
+    if not(subsetp(setify(map(safe_op, saprob)),{"proof_step_must","proof_step_extra","proof_step_missing"})) then
+        error("proof_dag_problem_display: first argument is not a list of proof_step_X functions."),
+    /* Add in the proof_steps to the arguments of the functions. */
+    saprob:map(lambda([ex], apply(op(ex), append(args(ex),[proof_steps]))), saprob),
+    saprob:ev(saprob, proof_step_must=proof_step_must_disp,
+                                  proof_step_extra=proof_step_extra_disp, 
+                                  proof_step_missing=proof_step_missing_disp),
+    /*
+    saprob:simplode(saprob, "<hr/>"),
+    */
+    dispproof(simplode(saprob, "<hr/>"))
+)$
+
+/* Display functions for proof_step problem functions.
+   One goal in choosing symbols is to avoid translation issues.
+*/
+proof_step_extra_disp(exs, ps):=block(
+  simplode(map(lambda([ex], sconcat(proof_getstep(ex, ps), dl_delete_disp(true))), args(exs)), "<br/>")
+)$
+proof_step_missing_disp(exs, ps):=block(
+  simplode(map(lambda([ex], sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i> ? </span> ",
+                                    proof_getstep(ex, ps))), args(exs)), "<br/>")
+)$
+proof_step_must_disp(ex1, ex2, ps):=block(
+  sconcat(proof_getstep(ex1, ps),
+          "<br/><span style='font-size: 1.1em; color:red;'>[?...?]</span><br/>",
+          proof_getstep(ex2, ps),
+          "<br/>")
+)$
 
 /******************************************************************/
 /*                                                                */

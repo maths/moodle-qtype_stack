@@ -18,6 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/CTP_classes.php');
 require_once(__DIR__ . '/processor.class.php');
+require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
 require_once(__DIR__ . '/../../maximaparser/MP_classes.php');
 
 abstract class stack_cas_castext2_block {
@@ -82,8 +83,14 @@ abstract class stack_cas_castext2_block {
      * If this is not a flat block this will be called with the response from CAS and
      * should execute whatever additional logic is needed. Register JavaScript and such
      * things it must then return the content that will take this blocks place.
+     *
+     * Should this produce any HTML content sensitive to VLE-filtering or security
+     * features one needs to replace it with the $holder and return a version with
+     * placeholders. Note that if this block does nto need any other postprocessing
+     * you can also use the "p h" block to declare these things during compiling.
      */
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         return '';
     }
 

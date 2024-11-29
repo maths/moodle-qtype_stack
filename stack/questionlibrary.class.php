@@ -68,11 +68,12 @@ class stack_question_library {
         $language = current_language();
 
         $plots = [];
-
         $questiontext = $translate->filter(
-            \stack_maths::process_display_castext(
-                $question->questiontextinstantiated->get_rendered(
-                    $question->castextprocessor
+            $question->questiontextinstantiated->apply_placeholder_holder(
+                \stack_maths::process_display_castext(
+                    $question->questiontextinstantiated->get_rendered(
+                        $question->castextprocessor
+                    )
                 )
             ),
             $language
@@ -82,6 +83,7 @@ class stack_question_library {
         $formatoptions = new stdClass();
         $formatoptions->noclean = true;
         $formatoptions->para = false;
+        $formatoptions->allowid = true;
         $questiontext = format_text($questiontext, FORMAT_HTML, $formatoptions);
 
         foreach ($question->inputs as $name => $input) {

@@ -2,7 +2,7 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/top/Calculus-Refresher/CR_Int_15</text>
+      <text>top/stacklibrary/Calculus-Refresher/CR_Int_15</text>
     </category>
     <info format="moodle_auto_format">
       <text>Integration using partial fractions</text>

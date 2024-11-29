@@ -148,7 +148,7 @@ ta:factor((cf1*v+a)*(cf2*v+b));</text>
       </expected>
     </qtest>
     <qtest>
-      <testcase>3</testcase>
+      <testcase>2</testcase>
       <description/>
       <testinput>
         <name>ans</name>

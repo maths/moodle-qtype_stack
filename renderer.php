@@ -69,6 +69,8 @@ class qtype_stack_renderer extends qtype_renderer {
                 stack_maths::process_display_castext($questiontext, $this),
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'question', 'questiontext', $question->id);
+        // Replace the secured bits.
+        $questiontext = $question->questiontextinstantiated->apply_placeholder_holder($questiontext);
 
         // Get the list of placeholders after format_text.
         $formatedinputplaceholders = stack_utils::extract_placeholders($questiontext, 'input');
@@ -233,6 +235,8 @@ class qtype_stack_renderer extends qtype_renderer {
         $feedbacktext = $question->format_text($feedbacktext,
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
+        // Replace the secured bits.
+        $feedbacktext = $question->specificfeedbackinstantiated->apply_placeholder_holder($feedbacktext);
 
         // Replace any PRT feedback.
         $allempty = true;
@@ -283,6 +287,8 @@ class qtype_stack_renderer extends qtype_renderer {
         $feedbacktext = $question->format_text($feedbacktext,
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
+        // Replace the secured bits.
+        $feedbacktext = $question->specificfeedbackinstantiated->apply_placeholder_holder($feedbacktext);
 
         $individualfeedback = count($question->prts) == 1;
         if ($individualfeedback) {
@@ -380,7 +386,9 @@ class qtype_stack_renderer extends qtype_renderer {
         // The feedback does not come as bits anymore the whole thing is concatenated in CAS
         // and CASText converts any formats to HTML already, pluginfiles as well.
         $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
-            FORMAT_HTML, ['noclean' => true, 'para' => false]);
+            FORMAT_HTML, ['noclean' => true, 'para' => false, 'allowid' => true]);
+        // Replace the secured bits.
+        $feedback = $result->apply_placeholder_holder($feedback);
 
         $gradingdetails = '';
         if ($result->get_valid() && $qa->get_behaviour_name() == 'adaptivemultipart'
@@ -452,6 +460,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $field = 'prt' . $class . 'instantiated';
         if ($question->$field) {
+            // NOTE: assume that we have no holder related content here.
             return html_writer::tag('div', $question->format_text(
                     stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor), $this),
                     FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
@@ -532,10 +541,12 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
 
-        return $qa->get_question()->format_text(stack_maths::process_display_castext(
+        $gf = $qa->get_question()->format_text(stack_maths::process_display_castext(
                 $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor), $this),
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'question', 'generalfeedback', $question->id);
+        // Replace the secured bits.
+        return $question->get_generalfeedback_castext()->apply_placeholder_holder($gf);
     }
 
     public function question_description(question_attempt $qa) {
@@ -549,10 +560,12 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
 
-        return $qa->get_question()->format_text(stack_maths::process_display_castext(
+        $qd = $qa->get_question()->format_text(stack_maths::process_display_castext(
             $question->get_questiondescription_castext()->get_rendered($question->castextprocessor), $this),
             FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
             $qa, 'qtype_stack', 'questiondescription', $question->id);
+        // Replace the secured bits.
+        return $question->get_questiondescription_castext()->apply_placeholder_holder($qd);
     }
 
     /**

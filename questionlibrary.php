@@ -70,6 +70,7 @@ if ($backurl = optional_param('returnurl', null, PARAM_LOCALURL)) {
     $returntext = get_string('stack_library_qb_return', 'qtype_stack');
 }
 
+$dashboardlink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 $PAGE->requires->js_amd_inline(
     'require(["qtype_stack/library"], '
     . 'function(library,){library.setup();});'
@@ -87,6 +88,7 @@ $mform = new category_form(null, ['qcontext' => $contexts]);
 // Prepare data for template.
 $outputdata = new StdClass();
 $outputdata->returnlink = $returnlink->out();
+$outputdata->dashboardlink = $dashboardlink->out();
 $outputdata->returntext = $returntext;
 $outputdata->files = $files->children;
 $outputdata->category = $mform->render();

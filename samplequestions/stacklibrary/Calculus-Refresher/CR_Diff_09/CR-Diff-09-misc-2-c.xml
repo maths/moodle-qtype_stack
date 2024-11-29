@@ -27,8 +27,7 @@ pp1:ppp1*ppp2;
 pp2:tan(rdm1*v);
 p:pp1/pp2;
 p2:cos(rdm1*v)*cos(rdm2*v)
-ta:diff(p2,v);
-</text>
+ta:diff(p2,v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>

@@ -2,17 +2,19 @@
 
 On rare occasions string matching is useful.
 
-A much more useful feature is the [Damerau-Levenshtein distance](../../Topics/Levenshtein_distance.md).
+Note that rather than using a string match a useful feature is the [Damerau-Levenshtein distance](../../Topics/Levenshtein_distance.md).
 
-Since student's expressions are, by default, not permitted to contain spaces you will probably need to make use of the string input type.
+If the argument to these tests is _not_ a Maxima string then (1) whitespace is stripped off and (2) the expression is turned into a string.  The conversion to a Maxima string happens inside PHP: if you use `ATString` in the sandbox without a string argument, the Maxima function will throw an error.
 
 ### ATString ###
 
-This test performs a string match ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
+This test performs a string match.  Whitespace anywhere within a string is unchanged.
+
+If you use a string input, and want to trim whitespace from each end before using this answer test, you can process the string in Maxima, e.g. using `strim(" ", ans1)`.  This can be used as an argument to `ATString` in the PRT.
 
 ### ATStringSloppy ###
 
-This test removes spaces, newlines and tabs and then performs a string match.
+This test removes all spaces, newlines and tabs within the string and then performs a string match.
 
 ### ATSRegExp ###
 

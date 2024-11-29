@@ -33,12 +33,16 @@ define([
     let libraryDiv = null;
     let rawDiv = null;
     let variablesDiv = null;
+    let descriptionDiv = null;
     let importListDiv = null;
     let importSuccessDiv = null;
     let importSuccessFileDiv = null;
     let displayedDiv = null;
+    let dashLink = null;
     let errorDiv = null;
     let currentPath = null;
+    let currentName = null;
+    let isstack = false;
 
     /**
      * Sets up event listeners.
@@ -50,9 +54,12 @@ define([
         variablesDiv = document.querySelector('.stack_library_variables_display');
         importListDiv = document.querySelector('.stack-library-imported-list');
         displayedDiv = document.querySelector('.stack_library_selected_question');
+        descriptionDiv = document.querySelector('.stack_library_description_display');
         errorDiv = document.querySelector('.stack-library-error');
         importSuccessDiv = document.querySelector('.stack-library-import-success');
         importSuccessFileDiv = document.querySelector('.stack-library-import-success-file');
+        dashLink = document.querySelector('#dashboard-link-holder').innerHTML.trim();
+        dashLink = dashLink.includes('?') ? dashLink = dashLink + '&questionid=' : dashLink = dashLink + '?questionid=';
         loading(true);
         const linksArray = document.querySelectorAll('.library-file-link');
         linksArray.forEach(function(elem) {
@@ -94,9 +101,25 @@ define([
             done: function(response) {
                 loading(false);
                 libraryDiv.innerHTML = response.questionrender;
+                for (const iframe of response.iframes) {
+                    require(['qtype_stack/stackjsvle'],
+                        function(stackjsvle,) {
+                            stackjsvle.create_iframe(
+                                iframe.iframeid,
+                                iframe.content,
+                                iframe.targetdivid,
+                                iframe.title,
+                                iframe.scrolling,
+                                iframe.evil
+                            );
+                        });
+                  }
                 rawDiv.innerHTML = response.questiontext;
+                descriptionDiv.innerHTML = response.questiondescription;
                 variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
-                displayedDiv.innerHTML = currentPath.split('/').pop();
+                displayedDiv.innerHTML = response.questionname + '<br>(' + currentPath.split('/').pop() + ')';
+                currentName = response.questionname;
+                isstack = response.isstack;
                 document.querySelectorAll('.library-secondary-info')
                     .forEach(el => el.removeAttribute('hidden'));
                 document.querySelector('.library-import-link').removeAttribute('disabled');
@@ -128,8 +151,14 @@ define([
             done: function(response) {
                 loading(false);
                 if (response.success) {
-                    importListDiv.innerHTML = importListDiv.innerHTML + '<br>' + currentPath.split('/').pop();
-                    importSuccessFileDiv.innerHTML = currentPath.split('/').pop();
+                    let currentDashLink = dashLink + response.questionid;
+                    if (isstack) {
+                        importListDiv.innerHTML = importListDiv.innerHTML
+                            + '<br>' + '<a target="_blank" href="' + currentDashLink + '">' + currentName + '</a>';
+                    } else {
+                        importListDiv.innerHTML = importListDiv.innerHTML + '<br>' + currentName;
+                    }
+                    importSuccessFileDiv.innerHTML = currentPath.split('/').pop() + ' as ' + currentName;
                     importSuccessDiv.removeAttribute('hidden');
                 } else {
                     errorDiv.hidden = false;

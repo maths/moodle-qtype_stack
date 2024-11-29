@@ -1006,8 +1006,12 @@ export const stack_sortable = class stack_sortable {
         // CSS resizing of grid-items
         // --------------------------
         // Reset heights and widths of grid items.
-        document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
-        document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+        if (!this.override_item_width) {
+            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
+        }
+        if (!this.override_item_width) {
+            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+        }
         // Then update the CSS accordingly.
         this.resize_grid_items();
     }

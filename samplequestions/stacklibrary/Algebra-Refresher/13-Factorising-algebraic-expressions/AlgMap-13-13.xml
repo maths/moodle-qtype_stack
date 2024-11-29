@@ -17,7 +17,7 @@ The equation is of the form 'square, twice product, square':
 Where:
 \[ a^2 = x. \]
 \[ b^2 = 4y. \]
-Therefore \((a+b)^2 = (x+4y)^2. \) </text>
+Therefore \((a+b)^2 = (x+4y)^2. \)</text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

@@ -9,8 +9,7 @@
 
 \[x = {@p@}\]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[\[x={@p@}\] So,
@@ -22,7 +21,7 @@
 \[\begin{array}{rcl}\displaystyle 
   \frac{d{@v@}}{dx} &\displaystyle =&\displaystyle  \frac{1}{2{@v@} -\frac{1}{{@v@}^2}} \\
    &\displaystyle =&\displaystyle  \frac{{@v@}^2}{2{@v@}^3+1}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

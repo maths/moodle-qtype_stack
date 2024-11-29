@@ -121,6 +121,10 @@
         <div class="stack_library_selected_question"></div>
       </div>
       <div class="alert alert-secondary library-secondary-info" hidden>
+        <b>{{#str}} questiondescription, qtype_stack {{/str}}:</b>
+        <div class="stack_library_description_display" style="word-break: break-word"></div>
+      </div>
+      <div class="alert alert-secondary library-secondary-info" hidden>
         <b>{{#str}} questiontext, qtype_stack {{/str}}:</b>
         <div class="stack_library_raw_display" style="word-break: break-word"></div>
       </div>
@@ -128,8 +132,11 @@
         <b>{{#str}} questionvariables, qtype_stack {{/str}}:</b>
         <div class="stack_library_variables_display" style="word-break: break-word"></div>
       </div>
-      <div class="stack-library-imported-list alert alert-secondary">
+      <div class="stack-library-imported-list alert alert-dismissable">
         <b>{{#str}} stack_library_importlist, qtype_stack {{/str}}</b>
+      </div>
+      <div id="dashboard-link-holder" hidden>
+        {{dashboardlink}}
       </div>
     </div>
   </div>

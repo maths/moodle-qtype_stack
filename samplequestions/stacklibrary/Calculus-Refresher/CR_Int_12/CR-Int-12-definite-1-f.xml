@@ -8,8 +8,7 @@
       <text>Evaluate the following definite integral:
 \[ \int^{@rdm3@}_{@rdm2@}{@p@}d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[If \[\int f(x) dx = F(x)\] then \[\int^a_b f(x) dx = F(a) - F(b).\]
@@ -25,7 +24,7 @@ Then,
  \int^{@rdm3@}_{@rdm2@} {@p@} d{@v@} &\displaystyle =&\displaystyle  F({@rdm3@}) - F({@rdm2@}) \\
    &\displaystyle =&\displaystyle  {@subst(rdm3,v,q)@} - {@subst(rdm2,v,q)@} \\
    &\displaystyle =&\displaystyle  {@subst(rdm3,v,q)-subst(rdm2,v,q)@} 
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

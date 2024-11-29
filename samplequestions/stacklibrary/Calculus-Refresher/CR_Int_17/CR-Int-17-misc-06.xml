@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>By taking logarithms to the base \(e\) establish that \(a^x\) can be written as \(e^{xlna}\). Hence find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Using the laws of logarithms \[e^{ln(x)} = x\] and \[ln(x^k) = kln(x)\] we get that
@@ -23,7 +22,7 @@ So,
 \[\begin{array}{rcl}\displaystyle 
  \int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int e^{x\cdot ln(a)} d{@v@} \\
    &\displaystyle =&\displaystyle  {@int(p,v)+c@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

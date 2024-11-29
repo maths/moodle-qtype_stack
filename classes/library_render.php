@@ -29,18 +29,21 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/questionlib.php');
+require_once($CFG->dirroot . '/question/type/stack/api/util/StackIframeHolder.php');
 require_once($CFG->dirroot . '/question/type/stack/api/util/StackQuestionLoader.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
 
 use context;
 use external_api;
 use external_function_parameters;
+use external_multiple_structure;
 use external_single_structure;
 use external_value;
 use cache;
 use SimpleXMLElement;
 use stack_question_library;
 use api\util\StackQuestionLoader;
+use api\util\StackIframeHolder;
 
 /**
  * External API for AJAX calls.
@@ -61,13 +64,25 @@ class library_render extends \external_api {
     /**
      * Returns result type for library_render webservice.
      *
-     * @return \external_description Result type
+     * @return \external_single_structure
      */
     public static function render_execute_returns() {
         return new \external_single_structure([
             'questionrender' => new \external_value(PARAM_RAW, 'HTML render of question text'),
+            'iframes' => new external_multiple_structure(
+                new external_single_structure([
+                    'iframeid' => new \external_value(PARAM_RAW, 'Iframe details'),
+                    'content' => new \external_value(PARAM_RAW, 'Iframe details'),
+                    'targetdivid' => new \external_value(PARAM_RAW, 'Iframe details'),
+                    'title' => new \external_value(PARAM_RAW, 'Iframe details'),
+                    'scrolling' => new \external_value(PARAM_BOOL, 'Iframe details'),
+                    'evil' => new \external_value(PARAM_BOOL, 'Iframe details'),
+                ])),
+            'questionname' => new \external_value(PARAM_RAW, 'Question name'),
             'questiontext' => new \external_value(PARAM_RAW, 'Original question text'),
             'questionvariables' => new \external_value(PARAM_RAW, 'Question variable definitions'),
+            'questiondescription' => new \external_value(PARAM_RAW, 'Question description'),
+            'isstack' => new \external_value(PARAM_BOOL, 'Is this a STACK question?'),
         ]);
     }
 
@@ -77,11 +92,11 @@ class library_render extends \external_api {
      * @param int $category Question category id for eventual import. We really only
      * care that the user can add into any category at all at this stage.
      * @param string $filepath File path relative to samplequestions.
-     * @return array Array of question render, question text and question variables.
+     * @return array Array of question render, question text, description and question variables.
      */
     public static function render_execute($category, $filepath) {
         global $CFG, $DB;
-
+        StackIframeHolder::$islibrary = true;
         // Check parameters and that user has question add capability in the supplied category.
         $context = $DB->get_field('question_categories', 'contextid', ['id' => $category]);
         $thiscontext = context::instance_by_id($context);
@@ -97,10 +112,25 @@ class library_render extends \external_api {
             try {
                 $question = StackQuestionLoader::loadxml($qcontents)['question'];
                 $render = static::call_question_render($question);
+                $iframes = [];
+                foreach (StackIframeHolder::$iframes as $iframe) {
+                    $iframes[] = [
+                        'iframeid' => $iframe['0'],
+                        'content' => $iframe['1'],
+                        'targetdivid' => $iframe['2'],
+                        'title' => $iframe['3'],
+                        'scrolling' => $iframe['4'],
+                        'evil' => $iframe['5'],
+                    ];
+                }
                 $result = [
                     'questionrender' => $render,
+                    'iframes' => $iframes,
+                    'questionname' => $question->name,
                     'questiontext' => $question->questiontext,
                     'questionvariables' => $question->questionvariables,
+                    'questiondescription' => $question->questiondescription,
+                    'isstack' => true,
                 ];
                 $cache->set($filepath, $result);
             } catch (\stack_exception $e) {
@@ -109,14 +139,18 @@ class library_render extends \external_api {
                 if (strpos($e->getMessage(), 'not of type STACK') !== false) {
                     $xmldata = new SimpleXMLElement($qcontents);
                     $questiontext = (string) $xmldata->question->questiontext->text;
+                    $questionname = (string) $xmldata->question->name->text;
                     $result = [
                         'questionrender' => '<div class="formulation">' .
                             get_string('stack_library_not_stack', 'qtype_stack') .
                             '<br><br>' . $questiontext . '</div>',
+                        'iframes' => [],
+                        'questionname' => $questionname,
                         'questiontext' => $questiontext,
                         'questionvariables' => '',
+                        'questiondescription' => '',
+                        'isstack' => false,
                     ];
-                    $question->questiontext = (string) $xmldata->question->questiontext->text;
                 } else {
                     throw $e;
                 }

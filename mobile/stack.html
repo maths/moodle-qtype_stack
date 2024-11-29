@@ -1,6 +1,6 @@
 <section ion-list *ngIf="question.text || question.text === ''" class="que stack qtype-stack formulation">
     <ion-item text-wrap>
-        <p style="width:100%">
+        <p style="width:100%; overflow-x:auto;">
             <container-element id="{{question.divId}}" class="ion-text-wrap">
                 <core-format-text [component]="component" [componentId]="componentId"
                     [text]="question.text" [contextLevel]="contextLevel"

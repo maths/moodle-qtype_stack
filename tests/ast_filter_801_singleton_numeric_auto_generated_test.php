@@ -522,6 +522,16 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
                       ['Illegal_form'],
                       false, true);
 
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['Illegal_form'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
+                      ['Illegal_form'],
+                      false, true);
+
         $this->expect('3.75*Btu',
                       '3.75*Btu',
                       ['Illegal_form'],
@@ -2235,6 +2245,16 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      ['Illegal_form'],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['Illegal_form'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       ['Illegal_form'],
                       false, true);
 

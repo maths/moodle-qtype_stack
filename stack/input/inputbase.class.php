@@ -53,6 +53,11 @@ abstract class stack_input {
     protected $name;
 
     /**
+     * @var int the maximum length of a permitted input.
+     */
+    protected $maxinputlength = 32768;
+
+    /**
      * Special variables in the question which should be exposed to the inputs and answer tests.
      */
     protected $contextsession = [];
@@ -668,7 +673,7 @@ abstract class stack_input {
     /**
      * Validate any attempts at this question.
      *
-     * @param array $response the student response to the question.
+     * @param array $response the student response to the input.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @param stack_cas_security $basesecurity declares the forbidden keys used in the question
@@ -1045,6 +1050,14 @@ abstract class stack_input {
                 $val = '';
             }
 
+            // Any student input which is too long is not even parsed.
+            if (strlen($val) > $this->maxinputlength) {
+                $valid = false;
+                $errors[] = stack_string('studentinputtoolong');
+                $notes['too_long'] = true;
+                $val = '';
+            }
+
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                 [], 'Root', $this->options->get_option('decimals'));
 
@@ -1061,7 +1074,7 @@ abstract class stack_input {
             // Construct inert version of that.
             $protectfilters = $this->protectfilters;
 
-            if($this->get_extra_option('simp')) {
+            if ($this->get_extra_option('simp')) {
                 // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
                 // function to perform calculations on dispdp numbers.
                 $val = 'stack_validate_simpnum(' . $val .')';
@@ -1318,7 +1331,10 @@ abstract class stack_input {
                     $valid = true;
                 } else {
                     if ($rn instanceof MP_String || $rn instanceof MP_List) {
-                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        $holder = new castext2_placeholder_holder();
+                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        // No filtering here.
+                        $msg = $holder->replace($msg);
                         if (trim($msg) !== '') {
                             $valid = false;
                             $errors[] = $msg;
@@ -1348,7 +1364,9 @@ abstract class stack_input {
                     $valid = true;
                 } else {
                     if ($rn instanceof MP_String || $rn instanceof MP_List) {
-                        $display .= castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        $holder = new castext2_placeholder_holder();
+                        $tmp = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        $display .= $holder->replace($tmp);
                     }
                 }
             } else {

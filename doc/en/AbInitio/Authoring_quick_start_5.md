@@ -1,8 +1,6 @@
 # Authoring quick start 5: question tests
 
-[1 - First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | 5 - Question tests | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
-
-
+1 - [First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | 5 - Question tests | [6 - question library](Authoring_quick_start_6.md) | [7 - Multipart questions](Authoring_quick_start_7.md) | [8 - Simplification](Authoring_quick_start_8.md) | [9 - Quizzes](Authoring_quick_start_9.md)
 
 This part of the authoring quick start guide deals with using question tests. The following video explains the process:
 
@@ -68,7 +66,7 @@ We are testing that if we multiply by \(-nn+1\) instead of dividing, we should b
 
 You will see that not all deployed versions pass all tests, and if you click on a variant that failed a test, you will see why! Essentially, when \(nn=2\), \(-nn+1=-1\) multiplication and division are equivalent. Essentially, these random variants are "easier" than the others. This illustrates another key use of question tests - ensuring that all variants are the same difficulty and test the knowledge they are supposed to. In light of this, you may want to change `nn` again to ` 3+rand(4)` . Now all variants should pass all question tests.
 
-Quality control is essential, and more information is given in the page on [testing](../Authoring/Testing.md).
+Quality control is essential, and more information is given in the page on [testing](../STACK_question_admin/Testing.md).
 
 ## Aside: forbidden words
 
@@ -82,4 +80,4 @@ This example nicely illustrates the way validity can be used to help students.  
 
 You should now be able to use question tests in STACK.
 
-##### The next part of the authoring quick start guide looks at [multipart questions](Authoring_quick_start_6.md).
+##### The next part of the authoring quick start guide looks at importing questions from the [question library](Authoring_quick_start_6.md).

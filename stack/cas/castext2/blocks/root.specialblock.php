@@ -130,7 +130,8 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
      * should execute whatever additional logic is needed. Register JavaScript and such
      * things it must then return the content that will take this blocks place.
      */
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         if (count($params) < 2) {
             // Nothing at all.
             return '';
@@ -138,7 +139,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $r = '';
         for ($i = 1; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $r .= $processor->process($params[$i][0], $params[$i]);
+                $r .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $r .= $params[$i];
             }

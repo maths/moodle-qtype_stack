@@ -1609,6 +1609,24 @@ a))/(2*a)</pre></td>
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{2}{{\left(2\cdot x-3\right)}^2+1}\]</span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{\frac{1}{x-2}-\frac{x-1}{{\left(x-2\right)}^2}}{\frac{{\left( x-1\right)}^2}{{\left(x-2\right)}^2}+1}\]</span></span> so you must have done something wrong!</td></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>atan((x-1)/(x+1))+c</pre></td>
+  <td class="cell c3"><pre>atan(x)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATInt_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>atan((a*x+1)/(a-x))</pre></td>
+  <td class="cell c3"><pre>atan(x)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATInt_true.</td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Stoutemyer (currently fails)</td></td>
 </tr>

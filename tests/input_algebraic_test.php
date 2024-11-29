@@ -385,6 +385,17 @@ class input_algebraic_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_too_long() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
+        $sa = '1' . str_repeat('0', 32768);
+        $state = $el->validate_student_response(['sans1' => $sa], $options, 'x^2/(1+x^2)',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('too_long', $state->note);
+        $this->assertEquals('Your input is longer than permitted by STACK.', $state->errors);
+    }
+
     public function test_validate_student_response_ex() {
         // The variable ex is used an argument to some Maxima functions and as a local variable.
         $options = new stack_options();
@@ -780,6 +791,23 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el->set_parameter('allowWords', 'pop, funney1, unknownfunction');
         $state = $el->validate_student_response(['sans1' => 'unknownfunction(x^2+1)+3*x'], $options, '2*x',
                 new stack_cas_security(false, '', '', ['ta']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_allowwords_402() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
+
+        $state = $el->validate_student_response(['sans1' => 'inverse_erf(x)+1'], $options, '2*x',
+            new stack_cas_security(false, '', '', ['ta']));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | (402) | forbiddenVariable', $state->note);
+
+        $el->set_parameter('allowWords', 'inverse_erf');
+        $state = $el->validate_student_response(['sans1' => 'inverse_erf(x)+1'], $options, '2*x',
+            new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);

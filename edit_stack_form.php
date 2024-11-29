@@ -156,6 +156,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
         global $OUTPUT;
+        global $USER;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -194,6 +195,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
+        if (get_user_preferences('htmleditor', '', $USER) !== 'textarea') {
+            $warnings = '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
+        }
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
@@ -436,14 +440,14 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function definition_input($inputname, MoodleQuickForm $mform, $counts) {
 
-        $mform->addElement('header', $inputname . 'header', stack_string('inputheading', $inputname));
+        $mform->addElement('header', $inputname . 'inputheader', stack_string('inputheading', $inputname));
 
         $qtype = new qtype_stack();
         if ($counts[$qtype::INPUTS] == 0 && $counts[$qtype::VALIDATIONS] == 0) {
             $mform->addElement('static', $inputname . 'warning', '', stack_string('inputwillberemoved', $inputname));
             $mform->addElement('advcheckbox', $inputname . 'deleteconfirm', '', stack_string('inputremovedconfirm'));
             $mform->setDefault($inputname . 'deleteconfirm', 0);
-            $mform->setExpanded($inputname . 'header');
+            $mform->setExpanded($inputname . 'inputheader');
         }
 
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
@@ -545,13 +549,13 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function definition_prt($prtname, MoodleQuickForm $mform, $count, $graph, $inputnames) {
 
-        $mform->addElement('header', $prtname . 'header', stack_string('prtheading', $prtname));
+        $mform->addElement('header', $prtname . 'prtheader', stack_string('prtheading', $prtname));
 
         if ($count == 0) {
             $mform->addElement('static', $prtname . 'prtwarning', '', stack_string('prtwillberemoved', $prtname));
             $mform->addElement('advcheckbox', $prtname . 'prtdeleteconfirm', '', stack_string('prtremovedconfirm'));
             $mform->setDefault($prtname . 'prtdeleteconfirm', 0);
-            $mform->setExpanded($prtname . 'header');
+            $mform->setExpanded($prtname . 'prtheader');
         }
 
         $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), ['size' => 3]);
@@ -569,7 +573,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
-                stack_string('feedbackvariables'), ['rows' => 3, 'cols' => 80]);
+                stack_string('feedbackvariables'), ['rows' => 4, 'cols' => 80]);
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 
         $inputnames = implode(', ', $inputnames);
@@ -685,7 +689,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
-                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 2], $this->editoroptions);
+                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 4], $this->editoroptions);
             $mform->addHelpButton($prtname . $branch . 'feedback[' . $nodekey . ']', 'branchfeedback', 'qtype_stack');
         }
 

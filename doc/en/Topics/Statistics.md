@@ -1,28 +1,36 @@
 # Statistics in STACK
 
 STACK was not designed with Statistics in mind. To assess statistics, we can of course use the algebraic tools, and standard support for [proofs/derivation](../Proof). However this is not the main concern in statistics education. So what can we do?
+## Assessment approaches
+
+### Code
+
+Another common assessment type in Statistics, is checking students' confidence in \(R\). It may be tempting to do this by asking students to input a string, but this is very hard to assess due to different interpretations of what is required, and different variable names. 
+
+If you wish to assess code using a moodle quiz, this can be done using the [Coderunner question type](https://docs.moodle.org/405/en/CodeRunner_question_type). This question type allows students to write code which is assessed on its effectiveness on specified examples.
+
+### Numerics
+However, we can assess the _results_ of \(R\) usage using STACK. Most teachers using STACK make use of randomisation, but this relies on Maxima's ability to calculate the correct answer. Maxima supports most short \(R\) functions. This section is intended to aid the translation of questions relying on commands in the statistical computing software \(R\) into STACK questions using Maxima. You do not need an in depth knowledge of statistics to use this.  
 
 
-## Coderunner
-
-## Numerics
-
-STACK loads the "distrib" package from maxima by defult. Check that your server in the plugin 'STACK' settings has <code>distrib</code> in the box <code>Load optional Maxima libraries</code>.
+#### R to Maxima
 
 
-This guide is intended to aid the translation of questions relying on comands in the statistical computing software \(R\) into STACK questions using Maxima. You do not need an in depth knowlegde of statistics to use this.  
+Firstly, it is useful to know the translations for common R functions.
+
+STACK loads the "distrib" package from maxima by default. Check that your server in the plugin 'STACK' settings has `distrib` in the box `Load optional Maxima libraries`.
+
+######  Key points:
+
+Mostly, it is simple to figure out the format of the maxima equivalent, however there are some points that may cause issues. (This is especially true if you are less familiar with statistics.)
+
+- For the function r* in \(R\), or random* in Maxima, the order of the inputs is different. 
+- Maxima and R have different default settings for the Gamma distribution. Maxima uses the shape and scale parameters, while R uses the shape and rate parameters. As such, be careful to translate.
+- R and maxima have different default settings for Variance (and by extension, standard deviation). `var(x)` in R will calculate the sample variance while maxima calculates the population variance. In maxima, `var1(x)` would be the equivalent to `var(x)` in R.
+- Data is expressed in a list in Maxima, thus `c(1,2,3)` translates to `[1,2,3]`.
+- In R, if no mean and standard deviation is provided, mean = 0 and standard deviation = 1. 
 
 
-### Density functions
-
-Key points:
-
-Mostly, it is simple to figure out the format of the maxima equivelent, 
-however there are some points that may cause issues. (This is especially true if you are less familiar with statistics.)
-
-- For the function r* in R, or random* in Maxima, the order of the inputs is different. 
-- Maxima and R have different defualt settings for the Gamma distribution. Maxima uses the shape and scale parameters, while R uses the shape and rate parameters. 
-As such, be careful to translate.
 
 <style>
 table, th, td {
@@ -59,8 +67,7 @@ table, th, td {
 }
 </style>
 
-
-Firstly, it is useful to know the translations for common distribution functions calculations. We denote with a *, where there would be the distribition e.g. normal. 
+ We denote with a *, where there would be the distribition e.g. normal. 
 
 <p>
 <div class="divTable">
@@ -81,13 +88,13 @@ Firstly, it is useful to know the translations for common distribution functions
 <div class="divTableCell"><code>p*</code></div>
 <div class="divTableCell"><code>cdf_*</code></div>
 <div class="divTableCell">Cumulative distribution function a distribution. \(P(X\leq x) = \int_{-\infty}^x P(X=i)\; \mathrm{di} \)</div>
-<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell"> </div>
 </div>
 <div class="divTableRow">
 <div class="divTableCell"><code>q*</code></div>
 <div class="divTableCell"><code>quantile_*</code></div>
 <div class="divTableCell">Inverse of CDF. By inputting \(y\), we calculate the value of \(x\) for which the \(P(X \leq x)=y\). Value at a specified percentile.</div>
-<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">Useful for confidence intervals.</div>
 </div>
 <div class="divTableRow">
 <div class="divTableCell"><code>r*</code></div>
@@ -165,7 +172,7 @@ From this, we can generally estimate what the translation will be, however let u
 </div>
 <div class="divTableRow">
 <div class="divTableCell"><code>*gamma(x,m,s)</code></div>
-<div class="divTableCell"><code>*gamma(x,m,1/s)</code><strong> note the difference</strong></div>
+<div class="divTableCell">**<code>*gamma(x,m,1/s)</code>**</div>
 </div>
 <div class="divTableRow">
 <div class="divTableCell"><code>*beta(x,m,n)</code></div>
@@ -211,10 +218,151 @@ From this, we can generally estimate what the translation will be, however let u
 </div>
 
 
-For detailed informaion on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). 
+For detailed informaion on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). This also provides information on calculating skewness and kurtosis.
 
-### Useful other functions
+##### Mean variance and standard deviation
+<div class="divTable">
+<div class="divTableBody">
+<div class="divTableRow">
+<div class="divTableHead">R-Code</div>
+<div class="divTableHead">Maxima</div>
+<div class="divTableHead">What is calculated</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell"><code>var(x)</code></div>
+<div class="divTableCell"><code>var1(x)</code></div>
+<div class="divTableCell">Sample variance of a dataset \(s^2=\frac{\sum(x_i-\bar{x})^2}{n-1}\)</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell"><code>var(x)*(n-1)/n</code></div>
+<div class="divTableCell"><code>var1(x)</code></div>
+<div class="divTableCell">Population variance of dataset \(\sigma^2=\frac{\sum(x_i-\bar{x})^2}{N}\)</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell"><code>sd(x)</code></div>
+<div class="divTableCell"><code>std1(x)</code></div>
+<div class="divTableCell">Sample standard deviation \(\sqrt(s^2)\)</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell"><code>sd(x)*sqrt((n-1)/n)</code></div>
+<div class="divTableCell"><code>std(x)</code></div>
+<div class="divTableCell">Population standard deviation \(\sqrt(\sigma^2)\)</div>
+</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell"><code>mean(x)</code></div>
+<div class="divTableCell"><code>mean(x)</code></div>
+<div class="divTableCell">Mean of the dataset \(\frac{\sum x_i}{n} \)</div>
+</div>
+</div>
+</div>
 
-<code>binomial(n,k)</code> = \(\frac{n!}{k!(n-k)!}\)
-<code>makelist([j,f(j,[vars])],j,n,m)</code>
+#### Useful other functions
+<ul>
+<li><code>binomial(n,k)</code> := \(\frac{n!}{k!(n-k)!}\)</li>
+<li><code>makelist(f(x),x,a,b)</code>:= list of f(x) from a to b.
+</ul>
+Variatations of make list are detailed in the maxima documention for lists.
 
+
+
+
+## Presenting information
+In statistics education, we may want to display R code or data. It can be tempting to take a screenshot and upload this, but it is better to use the `<pre>` environment to print this code. Alternatively, you can upload a file of data using the moodle link feature or [serving out data](..\Authoring\Serving_out_data.md).
+
+
+
+May be difficult for students to input some statistical notation so try to keep things simple or use an input type other than algebraic expression. STACK uses `\var<LETTER>{}` for greek letters, as such it is logical to use these versions in your questions, to ensure the validation a student view matches the question. 
+## General tips
+
+STACK may simplify when not appropriate for statistics. For instance, while \(\sigma^2\) is in fact the standard deviation squared, it is often not desired to simplify this in an expression. Consider this when writing algebraic questions or using question variables with `simp:true` on.
+
+It is worth being careful with using `i` as a sum index. Maxima may interpret this as the imaginary number `i`.  
+
+
+todo: sample var default in r, pop default in maxima
+
+## Example 
+
+In our example, the student is asked find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](..\Authoring\Serving_out_data.md).
+### Question variables 
+
+
+
+For our example, the _Question variables_ field looks as follows.
+```
+/*function to round to a number of decimal points*/
+rnd(x,dp):=float((round(x*10^dp)/10^dp));
+/* Randomise a mean and standard deviation*/
+me:rand([48,49,50,51]);
+sd:1+rand(2);
+/* Randomise a mean and standard deviation*/
+me:rand([48,49,50,51]);
+sd:1+rand(2);
+nn:50;
+/*randomise dataset*/
+AA:rnd(random_normal(me,sd,nn),2);
+BB:rnd(random_normal(50,2,nn),2);
+CC:rnd(random_normal(51,5,nn),2);
+/*format data*/
+lab: ["A","B","C"];
+data: makelist([AA[i],BB[i],CC[i]],i,1,nn);
+/*find confidence interval 95%*/
+tme: mean(AA);
+tsd: std1(AA);
+tse: float(quantile_normal(0.975,0,1)*tsd/sqrt(nn));
+LB:tme-tse;
+UB:tme+tse;
+ta:[LB,UB];
+```
+
+### Question text
+
+
+```
+<p>Download <a href="[[textdownload name="data.csv"]]
+{@stack_csv_formatter(data,lab)@}[[/textdownload]]"> 
+this normal dataset</a> from lab work, and calculate 
+the 95% confidence interval of dataset A.
+Give your answer to an appropriate number of significant figures.</p>
+<p>\([\)[[input:ans1]]\(,\) [[input:ans2]] \(]\)[[validation:ans1]][[validation:ans2]]</p>
+```
+
+### Question note
+
+
+```
+{@dispsf(ta,4)@}
+```
+
+### Input: ans1
+
+1. The _Input type_ field should be **Numerical**.
+2. The _Model answer_ field should be "dispsf(LB,4)".
+3. Set the option _Forbid float_ to "no".
+4. Set the option _Show the validation_ to "Yes, compact".(Optional)
+
+### Input: ans2
+
+1. The _Input type_ field should be **Numerical**.
+2. The _Model answer_ field should be "dispsf(UB,4)".
+3. Set the option _Forbid float_ to "no".
+4. Set the option _Show the validation_ to "Yes, compact".(Optional)
+
+### Potential response tree: prt1
+
+###### Node1
+**Answer test:** NumAbsolute
+**SAns:** ans1
+**TAns:** LB
+**Test options:** 0.01
+**Node 1 when true:** **Mod** = **Score** 0.5
+**Node 1 false feedback:** Your lower bound is incorrect.
+
+###### Node2
+**Answer test:** NumAbsolute
+**SAns:** ans2
+**TAns:** UB
+**Test options:** 0.01
+**Node 1 when true:** **Mod** + **Score** 0.5
+**Node 1 false feedback:** Your upper bound is incorrect.

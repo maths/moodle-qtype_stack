@@ -1,0 +1,1249 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2024 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra functions for STACK                          */
+/*                                                              */
+/*  V0.2.4 May 2024                                             */
+/*                                                              */
+/****************************************************************/
+
+/*******************************************************************************/
+/* Provides convenience functions for column and row vectors for student input */
+/*******************************************************************************/
+texput(c,
+  lambda([ex], block([ns,str,ii],
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+texput(r,
+  lambda([ex], block([ns,str,ii],
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+declare([c,r],nonscalar);
+
+/**
+ * Converts c and r into matrices.
+ * Works on entire expressions.
+ * Returns expression unchanged if simp:true and matrices do not conform.
+ * 
+ * @param[expression] ex An expression that may contain c or r 
+ * @return[scalar expression] The expression with c and r replaced with matrices, or the original expression if matrices do not conform
+ */
+vec_convert(ex):= block([ex2],
+  ex2: errcatch(ev(ex,c = lambda([[ex]],transpose(matrix(ex))),r = lambda([[ex]],matrix(ex)))),
+  if emptyp(ex2) then return(ex) else return(first(ex2))
+);
+
+/**
+ * Given a row or column vector, convert it to c() or r() form.
+ * Intended to create model answers in instances where students
+ * are expected to use these convenience functions.
+ * Does not loop through an expression, will only work on vectors
+ * as individual objects. 
+ *
+ * @param[matrix] ex A vector; i.e. a 1xN or Mx1 matrix
+ * @return[expression] That vector as a c() or r() vector
+ */
+un_vec_convert(ex):= block([],
+  if col_vecp(ex) then ex: apply(c,list_matrix_entries(ex)) else
+  if row_vecp(ex) then ex: apply(r,list_matrix_entries(ex)),
+  return(ex)
+);
+
+/*******************************************************************************/
+/* A convenience function for displaying a matrix as an augmented matrix       */
+/*******************************************************************************/
+texput(aug_matrix, lambda([ex], block([M,ll,rr,m,n,A,b,simp],
+  simp:true,
+  M: apply(matrix,args(ex)),
+  ll: lmxchar,
+  if is(ll="[") then rr: "]"
+  else if is(ll="(") then rr: ")"
+  else if is(ll="") then (ll: ".", rr: ".")
+  else if is(ll="{") then (ll: "\\{", rr: "\\}")
+  else if is(ll="|") then rr: "|",
+  [m, n]: matrix_size(M),
+  A: submatrix(M,n),
+  b: col(M,n),
+  sconcat("\\left",ll,block([lmxchar],lmxchar:"",tex1(A)),"\\right|\\left.",block([lmxchar],lmxchar:"",tex1(b)),"\\right",rr)
+)));
+
+/**
+ * Converts a matrix to an aug_matrix
+ * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
+ * To convert back, use de_aug 
+ *
+ * @param[matrix] M The matrix you would like to display as an augmented matrix
+ * @return[aug_matrix] An augmented matrix
+ */
+aug(M):= apply(aug_matrix,args(M));
+
+/**
+ * Converts an aug_matrix to a matrix
+ * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
+ *
+ * @param[matrix] M The aug_matrix you would like to treat as a regular matrix
+ * @return[aug_matrix] A matrix
+ */
+de_aug(M):= apply(matrix,args(M));
+/*******************************************************************************/
+/* Predicate functions for vectors                                             */
+/*******************************************************************************/
+
+/**
+ * A predicate to determine whether an expression has been converted to matrix form.
+ * 
+ * @param[expression] ex An expression that may contain c or r
+ * @return[boolean] Does the expression contain c or r?
+ */
+vec_convertedp(ex):= block([ex_ops],
+  ex_ops: get_ops(ex),
+  if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
+);
+
+/** 
+ * Predicate for determining whether a given object is an Mx1 matrix (a column vector)
+ * Note: does not consider c a column vector. Use vec_convert before col_vecp.
+ *
+ * @param[expression] ex An object that may be a matrix
+ * @return[boolean] Is the object an Mx1 matrix?
+ */
+col_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(second(matrix_size(ex))=1))
+);
+
+/** 
+ * Predicate for determining whether a given object is a 1xN matrix (a row vector)
+ * Note: does not consider r a row vector. Use vec_convert before row_vecp.
+ *
+ * @param[expression] ex An object that may be a matrix
+ * @return[boolean] Is the object a 1xN matrix?
+ */
+row_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(first(matrix_size(ex))=1))
+);
+
+/** 
+ * Predicate for determining whether a given object is a vector
+ * Note: does not consider c or r a vector. Use vec_convert before vectorp.
+ *
+ * @param[expression] ex An object that may be a matrix
+ * @return[boolean] Is the object a 1xN or Mx1 matrix?
+ */
+vectorp(ex):= col_vecp(ex) or row_vecp(ex);
+
+/* TODO write function to convert row/col vectors in matrix form to c or r form */
+/* Should be useful for creating teacher answers */
+
+/**
+ * Predicate to determine whether a given object is a unit vector.
+ * Can handle complex vectors
+ *
+ * @param[matrix] ex A vector (Mx1 or 1xN matrix)
+ * @return[boolean] Does this vector have a 2-norm of 1?
+ */
+unit_vecp(ex):= if vectorp(ex) then is(ev(ex.conjugate(ex),simp)=1) else false;
+
+/*********************************************************************************/
+/* Functions to extract parts of matrices                                        */
+/*********************************************************************************/
+
+/**
+ * Take the upper triangular part of a matrix, leaving the remaining entries = 0
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[matrix] The same matrix with all entries below the diagonal set to 0
+ */
+triu(M):= block([imax,jmax],
+  if not(matrixp(M)) then return(M),
+  [imax, jmax]: ev(matrix_size(M),simp),
+  genmatrix(lambda ([ii, jj], if ii>jj then 0 else M[ii,jj]), imax, jmax)
+);
+
+/**
+ * Take the lower triangular part of a matrix, leaving the remaining entries = 0
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[matrix] The same matrix with all entries above the diagonal set to 0
+ */
+tril(M):= block([imax,jmax],
+  if not(matrixp(M)) then return(M),
+  [imax, jmax]: ev(matrix_size(M),simp),
+  genmatrix(lambda ([ii, jj], if ii<jj then 0 else M[ii,jj]), imax, jmax)
+);
+
+/**
+ * Take the diagonal of a matrix, leaving the remaining entries = 0
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[matrix] The same matrix with all off-diagonal entries set to 0
+ */
+diagonal(M):= block([imax,jmax],
+  if not(matrixp(M)) then return(M),
+  [imax, jmax]: ev(matrix_size(M),simp),
+  return(genmatrix(lambda([ii, jj], if is(ii=jj) then M[ii,jj] else 0), imax, jmax))
+);
+
+/**
+ * Extracts the diagonal of a matrix as a list
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[list] The diagonal entries of M as a list
+ */
+diag_entries(M):= block([],
+  if not(matrixp(M)) then return([M]),
+  return(map(lambda([ex], M[ex,ex]),ev(makelist(ii,ii,1,lmin(matrix_size(M))),simp)))
+);
+
+/* We have setelmx by default to set M[i,j]: el, and we can use M[i]: r
+   to set a row of M, but columns and diagonals require a bit more thought. 
+   To match setelmx, here are setrowmx, setcolmx, and setdiagmx. They
+   have the added advantage of allowing either a replacement list or a 
+   number that is to be repeated in the relevant part of the matrix. */
+
+/**
+ * Replace row i of matrix M with r.
+ * If r is a list or a matrix, replace the row exactly. Nothing will happen if r does not conform.
+ * If r is a number, fill row i with the value r.
+ * Companion to setelmx
+ *
+ * @param[number, list or matrix] r the replacement row (or value that will be repeated in the row)
+ * @param[integer] i the index of the row that will be replaced
+ * @param[matrix] M the matrix whose row is being replaced
+ * @return[matrix] The matrix M with row i replaced by r.
+ */
+setrowmx(r,i,M):= block([rows],
+  rows: args(copymatrix(M)),
+  if matrixp(r) then r: list_matrix_entries(r),
+  if numberp(r) then r: ev(makelist(r,ii,1,second(matrix_size(M))),simp),
+  if listp(r) then rows[i]: r,
+  errcatch(M: apply(matrix,rows)),
+  return(M)
+);
+
+/**
+ * Replace column i of matrix M with c.
+ * If c is a list or a matrix, replace the column exactly. Nothing will happen if c does not conform.
+ * If c is a number, fill row i with the value c.
+ * Companion to setelmx
+ *
+ * @param[number, list or matrix] c the replacement column (or value that will be repeated in the column)
+ * @param[integer] i the index of the column that will be replaced
+ * @param[matrix] M the matrix whose column is being replaced
+ * @return[matrix] The matrix M with column i replaced by c.
+ */
+setcolmx(c,i,M):= block([cols],
+  cols: args(copymatrix(transpose(M))),
+  if matrixp(c) then c: list_matrix_entries(c),
+  if numberp(c) then c: ev(makelist(c,ii,1,first(matrix_size(M))),simp),
+  if listp(c) then cols[i]: c,
+  errcatch(M: transpose(apply(matrix,cols))),
+  return(M)
+);
+
+/**
+ * Replace diagonal k of matrix M with L.
+ * If L is a list, replace the diagonal exactly.
+ * If L is too short to fill the diagonal, then any remaining diagonal entries are untouched
+ * If L is too long for the diagonal, then only the first l entries of L are used, where l is the length of the diagonal.
+ * If L is a number, fill the diagonal with the value L.
+ * If the optional argument k is given, then choose the kth diagonal. For example, setdiagmx(L,M,1) will adjust the values one entry above the primary diagonal.
+ * Companion to setelmx
+ *
+ * @param[number or list] L the replacement diagonal (or value that will be repeated in the diagonal)
+ * @param[matrix] M the matrix whose column is being replaced
+ * @param[integer] Optional: k the diagonal offset. 
+ * @return[matrix] The matrix M with diagonal k replaced by L.
+ */
+setdiagmx(L,M,[k]):= block([m,n,ii,jj],
+  [m, n]: matrix_size(M),
+  if emptyp(k) then k: 0 else k: first(k),
+  if not(listp(L)) then L: ev(makelist(L,ii,1,max(m,n)),simp),
+  for ii: 1 thru m do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru n do block(
+      jj: ev(jj,simp),
+      if ev(is(ii+k=jj),simp) then errcatch(M[ii,jj]: L[ev(min(ii,jj),simp)])
+    )
+  ),
+  return(M)
+);
+
+/*********************************************************************************/
+/* Predicate functions for matrices                                              */
+/*********************************************************************************/
+
+/** 
+ * Predicate to determine whether a matrix is upper triangular
+ * i.e. Is every entry below the diagonal equal to 0?
+ * Does not check whether a matrix is in row echelon form
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[boolean] Is this matrix upper triangular?
+ */
+triup(M):= block([tri,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  tri: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  if is(imax=1) then return(true),
+  for ii: 2 thru imax while tri do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru ev(min(ii-1,jmax),simp) while tri do block(
+      jj: ev(jj,simp),
+      if not(is(M[ii,jj]=0)) then tri: false
+    )
+  ),
+  return(tri)
+);
+
+/** 
+ * Predicate to determine whether a matrix is lower triangular
+ * i.e. Is every entry above the diagonal equal to 0?
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[boolean] Is this matrix lower triangular?
+ */
+trilp(M):= block([tri,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  tri: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  if is(jmax=1) then return(true),
+  for jj: 2 thru jmax while tri do block(
+    jj: ev(jj,simp),
+    for ii: 1 thru ev(min(jj-1,imax),simp) while tri do block(
+      ii: ev(ii,simp),
+      if not(is(M[ii,jj]=0)) then tri: false
+    )
+  ),
+  return(tri)
+);
+
+/** 
+ * Predicate to determine whether a matrix is diagonal
+ * i.e. Is every off-diagonal entry equal to 0?
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[boolean] Is this matrix diagonal?
+ */
+diagp(M):= block([dia,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  dia: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  for ii: 1 thru imax while dia do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru jmax while dia do block(
+      jj: ev(jj,simp),
+      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
+    )
+  ),
+  return(dia)
+);
+
+/** 
+ * Predicate to determine whether a matrix is in row echelon form
+ * i.e. Is every zero-row below all non-zero rows and does the pivot in each row appear to the right of the previous pivot?
+ * Optionally checks whether each pivot is equal to 1
+ * No RREFp function is given, as rref(M) is unique
+ *
+ * @param[matrix] M An mxn matrix
+ * @param[boolean] normalise_pivots Optional: If true is given here, then pivots are required to be equal to 1
+ * @return[boolean] Is this matrix in row echelon form?
+ */
+REFp(M,[normalise_pivots]):= block([isREF,pivot_row,m,n,jj,ii],
+  if emptyp(normalise_pivots) then normalise_pivots: false else normalise_pivots: first(normalise_pivots),
+  isREF: matrixp(M),
+  if isREF then block(
+    pivot_row: 0,
+    [m, n]: matrix_size(M),
+    for jj: 1 thru n do block(
+      jj: ev(jj,simp),
+      if is(pivot_row < m) then block(
+        if is(M[ev(pivot_row+1,simp),jj] # 0) then block(
+          pivot_row: ev(pivot_row + 1,simp),
+          if normalise_pivots and is(M[ev(pivot_row,simp),jj] # 1) then isREF: false
+        ),
+        for ii: ev(pivot_row+1,simp) thru m do block(
+          ii: ev(ii,simp),
+          if is(M[ii,jj] # 0) then isREF: false
+        )
+      )
+    )
+  ),
+  return(isREF)
+);
+
+/** 
+ * Is a given object a square matrix?
+ * i.e. Does the matrix have the same number of rows as columns?
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Is M a square matrix?
+ */
+squarep(M):= block([isSquare],
+  isSquare: false,
+  if matrixp(M) then block(
+    if is(apply("=",matrix_size(M))) then isSquare: true
+  ),
+  return(isSquare)
+);
+
+/** 
+ * Is a given object a diagonalisable matrix?
+ * i.e. Is there an invertible matrix P and diagonal matrix D such that P^^-1 . M . P = D?
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Is M a diagonalisable matrix?
+ */
+diagonalisablep(M):= if squarep(M) then ev(diagp(dispJordan(jordan(M))),simp) else false;
+
+/** 
+ * Is a given object a symmetric matrix?
+ * i.e. Is M = M^T? 
+ * NOTE: The native function symmetricp() does the same thing and more, but is currently banned.
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Is M a symmetric matrix?
+ */
+symp(M):= if squarep(M) then is(M = ev(transpose(M),simp)) else false; 
+
+/** 
+ * Is a given object an invertible matrix?
+ * i.e. Is there a matrix M^^-1 such that M^^-1 . M = M . M^^-1 = I?
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Is M an invertible matrix?
+ */
+invertiblep(M):= block([isInvertible],
+  isInvertible: false,
+  if squarep(M) then block(
+    if ev(is(determinant(M)#0),simp) then isInvertible: true
+  ),
+  return(isInvertible)
+);
+
+/** 
+ * Is a given object a matrix with orthogonal columns?
+ * i.e. for any two distinct columns v1 and v2, is v1 . v2 = 0?
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Does M have orthogonal columns?
+ */
+orthogonal_columnsp(M):= diagp(ev(transpose(M) . M,expand,simp));
+
+/** 
+ * Is a given object a matrix with orthonormal columns?
+ * i.e. Is M^T . M = I? For columns v_i and v_j, is v_i . v_i = 1 and v_i . v_j = 0?
+ * Useful when analysing QR factorisation for rectangular matrices
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Does M have orthonormal columns?
+ */
+orthonormal_columnsp(M):= if matrixp(M) then is(ev(transpose(M).M,expand,simp) = ident(second(matrix_size(M)))) else false;
+
+/** 
+ * Is a given object an orthogonal matrix?
+ * i.e. Is M^T . M = M . M^T = I?
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Is M an orthogonal matrix?
+ */
+orth_matrixp(M):= orthonormal_columnsp(M) and squarep(M);
+
+/*********************************************************************************/
+/* Functions to convert objects into standard forms                              */
+/*********************************************************************************/
+
+/* It is feasible that different institutions will prefer students to enter their answers in different ways */
+/* linearalgebra.mac prefers to work with either lists of lists (not distinguishing between column and row
+   vectors) or matrices whose columns are vectors of interest. */
+
+/**
+ * Takes collections of vectors and returns a list of lists.
+ * The vectors themselves may be different objects. Supported objects include:
+ * * 1xN or Mx1 matrices
+ * * Lists
+ * * Vectors using c or r notation
+ * * Sets, ntuples
+ * Other inert functions like sequence should work too, but 
+ * The collection may be a list, set, ntuple, span, or matrix
+ * If given a matrix, then returns the columns as a list, with each column also being a list.
+ *
+ * @param[] ex A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
+ * @return[list] A list of lists
+ */
+make_list_of_lists(ex):= block([op1],
+  op1: safe_op(ex),
+  if not(member(op1,["[","ntuple","{","span","matrix"])) then return(ex),
+  ex: vec_convert(ex),
+  if vectorp(ex) then return([list_matrix_entries(ex)]),
+  if is(op1="matrix") then return(args(transpose(ex))),
+  ex: args(ex),
+  if ev(not(some(lambda([ex2],nonscalarp(ex2)),ex)),simp) then return([ex]),
+  ex: map(lambda([ex2],if vectorp(ex2) then list_matrix_entries(ex2) else args(ex2)),ex),
+  return(ex)
+);
+
+/**
+ * Given a list of lists, return the matrix that has those sub-lists as columns.
+ * Naming convention from numpy
+ * If the sub-lists do not conform then returns the list of lists instead
+ * Note: row_stack is absent because the remaining functions that accept matrices assume that we are considering columns.
+ *
+ * @param[list] ex a list of lists. Each sub-list must be the same length
+ * @return[matrix] A matrix whose columns are the entries of ex
+ */
+column_stack(ex):= block([ex2],
+  ex2: errcatch(transpose(apply(matrix,args(ex)))),
+  if emptyp(ex2) then return(ex2) else return(first(ex2))
+);
+
+/* TODO function to convert list of lists to list of column vectors. */
+
+/*********************************************************************************/
+/* Comparison functions                                                          */
+/*********************************************************************************/
+
+/**
+ * Given a list of lists or a matrix, determine whether the list elements or columns are linearly independent.
+ * If ex is a matrix, it checks for full column rank, not row rank. To check for full rank generally, use invertiblep.
+ * 
+ * @param[list or matrix] ex Either a list of lists (use make_list_of_lists if needed) or a matrix
+ * @return[boolean] Is the collection of vectors linearly independent?
+ */
+lin_indp(ex):= block(
+  if matrixp(ex) then return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
+  else ex: column_stack(ex),
+  if matrixp(ex) then return(is(rank(ex) = ev(second(matrix_size(ex)),simp))),
+  return(false)
+);
+
+/**
+ * Given a pair of matrices, check whether they are row equivalent.
+ * i.e. can one matrix be transformed into the other with elementary row operations?
+ *
+ * @param[matrix] ex a mxn matrix
+ * @param[matrix] ta a mxn matrix
+ * @return[boolean] Are ex and ta row equivalent?
+ */
+row_equivp(ex,ta):= block(
+  if matrixp(ex) and matrixp(ta) then (
+    return(is(ev(rref(ex),simp) = ev(rref(ta),simp)))
+  )
+);
+
+/**
+ * Given a pair of matrices, check whether they are column equivalent.
+ * i.e. can one matrix be transformed into the other with elementary column operations?
+ *
+ * @param[matrix] ex a mxn matrix
+ * @param[matrix] ta a mxn matrix
+ * @return[boolean] Are ex and ta column equivalent?
+ */
+col_equivp(ex,ta):= row_equivp(transpose(ex),transpose(ta));
+
+/**
+ * Given two lists of lists, determine whether they span the same subspace.
+ * i.e. Is each element of ex linearly dependent on ta and vice versa?
+ * Note: This does not check for redundancies. To check whether two bases are equivalent, use this function in conjunction with lin_indp.
+ * 
+ * @param[list] ex A list of lists. Each sub-list must be the same length
+ * @param[list] ta A list of lists. Each sub-list must be the same length
+ * @return[boolean] Do the two lists of vectors span the same subspace?
+ */
+subspace_equivp(ex,ta):= block([ex_rref,ta_rref],
+  ex_rref: errcatch(ev(sublist(args(rref(apply(matrix,ex))),lambda([ex2],not(every(lambda([ex3],is(ex3=0)),ex2)))),simp)),
+  if emptyp(ex_rref) then return(false) else ex_rref: first(ex_rref),
+  ta_rref: errcatch(ev(sublist(args(rref(apply(matrix,ta))),lambda([ta2],not(every(lambda([ta3],is(ta3=0)),ta2)))),simp)),
+  if emptyp(ta_rref) then return(false) else ta_rref: first(ta_rref),
+  return(is(ev(ex_rref,simp)=ev(ta_rref,simp)))
+);
+
+/**
+ * Is a vector an eigenvector of a matrix? 
+ * Optionally will check if the given vector is an eigenvector corresponding to a given eigenvalue.
+ *
+ * @param[matrix] v A column vector; a mx1 matrix; the vector that is being tested
+ * @param[matrix] M A mxm matrix
+ * @param[number] L Optional: A number; the given eigenvalue.
+ * @return[boolean] Is v an eigenvector of M (optionally: that corresponds to eigenvalue L)?
+ */
+eigenvectorp(v,M,[L]):= block([],
+  if not(squarep(M)) then return(false),
+  v: vec_convert(v),
+  if row_vecp(v) then v: transpose(v)
+  else if listp(v) then v: transpose(v)
+  else if ntuplep(v) then v: transpose(args(v)),
+  if not(col_vecp(v)) then return(false),
+  if is(second(matrix_size(M))#first(matrix_size(v))) then return(false),
+  if not(emptyp(L)) then return(ev(is(M.v=first(L)*v),expand,simp)),
+  return(is(rank(ev(addcol(M.v, v),simp))=1) and is(rank(v)=1))
+);
+
+/**
+ * Is a number an eigenvalue of a matrix? 
+ * Optionally will check if the given number is an eigenvalue corresponding to a given eigenvector.
+ *
+ * @param[matrix] L A number; the value that is being tested
+ * @param[matrix] M A mxm matrix
+ * @param[number] v Optional: A mx1 matrix; the given eigenvector.
+ * @return[boolean] Is L an eigenvalue of M (optionally: that corresponds to eigenvector v)?
+ */
+eigenvaluep(L,M,[v]):= block([],
+  if not(squarep(M)) then return(false),
+  if emptyp(v) then return(is(ev(determinant(M - ident(second(matrix_size(M)))*L)=0,simp)))
+  else return(eigenvectorp(first(v),M,L))
+);
+
+/**
+ * Computes the Rayleigh quotient
+ * Defined as (Ax).x/(x.x)
+ * 
+ * @param[matrix] M a mxn matrix 
+ * @param[matrix] v a nx1 matrix
+ * @return[number] the Rayleigh quotient of M and v
+ */
+Rayleigh(M,v):= ev((conjugate(transpose(v)) . M . v) / (conjugate(transpose(v)) . v),simp);
+
+/**
+ * Given an eigenvector, retrieve the corresponding eigenvalue
+ * First checks that the given vector is an eigenvector, then computes the Rayleigh quotient. 
+ * 
+ * @param[matrix] v The eigenvector, a mx1 matrix
+ * @param[matrix] M The matrix, a mxm matrix
+ * @return[number] The eigenvalue, or false if v was not an eigenvector.
+ */
+get_eigenvalue(v,M):= block([],
+  if not(eigenvectorp(v,M)) then return(false),
+  return(Rayleigh(M,v))
+);
+
+/**
+ * Given an eigenvalue, retrieve a basis for the corresponding eigenspace
+ * Optionally will orthonormalise the eigenspace.
+ * 
+ * @param[number] L The eigenvalue, a number
+ * @param[matrix] M The matrix, a mxm matrix
+ * @param[boolean] orthonormalise Optional: if true then orthonormalise the eigenspace
+ * @return[list] A list of mx1 matrices; a basis for the eigenspace of L. Empty list if L is not an eigenvalue. 
+ */
+get_eigenvector(L,M,[orthonormalise]):= block([evals,evects,ii],
+  if emptyp(orthonormalise) then orthonormalise: false else orthonormalise: first(orthonormalise),
+  if not(squarep(M)) then return([]),
+  [evals, evects]: ev(eigenvectors(M),simp),
+  if not(member(L,first(evals))) then return([]),
+  ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+  vecs: evects[ii],
+  if orthonormalise then vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),gramschmidt(vecs)),simp)
+  else vecs: map(scale_nicely,vecs),
+  return( map(transpose,vecs) )
+);
+
+/*********************************************************************************/
+/* Some useful functions to perform routine tasks or extend existing functions   */
+/*********************************************************************************/
+
+/**
+ * Given a list of lists or a matrix, remove linearly dependent entries/columns.
+ * Intended to be used to "trim down" to a basis when redundancies exist.
+ * Works from left to right, so the first instance of redundancy is removed in each case
+ * 
+ * @param[list or matrix] ex A list of lists or a matrix
+ * @return[list or matrix] ex but with dependent entries or columns removed
+ */
+remove_dep(ex):= block([ex_op,n_max,jj,ii],
+  ex_op: "list",
+  if matrixp(ex) then block(ex: args(transpose(ex)), ex_op: "matrix"),
+  ex: ev(sublist(ex,lambda([ex2],not(zeromatrixp(matrix(ex2))))),simp),
+  if emptyp(ex) or is(length(ex)=1) then return(ex),
+  n_max: length(ex),
+  jj: 2,
+  for ii: 2 thru n_max do block(
+    ii: ev(ii,simp),
+    if not(lin_indp(firstn(ex,jj))) then ex: append(firstn(ex,ev(jj-1,simp)),lastn(ex,ev(length(ex)-jj,simp)))
+    else jj: ev(jj+1,simp),
+    if is(jj>length(ex)) then return(ex)
+  ),
+  if is(ex_op="matrix") then ex: transpose(apply(matrix,ex)),
+  return(ex)
+);
+
+/**
+ * Map significantfigures over a matrix
+ * Should this be core functionality? Surely when given a matrix the base sigfigsfun
+   or significantfigures function could do this by mapping itself over the arguments
+   and re-constructing the matrix. 
+ * Explicitly only runs over a matrix, list, or number
+ * 
+ * @param[matrix] ex A matrix of numbers (also accepts lists or numbers)
+ * @param[positive integer] n The number of significant figures desired.
+ */
+sf_map(ex,n):= block([rows],
+  if matrixp(ex) then block(
+    return(apply(matrix,map(lambda([ex2],significantfigures(ex2,n)),args(ex))))
+  ) else if listp(ex) or ev(numberp(ex),simp) then return(significantfigures(ex,n))
+  else return(ex)
+);
+
+/**
+ * Construct a diagonal matrix of size m by n with diagonal given as a list
+ * Similar to native function diag which builds a block diagonal matrix, but instead
+   is intended for numerical diagonals of rectangular matrices.
+ * Intended use case is to extend a reduced SVD into a full SVD
+ * If the whole diagonal does not fit in an mxn matrix, then it truncates d.
+ * If d is not long enough to fill an mxn matrix, remaining diagonal entries are set to 0.
+ *
+ * @param[list] d A list of numbers to go on the diagonal
+ * @param[positive integer] m The number of rows in the desired matrix
+ * @param[positive integer] n The number of columns in the desired matrix
+ * @return[matrix] A mxn matrix with d as the diagonal
+ */
+diagmatrix_like(d, m, n):= block([M,ii],
+  M: zeromatrix(m, n),
+  for ii: 1 thru ev(min(m, n, length(d)),simp) do block(
+    ii: ev(ii,simp),
+    M[ii,ii]: d[ii]
+  ),
+  return(M)
+);
+
+/**
+ * Returns the 2-norm of a matrix as a float
+ * i.e. returns the largest singular value as a float
+ * Note: I don't know if this has a good use case in STACK. I would happily remove this if this feels out of place, as I don't 
+   anticipate using this in my course regularly.
+ * 
+ * @param[matrix] M the matrix whose norm is desired
+ * @return[float] The 2-norm of M, or und if M is not a matrix.
+ */
+mat_norm2(M):= block([svs],
+  if matrixp(M) then block(
+    svs: ev(float(map(lambda([ex],sqrt(cabs(ex))),first(eigenvalues(transpose(M).M)))),simp),
+    return(ev(lmax(svs),simp))
+  ) else return(und)
+);
+
+/**
+ * Returns the condition number of a matrix based on the 2-norm as a float
+ * i.e. returns the ratio of the largest singular value to the smallest singular value as a float
+ * If M is singular, then und is returned instead.
+ * Note: I don't know if this has a good use case in STACK. I would happily remove this if this feels out of place, as I don't 
+   anticipate using this in my course regularly.
+ * 
+ * @param[matrix] M the matrix whose condition number is desired
+ * @return[float] The 2-condition number of M, or und if M is not an invertible matrix.
+ */
+mat_cond2(M):= block([svs,cond2],
+  cond2: und,
+  if invertiblep(M) then block(
+    svs: ev(float(map(lambda([ex],sqrt(cabs(ex))),first(eigenvalues(transpose(M).M)))),simp),
+    cond2: ev(lmax(svs)/lmin(svs),simp)
+  ),
+  return(cond2)
+);
+
+/** 
+ * Solve the matrix equation Ax = b given matrix A and column vector (or list) b.
+ * Optionally will find a least squares solution
+ * Always returns a general solution if one exists, even in the least squares case
+ * If a single solution is required, use pseudoinverse(A) . b instead.
+ * 
+ * @param[matrix] A An mxn matrix
+ * @param[matrix] b A mx1 matrix (or a list with m entries)
+ * @param[boolean] lstsq Optional: if given true then a least squares solution will be obtained. If false or omitted, only exact solutions obtained.
+ * @return[matrix] The general solution to Ax = b. If no solution exists and lstsq is not true, then matrix([]) is returned.
+ */
+mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol],
+  if emptyp(lstsq) then lstsq: false else lstsq:first(lstsq),
+  if listp(b) then b: transpose(b),
+  [m, n]: matrix_size(A),
+  if ev(is(first(matrix_size(b))#m),simp) then return(matrix([])),
+  vars: rest(stack_var_makelist(tmp,n)),
+  if lstsq then AT: transpose(A) else AT: ident(m),
+  eqns: list_matrix_entries(ev((AT . A) . transpose(vars) - (AT . b),simp)),
+  sol: map(rhs,linsolve(eqns,vars)),
+  if emptyp(sol) then return(matrix(sol)) else return(transpose(matrix(sol)))
+);
+
+/** 
+ * Given a list of lists or a matrix, make a basis for R^m where m = length of each vector. 
+ * If you don't want to expand to R^m, use remove_dep instead (it is called here too)
+ * Optionally will make this basis orthonormal, mostly useful when the existing basis is orthogonal but not R^m
+ * Arguably "basisify" is a poor name - suggestions welcome before published
+ *
+ * @param[matrix or list] M A matrix or list of lists
+ * @param[boolean] orth Optional: if true then returned basis will be orthonormal. Note that this may remove some basis vectors if they are not already orthogonal.
+ * @return[matrix or list] A basis for R^m where m is the length of each vector in M
+ */
+
+basisify(M,[orth]):= block([ex_op,m,n,vecs,new_vecs,ii],
+  if emptyp(orth) then orth: false else orth: first(orth),
+  ex_op: "matrix",
+  if listp(M) then block(M: column_stack(M), ex_op: "list"),
+  if not(lin_indp(M)) then M: remove_dep(M),
+  [m, n]: matrix_size(M),
+  vecs: args(transpose(M)),
+  new_vecs: args(ident(m)),
+  for ii: 1 thru m do block(
+    ii: ev(ii,simp),
+    if lin_indp(append(vecs,[new_vecs[ii]])) then vecs: append(vecs,[new_vecs[ii]])
+  ),
+  if orth then block(
+    vecs: ev(gramschmidt(apply(matrix,vecs)),simp),
+    vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),vecs),simp)
+  ),
+  if is(ex_op="matrix") then return(transpose(apply(matrix,vecs))) else return(vecs)
+);
+
+/**
+ * Maps the gcd (greatest common divisor) function across a list iteratively
+ * 
+ * @param[list] ex A list of numbers
+ * @return[number] The greatest common divisor of all elements in ex
+ */
+lgcd(ex):= block([],
+  return(lreduce(lambda([ex1,ex2],gcd(ex1,ex2)),ex))
+);
+
+/**
+ * Given a vector (or list) return the shortest possible parallel vector with integer entries.
+ * Also multiplies by -1 if all entries are negative
+ * Very nice for eigenvector problems.
+ * 
+ * @param[matrix or list] v a list or a Mx1 or 1xN matrix
+ * @return[matrix or list] v, but scaled by a constant such that all entries are the smallest possible integers
+ */
+scale_nicely(v):= block([v_op],
+  v_op: "list",
+  if vectorp(v) then (v_op: "matrix", v: list_matrix_entries(v)),
+  tmp: ev(lgcd(v),simp),
+  if ev(is(tmp#0),simp) then v: ev(v/tmp,simp),
+  if ev(every(lambda([ex],is(signum(ex)=-1)),v),simp) then v: ev(-v,simp),
+  if is(v_op="matrix") then return(transpose(v)) else return(v)
+);
+
+/* We have columnspace and nullspace functions already. The author keeps assuming that 
+   rowspace must exist too, but it doesn't. The nullTspace function was added for 
+   completeness' sake, and finds the nullspace of M^T. We could call it the cokernel
+   function, but since maxima uses nullspace rather than kernel this feels inappropriate. */
+/**
+ * Returns the row space of a matrix as a collection of column vectors. 
+ * Output is the inert function span, the same as columnspace gives.
+ *
+ * @param[matrix] M a matrix
+ * @return[span] A span of column vectors
+ */
+rowspace(M):= ev(columnspace(transpose(M)),simp);
+
+/**
+ * Returns the cokernel of a matrix (the null space of its transpose) as a collection of column vectors. 
+ * Output is the inert function span, the same as nullspace gives.
+ *
+ * @param[matrix] M a matrix
+ * @return[span] A span of column vectors
+ */
+nullTspace(M):= ev(nullspace(transpose(M)),simp);
+
+/* We have rowswap, rowop, columnswap, columnop, but no scaling versions. 
+   I do acknowledge that you can recreate these with rowop, but this is 
+   non-intuitive, so it's nice to have these functions lying around. */
+/**
+ * Scales row i of matrix A by alpha.
+ * A companion to rowop and rowswap.
+ * R_i <- alpha*R_i
+ *
+ * @param[matrix] M The matrix whose row you are scaling
+ * @param[integer] i The row you are scaling
+ * @param[number] alpha The amount you are scaling the row.
+ * @return[matrix] R_i <- alpha*R_i
+ */
+rowscale(M,i,alpha):= block([],
+  M[i]: map(lambda([ex],alpha*ex),M[i]),
+  return(M)
+);
+
+/**
+ * Scales column i of matrix A by alpha.
+ * A companion to columnop and columnswap.
+ * C_i <- alpha*C_i
+ *
+ * @param[matrix] M The matrix whose column you are scaling
+ * @param[integer] i The column you are scaling
+ * @param[number] alpha The amount you are scaling the column.
+ * @return[matrix] C_i <- alpha*C_i
+ */
+columnscale(M,i,alpha):= block([MT],
+  MT: transpose(M),
+  MT[i]: map(lambda([ex],alpha*ex),MT[i]),
+  return(transpose(MT))
+);
+
+/**
+ * Compute the algebraic multiplicity of an eigenvalue. 
+ * Returns 0 if L is not an eigenvalue of M.
+ *
+ * @param[matrix] M a square matrix
+ * @param[number] L an eigenvalue of M
+ * @return[non-negative integer] the algebraic multiplicity of L in M. 0 if L is not an eigenvalue of M
+ */
+alg_mult(M,L):= block([evals,ii],
+  if squarep(M) then block(
+    evals: ev(eigenvalues(M),simp),
+    if not(member(L,first(evals))) then return(0),
+    ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+    return(second(evals)[ii])
+  )
+);
+
+/**
+ * Compute the geometric multiplicity of an eigenvalue. 
+ * Returns 0 if L is not an eigenvalue of M.
+ *
+ * @param[matrix] M a square matrix
+ * @param[number] L an eigenvalue of M
+ * @return[non-negative integer] the geometric multiplicity of L in M. 0 if L is not an eigenvalue of M
+ */
+geo_mult(M,L):= block([evals,evects,ii],
+  if squarep(M) then block(
+    [evals, evects]: ev(eigenvectors(M),simp),
+    if not(member(L,first(evals))) then return(0),
+    ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+    return(length(evects[ii]))
+  )
+);
+
+/**
+ * Find the matrix that projects orthogonally onto the column space of M
+ * Computed by removing linearly dependent columns and then using M.(M^T.M)^^-1.M^T
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[matrix] A symmetric, idempotent mxm matrix that projects mx1 vectors into the columnspace of M
+ */
+projection_matrix(M):= block([reduced_M],
+  if ev(zeromatrixp(M),simp) then return(0),
+  reduced_M: mat_unblocker(matrix(args(ev(columnspace(M),simp)))),
+  return(ev(reduced_M . invert(mat_unblocker(matrix([transpose(reduced_M) . reduced_M]))) . transpose(reduced_M),simp))
+);
+
+/*********************************************************************************/
+/* Processing vector parametric equations for lines, planes, etc.                */
+/*********************************************************************************/
+
+/**
+ * Is a given algebraic expression a linear combination of column vectors with a linear offset?
+ * The use is somewhat limited; it would be nice to have support for other vector input types like lists or ntuples.
+ * e.g. c(1,2,3) + t*c(2,3,4) + s*c(1,0,1)
+ * 
+ * @param[expression] ex A vector parametric equation using column vectors
+ * @return[boolean] Is the given expression in an expected form?
+ */
+linear_combinationp(ex):= block([vars,cm,dir_vecs,cons_vecs],
+  ex: ev(vec_convert(ex),expand,simp),
+  if not(matrixp(ex)) then return(false),
+  vars: listofvars(ex),
+  cm: coefmatrix(flatten(args(ex)), vars),
+  dir_vecs: maplist(lambda([ex2], col(cm,ex2)), ev(makelist(ii,ii,1,length(vars)),simp)),
+  cons_vec: ev(ex - apply("+", zip_with("*", vars, dir_vecs)),simp),
+  return(every(constantp,list_matrix_entries(cons_vec)))
+);
+
+/**
+ * Given a vector parametric equation, extract the linear offset, direction vectors, and parameters
+ * Does not explicitly check for non-linearity in its parameters.
+ * Any non-linear terms will appear in the linear offset term.
+ * Using hipow() to filter out non-linear terms only works for polynomial non-linearities, so it was rejected.
+ * Some notes:
+ * * every(constantp,list_matrix_entries(cons_vec)) can be used to detect said non-linearities. This is what linear_combinationp does.
+ * * If any direction vectors are entirely zero, check the cons_vec term for non-linearities. 
+ * 
+ * @param[expression] ex A vector parametric equation using column vectors
+ * @return[list] A list with three elements. The first is a column vector containing the linear offset, the second is a list containing each direction vector in order, the third is a list of parameters.
+ */
+vector_parametric_parts(ex):= block([vars,cm,dir_vecs,cons_vecs],
+  ex: ev(vec_convert(ex),expand,simp),
+  if not(matrixp(ex)) then return([]),
+  vars: listofvars(ex),
+  cm: coefmatrix(flatten(args(ex)), vars),
+  dir_vecs: maplist(lambda([ex2], col(cm,ex2)), ev(makelist(ii,ii,1,length(vars)),simp)),
+  cons_vec: ev(ex - apply("+", zip_with("*", vars, dir_vecs)),simp),
+  /*if not(every(constantp,list_matrix_entries(cons_vec))) then return([]),*/
+  return([cons_vec,dir_vecs,vars])
+);
+
+/**
+ * Given the output of vector_parametric_parts, produce a string of TeX output that formats the answer in the following "standard" form:
+ * r0 + t*d1 + s*d2 + ...
+ * where r0 is a vector of constants; t and s (etc) are parameters; d1 and d2 (etc) are direction vectors.
+ *
+ * @param[list] parts A list with three elements (see vector_parametric_parts) [mx1 matrix of constants, a list of mx1 matrices of constants, a list of variable names]
+ * @return[string] TeX output of a vector parametric equation in a "standard" form.
+ */
+vector_parametric_display(parts):= block([simp:false,cons_vec,dir_vecs,vars],
+  [cons_vec,dir_vecs,vars]: parts,
+  return(sconcat(tex1(cons_vec),"+",tex1(apply("+", zip_with("*", vars, dir_vecs)))))
+);
+
+/**
+ * Is a given point in a given affine subspace (e.g. a line, plane, etc)?
+ * Intended for use with vector_parametric_parts function
+ * 
+ * @param[matrix] p The point of interest
+ * @param[list] parts The output of vector_parametric_parts. This is a three-element list of the form [constant_vector, [list of direction vectors], [list of parameters]]. All vectors should be mx1 matrices. The third element can be omitted if building the list manually.
+ * @return[boolean] Is p in the affine subspace?
+ */
+point_in_affine_spacep(p,parts):= block([simp:true,cons_vec,dir_vecs,vars,eqns,soln],
+  cons_vec: first(parts),
+  dir_vecs: second(parts),
+  if is(length(parts)>2) then vars: third(parts) else vars: rest(stack_var_makelist(tmp,length(dir_vecs))),
+  errcatch(
+    eqns: list_matrix_entries(cons_vec - p + apply("+", zip_with("*", vars, dir_vecs))),
+    soln: linsolve(eqns,vars)
+  ), 
+  if listp(soln) then if is(length(soln)>0) then return(true) else return(false)
+);
+
+/**
+ * Is a given vector in a given subspace?
+ * If v is a zero vector, returns false by default as the intended use case is determining whether a given DIRECTION vector is in a subspace.
+ * 
+ * @param[matrix] v The vector of interest
+ * @param[list] dir_vecs A list of mx1 matrices that span the subspace. Does not need to be a basis.
+ * @param[boolean] allow_zero Optional: If given true, then the zero vector will return true, otherwise zero vectors will return false
+ * @return[boolean] Is v in the subspace?
+ */
+vector_in_spacep(v,dir_vecs,[allow_zero]):= block([simp:true,is_dep:false],
+  if emptyp(allow_zero) then allow_zero: false else allow_zero: first(allow_zero),
+  if zeromatrixp(v) then return(allow_zero),
+  errcatch(
+    is_dep: is(rank(mat_unblocker(matrix(dir_vecs)))=rank(mat_unblocker(matrix(append(dir_vecs,[v])))))
+  ),
+  return(is_dep)
+); 
+
+/*********************************************************************************/
+/* Matrix factorisations                                                         */
+/*********************************************************************************/
+
+/* Overall notes: 
+   - These are in no way efficient functions, but seem to be fine for small 
+     matrices with carefully deployed variants. 
+   - I'm not convinced these add much to the package, but it felt wrong to not
+     include them in a linear algebra package.
+   - In most cases, teachers should begin with the factorisation, compute the 
+     original matrix, and ask students to work backwards to your KNOWN answer.
+*/ 
+
+/**
+ * M = QR
+ * M must have full column rank
+ * Q has orthonormal columns that span the columnspace of M
+ * R is upper triangular
+ *
+ * @param[matrix] M a matrix with full column rank
+ */
+QR(M):= block([cols,Q,R],
+  if is(rank(M)#second(matrix_size(M))) then return([]),
+  cols: ev(gramschmidt(transpose(M)),simp),
+  cols: ev(map(lambda([ex],ex/sqrt(ex.ex)),cols),simp),
+  Q: transpose(apply(matrix,cols)),
+  R: ev(transpose(Q).M,simp),
+  return([Q,R])
+);
+
+/**
+ * M = P.J.P^^-1
+ * J is in Jordan normal form
+ * P is invertible and made up of generalised eigenvectors of M
+ * This really just calls existing functions in one go and avoids annoying errors.
+ *
+ * @param[matrix] M a square matrix
+ * @return[list] A list of two matrices: [P, J] such that J is in Jordan form and M = P . J . P^^-1. Returns empty list if M is not a square matrix
+ */
+get_Jordan_form(M):= block([jordan_info,J,P],
+  if not(squarep(M)) then return([]),
+  jordan_info: ev(jordan(M),simp),
+  J: ev(dispJordan(jordan_info),simp),
+  P: ev(ModeMatrix(M,jordan_info),simp),
+  return([P,J])
+);
+
+/**
+ * M = P.D.P^^-1
+ * M must be diagonalisable (i.e. all eigenvalues must have matching geometric and algebraic multiplicities)
+ * P is invertible and contains the eigenvectors of M
+ * D is diagonal and contains the eigenvalues of M
+ * If M is symmetric it will automatically orthogonally diagonalise
+ *
+ * @param[matrix] M a diagonalisable matrix
+ * @return[list] A list of two matrices: [P, D] such that D is diagonal and M = P . D . P^^-1. Returns empty list if M is not diagonalisable
+ */
+diagonalise(M):= block([P,D],
+  if not(squarep(M)) then return([]),
+  [P, D]: get_Jordan_form(M),
+  if symp(M) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
+  if diagp(D) then return([P,D]) else return([])
+);
+
+/**
+ * Reduced SVD
+ * M = U.S.V^T with M as a rank r mxn matrix
+ * S is an rxr invertible diagonal matrix containing the sorted non-zero singular values of M
+ * V and U have orthonormal columns, with V nxr and U mxr
+ *
+ * @param[matrix] An mxn matrix
+ * @return[list] A list of 3 matrices [U,S,VT] such that U has orthonormal columns, VT has orthonormal rows, S is invertible diagonal, and M = U.S.VT
+ */
+SVD_red(M):= block([MTM,V,S2,components,n,S,U,ii],
+  if ev(zeromatrixp(M),simp) then return([matrix([]),matrix([]),matrix([])]),
+  MTM: ev(transpose(M).M,simp),
+  if atom(MTM) then MTM: matrix([MTM]),
+  [V, S2]: diagonalise(MTM),
+  /* TODO: does this work? */
+  V: first(QR(V)),
+  components: ev(makelist([S2[ii,ii],col(V,ii)],ii,1,second(matrix_size(MTM))),simp),
+  components: ev(reverse(sort(components)),simp),
+  components: ev(sublist(components,lambda([ex],is(first(ex)#0))),simp),
+  n: length(components),
+  S: zeromatrix(n,n),
+  S[1,1]: ev(sqrt(first(first(components))),simp),
+  V: second(first(components)),
+  U: ev(M.V/S[1,1],simp),
+  if atom(U) then U: matrix([U]),
+  if is(n>1) then block(
+    for ii: 2 thru n do block(
+      ii: ev(ii,simp),
+      S[ii,ii]: ev(sqrt(first(components[ii])),simp),
+      V: addcol(V,second(components[ii])),
+      U: addcol(U,ev(M.second(components[ii])/S[ii,ii],simp))
+    )
+  ),
+  return([U,S,transpose(V)])
+);
+
+/**
+ * M^+ = V.S^+.U^T 
+ * Moore-penrose pseudoinverse.
+ * I'm convinced this routine exists somewhere in a package, because I've used it before in other maxima terminals, but I was unable to find it.
+ * Most commonly used to find minimal least squares solution to Ax = b using A^+ . b
+ *
+ * @param[matrix] M
+ * @return[matrix] The moore-penrose pseudoinverse of M
+ */
+pinv(M):= block([U,S,VT],
+  if ev(zeromatrixp(M),simp) then return(M),
+  [U, S, VT]: SVD_red(M),
+  return(ev(transpose(VT) . invert(S) . transpose(U),simp))
+);
+
+/**
+ * Full SVD
+ * M = U.S.V^T with M as a rank r mxn matrix
+ * S is an mxn diagonal matrix containing the sorted singular values of M
+ * V and U are orthogonal matrices, with V nxn and U mxm
+ *
+ * @param[matrix] An mxn matrix
+ * @return[list] A list of 3 matrices [U,S,VT] such that U is mxm orthogonal, VT is nxn orthogonal, S is mxn diagonal, and M = U.S.VT
+ */
+SVD(M):= block([U,S,VT],
+  [U, S, VT]: SVD_red(M),
+  if is(U=matrix([])) then U: ident(first(matrix_size(M))) else U: basisify(U,true),
+  if is(VT=matrix([])) then VT: ident(second(matrix_size(M))) else VT: transpose(basisify(transpose(VT),true)),
+  S: diagmatrix_like(diag_entries(S),first(matrix_size(M)),second(matrix_size(M))),
+  return([U,S,VT])
+);
+
+/*********************************************************************************/
+/* Automatically formats a system of linear equations                            */
+/*********************************************************************************/
+
+/**
+ * Format expressions so that they can be printed as coefficients by wrapping sums
+ * and expressions with unary minus into brackets.
+ */
+format_as_coeff(expr):= block([ops, repr],
+  ops: errcatch(op(expr)),
+  repr: if emptyp(ops) or not elementp(first(ops), {"+", "-"}) then expr else simplode(["\\left(", tex1(expr), "\\right)"]),
+  return(repr)
+);
+
+/** 
+ * Given a list of equations and a list of variables, produce TeX output that displays them as a system of equations.
+ * Everything will be appropriately vertically aligned with leading ones and zeros removed appropriately.
+ *
+ * @param[list] eqns A list of linear equations. Constants should be on the right hand side.
+ * @param[list] vars A list of variables in the order that they should appear.
+ * @return[string] TeX output for this system of equations
+ */
+disp_eqns(eqns,vars):= block([is_neg,s_in,s_first,format_as_positive_coeff,one_zero_remover,delete_if_zero,m,n,p,pivot,new_pivot,ii,jj,v,a],
+  is_neg(ex) := ev(is(signum(ex)=-1),simp),  /* return true if ex is numerical and negative, false otherwise */
+  s_in(ex):= if ev(is_neg(ex),simp) then "-" else "+", /* returns the sign of a coefficient as a string, assuming 0 is positive */
+  s_first(ex):= if ev(is_neg(ex),simp) then "-" else "", /* Altered version of above that doesn't return + for leading coefficient */
+  format_as_positive_coeff(ex) := if is_neg(ex) then ev(abs(ex),simp) else format_as_coeff(ev(ex,simp)),
+  one_zero_remover(ex):= if ev(is(ex=1) or is(ex=0) or is(ex=-1),simp) then "" else format_as_positive_coeff(ev(ex,simp)), /* scrubs out unwanted ones and zeros */
+  delete_if_zero(ex,var):= if is(ex=0) then "" else var, /* returns nothing if the coefficient is zero, otherwise returns the coefficient */
+  n: length(eqns), /* n = number of equations */
+  m: length(vars), /* m = number of variables */
+  p: ["\\begin{array}"], /* begin the LaTeX array that will house the system of equations */
+  p: append(p,[" {r",simplode(ev(makelist("cr",ii,1,m),simp)),"}"]), /* define the column alignments */
+  for ii: 1 thru n do block(
+    ii: ev(ii,simp),
+    pivot: false, /* each row will have a pivot, assume false until we find it */
+    new_pivot: false,
+    v: vars[1], /* v is the variable we are looking at in this column */
+    a: ev(coeff(lhs(eqns[ii]),v),simp), /* find coefficient of v */
+    if is(a#0) and not(pivot) then pivot: true, /* If the coefficient is non-zero, we have found our pivot! */
+    if pivot then p: append(p, [simplode([s_first(a),one_zero_remover(a),tex1(delete_if_zero(a,v))])]), /* If this is a pivot, display normally, otherwise do nothing */
+    for jj: 2 thru m do block(
+      jj: ev(jj,simp),
+      v: vars[jj],
+      a: ev(coeff(lhs(eqns[ii]),v),simp),
+      if is(a#0) and not(pivot) then new_pivot: true,
+      if is(a#0) then p: append(p,[simplode(["& ", if pivot then s_in(a) else ""," & ",if new_pivot then s_first(a) else "",one_zero_remover(a),tex1(delete_if_zero(a,v))])]) else p: append(p,["& & "]),
+      if new_pivot then [pivot, new_pivot]: [true, false]
+    ),
+    if is(fullratsimp(lhs(eqns[ii]))=0) then p: append(p, ["0"]),  /* Display "0=0" properly */
+    p: append(p,[simplode(["& = &",tex1(rhs(eqns[ii]))])]),
+    if is(ii#n) then p: append(p,["\\\\"])
+  ),
+  p: append(p,["\\end{array}"]),
+  return(simplode(p))
+);
+
+/** 
+ * Given a matrix, right-hand side vector, and a list of variables, produce TeX output that displays them as a system of equations.
+ * Everything will be appropriately vertically aligned with leading ones and zeros removed appropriately.
+ *
+ * @param[matrix] A The coefficient matrix. 
+ * @param[matrix] b The right hand side vector.
+ * @param[list] vars A list of variables in the order that they should appear.
+ * @return[string] TeX output for this system of equations
+ */
+mat_disp_eqns(A,b,vars):= block([],
+  eqns: ev(map("=",list_matrix_entries(A . transpose(vars)),list_matrix_entries(b)),simp),
+  return(disp_eqns(eqns,vars))
+);

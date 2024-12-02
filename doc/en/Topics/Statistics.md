@@ -281,7 +281,6 @@ STACK may simplify when not appropriate for statistics. For instance, while \(\s
 It is worth being careful with using `i` as a sum index. Maxima may interpret this as the imaginary number `i`.  
 
 
-todo: sample var default in r, pop default in maxima
 
 ## Example 
 

@@ -1,22 +1,23 @@
 # Statistics in STACK
 
-STACK was not designed with Statistics in mind. To assess statistics, we can of course use the algebraic tools, and standard support for [proofs/derivation](../Proof). However this is not the main concern in statistics education. So what can we do?
+STACK was not designed with Statistics in mind. To assess statistics, we can use the algebraic tools, and standard support for [proofs/derivation](Proof\index.md). However this is not the main concern in statistics education. This is intended as a guide to writing Statistics questions in STACK.
 ## Assessment approaches
 
 ### Code
 
-Another common assessment type in Statistics, is checking students' confidence in \(R\). It may be tempting to do this by asking students to input a string, but this is very hard to assess due to different interpretations of what is required, and different variable names. 
+Most statistics courses use programming in R or python. It may be tempting to assess code snippets by asking students to input a string, but this is very hard to assess due to different interpretations of what is required, and different variable names. 
 
-If you wish to assess code using a moodle quiz, this can be done using the [Coderunner question type](https://docs.moodle.org/405/en/CodeRunner_question_type). This question type allows students to write code which is assessed on its effectiveness on specified examples.
+If you wish to assess code using a Moodle quiz, this can be done using the [Coderunner question type](https://docs.moodle.org/405/en/CodeRunner_question_type). This question type allows students to write code which is assessed on its effectiveness on specified examples.
 
 ### Numerics
-However, we can assess the _results_ of \(R\) usage using STACK. Most teachers using STACK make use of randomisation, but this relies on Maxima's ability to calculate the correct answer. Maxima supports most short \(R\) functions. This section is intended to aid the translation of questions relying on commands in the statistical computing software \(R\) into STACK questions using Maxima. You do not need an in depth knowledge of statistics to use this.  
+However, we can assess the _results_ of statistical annalysis (such as in \(R\)). 
 
 
-#### R to Maxima
 
 
-Firstly, it is useful to know the translations for common R functions.
+Most teachers using STACK make use of randomisation, but this relies on Maxima's ability to calculate the correct answer. This section is intended to aid the translation of questions relying on commands in the statistical computing software \(R\) into STACK questions using Maxima. You do not need an in depth knowledge of statistics to use this.  
+
+#### Distribution functions
 
 STACK loads the "distrib" package from maxima by default. Check that your server in the plugin 'STACK' settings has `distrib` in the box `Load optional Maxima libraries`.
 
@@ -26,10 +27,7 @@ Mostly, it is simple to figure out the format of the maxima equivalent, however 
 
 - For the function r* in \(R\), or random* in Maxima, the order of the inputs is different. 
 - Maxima and R have different default settings for the Gamma distribution. Maxima uses the shape and scale parameters, while R uses the shape and rate parameters. As such, be careful to translate.
-- R and maxima have different default settings for Variance (and by extension, standard deviation). `var(x)` in R will calculate the sample variance while maxima calculates the population variance. In maxima, `var1(x)` would be the equivalent to `var(x)` in R.
 - Data is expressed in a list in Maxima, thus `c(1,2,3)` translates to `[1,2,3]`.
-- In R, if no mean and standard deviation is provided, mean = 0 and standard deviation = 1. 
-
 
 
 <style>
@@ -138,7 +136,7 @@ table, th, td {
 <br>
 <br>
 
-From this, we can generally estimate what the translation will be, however let us consider a full list of distributions, including the inputs they take. **The <code>random_</code> version of these will of course be reversed.** 
+From this, we can generally estimate what the translation will be, however let us consider a full list of distributions, including the inputs they take. **The <code>random_</code> version of these will be reversed.** 
 
 <div class="divTable">
 <div class="divTableBody">
@@ -217,10 +215,14 @@ From this, we can generally estimate what the translation will be, however let u
 </div>
 </div>
 
-
+<br>
 For detailed informaion on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). This also provides information on calculating skewness and kurtosis.
 
 ##### Mean variance and standard deviation
+
+###### Key points 
+- R and maxima have different default settings for Variance (and by extension, standard deviation). `var(x)` in R will calculate the sample variance while maxima calculates the population variance. In maxima, `var1(x)` would be the equivalent to `var(x)` in R.
+- In R, if no mean and standard deviation is provided, mean = 0 and standard deviation = 1. 
 <div class="divTable">
 <div class="divTableBody">
 <div class="divTableRow">

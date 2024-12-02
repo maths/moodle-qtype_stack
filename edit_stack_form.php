@@ -42,6 +42,10 @@ class qtype_stack_edit_form extends question_edit_form {
     const DEFAULT_QUESTION_TEXT = '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
+    /** @var string the default variables for a new question. */
+    const DEFAULT_QUESTION_VARIABLES = 'ta:?;';
+    /** @var string the default variable name for the teacher's answer. */
+    const DEFAULT_TEACHER_ANSWER = 'ta';
 
     /** @var options the STACK configuration settings. */
     protected $stackconfig = null;
@@ -214,7 +218,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
+        /* Check if we have a new question. */
         if (isset($this->question->id)) {
+            //var_dump($this->question);die();
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
@@ -225,6 +231,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
         } else {
+            // Add in default question variables etc.
+            $this->question->questionvariables = self::DEFAULT_QUESTION_VARIABLES;
+
             $out = stack_string('stack_library');
             $liburlparams = [];
             if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
@@ -461,6 +470,11 @@ class qtype_stack_edit_form extends question_edit_form {
         // that stops the input sections collapsing by default. Instead, we enforce
         // that it is non-blank in the server-side validation.
 
+        // Set a default for the new question.
+        if ($inputname === 'ans1') {
+            $mform->setDefault($inputname . 'modelans', self::DEFAULT_TEACHER_ANSWER);
+        }
+
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), ['size' => 3]);
         $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
@@ -632,6 +646,12 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'tans[' . $nodekey . ']',
                 stack_string('tans'), ['size' => 15]);
+
+        // Set a default for the new question.
+        if ($prtname === 'prt1' && $nodekey === 0) {
+            $mform->setDefault($prtname . 'sans[' . $nodekey . ']', 'ans1');
+            $mform->setDefault($prtname . 'tans[' . $nodekey . ']', self::DEFAULT_TEACHER_ANSWER);
+        }
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'testoptions[' . $nodekey . ']',
                 stack_string('testoptions'), ['size' => 5]);

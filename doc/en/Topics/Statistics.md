@@ -260,21 +260,20 @@ For detailed informaion on this see the [distrib package documentation](https://
 </div>
 
 #### Useful other functions
-<ul>
-<li><code>binomial(n,k)</code> := \(\frac{n!}{k!(n-k)!}\)</li>
-<li><code>makelist(f(x),x,a,b)</code>:= list of f(x) from a to b.
-</ul>
-Variatations of make list are detailed in the maxima documention for lists.
+
+- <code>binomial(n,k)</code> := \( \frac{n!}{k!(n-k)!} \)
+- <code>makelist(f(x),x,a,b)</code>:= list of f(x) from a to b.
+
+Variatations of make list are detailed in the [Maxima documentation for lists](https://maxima.sourceforge.io/docs/manual/maxima_21.html).
 
 
 
 
 ## Presenting information
-In statistics education, we may want to display R code or data. It can be tempting to take a screenshot and upload this, but it is better to use the `<pre>` environment to print this code. Alternatively, you can upload a file of data using the moodle link feature or [serving out data](..\Authoring\Serving_out_data.md).
+In statistics education, we may want to display R code or data. It can be tempting to take a screenshot and upload this, but it is better to use the `<pre>` environment to display this code as formatted in a code editor. Alternatively, you can upload a file of data using the Moodle link feature or [serving out data](..\Authoring\Serving_out_data.md).
 
 
-
-May be difficult for students to input some statistical notation so try to keep things simple or use an input type other than algebraic expression. STACK uses `\var<LETTER>{}` for greek letters, as such it is logical to use these versions in your questions, to ensure the validation a student view matches the question. 
+It may be difficult for students to input some statistical notation so try to keep things simple or use an input type other than algebraic expression. STACK uses `\var<LETTER>{}` for greek letters, as such it is logical to use these versions in your questions, to ensure the validation a student view matches the question. 
 ## General tips
 
 STACK may simplify when not appropriate for statistics. For instance, while \(\sigma^2\) is in fact the standard deviation squared, it is often not desired to simplify this in an expression. Consider this when writing algebraic questions or using question variables with `simp:true` on.
@@ -286,7 +285,7 @@ todo: sample var default in r, pop default in maxima
 
 ## Example 
 
-In our example, the student is asked find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](..\Authoring\Serving_out_data.md).
+In this example, the student is asked find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](..\Authoring\Serving_out_data.md).
 ### Question variables 
 
 

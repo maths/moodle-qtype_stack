@@ -46,6 +46,8 @@ class qtype_stack_edit_form extends question_edit_form {
     const DEFAULT_QUESTION_VARIABLES = 'ta:?;';
     /** @var string the default variable name for the teacher's answer. */
     const DEFAULT_TEACHER_ANSWER = 'ta';
+    /** @var string the default input name. */
+    const DEFAULT_INPUT = 'ans1';
 
     /** @var options the STACK configuration settings. */
     protected $stackconfig = null;
@@ -471,7 +473,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // that it is non-blank in the server-side validation.
 
         // Set a default for the new question.
-        if ($inputname === 'ans1') {
+        if ($inputname === self::DEFAULT_INPUT) {
             $mform->setDefault($inputname . 'modelans', self::DEFAULT_TEACHER_ANSWER);
         }
 
@@ -649,7 +651,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Set a default for the new question.
         if ($prtname === 'prt1' && $nodekey === 0) {
-            $mform->setDefault($prtname . 'sans[' . $nodekey . ']', 'ans1');
+            $mform->setDefault($prtname . 'sans[' . $nodekey . ']', self::DEFAULT_INPUT);
             $mform->setDefault($prtname . 'tans[' . $nodekey . ']', self::DEFAULT_TEACHER_ANSWER);
         }
 

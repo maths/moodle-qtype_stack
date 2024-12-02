@@ -49,6 +49,9 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var string the default input name. */
     const DEFAULT_INPUT = 'ans1';
 
+    /** @var decide if this is a new question, requiring defaults. */
+    private $newquestion = false;
+
     /** @var options the STACK configuration settings. */
     protected $stackconfig = null;
 
@@ -117,6 +120,7 @@ class qtype_stack_edit_form extends question_edit_form {
         } else if (!empty($this->question->questiontext)) {
             $this->questiontext = $this->question->questiontext;
         } else {
+            $this->newquestion = true;
             $this->questiontext = self::DEFAULT_QUESTION_TEXT;
         }
 
@@ -649,12 +653,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $nodegroup[] = $mform->createElement('text', $prtname . 'tans[' . $nodekey . ']',
                 stack_string('tans'), ['size' => 15]);
 
-        // Set a default for the new question.
-        if ($prtname === 'prt1' && $nodekey === 0) {
-            $mform->setDefault($prtname . 'sans[' . $nodekey . ']', self::DEFAULT_INPUT);
-            $mform->setDefault($prtname . 'tans[' . $nodekey . ']', self::DEFAULT_TEACHER_ANSWER);
-        }
-
         $nodegroup[] = $mform->createElement('text', $prtname . 'testoptions[' . $nodekey . ']',
                 stack_string('testoptions'), ['size' => 5]);
 
@@ -673,6 +671,14 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
+
+        // Set a default for the new question.
+        // The "newquestion" approach is a hack because for some reason setDefaults always
+        // sets the field in PRT nodes.  No idea why!
+        if ($this->newquestion) {
+            $mform->setDefault($prtname . 'sans[' . $nodekey . ']', self::DEFAULT_INPUT);
+            $mform->setDefault($prtname . 'tans[' . $nodekey . ']', self::DEFAULT_TEACHER_ANSWER);
+        }
 
         // Create the section of the form for each node - the branches.
         foreach (['true', 'false'] as $branch) {

@@ -44,6 +44,8 @@ class qtype_stack_edit_form extends question_edit_form {
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
     /** @var string the default variables for a new question. */
     const DEFAULT_QUESTION_VARIABLES = 'ta:?;';
+    /** @var string the default note for a new question. */
+    const DEFAULT_QUESTION_NOTE = '{@ta@}';
     /** @var string the default variable name for the teacher's answer. */
     const DEFAULT_TEACHER_ANSWER = 'ta';
     /** @var string the default input name. */
@@ -286,7 +288,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('editor', 'questionnote',
                 stack_string('questionnote'), ['rows' => 2], $this->editoroptions);
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
-        $mform->getElement('questionnote')->setValue(['text' => '']);
+        $mform->getElement('questionnote')->setValue(['text' => self::DEFAULT_QUESTION_NOTE]);
 
         $qdec = $mform->createElement('editor', 'questiondescription',
             stack_string('questiondescription', 'question'), ['rows' => 10], $this->editoroptions);

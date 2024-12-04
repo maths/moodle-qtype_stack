@@ -1257,6 +1257,11 @@ class stack_answertest_test_data {
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.
         ['CasEqual', '', 'integerp(-1)', 'true', 0, 'ATCASEqual_false.', ''],
         ['CasEqual', '', 'integerp(ev(-1,simp))', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'a+(b+c)', '(a+b)+c', 0, 'ATCASEqual (AlgEquiv-true).', 'Associativity'],
+        ['CasEqual', '', 'a+(b+c)', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', 'a+(b+c)', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
 
         ['SameType', '', '1/0', '1', -1, 'ATSameType_STACKERROR_SAns.', ''],
         ['SameType', '', '1', '1/0', -1, 'ATSameType_STACKERROR_TAns.', ''],

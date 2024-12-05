@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
+<!-- question: 42274  -->
   <question type="stack">
     <name>
       <text>Drag/drop: forms a subspace</text>
@@ -19,9 +20,9 @@
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber/>
+    <idnumber></idnumber>
     <stackversion>
-      <text>2024112000</text>
+      <text>2024111900</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_include("contribl://prooflib.mac");
@@ -43,12 +44,18 @@ proof_steps: [
 ];
 proof_steps:random_permutation(proof_steps);
 
-ta:proof("ass1",proof_c(proof("ca1","ca2","ca3","ca4"), proof("cs1","cs2","cs3")),"conc");
+/* We need a DAG here because the assumptions can come in any order. */
+tdag:[["ass1","ca1"],
+      ["ass1","cs2"], /* First use of x_1 */
+      ["ca1","ca2","ca3","ca4","conc"],
+      ["cs1","cs2","cs3","conc"]];
+
+ta:proof("ass1","ca1",proof_c(proof("ca2","ca3","ca4"), proof("cs1","cs2","cs3")),"conc");
 ta1:proof("ass1",proof("ca1","ca2","ca3","ca4"), proof("cs1","cs2","cs3"),"conc");
 ta2:proof(proof_c("ass1","cs1"),proof_c(proof("ca1","ca2","ca3","ca4"), proof("cs2","cs3")),"conc");
 
-/* Generate the alternative proofs. */
-tal:append(proof_alternatives(ta),proof_alternatives(ta2));
+/* Generate the alternative proofs. (Not currently used)*/
+tal:append(proof_alternatives(ta));
 /* Create a set of flattened proofs. */
 tas:setify(map(proof_flatten, tal));]]></text>
     </questionvariables>
@@ -81,7 +88,7 @@ tas:setify(map(proof_flatten, tal));]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed/>
+    <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
       <type>parsons</type>
@@ -89,16 +96,16 @@ tas:setify(map(proof_flatten, tal));]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint/>
+      <syntaxhint></syntaxhint>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <prt>
       <name>prt1</name>
@@ -107,31 +114,32 @@ tas:setify(map(proof_flatten, tal));]]></text>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>sa:parsons_decode(ans1);
-[pd, saa]:proof_assessment(sa, tal);</text>
+saprob:proof_assessment_dag(sa, tdag);
+</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
+        <description>Check list of problems is empty</description>
         <answertest>AlgEquiv</answertest>
-        <sans>pd</sans>
-        <tans>0</tans>
-        <testoptions/>
-        <quiet>0</quiet>
+        <sans>saprob</sans>
+        <tans>[]</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text>{@proof_assessment_display(saa, proof_steps)@}</text>
+          <text>{@proof_dag_problem_display(saprob, poof_steps)@}</text>
         </falsefeedback>
       </node>
     </prt>
@@ -145,7 +153,21 @@ tas:setify(map(proof_flatten, tal));]]></text>
       <description>Test case assuming the teacher's input gets full marks.</description>
       <testinput>
         <name>ans1</name>
-        <value>proof_parsons_key_json(ta, proof_steps)</value>
+        <value>parsons_answer(ta, proof_steps)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[apply(parsons_answer,[proof("ass1","ca1","cs1","cs2","cs3","ca2","ca3","ca4","conc"), proof_steps])]]></value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -155,4 +177,5 @@ tas:setify(map(proof_flatten, tal));]]></text>
       </expected>
     </qtest>
   </question>
+
 </quiz>

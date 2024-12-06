@@ -920,7 +920,6 @@ natural_domain(ex) := block([v, ex2, simp],
 )$
 
 /* Calculate the natural domain of a single-variable term.  */
-/* Calculate the natural domain of a single-variable term.  */
 natural_domain_rec(ex) := block([v, ex2],
     if atom(ex) then return(all),
     v:listofvars(ex),

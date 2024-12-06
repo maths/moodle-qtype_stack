@@ -61,7 +61,7 @@ Currently STACK supports the following kinds of inputs.  These have a variety of
 Some of the special blocks provide interactions which can be linked to inputs.  These include
 
 1. **JSXGraph** diagrams.
-2, **GeoGebra** diagrams.
+2. **GeoGebra** diagrams.
 3. **Drag and drop** problems.
 
 #### True/False inputs ####

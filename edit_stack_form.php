@@ -156,7 +156,6 @@ class qtype_stack_edit_form extends question_edit_form {
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
         global $OUTPUT;
-        global $USER;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -195,7 +194,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
-        if (get_user_preferences('htmleditor', '', $USER) !== 'textarea') {
+        if (get_class(editors_get_preferred_editor()) !== 'textarea_texteditor') {
             $warnings = '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
         }
 

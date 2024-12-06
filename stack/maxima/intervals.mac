@@ -900,7 +900,8 @@ stack_single_variable_solver_equation(ex, v) := block([sol0, sol1, sol2],
 )$
 
 /* Calculate the natural domain of a single-variable term.  */
-natural_domain(ex) := block([v, ex2, simp],
+natural_domain(ex) := block([v, ex2, simp,  logexpand],
+    logexpand:false,
     /* This function requires internal simplification. */
     simp:true,
     if atom(ex) then return(all),
@@ -933,6 +934,8 @@ natural_domain_rec(ex) := block([v, ex2],
         return(stack_single_variable_solver(first(args(ex))>0)),
     if safe_op(ex)="/" then
         return(natural_domain_div(ex)),
+    if safe_op(ex)="^" then
+        return(natural_domain_exp(ex, v)),
     ex2:map(natural_domain_rec, args(ex)),
     /* We have to strip of the realset bit before intersecting. */
     ex2:map(lambda([ex3], if is(safe_op(ex3)="realset") then second(ex3) else ex3), ex2),
@@ -959,4 +962,24 @@ natural_domain_div(ex) := block([dom0,dom1,dom2,dom3],
   dom3:interval_set_complement(dom3),  
   dom0:apply(%intersection,[dom1,dom2,dom3]),
   ev(interval_tidy(dom0), simp)
+)$
+
+/* Calculate the natural domain of a quotient ex=x^n.  */
+natural_domain_exp(ex, v) :=block([dom2, dom1, dom0],
+    if not(safe_op(ex)= "^") then error("natural_domain_exp expects its operator to be exponentiation"),
+    dom1:natural_domain(first(ex)),
+    if safe_op(dom1) = "realset" then dom1:second(dom1),
+    /* Positive integer powers are always ok. */  
+    if integerp(second(ex)) and is(second(ex)>0) then return(dom1),
+    /* Negative integer powers avoid x=0. */  
+    if integerp(second(ex)) and is(second(ex)<0) then return(interval_tidy(%intersection(%union(oo(0,inf),oo(-inf,0)),dom1))),
+    /* Positive rational powers are ok when the denominator is odd, e.g.. x^(1/3). */  
+    if rational_numberp(second(ex)) and is(second(ex)>0) and oddp(denom(second(ex))) then return(dom1),
+    /* Powers of other numbers assume x>0. */
+    if is(listofvars(second(ex))=[]) then return(stack_single_variable_solver(first(args(ex))>0)),
+    /* Bail out with the intersection of domains. */
+    /* TODO: check for 0^0, and exclude it here. */
+    dom2:natural_domain(second(ex)),
+    if safe_op(dom2) = "realset" then dom2:second(dom2),
+    return(interval_tidy(%intersection(dom1,dom2)))
 )$

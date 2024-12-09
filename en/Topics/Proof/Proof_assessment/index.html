@@ -1,0 +1,4599 @@
+<!-- Ensures this only extends, not overrides, the theme. -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.stack-assessment.org/en/Topics/Proof/Proof_assessment/">
+      
+      
+        <link rel="prev" href="../Proof_Parsons_workflow/">
+      
+      
+        <link rel="next" href="../Proof_samples/">
+      
+      <link rel="icon" href="../../../../../content/logo_sm.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.0.3">
+    
+    
+      
+        <title>Assessing Parson's problems and proofs - STACK Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6b71719e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../custom.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/maths/moodle-qtype_stack@master/styles.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#assessing-parsons-problems-and-proofs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="">
+    <a href="../../../.." title="STACK Docs" 
+    class="md-header__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <!--Make site title permament -->
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis md-ellipsis">
+        <b>STACK Docs</b>
+      </div>
+    </div>
+     
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  </nav>
+</header>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="STACK Docs" class="md-nav__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    STACK Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        STACK
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-2" 
+      type="checkbox" id="__nav_1-2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-2" tabindex="0" aria-expanded="false">
+          AbInitio
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="AbInitio" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-2">
+          <span class="md-nav__icon md-icon"></span>
+          AbInitio
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/" class="md-nav__link">
+        Authoring quick start
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_1/" class="md-nav__link">
+        Authoring quick start 1: a minimal working question
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_2/" class="md-nav__link">
+        Authoring quick start 2: question variables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_3/" class="md-nav__link">
+        Authoring quick start 3: improving feedback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_4/" class="md-nav__link">
+        Authoring quick start 4: randomisation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_5/" class="md-nav__link">
+        Authoring quick start 5: question tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_6/" class="md-nav__link">
+        Authoring quick start 6: STACK question libaray
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_7/" class="md-nav__link">
+        Authoring quick start 7: multipart questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_8/" class="md-nav__link">
+        Authoring quick start 8: turning simplification off
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_9/" class="md-nav__link">
+        Authoring quick start 9: setting up a quiz
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-3" 
+      type="checkbox" id="__nav_1-3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-3" tabindex="0" aria-expanded="false">
+          About
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="About" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-3">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/" class="md-nav__link">
+        About the STACK Project
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/Credits/" class="md-nav__link">
+        Contributors to the STACK Project
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/License/" class="md-nav__link">
+        STACK licences
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/Logo/" class="md-nav__link">
+        The mathematics of the STACK logo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/Publications/" class="md-nav__link">
+        Publications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/The_philosophy_of_STACK/" class="md-nav__link">
+        Philosophy of STACK
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4" 
+      type="checkbox" id="__nav_1-4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4" tabindex="0" aria-expanded="false">
+          Authoring
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Authoring" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-4">
+          <span class="md-nav__icon md-icon"></span>
+          Authoring
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/" class="md-nav__link">
+        Authoring individual STACK questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Author_FAQ/" class="md-nav__link">
+        Author FAQ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/CASText/" class="md-nav__link">
+        CASText
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Error_trapping/" class="md-nav__link">
+        Error trapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Errors/" class="md-nav__link">
+        Authoring validation errors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Expression_tree_display/" class="md-nav__link">
+        Trees
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Feedback/" class="md-nav__link">
+        Feedback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inclusions/" class="md-nav__link">
+        Inclusions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Languages/" class="md-nav__link">
+        Producing multilingual content
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Potential_response_trees/" class="md-nav__link">
+        Potential response trees
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_note/" class="md-nav__link">
+        Question note
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_options/" class="md-nav__link">
+        Options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Serving_out_data/" class="md-nav__link">
+        Serving out data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Tables/" class="md-nav__link">
+        Tables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Variables/" class="md-nav__link">
+        Defining variables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_16" 
+      type="checkbox" id="__nav_1-4_16" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_16" tabindex="0" aria-expanded="false">
+          Answer Tests
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Answer Tests" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-4_16">
+          <span class="md-nav__icon md-icon"></span>
+          Answer Tests
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/" class="md-nav__link">
+        Answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Calculus/" class="md-nav__link">
+        Calculus answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Equivalence/" class="md-nav__link">
+        Equivalence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Form/" class="md-nav__link">
+        Algebraic Form
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Numerical/" class="md-nav__link">
+        Numerical answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Other/" class="md-nav__link">
+        Other answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Rule_based/" class="md-nav__link">
+        Rules-based answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/String/" class="md-nav__link">
+        String matching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_16_9" 
+      type="checkbox" id="__nav_1-4_16_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_16_9" tabindex="0" aria-expanded="false">
+          Results
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Results" data-md-level="4">
+        <label class="md-nav__title" for="__nav_1-4_16_9">
+          <span class="md-nav__icon md-icon"></span>
+          Results
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/" class="md-nav__link">
+        Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/AlgEquiv/" class="md-nav__link">
+        AlgEquiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/AlgEquivNouns/" class="md-nav__link">
+        AlgEquivNouns: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/CasEqual/" class="md-nav__link">
+        CasEqual: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/CompSquare/" class="md-nav__link">
+        CompSquare: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Diff/" class="md-nav__link">
+        Diff: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/EqualComAss/" class="md-nav__link">
+        EqualComAss: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/EqualComAssRules/" class="md-nav__link">
+        EqualComAssRules: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Equiv/" class="md-nav__link">
+        Equiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/EquivFirst/" class="md-nav__link">
+        EquivFirst: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Expanded/" class="md-nav__link">
+        Expanded: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/FacForm/" class="md-nav__link">
+        FacForm: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/GT/" class="md-nav__link">
+        GT: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/GTE/" class="md-nav__link">
+        GTE: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Int/" class="md-nav__link">
+        Int: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Levenshtein/" class="md-nav__link">
+        Levenshtein: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/LowestTerms/" class="md-nav__link">
+        LowestTerms: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumAbsolute/" class="md-nav__link">
+        NumAbsolute: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumDecPlaces/" class="md-nav__link">
+        NumDecPlaces: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumDecPlacesWrong/" class="md-nav__link">
+        NumDecPlacesWrong: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumRelative/" class="md-nav__link">
+        NumRelative: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumSigFigs/" class="md-nav__link">
+        NumSigFigs: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/PartFrac/" class="md-nav__link">
+        PartFrac: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/PropLogic/" class="md-nav__link">
+        PropLogic: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SRegExp/" class="md-nav__link">
+        SRegExp: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SameType/" class="md-nav__link">
+        SameType: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Sets/" class="md-nav__link">
+        Sets: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SigFigsStrict/" class="md-nav__link">
+        SigFigsStrict: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SingleFrac/" class="md-nav__link">
+        SingleFrac: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/String/" class="md-nav__link">
+        String: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/StringSloppy/" class="md-nav__link">
+        StringSloppy: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SubstEquiv/" class="md-nav__link">
+        SubstEquiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SysEquiv/" class="md-nav__link">
+        SysEquiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Units/" class="md-nav__link">
+        Units: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsAbsolute/" class="md-nav__link">
+        UnitsAbsolute: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsRelative/" class="md-nav__link">
+        UnitsRelative: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsStrict/" class="md-nav__link">
+        UnitsStrict: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsStrictAbsolute/" class="md-nav__link">
+        UnitsStrictAbsolute: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsStrictRelative/" class="md-nav__link">
+        UnitsStrictRelative: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Validator/" class="md-nav__link">
+        Validator: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_17" 
+      type="checkbox" id="__nav_1-4_17" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_17" tabindex="0" aria-expanded="false">
+          Inputs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Inputs" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-4_17">
+          <span class="md-nav__icon md-icon"></span>
+          Inputs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/" class="md-nav__link">
+        Inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Input_options/" class="md-nav__link">
+        Input options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Input_syntax/" class="md-nav__link">
+        Input syntax
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Matrix_input/" class="md-nav__link">
+        Matrix inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Multiline_input/" class="md-nav__link">
+        Multiline input
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Multiple_choice_input/" class="md-nav__link">
+        Multiple choice inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Numerical_input/" class="md-nav__link">
+        Numerical input
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Text_input/" class="md-nav__link">
+        Text-based inputs in STACK
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_18" 
+      type="checkbox" id="__nav_1-4_18" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_18" tabindex="0" aria-expanded="false">
+          Question blocks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Question blocks" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-4_18">
+          <span class="md-nav__icon md-icon"></span>
+          Question blocks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/" class="md-nav__link">
+        Question blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Conditional_blocks/" class="md-nav__link">
+        Conditional blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Dynamic_blocks/" class="md-nav__link">
+        Dynamic blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Fact_sheets/" class="md-nav__link">
+        Hints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Static_blocks/" class="md-nav__link">
+        Static blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/System_blocks/" class="md-nav__link">
+        System question blocks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-5" 
+      type="checkbox" id="__nav_1-5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-5" tabindex="0" aria-expanded="false">
+          CAS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CAS" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-5">
+          <span class="md-nav__icon md-icon"></span>
+          CAS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/" class="md-nav__link">
+        Maxima and computer algebra use in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Buggy_rules/" class="md-nav__link">
+        Buggy rules
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Complex_numbers/" class="md-nav__link">
+        Complex Numbers in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Equations/" class="md-nav__link">
+        Asking students to solve equations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Geometry/" class="md-nav__link">
+        Geometry related Maxima functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Greek_letters/" class="md-nav__link">
+        The Greek Alphabet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Inequalities/" class="md-nav__link">
+        Inequalities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Matrix/" class="md-nav__link">
+        Matrices and vectors in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Maxima_background/" class="md-nav__link">
+        Introduction to Maxima for STACK users
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Maxima_plot/" class="md-nav__link">
+        Embedding Maxima-generated plots via plot(), a wrapper for Maimxa's plot2d()
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Numbers/" class="md-nav__link">
+        Numbers in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Numerical_rounding/" class="md-nav__link">
+        Numerical rounding
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Permutations/" class="md-nav__link">
+        Writing a permutation as a product of disjoint cycles
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Predicate_functions/" class="md-nav__link">
+        Predicate functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Random/" class="md-nav__link">
+        Random objects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Real_Intervals/" class="md-nav__link">
+        Real intervals and sets of real numbers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Rules/" class="md-nav__link">
+        Rules and patterns
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/STACK-Maxima_sandbox/" class="md-nav__link">
+        STACK - Maxima Sandbox
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Simplification/" class="md-nav__link">
+        Simplification &amp; ordering
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Statistics/" class="md-nav__link">
+        Statistics support in STACK.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Strings/" class="md-nav__link">
+        Maxima strings in STACK questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Subscripts/" class="md-nav__link">
+        Subscripts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Validator/" class="md-nav__link">
+        Bespoke validators and feedback
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-6" 
+      type="checkbox" id="__nav_1-6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-6" tabindex="0" aria-expanded="false">
+          Developer
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Developer" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-6">
+          <span class="md-nav__icon md-icon"></span>
+          Developer
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/" class="md-nav__link">
+        Developers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Development_history/" class="md-nav__link">
+        STACK Development History
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Development_track/" class="md-nav__link">
+        Development track for STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Documentation/" class="md-nav__link">
+        STACK User Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Future_plans/" class="md-nav__link">
+        Future plans
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Language_packs/" class="md-nav__link">
+        Translation of the STACK Project
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Maxima_packages/" class="md-nav__link">
+        Adding support for Maxima packages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Releasing/" class="md-nav__link">
+        STACK release process notes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Releasing_ILIAS/" class="md-nav__link">
+        Releasing new ILIAS version
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/STACK-JS/" class="md-nav__link">
+        STACK-JS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Security_map/" class="md-nav__link">
+        Security map
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Syntax_numbers/" class="md-nav__link">
+        Entry of numbers in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Unit_tests/" class="md-nav__link">
+        Unit tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Website/" class="md-nav__link">
+        Updating the Online Docs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-7" 
+      type="checkbox" id="__nav_1-7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-7" tabindex="0" aria-expanded="false">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-7">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/" class="md-nav__link">
+        Installation instructions.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/API/" class="md-nav__link">
+        STACK API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/LTI/" class="md-nav__link">
+        About LTI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Mathjax/" class="md-nav__link">
+        Displaying mathematics for STACK in Moodle
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Maxima_installation/" class="md-nav__link">
+        Compiling Maxima from source.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Migration/" class="md-nav__link">
+        Migration from STACK 3.X to STACK 4.0
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Optimising_Maxima/" class="md-nav__link">
+        Optimising Maxima
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Release_notes_4_4_x/" class="md-nav__link">
+        Release notes for STACK 4.4.x
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/STACK_versions/" class="md-nav__link">
+        STACK version map
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Testing_installation/" class="md-nav__link">
+        Testing Installation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-8" 
+      type="checkbox" id="__nav_1-8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-8" tabindex="0" aria-expanded="false">
+          Moodle
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Moodle" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-8">
+          <span class="md-nav__icon md-icon"></span>
+          Moodle
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/" class="md-nav__link">
+        STACK within the Moodle VLE.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/Import_Export/" class="md-nav__link">
+        Import and Export of STACK questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/Question_bank/" class="md-nav__link">
+        How do I find the Moodle question bank?
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/Semi-automatic_Marking/" class="md-nav__link">
+        Semi-automatic Marking
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-9" 
+      type="checkbox" id="__nav_1-9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-9" tabindex="0" aria-expanded="false">
+          Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reference" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-9">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/" class="md-nav__link">
+        Reference materials
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/Actuarial/" class="md-nav__link">
+        Notation used in actuarial work
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/HELM/" class="md-nav__link">
+        HELM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/HTML/" class="md-nav__link">
+        Most useful HTML
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/Latex/" class="md-nav__link">
+        Useful LaTeX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-10" 
+      type="checkbox" id="__nav_1-10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-10" tabindex="0" aria-expanded="false">
+          STACK question admin
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="STACK question admin" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-10">
+          <span class="md-nav__icon md-icon"></span>
+          STACK question admin
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/" class="md-nav__link">
+        Testing, using and maintaining questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Advanced_reporting/" class="md-nav__link">
+        Advanced reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Authoring_workflow/" class="md-nav__link">
+        Question authoring workflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Deploying/" class="md-nav__link">
+        Deploying
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Deploying_matched_variants/" class="md-nav__link">
+        Variant matching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Deploying_systematically/" class="md-nav__link">
+        Systematic deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Fixing_broken_questions/" class="md-nav__link">
+        I have a misbehaving STACK question in a live Moodle quiz. What should I do?
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Future_proof/" class="md-nav__link">
+        Guidelines for ensuring that a question works in the future
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Notes_about_performance/" class="md-nav__link">
+        Notes about performance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Sample_questions/" class="md-nav__link">
+        Sample Questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Testing/" class="md-nav__link">
+        Testing, debugging and quality control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Testing_questions_on_other_sites/" class="md-nav__link">
+        Running question tests for questions on other sites (command line)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/Tidy_Tool/" class="md-nav__link">
+        Tidy Tool
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../STACK_question_admin/UpgradeDefaults/" class="md-nav__link">
+        Upgrading question defaults
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11" 
+      type="checkbox" id="__nav_1-11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11" tabindex="0" aria-expanded="false">
+          Specialist tools
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Specialist tools" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-11">
+          <span class="md-nav__icon md-icon"></span>
+          Specialist tools
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/" class="md-nav__link">
+        Specialist tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Graphics/" class="md-nav__link">
+        Plots and graphics in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Unsorted_multi_input/" class="md-nav__link">
+        Unsorted multi-input answers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_4" 
+      type="checkbox" id="__nav_1-11_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_4" tabindex="0" aria-expanded="false">
+          Drag and drop
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Drag and drop" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_4">
+          <span class="md-nav__icon md-icon"></span>
+          Drag and drop
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/" class="md-nav__link">
+        Drag and drop questions in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Grid/" class="md-nav__link">
+        Grid drag and drop questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Grouping/" class="md-nav__link">
+        Grouping drag and drop questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Parsons/" class="md-nav__link">
+        Authoring Parson's problems (drag and drop) in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Question_block/" class="md-nav__link">
+        Parson's problem (drag and drop) question blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_5" 
+      type="checkbox" id="__nav_1-11_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_5" tabindex="0" aria-expanded="false">
+          Equivalence reasoning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Equivalence reasoning" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_5">
+          <span class="md-nav__icon md-icon"></span>
+          Equivalence reasoning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Equivalence_reasoning/" class="md-nav__link">
+        Getting started with equivalence reasoning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Equivalence_reasoning/Equivalence_assessment/" class="md-nav__link">
+        Equivalence input assessent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Equivalence_reasoning/Equivalence_input/" class="md-nav__link">
+        Equivalence reasoning input
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_6" 
+      type="checkbox" id="__nav_1-11_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_6" tabindex="0" aria-expanded="false">
+          GeoGebra
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="GeoGebra" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_6">
+          <span class="md-nav__icon md-icon"></span>
+          GeoGebra
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/GeoGebra/" class="md-nav__link">
+        GeoGebra in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/GeoGebra/GeoGebra/" class="md-nav__link">
+        Authoring your first GeoGebra question
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/GeoGebra/Question_block/" class="md-nav__link">
+        GeoGebra question block
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_7" 
+      type="checkbox" id="__nav_1-11_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_7" tabindex="0" aria-expanded="false">
+          JSXGraph
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="JSXGraph" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_7">
+          <span class="md-nav__icon md-icon"></span>
+          JSXGraph
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/" class="md-nav__link">
+        JSXGraph
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Advanced_JSXGraph/" class="md-nav__link">
+        Advanced JSXGraph: stack_jxg.custom_bind
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Example_plots/" class="md-nav__link">
+        Example JSXGraph plots.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Question_block/" class="md-nav__link">
+        JSXGraph question block
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-12" 
+      type="checkbox" id="__nav_1-12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-12" tabindex="0" aria-expanded="false">
+          Students
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Students" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-12">
+          <span class="md-nav__icon md-icon"></span>
+          Students
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/" class="md-nav__link">
+        Information for students
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Accessibility/" class="md-nav__link">
+        Accessibility
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Answer_assessment/" class="md-nav__link">
+        Answer assessment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Answer_input/" class="md-nav__link">
+        Answer input
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Equivalence_reasoning/" class="md-nav__link">
+        Reasoning by Equivalence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/FAQ/" class="md-nav__link">
+        Frequently asked questions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-13" 
+      type="checkbox" id="__nav_1-13" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-13" tabindex="0" aria-expanded="true">
+          Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Topics" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-13">
+          <span class="md-nav__icon md-icon"></span>
+          Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        Mathematical topics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Curve_sketching/" class="md-nav__link">
+        Curve sketching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Differential_equations/" class="md-nav__link">
+        Differential Equations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Discrete_mathematics/" class="md-nav__link">
+        Discrete mathematics and graph theory.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Levenshtein_distance/" class="md-nav__link">
+        Damerau-Levenshtein distance and strings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Linear_algebra/" class="md-nav__link">
+        Setting linear algebra questions in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Propositional_Logic/" class="md-nav__link">
+        Propositional Logic
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Units/" class="md-nav__link">
+        Scientific Units
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Vector_Calculus/" class="md-nav__link">
+        Vector Calculus in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-13_10" 
+      type="checkbox" id="__nav_1-13_10" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-13_10" tabindex="0" aria-expanded="true">
+          Proof
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Proof" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-13_10">
+          <span class="md-nav__icon md-icon"></span>
+          Proof
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Support for proof in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Proof_CAS_library/" class="md-nav__link">
+        CAS libraries for representing text-based proofs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Proof_Parsons_workflow/" class="md-nav__link">
+        Workflow for authoring Parsons Problems
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Assessing Parson's problems and proofs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Assessing Parson's problems and proofs
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-remarks" class="md-nav__link">
+    General remarks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-automatic-assessment-of-proof-defined-as-a-tree" class="md-nav__link">
+    1. Automatic assessment of proof defined as a tree
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-proof-assessment-when-steps-within-separate-sub-hypotheses-can-be-interleaved" class="md-nav__link">
+    2. Proof assessment when steps within separate sub-hypotheses can be interleaved
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-general-tools-in-buildermac-to-provide-bespoke-feedback" class="md-nav__link">
+    3. General tools in builder.mac to provide bespoke feedback
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Proof_samples/" class="md-nav__link">
+        Sample mathematical proofs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Proof_styles/" class="md-nav__link">
+        CSS Styles for displaying proof
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+<!--Keep the rest the same-->
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" 
+      type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Ja
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Ja" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Ja
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/" class="md-nav__link">
+        STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_2" 
+      type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" tabindex="0" aria-expanded="false">
+          AbInitio
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="AbInitio" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          AbInitio
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/" class="md-nav__link">
+        問題作成クイック・スタート
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_1/" class="md-nav__link">
+        問題作成クイック・スタート 1: 動作する最小限の問題
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_2/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド2：問題変数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_3/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド 3：フィードバックを改善する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_4/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド4：ランダム化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_5/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド5：問題のテスト
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_6/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド 6: 複数解答欄問題
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_7/" class="md-nav__link">
+        問題作成クイック・スタート 7: 数式簡略を無効化する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_8/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド 8: 問題のインポートと小テスト
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-remarks" class="md-nav__link">
+    General remarks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-automatic-assessment-of-proof-defined-as-a-tree" class="md-nav__link">
+    1. Automatic assessment of proof defined as a tree
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-proof-assessment-when-steps-within-separate-sub-hypotheses-can-be-interleaved" class="md-nav__link">
+    2. Proof assessment when steps within separate sub-hypotheses can be interleaved
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-general-tools-in-buildermac-to-provide-bespoke-feedback" class="md-nav__link">
+    3. General tools in builder.mac to provide bespoke feedback
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="assessing-parsons-problems-and-proofs">Assessing Parson's problems and proofs</h1>
+<h2 id="general-remarks">General remarks</h2>
+<p>This document explains how to assess Parson's problems.  There are three sets of tools available in STACK.</p>
+<ol>
+<li>When a <em>tree</em> is used to represent the structure of a teacher's proof, we can automatically create all alternative proofs.  Then we can establish whether a student's proof is one of these.  If not we automatically provide feedback explaining how to modify the student's proof to transform it to the closest correct proof.  E.g. swap two lines.  Generating alternatives and feedback is fully automated.  However, we assume a proof can be fully represented as a tree.</li>
+<li>Generally we have a directed graph representing dependencies of lines in a proof.  We have general tools for recording these dependencies, establishing if a student's proof satisfies them, and if not generating automatic feedback based on dependencies specified in a dependency graph.  The teacher has to create a dependency graph for each proof, but feedback is automatic.</li>
+<li>Teachers can encode specific dependency checks, and provide specific feedback when a student's proof meets/fails to meet certain criteria.  E.g. "This line uses the variable <script type="math/tex">k</script> but you have not yet introduced it in your proof".</li>
+</ol>
+<p>Each option above independent, and any/all could be used with a particular proof.</p>
+<h2 id="1-automatic-assessment-of-proof-defined-as-a-tree">1. Automatic assessment of proof defined as a tree</h2>
+<p><a href="../../Levenshtein_distance/">The Damerau-Levenshtein distance</a> is a metric for measuring the difference between two strings. Informally, this is the <em>edit distance</em> measuring  the minimum number of single-character edits (insertions, deletions, transition or substitutions) required to change one string into the other. STACK uses this metric to assess answers which are text strings.  The problem of assessing Parson's problems is very similar.</p>
+<ol>
+<li>We want to establish the distance between the student's proof and a teacher's proof, and identify the closest proof from a list deemed acceptable by the teacher.</li>
+<li>We want to automatically provide feedback detailing which edits will transform the student's proof into a "correct" proof, e.g. "Swap these two lines", "Insert a line here".</li>
+</ol>
+<p>Rather than a string of characters, we apply the metric to a list of <code>keys</code> tags in the <code>proof_steps</code> list, as defined in the <a href="../Proof_CAS_library/">CAS library for representing text-based proofs</a>.  Further, by tracking the steps in the algorithm we can provide automatic feedback about which edits are required to transform one list into another.</p>
+<p>We assume that the teacher's answer is <code>ta</code> is expressed using <a href="../Proof_CAS_library/">"proof construction functions"</a> e.g.</p>
+<pre><code>ta:proof_iff(&quot;A&quot;,&quot;B&quot;);
+</code></pre>
+<p>where the keys are part of a <code>proof_steps</code> list.</p>
+<p>Define <code>tal</code> to be the <em>list of teacher's answers</em>.  This can be created automatically, e.g. <code>tal:proof_alternatives(ta)</code>
+or a teacher can define a bespoke list of proofs.</p>
+<p>The assessment function <code>proof_assessment(sa, tal)</code> takes a proof provided by a student and a list of acceptable proofs and does the following.</p>
+<ol>
+<li>All proofs are flattened to lists of keys.  The Damerau-Levenshtein distance only applies to lists, not trees.</li>
+<li>Calculate the distance between the student's proof and each of the teacher's proofs (in <code>tal</code>), and identify the closest proof.</li>
+<li>Return a list <code>[d, [edits]]</code>, where <code>d</code> is the shortest distance and <code>edits</code> is the list of edits (if any) needed for each step.</li>
+</ol>
+<p>To provide feedback the list of edits can be sent directly to a display function.</p>
+<p>To use this in practice define the following feedback variables.</p>
+<pre><code>sa:parsons_decode(ans1);
+[pd, saa]:proof_assessment(sa, proof_alternatives(ta));
+</code></pre>
+<p>The variable <code>pd</code> now contains the edit distance from the student's proof to the closest teacher's.  The teacher can decide if this is close enough (zero, of course means exact match) and whether to display the feedback.  For example, use <code>ATAlgEquiv(pd,0)</code> to check if the student's proof matches one of the teacher's proofs.  If the number of edits required is at least the length of the teacher's proof then everything needs editing and there is little point displaying feedback!</p>
+<p>To display feedback use <code>{@proof_assessment_display(saa, proof_steps)@}</code> in a PRT feedback (or other castext).</p>
+<h2 id="2-proof-assessment-when-steps-within-separate-sub-hypotheses-can-be-interleaved">2. Proof assessment when steps within separate sub-hypotheses can be interleaved</h2>
+<p>Proofs often contain sub-proofs, in blocks.  In our design for the representation of proofs as tree structures, a teacher might decide one block precedes another, or that the order of these blocks is interchangeable.
+In some situations it is possible to interleave parts of two or more blocks without invalidating the proof from a strictly logical point of view.
+For example, in the teacher's proof we might have separate blocks such as</p>
+<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
+<div class="proof">
+<p>Assume n is odd.<br/>
+   There exists j such that n=2j-1.</p>
+<p>...</p>
+<p>Assume m is even.<br/>
+   There exists k such that m=2k.</p>
+<p>...</p>
+</div>
+</div>
+<p>However, a student might choose to interleave these clauses without a loss of strict logical correctness.</p>
+<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
+<div class="proof">
+<p>Assume n is odd.<br/>
+   Assume m is even.</p>
+</p>...</p>
+</div>
+</div>
+<p>This section explains general tools to assess proofs which allows steps to be interleaved.</p>
+<p>Consider the following proof.</p>
+<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
+<div class="proof">
+<p>H1. Assume that \(3 \cdot 2^{172} + 1\) is a perfect square.</p>
+<p>S2. There is a positive integer \(k\) such that \(3 \cdot 2^{172} + 1 = k^2\).</p>
+<p>S3. Since \(3 \cdot 2^{172} + 1 > 2^{172} = (2^{86})^2 > 172^2\), we have \(k > 172\).</p>
+<p>S4. We have \(k^2 = 3 \cdot 2^{172} + 1 < 3 \cdot 2^{172} + 173\).</p>
+<p>S5. Also, \(3 \cdot 2^{172} + 173 = (3 \cdot 2^{172} + 1) + 172 < k^2 + k\). Further, \(k^2 + k < (k + 1)^2\).</p>
+<p>C6. Since \(3 \cdot 2^{172} + 173\) is strictly between two successive squares \(k^2\) and \((k + 1)^2\), it cannot be a perfect square.</p>
+</div>
+</div>
+
+<p>In this proof has the following dependency structure.</p>
+<pre>
+     S1
+      |
+     S2
+    / |
+  S3  |
+  |   S4
+  S5  |
+  |  / 
+  C6
+</pre>
+
+<p>In particular, we have the following options for "correct" answers.</p>
+<ol>
+<li><code>[S1, S2, S3, S4, S5, C6]</code></li>
+<li><code>[S1, S2, S4, S3, S5, C6]</code></li>
+<li><code>[S1, S2, S3, S5, S4, C6]</code></li>
+</ol>
+<p>This graph dependency cannot be inferred from a proof tree type structure.  While it is considerably simpler for a teacher to write a proof as a tree, interleaved steps in a student's proof may not be wrong.</p>
+<p>Therefore we provide a function which takes (a) the student's list (of Parsons keys), and (b) a representation of the directed graph and uses the teacher's graph to conduct assessment.</p>
+<p>To author the graph we create lists of key-lists in Maxima as follows.  This is a list of lists, representing the edges of the graph..</p>
+<pre><code>tdag: [
+       [&quot;S1&quot;, &quot;S2&quot;],
+       [&quot;S2&quot;, &quot;S3&quot;, &quot;S5&quot;],
+       [&quot;S2&quot;, &quot;S4&quot;],
+       [&quot;S4&quot;, &quot;C6&quot;],
+       [&quot;S5&quot;, &quot;C6&quot;]
+      ];
+</code></pre>
+<ol>
+<li>Each key used in the teacher's proof must occur in the student's list.  Missing keys (i.e. steps) will be flagged.</li>
+<li>Only keys used in the teacher's proof should occur in the student's list.  Extra keys (i.e. steps) will be flagged.</li>
+<li>For each list, we check that the keys occur in the specified order in the student's proof.  E.g. </li>
+<li>in the first list <code>["S1", "S2"]</code> we check that <code>"S1"</code> comes before <code>"S2"</code> in the student's proof.</li>
+<li>in the second list <code>["S2", "S3", "S5"]</code> we check that <code>"S2"</code> comes before <code>"S3"</code>, and <code>"S3"</code> comes before <code>"S4"</code>.  Note, by allowing lists with more than two keys we reduce the complexity of expressing long chains of steps.</li>
+<li>We do <em>not</em> specify that nothing can be between steps.  That's a separate property which this test does not establish.  (Separate tools are needed to establish, e.g. "No other steps should occur between X and Y".)</li>
+</ol>
+<p>Hence, we could also write this graph as follows.</p>
+<pre><code>tdag: [
+       [&quot;S1&quot;, &quot;S2&quot;, &quot;S3&quot;, &quot;S5&quot;, &quot;C6&quot;],
+       [&quot;S2&quot;, &quot;S4&quot;, &quot;C6&quot;]
+      ];
+</code></pre>
+<p>Writing a graph is considerably more complex for a teacher than using the <code>proof()</code> functions, but of course it gives the teacher more flexibility with what to accept.  The two approaches can be combined.  If a student's answer is found to be incorrect, then we can still establish the closest distance to a proof the teacher considers to be correct to give automatic feedback on how a student should change their proof.</p>
+<p>STACK provides functions to support assessment where the teacher specified a dependency graph.</p>
+<p><code>saprob: proof_assessment_dag(sa, tdag)</code> takes (1) the student's answer (a list of tags) and (2) a graph specified as lists of key-lists and returns a list of "problems".  Problems with a student's graph can take three forms.</p>
+<ol>
+<li><code>proof_step_missing({"C6"})</code> indicates the set of steps <code>{"C6"}</code> is missing from <code>sa</code>.</li>
+<li><code>proof_step_extra({"H0"})</code> indicates the set of steps <code>{"H0"}</code> are not needed in <code>sa</code>.</li>
+<li><code>proof_step_must("S1", "S2")</code> indicates that the step <code>"S1"</code> must come before step <code>"S2"</code> in the proof specified by the graph, but does not in <code>sa</code>.</li>
+</ol>
+<p>If the result of <code>proof_assessment_dag</code> is an empty list, the <code>sa</code> matches with the graph in <code>tdag</code>.</p>
+<p>If, for any reason, you don't want all three checks, then you can filter the list to retain only the relevant properties from that listed above.  E.g. if you only want <code>proof_step_must</code> to be established then use</p>
+<pre><code>saprob: proof_dag_check(sa, tdag);
+saprob:sublist(saprob, lambda([ex], op(ex)=proof_step_must));
+</code></pre>
+<p>To use this in a potential response tree, check if <code>saprob</code> is empty.  If not, you can display feedback based on the properties described above using the following in the feedback.</p>
+<pre><code>{@proof_dag_problem_display(saprob, poof_steps)@}
+</code></pre>
+<p>An example question illustrating these features is given in the sample questions library under <code>Topics/Parsons-DAG.xml</code>.</p>
+<h2 id="3-general-tools-in-buildermac-to-provide-bespoke-feedback">3. General tools in <code>builder.mac</code> to provide bespoke feedback</h2>
+<p>The last option is to encode specific dependencies, with feedback for each.  The advantage is that teachers can mange meaningful feedback for individual steps, but of course that is more work than using the auto-generated feedback. </p>
+<p>You can load the optional library <code>builder.mac</code> to use tools to manage bespoke feedback.</p>
+<p>An example question is given in the stacklibrary <code>Doc-Examples\Parsons-3-builder.xml</code></p>
+<p>This example combines both the automatic feedback in Section 1 where the proof is defined as a tree (a list in our example), with the bespoke feedback for many of the steps.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+<footer class="md-footer">
+<div class ="md-main__inner md-grid">
+<!--Copy of primary sidebar, which collapses-->
+<div class="md-sidebar md-sidebar--primary_footer">
+
+</div>
+<!--Copy of secondary sidebar, which collapses-->
+<div class ="md-sidebar md-sidebar--secondary">
+</div>
+
+<!--Footer-->
+<div class="md-content">
+<div class="md-content__inner md-typeset">
+    <div class="row">
+    <div class="footerColumn"><a href="https://www.stack-assessment.org">
+    <img src="../../../../content/logo_large.png" width="70px" style="margin-top:1.3em;float:left;">
+    <h2 style="color:white;margin-top:1.1em!important;"><b>STACK</b></h2></a>
+    </div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/About/">
+        <h5 style="color:white;">About STACK</h5></a>
+        <a href="https://www.stack-assessment.org/Training_and_events/"><h5 style="color:white;">Training and Events</h5></a>
+        <a href="https://www.stack-assessment.org/Case_studies/"><h5 style="color:white;">Case Studies</h5></a>
+        <a href="https://stack-demo.maths.ed.ac.uk/demo/"><h5 style="color:white;">Demonstration site</h5><a></div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/Legal/PrivacyStatement/">
+        <h5 style="color:white;">Privacy statement</h5></a><a href="https://www.stack-assessment.org/Legal/Licenses/">
+        <h5 style="color:white;">Licenses</h5></a><a href="https://www.stack-assessment.org/Legal/Accessibility/">
+        <h5 style="color:white;">Accessibility</h5></a>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+  <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+  <script>
+    var __search = {
+      transform: function(query) {
+        return query
+      }
+    }
+  </script>
+
+    
+      <script src="../../../../assets/javascripts/bundle.ba449ae6.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+    
+  </body>
+</html>

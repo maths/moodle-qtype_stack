@@ -2343,4 +2343,20 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">x&sup2;</span>', $state->contentsdisplayed);
         $this->assertEquals('', $state->lvars);
     }
+
+    public function test_validate_student_response_km() {
+        // This needs to be available as a variable.
+        // However, km is a function in the descriptive package.  See issue #1331.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'm');
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(['sans1' => 'km'], $options, 'm',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('km', $state->contentsmodified);
+        $this->assertEquals('\[ {\it km} \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ {\it km} \right]\) ', $state->lvars);
+    }
 }

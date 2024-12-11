@@ -42,6 +42,17 @@ class qtype_stack_edit_form extends question_edit_form {
     const DEFAULT_QUESTION_TEXT = '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
+    /** @var string the default variables for a new question. */
+    const DEFAULT_QUESTION_VARIABLES = 'ta:?;';
+    /** @var string the default note for a new question. */
+    const DEFAULT_QUESTION_NOTE = '{@ta@}';
+    /** @var string the default variable name for the teacher's answer. */
+    const DEFAULT_TEACHER_ANSWER = 'ta';
+    /** @var string the default input name. */
+    const DEFAULT_INPUT = 'ans1';
+
+    /** @var decide if this is a new question, requiring defaults. */
+    private $newquestion = false;
 
     /** @var options the STACK configuration settings. */
     protected $stackconfig = null;
@@ -111,6 +122,7 @@ class qtype_stack_edit_form extends question_edit_form {
         } else if (!empty($this->question->questiontext)) {
             $this->questiontext = $this->question->questiontext;
         } else {
+            $this->newquestion = true;
             $this->questiontext = self::DEFAULT_QUESTION_TEXT;
         }
 
@@ -156,7 +168,6 @@ class qtype_stack_edit_form extends question_edit_form {
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
         global $OUTPUT;
-        global $USER;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -195,7 +206,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
-        if (get_user_preferences('htmleditor', '', $USER) !== 'textarea') {
+        if (get_class(editors_get_preferred_editor()) !== 'textarea_texteditor') {
             $warnings = '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
         }
 
@@ -214,7 +225,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
+        /* Check if we have a new question. */
         if (isset($this->question->id)) {
+            //var_dump($this->question);die();
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
@@ -225,6 +238,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
         } else {
+            // Add in default question variables etc.
+            $this->question->questionvariables = self::DEFAULT_QUESTION_VARIABLES;
+
             $out = stack_string('stack_library');
             $liburlparams = [];
             if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
@@ -271,7 +287,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('editor', 'questionnote',
                 stack_string('questionnote'), ['rows' => 2], $this->editoroptions);
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
-        $mform->getElement('questionnote')->setValue(['text' => '']);
+        $mform->getElement('questionnote')->setValue(['text' => self::DEFAULT_QUESTION_NOTE]);
 
         $qdec = $mform->createElement('editor', 'questiondescription',
             stack_string('questiondescription', 'question'), ['rows' => 10], $this->editoroptions);
@@ -460,6 +476,11 @@ class qtype_stack_edit_form extends question_edit_form {
         // We don't make modelans a required field in the formslib sense, because
         // that stops the input sections collapsing by default. Instead, we enforce
         // that it is non-blank in the server-side validation.
+
+        // Set a default for the new question.
+        if ($inputname === self::DEFAULT_INPUT) {
+            $mform->setDefault($inputname . 'modelans', self::DEFAULT_TEACHER_ANSWER);
+        }
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), ['size' => 3]);
         $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
@@ -651,6 +672,14 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
+
+        // Set a default for the new question.
+        // The "newquestion" approach is a hack because for some reason setDefaults always
+        // sets the field in PRT nodes.  No idea why!
+        if ($this->newquestion) {
+            $mform->setDefault($prtname . 'sans[' . $nodekey . ']', self::DEFAULT_INPUT);
+            $mform->setDefault($prtname . 'tans[' . $nodekey . ']', self::DEFAULT_TEACHER_ANSWER);
+        }
 
         // Create the section of the form for each node - the branches.
         foreach (['true', 'false'] as $branch) {

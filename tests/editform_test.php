@@ -33,14 +33,26 @@ require_once(__DIR__ . '/../edit_stack_form.php');
  */
 class editform_test_class extends \qtype_stack_edit_form {
 
-    public function __construct($questiontext, $specificfeedback) {
+    public function __construct($questiontext, $specificfeedback, $quizmoduleid) {
         global $USER;
-        $syscontext = \context_system::instance();
-        $category = question_make_default_categories([$syscontext]);
+        // ISS1325 - Use quiz context rather than system context as
+        // question categories only allowed in modules from Moodle 5.
+        $quizcontext = \context_module::instance($quizmoduleid);
+        if (function_exists('question_get_default_category')) {
+            // This function exists from Moodle 4.5 onwards but the second parameter
+            // which creates the category if it doesn't exist is 5.0 onwards.
+            $category = question_get_default_category($quizcontext->id, true);
+            if (!$category) {
+                $category = $category = question_make_default_categories([$quizcontext]);
+            }
+        } else {
+            // Deprecated from 5.0.
+            $category = $category = question_make_default_categories([$quizcontext]);
+        }
         $fakequestion = new \stdClass();
         $fakequestion->qtype = 'stack';
         $fakequestion->category = $category->id;
-        $fakequestion->contextid = $syscontext->id;
+        $fakequestion->contextid = $quizcontext->id;
         $fakequestion->createdby = $USER->id;
         $fakequestion->modifiedby = $USER->id;
         $fakequestion->questiontext = $questiontext;
@@ -52,9 +64,9 @@ class editform_test_class extends \qtype_stack_edit_form {
         $fakequestion->inputs = null;
         // Support both Moodle 4.x and 3.x.
         if (class_exists('\core_question\local\bank\question_edit_contexts')) {
-            $contexts = new \core_question\local\bank\question_edit_contexts($syscontext);
+            $contexts = new \core_question\local\bank\question_edit_contexts($quizcontext);
         } else {
-            $contexts = new \question_edit_contexts($syscontext);
+            $contexts = new \question_edit_contexts($quizcontext);
         }
         parent::__construct(new \moodle_url('/'), $fakequestion, $category, $contexts);
     }
@@ -74,8 +86,12 @@ class editform_test extends \advanced_testcase {
     protected function get_form($questiontext, $specificfeedback) {
         $this->setAdminUser();
         $this->resetAfterTest();
-
-        return new editform_test_class($questiontext, $specificfeedback);
+        $quizgenerator = self::getDataGenerator()->get_plugin_generator('mod_quiz');
+        $site = get_site();
+        // Add a quiz to the site course.
+        $quiz = $quizgenerator->create_instance(['course' => $site->id, 'grade' => 100.0, 'sumgrades' => 2, 'layout' => '1,0']);
+        $quizmoduleid = $quiz->cmid;
+        return new editform_test_class($questiontext, $specificfeedback, $quizmoduleid);
     }
 
     public function test_get_input_names_from_question_text_default() {

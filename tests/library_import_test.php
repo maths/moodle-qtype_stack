@@ -105,13 +105,13 @@ final class library_import_test extends externallib_advanced_testcase {
     }
 
     /**
-     * Test the library_import function fails when no webservice export capability assigned.
+     * Test the library_import function fails when no capability to add questions assigned.
      */
-    public function test_no_webservice_access(): void {
+    public function test_no_access(): void {
         global $DB;
         $context = context_course::instance($this->course->id);
-        $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student']);
-        role_assign($studentroleid, $this->user->id, $context->id);
+        $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher']);
+        role_assign($teacherroleid, $this->user->id, $context->id);
         $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
         $this->expectException(required_capability_exception::class);
         $this->expectExceptionMessage('you do not currently have permissions to do that (Add new questions).');

@@ -22,6 +22,7 @@
  * use question/exportone.php, or question/bank/exporttoxml/exportone.php,
  * as it later became, instead.
  *
+ * @package    qtype_stack
  * @copyright 2015 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

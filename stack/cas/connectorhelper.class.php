@@ -25,6 +25,7 @@ require_once(__DIR__ . '/installhelper.class.php');
 /**
  * The base class for connections to Maxima.
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

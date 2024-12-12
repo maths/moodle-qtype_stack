@@ -22,6 +22,7 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 /**
  * STACK maths output methods for using MathJax.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

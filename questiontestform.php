@@ -17,6 +17,7 @@
 /**
  * This file defines the editing form for editing question tests.
  *
+ * @package    qtype_stack
  * @copyright 2012 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,6 +31,7 @@ require_once($CFG->libdir . '/formslib.php');
 /**
  * The editing form for editing STACK question tests.
  *
+ * @package    qtype_stack
  * @copyright 2012 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

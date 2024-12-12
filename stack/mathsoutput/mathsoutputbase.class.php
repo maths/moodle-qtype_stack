@@ -21,6 +21,7 @@ require_once(__DIR__ . '/fact_sheets.class.php');
 /**
  * The base class for STACK maths output methods.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

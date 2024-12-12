@@ -28,6 +28,7 @@ require_once(__DIR__ . '/installhelper.class.php');
 /**
  * This class supports the healthcheck functions..
  *
+ * @package    qtype_stack
  * @copyright  2023 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

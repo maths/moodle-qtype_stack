@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * This class represents the current state of a potential response tree.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

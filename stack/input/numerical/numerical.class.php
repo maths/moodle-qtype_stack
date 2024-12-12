@@ -17,6 +17,7 @@
 /**
  * A basic text-field input.
  *
+ * @package    qtype_stack
  * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

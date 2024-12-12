@@ -19,6 +19,7 @@
  * This version handles transfer of the plots generated on possibly remote servlet.
  * For details of this see https://github.com/maths/stack_util_maximapool/
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @copyright  2012 Aalto University - Matti Harjula
  * @copyright  2014 Loughborough University

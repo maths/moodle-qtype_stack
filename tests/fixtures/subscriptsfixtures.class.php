@@ -17,6 +17,7 @@
 /**
  * This script checks display of subscript elements.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

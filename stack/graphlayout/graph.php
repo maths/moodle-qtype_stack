@@ -33,6 +33,7 @@ require_once(__DIR__ . '/textrenderer.php');
 /**
  * Abstract representation of a graph (e.g. a PRT).
  *
+ * @package    qtype_stack
  * @copyright 2013 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

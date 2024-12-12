@@ -18,6 +18,7 @@
  * An input which provides a matrix input of variable size.
  * Lots in common with the textarea class.
  *
+ * @package    qtype_stack
  * @copyright  2019 Ruhr University Bochum
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -1,6 +1,7 @@
 /**
  * This is a library for SortableJS functionality used to generate STACK Parsons blocks.
  *
+ * @package    qtype_stack
  * @copyright  2023 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

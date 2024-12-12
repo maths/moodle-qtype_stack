@@ -17,6 +17,7 @@
 /**
  * Defines the stack_cas_connection interface.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

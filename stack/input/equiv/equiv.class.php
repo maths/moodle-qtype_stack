@@ -22,6 +22,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * This is an input that allows reasoning by equivalence.
  * Each line input becomes one element of a list.
  *
+ * @package    qtype_stack
  * @copyright  2015 Loughborough University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

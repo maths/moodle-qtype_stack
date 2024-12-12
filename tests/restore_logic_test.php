@@ -25,6 +25,7 @@ require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_
 /**
  * Unit tests for the restore logic.
  *
+ * @package    qtype_stack
  * @copyright  2017 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -72,6 +73,7 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
 
 /**
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack

@@ -17,6 +17,7 @@
 /**
  * The fact sheets class for STACK.
  *
+ * @package    qtype_stack
  * @copyright  2014 Loughborough University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

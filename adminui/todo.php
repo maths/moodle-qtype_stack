@@ -18,6 +18,7 @@
  * This page lets the user find all questions in a course in which they are a techer
  * which have a [[todo]] block.  The questions are sorted by any tags they might have.
  *
+ * @package    qtype_stack
  * @copyright  2024 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

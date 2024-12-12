@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Various utility classes for Stack.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Interface for a class that stores debug information (or not).
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -48,6 +50,7 @@ interface stack_debug_log {
 /**
  * Interface for a class that stores debug information (or not).
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -81,6 +84,7 @@ class stack_debug_log_base implements stack_debug_log {
 /**
  * A null stack_debug_log. Does not acutally log anything. Used when debugging is off.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -107,6 +111,7 @@ class stack_debug_log_null implements stack_debug_log {
 /**
  * Utility methods for processing strings.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

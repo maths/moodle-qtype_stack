@@ -17,6 +17,7 @@
 /**
  * Class which undertakes process control to connect to Maxima.
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

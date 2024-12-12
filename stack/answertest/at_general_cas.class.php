@@ -22,6 +22,7 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
 /**
  * General answer test which connects to the CAS - prevents duplicate code.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

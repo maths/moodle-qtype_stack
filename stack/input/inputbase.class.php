@@ -27,6 +27,7 @@ require_once(__DIR__ . '/inputstate.class.php');
  * Inputs are the controls that the teacher can put into the question
  * text to receive the student's response.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

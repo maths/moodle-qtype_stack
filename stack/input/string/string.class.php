@@ -22,6 +22,7 @@ require_once(__DIR__ . '/../algebraic/algebraic.class.php');
  * A basic text-field input which is always interpreted as a Maxima string.
  * This has been requested to support the input of things like multi-base numbers.
  *
+ * @package    qtype_stack
  * @copyright  2018 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../options.class.php');
  * @property-read string $contentsdisplayed how Stack interpreted the current contents of the input.
  * @property-read string $errors any validation errors.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

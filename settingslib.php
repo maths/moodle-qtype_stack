@@ -30,6 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * Just so we can lazy-load the choices.
  *
+ * @package    qtype_stack
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -70,6 +71,7 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
  *
  * So we can lazy-load the choices.
  *
+ * @package    qtype_stack
  * @copyright  2013 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

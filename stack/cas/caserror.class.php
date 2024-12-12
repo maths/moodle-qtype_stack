@@ -24,6 +24,7 @@ require_once(__DIR__ . '/../../vle_specific.php');
  *
  * This class also defines the syntax for those context/location paths.
  *
+ * @package    qtype_stack
  * @copyright  2022 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

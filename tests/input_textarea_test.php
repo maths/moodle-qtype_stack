@@ -256,6 +256,7 @@ class input_textarea_test extends qtype_stack_testcase {
 /**
  * Test helper class that exploses some protected methods.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

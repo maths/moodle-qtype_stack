@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class for running the question tests in bulk.
  *
+ * @package    qtype_stack
  * @copyright  2015 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */

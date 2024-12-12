@@ -17,6 +17,7 @@
 /**
  * This file defines the editing form used by the tidy question script.
  *
+ * @package    qtype_stack
  * @copyright 2013 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,6 +32,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php')
 /**
  * The editing form used by the tidy question script.
  *
+ * @package    qtype_stack
  * @copyright 2013 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

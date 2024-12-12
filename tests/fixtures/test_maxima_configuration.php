@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../../stack/cas/installhelper.class.php');
 /**
  * Helper class for setting up the STACK configuration for automated tests.
  *
+ * @package    qtype_stack
  * @copyright 2014 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

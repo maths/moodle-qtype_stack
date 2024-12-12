@@ -34,6 +34,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetreest
 /**
  * Stack question editing form definition.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

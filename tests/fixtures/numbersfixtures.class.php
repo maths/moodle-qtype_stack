@@ -18,6 +18,7 @@
  * This script provides test cases for the numerical rounding tests.
  *
  *
+ * @package    qtype_stack
  * @copyright  2016 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

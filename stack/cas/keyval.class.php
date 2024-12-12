@@ -25,6 +25,7 @@ require_once(__DIR__ . '/../utils.class.php');
 /**
  * Class to parse user-entered data into CAS sessions.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

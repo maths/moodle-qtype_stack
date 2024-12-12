@@ -44,6 +44,7 @@ require_once(__DIR__ . '/vle_specific.php');
 /**
  * Represents a Stack question.
  *
+ * @package    qtype_stack
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

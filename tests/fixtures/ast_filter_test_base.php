@@ -30,6 +30,7 @@ require_once(__DIR__ . '/../../stack/cas/cassecurity.class.php');
  * see what happened when they were created and that things still work
  * the same.
  *
+ * @package    qtype_stack
  * @copyright  2019 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -26,6 +26,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * needs to call maxima will work (providing you have set up the neccessary
  * defines in phpunit.xml.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -239,6 +240,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
  *
  * Sets up the Maxima connection, and provides some additional asserts.
  *
+ * @package    qtype_stack
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -22,6 +22,7 @@ require_once(__DIR__ . '/../../cas/castext2/utils.php');
  * Input that is a dropdown list/multiple choice that the teacher
  * has specified.
  *
+ * @package    qtype_stack
  * @copyright  2015 University of Edinburgh
  * @author     Chris Sangwin
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

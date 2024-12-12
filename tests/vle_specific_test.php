@@ -26,6 +26,7 @@ require_once(__DIR__ . '/../vle_specific.php');
 /**
  * Test Moodle VLE specific functions.
  *
+ * @package    qtype_stack
  * @copyright 2023 The University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */

@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

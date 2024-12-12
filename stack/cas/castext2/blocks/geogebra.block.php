@@ -25,6 +25,7 @@ defined('MOODLE_INTERNAL') || die();
  * are responsible for the content or liable for any losses or damage resulting
  * of the use of these resources.
  *
+ * @package    qtype_stack
  * @copyright  2022-2023 University of Edinburgh
  * @author     Tim Lutz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

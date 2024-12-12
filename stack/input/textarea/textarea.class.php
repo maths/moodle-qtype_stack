@@ -23,6 +23,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  *
  * The value is stored as a string maxima list. For example [1,hello,x + y].
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

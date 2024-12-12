@@ -21,6 +21,7 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 /**
  * STACK maths output methods for using MathJax with the minimal API.
  *
+ * @package    qtype_stack
  * @copyright  2017 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

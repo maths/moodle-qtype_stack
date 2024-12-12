@@ -256,7 +256,8 @@ class stack_dropdown_input extends stack_input {
                 }
                 if ($ddlvalues[$key]['correct']) {
                     if (substr($display, 0, 9) === '["%root",') {
-                        $tmp = castext2_parser_utils::unpack_maxima_strings($display);
+                        $tmp = castext2_parser_utils::string_to_list($display, true);
+                        $tmp = castext2_parser_utils::unpack_maxima_strings($tmp);
                         $holder = new castext2_placeholder_holder();
                         $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp, null, $holder);
                     } else {

@@ -40,7 +40,7 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     require_login($cm->course, false, $cm);
     $thiscontext = context_module::instance($cmid);
     $urlparams['cmid'] = $cmid;
-    if (str_contains(optional_param('returnurl', null, PARAM_LOCALURL), 'quiz')) {
+    if (strpos(optional_param('returnurl', null, PARAM_LOCALURL), 'quiz') !== false) {
         $returntext = get_string('stack_library_quiz_return', 'qtype_stack');
     } else {
         $returntext = get_string('stack_library_qb_return', 'qtype_stack');

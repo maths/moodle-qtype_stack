@@ -32,7 +32,8 @@ require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_
 class restore_logic_test_class extends \restore_qtype_stack_plugin {
     private $log = '';
 
-    public function __construct() {
+    public function __construct(): void {
+
         // Passing $this as $step, since we only need some log method, which we implemente below.
         parent::__construct('qtype', 'stack', $this);
     }
@@ -51,7 +52,8 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
      * @param $message the message.
      * @param $level the level.
      */
-    public function get_task() {
+    public function get_task(): void {
+
         return  null;
     }
 
@@ -59,12 +61,14 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
      * Get everything that was logged.
      * @return string the log messages, separated by newline.
      */
-    public function get_log() {
+    public function get_log(): void {
+
         return $this->log;
     }
 
     // @codingStandardsIgnoreLine
-    public function after_execute_question() {
+    public function after_execute_question(): void {
+
         // Make method public.
         parent::after_execute_question();
     }
@@ -81,7 +85,8 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
  */
 class restore_logic_test extends \advanced_testcase {
 
-    public function test_fix_prt_roots() {
+    public function test_fix_prt_roots(): void {
+
         global $DB;
         $this->resetAfterTest();
         $this->setAdminUser();

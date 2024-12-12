@@ -32,7 +32,8 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  */
 class connection_test extends qtype_stack_testcase {
 
-    public function test_compute_true() {
+    public function test_compute_true(): void {
+
         $connection = stack_connection_helper::make();
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(diff(x^n,x))),'
                 .' print("] ]"), return(true));';
@@ -46,7 +47,8 @@ class connection_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $return);
     }
 
-    public function test_compute_dispvalue() {
+    public function test_compute_dispvalue(): void {
+
         $connection = stack_connection_helper::make();
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(dispdp(1,3))),'
         .' print("] ]"), return(true));';
@@ -60,7 +62,8 @@ class connection_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $return);
     }
 
-    public function test_compute_dispvalue_units() {
+    public function test_compute_dispvalue_units(): void {
+
         $connection = stack_connection_helper::make();
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(stackunits(dispsf(30,4),kg))),'
         .' print("] ]"), return(true));';
@@ -77,7 +80,8 @@ class connection_test extends qtype_stack_testcase {
     /*
      * Note, with this test on SBCL the timeout can create a runaway process.
      */
-    public function test_compute_miss_formed_command() {
+    public function test_compute_miss_formed_command(): void {
+
         $connection = stack_connection_helper::make();
         // This will induce a timeout on the CAS because we don't have a well formed CAS statement.
         $strin = 'cab:block([],print("[STACKSTART ;';

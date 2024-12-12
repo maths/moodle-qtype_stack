@@ -43,7 +43,8 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_radio_input
  */
 class input_radio_test extends qtype_stack_walkthrough_test_base {
-    protected function expected_choices() {
+    protected function expected_choices(): void {
+
         return [
             '' => stack_string('notanswered'),
             '1' => 'x+1',
@@ -53,7 +54,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    protected function expected_choices_latex() {
+    protected function expected_choices_latex(): void {
+
         return [
             '' => stack_string('notanswered'),
             '1' => 'x+1',
@@ -69,11 +71,13 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    protected function make_ta() {
+    protected function make_ta(): void {
+
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';
     }
 
-    public function test_simple_radio() {
+    public function test_simple_radio(): void {
+
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', null, []);
         // @codingStandardsIgnoreEnd
@@ -95,7 +99,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
-    public function test_simple_casstring_radio() {
+    public function test_simple_casstring_radio(): void {
+
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', null,
                 ['options' => 'casstring']);
@@ -117,7 +122,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                 stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_no_correct_answer() {
+    public function test_no_correct_answer(): void {
+
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('radio', 'ans1', '[[1,false],[2,false]]', null, []);
         // @codingStandardsIgnoreEnd
@@ -131,7 +137,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                 stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_bad_teacheranswer() {
+    public function test_bad_teacheranswer(): void {
+
         $el = $this->make_radio();
         $el->adapt_to_model_answer('[x]');
         $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
@@ -145,7 +152,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                 stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_duplicate_values() {
+    public function test_duplicate_values(): void {
+
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
@@ -160,7 +168,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                 stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_duplicate_values_ok() {
+    public function test_duplicate_values_ok(): void {
+
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
@@ -178,7 +187,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                 stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_render_not_answered() {
+    public function test_render_not_answered(): void {
+
         $el = $this->make_radio();
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" />' .
@@ -198,7 +208,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                         stack_input::BLANK, [], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_render_default() {
+    public function test_render_default(): void {
+
         $el = $this->make_radio();
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">(Clear my choice)</label></div>' .
@@ -219,7 +230,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
-    public function test_render_casstring() {
+    public function test_render_casstring(): void {
+
         $el = $this->make_radio(['options' => 'casstring']);
         $el->adapt_to_model_answer($this->make_ta());
         $expected = '<div class="answer">'
@@ -240,7 +252,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
-    public function test_render_latex() {
+    public function test_render_latex(): void {
+
         $el = $this->make_radio(['options' => 'LaTeX']);
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">(Clear my choice)</label></div>' .
@@ -261,7 +274,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
-    public function test_render_latexdisplay() {
+    public function test_render_latexdisplay(): void {
+
         $el = $this->make_radio(['options' => 'LaTeXdisplay']);
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
@@ -282,7 +296,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
-    public function test_render_latexdisplaystyle() {
+    public function test_render_latexdisplaystyle(): void {
+
         $el = $this->make_radio(['options' => 'LaTeXdisplaystyle']);
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">(Clear my choice)</label></div>' .
@@ -304,7 +319,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
-    public function test_render_no_not_answered() {
+    public function test_render_no_not_answered(): void {
+
         $el = $this->make_radio(['options' => 'nonotanswered']);
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="1" ' .
                 'id="stack1__ans1_1" data-stack-input-type="radio" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -320,28 +336,32 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                     stack_input::BLANK, [], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_validate_student_response_blank() {
+    public function test_validate_student_response_blank(): void {
+
         $options = new stack_options();
         $el = $this->make_radio();
         $state = $el->validate_student_response(['ans1' => ''], $options, 'x+1', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
     }
 
-    public function test_validate_student_response_x_plus_1() {
+    public function test_validate_student_response_x_plus_1(): void {
+
         $options = new stack_options();
         $el = $this->make_radio();
         $state = $el->validate_student_response(['ans1' => '1'], $options, '1', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
-    public function test_validate_student_response_x_plus_2() {
+    public function test_validate_student_response_x_plus_2(): void {
+
         $options = new stack_options();
         $el = $this->make_radio();
         $state = $el->validate_student_response(['ans1' => '2'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
-    public function test_question_level_options() {
+    public function test_question_level_options(): void {
+
         // @codingStandardsIgnoreStart
         $options = new stack_options();
         $options->set_option('simplify', false);
@@ -362,7 +382,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                 stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
-    public function test_radio_plots() {
+    public function test_radio_plots(): void {
+
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('radio', 'ans1',
                 '[[1,true,plot(x,[x,-2,2],[y,-3,3])],[2,false,plot(x^2,[x,-2,2],[y,-3,3])],'
@@ -382,7 +403,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
                 "alt='STACK auto-generated plot of x^3 with parameters [[x,-2,2],[y,-3,3]]'")));
     }
 
-    public function test_teacher_answer_html_notanswered() {
+    public function test_teacher_answer_html_notanswered(): void {
+
         $options = new stack_options();
         $ta = '[[notanswered,false,"n/a"],[A,false],[B,true]]';
         $el = stack_input_factory::make('radio', 'ans1', $ta, null, []);
@@ -408,7 +430,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($correctresponse, $el->get_correct_response($ta));
     }
 
-    public function test_teacher_answer_protect_string_html() {
+    public function test_teacher_answer_protect_string_html(): void {
+
         $options = new stack_options();
         $ta = '[[notanswered,false,"n/a"],["{",true],["[",false],["(",false]]';
         $el = stack_input_factory::make('radio', 'ans1', $ta, null, []);
@@ -441,7 +464,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('\[ \text{{} \]', $state->contentsdisplayed);
     }
 
-    public function test_union() {
+    public function test_union(): void {
+
         $options = new stack_options();
         $ta = '[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],[union({1},{4}),false],' .
             '[A,false,%union({1},{3})]]';
@@ -485,7 +509,8 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
             $el->get_teacher_answer_display(null, null));
     }
 
-    public function test_decimals() {
+    public function test_decimals(): void {
+
         $options = new stack_options();
         $options->set_option('decimals', ',');
         $ta = '[[3.1415,false],[[a,b,c,2.78],true]]';

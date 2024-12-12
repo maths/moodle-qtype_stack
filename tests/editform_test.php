@@ -83,7 +83,8 @@ class editform_test extends \advanced_testcase {
         return new editform_test_class($questiontext, $specificfeedback);
     }
 
-    public function test_get_input_names_from_question_text_default() {
+    public function test_get_input_names_from_question_text_default(): void {
+
         $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
         $qtype = new \qtype_stack();
@@ -92,7 +93,8 @@ class editform_test extends \advanced_testcase {
                 $qtype->get_input_names_from_question_text(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
     }
 
-    public function test_get_prt_names_from_question_default() {
+    public function test_get_prt_names_from_question_default(): void {
+
         $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
         $qtype = new \qtype_stack();

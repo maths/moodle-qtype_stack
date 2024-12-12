@@ -44,7 +44,8 @@ class castext2_internals_test extends qtype_stack_testcase {
      * @covers \qtype_stack\CTP_Parser
      * @covers \qtype_stack\CTP_Parser::parse
      */
-    public function test_parser() {
+    public function test_parser(): void {
+
         $parser = new CTP_Parser();
         $code   = '[[ if test="0"]] {#1#} {@2@}[[/if]]';
         $ast    = $parser->parse($code);
@@ -86,7 +87,8 @@ class castext2_internals_test extends qtype_stack_testcase {
      * @covers \qtype_stack\CTP_Parser::parse
      * @covers \qtype_stack\CTP_IOBlock
      */
-    public function test_ioblockextensions() {
+    public function test_ioblockextensions(): void {
+
         $parser = new CTP_Parser();
         $code   = '[[list_errors:ans1,ans2]][[ whatever : ans3 ]]';
         $ast    = $parser->parse($code);
@@ -105,7 +107,8 @@ class castext2_internals_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
-    public function test_math_paint_1() {
+    public function test_math_paint_1(): void {
+
         $parser = new CTP_Parser();
         $code   = '\({#1#}\) {@3@} \[{@5@}\] \begin{equation}{@7@} \end{equation} {#9#}';
         $ast    = $parser->parse($code);
@@ -126,7 +129,8 @@ class castext2_internals_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
-    public function test_math_paint_2() {
+    public function test_math_paint_2(): void {
+
         $parser = new CTP_Parser();
         $code   = '<p>[[commonstring key="your_answer_interpreted_as"/]]</p>';
         $code  .= '[[if test="stringp(ans1)"]]<p style="text-align:center">{@false@}</p>';

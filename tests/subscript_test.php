@@ -57,7 +57,8 @@ class subscript_test extends qtype_stack_testcase {
      * @dataProvider stack_subscripts_test_data::get_raw_test_data
      * @codingStandardsIgnoreEnd
      */
-    public function test_subscripts() {
+    public function test_subscripts(): void {
+
         $this->skip_if_old_maxima('5.40.0');
 
         $test1 = stack_subscripts_test_data::test_from_raw(func_get_args());
@@ -95,7 +96,8 @@ class subscript_test extends qtype_stack_testcase {
      * @dataProvider stack_subscripts_test_data::get_raw_test_data_legacy
      * @codingStandardsIgnoreEnd
      */
-    public function test_subscripts_legacy_maxima() {
+    public function test_subscripts_legacy_maxima(): void {
+
         $this->skip_if_new_maxima('5.40.0');
 
         $test1 = stack_subscripts_test_data::test_from_raw(func_get_args());
@@ -127,7 +129,8 @@ class subscript_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_texput_overide() {
+    public function test_texput_overide(): void {
+
 
         $preamble   = [];
         $preamble[] = 'texput(F, "{\\mathcal F}");';
@@ -151,7 +154,8 @@ class subscript_test extends qtype_stack_testcase {
         $this->assertEquals($output, $rendered);
     }
 
-    public function test_texput_overide_units() {
+    public function test_texput_overide_units(): void {
+
 
         $preamble   = [];
         $preamble[] = 'stack_unit_si_declare(true);';

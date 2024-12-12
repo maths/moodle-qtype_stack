@@ -45,7 +45,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_test3_partially_right_then_right() {
+    public function test_test3_partially_right_then_right(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'immediatefeedback', 4);
@@ -123,7 +124,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
     }
 
-    public function test_test3_sumbit_and_finish_before_validating() {
+    public function test_test3_sumbit_and_finish_before_validating(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'immediatefeedback', 4);
@@ -192,7 +194,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
     }
 
-    public function test_test3_save_invalid_response_correct_then_stubmit() {
+    public function test_test3_save_invalid_response_correct_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'immediatefeedback', 4);

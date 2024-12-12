@@ -46,7 +46,8 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  */
 class input_parsons_test extends qtype_stack_testcase {
 
-    public function test_render_blank() {
+    public function test_render_blank(): void {
+
         $el = stack_input_factory::make('parsons', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" '
                 . 'size="16.5" spellcheck="false" class="maxima-string" style="display:none" value="" '
@@ -55,7 +56,8 @@ class input_parsons_test extends qtype_stack_testcase {
                         'stack1__ans1', false, null));
     }
 
-    public function test_render_hello_world() {
+    public function test_render_hello_world(): void {
+
         $el = stack_input_factory::make('parsons', 'ans1', '"Hello world"');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" '
                 . 'size="16.5" spellcheck="false" class="maxima-string" style="display:none" value="0" '
@@ -67,7 +69,8 @@ class input_parsons_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display('"Hello world"', '\\text{Hello world}'));
     }
 
-    public function test_validate_parsons_string_input() {
+    public function test_validate_parsons_string_input(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -80,7 +83,8 @@ class input_parsons_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
-    public function test_validate_parsons_state_input() {
+    public function test_validate_parsons_state_input(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -95,7 +99,8 @@ class input_parsons_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
-    public function test_validate_string_singlequotes_input() {
+    public function test_validate_string_singlequotes_input(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -108,7 +113,8 @@ class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{&apos;[[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;aGVsbG8=&quot;,&quot;d29ybGQ=&quot;]},0]]&apos;} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_remains_hashed_if_invalid_state() {
+    public function test_validate_remains_hashed_if_invalid_state(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -121,7 +127,8 @@ class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{[&quot;aGVsbG8=&quot;,&quot;d29ybGQ=&quot;]} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_remains_hashed_if_invalid_timestamp() {
+    public function test_validate_remains_hashed_if_invalid_timestamp(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -135,7 +142,8 @@ class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;aGVsbG8=&quot;,&quot;d29ybGQ=&quot;]},&quot;I am invalid timestamp&quot;]]} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_parsons_whitespace() {
+    public function test_validate_parsons_whitespace(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -148,7 +156,8 @@ class input_parsons_test extends qtype_stack_testcase {
                 . '[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_parsons_empty() {
+    public function test_validate_parsons_empty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $state = $el->validate_student_response(['sans1' => ''], $options, '"A random string"',
@@ -158,7 +167,8 @@ class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->contentsdisplayed);
     }
 
-    public function test_validate_parsons_explicitempty() {
+    public function test_validate_parsons_explicitempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('options', 'allowempty');
@@ -170,7 +180,8 @@ class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{&quot;&quot;} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_parsons_allowempty() {
+    public function test_validate_parsons_allowempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');
         $el->set_parameter('options', 'allowempty');
@@ -181,7 +192,8 @@ class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{ } \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_xss_4() {
+    public function test_validate_student_response_xss_4(): void {
+
         $options = new stack_options();
         $ta = '"Hello world"';
         $el = stack_input_factory::make('parsons', 'sans1', '"A random string"');

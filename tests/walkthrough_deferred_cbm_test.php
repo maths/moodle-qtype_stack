@@ -48,7 +48,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_test3_save_answers_to_all_parts_and_stubmit() {
+    public function test_test3_save_answers_to_all_parts_and_stubmit(): void {
+
         // Account for the changes in Moodle 2.6.
         if (question_cbm::adjust_fraction(1, question_cbm::HIGH) > 2) {
             // Moodle 2.6+.
@@ -129,7 +130,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit() {
+    public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 12);
@@ -223,7 +225,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit() {
+    public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -292,7 +295,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test3_save_completely_blank_response_then_stubmit() {
+    public function test_test3_save_completely_blank_response_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -338,7 +342,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test0_no_validation_required() {
+    public function test_test0_no_validation_required(): void {
+
         // Account for the changes in Moodle 2.6.
         if (question_cbm::adjust_fraction(1, question_cbm::HIGH) > 2) {
             // Moodle 2.6+.

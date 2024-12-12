@@ -50,7 +50,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 class prt_test extends qtype_stack_testcase {
 
-    private function create_default_node() {
+    private function create_default_node(): void {
+
         $node = new stdClass();
         $node->id                  = '';
         $node->nodename            = '';
@@ -79,7 +80,8 @@ class prt_test extends qtype_stack_testcase {
         return $node;
     }
 
-    public function test_single_node_prt() {
+    public function test_single_node_prt(): void {
+
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';
@@ -207,7 +209,8 @@ class prt_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
-    public function test_multi_node_prt() {
+    public function test_multi_node_prt(): void {
+
 
         $newprt = new stdClass;
         $newprt->name = 'multiprt';
@@ -309,7 +312,8 @@ class prt_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
-    public function test_runtime_score_error() {
+    public function test_runtime_score_error(): void {
+
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';

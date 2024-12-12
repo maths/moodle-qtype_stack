@@ -42,7 +42,8 @@ class castext_exception_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      */
-    public function test_exception_1() {
+    public function test_exception_1(): void {
+
         $this->expectException(TypeError::class);
         $at1 = castext2_evaluatable::make_from_source([], null);
     }
@@ -50,7 +51,8 @@ class castext_exception_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      */
-    public function test_exception_2() {
+    public function test_exception_2(): void {
+
         $this->expectException(TypeError::class);
         $at1 = castext2_evaluatable::make_from_source("Hello world", [1]);
     }

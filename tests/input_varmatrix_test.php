@@ -42,7 +42,8 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  */
 class input_varmatrix_test extends qtype_stack_testcase {
 
-    public function test_render_blank() {
+    public function test_render_blank(): void {
+
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $this->assertEquals('<div class="matrixsquarebrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
                 'spellcheck="false" class="varmatrixinput" size="5.5" style="width: 4.6em" rows="5" cols="5" ' .
@@ -52,7 +53,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_no_errors_if_garbled() {
+    public function test_render_no_errors_if_garbled(): void {
+
         // The teacher does not need to use a matrix here but there will be errors later!
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
 
@@ -64,7 +66,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_syntax_hint() {
+    public function test_render_syntax_hint(): void {
+
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $this->assertEquals('<div class="matrixsquarebrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
@@ -75,7 +78,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_syntax_hint_placeholder() {
+    public function test_render_syntax_hint_placeholder(): void {
+
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $el->set_parameter('syntaxAttribute', '1');
@@ -87,7 +91,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_syntax_hint_round() {
+    public function test_render_syntax_hint_round(): void {
+
         $options = new stack_options();
         $options->set_option('matrixparens', '(');
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
@@ -100,7 +105,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                 'ans1', false, null));
     }
 
-    public function test_render_monospace() {
+    public function test_render_monospace(): void {
+
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $el->set_parameter('options', 'monospace:true');
         $this->assertEquals('<div class="matrixsquarebrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
@@ -111,7 +117,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_no_monospace_default_on() {
+    public function test_render_no_monospace_default_on(): void {
+
         set_config('inputmonospace', '3', 'qtype_stack');
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $this->assertEquals('<div class="matrixsquarebrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
@@ -122,7 +129,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_validate_student_response_na() {
+    public function test_validate_student_response_na(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $state = $el->validate_student_response([], $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
@@ -131,7 +139,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_valid() {
+    public function test_validate_student_response_valid(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -145,7 +154,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
     }
 
-    public function test_validate_student_response_valid_zeros() {
+    public function test_validate_student_response_valid_zeros(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -158,7 +168,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_invalid_one_blank() {
+    public function test_validate_student_response_invalid_one_blank(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -173,7 +184,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_invalid_two_blank() {
+    public function test_validate_student_response_invalid_two_blank(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -188,7 +200,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_invalid() {
+    public function test_validate_student_response_invalid(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -203,7 +216,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_invalid_bracket() {
+    public function test_validate_student_response_invalid_bracket(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -220,7 +234,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_invalid_multiple() {
+    public function test_validate_student_response_invalid_multiple(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -240,7 +255,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_render_blank_allowempty() {
+    public function test_render_blank_allowempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'x^2');
         $el->set_parameter('options', 'allowempty');
@@ -252,7 +268,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'stack1__ans1', false, null));
     }
 
-    public function test_validate_student_response_blank_allowempty() {
+    public function test_validate_student_response_blank_allowempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $el->set_parameter('options', 'allowempty');
@@ -269,7 +286,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_blank() {
+    public function test_validate_student_response_blank(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -284,7 +302,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_blank_part() {
+    public function test_validate_student_response_blank_part(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -300,7 +319,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 
-    public function test_validate_student_response_valid_logs() {
+    public function test_validate_student_response_valid_logs(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
         $inputvals = [
@@ -318,7 +338,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_decimals_dot() {
+    public function test_validate_student_response_decimals_dot(): void {
+
         $options = new stack_options();
         $options->set_option('decimals', '.');
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
@@ -335,7 +356,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 
-    public function test_validate_student_response_decimals_continental() {
+    public function test_validate_student_response_decimals_continental(): void {
+
         $options = new stack_options();
         $options->set_option('decimals', ',');
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
@@ -352,7 +374,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 
-    public function test_validate_forbid_sin() {
+    public function test_validate_forbid_sin(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
         $el->set_parameter('forbidWords', 'int, sin, diff');
@@ -386,7 +409,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
     }
 
-    public function test_validate_forbid_matrix() {
+    public function test_validate_forbid_matrix(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
         // Matrix here should not forbid the top-level matrix.

@@ -50,7 +50,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_test3_save_answers_to_all_parts_and_stubmit() {
+    public function test_test3_save_answers_to_all_parts_and_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -122,7 +123,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
     }
 
-    public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit() {
+    public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -216,7 +218,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
     }
 
-    public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit() {
+    public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -285,7 +288,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
     }
 
-    public function test_test3_save_completely_blank_response_then_stubmit() {
+    public function test_test3_save_completely_blank_response_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -331,7 +335,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
     }
 
-    public function test_test3_save_partial_purely_invalid_response_then_stubmit() {
+    public function test_test3_save_partial_purely_invalid_response_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -397,7 +402,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
     }
 
-    public function test_test0_no_validation_required() {
+    public function test_test0_no_validation_required(): void {
+
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
         $q = \test_question_maker::make_question('stack', 'test0');
@@ -460,7 +466,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
     }
 
-    public function test_divide_by_0() {
+    public function test_divide_by_0(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'divide');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
@@ -509,7 +516,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
             );
     }
 
-    public function test_1input2prts_specific_feedback_handling() {
+    public function test_1input2prts_specific_feedback_handling(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', '1input2prts');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
@@ -564,7 +572,8 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
     }
 
-    public function test_rendering_question_with_image() {
+    public function test_rendering_question_with_image(): void {
+
         global $CFG;
 
         // Create a stack question - we use test0, then change the question text

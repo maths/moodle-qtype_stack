@@ -37,7 +37,8 @@ require_once(__DIR__ . '/../vle_specific.php');
  */
 class vle_specific_test extends qtype_stack_testcase {
 
-    public function test_mathjaxurl() {
+    public function test_mathjaxurl(): void {
+
         $this->resetAfterTest();
 
         // Parameters but no config.

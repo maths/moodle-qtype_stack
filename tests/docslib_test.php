@@ -37,14 +37,16 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 class docslib_test extends qtype_stack_testcase {
 
-    public function test_stack_docs_title_from_filename() {
+    public function test_stack_docs_title_from_filename(): void {
+
         $this->assertEquals('About', stack_docs_title_from_filename('About'));
         $this->assertEquals('Some folder', stack_docs_title_from_filename('Some_folder'));
         $this->assertEquals('Documentation', stack_docs_title_from_filename('Documentation.md'));
         $this->assertEquals('Future plans', stack_docs_title_from_filename('Future_plans.md'));
     }
 
-    public function test_stack_docs_index() {
+    public function test_stack_docs_index(): void {
+
         global $CFG;
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
@@ -76,7 +78,8 @@ class docslib_test extends qtype_stack_testcase {
                 $CFG->wwwroot . '/question/type/stack/doc.php/Students'));
     }
 
-    public function test_stack_docs_render_markdown() {
+    public function test_stack_docs_render_markdown(): void {
+
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
         $currentversion = normalize_version(get_config('', 'release'));
@@ -109,14 +112,16 @@ class docslib_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_docs_render_markdown_with_proof() {
+    public function test_stack_docs_render_markdown_with_proof(): void {
+
         $md = '<div class="proof"><p>H1. Assume that \(3 \cdot 2^{172} + 1\) is a perfect square.</p></div>';
         $ex = $md . "\n";
         $this->assert_content_with_maths_equals($ex,
             stack_docs_render_markdown($md));
     }
 
-    public function test_stack_docs_render_markdown_with_table() {
+    public function test_stack_docs_render_markdown_with_table(): void {
+
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
         $currentversion = normalize_version(get_config('', 'release'));

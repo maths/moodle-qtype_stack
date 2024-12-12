@@ -48,7 +48,8 @@ class studentinput_test extends qtype_stack_testcase {
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data
      * @codingStandardsIgnoreEnd
      */
-    public function test_studentinput() {
+    public function test_studentinput(): void {
+
         $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'typeless');
         $result = stack_inputvalidation_test_data::run_test($test);
 
@@ -63,7 +64,8 @@ class studentinput_test extends qtype_stack_testcase {
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_units
      * @codingStandardsIgnoreEnd
      */
-    public function test_studentinput_units() {
+    public function test_studentinput_units(): void {
+
         $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'units');
         $result = stack_inputvalidation_test_data::run_test($test);
 
@@ -78,7 +80,8 @@ class studentinput_test extends qtype_stack_testcase {
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
      * @codingStandardsIgnoreEnd
      */
-    public function test_studentinput_decimals_british() {
+    public function test_studentinput_decimals_british(): void {
+
         $test = stack_inputvalidation_test_data::test_decimals_from_raw(func_get_args(), 1);
         $result = stack_inputvalidation_test_data::run_test($test);
 
@@ -93,7 +96,8 @@ class studentinput_test extends qtype_stack_testcase {
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
      * @codingStandardsIgnoreEnd
      */
-    public function test_studentinput_decimals_continental() {
+    public function test_studentinput_decimals_continental(): void {
+
         $test = stack_inputvalidation_test_data::test_decimals_from_raw(func_get_args(), 2);
         $result = stack_inputvalidation_test_data::run_test($test);
 

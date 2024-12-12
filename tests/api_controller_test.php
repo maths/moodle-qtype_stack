@@ -92,7 +92,8 @@ class api_controller_test extends qtype_stack_testcase {
             ->getMock();
         // Need to use callback so data can be altered in each test.
         $this->request->method("getParsedBody")->will($this->returnCallback(
-            function() {
+            function(): void {
+
                 return $this->requestdata;
             })
         );
@@ -120,7 +121,8 @@ class api_controller_test extends qtype_stack_testcase {
             ->getMock();
 
         $this->result->expects($this->any())->method('write')->will($this->returnCallback(
-            function() {
+            function(): void {
+
                 $this->output = json_decode(func_get_args()[0]);
                 return 1;
             })
@@ -130,7 +132,8 @@ class api_controller_test extends qtype_stack_testcase {
         // so we have to mock both. We override the write method to write to a propery of the testsuite
         // so we have something easily accessible to perform some asserts on.
         $this->response->expects($this->any())->method('getBody')->will($this->returnCallback(
-            function() {
+            function(): void {
+
                 return $this->result;
             })
         );
@@ -147,7 +150,8 @@ class api_controller_test extends qtype_stack_testcase {
         set_config('stackapi', false, 'qtype_stack');
     }
 
-    public function test_render() {
+    public function test_render(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
@@ -165,7 +169,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, count($this->output->iframes));
     }
 
-    public function test_render_specified_seed() {
+    public function test_render_specified_seed(): void {
+
         $this->requestdata['seed'] = 219862533;
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $rc = new RenderController();
@@ -174,7 +179,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(219862533, $this->output->questionseed);
     }
 
-    public function test_render_plots() {
+    public function test_render_plots(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('plots');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
@@ -185,21 +191,24 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
     }
 
-    public function test_render_iframes() {
+    public function test_render_iframes(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('iframes');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertEquals(1, count($this->output->iframes));
     }
 
-    public function test_render_download() {
+    public function test_render_download(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('download');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertMatchesRegularExpression('/javascript\:download\(\'data.csv\'\, 1\)/s', $this->output->questionrender);
     }
 
-    public function test_validation() {
+    public function test_validation(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('matrices_correct'));
         $this->requestdata['inputName'] = 'ans1';
@@ -210,7 +219,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, count($this->output->iframes));
     }
 
-    public function test_grade() {
+    public function test_grade(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('matrices_correct'));
         $this->requestdata['inputName'] = 'ans1';
@@ -229,7 +239,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, count($this->output->iframes));
     }
 
-    public function test_grade_scores() {
+    public function test_grade_scores(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('multipleanswers');
         $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('multiple_mixed'));
         $this->requestdata['inputName'] = 'ans1';
@@ -249,7 +260,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(10, $this->output->scoreweights->total);
     }
 
-    public function test_download() {
+    public function test_download(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('download');
         $this->requestdata['filename'] = 'data.csv';
         $this->requestdata['fileid'] = 1;
@@ -264,7 +276,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->expectOutputRegex('/^A,B,C\n0.37,5.04,2.72/s');
     }
 
-    public function test_test_controller() {
+    public function test_test_controller(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
@@ -284,7 +297,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(4, count(get_object_vars($results->results->{'86'}->outcomes)));
     }
 
-    public function test_test_controller_fail() {
+    public function test_test_controller_fail(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test');
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
@@ -305,7 +319,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(2, count(get_object_vars($results->results->noseed->outcomes)));
     }
 
-    public function test_test_controller_upgrade() {
+    public function test_test_controller_upgrade(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test2');
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
@@ -321,7 +336,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals([], $results->results);
     }
 
-    public function test_test_controller_default_test_fail() {
+    public function test_test_controller_default_test_fail(): void {
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test3');
         $this->requestdata['filepath'] = 'testpath/test.xml';
         $tc = new TestController();
@@ -338,7 +354,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, $results->results->noseed->passes);
     }
 
-    public function test_test_controller_default_test_pass() {
+    public function test_test_controller_default_test_pass(): void {
+
         $this->requestdata['questionDefinition'] =
             str_replace('<tans>wrong</tans>', '<tans>ta</tans>', stack_api_test_data::get_question_string('test3'));
         $this->requestdata['filepath'] = 'testpath/test.xml';

@@ -68,7 +68,8 @@ class parser_rule_201_test extends qtype_stack_testcase {
         return $r;
     }
 
-    public function test_non_strict() {
+    public function test_non_strict(): void {
+
         $test = '-0.001';
         $result = $this->filter($test, 1);
         $this->assertTrue($result['valid']);
@@ -102,7 +103,8 @@ class parser_rule_201_test extends qtype_stack_testcase {
         $this->assertFalse($result['valid']);
     }
 
-    public function test_strict() {
+    public function test_strict(): void {
+
         $test = '-0.001';
         $result = $this->filter($test, 1, -1, true);
         $this->assertTrue($result['valid']);

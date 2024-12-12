@@ -55,39 +55,45 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         return new stack_answertest_general_cas($sa, $ta, $atname, $op, $options);
     }
 
-    public function test_is_true_for_equivalent_expressions_diff() {
+    public function test_is_true_for_equivalent_expressions_diff(): void {
+
         $at = $this->stack_answertest_general_cas_builder('2*x', '2*x', 'Diff', 'x');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_equivalent_expressions_diff() {
+    public function test_is_false_for_equivalent_expressions_diff(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^3/3', '2*x', 'Diff', 'x');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_null_for_missing_option_diff() {
+    public function test_is_null_for_missing_option_diff(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '2*x', 'Diff', '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_expressions_algequiv() {
+    public function test_is_true_for_equal_expressions_algequiv(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1', '1', 'AlgEquiv');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertEquals('', $at->get_at_feedback());
     }
 
-    public function test_is_false_for_unequal_expressions_algequiv() {
+    public function test_is_false_for_unequal_expressions_algequiv(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^2+2*x-1', '(x+1)^2', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('', $at->get_at_feedback());
     }
 
-    public function test_is_false_for_expressions_with_different_type_algequiv() {
+    public function test_is_false_for_expressions_with_different_type_algequiv(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -96,7 +102,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
     }
 
-    public function test_algequivfeedback_1() {
+    public function test_algequivfeedback_1(): void {
+
         $at = $this->stack_answertest_general_cas_builder('[1,2]', '[1,2,3]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -107,7 +114,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals("ATList_wronglen.", $at->get_at_answernote());
     }
 
-    public function test_algequivfeedback_2() {
+    public function test_algequivfeedback_2(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x', '{1,2,3}', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -116,7 +124,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals("ATAlgEquiv_SA_not_set.", $at->get_at_answernote());
     }
 
-    public function test_algequivfeedback_3() {
+    public function test_algequivfeedback_3(): void {
+
         $at = $this->stack_answertest_general_cas_builder('{1,2}', '{1,2,3}', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -125,67 +134,78 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals("ATSet_wrongsz.", $at->get_at_answernote());
     }
 
-    public function test_is_true_for_equal_expressions_comass() {
+    public function test_is_true_for_equal_expressions_comass(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x+y', 'x+y', 'EqualComAss');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_unequal_expressions_comass() {
+    public function test_is_false_for_unequal_expressions_comass(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x+x', '2*x', 'EqualComAss');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_false_for_expressions_with_different_type_comass() {
+    public function test_is_false_for_expressions_with_different_type_comass(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'EqualComAss');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_expressions_caseq() {
+    public function test_is_true_for_equal_expressions_caseq(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x+y', 'x+y', 'CasEqual');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_unequal_expressions_caseq() {
+    public function test_is_false_for_unequal_expressions_caseq(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(1-x)^2', '(x-1)^2', 'CasEqual');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_false_for_expressions_with_different_type_caseq() {
+    public function test_is_false_for_expressions_with_different_type_caseq(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'CasEqual');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_sametype() {
+    public function test_is_true_sametype(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x+1', 'x^3+x', 'SameType');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_sametype() {
+    public function test_is_false_sametype(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^2+2*x-1', '{(x+1)^2}', 'SameType');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_substequiv() {
+    public function test_is_true_substequiv(): void {
+
         $at = $this->stack_answertest_general_cas_builder('a^2+b^2=c^2', 'x^2+y^2=z^2', 'SubstEquiv', '[]');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_substequiv() {
+    public function test_is_false_substequiv(): void {
+
         $at = $this->stack_answertest_general_cas_builder('2*x', '3*z', 'SubstEquiv', '[]');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_substequiv_op_true() {
+    public function test_is_substequiv_op_true(): void {
+
         $at = $this->stack_answertest_general_cas_builder('A*cos(t)+B', 'P*cos(t)+Q', 'SubstEquiv', '[t]');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
@@ -193,7 +213,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals('ATSubstEquiv(A*cos(t)+B, P*cos(t)+Q, [t]);', $at->get_trace(false));
     }
 
-    public function test_is_substequiv_op_false() {
+    public function test_is_substequiv_op_false(): void {
+
         $at = $this->stack_answertest_general_cas_builder('A*cos(x)+B', 'P*cos(t)+Q', 'SubstEquiv', '[t]');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -201,120 +222,139 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals('ATSubstEquiv(A*cos(x)+B, P*cos(t)+Q, [t]);', $at->get_trace(false));
     }
 
-    public function test_is_true_for_equal_expressions_expanded() {
+    public function test_is_true_for_equal_expressions_expanded(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^2+2*x-1', 'x^2+2*x-1', 'Expanded');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_unequal_expressions_expanded() {
+    public function test_is_false_for_unequal_expressions_expanded(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'Expanded');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATExpanded((x+1)^2, (x+1)^2, null);', $at->get_trace(false));
     }
 
-    public function test_is_true_for_equal_expression_facforms() {
+    public function test_is_true_for_equal_expression_facforms(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'FacForm', 'x');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertEquals('ATFacForm((x+1)^2, (x+1)^2, x);', $at->get_trace(false));
     }
 
-    public function test_is_false_for_unequal_expressions_facform() {
+    public function test_is_false_for_unequal_expressions_facform(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^2+2*x+1', '(x+1)^2', 'FacForm', 'x');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_null_for_missing_option_facform() {
+    public function test_is_null_for_missing_option_facform(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'FacForm', '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_atsinglefrac() {
+    public function test_is_true_atsinglefrac(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1/(x*(x+1))', '1/(x*(x+1))', 'SingleFrac');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_atsinglefrac() {
+    public function test_is_false_atsinglefrac(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1/n+1/(n+1)', '1/n+1/(n+1)', 'SingleFrac');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_partfrac() {
+    public function test_is_true_partfrac(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1/n+1/(n+1)', '1/n+1/(n+1)', 'PartFrac', 'n');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_partfrac() {
+    public function test_is_false_partfrac(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1/(x*(x+1))', '1/(x*(x+1))', 'PartFrac', 'x');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATPartFrac(1/(x*(x+1)), 1/(x*(x+1)), x);', $at->get_trace(false));
     }
 
-    public function test_is_null_for_missing_option_partfrac() {
+    public function test_is_null_for_missing_option_partfrac(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'PartFrac', '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals([true, ''], $at->validate_atoptions('x'));
     }
 
-    public function test_is_true_for_completed_quadratics_compsquare() {
+    public function test_is_true_for_completed_quadratics_compsquare(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x-1)^2-2', '(x-1)^2-2', 'CompSquare', 'x');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_wrong_form_compsquare() {
+    public function test_is_false_for_wrong_form_compsquare(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^2+2*x+1', '(x+1)^2', 'CompSquare', 'x');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATCompSquare(x^2+2*x+1, (x+1)^2, x);', $at->get_trace(false));
     }
 
-    public function test_is_null_for_missing_option_compsquare() {
+    public function test_is_null_for_missing_option_compsquare(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'CompSquare', '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_expressions_gt() {
+    public function test_is_true_for_equal_expressions_gt(): void {
+
         $at = $this->stack_answertest_general_cas_builder('2', '1', 'GT');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_expressions_gte() {
+    public function test_is_true_for_equal_expressions_gte(): void {
+
         $at = $this->stack_answertest_general_cas_builder('2', '1', 'GTE');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equivalent_expressions_int() {
+    public function test_is_true_for_equivalent_expressions_int(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^3/3+c', 'x^3/3', 'Int', 'x');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_equivalent_expressions_int() {
+    public function test_is_false_for_equivalent_expressions_int(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^3/3', '2*x', 'Int', 'x');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_null_for_missing_option_int() {
+    public function test_is_null_for_missing_option_int(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'Int', '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_invalid_option_int() {
+    public function test_invalid_option_int(): void {
+
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'Int', '(x');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -330,46 +370,53 @@ class answertest_general_cas_test extends qtype_stack_testcase {
                 '<span class="stacksyntaxexample">2<span class="stacksyntaxexamplehighlight">*</span>x</span>.', $err);
     }
 
-    public function test_is_true_numabsolute() {
+    public function test_is_true_numabsolute(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumAbsolute', '0.05');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_numabsolute() {
+    public function test_is_false_numabsolute(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1.0501', '1', 'NumAbsolute', '0.01');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATNumAbsolute(1.0501, 1, 0.01);', $at->get_trace(false));
     }
 
-    public function test_is_missingopt_numabsolute() {
+    public function test_is_missingopt_numabsolute(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumAbsolute');
         // If the option is missing then we take 5% of the teacher's answer.
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_numrelative() {
+    public function test_is_true_numrelative(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumRelative', '0.05');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_numrelative() {
+    public function test_is_false_numrelative(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1.0501', '1', 'NumRelative', '0.01');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_missingopt_numrelative() {
+    public function test_is_missingopt_numrelative(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumRelative');
         // If the option is missing then we take 5%.
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_invalidopt_numrelative() {
+    public function test_is_invalidopt_numrelative(): void {
+
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumRelative', 'x');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -406,7 +453,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
     // This needs to be converted into something which can be translated by Moodle.
     // This is the role of stack_maxima_translate in locallib.php.
     // @codingStandardsIgnoreEND
-    public function test_stack_maxima_translate_int() {
+    public function test_stack_maxima_translate_int(): void {
+
         $at = $this->stack_answertest_general_cas_builder('x^6', 'x^6/6', 'Int', 'x');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
@@ -418,7 +466,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_stack_maxima_translate_algequiv_list() {
+    public function test_stack_maxima_translate_algequiv_list(): void {
+
         // This test points out which element in the list is incorrect.
         $at = $this->stack_answertest_general_cas_builder('[x^2,x^2,x^4]', '[x^2,x^3,x^4]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
@@ -432,7 +481,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 
-    public function test_stack_maxima_translate_algequiv_list_decimals() {
+    public function test_stack_maxima_translate_algequiv_list_decimals(): void {
+
         // This test points out which element in the list is incorrect.
         $options = new stack_options();
         $options->set_option('decimals', ',');
@@ -448,7 +498,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 
-    public function test_stack_maxima_translate_algequiv_matrix() {
+    public function test_stack_maxima_translate_algequiv_matrix(): void {
+
         // Matrices have newline characters in them.
         $at = $this->stack_answertest_general_cas_builder('matrix([1,2],[2,4])', 'matrix([1,2],[3,4])', 'AlgEquiv');
         $this->assertFalse($at->do_test());
@@ -463,7 +514,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_stack_maxima_int_feedback_1() {
+    public function test_stack_maxima_int_feedback_1(): void {
+
         $at = $this->stack_answertest_general_cas_builder('((5*%e^7*x-%e^7)*%e^(5*x))',
                 '((5*%e^7*x-%e^7)*%e^(5*x))/25+c', 'Int', 'x');
         $this->assertFalse($at->do_test());
@@ -477,7 +529,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_stack_maxima_int_feedback_2() {
+    public function test_stack_maxima_int_feedback_2(): void {
+
         $at = $this->stack_answertest_general_cas_builder('((5*%e^7*x-%e^7)*%e^(5*x))',
                 '((5*%e^7*x-%e^7)*%e^(5*x))/25+c', 'Int', '[x,x*%e^(5*x+7)]');
         $this->assertFalse($at->do_test());
@@ -490,7 +543,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_stack_maxima_int_feedback_3() {
+    public function test_stack_maxima_int_feedback_3(): void {
+
         $at = $this->stack_answertest_general_cas_builder('e^-(4*pi*x)/(4*pi)',
             'int(exp(-4*pi*x),x)', 'Int', '[x,NOCONST]');
         $this->assertFalse($at->do_test());
@@ -502,35 +556,40 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_is_true_units_relative() {
+    public function test_is_true_units_relative(): void {
+
         $at = $this->stack_answertest_general_cas_builder('3.1*m/s', '3.2*m/s', 'UnitsRelative', '0.1');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
-    public function test_is_false_units_relative() {
+    public function test_is_false_units_relative(): void {
+
         $at = $this->stack_answertest_general_cas_builder('3.0*m/s', '3.2*m/s', 'UnitsRelative', '0.05');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
-    public function test_is_true_units_absolute() {
+    public function test_is_true_units_absolute(): void {
+
         $at = $this->stack_answertest_general_cas_builder('3.1*m/s', '3.2*m/s', 'UnitsAbsolute', '0.2');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
-    public function test_is_false_units_absolute() {
+    public function test_is_false_units_absolute(): void {
+
         $at = $this->stack_answertest_general_cas_builder('3.1*m/s', '3.2*m/s', 'UnitsAbsolute', '0.05');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
-    public function test_equiv_true() {
+    public function test_equiv_true(): void {
+
         $at = $this->stack_answertest_general_cas_builder('[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
                 'Equiv', 'null');
         $this->assertTrue($at->do_test());
@@ -541,7 +600,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_equiv_false() {
+    public function test_equiv_false(): void {
+
         $at = $this->stack_answertest_general_cas_builder('[x^2-1=0,(x-1)*(x+1)=0,x=i or x=-1]', '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
                 'Equiv', 'null');
         $this->assertFalse($at->do_test());
@@ -552,7 +612,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_equiv_comment() {
+    public function test_equiv_comment(): void {
+
         $at = $this->stack_answertest_general_cas_builder('[x^2-1=0,(x-1)*(x+1)=0,"Could be",x=i or x=-1]',
                 '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', 'Equiv', 'null');
         $this->assertFalse($at->do_test());
@@ -563,7 +624,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
-    public function test_is_true_for_equal_expressions() {
+    public function test_is_true_for_equal_expressions(): void {
+
         $at = new stack_ans_test_controller('NumDecPlaces',
                 stack_ast_container::make_from_teacher_source('1.01'),
                 stack_ast_container::make_from_teacher_source('1.01'),
@@ -574,7 +636,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertTrue(stack_ans_test_controller::required_atoptions('NumDecPlaces'));
     }
 
-    public function test_is_false_for_unequal_expressions() {
+    public function test_is_false_for_unequal_expressions(): void {
+
         $at = new stack_ans_test_controller('NumDecPlaces',
             stack_ast_container::make_from_teacher_source('2'),
             stack_ast_container::make_from_teacher_source('1'),
@@ -584,7 +647,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_false_for_unequal_expressions_2() {
+    public function test_is_false_for_unequal_expressions_2(): void {
+
         $at = new stack_ans_test_controller('NumDecPlaces',
             stack_ast_container::make_from_teacher_source('2.000'),
             stack_ast_container::make_from_teacher_source('1'),
@@ -595,7 +659,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals('ATNumDecPlaces_Correct. ATNumDecPlaces_Not_equiv.', $at->get_at_answernote());
     }
 
-    public function test_is_true_for_equal_strings() {
+    public function test_is_true_for_equal_strings(): void {
+
         $at = new stack_ans_test_controller('String',
             stack_ast_container::make_from_teacher_source('"hello"'),
             stack_ast_container::make_from_teacher_source('"hello"'));
@@ -604,7 +669,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals('', $at->get_at_answernote());
     }
 
-    public function test_is_false_for_unequal_strings() {
+    public function test_is_false_for_unequal_strings(): void {
+
         $at = new stack_ans_test_controller('String',
                 stack_ast_container::make_from_teacher_source('"hello"'),
                 stack_ast_container::make_from_teacher_source('"heloo"'),
@@ -613,7 +679,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_false_for_strings_with_different_case() {
+    public function test_is_false_for_strings_with_different_case(): void {
+
         $at = new stack_ans_test_controller('String',
                 stack_ast_container::make_from_teacher_source('"Hello"'),
                 stack_ast_container::make_from_teacher_source('"hello"'),
@@ -622,7 +689,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_strings_sloppy() {
+    public function test_is_true_for_equal_strings_sloppy(): void {
+
         $at = new stack_ans_test_controller('StringSloppy',
                 stack_ast_container::make_from_teacher_source('"hello"'),
                 stack_ast_container::make_from_teacher_source('"hello"'),
@@ -631,7 +699,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_unequal_strings_sloppy() {
+    public function test_is_false_for_unequal_strings_sloppy(): void {
+
         $at = new stack_ans_test_controller('StringSloppy',
                 stack_ast_container::make_from_teacher_source('"hello"'),
                 stack_ast_container::make_from_teacher_source('"heloo"'),
@@ -640,7 +709,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    public function test_is_true_for_strings_with_different_case_sloppy() {
+    public function test_is_true_for_strings_with_different_case_sloppy(): void {
+
         $at = new stack_ans_test_controller('StringSloppy',
                 stack_ast_container::make_from_teacher_source('"Hello"'),
                 stack_ast_container::make_from_teacher_source('"hello"'),
@@ -649,7 +719,8 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(1, $at->get_at_mark());
     }
 
-    public function test_is_true_for_nearly_equal_strings_sloppy() {
+    public function test_is_true_for_nearly_equal_strings_sloppy(): void {
+
         $at = new stack_ans_test_controller('StringSloppy',
                 stack_ast_container::make_from_teacher_source('"hel lo"'),
                 stack_ast_container::make_from_teacher_source('"Hello"'),

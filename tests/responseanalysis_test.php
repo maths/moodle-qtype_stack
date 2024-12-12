@@ -455,7 +455,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->report->reports_sort();
     }
 
-    public function test_create_summary() {
+    public function test_create_summary(): void {
+
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['load_summary_data', 'run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
@@ -466,7 +467,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($this->summary, $this->report->summary);
     }
 
-    public function test_collate() {
+    public function test_collate(): void {
+
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
@@ -481,7 +483,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($this->prtreportsummary, $this->report->prtreportsummary);
     }
 
-    public function test_format_summary() {
+    public function test_format_summary(): void {
+
         $this->set_question();
         $summary = $this->report->format_summary();
         $expected = "## PotResTree_1 (6)\n2 ( 33.33%); " . RESPONSEFS2 . "\n1 ( 16.67%); " . RESPONSETFS .
@@ -490,7 +493,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals(6, $summary->tot['PotResTree_1']);
     }
 
-    public function test_note_summary() {
+    public function test_note_summary(): void {
+
         $this->set_question();
         $summary = $this->report->format_summary();
         $notesummary = $this->report->format_notesummary($summary->tot);
@@ -501,7 +505,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $notesummary->prts[0]->sumout);
     }
 
-    public function test_variants_summary() {
+    public function test_variants_summary(): void {
+
         $this->set_question();
         $variants = $this->report->format_variants()->variants;
         $expectedsum3 = "## PotResTree_1 (4)\n2 ( 50.00%); " . RESPONSETTS . "\n2 ( 50.00%); ans1:x+3; \n\n1 ( 25.00%); " .
@@ -522,7 +527,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expectedans5, $variants[2]->anssumout);
     }
 
-    public function test_inputs_summary() {
+    public function test_inputs_summary(): void {
+
         $this->set_question();
         $inputs = $this->report->format_inputs()->inputs;
         $expected = "## ans1 (6)\n### score\n2 ( 33.33%); x+3\n1 ( 16.67%); " .
@@ -530,7 +536,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $inputs);
     }
 
-    public function test_raw_data() {
+    public function test_raw_data(): void {
+
         $this->set_question();
         $rawdata = $this->report->format_raw_data()->rawdata;
         $expected = "\n# 3 (4)\n1 ( 25.00%); Seed: 333333333; ans1: 22 [score]; PotResTree_1: " .
@@ -541,7 +548,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $rawdata);
     }
 
-    public function test_create_summary_multiple() {
+    public function test_create_summary_multiple(): void {
+
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['load_summary_data', 'run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
@@ -552,7 +560,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($this->summarymult, $this->report->summary);
     }
 
-    public function test_collate_multiple() {
+    public function test_collate_multiple(): void {
+
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
@@ -567,7 +576,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($this->prtreportsummarymult, $this->report->prtreportsummary);
     }
 
-    public function test_format_summary_multiple() {
+    public function test_format_summary_multiple(): void {
+
         $this->set_question_mult();
         $summary = $this->report->format_summary();
         $expected1 = "## odd (2)\n2 (100.00%); " . RESPONSETS;
@@ -588,7 +598,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals(2, $summary->tot['unique']);
     }
 
-    public function test_note_summary_multiple() {
+    public function test_note_summary_multiple(): void {
+
         $this->set_question_mult();
         $summary = $this->report->format_summary();
         $notesummary = $this->report->format_notesummary($summary->tot);
@@ -606,7 +617,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expected4, $notesummary->prts[3]->sumout);
     }
 
-    public function test_variants_summary_multiple() {
+    public function test_variants_summary_multiple(): void {
+
         $this->set_question_mult();
         $variants = $this->report->format_variants()->variants;
         $expectedsum3 = "## odd (1)\n1 (100.00%); " . RESPONSETS . "\n1 (100.00%); ans1:11; \n\n## even (1)\n1 (100.00%); " .
@@ -627,7 +639,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expectedans1, $variants[1]->anssumout);
     }
 
-    public function test_inputs_summary_multiple() {
+    public function test_inputs_summary_multiple(): void {
+
         $this->set_question_mult();
         $inputs = $this->report->format_inputs()->inputs;
         $expected = "## ans1 (2)\n### score\n2 (100.00%); 11\n\n## ans2 (2)\n### score\n1 ( 50.00%); " .
@@ -636,7 +649,8 @@ class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $inputs);
     }
 
-    public function test_raw_data_multiple() {
+    public function test_raw_data_multiple(): void {
+
         $this->set_question_mult();
         $rawdata = $this->report->format_raw_data()->rawdata;
         $expected = "\n# 3 (1)\n1 (100.00%); Seed: 333333333; ans1: 11 [score]; ans2: 22 [score]; " .

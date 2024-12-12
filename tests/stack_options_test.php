@@ -40,31 +40,36 @@ require_once(__DIR__ . '/../stack/options.class.php');
  */
 class stack_options_test extends qtype_stack_testcase {
 
-    public function test_set_exception_1() {
+    public function test_set_exception_1(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('nonoption', false);
     }
 
-    public function test_set_exception_2() {
+    public function test_set_exception_2(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('floats', 0);
     }
 
-    public function test_set_exception_3() {
+    public function test_set_exception_3(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('floats', null);
     }
 
-    public function test_set_exception_4() {
+    public function test_set_exception_4(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('display', false);
     }
 
-    public function test_set_exception_5() {
+    public function test_set_exception_5(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('display', 'latex');

@@ -35,7 +35,8 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/410_single_char_vars.filter.p
  */
 class parser_rule_410_test extends qtype_stack_testcase {
 
-    public function test_nothing_to_do() {
+    public function test_nothing_to_do(): void {
+
         $teststring = '2*a*b;';
         $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
@@ -50,7 +51,8 @@ class parser_rule_410_test extends qtype_stack_testcase {
         $this->assertEquals($ast->toString(), $result);
     }
 
-    public function test_simple() {
+    public function test_simple(): void {
+
         $teststring = '2*ab;';
         $result     = '2*a*b;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
@@ -65,7 +67,8 @@ class parser_rule_410_test extends qtype_stack_testcase {
         $this->assertEquals($ast->toString(), $result);
     }
 
-    public function test_greek() {
+    public function test_greek(): void {
+
         $teststring = 'nalpha+sin(pin);';
         $result     = 'n*alpha+sin(pi*n);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);

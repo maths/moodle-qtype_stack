@@ -40,7 +40,8 @@ use qtype_stack_testcase;
  */
 class api_stackquestionloader_test extends qtype_stack_testcase {
 
-    public function test_question_loader() {
+    public function test_question_loader(): void {
+
         $xml = stack_api_test_data::get_question_string('matrices');
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml)['question'];
@@ -65,7 +66,8 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($question->deployedseeds));
     }
 
-    public function test_question_loader_use_defaults() {
+    public function test_question_loader_use_defaults(): void {
+
         global $CFG;
         $xml = stack_api_test_data::get_question_string('usedefaults');
         $ql = new StackQuestionLoader();
@@ -96,7 +98,8 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
-    public function test_question_loader_do_not_use_defaults() {
+    public function test_question_loader_do_not_use_defaults(): void {
+
         global $CFG;
         $xml = stack_api_test_data::get_question_string('optionset');
         $ql = new StackQuestionLoader();

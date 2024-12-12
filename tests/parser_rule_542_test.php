@@ -37,7 +37,8 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/542_no_functions_at_all.filte
  */
 class parser_rule_542_test extends qtype_stack_testcase {
 
-    public function test_no_functions_0() {
+    public function test_no_functions_0(): void {
+
         $teststring = '1+x^2/2!-x^3/3!;';
         $result = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
@@ -52,7 +53,8 @@ class parser_rule_542_test extends qtype_stack_testcase {
         $this->assertEquals($result, $ast->toString());
     }
 
-    public function test_functions_0() {
+    public function test_functions_0(): void {
+
         $teststring = '1+sin(x)^2/2!-x^3/3!;';
         $result     = '1+sin(x)^2/2!-x^3/3!;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
@@ -70,7 +72,8 @@ class parser_rule_542_test extends qtype_stack_testcase {
         $this->assertEquals($result, $ast->toString());
     }
 
-    public function test_functions_1() {
+    public function test_functions_1(): void {
+
         // User defined function.
         $teststring = '1-2*f(x^2);';
         $result     = '1-2*f(x^2);' . "\n";
@@ -89,7 +92,8 @@ class parser_rule_542_test extends qtype_stack_testcase {
         $this->assertEquals($result, $ast->toString());
     }
 
-    public function test_functions_2() {
+    public function test_functions_2(): void {
+
         // User defined function.
         $teststring = '1-2*f(x^2-1)+sin(x)/7;';
         $result     = '1-2*f(x^2-1)+sin(x)/7;' . "\n";
@@ -110,7 +114,8 @@ class parser_rule_542_test extends qtype_stack_testcase {
         $this->assertEquals($result, $ast->toString());
     }
 
-    public function test_functions_3() {
+    public function test_functions_3(): void {
+
         // Nested user defined function.
         $teststring = '1+x(t(3)+1);';
         $result     = '1+x(t(3)+1);' . "\n";

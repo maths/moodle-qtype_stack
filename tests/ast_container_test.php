@@ -42,7 +42,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 class ast_container_test extends qtype_stack_testcase {
 
-    public function test_types() {
+    public function test_types(): void {
+
         $matrix = stack_ast_container::make_from_teacher_source('foo:matrix([1,2],[3,4])', 'type test', new stack_cas_security());
         $this->assertTrue($matrix->is_matrix());
         $this->assertFalse($matrix->is_int());
@@ -84,7 +85,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals(3, $list->is_list());
     }
 
-    public function test_list_accessor() {
+    public function test_list_accessor(): void {
+
         $list = stack_ast_container::make_from_teacher_source('x:[1,2*x,3-4]', 'list access test', new stack_cas_security());
         $this->assertEquals(3, $list->is_list());
 
@@ -102,7 +104,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals($te, $at2->get_valid());
     }
 
-    public function test_get_valid() {
+    public function test_get_valid(): void {
+
         $cases = [
             ['', false, true],
             ['1', true, true],
@@ -141,7 +144,8 @@ class ast_container_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_get_valid_inequalities() {
+    public function test_get_valid_inequalities(): void {
+
         $cases = [
             ['x>1 and x<4', true, true],
             ['not (x>1)', true, true],
@@ -161,7 +165,8 @@ class ast_container_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_validation_alias() {
+    public function test_validation_alias(): void {
+
         $casstring = stack_ast_container::make_from_student_source(json_decode('"\u03C0"').'*r^2', '', new stack_cas_security());
         $casstring->get_valid();
         $this->assertEquals($casstring->get_evaluationform(), '%pi*r^2');
@@ -169,7 +174,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $casstring->get_answernote());
     }
 
-    public function test_validation_unicode() {
+    public function test_validation_unicode(): void {
+
         // Note the error with the * in this expression.
         $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
         $casstring->get_valid();
@@ -180,7 +186,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('ParseError', $casstring->get_answernote());
     }
 
-    public function test_validation_error() {
+    public function test_validation_error(): void {
+
         // Consider A union B.
         $casstring = stack_ast_container::make_from_student_source('A ' . json_decode('"\u222A"') . ' B', '',
                 new stack_cas_security());
@@ -190,7 +197,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
 
-    public function test_spurious_operators() {
+    public function test_spurious_operators(): void {
+
         $casstring = stack_ast_container::make_from_student_source('2/*x', '', new stack_cas_security());
         $casstring->get_valid();
         $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">/*</span>.',
@@ -198,7 +206,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('spuriousop', $casstring->get_answernote());
     }
 
-    public function test_spurious_operators_2() {
+    public function test_spurious_operators_2(): void {
+
         $casstring = stack_ast_container::make_from_student_source('x==2*x', '', new stack_cas_security());
         $casstring->get_valid();
         $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">==</span>.',
@@ -206,7 +215,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('spuriousop', $casstring->get_answernote());
     }
 
-    public function test_global_forbidden_words() {
+    public function test_global_forbidden_words(): void {
+
 
         $s = 'system("rm *")';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -222,7 +232,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('forbiddenFunction', $at1->get_answernote());
     }
 
-    public function test_global_forbidden_words_case() {
+    public function test_global_forbidden_words_case(): void {
+
         // This is a change of behaviour in Dec 2018.
         $s = 'System("rm *")';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -237,7 +248,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at2->get_answernote());
     }
 
-    public function test_teacher_only_words() {
+    public function test_teacher_only_words(): void {
+
 
         $s = 'setelmx(2,1,1,C)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -250,7 +262,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at2->get_errors());
     }
 
-    public function test_allow_words() {
+    public function test_allow_words(): void {
+
         $s = '2*dumvariable+3';
         $secrules = new stack_cas_security();
         $secrules->set_allowedwords('dumvariable');
@@ -258,7 +271,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_allow_words_fail() {
+    public function test_allow_words_fail(): void {
+
         $s = 'sin(2*dumvariable+3)';
         $secrules = new stack_cas_security();
         $secrules->set_allowedwords('dvariable');
@@ -266,7 +280,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertFalse($at1->get_valid());
     }
 
-    public function test_allow_words_teacher() {
+    public function test_allow_words_teacher(): void {
+
         $s = 'sin(2*dumvariable+3)';
         $secrules = new stack_cas_security();
         $secrules->set_allowedwords('dvariable');
@@ -274,7 +289,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_check_external_forbidden_words() {
+    public function test_check_external_forbidden_words(): void {
+
         $cases = [
             ['sin(ta)', 'ta', false, 'forbiddenVariable'],
             ['sin(ta)', 'ta,a,b', false, 'forbiddenVariable'],
@@ -295,7 +311,8 @@ class ast_container_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_check_external_forbidden_words_literal() {
+    public function test_check_external_forbidden_words_literal(): void {
+
         $cases = [
             ['3+5', '+', false],
             ['sin(a)', 'a', false], // It includes single letters.
@@ -317,19 +334,22 @@ class ast_container_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_strings_1() {
+    public function test_strings_1(): void {
+
         $s = 'a:"hello"';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_strings_2() {
+    public function test_strings_2(): void {
+
         $s = 'a:["2x)",3*x]';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_strings_mismatched_string_delimiters() {
+    public function test_strings_mismatched_string_delimiters(): void {
+
         $s = 'a:""hello""';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
@@ -384,7 +404,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('You are missing a quotation sign <code>"</code>. ', $at1->get_errors());
     }
 
-    public function test_system_execution() {
+    public function test_system_execution(): void {
+
         // First the obvious one, just eval that string.
         $s = 'a:eval_string("system(\\"rm /tmp/test\\")")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
@@ -519,75 +540,86 @@ class ast_container_test extends qtype_stack_testcase {
                 $at1->get_errors());
     }
 
-    public function test_scientific_1() {
+    public function test_scientific_1(): void {
+
         $s = 'a:3e2';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
         $this->assertEquals('', $at1->get_answernote());
     }
 
-    public function test_trig_1() {
+    public function test_trig_1(): void {
+
         $s = 'a:sin[2*x]';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('trigparens', $at1->get_answernote());
     }
 
-    public function test_trig_2() {
+    public function test_trig_2(): void {
+
         $s = 'a:cot*2*x';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('forbiddenVariable', $at1->get_answernote());
     }
 
-    public function test_trig_3() {
+    public function test_trig_3(): void {
+
         $s = 'a:tan^-1(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('missing_stars | trigexp', $at1->get_answernote());
     }
 
-    public function test_trig_4() {
+    public function test_trig_4(): void {
+
         $s = 'a:sin^2(x)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('missing_stars | trigexp', $at1->get_answernote());
     }
 
-    public function test_trig_5() {
+    public function test_trig_5(): void {
+
         $s = 'a:Sim(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('forbiddenFunction', $at1->get_answernote());
     }
 
-    public function test_trig_6() {
+    public function test_trig_6(): void {
+
         $s = 'a:Sin(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('unknownFunctionCase', $at1->get_answernote());
     }
 
-    public function test_in_1() {
+    public function test_in_1(): void {
+
         $s = 'a:1+In(x)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('stackCas_badLogIn', $at1->get_answernote());
     }
 
-    public function test_in_2() {
+    public function test_in_2(): void {
+
         $s = 'a:1+In(x)';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_greek_1() {
+    public function test_greek_1(): void {
+
         $s = 'a:Delta-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_greek_2() {
+    public function test_greek_2(): void {
+
         $s = 'a:DELTA-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
@@ -598,14 +630,16 @@ class ast_container_test extends qtype_stack_testcase {
                 $at1->get_errors());
     }
 
-    public function test_unencapsulated_commas_1() {
+    public function test_unencapsulated_commas_1(): void {
+
         $s = 'a,b';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('unencapsulated_comma', $at1->get_answernote());
     }
 
-    public function test_forbid_function_single_letter() {
+    public function test_forbid_function_single_letter(): void {
+
         $s = 'a:x^2+a+f(x)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -618,7 +652,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_implied_complex_mult1() {
+    public function test_implied_complex_mult1(): void {
+
         $s = '-(1/512)+i(sqrt(3)/512)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -626,13 +661,15 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('-(1/512)+i*(sqrt(3)/512)', $at1->get_inputform());
     }
 
-    public function test_implied_complex_mult2() {
+    public function test_implied_complex_mult2(): void {
+
         $s = '-(1/512)+i(sqrt(3)/512)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
     }
 
-    public function test_semicolon() {
+    public function test_semicolon(): void {
+
         $s = 'a:3;b:4';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         // This is a change in STACK 4.3.
@@ -640,7 +677,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at1->get_answernote());
     }
 
-    public function test_log_sugar_1() {
+    public function test_log_sugar_1(): void {
+
         $s = 'log(x)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -649,7 +687,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('log(x)', $at1->get_inputform());
     }
 
-    public function test_log_sugar_2() {
+    public function test_log_sugar_2(): void {
+
         $s = 'log_10(a+x^2)+log_a(b)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -658,7 +697,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('logsubs', $at1->get_answernote());
     }
 
-    public function test_log_sugar_3() {
+    public function test_log_sugar_3(): void {
+
         // Note that STACK spots there is a missing * here.
         // Note that in the new 4.3 world we need to define a filter to note
         // the star we do not want to be inserted.
@@ -670,7 +710,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
 
-    public function test_log_sugar_4() {
+    public function test_log_sugar_4(): void {
+
         // The missing * in this expression is correctly inserted.
         $s = 'log_5x(3)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -680,7 +721,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
 
-    public function test_log_sugar_5() {
+    public function test_log_sugar_5(): void {
+
         $s = 'log_x^2(3)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -689,7 +731,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
 
-    public function test_log_sugar_6() {
+    public function test_log_sugar_6(): void {
+
         $s = 'log_%e(%e)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -698,7 +741,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('logsubs', $at1->get_answernote());
     }
 
-    public function unary_plus() {
+    public function unary_plus(): void {
+
         // This is an interesting parser edge case.
         $s = 'p:+a^b*c';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -707,14 +751,16 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at1->get_answernote());
     }
 
-    public function test_chained_inequalities_s() {
+    public function test_chained_inequalities_s(): void {
+
         $s = 'sa:3<x<5';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('chained_inequalities', $at1->get_answernote());
     }
 
-    public function test_chained_inequalities_t() {
+    public function test_chained_inequalities_t(): void {
+
         $s = 'f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -722,7 +768,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at1->get_answernote());
     }
 
-    public function test_decimal_digits() {
+    public function test_decimal_digits(): void {
+
 
         $tests = stack_numbers_test_data::get_raw_test_data();
 
@@ -737,7 +784,8 @@ class ast_container_test extends qtype_stack_testcase {
 
     }
 
-    public function test_decimal_digits_utils() {
+    public function test_decimal_digits_utils(): void {
+
 
         $tests = stack_numbers_test_data::get_raw_test_data_utils();
 
@@ -751,7 +799,8 @@ class ast_container_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_spaces_1_brackets() {
+    public function test_spaces_1_brackets(): void {
+
         $s = 'a (b c)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -761,7 +810,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('spaces', $at1->get_answernote());
     }
 
-    public function test_spaces_1_bracket_brackets() {
+    public function test_spaces_1_bracket_brackets(): void {
+
         $s = '(1+c) (x+1)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -771,7 +821,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('spaces', $at1->get_answernote());
     }
 
-    public function test_spaces_1_logic() {
+    public function test_spaces_1_logic(): void {
+
         $s = 'a b and c';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -781,7 +832,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('spaces', $at1->get_answernote());
     }
 
-    public function test_remove_add_nouns() {
+    public function test_remove_add_nouns(): void {
+
         $s = "['sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b, noundiff(y,x)+y=0, nounnot false, nounnot(false)]";
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -847,7 +899,8 @@ class ast_container_test extends qtype_stack_testcase {
             $at1->get_inputform(true, 2));
     }
 
-    public function test_stacklet() {
+    public function test_stacklet(): void {
+
         $s = 'stacklet(a,x*%i+y)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
 
@@ -867,7 +920,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at1->get_answernote());
     }
 
-    public function test_pm() {
+    public function test_pm(): void {
+
         $s = 'a+-b';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -925,7 +979,8 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at1->get_answernote());
     }
 
-    public function test_input_varmatix() {
+    public function test_input_varmatix(): void {
+
         $s = 'matrix([a,b],[c,d])';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $expected = '([FunctionCall: ([Id] matrix)] ([List] ([Id] a), ([Id] b)),([List] ([Id] c), ([Id] d)))';
@@ -953,7 +1008,8 @@ class ast_container_test extends qtype_stack_testcase {
             ['inputform' => true, 'varmatrix' => true]));
     }
 
-    public function test_ntuple() {
+    public function test_ntuple(): void {
+
         $s = '(x,y)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
@@ -1003,7 +1059,8 @@ class ast_container_test extends qtype_stack_testcase {
 
     }
 
-    public function test_identify_simplification_modifications() {
+    public function test_identify_simplification_modifications(): void {
+
         $t1 = 'foo+bar';
         $t1 = stack_ast_container::make_from_teacher_source($t1, '', new stack_cas_security());
         $t1 = $t1->identify_simplification_modifications();
@@ -1031,7 +1088,8 @@ class ast_container_test extends qtype_stack_testcase {
 
     }
 
-    public function test_teacher_answer_decimals() {
+    public function test_teacher_answer_decimals(): void {
+
         // This tests the functions which generate "The teacher's answer is".
         $s = '{4.4,4}';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());

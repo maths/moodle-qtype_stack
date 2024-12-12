@@ -70,7 +70,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         return $r;
     }
 
-    public function test_normal_no_convert() {
+    public function test_normal_no_convert(): void {
+
         $test = '1+2';
         $result = $this->filter($test);
         $this->assertFalse($result['valid']);
@@ -140,7 +141,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertTrue($result['valid']);
     }
 
-    public function test_no_floats() {
+    public function test_no_floats(): void {
+
         $test = '1+2';
         $result = $this->filter($test, false);
         $this->assertFalse($result['valid']);
@@ -206,7 +208,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertTrue($result['valid']);
     }
 
-    public function test_no_integers() {
+    public function test_no_integers(): void {
+
         $test = '1+2';
         $result = $this->filter($test, true, false);
         $this->assertFalse($result['valid']);
@@ -272,7 +275,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertFalse($result['valid']);
     }
 
-    public function test_no_powers() {
+    public function test_no_powers(): void {
+
         $test = '1+2';
         $result = $this->filter($test, true, true, false);
         $this->assertFalse($result['valid']);
@@ -338,7 +342,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertFalse($result['valid']);
     }
 
-    public function test_no_convert() {
+    public function test_no_convert(): void {
+
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'none');
         $this->assertEquals($test[1], $result['output']);
@@ -381,7 +386,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertEquals($test[1], $result['output']);
     }
 
-    public function test_convert_to_float() {
+    public function test_convert_to_float(): void {
+
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'to float');
         $this->assert_equals_ignore_spaces_and_e($test[1], $result['output']);
@@ -425,7 +431,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertEquals($test[1], $result['output']);
     }
 
-    public function test_convert_to_power() {
+    public function test_convert_to_power(): void {
+
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'to power');
         $this->assertEquals($test[1], $result['output']);

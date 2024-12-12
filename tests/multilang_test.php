@@ -38,7 +38,8 @@ require_once(__DIR__ . '/../lang/multilang.php');
  */
 class multilang_test extends qtype_stack_testcase {
 
-    public function test_get_languages() {
+    public function test_get_languages(): void {
+
         $enfi = '<span lang="en" class="multilang"><p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \] '
             . '</p><p>Compute the sum \(C = A + B\).</p>[[input:ans1]]<p></p><div>[[validation:ans1]]</div></span>'
             . '<span lang="fi" class="multilang"><p>Olkoot \[ A = {@mat1@} \quad \textrm{ja} \quad B = {@mat2@}. \]'
@@ -48,7 +49,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals(['en', 'fi'], $ml->languages_used($enfi));
     }
 
-    public function test_get_languages_none() {
+    public function test_get_languages_none(): void {
+
         $enfi = '<p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \] '
                 . '</p><p>Compute the sum \(C = A + B\).</p>[[input:ans1]]<p></p><div>[[validation:ans1]]</div>'
                 . '[[input:ans1]]</p><div>[[validation:ans1]]</div></span>';
@@ -57,7 +59,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals([], $ml->languages_used($enfi));
     }
 
-    public function test_filter_langs() {
+    public function test_filter_langs(): void {
+
         $en = '<p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \] </p>'
             . '<p>Compute the sum \(C = A + B\).</p>[[input:ans1]]<p></p><div>[[validation:ans1]]</div>';
         $fi = '<p>Olkoot \[ A = {@mat1@} \quad \textrm{ja} \quad B = {@mat2@}. \]'
@@ -70,7 +73,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals($fi, $ml->filter($enfi, 'fi'));
     }
 
-    public function test_filter_langs_other() {
+    public function test_filter_langs_other(): void {
+
         $mlang = '{mlang fi}foo{mlang}{mlang en,other}foo{mlang}';
         $block = '[[lang code="fi"]]foo[[/lang]][[lang code="EN-us,other"]]foo[[/lang]]';
         $other  = '<span lang="en" class="multilang">Looks good to me.</span>';
@@ -81,7 +85,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals(['en'], $ml->languages_used($other));
     }
 
-    public function test_filter_identify_other() {
+    public function test_filter_identify_other(): void {
+
         $mlang = '{mlang fi}foo{mlang}{mlang en,other}foo{mlang}';
         $block = '[[lang code="fi"]]foo[[/lang]][[lang code="EN-us,other"]]foo[[/lang]]';
 
@@ -90,7 +95,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals([3, ['fi' => true, 'en_us' => true, 'other' => true]], $ml->identify_tool($block));
     }
 
-    public function test_filter_langs_embedded() {
+    public function test_filter_langs_embedded(): void {
+
         $en = '<p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \]</p>'
                . '<p>Compute the sum \(C = A + B\).</p>';
         $fi = '<p>Olkoot \[ A = {@mat1@} \quad \textrm{ja} \quad B = {@mat2@}. \]'
@@ -106,7 +112,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals($textfi, $ml->filter($enfi, 'fi'));
     }
 
-    public function test_filter_languages_none() {
+    public function test_filter_languages_none(): void {
+
         $enfi = '<p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \] '
                 . '</p><p>Compute the sum \(C = A + B\).</p>[[input:ans1]]<p></p><div>[[validation:ans1]]</div>'
                 . '[[input:ans1]]</p><div>[[validation:ans1]]</div>';
@@ -116,7 +123,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals($enfi, $ml->filter($enfi, 'fi'));
     }
 
-    public function test_consolidate() {
+    public function test_consolidate(): void {
+
         $en = '<p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \]</p>'
                . '<p>Compute the sum \(C = A + B\).</p>';
         $fi = '<p>Olkoot \[ A = {@mat1@} \quad \textrm{ja} \quad B = {@mat2@}. \]'
@@ -133,7 +141,8 @@ class multilang_test extends qtype_stack_testcase {
         $this->assertEquals($text, $ml->consolidate_languages($enfi));
     }
 
-    public function test_consolidate_none() {
+    public function test_consolidate_none(): void {
+
         $enfi = '<p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \] '
                 . '</p><p>Compute the sum \(C = A + B\).</p>[[input:ans1]]<p></p><div>[[validation:ans1]]</div>'
                 . '[[input:ans1]]</p><div>[[validation:ans1]]</div>';

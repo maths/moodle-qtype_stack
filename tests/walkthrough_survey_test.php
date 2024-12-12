@@ -43,7 +43,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_neither_inputs_nor_prts() {
+    public function test_neither_inputs_nor_prts(): void {
+
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'information');
@@ -94,7 +95,8 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_no_prts_left_blank() {
+    public function test_no_prts_left_blank(): void {
+
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'survey');
@@ -128,7 +130,8 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_no_prts_answered() {
+    public function test_no_prts_answered(): void {
+
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'survey');

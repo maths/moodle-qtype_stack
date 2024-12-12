@@ -44,7 +44,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 class input_boolean_rendering_test extends question_testcase {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    protected function expected_choices() {
+    protected function expected_choices(): void {
+
         return [
             stack_boolean_input::F => stack_string('false'),
             stack_boolean_input::T => stack_string('true'),
@@ -52,7 +53,8 @@ class input_boolean_rendering_test extends question_testcase {
         ];
     }
 
-    public function test_render_not_answered() {
+    public function test_render_not_answered(): void {
+
         $el = stack_input_factory::make('boolean', 'ans1', stack_boolean_input::T);
         $this->assert(new \question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), stack_boolean_input::NA),
@@ -61,7 +63,8 @@ class input_boolean_rendering_test extends question_testcase {
                         'stack1__ans1', false, null));
     }
 
-    public function test_render_true() {
+    public function test_render_true(): void {
+
         $el = stack_input_factory::make('boolean', 'ans2', stack_boolean_input::T);
         $this->assert(new \question_contains_select_expectation('stack1__ans2', $this->expected_choices(),
                 stack_boolean_input::T), $el->render(new stack_input_state(
@@ -69,7 +72,8 @@ class input_boolean_rendering_test extends question_testcase {
                         'stack1__ans2', false, null));
     }
 
-    public function test_render_false() {
+    public function test_render_false(): void {
+
         $el = stack_input_factory::make('boolean', 'ans3', stack_boolean_input::T);
         $this->assert(new \question_contains_select_expectation('stack1__ans3', $this->expected_choices(),
                 stack_boolean_input::F), $el->render(new stack_input_state(
@@ -77,7 +81,8 @@ class input_boolean_rendering_test extends question_testcase {
                         'stack1__ans3', false, null));
     }
 
-    public function test_render_disabled() {
+    public function test_render_disabled(): void {
+
         $el = stack_input_factory::make('boolean', 'input', stack_boolean_input::T);
         $this->assert(new \question_contains_select_expectation('stack1__ans1', $this->expected_choices(),
                 stack_boolean_input::NA, false), $el->render(new stack_input_state(

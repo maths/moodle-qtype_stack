@@ -43,7 +43,8 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  */
 class input_matrix_test extends qtype_stack_testcase {
 
-    public function test_render_blank() {
+    public function test_render_blank(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
@@ -74,7 +75,8 @@ class input_matrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_no_errors_if_garbled() {
+    public function test_render_no_errors_if_garbled(): void {
+
         // If the teacher does not know the right syntax for a matrix, we should
         // not give PHP errors.
         $options = new stack_options();
@@ -107,7 +109,8 @@ class input_matrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_syntax_hint() {
+    public function test_render_syntax_hint(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
@@ -133,7 +136,8 @@ class input_matrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_syntax_hint_spaces() {
+    public function test_render_syntax_hint_spaces(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('syntaxHint', 'matrix([a,b], [?,d])');
@@ -159,7 +163,8 @@ class input_matrix_test extends qtype_stack_testcase {
                 'ans1', false, null));
     }
 
-    public function test_render_syntax_hint_round() {
+    public function test_render_syntax_hint_round(): void {
+
         $options = new stack_options();
         $options->set_option('matrixparens', '(');
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
@@ -186,7 +191,8 @@ class input_matrix_test extends qtype_stack_testcase {
                 'ans1', false, null));
     }
 
-    public function test_render_syntax_hint_placeholder() {
+    public function test_render_syntax_hint_placeholder(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
@@ -213,7 +219,8 @@ class input_matrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_render_null_ta() {
+    public function test_render_null_ta(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
@@ -238,7 +245,8 @@ class input_matrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
-    public function test_validate_student_response_na() {
+    public function test_validate_student_response_na(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
@@ -248,7 +256,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_valid() {
+    public function test_validate_student_response_valid(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
@@ -268,7 +277,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
     }
 
-    public function test_validate_student_response_decimals() {
+    public function test_validate_student_response_decimals(): void {
+
         $options = new stack_options();
         $options->set_option('decimals', ',');
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
@@ -291,7 +301,8 @@ class input_matrix_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_valid_round() {
+    public function test_validate_student_response_valid_round(): void {
+
         $options = new stack_options();
         $options->set_option('matrixparens', '(');
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
@@ -329,7 +340,8 @@ class input_matrix_test extends qtype_stack_testcase {
                 $el->render($state, 'ans1', false, null));
     }
 
-    public function test_validate_student_response_valid_square() {
+    public function test_validate_student_response_valid_square(): void {
+
         $options = new stack_options();
         $options->set_option('matrixparens', '[');
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
@@ -367,7 +379,8 @@ class input_matrix_test extends qtype_stack_testcase {
                 $el->render($state, 'ans1', false, null));
     }
 
-    public function test_validate_student_response_invalid_one_blank() {
+    public function test_validate_student_response_invalid_one_blank(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
@@ -389,7 +402,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_invalid() {
+    public function test_validate_student_response_invalid(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
@@ -410,7 +424,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_invalid_bracket() {
+    public function test_validate_student_response_invalid_bracket(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
@@ -433,7 +448,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_invalid_multiple() {
+    public function test_validate_student_response_invalid_multiple(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
@@ -458,7 +474,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_modinput_tokenizer_1() {
+    public function test_modinput_tokenizer_1(): void {
+
         $in = '[1,2],[2,3]';
         $out = ['[1,2]', '[2,3]'];
 
@@ -466,7 +483,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals($out, $el->modinput_tokenizer($in));
     }
 
-    public function test_modinput_tokenizer_2() {
+    public function test_modinput_tokenizer_2(): void {
+
         $in = '[1,2,3],[4,5,6]';
         $out = ['[1,2,3]', '[4,5,6]'];
 
@@ -474,7 +492,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals($out, $el->modinput_tokenizer($in));
     }
 
-    public function test_modinput_tokenizer_row() {
+    public function test_modinput_tokenizer_row(): void {
+
         $in = '1,2,3';
         $out = ['1', '2', '3'];
 
@@ -482,7 +501,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals($out, $el->modinput_tokenizer($in));
     }
 
-    public function test_modinput_tokenizer_incomplete() {
+    public function test_modinput_tokenizer_incomplete(): void {
+
         $in = '[1,],[,]';
         $out = ['[1,]', '[,]'];
 
@@ -490,7 +510,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals($out, $el->modinput_tokenizer($in));
     }
 
-    public function test_modinput_tokenizer_incomplete_row() {
+    public function test_modinput_tokenizer_incomplete_row(): void {
+
         $in = '1,';
         $out = ['1', ''];
 
@@ -498,7 +519,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals($out, $el->modinput_tokenizer($in));
     }
 
-    public function test_render_blank_allowempty() {
+    public function test_render_blank_allowempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'x^2', $options);
         $el->set_parameter('options', 'allowempty');
@@ -509,7 +531,8 @@ class input_matrix_test extends qtype_stack_testcase {
                         'stack1__ans1', false, null));
     }
 
-    public function test_validate_student_response_blank_allowempty() {
+    public function test_validate_student_response_blank_allowempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('options', 'allowempty');
@@ -530,7 +553,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_blank() {
+    public function test_validate_student_response_blank(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
@@ -549,7 +573,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
-    public function test_validate_student_response_blank_part() {
+    public function test_validate_student_response_blank_part(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
@@ -569,7 +594,8 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 
-    public function test_validate_consolidatesubscripts() {
+    public function test_validate_consolidatesubscripts(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('options', 'consolidatesubscripts');
@@ -593,7 +619,8 @@ class input_matrix_test extends qtype_stack_testcase {
             $state->lvars);
     }
 
-    public function test_validate_forbid_sin() {
+    public function test_validate_forbid_sin(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('forbidWords', 'int, sin, diff');
@@ -633,7 +660,8 @@ class input_matrix_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
     }
 
-    public function test_validate_forbid_matrix() {
+    public function test_validate_forbid_matrix(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         // Matrix here should not forbid the top-level matrix.

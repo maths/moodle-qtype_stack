@@ -40,7 +40,8 @@ require_once(__DIR__ . '/../doc/docslib.php');
  */
 class mathsoutputtex_test extends qtype_stack_testcase {
 
-    public function test_tex_rendering() {
+    public function test_tex_rendering(): void {
+
         $this->resetAfterTest();
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');

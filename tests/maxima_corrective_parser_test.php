@@ -47,7 +47,8 @@ class maxima_corrective_parser_test extends qtype_stack_testcase {
      * @dataProvider maxima_corrective_parser_test_data::get_raw_test_data
      * @codingStandardsIgnoreEnd
      */
-    public function test_maxima_corrective_parser() {
+    public function test_maxima_corrective_parser(): void {
+
 
         $test = maxima_corrective_parser_test_data::test_from_raw(func_get_args());
         $result = maxima_corrective_parser_test_data::run_test($test);

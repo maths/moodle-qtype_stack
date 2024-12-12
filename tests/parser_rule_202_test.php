@@ -67,7 +67,8 @@ class parser_rule_202_test extends qtype_stack_testcase {
         return $r;
     }
 
-    public function test_normal() {
+    public function test_normal(): void {
+
         $test = '-0.001';
         $result = $this->filter($test, 1);
         $this->assertTrue($result['valid']);

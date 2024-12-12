@@ -18,11 +18,14 @@ namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
 
-// Unit tests to check that the requirements of a related software
-// are still present, and that the interface does not change unexpectedly.
-//
-// @copyright  2020 Aalto University
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests to check that the requirements of a related software
+ * are still present, and that the interface does not change unexpectedly.
+ *
+ * @package    qtype_stack
+ * @copyright  2020 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 // These are all the imports Stateful does, one test is to check that these exist.
 // Even the test_base is one of them.

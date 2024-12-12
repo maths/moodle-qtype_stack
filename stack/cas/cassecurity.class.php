@@ -18,10 +18,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/casstring.units.class.php');
 
-// CAS identifier related security data-lookups.
-//
-// @copyright  2018 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * CAS identifier related security data-lookups.
+ *
+ * @package    qtype_stack
+ * @copyright  2018 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 class stack_cas_security {
     // This holds a copy of the security-map.json so that it does not need to
     // be loaded too many times.

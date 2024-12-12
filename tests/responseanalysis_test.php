@@ -38,10 +38,13 @@ define ('MULTRESPONSE3TTFT', 'Seed: 333333333; ans1: 11 [score]; ans2: 22 [score
         ' odd: ' . RESPONSETS . '; even: ' . RESPONSETS . '; oddeven: ' . RESPONSETS . '; unique: ' . RESPONSETS);
 define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: 11 [score]; ans2: vv [valid]; ans3: ii [invalid]; ans4: zz;' .
         ' odd: ' . RESPONSETS . '; even: !; oddeven: !; unique: !');
-// Unit tests for the response analysis report.
-//
-// @copyright 2023 The University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for the response analysis report.
+ *
+ * @package    qtype_stack
+ * @copyright 2023 The University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

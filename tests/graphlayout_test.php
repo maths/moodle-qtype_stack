@@ -23,10 +23,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/graphlayout/graph.php');
 
-// Unit tests for stack_abstract_graph and friends.
-//
-// @copyright 2013 The Open Unviersity.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for stack_abstract_graph and friends.
+ *
+ * @package    qtype_stack
+ * @copyright 2013 The Open Unviersity.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

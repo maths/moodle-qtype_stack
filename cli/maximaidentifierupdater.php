@@ -18,11 +18,14 @@ define('CLI_SCRIPT', true);
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 
-// This script updates stack/cas/base-identifier-map.json
-// Used for keepping track of new options and functions in new Maxima versions,
-// and as a base for creating security lists.
-// @copyright  2018 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script updates stack/cas/base-identifier-map.json
+ * Used for keepping track of new options and functions in new Maxima versions,
+ * and as a base for creating security lists.
+ * @package    qtype_stack
+ * @copyright  2018 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 list($options, $unrecognized) = cli_get_params(['help' => false, 'version' => '5.42.0', 'data' => '-'], ['h' => 'help']);
 if ($unrecognized) {

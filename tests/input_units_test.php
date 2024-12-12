@@ -30,10 +30,13 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
-// Unit tests for stack_units_input.
-//
-// @copyright 2016 The University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for stack_units_input.
+ *
+ * @package    qtype_stack
+ * @copyright 2016 The University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

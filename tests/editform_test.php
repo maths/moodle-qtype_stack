@@ -22,10 +22,13 @@ global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once(__DIR__ . '/../edit_stack_form.php');
 
-// Subclass of qtype_stack_edit_form_testable that is easier to use in unit tests.
-//
-// @copyright  2012 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Subclass of qtype_stack_edit_form_testable that is easier to use in unit tests.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

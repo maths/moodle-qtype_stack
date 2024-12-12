@@ -29,10 +29,13 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 require_once(__DIR__ . '/../stack/input/boolean/boolean.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for stack_boolean_input_test.
-//
-// @copyright  2012 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for stack_boolean_input_test.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

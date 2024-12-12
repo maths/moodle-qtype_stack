@@ -16,10 +16,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Functions related to dealing with scientific units in STACK.
-//
-// @copyright  2015 University of Edinburgh.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Functions related to dealing with scientific units in STACK.
+ *
+ * @package    qtype_stack
+ * @copyright  2015 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');

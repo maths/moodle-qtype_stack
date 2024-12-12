@@ -21,10 +21,13 @@ use qtype_stack_testcase;
 
 defined('MOODLE_INTERNAL') || die();
 
-// Unit tests for verious AST filters.
-//
-// @copyright  2019 Aalto University
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for verious AST filters.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
 require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');

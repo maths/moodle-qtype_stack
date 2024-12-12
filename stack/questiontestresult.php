@@ -16,10 +16,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Holds the results of one {@link stack_question_test).
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Holds the results of one {@link stack_question_test).
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once('utils.class.php');
 

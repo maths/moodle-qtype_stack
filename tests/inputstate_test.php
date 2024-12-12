@@ -25,10 +25,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/input/inputbase.class.php');
 
-// Unit tests for stack_input_state.
-//
-// @copyright  2012 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for stack_input_state.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

@@ -16,13 +16,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Note that is a complete rewrite of cassession, in this we generate
-// no "caching" in the form of keyval representations as we do not
-// necessarily return enough information from the CAS to do that, for
-// that matter neither did the old one...
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Note that is a complete rewrite of cassession, in this we generate
+ * no "caching" in the form of keyval representations as we do not
+ * necessarily return enough information from the CAS to do that, for
+ * that matter neither did the old one...
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/../options.class.php');

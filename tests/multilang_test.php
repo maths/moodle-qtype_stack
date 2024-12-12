@@ -24,10 +24,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../lang/multilang.php');
 
-// Unit tests for stack_multilang.
-//
-// @copyright  2018 The University of Edinburgh.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for stack_multilang.
+ *
+ * @package    qtype_stack
+ * @copyright  2018 The University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

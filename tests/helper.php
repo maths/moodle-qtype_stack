@@ -18,11 +18,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
 
-// Test helper code for the Stack question type.
-//
-// @package   qtype_stack.
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Test helper code for the Stack question type.
+ *
+ * @package   qtype_stack.
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

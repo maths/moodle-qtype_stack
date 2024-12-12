@@ -28,13 +28,16 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 
-// Unit tests for the Stack question type with the immediate feedback behaviour.
-//
-// Note that none of these tests include clicking the 'Check' button that dfexplicitvaldiation provies.
-// That button is simply @author tjh238 way to trigger a save without navigating to a different page of the quiz.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for the Stack question type with the immediate feedback behaviour.
+ *
+ * Note that none of these tests include clicking the 'Check' button that dfexplicitvaldiation provies.
+ * That button is simply @author tjh238 way to trigger a save without navigating to a different page of the quiz.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

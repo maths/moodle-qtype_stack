@@ -16,10 +16,13 @@
 
 defined('MOODLE_INTERNAL')|| die();
 
-// Ast container and related functions, which replace "cas strings".
-//
-// @copyright  2019 University of Aalto.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Ast container and related functions, which replace "cas strings".
+ *
+ * @package    qtype_stack
+ * @copyright  2019 University of Aalto.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/cassecurity.class.php');

@@ -37,11 +37,14 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once(__DIR__ . '/../questiontype.php');
 
-// Unit tests for the STACK question type class.
-//
-// @package   qtype_stack.
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for the STACK question type class.
+ *
+ * @package    qtype_stack
+ * @package   qtype_stack.
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

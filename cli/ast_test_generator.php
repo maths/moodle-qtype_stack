@@ -16,14 +16,17 @@
 
 define('CLI_SCRIPT', true);
 
-// This script generates unit-tests for AST-filters using a common
-// list of example inputs. The generated tests exist only to document
-// and freeze the behaviour of the filters. When running this
-// script it overwrites the existing tests so do check if you agree
-// with the diffs.
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script generates unit-tests for AST-filters using a common
+ * list of example inputs. The generated tests exist only to document
+ * and freeze the behaviour of the filters. When running this
+ * script it overwrites the existing tests so do check if you agree
+ * with the diffs.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');

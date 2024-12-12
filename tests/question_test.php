@@ -30,10 +30,13 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for (some of) question/type/stack/questiontype.php.
-//
-// @copyright 2008 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for (some of) question/type/stack/questiontype.php.
+ *
+ * @package    qtype_stack
+ * @copyright 2008 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

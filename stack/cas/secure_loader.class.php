@@ -16,12 +16,15 @@
 
 defined('MOODLE_INTERNAL')|| die();
 
-// Way to load in whatever CAS code one wants without having to deal
-// with validation, intended to be used with caching of large logic blocks
-// like PRTs as pre validated strings.
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Way to load in whatever CAS code one wants without having to deal
+ * with validation, intended to be used with caching of large logic blocks
+ * like PRTs as pre validated strings.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 

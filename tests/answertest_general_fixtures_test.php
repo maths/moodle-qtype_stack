@@ -21,11 +21,14 @@ use stack_answertest_test_data;
 
 defined('MOODLE_INTERNAL') || die();
 
-// Add in all the tests from answertestsfixtures.class into the unit testing framework.
-// These are exposed to users as documentation and google-ci should also run all the tests.
-//
-// @copyright  2016 The University of Edinburgh.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Add in all the tests from answertestsfixtures.class into the unit testing framework.
+ * These are exposed to users as documentation and google-ci should also run all the tests.
+ *
+ * @package    qtype_stack
+ * @copyright  2016 The University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/answertest/controller.class.php');

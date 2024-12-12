@@ -27,10 +27,13 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
-// Unit tests for stack_utils.
-//
-// @copyright 2012 The Open Unviersity.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for stack_utils.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open Unviersity.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

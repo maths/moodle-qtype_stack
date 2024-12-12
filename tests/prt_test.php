@@ -35,10 +35,13 @@ require_once(__DIR__ . '/../stack/prt.evaluatable.class.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for stack_potentialresponse_tree_lite, including the prt_evaluatable.
-//
-// @copyright 2022 The University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for stack_potentialresponse_tree_lite, including the prt_evaluatable.
+ *
+ * @package    qtype_stack
+ * @copyright 2022 The University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

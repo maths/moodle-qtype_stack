@@ -27,12 +27,15 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 
-// Tests that walk STACK questions that are special cases.
-// Specifically a question with neither inputs nor PRTs,
-// and a question with inputs but no PRTs.
-//
-// @copyright 2013 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Tests that walk STACK questions that are special cases.
+ * Specifically a question with neither inputs nor PRTs,
+ * and a question with inputs but no PRTs.
+ *
+ * @package    qtype_stack
+ * @copyright 2013 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

@@ -23,10 +23,13 @@ use stack_numbers_test_data;
 
 defined('MOODLE_INTERNAL') || die();
 
-// Unit tests for various AST container features.
-//
-// @copyright  2019 Aalto University
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for various AST container features.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');

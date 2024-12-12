@@ -16,12 +16,15 @@
 
 define('CLI_SCRIPT', true);
 
-// This script is for executing sensible combinations of all known
-// AST filters on a given input. It aims to identify filters that
-// affect the given input.
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script is for executing sensible combinations of all known
+ * AST filters on a given input. It aims to identify filters that
+ * affect the given input.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');

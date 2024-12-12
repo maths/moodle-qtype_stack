@@ -19,11 +19,14 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/inputbase.class.php');
 
-// Input factory. Provides a convenient way to create an input of any type,
-// and to get metadata about the input types.
-//
-// @copyright  2012 University of Birmingham.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Input factory. Provides a convenient way to create an input of any type,
+ * and to get metadata about the input types.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 University of Birmingham.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 class stack_input_factory {
     /**

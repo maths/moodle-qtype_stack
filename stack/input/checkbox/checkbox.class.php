@@ -16,11 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Input that is a checkbox/multiple choice.
-//
-// @copyright  2015 University of Edinburgh.
-// @author     Chris Sangwin.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Input that is a checkbox/multiple choice.
+ *
+ * @package    qtype_stack
+ * @copyright  2015 University of Edinburgh.
+ * @author     Chris Sangwin.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../dropdown/dropdown.class.php');
 

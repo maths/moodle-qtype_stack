@@ -22,10 +22,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for test_base.
-//
-// @copyright 2016 The Open Unviersity.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for test_base.
+ *
+ * @package    qtype_stack
+ * @copyright 2016 The Open Unviersity.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * @group qtype_stack

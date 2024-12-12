@@ -33,6 +33,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .
 `checkvars`    |  Y  |  .  |  .    |   Y    |   .   |   .   |   .  |  .  |    .     |   Y   |   .    |   .
 `validator`    |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .
+`feedback`    |  Y  |  .  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

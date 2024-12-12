@@ -1,6 +1,6 @@
 # Random objects
 
-STACK can generate structured random objects.  STACK provides a [Maxima](Maxima.md) function `rand()` which can be used in the question and answer variables.
+STACK can generate structured random objects.  STACK provides a [Maxima](Maxima_background.md) function `rand()` which can be used in the question and answer variables.
 
 STACK creates pseudo-random numbers from a definite seed.
 This ensures that when a particular student returns they see the same variant of the question.
@@ -8,9 +8,9 @@ This ensures that when a particular student returns they see the same variant of
 
 For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect. We are much more interested in simplicity, efficiency and reproducibility across platforms. Hence, we adopt pseudo-random numbers.
 
-It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../Authoring/Deploying.md).
+It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../STACK_question_admin/Deploying.md).
 
-Users may also [systematically deploy](Systematic_deployment.md) all variants of a question in a simple manner.
+Users may also [systematically deploy](../STACK_question_admin/Deploying_systematically.md) all variants of a question in a simple manner.
 
 ## rand() {#rand}
 
@@ -18,7 +18,7 @@ STACK provides its own function `rand()`.
 
 * `rand(n)` generates an integer between \(0\) and \(n-1\).
 * `rand(n.0)` generates a floating point number between \(0\) and \(n\).  It is probably more useful to use something like a=float(rand(1000)/1000)
-  to obtain an accurate number of decimal places.  An alternative is to use the [Maxima](Maxima.md) function `round()`
+  to obtain an accurate number of decimal places.  An alternative is to use the [Maxima](Maxima_background.md) function `round()`
 * `rand([a,b,...,z])` makes a random selection from a list.
 * `rand({a,b,...,z})` makes a random selection from a set.
 * `rand(matrix(..))` applies rand to each element of the matrix.

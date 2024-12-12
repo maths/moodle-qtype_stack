@@ -81,7 +81,7 @@ class StackQuestionLoader {
         $question->questionnote              = (string) $xmldata->question->questionnote->text;
         $question->specificfeedback          = (string) $xmldata->question->specificfeedback->text;
         $question->specificfeedbackformat    = (string) $xmldata->question->specificfeedback['format'];
-        $question->questiondescription       = (string) $xmldata->question->questiondescription;
+        $question->questiondescription       = (string) $xmldata->question->questiondescription->text;
         $question->questiondescriptionformat = (string) $xmldata->question->questiondescription['format'];
         if (isset($xmldata->question->prtcorrect->text)) {
             $question->prtcorrect                = (string) $xmldata->question->prtcorrect->text;

@@ -822,4 +822,31 @@ class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals($cr['sans1'], $sans1);
         $this->assertEquals($cr['sans1_val'], $sansv);
     }
+
+    public function test_validate_student_response_floats() {
+        $options = new stack_options();
+        $val = '[4*x=2,x=1/2]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(['sans1' => "4*x=2\nx=0.5000"], $options,
+            $val, new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('[4*x = 2,x = dispdp(0.5000,4)]',
+            $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &4\cdot x=2& \cr \color{green}{\Leftrightarrow}' .
+            '&x=0.5000& \cr \end{array} \]',
+            $state->contentsdisplayed);
+
+        $ta = $el->get_teacher_answer();
+        $this->assertEquals($ta, $val);
+
+        $cr = $el->get_correct_response($val);
+        $sans1 = "4*x = 2\nx = 1/2";
+        $sansv = '[4*x = 2,x = 1/2]';
+
+        $this->assertEquals($cr['sans1'], $sans1);
+        $this->assertEquals($cr['sans1_val'], $sansv);
+    }
 }

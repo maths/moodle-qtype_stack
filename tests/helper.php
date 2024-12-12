@@ -58,9 +58,11 @@ class qtype_stack_test_helper extends question_test_helper {
             'runtime_cas_err',    // This generates a 1/0 in the CAS at run time.
             'units',              // This question has units inputs, and a numerical test.
             'unitsoptions',       // This question has units inputs, and a numerical test with the accuracy in a variable.
+            'unitsmulti',         // This question has units inputs, and an algebraic input.
             'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
             'checkbox_union',     // Creates a checkbox input with %union functions: noun edge case.
+            'checkbox_noun_diff', // Creates a checkbox input with noun  diff ('diff) functions.
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
             'contextvars',        // This question makes use of the context variables.
@@ -74,6 +76,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'feedback',           // Test teacher-defined input feedback and complex numbers.
             'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
             'exdowncase',         // Test the ordergreat function with exdowncase.
+            'bailout',            // Test the ability to bail out of a PRT using %stack_prt_stop_p.
             // Test questions for all the various input types.
             'algebraic_input',
             'algebraic_input_right',
@@ -1498,6 +1501,69 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->tans                = '9.81*m/s^2';
         $newnode->answertest          = 'Units';
         $newnode->testoptions         = '[n0,n0-1]';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question using a units and algebraic input.
+     */
+    public static function make_stack_question_unitsmulti() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2024092500';
+        $q->name = 'test-units-multi';
+        $q->questionvariables = '';
+        $q->questiontext = 'What is the rate law for the reaction? [[input:ans1]] [[validation:ans1]] ' .
+           'What is the rate constant for this reaction? [[input:ans2]] [[validation:ans2]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.2; // Non-zero and not the default.
+
+        // This example illsutrated the extra "nounits" option.
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'A*k', null, ['boxWidth' => 5, 'options' => 'nounits']);
+        $q->inputs['ans2'] = stack_input_factory::make(
+            'units', 'ans2', '0.0061/s', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+
+        $q->options->set_option('simplify', false);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'A*k';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
         $newnode->quiet               = false;
         $newnode->falsescore          = '0';
         $newnode->falsescoremode      = '=';
@@ -3126,6 +3192,66 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a checkbox question using %union, which was problematic
+     */
+    public static function make_stack_question_checkbox_noun_diff() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-checkbox-nound-diff';
+        $q->questionvariables = 'ta:[[\'diff(f,x),true],[noundiff(g,x),false],' .
+            '[\'int(f,x),false],[nounint(g,x),false]];';
+        $q->questiontext = 'Which operation should you use? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'checkbox', 'ans1', 'ta', null, null);
+
+        $q->options->set_option('simplify', false);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '[\'diff(f,x)]';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question a question which tests checking for addrow in an older question.
      */
     public static function make_stack_question_addrow() {
@@ -4179,6 +4305,71 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'firsttree-1-1';
         $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_bailout() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'bailout';
+        $q->questionvariables = "veq:{1,2,3};";
+        $q->questiontext = "What is the largest from {@veq@}? [[input:ans1]][[validation:ans1]]";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', '3', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => '',
+            ]);
+
+        // By setting simp:true (the default) we check the re-ordering really happens.
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '%stack_prt_stop_p:if is(ans1=5) then true else false;';
+        $prt->feedbackvariables .= 'k:ans1^2;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = 'Use the test ability to bail out';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '3';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);

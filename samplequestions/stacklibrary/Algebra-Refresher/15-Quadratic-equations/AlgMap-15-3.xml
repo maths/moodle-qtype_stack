@@ -17,8 +17,7 @@ Solve the quadratic equation \({@tq@}=0\).
 Give your answer as a set 
 \(\left(\mbox e.g.\ \left\{x_1 , x_2\right\} \right)\): <br>
 [[input:ans2]] [[validation:ans2]] 
-[[feedback:prt1]]
-]]></text>
+[[feedback:prt1]]]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[When solving a more complicated quadratic a better option, than factorising, is completing the square (The method by which we remove the {@v@} term). The general rule is:

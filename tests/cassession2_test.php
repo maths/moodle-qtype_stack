@@ -352,7 +352,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_multiplication_option_complexno_vector_order() {
 
         $cs = ['ordergreat(i,j,k)', 'texput(i,"\\\\vec{i}")', 'texput(j,"\\\\vec{j}")', 'texput(k,"\\\\vec{k}")',
-            'p:j*4+3*i+5*k', 'q:j*b+a*i+c*k'];
+            'p:j*4+3*i+5*k', 'q:j*b+a*i+c*k', ];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
@@ -2936,6 +2936,65 @@ class cassession2_test extends qtype_stack_testcase {
         $session->instantiate();
         $this->assertTrue($session->is_instantiated());
         $this->assertEquals('s_assert: STACK expected \' b \' but was given \' a \'.', $session->get_errors());
+    }
+
+    public function test_let() {
+
+        // Note, the rule deliberarly does not correspond to normal mathematics!
+        $cases = [
+            'matchdeclare([a, a1, a2], true)',
+            'p:(let(sin(a)^2, 1-cos(a)^3), letsimp(sin(x)^4))',
+        ];
+        $s1 = [];
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case, '', new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        $p = $session->get_by_key('p');
+        $this->assertEquals('cos(x)^6-2*cos(x)^3+1', $p->get_value());
+    }
+
+    public function test_let_matrix() {
+        $cases = ['orderless(I);',
+            'matchdeclare([a],true)',
+            '(let(I*a, a), let(I^2, I), true)',
+            'p:letsimp(expand((A+I)^3))',
+        ];
+        $s1 = [];
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case, '', new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        $p = $session->get_by_key('p');
+        $this->assertEquals('A^3+3*A^2+3*A+I', $p->get_value());
+
+        $cases = ['orderless(I)',
+            'matchdeclare ([A], true)',
+            '(let(A*I,A), true)',
+            'p:letsimp(expand((X-I)^3))',
+        ];
+        $s1 = [];
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case, '', new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        $p = $session->get_by_key('p');
+        $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
     }
 
     public function test_stackmaximaversion() {

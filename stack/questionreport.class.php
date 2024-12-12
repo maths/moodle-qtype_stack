@@ -146,7 +146,7 @@ class stack_question_report {
      * Creates the report
      * @return void
      */
-    public function run_report():void {
+    public function run_report(): void {
         $this->create_summary();
         $this->match_variants_and_notes();
         $this->collate();
@@ -166,7 +166,7 @@ class stack_question_report {
      * PotResTree_1: # = 1 | thing1_true | prt1-1-T; PotResTree_2: # = 0 | thing2_bad | prt2-2-F
      * @return void
      */
-    public function create_summary():void {
+    public function create_summary(): void {
         $result = $this->load_summary_data();
         $summary = [];
         foreach ($result as $qattempt) {
@@ -196,7 +196,7 @@ class stack_question_report {
      * Restrict to a single quiz, actual quiz answers and users who are students.
      * @return array
      */
-    public function load_summary_data():array {
+    public function load_summary_data(): array {
         global $DB;
         $params = [
             'coursecontextid' => $this->coursecontextid,
@@ -264,7 +264,7 @@ class stack_question_report {
      * Create the data for each page of the report
      * @return void
      */
-    public function collate():void {
+    public function collate(): void {
         $inputtotals = [];
         $qinputs = array_flip(array_keys($this->question->inputs));
         foreach ($qinputs as $key => $val) {
@@ -422,7 +422,7 @@ class stack_question_report {
      * then arrange in a suitable object to feed to the mustache template.
      * @return void
      */
-    public function create_output_data():void {
+    public function create_output_data(): void {
         $this->outputdata->question = $this->format_question_data($this->question);
         $this->outputdata->summary = $this->format_summary();
         $this->outputdata->notesummary = $this->format_notesummary($this->outputdata->summary->tot);
@@ -436,7 +436,7 @@ class stack_question_report {
      * @param mixed $question
      * @return object
      */
-    public static function format_question_data($question):object {
+    public static function format_question_data($question): object {
         $qdata = new StdClass();
         $qdata->name = $question->name;
         $qdata->text = $question->questiontext;
@@ -457,7 +457,7 @@ class stack_question_report {
      * Frequency of answer notes, for each PRT, regardless of which variant was used
      * @return object
      */
-    public function format_summary():object {
+    public function format_summary(): object {
         $output = new StdClass();
         $output->prts = [];
         $sumout = [];
@@ -500,7 +500,7 @@ class stack_question_report {
      * @param array $tot Totals from format_summary())
      * @return object
      */
-    public function format_notesummary(array $tot):object {
+    public function format_notesummary(array $tot): object {
         $output = new StdClass();
         $output->prts = [];
         $sumout = [];
@@ -541,7 +541,7 @@ class stack_question_report {
      * Raw inputs and PRT answer notes by variant
      * @return object
      */
-    public function format_variants():object {
+    public function format_variants(): object {
         $output = new StdClass();
         $output->variants = [];
         foreach (array_keys($this->summary) as $variant) {
@@ -560,7 +560,7 @@ class stack_question_report {
      * @param int $variant
      * @return object
      */
-    public function format_variant_answer_notes(int $variant):object {
+    public function format_variant_answer_notes(int $variant): object {
         $sumout = '';
         $sumheadline = '';
         foreach ($this->prtreport[$variant] as $prt => $idata) {
@@ -601,7 +601,7 @@ class stack_question_report {
      * @param int $variant
      * @return object
      */
-    public function format_variant_inputs(int $variant):string {
+    public function format_variant_inputs(int $variant): string {
         $sumout = '';
         foreach ($this->inputreport[$variant] as $input => $idata) {
             $sumouti = '';
@@ -634,7 +634,7 @@ class stack_question_report {
      * Raw inputs, regardless of which variant was used
      * @return object
      */
-    public function format_inputs():object {
+    public function format_inputs(): object {
         $output = new StdClass();
         $sumout = '';
         foreach ($this->inputreportsummary as $input => $idata) {
@@ -669,7 +669,7 @@ class stack_question_report {
      * Raw data
      * @return object
      */
-    public function format_raw_data():object {
+    public function format_raw_data(): object {
         $output = new StdClass();
         $sumout = '';
         foreach ($this->summary as $variant => $vdata) {
@@ -696,7 +696,7 @@ class stack_question_report {
      * @param int $questionid
      * @return array
      */
-    public static function get_relevant_quizzes(int $questionid):array {
+    public static function get_relevant_quizzes(int $questionid): array {
         global $DB;
         $quizzesquery = "SELECT qr.usingcontextid as quizcontextid, q.name, cc.id as coursecontextid, co.fullname as coursename
                     FROM {question_versions} qv

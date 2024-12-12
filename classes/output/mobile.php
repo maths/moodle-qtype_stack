@@ -31,7 +31,7 @@ class mobile {
             'templates' => [[
                 'id' => 'main',
                 'html' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.html'),
-            ]],
+            ], ],
             'javascript' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.min.js'),
         ];
     }

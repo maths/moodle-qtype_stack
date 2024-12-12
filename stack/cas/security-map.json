@@ -131,6 +131,9 @@
   "%_stack_preamble_end": {
       "constant": "t"
   },
+  "%_stack_prt_stop_p": {
+      "variable": "t"
+  },
   "%stmt": {
       "variable": "f"
   },
@@ -2011,6 +2014,12 @@
   "disprule": {
       "function": "f"
   },
+  "dispdp": {
+      "function": "s"
+  },
+  "dispsf": {
+      "function": "s"
+  },
   "dispterms": {
       "function": "f"
   },
@@ -3798,7 +3807,8 @@
       "variable": "f"
   },
   "km": {
-      "function": "?"
+      "function": "s",
+      "variable": "s"
   },
   "kostka": {
       "function": "f"
@@ -3997,20 +4007,20 @@
       "built-in": true
   },
   "let": {
-      "function": "f"
+      "function": "t"
   },
   "let_rule_packages": {
-      "variable": "f"
+      "variable": "t"
   },
   "letrat": {
-      "evflag": "f",
-      "variable": "f"
+      "evflag": "t",
+      "variable": "t"
   },
   "letrules": {
-      "function": "f"
+      "function": "t"
   },
   "letsimp": {
-      "function": "f"
+      "function": "t"
   },
   "levi_civita": {
       "function": "f"
@@ -4442,7 +4452,7 @@
       "function": "s"
   },
   "matchdeclare": {
-      "function": "?",
+      "function": "t",
       "contextvariable": "true"
   },
   "matchfix": {

@@ -30,6 +30,7 @@
 define('MOODLE_INTERNAL', true);
 define('PARAM_RAW', 'raw');
 define('PARAM_PLUGIN', true);
+define('PARAM_URL', true);
 
 require_once('../config.php');
 // Required to pass Moodle code check.
@@ -111,6 +112,57 @@ function get_file_storage() {
         }
     };
     return $storage;
+}
+
+/**
+ * Fetches content of file from Internet.
+ * Due to security concerns only downloads from http(s) sources are supported.
+ * (This is extremely stripped down from the Moodle function in lib/filelib.php which
+ * utilises the Moodle curl class.
+ * https://github.com/totara/moodle/blob/dda862abb57f656633f0736b858f7f048efd44bb/lib/filelib.php#L1172)
+ *
+ * @param string $url file url starting with http(s)://
+ * @return string|bool false if request failed or the file content as a string.
+ */
+function download_file_content($url) {
+    global $CFG;
+
+    // Only http and https links supported.
+    if (!preg_match('|^https?://|i', $url)) {
+        return false;
+    }
+
+    $options = [];
+    $options[CURLOPT_SSL_VERIFYPEER] = 1;
+    $options[CURLOPT_CONNECTTIMEOUT] = 20;
+    $options[CURLOPT_FOLLOWLOCATION] = 1;
+    $options[CURLOPT_MAXREDIRS] = 5;
+    $options[CURLOPT_RETURNTRANSFER] = true;
+    $options[CURLOPT_NOBODY] = false;
+    $options[CURLOPT_TIMEOUT] = 300;
+    $options[CURLOPT_HTTPGET] = 1;
+    $options[CURLOPT_URL] = $url;
+    $curl = curl_init();
+    foreach ($options as $name => $value) {
+        curl_setopt($curl, $name, $value);
+    }
+
+    $result = curl_exec($curl);
+    $info  = curl_getinfo($curl);
+    $error_no = curl_errno($curl);
+
+    if ($error_no) {
+        return false;
+    }
+    if (empty($info['http_code'])) {
+        // For security reasons we support only true http connections (Location: file:// exploit prevention).
+        return false;
+    }
+    if ($info['http_code'] != 200) {
+        return false;
+    }
+
+    return $result;
 }
 
 // Specialized emulations.

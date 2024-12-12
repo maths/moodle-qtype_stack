@@ -34,6 +34,8 @@ namespace api\util;
 class StackIframeHolder {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $iframes = [];
+    /** @var bool Are we on the library page? */
+    public static $islibrary = false;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function add_iframe($args) {

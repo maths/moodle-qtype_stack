@@ -50,7 +50,7 @@ class docslib_test extends qtype_stack_testcase {
                         'LTI</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
-                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima_installation.md">Maxima installation</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Migration.md">Migration</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Optimising_Maxima.md">' .
                         'Optimising Maxima</a></li>' .
@@ -73,11 +73,9 @@ class docslib_test extends qtype_stack_testcase {
                 $CFG->wwwroot . '/question/type/stack/doc.php/Students'));
     }
 
-
     public function test_stack_docs_render_markdown() {
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
-
         $currentversion = normalize_version(get_config('', 'release'));
 
         $this->assertEquals("<p>Test</p>\n",
@@ -85,8 +83,18 @@ class docslib_test extends qtype_stack_testcase {
 
         // @codingStandardsIgnoreStart
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
-                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
+                stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).'));
+        $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
+            stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
         // @codingStandardsIgnoreEnd
+
+        $md = "Text with maths: \\(x^3\\)\n\n    And how to type it in: \\(x^3\\)\n\nShould work!";
+        $ex = "<p>Text with maths: \\(x^3\\)</p>\n\n" .
+            "<pre><code>And how to type it in: \\(x^3\\)\n</code></pre>\n\n" .
+            "<p>Should work!</p>\n";
+        $this->assert_content_with_maths_equals($ex,
+            stack_docs_render_markdown($md));
+
         if (version_compare($currentversion, '4.1.0') >= 0) {
             $page = 'Watch <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
                 'frameborder="0" allowfullscreen></iframe> This will help you.';
@@ -95,6 +103,27 @@ class docslib_test extends qtype_stack_testcase {
                 'frameborder="0" allowfullscreen></iframe>' . "\n\n<p>This will help you.</p>\n";
             $this->assert_content_with_maths_equals($rendered,
                 stack_docs_render_markdown($page));
+        }
+    }
+
+    public function test_stack_docs_render_markdown_with_proof() {
+        $md = '<div class="proof"><p>H1. Assume that \(3 \cdot 2^{172} + 1\) is a perfect square.</p></div>';
+        $ex = $md . "\n";
+        $this->assert_content_with_maths_equals($ex,
+            stack_docs_render_markdown($md));
+    }
+
+    public function test_stack_docs_render_markdown_with_table() {
+        global $CFG;
+        require_once($CFG->libdir . '/environmentlib.php');
+        $currentversion = normalize_version(get_config('', 'release'));
+
+        $md = "\\[ {\\begin{array}{c|c} x & x^3\\\\ \\hline -1 & -1 \\\\ 0 & 0 \\\\ 1 & 1 \\end{array}} \\]";
+        $ex = "<p>\\[ {\begin{array}{c|c} x &amp; x^3\\\\ \hline -1 &amp; -1 \\\\ " .
+            "0 &amp; 0 \\\\ 1 &amp; 1 \\end{array}} \\]</p>\n";
+        if (version_compare($currentversion, '4.1.0') >= 0) {
+            $this->assert_content_with_maths_equals($ex,
+                stack_docs_render_markdown($md));
         }
     }
 }

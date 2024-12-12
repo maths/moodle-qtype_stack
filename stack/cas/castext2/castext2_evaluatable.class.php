@@ -59,6 +59,11 @@ class castext2_evaluatable implements cas_raw_value_extractor {
      */
     public $errclass = 'stack_cas_error';
 
+    /**
+     * The placeholder holder.
+     */
+    private $holder;
+
     public static function make_from_compiled(string $compiled, string $context,
             castext2_static_replacer $statics): castext2_evaluatable {
         $r = new castext2_evaluatable();
@@ -88,6 +93,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
 
     private function __construct() {
         $this->errors = [];
+        $this->holder = new castext2_placeholder_holder();
     }
 
     // Format and options here are for the optional compilation.
@@ -291,7 +297,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                     $this->evaluated .= implode('</li><li>', $this->get_errors(false));
                     $this->evaluated .= '</li></ul>';
                 } else {
-                    $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor);
+                    $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor, $this->holder);
                 }
             }
         }
@@ -320,5 +326,13 @@ class castext2_evaluatable implements cas_raw_value_extractor {
      */
     public function get_special_content(): array {
         return $this->special;
+    }
+
+    /**
+     * Replaces the placeholders related to this CASText using the tokens
+     * collected during processing.
+     */
+    public function apply_placeholder_holder(string $filtered): string {
+        return $this->holder->replace($filtered);
     }
 }

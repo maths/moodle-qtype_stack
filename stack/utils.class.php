@@ -475,6 +475,19 @@ class stack_utils {
     }
 
     /**
+     * Convert strings to protect LaTeX backslashes for use in Maxima strings.
+     * @param string in
+     * @return string out
+     * @access public
+     */
+    public static function protect_backslash_latex($string) {
+        $string = addslashes($string);
+        // We don't want to add slashes to strings within strings.
+        $string = str_replace('\\\\\"', '\"', $string);
+        return($string);
+    }
+
+    /**
      * Converts a CSV string into an array, removing empty entries.
      *
      * @param string in
@@ -986,7 +999,7 @@ class stack_utils {
         return $missingalt;
     }
 
-    /** 
+    /**
      * Takes a list of strings and returns the corresponding list of Base64-hashed string values.
      */
     public static function hash_array($arr) {
@@ -1010,81 +1023,81 @@ class stack_utils {
      * Takes a string that contains a list where each element has the format
      * [<JSON>, <int>]
      * and each JSON has the format
-     * {"used" : 
+     * {"used" :
      *      [
      *          [[<hashed string>, ..., <hashed string>]],
      *          ...
      *          [[<hashed string>, ..., <hashed string>]]
-     *      ], 
-     *  "available" : 
+     *      ],
+     *  "available" :
      *      [<hashed string>, ... <hashed string>]
      * }
      * each `<hashed string>` is assumed to be Base64-hashed.
-     * 
-     * Note that for proof parson's questions (neither rows nor columns specified in header) the shape of "used" will be (1, 1, ?), 
-     * for grouping problems (only columns specified in header) the shape of "used" will be (#columns, 1, ?) and for matching 
+     *
+     * Note that for proof parson's questions (neither rows nor columns specified in header) the shape of "used" will be (1, 1, ?),
+     * for grouping problems (only columns specified in header) the shape of "used" will be (#columns, 1, ?) and for matching
      * problems (both rows and columns specified in header) the shape of "used" will be (#columns, #rows, 1).
-     * 
+     *
      * This function will return the same format string, with each `<hashed string>` replaced by the original string value.
      */
-    public static function unhash_parsons_string($list_of_jsons) {
-        $decoded_list = json_decode($list_of_jsons);
-        foreach($decoded_list as $key => $json) {
-            foreach($decoded_list[$key][0]->used as $i => $row) {
-                foreach($row as $j => $item) {
-                    $decoded_list[$key][0]->used[$i][$j] = stack_utils::unhash_array($item);
+    public static function unhash_parsons_string($listofjsons) {
+        $decodedlist = json_decode($listofjsons);
+        foreach ($decodedlist as $key => $json) {
+            foreach ($decodedlist[$key][0]->used as $i => $row) {
+                foreach ($row as $j => $item) {
+                    $decodedlist[$key][0]->used[$i][$j] = self::unhash_array($item);
                 }
             }
-            $decoded_list[$key][0]->available = stack_utils::unhash_array($decoded_list[$key][0]->available);
+            $decodedlist[$key][0]->available = self::unhash_array($decodedlist[$key][0]->available);
         }
-        return json_encode($decoded_list);
+        return json_encode($decodedlist);
     }
 
     /**
      * Maxima string version of `unhash_parsons_string`.
      */
-    public static function unhash_parsons_string_maxima($list_of_jsons) {
-        $php_list_of_jsons = stack_utils::maxima_string_to_php_string($list_of_jsons);
-        return stack_utils::php_string_to_maxima_string(self::unhash_parsons_string($php_list_of_jsons));
+    public static function unhash_parsons_string_maxima($listofjsons) {
+        $phplistofjsons = self::maxima_string_to_php_string($listofjsons);
+        return self::php_string_to_maxima_string(self::unhash_parsons_string($phplistofjsons));
     }
 
     /**
      * Takes a string that contains a list where each element has the format
      * [<JSON>, <int>]
-     * {"used" : 
+     * {"used" :
      *      [
      *          [[<string>, ..., <string>]],
      *          ...
      *          [[<string>, ..., <string>]]
-     *      ], 
-     *  "available" : 
+     *      ],
+     *  "available" :
      *      [<string>, ... <string>]
      * }
-     * 
-     * Note that for proof parson's questions (neither rows nor columns specified in header) the shape of "used" will be (1, 1, ?), 
-     * for grouping problems (only columns specified in header) the shape of "used" will be (#columns, 1, ?) and for matching 
+     *
+     * Note that for proof parson's questions (neither rows nor columns specified in header) the shape of "used" will be (1, 1, ?),
+     * for grouping problems (only columns specified in header) the shape of "used" will be (#columns, 1, ?) and for matching
      * problems (both rows and columns specified in header) the shape of "used" will be (#columns, #rows, 1).
-     * 
+     *
      * This function will return the same format string, with each `<string>` replaced by its Base64-hashed value.
      */
-    public static function hash_parsons_string($list_of_jsons) {
-        $decoded_list = json_decode($list_of_jsons);
-        foreach($decoded_list as $key => $json) {
-            foreach($decoded_list[$key][0]->used as $i => $row) {
-                foreach($row as $j => $item) {
-                    $decoded_list[$key][0]->used[$i][$j] = stack_utils::hash_array($item);
+    public static function hash_parsons_string($listofjsons) {
+        $decodedlist = json_decode($listofjsons);
+        foreach ($decodedlist as $key => $json) {
+            foreach ($decodedlist[$key][0]->used as $i => $row) {
+                foreach ($row as $j => $item) {
+                    $decodedlist[$key][0]->used[$i][$j] = self::hash_array($item);
                 }
             }
-            $decoded_list[$key][0]->available = stack_utils::hash_array($decoded_list[$key][0]->available);
+            $decodedlist[$key][0]->available = self::hash_array($decodedlist[$key][0]->available);
         }
-        return json_encode($decoded_list);
+        return json_encode($decodedlist);
     }
 
     /**
      * Maxima string version of `hash_parsons_string`.
      */
-    public static function hash_parsons_string_maxima($list_of_jsons) {
-        $php_list_of_jsons = stack_utils::maxima_string_to_php_string($list_of_jsons);
-        return stack_utils::php_string_to_maxima_string(self::hash_parsons_string($php_list_of_jsons));
+    public static function hash_parsons_string_maxima($listofjsons) {
+        $phplistofjsons = self::maxima_string_to_php_string($listofjsons);
+        return self::php_string_to_maxima_string(self::hash_parsons_string($phplistofjsons));
     }
 }

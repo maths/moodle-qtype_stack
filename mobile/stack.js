@@ -29,6 +29,17 @@ var result = {
         const dropdowns = questiontext.querySelectorAll('select');
         const dashLink = questiontext.querySelector('.questiontestslink');
         const validationerror = questiontext.querySelector('.validationerror');
+        const inputs = questiontext.querySelectorAll('input[type="text"]');
+        inputs.forEach(function(input) {
+            let width = input.style.width;
+            if (width.endsWith('em')) {
+                width = width.replace('em', '');
+                width = width * 1.3;
+                width = width + 'em';
+                input.style.width = width;
+            }
+        });
+
         if (validationerror) {
             // Hide validation error as App will display.
             validationerror.setAttribute('hidden', true);
@@ -673,7 +684,10 @@ var result = {
             // With JS With instant validation, we don't need the Check button, so hide it.
             if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                     questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-                            questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
+                    const input = questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit');
+                    if (input) {
+                        input.hidden = true;
+                    }
             }
         }
 

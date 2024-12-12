@@ -738,7 +738,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $hastodos = false;
         $tags = [];
         $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
-            $this->specificfeedback, $this->questiondescription];
+            $this->specificfeedback, $this->questiondescription, ];
         $pat = '/\[\[todo/';
         foreach ($fields as $field) {
             // We _should_ use castext2_parser_utils::has_todoblocks($field) really, but this
@@ -806,6 +806,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
                     $input->get_correct_response($this->tas[$name]->get_dispvalue()));
+        }
+        return $teacheranswer;
+    }
+
+    /*
+     * This function returns an array of values for inputs which could be typed into Maxima.
+     * Used in the caschat function as possible input values.
+     */
+    public function get_correct_response_testcase() {
+        $teacheranswer = [];
+        if ($this->runtimeerrors || $this->get_cached('units') === null) {
+            return [];
+        }
+        foreach ($this->inputs as $name => $input) {
+            $teacheranswer[$name] = $input->get_teacher_answer_testcase($this->tas[$name]->get_dispvalue());
         }
         return $teacheranswer;
     }
@@ -1540,6 +1555,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
             ['pat' => 'texdecorate', 'ver' => 2018080600],
             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
+            ['pat' => 'proof_parsons_key_json', 'ver' => 2024092500, 'alt' => 'parsons_answer'],
+            ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
@@ -2169,5 +2186,30 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function has_cap(string $capname): bool {
         return $this->has_question_capability($capname);
+    }
+
+    /**
+     * Apply {@link format_text()} to some content with appropriate settings for
+     * this question.
+     *
+     * Overridden here to turn on `allowid` in the format options.
+     *
+     * @param string $text some content that needs to be output.
+     * @param int $format the FORMAT_... constant.
+     * @param question_attempt $qa the question attempt.
+     * @param string $component used for rewriting file area URLs.
+     * @param string $filearea used for rewriting file area URLs.
+     * @param bool $clean Whether the HTML needs to be cleaned. Generally,
+     *      parts of the question do not need to be cleaned, and student input does.
+     * @return string the text formatted for output by format_text.
+     */
+    public function format_text($text, $format, $qa, $component, $filearea, $itemid,
+            $clean = false) {
+        $formatoptions = new stdClass();
+        $formatoptions->noclean = !$clean;
+        $formatoptions->para = false;
+        $formatoptions->allowid = true;
+        $text = $qa->rewrite_pluginfile_urls($text, $component, $filearea, $itemid);
+        return format_text($text, $format, $formatoptions);
     }
 }

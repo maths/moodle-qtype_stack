@@ -216,4 +216,23 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals($cm, $state->contentsmodified);
         $this->assertEquals($cd, $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_too_long() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('string', 'sans1', '"Hello world"');
+        // Maxima is very slow to parse long strings.
+        $sa = '"Hell' . str_repeat('o', 1000) . ' world"';
+        $state = $el->validate_student_response(['sans1' => $sa], $options, '"Hello world"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+
+        $sa = '"Hell' . str_repeat('o', 262144) . ' world"';
+        $state = $el->validate_student_response(['sans1' => $sa], $options, 'x^2/(1+x^2)',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('too_long', $state->note);
+        $this->assertEquals('Your input is longer than permitted by STACK.', $state->errors);
+    }
 }

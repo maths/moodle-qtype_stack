@@ -121,6 +121,11 @@ match_answer(ans, steps, [rows]) := block([akeys, ukeys],
 );
 
 /*
+ * Alias for for the column-only usage `match_answer(ans_steps)` of `match_answer`.
+ */
+group_answer(ans, steps) := match_answer(ans, steps);
+
+/*
  * Use this to turn a row-grouped answer into a column-grouped answer and vice-versa.
  * 
  * Note that model answers for matching problems in STACK should always be written by grouping 

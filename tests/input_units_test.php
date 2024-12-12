@@ -633,6 +633,26 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 1.3410\times 10^4\, \mathrm{Hz}\, \mathrm{m} \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_display_5() {
+        // This example was raised in issue #1331.
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '1.609*km');
+        $el->set_parameter('insertStars', 1);
+        $state = $el->validate_student_response(['sans1' => '1.609*km'], $options, '1.609*km',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('1.609*km', $state->contentsmodified);
+        $this->assertEquals('\[ 1.609\, \mathrm{k}\mathrm{m} \]', $state->contentsdisplayed);
+
+        $state = $el->validate_student_response(['sans1' => 'km'], $options, '1.609*km',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('km', $state->contentsmodified);
+        $this->assertEquals('\[ \mathrm{k}\mathrm{m} \]', $state->contentsdisplayed);
+        $this->assertEquals('Your answer needs to be a number together with units. Your answer only has units.',
+            $state->errors);
+    }
+
     public function test_validate_student_response_display_decimals_0() {
         $options = new stack_options();
         $options->set_option('decimals', ',');

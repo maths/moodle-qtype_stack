@@ -104,6 +104,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', '8^(1/5)*(cos(%pi/15)+%i*sin(%pi/15))', 1, '', ''],
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''],
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''],
+        ['AlgEquiv', '', '5/4*%e^(%i*%pi/6)', '5*sqrt(3)/8+5/8*%i', 1, '', ''],
         ['AlgEquiv', '', '%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''],
 
         ['AlgEquiv', '', 'inf', 'inf', 1, '', 'Infinity'],
@@ -260,7 +261,7 @@ class stack_answertest_test_data {
         // Example where some pre-processing is needed.
         ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
         ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
-            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', ''],
+            'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', '', ],
 
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],
@@ -312,6 +313,11 @@ class stack_answertest_test_data {
             'AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', '',
         ],
+        // Without sets the following examples should be equal.
+        ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', -3, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', 'map(expand,{5/4*%e^(%i*%pi/6)})', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
+        ['AlgEquiv', '', 'ratsimp({5/4*%e^(%i*%pi/6)})', 'ratsimp({5*sqrt(3)/8+5/8*%i})', 1, '', ''],
+
         ['AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''],
         [
             'AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)',
@@ -644,6 +650,9 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '6*stackunits(1,m)', 'stackunits(6,m)', 1, '', ''],
         ['AlgEquiv', '', 'stackunits(2,m)^2', 'stackunits(4,m^2)', 1, '', ''],
         ['AlgEquiv', '', 'stackunits(2,s)^2', 'stackunits(4,m^2)', 0, '', ''],
+        ['AlgEquiv', '', 'stack_units_nums(stackunits_make(m/s))', '1', 0, '', ''],
+        ['AlgEquiv', '', 'stack_units_nums(stackunits_make(m/s))', 'NULLNUM', 1, '', ''],
+        ['AlgEquiv', '', 'ev(stack_units_nums(stackunits_make(m/s)),NULLNUM=1)', '1', 1, '', ''],
         ['AlgEquiv', '', '-inf', 'minf', 0, '', 'Maxima does not simplify -inf (I agree!)'],
         [
             'AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+%i*sqrt(1-z^2))', -3,
@@ -1229,6 +1238,7 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'imag_numberp(%e^(%pi/2))', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3)', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-3)', 'false', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^%i)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(%e^(%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
@@ -1236,13 +1246,22 @@ class stack_answertest_test_data {
         ['CasEqual', '', 'complex_exponentialp(%e^(%i)/4)', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
         ['CasEqual', '', 'complex_exponentialp(3*exp(-%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''],
-        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'true', 1, 'ATCASEqual_true.', ''],
+        // We must have -p1<theta<=pi.
+        ['CasEqual', '', 'complex_exponentialp(3*%e^(-7*%i*%pi/3))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(7*%e^(3*%i*%pi))', 'false', 1, 'ATCASEqual_true.', ''],
+        // We must have r>0.
+        ['CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'false', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'false', 1, 'ATCASEqual_true.', ''],
         // The below test case is 0 because this is a general expression with variables.
         ['CasEqual', '', 'complex_exponentialp(-(r*exp(i*atan(bb/aa))))', 'true', 0, 'ATCASEqual_false.', ''],
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.
         ['CasEqual', '', 'integerp(-1)', 'true', 0, 'ATCASEqual_false.', ''],
         ['CasEqual', '', 'integerp(ev(-1,simp))', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'a+(b+c)', '(a+b)+c', 0, 'ATCASEqual (AlgEquiv-true).', 'Associativity'],
+        ['CasEqual', '', 'a+(b+c)', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', 'a+(b+c)', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
 
         ['SameType', '', '1/0', '1', -1, 'ATSameType_STACKERROR_SAns.', ''],
         ['SameType', '', '1', '1/0', -1, 'ATSameType_STACKERROR_TAns.', ''],
@@ -1904,7 +1923,10 @@ class stack_answertest_test_data {
         ['Int', 'x', 'atan((x-2)/(x-1))+c', 'atan(2*x-3)', 1, 'ATInt_true.', ''],
         ['Int', 'x', 'atan((x-2)/(x-1))', 'atan(2*x-3)', 0, 'ATInt_const.', ''],
         ['Int', 'x', 'atan((x-1)/(x-2))', 'atan(2*x-3)', 0, 'ATInt_generic.', ''],
-        // These onse currently fail for mathematical reasons.
+        ['Int', 'x', 'atan((x-1)/(x+1))+c', 'atan(x)', 1, 'ATInt_true.', ''],
+        // This really does have an odd constant of integration!
+        ['Int', 'x', 'atan((a*x+1)/(a-x))', 'atan(x)', 1, 'ATInt_true.', ''],
+        // These ones currently fail for mathematical reasons.
         [
             'Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)',
@@ -2563,17 +2585,22 @@ class stack_answertest_test_data {
         ['UnitsStrictAbsolute', '10.0', '2.321*m', '2300.0*mm', 0, 'ATUnits_compatible_units m.', ''],
         ['UnitsStrictAbsolute', '10.0', '2.301*kg', '2300.0*mm', 0, 'ATUnits_incompatible_units.', ''],
 
+        ['String', '', '"Hello"', '"hello"', 0, '', ''],
+        ['String', '', '"hello"', '"hello"', 1, '', ''],
+        ['String', '', '"hello"', '"heloo"', 0, '', ''],
         ['String', '', '"With spaces"', '"With spaces"', 1, '', ''],
         ['String', '', '"Without spaces"', '"Withoutspaces"', 0, '', ''],
-        ['String', '', 'Hello', 'hello', 0, '', ''],
-        ['String', '', 'hello', 'hello', 1, '', ''],
-        ['String', '', 'hello', 'heloo', 0, '', ''],
+        ['String', '', '" Hello "', '"Hello"', 0, '', 'Whitespace not trimmed off inside strings'],
+        ['String', '', ' Hello ', 'Hello', 1, '', 'Whitespace is trimmed off around atoms'],
         ['String', '', 'sin(x^2)', '"sin(x^2)"', 1, '', 'This test works on expressions as well as strings'],
+        ['String', '', 'pi^2/6', '"pi^2/6"', 1, '', ''],
+        ['String', '', 'pi^2/6', '"%pi^2/6"', 0, '', ''],
 
         ['StringSloppy', '', '"hello"', '"hello"', 1, '', ''],
         ['StringSloppy', '', '"hello"', '"heloo"', 0, '', ''],
         ['StringSloppy', '', '"hel lo"', '"hello"', 1, '', ''],
         ['StringSloppy', '', '"hel lo"', '"Hel*lo"', 0, '', ''],
+        ['StringSloppy', '', '" hel   lo    "', '"hello"', 1, '', ''],
 
         ['Levenshtein', '', '"Hello"', '"Hello"', 0, 'STACKERROR_OPTION.', ''],
         ['Levenshtein', '0.9', '1/0', '"Hello"', -1, 'ATLevenshtein_STACKERROR_SAns.', ''],
@@ -2715,7 +2742,18 @@ class stack_answertest_test_data {
         ['LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''],
         ['LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''],
         ['LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', ''],
-    ];
+
+        ['Validator', 'validate_nofunctions', '1/0', '0', -1, 'ATValidator_STACKERROR_SAns.', ''],
+        ['Validator', '1/0', 'x', '0', -1, 'ATValidator_STACKERROR_Opt.', ''],
+        ['Validator', 'op', 'x', 'null', -1, 'ATValidator_STACKERROR_ev.', ''],
+        ['Validator', '[validate_nofunctions]', 'x^2+sin(1)', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'validate_nodef', 'f(x)', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'sin', 'x', 'null', 0, 'ATValidator_not_fun.', ''],
+        ['Validator', 'first', '[1,2,3]', 'null', 0, 'ATValidator_res_not_string.', ''],
+        ['Validator', 'validate_nofunctions', 'x^2+sin(1)', 'null', 1, '', ''],
+        ['Validator', 'validate_nofunctions', 'f(x)', 'null', 0, '', ''],
+
+        ];
 
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();

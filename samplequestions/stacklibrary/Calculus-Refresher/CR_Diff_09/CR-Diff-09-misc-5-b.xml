@@ -8,8 +8,7 @@
       <text>Find the following second derivative:
 \[ \frac{d^2}{d{@v@}^2}({@p@}). \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[For this question, note that the second derivative of a function is the derivative of the first derivative of that function, that is, 
@@ -26,9 +25,7 @@ So, to calculate the second derivative of {@p@} with respect to {@v@}, you have 
    &\displaystyle =&\displaystyle  \frac{d}{d{@v@}}({@diff(p,v)@}) \\
    &\displaystyle =&\displaystyle  \left[ \frac{d}{d{@v@}}({@diff(pp,v)@})\right]\cdot {@p@} + {@diff(pp,v)@}\cdot \left[\frac{d}{d{@v@}}({@p@})\right] \\
    &\displaystyle =&\displaystyle  {@diff(pp,v,2)*p@} + {@diff(pp,v)*diff(p,v)@}
- \end{array}\] 
-
-]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

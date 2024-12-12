@@ -54,7 +54,7 @@ class stack_prt_graph_node extends stack_abstract_graph_node {
     public $falsenote;
 
     /**
-     * 
+     *
      * @param string $casstatement
      * @param bool $quiet
      * @param string $truenote

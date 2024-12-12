@@ -68,7 +68,7 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
             core_php_time_limit::raise(60); // Prevent PHP timeouts.
 
             $qtodos = [];
-            $questions = $bulktester->stack_questions_in_category($currentcategoryid);
+            $questions = $bulktester->stack_questions_in_category_with_todo($currentcategoryid);
             if (!$questions) {
                 continue;
             }

@@ -11,7 +11,7 @@ for example
 
     p : (x-1)^3;
 
-Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima.md) language.
+Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima_background.md) language.
 When evaluated, this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
 The keys need not be unique, although only the last value will be available for use later.
 
@@ -41,8 +41,8 @@ STACK uses Maxima's assignment rules.
 
 The question variables are evaluated when a variant of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
 
-* Teacher's answers in [inputs](Inputs.md) are defined in terms of question variables.
-* [Question note](Question_note.md).
+* Teacher's answers in [inputs](../Authoring/Inputs/index.md) are defined in terms of question variables.
+* [Question note](../Authoring/Question_note.md).
 * General feedback (also known as the worked solution).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
@@ -58,7 +58,7 @@ If the following commands appear within the question variables they will be avai
 
 This collection of special variables are called "context variables".
 
-STACK has a special constant `%_stack_preamble_end`.  Any variables _before_ this constant will be included within the context variables.  This enables you to define functions, e.g. to use with `textput`.  
+STACK has a special constant `%_stack_preamble_end`.  Any variables _before_ this constant will be included within the context variables.  This enables you to define functions, e.g. to use with `texput`.  
 
 Note, that students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble. e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
 
@@ -105,7 +105,7 @@ This gives the opportunity to perform sophisticated mathematical operations.
 Before each answer test is applied the following list of variables is assembled and evaluated
 
 1. The values of the question variables.
-2. The values of each [inputs](Inputs.md).
+2. The values of each [inputs](../Authoring/Inputs/index.md).
 3. The feedback variables.
 
 The values of the evaluated feedback variables can be used as expressions in the answer tests and in the feedback.

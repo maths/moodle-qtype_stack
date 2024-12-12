@@ -25,6 +25,7 @@ Question blocks are divided into three broad groups.
   * Textdownload
   * Include
   * Template
+  * [Hints/fact sheets](Fact_sheets.md)
 2. [Conditional blocks](Conditional_blocks.md), for looping and branching and programatic structures.
   * Define
   * If

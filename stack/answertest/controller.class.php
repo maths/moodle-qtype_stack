@@ -67,6 +67,7 @@ class stack_ans_test_controller {
         'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
         'Levenshtein'          => 'stackOptions_AnsTest_values_Levenshtein',
         'SRegExp'              => 'stackOptions_AnsTest_values_SRegExp',
+        'Validator'            => 'stackOptions_AnsTest_values_Validator',
     ];
 
     /*
@@ -115,6 +116,7 @@ class stack_ans_test_controller {
         'StringSloppy'         => [false, false, false, false],
         'Levenshtein'          => [true, true, true, false],
         'SRegExp'              => [false, false, true, false],
+        'Validator'            => [true, true, false, false],
     ];
 
     /**
@@ -169,6 +171,7 @@ class stack_ans_test_controller {
             case 'NumDecPlaces':
             case 'NumDecPlacesWrong':
             case 'Levenshtein':
+            case 'Validator':
                 $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 break;
 

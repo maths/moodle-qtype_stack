@@ -33,6 +33,11 @@ class stack_string_input extends stack_algebraic_input {
         'validator' => false,
     ];
 
+    /*
+     * @var integer We allow string inputs to be longer.
+     */
+    protected $maxinputlength = 262144;
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -134,7 +139,6 @@ class stack_string_input extends stack_algebraic_input {
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
             $value = '';
         }
-
         return $this->maxima_to_response_array($value);
     }
 

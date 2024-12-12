@@ -2,7 +2,7 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/top/Calculus-Refresher/CR_Int_16</text>
+      <text>top/stacklibrary/Calculus-Refresher/CR_Int_16</text>
     </category>
     <info format="moodle_auto_format">
       <text>Integration using trigonometrical identities</text>

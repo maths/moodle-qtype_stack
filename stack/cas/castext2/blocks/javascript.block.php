@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 //
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -38,7 +39,7 @@ stack_cas_castext2_iframe::register_counter('///JAVASCRIPT_COUNT///');
  */
 class stack_cas_castext2_javascript extends stack_cas_castext2_block {
 
-    public function compile($format, $options):  ? MP_Node {
+    public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
 
         $inputs = []; // From inputname to variable name.
@@ -103,13 +104,14 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
 
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 

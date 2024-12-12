@@ -23,6 +23,7 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_031_no_trig_brackets implements stack_cas_astfilter {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $selectednames = stack_cas_security::get_all_with_feature('trigfun');

@@ -100,10 +100,12 @@ class stack_question_test_result {
         $this->inputerrors[$inputname]         = $error;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_prt_result($prtname, prt_evaluatable $actualresult) {
         $this->actualresults[$prtname] = $actualresult;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_questionpenalty($penalty) {
         $this->questionpenalty = $penalty;
     }

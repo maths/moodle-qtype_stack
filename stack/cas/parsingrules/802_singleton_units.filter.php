@@ -53,6 +53,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
     private $mandatoryunit = true;
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         if (isset($parameters['allowvariables'])) {
             $this->allowvariables = $parameters['allowvariables'];
@@ -68,6 +69,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $ops = [];

@@ -21,20 +21,24 @@ require_once(__DIR__ . '/../block.interface.php');
 
 class stack_cas_castext2_todo extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $body = new MP_List([new MP_String('%root')]);
         $body->items[] = new MP_String('<!--- stack_todo --->');
         return $body;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function extract_todo(): array {
         $tags = [];
         if (!array_key_exists('tags', $this->params)) {

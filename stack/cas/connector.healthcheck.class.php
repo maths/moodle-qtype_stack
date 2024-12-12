@@ -45,6 +45,7 @@ class stack_cas_healthcheck {
 
     protected $tests = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($config) {
         global $CFG;
         $this->config = $config;

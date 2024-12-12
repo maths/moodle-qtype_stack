@@ -32,6 +32,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
     public $itemid;
     public $component = 'qtype_stack';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($params, $children=[], $mathmode=false, $value='') {
         parent::__construct($params, $children, $mathmode);
         if (count($params) == 0) {
@@ -47,6 +48,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Now we might actually do the rewrite before everything else but
         // for now we prefer to leave it as a latter step, just in case someone
@@ -90,11 +92,13 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Not flat as this always requires rewriting.
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         // First collapse the content.
@@ -113,6 +117,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         return $content;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

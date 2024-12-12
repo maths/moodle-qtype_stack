@@ -35,6 +35,7 @@ class stack_radio_input extends stack_dropdown_input {
      */
     protected $ddldisplay = 'LaTeX';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -88,6 +89,7 @@ class stack_radio_input extends stack_dropdown_input {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));

@@ -28,10 +28,12 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
     // Whether to rewrite evaluation flags. Don't do for students.
     private $flags = false;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         $this->flags = isset($parameters['flags']) ? $parameters['flags'] : false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function($node) {

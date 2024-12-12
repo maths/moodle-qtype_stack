@@ -72,9 +72,11 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      */
     private $displayvalue;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function __construct() {
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_errors($err) {
         if ('' !== trim($err)) {
             // Force validation first so that all the errors are in the same form.
@@ -83,6 +85,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         // The common_ast_container provides means of dealing with validation context.
         if ($this->validationcontext === null) {
@@ -131,10 +134,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->validationcontext['vname'] . ':' . $vcmd;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_evaluated_value(MP_Node $ast) {
         $this->evaluated = $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_display_value(string $displayvalue) {
         // Maxima displays floats as sting with these tags.
         // The last of the old mess left?
@@ -144,18 +149,22 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $this->displayvalue = $displayvalue;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_latex_value(string $latex) {
         $this->latex = stack_maxima_latex_tidy($latex);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluated(): MP_Node {
         return $this->evaluated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_latex(): string {
         return $this->latex;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_correctly_evaluated(): bool {
         /*
          * In cases where a statement occurs many times, only the last values will be stored.
@@ -186,10 +195,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_cas_validation_context() {
         return $this->validationcontext;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_value() {
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
@@ -230,6 +241,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $computedinput;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_display() {
         if (!$this->is_correctly_evaluated()) {
             throw new stack_exception('stack_ast_container: ' .
@@ -248,6 +260,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->ast->toString(['flattree' => true]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_ast_clone() {
         if ($this->is_correctly_evaluated()) {
             $ast = clone $this->evaluated;
@@ -279,10 +292,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_answernote($val) {
         $this->answernotes[] = $val;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_answernote($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();

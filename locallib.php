@@ -246,6 +246,7 @@ function qtype_stack_setup_question_test_page($question) {
  */
 class stack_outofcontext_process {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
     }
 

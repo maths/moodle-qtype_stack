@@ -21,6 +21,7 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 class stack_cas_castext2_foreach extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $flat = $this->is_flat();
 
@@ -135,6 +136,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
@@ -147,6 +149,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
         return $flat;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         $r = [];
         foreach ($this->params as $key => $value) {

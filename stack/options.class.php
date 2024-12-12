@@ -26,6 +26,7 @@ class stack_options {
 
     private $options;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($settings = []) {
 
         // OptionType can be: boolean, string, html, list.
@@ -142,6 +143,7 @@ class stack_options {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_site_defaults() {
         $stackconfig = stack_utils::get_config();
         // Display option does not match up to $stackconfig->mathsdisplay).
@@ -183,6 +185,7 @@ class stack_options {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_option($key) {
         if (!array_key_exists($key, $this->options)) {
             throw new stack_exception('stack_options get_option: $key '.$key.' is not a valid option name.');
@@ -191,11 +194,13 @@ class stack_options {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_option($key, $val) {
         $this->validate_key($key, $val); // Throws an exception on error.
         $this->options[$key]['value'] = $val;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_cas_commands() {
 
         $names = '';

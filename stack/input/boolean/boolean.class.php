@@ -34,6 +34,7 @@ class stack_boolean_input extends stack_input {
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function extra_validation($contents) {
         $validation = $contents[0];
         if ($validation === 'EMPTYANSWER') {
@@ -45,6 +46,7 @@ class stack_boolean_input extends stack_input {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -67,6 +69,7 @@ class stack_boolean_input extends stack_input {
                 $value, '', $attributes);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -80,6 +83,7 @@ class stack_boolean_input extends stack_input {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);
         $mform->setType($this->name, PARAM_RAW);

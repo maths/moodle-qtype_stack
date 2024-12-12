@@ -27,10 +27,12 @@
  */
 class stack_cas_connection_server_proxy extends stack_cas_connection_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function guess_maxima_command($path) {
         return 'http://localhost:8080/MaximaPool/MaximaPool';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function call_maxima($command) {
         global $CFG;
         $err = '';

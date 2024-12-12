@@ -28,6 +28,7 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
  */
 class stack_maths_output_tex extends stack_maths_output_filter_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaystart = '\[\displaystyle ';
         $this->displayend = '\]';
@@ -35,6 +36,7 @@ class stack_maths_output_tex extends stack_maths_output_filter_base {
         $this->inlineend = '\]';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_filter() {
         global $CFG;
         if (class_exists('\filter_tex\text_filter')) {

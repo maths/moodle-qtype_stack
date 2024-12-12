@@ -60,6 +60,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return '['.implode(',', $vals).']';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -106,6 +107,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -163,6 +165,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $response;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function ajax_to_response_array($in) {
         if (((string) $in) === '') {
             return [];
@@ -220,6 +223,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $allblank;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         $solution = [];
         foreach ($this->ddlvalues as $key => $value) {

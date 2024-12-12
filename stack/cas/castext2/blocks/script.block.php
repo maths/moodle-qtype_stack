@@ -30,6 +30,7 @@ require_once(__DIR__ . '/../../../utils.class.php');
  */
 class stack_cas_castext2_script extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('script'),
@@ -53,16 +54,19 @@ class stack_cas_castext2_script extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // These are never flat.
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         // No CAS arguments.
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
 

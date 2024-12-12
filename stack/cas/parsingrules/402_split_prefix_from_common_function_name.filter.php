@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../cassecurity.class.php');
  */
 class stack_ast_filter_402_split_prefix_from_common_function_name implements stack_cas_astfilter {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 

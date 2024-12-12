@@ -101,6 +101,7 @@ class stack_input_state {
         $this->_simp                = $simp;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __get($field) {
         switch ($field) {
             case 'status':

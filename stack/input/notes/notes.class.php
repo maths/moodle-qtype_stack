@@ -33,6 +33,7 @@ class stack_notes_input extends stack_input {
         'manualgraded' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -72,6 +73,7 @@ class stack_notes_input extends stack_input {
             html_writer::tag('div', "", ['class' => 'clearfix']);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -105,6 +107,7 @@ class stack_notes_input extends stack_input {
         return [$valid, $errors, $notes, $answer, $caslines, $answer, []];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -214,6 +217,7 @@ class stack_notes_input extends stack_input {
         return format_text(stack_maths::process_display_castext($render));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function summarise_response($name, $state, $response) {
         // Output the value for reporting.
         $val = '';
@@ -223,14 +227,17 @@ class stack_notes_input extends stack_input {
         return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         return new stdClass();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution_render($tadisplay) {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function ajax_to_response_array($in) {
         // ISS1317 EJMF - Notes are treated the same as textareas on the front end so
         // we need to add this to match the textarea input and avoid

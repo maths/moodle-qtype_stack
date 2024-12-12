@@ -27,6 +27,7 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
 
     public static $ssmap = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         if (self::$ssmap === null) {
             self::$ssmap = json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/superscript-stack.json'), true);

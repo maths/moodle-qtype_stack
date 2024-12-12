@@ -253,10 +253,12 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $this->resetAfterTest();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function render() {
         $this->currentoutput = $this->quba->render_question($this->slot, $this->displayoptions);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_tag_matcher($tag, $attributes) {
         return [
             'tag' => $tag,
@@ -264,6 +266,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_prt_score($index, $score, $penalty, $finalsubmit = false) {
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
@@ -296,6 +299,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_answer_note($index, $note) {
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
@@ -305,6 +309,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $this->assertEquals($note, implode(' | ', $result->get_answernotes()));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_response_summary($note) {
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
@@ -322,6 +327,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $this->assertTrue((strpos($qs->get_new_response_summary(), $note) !== false));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
         $attributes = [
             'type' => 'text',
@@ -346,6 +352,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_textarea_input($name, $content = null, $enabled = true) {
         $attributes = [
             'name' => $this->quba->get_field_prefix($this->slot) . $name,
@@ -370,6 +377,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
         $this->assertMatchesRegularExpression('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' .
@@ -378,6 +386,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_input_validation_compact($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
         $this->assertMatchesRegularExpression('~<span (?=[^>]*\bclass="stackinputfeedback compact")(?=[^>]*\bid="' .
@@ -386,6 +395,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_any_input_validation() {
         $this->assertDoesNotMatchRegularExpression('~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
@@ -393,6 +403,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_input_validation($name = null) {
         if (!$name) {
             $this->check_output_does_not_contain_any_input_validation();
@@ -405,6 +416,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_prt_feedback($name = null) {
         $class = 'stackprtfeedback';
         if ($name) {
@@ -414,6 +426,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'PRT feedback for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_prt_feedback($name = null) {
         $class = 'stackprtfeedback';
         if ($name) {
@@ -423,22 +436,26 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'PRT feedback for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_stray_placeholders() {
         $this->assertDoesNotMatchRegularExpression('~\[\[|\]\]~', $this->currentoutput, 'Not all placehoders were replaced.');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
         $this->assertStringContainsString($string, $this->currentoutput,
                 'Expected string ' . $string . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
         $this->assertStringNotContainsString($string, $this->currentoutput,
                 'The string ' . $string . ' should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_text($str) {
         $this->assertStringNotContainsString($str, $this->currentoutput,
             'The string ' . $str . ' should not be present in ' . $this->currentoutput);

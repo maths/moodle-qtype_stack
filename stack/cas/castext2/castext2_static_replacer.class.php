@@ -30,6 +30,7 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
 class castext2_static_replacer {
     private $map;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(array $map) {
         $this->map = $map;
     }
@@ -39,6 +40,7 @@ class castext2_static_replacer {
         return $this->map;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($in) {
         // This might be called with a complete string.
         if (is_string($in)) {
@@ -67,6 +69,7 @@ class castext2_static_replacer {
         return $in;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function extract(string $in): string {
         // If the castext is already a static string don't do anything.
         if (mb_substr($in, 0, 1) === '"') {

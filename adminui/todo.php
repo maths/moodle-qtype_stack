@@ -82,7 +82,7 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
                     $dashurl = html_writer::link(new moodle_url($questiontestsurl,
                         ['questionid' => $qid]), $qname). ' ' .
                         $OUTPUT->action_icon($preurl, new pix_icon('t/preview', get_string('preview')));
-                    // TODO: add in a direct edit URL.
+                    // TO-DO: add in a direct edit URL.
                     $qtodos[] = ['qid' => $qid,
                                  'qname' => $qname,
                                  'tags' => $tags,

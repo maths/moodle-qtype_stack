@@ -26,10 +26,12 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
     // A reference to the extractor.
     private $extractor = false;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         $this->extractor = isset($parameters['static string extractor']) ? $parameters['static string extractor'] : null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // Simply nothing to do if we have nowhere to place those strings.

@@ -23,6 +23,7 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
 
     public $content;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($params, $children=[], $mathmode=false) {
         parent::__construct($params, $children, $mathmode);
         if (count($children) > 0) {
@@ -33,6 +34,7 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
         $this->children = []; // We want to modify the iteration here a bit.
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         if ($this->content === null && !array_key_exists('value', $this->params)) {
             return null;
@@ -44,14 +46,17 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
         return new MP_String($this->content);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         // Due to escape block needing some backwards compatibility we still need to support
         // the old way of defining the value as an parameter but not both ways at the same time.

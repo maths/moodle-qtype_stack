@@ -68,6 +68,7 @@ class stack_dropdown_input extends stack_input {
      */
     protected $teacheranswerdisplay = '';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function internal_construct() {
         $options = $this->get_parameter('options');
         if ($options != null && trim($options) != '') {
@@ -380,6 +381,7 @@ class stack_dropdown_input extends stack_input {
         return $values;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function extra_validation($contents) {
         if (!array_key_exists($contents[0], $this->get_choices())) {
             return stack_string('dropdowngotunrecognisedvalue');
@@ -387,6 +389,7 @@ class stack_dropdown_input extends stack_input {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function validate_contents($contents, $basesecurity, $localoptions) {
         $valid = true;
         $errors = $this->errors;
@@ -442,6 +445,7 @@ class stack_dropdown_input extends stack_input {
         return $choices;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -480,6 +484,7 @@ class stack_dropdown_input extends stack_input {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -508,6 +513,7 @@ class stack_dropdown_input extends stack_input {
         return $expected;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);
         $mform->setDefault($this->name, '');
@@ -647,6 +653,7 @@ class stack_dropdown_input extends stack_input {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_input_ddl_key($value) {
         foreach ($this->ddlvalues as $key => $val) {
             if ($val['value'] == $value) {
@@ -658,6 +665,7 @@ class stack_dropdown_input extends stack_input {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         $solution = "";
         foreach ($this->ddlvalues as $key => $value) {

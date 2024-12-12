@@ -24,6 +24,7 @@ require_once(__DIR__ . '/../block.factory.php');
  */
 class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('jsstring')]);
 
@@ -50,6 +51,7 @@ class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
@@ -62,6 +64,7 @@ class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
         return $flat;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         // NOTE! We now have a problem with $holder the json_encode won't get applied to things
@@ -79,6 +82,7 @@ class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
         return json_encode($content);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

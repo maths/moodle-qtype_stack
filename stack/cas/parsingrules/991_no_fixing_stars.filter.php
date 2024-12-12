@@ -23,6 +23,7 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_991_no_fixing_stars implements stack_cas_astfilter_exclusion {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $stars = false;
@@ -53,6 +54,7 @@ class stack_ast_filter_991_no_fixing_stars implements stack_cas_astfilter_exclus
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function conflicts_with(string $otherfiltername): bool {
         if ($otherfiltername === '999_strict') {
             return true;

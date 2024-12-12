@@ -27,6 +27,7 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
  */
 class stack_maths_output_api extends stack_maths_output_filter_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaywrapstart = '';
         $this->displaywrapend = '';
@@ -39,10 +40,12 @@ class stack_maths_output_api extends stack_maths_output_filter_base {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process_lang_string($string) {
         return $string;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null) {
         if ($replacedollars) {
             $text = $this->replace_dollars($text);

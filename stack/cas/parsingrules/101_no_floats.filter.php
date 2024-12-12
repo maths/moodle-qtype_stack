@@ -37,6 +37,7 @@ class stack_ast_filter_101_no_floats implements stack_cas_astfilter_exclusion {
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function conflicts_with(string $otherfiltername): bool {
         if ($otherfiltername === '450_split_floats') {
             return true;

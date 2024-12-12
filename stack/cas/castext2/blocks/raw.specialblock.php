@@ -23,19 +23,23 @@ class stack_cas_castext2_special_raw extends stack_cas_castext2_block {
 
     public $content;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($params, $children=[], $mathmode=false, $value='') {
         parent::__construct($params, $children, $mathmode);
         $this->content = $value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         return new MP_String($this->content);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

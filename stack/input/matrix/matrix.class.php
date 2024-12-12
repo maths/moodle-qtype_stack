@@ -36,6 +36,7 @@ class stack_matrix_input extends stack_input {
         'feedback' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
@@ -54,6 +55,7 @@ class stack_matrix_input extends stack_input {
         $this->width = $cs->get_list_element(1, true)->value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_expected_data() {
         $expected = [];
 
@@ -135,6 +137,7 @@ class stack_matrix_input extends stack_input {
         return $matrix;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function contents_to_maxima($contents) {
         $matrix = [];
         foreach ($contents as $row) {
@@ -250,6 +253,7 @@ class stack_matrix_input extends stack_input {
         return [$valid, $errors, $notes, $answer, $caslines, $inertform, $caslines];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -340,6 +344,7 @@ class stack_matrix_input extends stack_input {
         return $xhtml;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -402,6 +407,7 @@ class stack_matrix_input extends stack_input {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -443,6 +449,7 @@ class stack_matrix_input extends stack_input {
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_correct_response($value) {
 
         if (trim($value) == 'EMPTYANSWER' || $value === null) {

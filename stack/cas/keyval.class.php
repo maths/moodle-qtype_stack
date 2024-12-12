@@ -62,6 +62,7 @@ class stack_cas_keyval {
      */
     public $errclass = 'stack_cas_error';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($raw, $options = null, $seed=null, $ctx='', $pslash=false) {
         $this->raw          = $raw;
         $this->statements   = [];
@@ -214,6 +215,7 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($casdebug = false, $raw = 'strings') {
         if (null === $this->valid) {
             $this->validate(null);
@@ -242,6 +244,7 @@ class stack_cas_keyval {
         return $errors;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function instantiate() {
         if (null === $this->valid) {
             $this->validate(null);
@@ -254,6 +257,7 @@ class stack_cas_keyval {
         return $cs->get_errors(true);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_session() {
         if (null === $this->valid) {
             $this->validate(null);
@@ -261,10 +265,12 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_raw() {
         return $this->raw;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
             $updatearray['read'] = [];

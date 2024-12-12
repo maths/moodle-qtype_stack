@@ -334,6 +334,7 @@ if (empty($question->deployedseeds)) {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     function sort_by_note($a1, $b1) {
         $a = $a1['1'];
         $b = $b1['1'];

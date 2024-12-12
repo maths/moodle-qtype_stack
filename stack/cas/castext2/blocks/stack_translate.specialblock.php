@@ -26,6 +26,7 @@ class stack_cas_castext2_special_stack_translate extends stack_cas_castext2_bloc
         return new MP_String('');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // While flat there always require post processing.
         return false;
@@ -48,6 +49,7 @@ class stack_cas_castext2_special_stack_translate extends stack_cas_castext2_bloc
         return stack_maxima_translate($t);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

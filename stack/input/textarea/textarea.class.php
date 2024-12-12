@@ -37,6 +37,7 @@ class stack_textarea_input extends stack_input {
         'consolidatesubscripts' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
@@ -90,6 +91,7 @@ class stack_textarea_input extends stack_input {
         return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -104,6 +106,7 @@ class stack_textarea_input extends stack_input {
         return $data;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -136,6 +139,7 @@ class stack_textarea_input extends stack_input {
         return $contents;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function caslines_to_answer($caslines, $secrules = false) {
         $vals = [];
         // We don't use full "inputform" here as we need to keep stacklet and stackeq as is.
@@ -192,6 +196,7 @@ class stack_textarea_input extends stack_input {
         return implode("\n", $values);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function ajax_to_response_array($in) {
         $in = explode('<br>', $in);
         $in = implode("\n", $in);
@@ -337,6 +342,7 @@ class stack_textarea_input extends stack_input {
         return stack_string('teacheranswershow', ['value' => $value, 'display' => $display]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         $values = stack_utils::list_to_array($tavalue, false);
         foreach ($values as $key => $val) {

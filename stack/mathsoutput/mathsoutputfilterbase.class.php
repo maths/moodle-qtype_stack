@@ -39,6 +39,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         $this->initialise_delimiters();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process_lang_string($string) {
         $string = $this->find_and_render_equations($string);
         $string = str_replace('!ploturl!',
@@ -46,6 +47,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         return $string;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function post_process_docs_page($html) {
         $html = parent::post_process_docs_page($html);
         $html = str_replace('&#92;', '\\', $html);
@@ -53,6 +55,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         return $html;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null) {
         $text = parent::process_display_castext($text, $replacedollars, $renderer);
         $text = $this->find_equations_and_replace_delimiters($text);

@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../../../utils.class.php');
  */
 class stack_cas_castext2_template extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         if (count($this->children) === 0) {
             // If we are applying a template then we need to decide how we
@@ -74,6 +75,7 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
         ]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         if (count($this->children) === 0 && !array_key_exists('mode', $this->params)) {
             // When declaring a template the result will always be an empty string.
@@ -83,10 +85,12 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('name', $this->params)) {
             $errors[] = new $options['errclass']('The "template"-block needs a name.',

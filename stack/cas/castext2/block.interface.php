@@ -38,6 +38,7 @@ abstract class stack_cas_castext2_block {
     // Store any errors.
     public $err = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(
         $params,
         $children = [],

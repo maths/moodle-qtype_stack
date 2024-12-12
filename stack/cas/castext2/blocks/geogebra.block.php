@@ -50,6 +50,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // We are outputting as [[iframe]], so we will generate some parameters for it on the side.
         $r = new MP_List([new MP_String('iframe')]);
@@ -453,15 +454,18 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
 
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         // Note that all the "set" variables are actually CAS variables.
         // So we should return the nosuffix versions here for checking.
@@ -471,6 +475,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors = [], $options = []): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.

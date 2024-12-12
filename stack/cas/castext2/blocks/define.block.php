@@ -21,6 +21,7 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 class stack_cas_castext2_define extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
         $r = new MP_Group([]);
@@ -48,10 +49,12 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         $r = [];
         foreach ($this->params as $param) {

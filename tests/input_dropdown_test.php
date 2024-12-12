@@ -52,6 +52,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function expected_choices_latex() {
         return [
             '' => stack_string('notanswered'),
@@ -61,11 +62,13 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_dropdown($parameters = []) {
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_ta() {
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';
     }

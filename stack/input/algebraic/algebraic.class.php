@@ -37,6 +37,7 @@ class stack_algebraic_input extends stack_input {
         'monospace' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -92,6 +93,7 @@ class stack_algebraic_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -108,6 +110,7 @@ class stack_algebraic_input extends stack_input {
         return $data;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);

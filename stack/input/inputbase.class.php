@@ -1384,6 +1384,7 @@ abstract class stack_input {
         return [$valid, $errors, $display];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function requires_validation() {
         return $this->get_parameter('mustVerify', true);
     }

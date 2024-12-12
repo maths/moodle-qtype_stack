@@ -77,6 +77,7 @@ class stack_parsons_input extends stack_string_input {
     protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display',
         '912_inert_string_for_display', ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // This is the same as `string` input render except we hide the input box.
 

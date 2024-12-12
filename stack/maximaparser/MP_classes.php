@@ -56,19 +56,23 @@ class MP_Node {
     // Parsers that comments within the statements may place them here.
     public $comments    = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
         $this->parentnode = null;
         $this->position   = [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function hasChildren() {
         return count($this->getChildren()) > 0;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         return '[NO TOSTRING FOR ' . get_class($this) . ']';
     }
@@ -102,6 +106,7 @@ class MP_Node {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function asAList() {
         // This one recursively goes through the whole tree and returns a list of
         // all the nodes found, it also populates the parent details as those might
@@ -122,6 +127,7 @@ class MP_Node {
         // Noop for most.
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function debugPrint($originalcode) {
         $r = [$originalcode];
         if (!is_array($this->position) || !isset($this->position['start']) || !
@@ -183,6 +189,7 @@ class MP_Node {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_invalid(): bool {
         if (isset($this->position['invalid']) && $this->position['invalid'] === true) {
             return true;
@@ -227,6 +234,7 @@ class MP_Node {
     }
      */
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_operand_on_left() {
         // This will not unpack postfix terms so 5!+this => '5!'
         if ($this->parentnode === null) {
@@ -246,6 +254,7 @@ class MP_Node {
         return null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_operator_on_left() {
         // This will not unpack postfix terms so 5!+this => '+'.
         if ($this->parentnode === null) {
@@ -389,6 +398,7 @@ class MP_Operation extends MP_Node {
     public $lhs = null;
     public $rhs = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($op, $lhs, $rhs) {
         parent::__construct();
         $this->op         = $op;
@@ -396,6 +406,7 @@ class MP_Operation extends MP_Node {
         $this->rhs        = $rhs;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->rhs = clone $this->rhs;
         $this->lhs = clone $this->lhs;
@@ -403,10 +414,12 @@ class MP_Operation extends MP_Node {
         $this->lhs->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [$this->lhs, $this->rhs];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $op = $this->op;
 
@@ -496,6 +509,7 @@ class MP_Operation extends MP_Node {
         return $this->lhs->toString($params) . $op . $rhs;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $lhs = $this->lhs->toString();
         $rhs = $this->rhs->toString();
@@ -532,6 +546,7 @@ class MP_Operation extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function operationOnLeft() {
         if ($this->parentnode === null || !($this->parentnode instanceof
             MP_Operation || $this->parentnode instanceof MP_PrefixOp)) {
@@ -565,6 +580,7 @@ class MP_Operation extends MP_Node {
         return $i->leftmostofright();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function operandOnLeft() {
         if ($this->parentnode === null || !($this->parentnode instanceof
             MP_Operation || $this->parentnode instanceof MP_PrefixOp)) {
@@ -585,6 +601,7 @@ class MP_Operation extends MP_Node {
         return $i->rightmostofleft();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function leftmostofright() {
         $i = $this->rhs;
 
@@ -594,6 +611,7 @@ class MP_Operation extends MP_Node {
         return $i;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function rightmostofleft() {
         $i = $this->lhs;
 
@@ -607,17 +625,20 @@ class MP_Operation extends MP_Node {
 class MP_Atom extends MP_Node {
     public $value = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($value) {
         parent::__construct();
         $this->value = $value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $value = $this->toString();
         $this->position['start'] = $offset;
         $this->position['end'] = $offset + mb_strlen($value);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $op = $this->value;
 
@@ -653,6 +674,7 @@ class MP_Integer extends MP_Atom {
                      // values in which case the representation has more use.
     public $raw = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(
         $value,
         $raw = null
@@ -661,6 +683,7 @@ class MP_Integer extends MP_Atom {
         $this->raw = $raw;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
 
         if ($params !== null && isset($params['flattree'])) {
@@ -694,11 +717,13 @@ class MP_Float extends MP_Atom {
     // In certain cases we want to see the original form of the float.
     public $raw = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($value, $raw) {
         parent::__construct($value);
         $this->raw = $raw;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
 
         if ($params !== null && isset($params['flattree'])) {
@@ -738,6 +763,7 @@ class MP_Float extends MP_Atom {
 
 class MP_String extends MP_Atom {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $dispalue = '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)) . '"';
 
@@ -759,6 +785,7 @@ class MP_String extends MP_Atom {
 
 class MP_Boolean extends MP_Atom {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
 
         if ($params !== null && isset($params['flattree'])) {
@@ -809,10 +836,12 @@ class MP_Identifier extends MP_Atom {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_variable_name(): bool {
         return !$this->is_function_name();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $indent = '';
         $op = $this->value;
@@ -844,6 +873,7 @@ class MP_Identifier extends MP_Atom {
         return $indent . $op;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_being_written_to(): bool {
         if ($this->is_function_name()) {
             return $this->parentnode->is_definition();
@@ -885,6 +915,7 @@ class MP_Identifier extends MP_Atom {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_global(): bool {
         // This is expensive as we need to travel the whole parent-chain and do some paraller checks.
         $i = $this->parentnode;
@@ -943,12 +974,14 @@ class MP_Annotation extends MP_Node {
     public $annotationtype = null;
     public $params         = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($annotationtype, $params) {
         parent::__construct();
         $this->annotationtype = $annotationtype;
         $this->params         = $params;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->params !== null && count($this->params) > 0) {
             $i = 0;
@@ -959,10 +992,12 @@ class MP_Annotation extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return $this->params;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $params = [];
 
@@ -984,12 +1019,14 @@ class MP_Comment extends MP_Node {
     public $value       = null;
     public $annotations = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($value, $annotations) {
         parent::__construct();
         $this->value       = $value;
         $this->annotations = $annotations;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->annotations !== null && count($this->annotations) > 0) {
             $i = 0;
@@ -1000,10 +1037,12 @@ class MP_Comment extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return $this->annotations;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $annotations = [];
         foreach ($this->annotations as $value) {
@@ -1023,12 +1062,14 @@ class MP_FunctionCall extends MP_Node {
     public $name      = null;
     public $arguments = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($name, $arguments) {
         parent::__construct();
         $this->name      = $name;
         $this->arguments = $arguments;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->name = clone $this->name;
         $this->name->parentnode = $this;
@@ -1041,10 +1082,12 @@ class MP_FunctionCall extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return array_merge([$this->name], $this->arguments);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1057,6 +1100,7 @@ class MP_FunctionCall extends MP_Node {
         $this->name->remap_position_data($offset);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $n = $this->name->toString($params);
         $sep = ',';
@@ -1181,10 +1225,12 @@ class MP_FunctionCall extends MP_Node {
             $this->parentnode->lhs === $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_call(): bool {
         return !$this->is_definition();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($this->name === $node) {
             $this->name = $with;
@@ -1205,11 +1251,13 @@ class MP_FunctionCall extends MP_Node {
 class MP_Group extends MP_Node {
     public $items = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->items !== null && count($this->items) > 0) {
             $i = 0;
@@ -1220,10 +1268,12 @@ class MP_Group extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return $this->items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1235,6 +1285,7 @@ class MP_Group extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function isSynthetic() {
         if (count($this->items) < 1 || !array_key_exists(0, $this->items)) {
             return false;
@@ -1295,6 +1346,7 @@ class MP_Group extends MP_Node {
         return '(' . implode(',', $ar) . ')';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($node === -1) {
             // Special case. Append a node to items.
@@ -1313,11 +1365,13 @@ class MP_Group extends MP_Node {
 class MP_Set extends MP_Node {
     public $items = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->items !== null && count($this->items) > 0) {
             $i = 0;
@@ -1328,10 +1382,12 @@ class MP_Set extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return $this->items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1343,6 +1399,7 @@ class MP_Set extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $sep = ',';
         if ($params !== null && isset($params['listsep'])) {
@@ -1388,6 +1445,7 @@ class MP_Set extends MP_Node {
         return '{' . implode($sep, $ar) . '}';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($node === -1) {
             // Special case. append a node to items.
@@ -1406,11 +1464,13 @@ class MP_Set extends MP_Node {
 class MP_List extends MP_Node {
     public $items = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->items !== null && count($this->items) > 0) {
             $i = 0;
@@ -1421,10 +1481,12 @@ class MP_List extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return $this->items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1436,6 +1498,7 @@ class MP_List extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $sep = ',';
         if ($params !== null && isset($params['listsep'])) {
@@ -1491,6 +1554,7 @@ class MP_List extends MP_Node {
         return '[' . implode($sep, $ar) . ']';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($node === -1) {
             // Special case. Append a node to items.
@@ -1505,6 +1569,7 @@ class MP_List extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function insertChild(MP_Node $node, $before = null) {
         if ($before === null) {
             $this->replace(-1, $node);
@@ -1514,6 +1579,7 @@ class MP_List extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function removeChild(MP_Node $node) {
         $i = array_search($node, $this->items, true);
         array_splice($this->items, $i, 1);
@@ -1524,22 +1590,26 @@ class MP_PrefixOp extends MP_Node {
     public $op  = '-';
     public $rhs = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($op, $rhs) {
         parent::__construct();
         $this->op         = $op;
         $this->rhs        = $rhs;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->rhs = clone $this->rhs;
         $this->rhs->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [$this->rhs];
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1547,6 +1617,7 @@ class MP_PrefixOp extends MP_Node {
         $this->rhs->remap_position_data($offset + mb_strlen($this->op));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $indent = '';
         $op = $this->op;
@@ -1612,6 +1683,7 @@ class MP_PrefixOp extends MP_Node {
         return $op . $this->rhs->toString($params);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($this->rhs === $node) {
             $this->rhs      = $with;
@@ -1623,21 +1695,25 @@ class MP_PostfixOp extends MP_Node {
     public $op  = '!';
     public $lhs = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($op, $lhs) {
         parent::__construct();
         $this->op         = $op;
         $this->lhs        = $lhs;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->lhs = clone $this->lhs;
         $this->lhs->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [$this->lhs];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1646,6 +1722,7 @@ class MP_PostfixOp extends MP_Node {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
@@ -1663,6 +1740,7 @@ class MP_PostfixOp extends MP_Node {
         return $this->lhs->toString($params) . $this->op;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($this->lhs === $node) {
             $this->lhs      = $with;
@@ -1681,6 +1759,7 @@ class MP_Indexing extends MP_Node {
         $this->indices  = $indices;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->target = clone $this->target;
         $this->target->parentnode = $this;
@@ -1693,10 +1772,12 @@ class MP_Indexing extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return array_merge([$this->target], $this->indices);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1709,6 +1790,7 @@ class MP_Indexing extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $r = $this->target->toString($params);
 
@@ -1719,6 +1801,7 @@ class MP_Indexing extends MP_Node {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($this->target === $node) {
             $this->target = $with;
@@ -1736,6 +1819,7 @@ class MP_If extends MP_Node {
     public $conditions = null;
     public $branches   = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($conditions, $branches) {
         parent::__construct();
         $this->conditions = $conditions;
@@ -1743,6 +1827,7 @@ class MP_If extends MP_Node {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->conditions !== null && count($this->conditions) > 0) {
             $i = 0;
@@ -1760,10 +1845,12 @@ class MP_If extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return array_merge($this->conditions, $this->branches);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1771,6 +1858,7 @@ class MP_If extends MP_Node {
         // TO-DO: fill in this.
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
@@ -1817,6 +1905,7 @@ class MP_If extends MP_Node {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
 
         foreach ($this->conditions as $key => $value) {
@@ -1837,12 +1926,14 @@ class MP_Loop extends MP_Node {
     public $body = null;
     public $conf = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($body, $conf) {
         parent::__construct();
         $this->body     = $body;
         $this->conf     = $conf;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->conf !== null && count($this->conf) > 0) {
             $i = 0;
@@ -1855,10 +1946,12 @@ class MP_Loop extends MP_Node {
         $this->body->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return array_merge($this->conf, [$this->body]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1866,6 +1959,7 @@ class MP_Loop extends MP_Node {
         // TO-DO: fill in this.
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
 
         foreach ($this->conf as $key => $value) {
@@ -1878,6 +1972,7 @@ class MP_Loop extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
@@ -1908,21 +2003,25 @@ class MP_LoopBit extends MP_Node {
     public $mode  = null;
     public $param = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($mode, $param) {
         parent::__construct();
         $this->mode       = $mode;
         $this->param      = $param;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->param = clone $this->param;
         $this->param->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [$this->param];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1931,6 +2030,7 @@ class MP_LoopBit extends MP_Node {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace(
         $node,
         $with
@@ -1940,6 +2040,7 @@ class MP_LoopBit extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         return $this->mode . ' ' . $this->param->toString($params);
     }
@@ -1949,12 +2050,14 @@ class MP_EvaluationFlag extends MP_Node {
     public $name  = null;
     public $value = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($name, $value) {
         parent::__construct();
         $this->name       = $name;
         $this->value      = $value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->name = clone $this->name;
         $this->name->parentnode = $this;
@@ -1962,10 +2065,12 @@ class MP_EvaluationFlag extends MP_Node {
         $this->value->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [$this->name, $this->value];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -1974,10 +2079,12 @@ class MP_EvaluationFlag extends MP_Node {
         $this->value->remap_position_data($offset + 2 + mb_strlen($this->name->toString()));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         return ',' . $this->name->toString($params) . '=' . $this->value->toString($params);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
         if ($this->name === $node) {
             $this->name = $with;
@@ -1991,12 +2098,14 @@ class MP_Statement extends MP_Node {
     public $statement = null;
     public $flags     = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($statement, $flags) {
         parent::__construct();
         $this->statement = $statement;
         $this->flags     = $flags;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->flags !== null && count($this->flags) > 0) {
             $i = 0;
@@ -2009,10 +2118,12 @@ class MP_Statement extends MP_Node {
         $this->statement->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return array_merge([$this->statement], $this->flags);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -2025,6 +2136,7 @@ class MP_Statement extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $r = $this->statement->toString($params);
 
@@ -2035,6 +2147,7 @@ class MP_Statement extends MP_Node {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
 
         foreach ($this->flags as $key => $value) {
@@ -2051,20 +2164,24 @@ class MP_Statement extends MP_Node {
 class MP_Prefixeq extends MP_Node {
     public $statement = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->statement = clone $this->statement;
         $this->statement->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [$this->statement];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $indent = '';
         if (isset($params['pretty']) && is_integer($params['pretty'])) {
@@ -2079,6 +2196,7 @@ class MP_Prefixeq extends MP_Node {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
 
         if ($this->statement === $node) {
@@ -2090,20 +2208,24 @@ class MP_Prefixeq extends MP_Node {
 class MP_Let extends MP_Node {
     public $statement = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         $this->statement = clone $this->statement;
         $this->statement->parentnode = $this;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return [$this->statement];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $indent = '';
         if (isset($params['pretty']) && is_integer($params['pretty'])) {
@@ -2125,6 +2247,7 @@ class MP_Let extends MP_Node {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($node, $with) {
 
         if ($this->statement === $node) {
@@ -2136,11 +2259,13 @@ class MP_Let extends MP_Node {
 class MP_Root extends MP_Node {
     public $items = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __clone() {
         if ($this->items !== null && count($this->items) > 0) {
             $i = 0;
@@ -2151,15 +2276,18 @@ class MP_Root extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function getChildren() {
         return $this->items;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function removeChild(MP_Node $node) {
         $i = array_search($node, $this->items, true);
         array_splice($this->items, $i, 1);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
@@ -2171,6 +2299,7 @@ class MP_Root extends MP_Node {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function toString($params = null): string {
         $r = '';
 
@@ -2194,6 +2323,7 @@ class MP_Root extends MP_Node {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace(
         $node,
         $with

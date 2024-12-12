@@ -23,12 +23,14 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
     public $channel;
     public $variable;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($params, $children=[], $mathmode=false, $channel='', $variable='') {
         parent::__construct($params, $children, $mathmode);
         $this->channel = $channel;
         $this->variable = $variable;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // If used before input2 we do not need to maintain the parsed structure.
         // If we do not need the structure we can cut down on processign and compile
@@ -39,10 +41,12 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
         return new MP_List([new MP_String('ioblock'), new MP_String($this->channel), new MP_String($this->variable)]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

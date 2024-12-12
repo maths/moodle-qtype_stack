@@ -43,6 +43,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 class input_boolean_rendering_test extends question_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function expected_choices() {
         return [
             stack_boolean_input::F => stack_string('false'),

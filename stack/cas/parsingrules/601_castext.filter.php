@@ -28,6 +28,7 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
     private $context = 'unknown';
     private $errclass = 'stack_cas_error';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         if (isset($parameters['context'])) {
             $this->context = $parameters['context'];
@@ -37,6 +38,7 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $ctx = $this->context;
         $errclass = $this->errclass;

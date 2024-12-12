@@ -27,14 +27,17 @@ require_once(__DIR__ . '/../block.interface.php');
 class stack_cas_castext2_quid extends stack_cas_castext2_block {
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         return new MP_List([new MP_String('quid'), new MP_String($this->params['id'])]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         $id = $params[1];
@@ -45,10 +48,12 @@ class stack_cas_castext2_quid extends stack_cas_castext2_block {
         return $content;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('id', $this->params)) {
             $errors[] = new $options['errclass']('quid-blocks need an id-attribute with a value.',

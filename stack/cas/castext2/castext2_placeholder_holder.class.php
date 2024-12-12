@@ -33,6 +33,7 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
 class castext2_placeholder_holder {
     private $map;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
         $this->map = [];
     }

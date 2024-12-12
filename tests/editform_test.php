@@ -75,6 +75,7 @@ class editform_test_class extends \qtype_stack_edit_form {
  */
 class editform_test extends \advanced_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_form($questiontext, $specificfeedback) {
         $this->setAdminUser();
         $this->resetAfterTest();

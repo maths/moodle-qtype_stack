@@ -47,6 +47,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         self::$counters[$name] = 1;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('iframe'),
@@ -71,16 +72,19 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // These are never flat.
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         // No CAS arguments.
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         global $PAGE;
@@ -213,6 +217,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         return $holder->add_to_map(html_writer::tag('div', '', $attributes));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.

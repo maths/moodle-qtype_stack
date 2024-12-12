@@ -28,6 +28,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
     // The name of the function that checks expressions.
     const EXPCHECK = '%_E';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $mapfuns = stack_cas_security::get_all_with_feature('mapfunction');

@@ -38,6 +38,7 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
 
     public static $countfiles = 1;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         if (!isset($options['in main content']) || !$options['in main content']) {
             throw new stack_exception('CASText2 textdownload is currently only supported in question-text / scene-text.');
@@ -71,14 +72,17 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
         return $code;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         if (get_config('qtype_stack', 'stackapi')) {
@@ -103,6 +107,7 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('name', $this->params)) {
             $errors[] = new $options['errclass']('The textdownload-block requires one to declare a name for the file.',

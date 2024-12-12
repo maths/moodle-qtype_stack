@@ -38,6 +38,7 @@ require_once(__DIR__ . '/vle_specific.php');
 class qtype_stack_renderer extends qtype_renderer {
 // @codingStandardsIgnoreEnd
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         /* Return type should be @var qtype_stack_question $question. */
         $question = $qa->get_question();
@@ -198,6 +199,7 @@ class qtype_stack_renderer extends qtype_renderer {
         return html_writer::tag('div', implode(' | ', $links), ['class' => 'questiontestslink']);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function feedback(question_attempt $qa, question_display_options $options) {
         $output = '';
         if ($options->feedback) {
@@ -215,6 +217,7 @@ class qtype_stack_renderer extends qtype_renderer {
         return $output;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function stack_specific_feedback_errors_only(question_attempt $qa) {
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
@@ -505,6 +508,7 @@ class qtype_stack_renderer extends qtype_renderer {
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result, 1);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function hint(question_attempt $qa, question_hint $hint) {
         if (empty($hint->hint)) {
             return '';
@@ -526,11 +530,13 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->format_hint($newhint, $qa), ['class' => 'hint']);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
         return '<hr />'.$question->format_correct_response($qa);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function general_feedback(question_attempt $qa) {
         $question = $qa->get_question();
         if (empty($question->generalfeedback)) {
@@ -550,6 +556,7 @@ class qtype_stack_renderer extends qtype_renderer {
         return $question->get_generalfeedback_castext()->apply_placeholder_holder($gf);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function question_description(question_attempt $qa) {
         $question = $qa->get_question();
         if (empty($question->questiondescription)) {

@@ -86,6 +86,7 @@ class stack_abstract_graph_node {
         $this->url = $url;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __toString() {
         return '[' . $this->name . ' (' . $this->x . ', ' . $this->depth . '): -> ' . $this->left . ', -> ' . $this->right . ']';
     }

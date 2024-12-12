@@ -24,10 +24,12 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
 
     private $source = 's';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         $this->source = isset($parameters['security']) ? $parameters['security'] : 's';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $valid = true;

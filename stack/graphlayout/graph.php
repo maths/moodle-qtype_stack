@@ -102,6 +102,7 @@ class stack_abstract_graph {
             $leftlabel, $rightlabel, $url);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_prt_text($name, $casstatement, $quiet, $truenote, $falsenote) {
         if ($this->nodes[$name] instanceof stack_prt_graph_node) {
             $this->nodes[$name]->add_prt_text($casstatement, $quiet, $truenote, $falsenote);
@@ -110,6 +111,7 @@ class stack_abstract_graph {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remove_node($nametodelete) {
         foreach ($this->nodes as $name => $node) {
             if ($name == $nametodelete) {
@@ -488,6 +490,7 @@ class stack_abstract_graph {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __toString() {
         $string = '';
         foreach ($this->nodesbydepth as $depth => $nodes) {

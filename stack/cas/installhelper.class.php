@@ -149,6 +149,7 @@ class stack_cas_configuration {
         throw new stack_exception('Could not locate GNUPlot.');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function maxima_win_location() {
         if ($this->settings->platform != 'win') {
             return '';
@@ -191,6 +192,7 @@ class stack_cas_configuration {
                 implode(', ', $locations));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function copy_maxima_bat() {
         global $CFG;
 
@@ -212,6 +214,7 @@ class stack_cas_configuration {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_maximalocal_contents() {
         $contents = <<<END
 /* ***********************************************************************/

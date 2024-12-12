@@ -111,6 +111,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         return $graph;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
         $question = $this->_customdata;

@@ -21,6 +21,7 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 class stack_cas_castext2_latex extends stack_cas_castext2_raw {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Convert possible simplification flags.
         $ev = stack_ast_container::make_from_teacher_source($this->content);
@@ -95,6 +96,7 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }

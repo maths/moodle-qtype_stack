@@ -23,6 +23,7 @@
  */
 class stack_cas_connection_windows extends stack_cas_connection_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function guess_maxima_command($path) {
         if ('default' == stack_connection_helper::get_maximaversion()) {
             throw new stack_exception("stack_cas_connection: maxima cannot be set to default on Windows platform. ".
@@ -35,6 +36,7 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
         return $cmd;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function call_maxima($command) {
         set_time_limit(0); // Note, some users may not want this!
         $ret = false;

@@ -243,6 +243,7 @@ class stack_answertest_general_cas extends stack_anstest {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         return $this->debuginfo;
     }

@@ -41,6 +41,7 @@ require_once(__DIR__ . '/../utils.php');
  */
 class stack_cas_castext2_include extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $src = stack_fetch_included_content($this->params['src']);
         if (isset($options['in include'])) {
@@ -62,10 +63,12 @@ class stack_cas_castext2_include extends stack_cas_castext2_block {
         return castext2_parser_utils::compile($src, $format, $opt2);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         // This is tricky, we need to validate the attributes of the included content.
         // To do that we need to retrieve it and process it again, luckily this gets cached.
@@ -77,6 +80,7 @@ class stack_cas_castext2_include extends stack_cas_castext2_block {
         return castext2_parser_utils::get_casstrings($src);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('src', $this->params)) {
             $errors[] = new $options['errclass']('Include block requires a src parameter.', $options['context'] . '/' .

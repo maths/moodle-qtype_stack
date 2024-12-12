@@ -121,6 +121,7 @@ class stack_cas_security {
         return null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = []) {
         if (self::$securitymap === null) {
             // Initialise the map.
@@ -157,11 +158,13 @@ class stack_cas_security {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_allowedwords(string $allowedwords) {
         $this->allowedwords = $allowedwords;
         $this->allowedwordsasmap = null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_allowedwords(string $allowedwords) {
         // We now add things like "dispdp" to existing allowedwords.
         if ($this->allowedwords === '') {
@@ -172,20 +175,24 @@ class stack_cas_security {
         $this->allowedwordsasmap = null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_forbiddenwords(string $forbiddenwords) {
         $this->forbiddenwords = $forbiddenwords;
         $this->forbiddenwordsasmap = null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_context(array $context) {
         $this->context = $context;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_context(): array {
         return $this->context;
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_forbiddenkeys(array $forbiddenkeys) {
         $this->forbiddenkeys  = $forbiddenkeys;
         // Check that the keys if present are the correct way around.
@@ -213,10 +220,12 @@ class stack_cas_security {
         $this->forbiddenkeys = $real;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_units(bool $units) {
         $this->units = $units;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_units(): bool {
         return $this->units;
     }
@@ -438,6 +447,7 @@ class stack_cas_security {
         return $security === 't';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_allowed_word(string $identifier, string $type='variable'): bool {
         if ($this->allowedwordsasmap == null) {
             $this->allowedwordsasmap = self::list_to_map($this->allowedwords);

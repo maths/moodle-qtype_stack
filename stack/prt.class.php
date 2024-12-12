@@ -72,6 +72,7 @@ class stack_potentialresponse_tree_lite {
      */
     private $trace = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($prtdata, $value, $question = null) {
         $this->name          = $prtdata->name;
         $this->simplify      = (bool) $prtdata->autosimplify;
@@ -102,10 +103,12 @@ class stack_potentialresponse_tree_lite {
         // Only for get_maxima_representation() and other debug details.
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_value() {
         return $this->value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_name() {
         return $this->name;
     }

@@ -83,6 +83,7 @@ class qtype_stack_question_test_form extends moodleform {
         $this->add_action_buttons(true, $this->_customdata['submitlabel']);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function definition_after_data() {
         if ($this->_form->exportValue('complete')) {
             $this->complete_passing_testcase();
@@ -92,6 +93,7 @@ class qtype_stack_question_test_form extends moodleform {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function complete_passing_testcase() {
 
         $mform = $this->_form;
@@ -121,6 +123,7 @@ class qtype_stack_question_test_form extends moodleform {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function complete_teacher_testcase() {
 
         $mform = $this->_form;
@@ -133,6 +136,7 @@ class qtype_stack_question_test_form extends moodleform {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 

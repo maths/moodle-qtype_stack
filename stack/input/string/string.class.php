@@ -39,6 +39,7 @@ class stack_string_input extends stack_algebraic_input {
      */
     protected $maxinputlength = 262144;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -78,6 +79,7 @@ class stack_string_input extends stack_algebraic_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -181,6 +183,7 @@ class stack_string_input extends stack_algebraic_input {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function ensure_string($ex) {
         $ex = trim($ex);
         if (substr($ex, 0, 1) !== '"') {
@@ -189,6 +192,7 @@ class stack_string_input extends stack_algebraic_input {
         return $ex;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution_render($tadisplay) {
         return stack_utils::maxima_string_strip_mbox($tadisplay);
     }

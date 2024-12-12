@@ -52,6 +52,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
 
@@ -198,20 +199,24 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(
         &$errors = [],
         $options = []

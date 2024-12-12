@@ -23,6 +23,7 @@
  */
 class stack_cas_connection_linux extends stack_cas_connection_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function guess_maxima_command($path) {
         global $CFG;
         if (stack_connection_helper::get_platform() == 'linux-optimised') {
@@ -49,6 +50,7 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
         return $maximacommand;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function call_maxima($command) {
         // For unicode support, we need to add something like 'LANG' => 'en_GB.UTF-8' to the environment below.
         $env = ['PATH' => getenv('PATH')];

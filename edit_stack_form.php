@@ -150,6 +150,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $this->specificfeedback;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
         parent::definition();
         $mform = $this->_form;
@@ -167,6 +168,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
         global $OUTPUT;
 
@@ -729,6 +731,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
         $question = $this->data_preprocessing_options($question);
@@ -922,6 +925,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $data;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
@@ -929,6 +933,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $qtype->validate_fromform($fromform, $errors);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function qtype() {
         return 'stack';
     }

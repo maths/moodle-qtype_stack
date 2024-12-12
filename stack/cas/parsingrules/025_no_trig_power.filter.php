@@ -25,6 +25,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
 
     public static $ssmap = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         if (self::$ssmap === null) {
             self::$ssmap = json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/superscript-stack.json'), true);

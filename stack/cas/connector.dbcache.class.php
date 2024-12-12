@@ -42,6 +42,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $this->db = $db;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compute($command) {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
@@ -64,10 +65,12 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_maxima_available() {
         return stack_string('healthunabletolistavail');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function json_compute($command): array {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
@@ -92,6 +95,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $parsed;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         return $this->debug->get_log();
     }

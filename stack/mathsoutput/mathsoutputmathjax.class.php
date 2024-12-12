@@ -28,6 +28,7 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
  */
 class stack_maths_output_mathjax extends stack_maths_output_filter_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaywrapstart = '';
         $this->displaywrapend = '';
@@ -37,6 +38,7 @@ class stack_maths_output_mathjax extends stack_maths_output_filter_base {
         $this->inlineend = '\)';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_filter() {
         global $CFG, $PAGE;
         if (class_exists('\filter_mathjaxloader\text_filter')) {

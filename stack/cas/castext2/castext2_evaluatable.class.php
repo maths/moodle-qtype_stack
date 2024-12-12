@@ -216,6 +216,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $this->valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         if ($this->compiled === null) {
             if (!$this->get_valid()) {
@@ -225,6 +226,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $this->compiled;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_status(array $errors, array $answernotes, array $feedback) {
         $this->errors = $errors;
         if (count($this->errors) > 0) {
@@ -232,18 +234,22 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_source_context(): string {
         return $this->context;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_key(): string {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_evaluated_value(string $stringval) {
         $this->value = $stringval;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function requires_evaluation(): bool {
         if ($this->valid === null) {
             // Compile if not compiled.
@@ -263,6 +269,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_rendered(castext2_processor $processor = null): string {
         if ($this->evaluated === null) {
             // Do the simpler parse of the value. The full MaximaParser
@@ -304,6 +311,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $this->evaluated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($implode = true) {
         if ($implode === 'objects') {
             return $this->errors;

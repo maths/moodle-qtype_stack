@@ -85,6 +85,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $unpackedresult;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function json_compute($command): array {
         $this->debug->log('Maxima command', $command);
 
@@ -283,6 +284,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function unpack_helper($rawresultfragment) {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;

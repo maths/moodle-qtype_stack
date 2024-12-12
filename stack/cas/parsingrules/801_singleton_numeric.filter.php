@@ -43,6 +43,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
     // Will not convert raw integers to floats.
     private $convert = 'none'; // Other options are 'to float', 'to power'.
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         $this->integer = $parameters['integer'];
         $this->float = $parameters['float'];
@@ -50,6 +51,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         $this->convert = $parameters['convert'];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // First unpack the $ast.
@@ -276,6 +278,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         return implode(', ', $r);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function float_to_power(MP_Float $float): MP_Node {
         $raw = strtolower($float->raw);
         $p = 0;

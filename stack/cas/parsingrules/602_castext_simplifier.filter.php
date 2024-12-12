@@ -38,6 +38,7 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function($node) use (&$answernotes, &$errors) {
             if (isset($node->position['castext']) && $node->position['castext']) {

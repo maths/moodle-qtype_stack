@@ -23,6 +23,7 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_001_fix_call_of_a_group_or_function implements stack_cas_astfilter {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function($node) use (&$valid, &$errors, &$answernotes) {

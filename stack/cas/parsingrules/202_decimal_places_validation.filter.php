@@ -30,11 +30,13 @@ class stack_ast_filter_202_decimal_places_validation implements stack_cas_astfil
     private $min = 3;
     private $max = 3;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         $this->min = $parameters['min'];
         $this->max = $parameters['max'];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
            $root = $ast;
         if ($root instanceof MP_Root) {

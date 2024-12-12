@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../../../utils.class.php');
  */
 class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Basically we change the value of $format for this subtree.
         // Note that the jsxgraph and geogebra block does this automatically.
@@ -52,6 +53,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
@@ -64,6 +66,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $flat;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         $content = '';
@@ -79,6 +82,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $content;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

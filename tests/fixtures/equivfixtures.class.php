@@ -22,7 +22,7 @@
  */
 
 class stack_equiv_test_data {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $rawdata;
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

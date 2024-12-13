@@ -109,6 +109,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Add description here.
      * @return string the current value of the question text, given the state the form is in.
      */
     protected function get_current_question_text() {
@@ -131,6 +132,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Add description here.
      * @return string the current value of the specific feedback, given the state the form is in.
      */
     protected function get_current_specific_feedback() {

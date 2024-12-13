@@ -151,6 +151,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     }
 
     /**
+     * Add description here.
      * @return moodle_text_filter an instance of the text filter to use to
      * render equations.
      */
@@ -167,6 +168,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     abstract protected function initialise_delimiters();
 
     /**
+     * Add description here.
      * @return moodle_text_filter an newly created instance of the text filter
      * to use to render equations.
      */

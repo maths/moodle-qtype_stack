@@ -145,6 +145,7 @@ class api_controller_test extends qtype_stack_testcase {
         \stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function tearDownAfterClass(): void {
         // Should not really be necessary.
         set_config('stackapi', false, 'qtype_stack');

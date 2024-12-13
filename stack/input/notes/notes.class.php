@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_notes_input extends stack_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
@@ -165,6 +165,7 @@ class stack_notes_input extends stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, an example of what could be typed into
      * this input as part of a correct response to the question.
      * For the notes class this is always the boolean "true".

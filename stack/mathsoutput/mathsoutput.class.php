@@ -87,6 +87,7 @@ class stack_maths {
     }
 
     /**
+     * Add description here.
      * @return string the name of the currently configured output method.
      */
     public static function configured_output_name() {
@@ -94,6 +95,7 @@ class stack_maths {
     }
 
     /**
+     * Add description here.
      * @return stack_maths_output the output method that has been set in the
      *      configuration options.
      */

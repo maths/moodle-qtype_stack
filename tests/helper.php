@@ -150,6 +150,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a very elementary question.
      */
     public static function make_stack_question_test0() {
@@ -211,6 +212,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test1.xml file.
      */
     public static function make_stack_question_test1() {
@@ -368,6 +370,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test2.xml file.
      */
     public static function make_stack_question_test2() {
@@ -408,6 +411,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test3.xml file.
      */
     public static function make_stack_question_test3() {
@@ -627,6 +631,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test3.xml file.
      */
     public static function make_stack_question_test3_penalty0_1() {
@@ -848,6 +853,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test4.xml file.
      */
     public static function make_stack_question_test4() {
@@ -907,6 +913,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question in which the expected answer in the true/false input is generated from the question variables...
      *                              and the question variables define the scores in the PRT.
      */
@@ -965,6 +972,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test8.xml file.
      */
     public static function make_stack_question_test8() {
@@ -1080,6 +1088,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test9.xml file.
      */
     public static function make_stack_question_test9() {
@@ -1169,6 +1178,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_divide() {
@@ -1227,6 +1237,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest.
      */
     public static function make_stack_question_numsigfigs() {
@@ -1285,6 +1296,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest, with trailing zeros.
      */
     public static function make_stack_question_numsigfigszeros() {
@@ -1343,6 +1355,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question which uses numerical precision feedback variables.
      */
     public static function make_stack_question_numdpsfeedbackvars() {
@@ -1404,6 +1417,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest.
      */
     public static function make_stack_question_units() {
@@ -1464,6 +1478,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest.
      */
     public static function make_stack_question_unitsoptions() {
@@ -1524,6 +1539,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a units and algebraic input.
      */
     public static function make_stack_question_unitsmulti() {
@@ -1587,6 +1603,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using equivalence reasoning to solve a quadratic equation.
      */
     public static function make_stack_question_equiv_quad() {
@@ -1647,6 +1664,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question with two PRTs with different values.
      */
     public static function make_stack_question_1input2prts() {
@@ -1739,6 +1757,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a information item, rather than a question.
      */
     public static function make_stack_question_information() {
@@ -1758,6 +1777,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question with variable grades
      */
     public static function get_stack_question_data_variable_grade() {
@@ -1872,6 +1892,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a 'survey' item. Inputs, but no grading.
      */
     public static function make_stack_question_survey() {
@@ -1893,6 +1914,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a very elementary question assuming single letter variables.
      */
     public static function make_stack_question_single_char_vars() {
@@ -1950,6 +1972,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_stack_question_runtime_prt_err() {
         $q = self::make_a_stack_question();
 
@@ -2055,6 +2078,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_stack_question_runtime_ses_err() {
         $q = self::make_a_stack_question();
 
@@ -2108,6 +2132,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_stack_question_runtime_cas_err() {
         $q = self::make_a_stack_question();
 
@@ -2162,6 +2187,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return stdClass the question from the test0.xml file.
      */
     public static function get_stack_question_data_test0() {
@@ -2276,6 +2302,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return stdClass the question from the test3.xml file.
      */
     public static function get_stack_question_data_test3() {
@@ -3069,6 +3096,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a very elementary question.
      */
     public static function make_stack_question_checkbox_all_empty() {
@@ -3132,6 +3160,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a checkbox question using %union, which was problematic
      */
     public static function make_stack_question_checkbox_union() {
@@ -3192,6 +3221,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a checkbox question using %union, which was problematic
      */
     public static function make_stack_question_checkbox_noun_diff() {
@@ -3252,6 +3282,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests checking for addrow in an older question.
      */
     public static function make_stack_question_addrow() {
@@ -3314,6 +3345,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_mul() {
@@ -3373,6 +3405,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which uses ATStringSloppy.
      */
     public static function make_stack_question_stringsloppy() {
@@ -3457,6 +3490,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which uses ATSRegExp.
      */
     public static function make_stack_question_sregexp() {
@@ -3520,6 +3554,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which uses ATSRegExp.
      */
     public static function make_stack_question_feedbackstyle() {
@@ -3658,6 +3693,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests context variables.
      */
     public static function make_stack_question_contextvars() {
@@ -3745,6 +3781,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests mismatched languages.
      */
     public static function make_stack_question_multilang() {
@@ -3837,6 +3874,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests language blocks.
      */
     public static function make_stack_question_lang_blocks() {
@@ -3903,6 +3941,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_block_locals() {
@@ -3964,6 +4003,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_validator() {
@@ -4037,6 +4077,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_feedback() {
@@ -4159,6 +4200,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_ordergreat() {
@@ -4225,6 +4267,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_exdowncase() {
@@ -4313,6 +4356,7 @@ final class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_bailout() {

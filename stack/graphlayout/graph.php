@@ -358,6 +358,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array node name => stack_abstract_graph_node the list of all nodes.
      */
     public function get_nodes() {
@@ -367,6 +368,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array node name => stack_abstract_graph_node nodes that are
      * roots in the graph. (That is, no other node links to them.) Only available
      * once the graph has been laid out.
@@ -376,6 +378,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array with keys like "node name|-1" or "node name|1". If, we
      * find a cycle in the graph we break it at an arbitrary point, and record
      * that fact here, then carry on. Therefore, this is a list of errors.
@@ -395,6 +398,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return int the maximum depth of any node. Root nodes have depth 1.
      */
     public function max_depth() {
@@ -403,6 +407,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array with two elements, the minimum and maximum x-coordinates of any node.
      */
     public function x_range() {

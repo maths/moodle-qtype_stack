@@ -129,6 +129,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             sure that the AST is ready before you put it in a casstring
      */
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_student_source(string $raw, string $context,
             stack_cas_security $securitymodel, array $filterstoapply = [],
             array $filteroptions = [], string $grammar = 'Root', string $decimals = '.') {
@@ -183,6 +184,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_teacher_source(string $raw, string $context='',
             stack_cas_security $securitymodel=null) {
         // If you wonder why the security model is in play for teachers it
@@ -236,6 +238,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_teacher_ast(MP_Statement $ast, string $context,
             stack_cas_security $securitymodel) {
         // This function is intended to be used when dealing with keyvals,

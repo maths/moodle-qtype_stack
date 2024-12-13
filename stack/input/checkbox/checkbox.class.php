@@ -200,6 +200,7 @@ class stack_checkbox_input extends stack_dropdown_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {

@@ -107,6 +107,7 @@ class stack_cas_security {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_feature(string $identifier, string $feature) {
         // Generic tool for telling if a given identifier matches a function.
         if (self::$securitymap === null) {

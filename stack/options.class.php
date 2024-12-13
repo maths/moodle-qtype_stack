@@ -236,6 +236,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for a no/yes select menu.
      */
     public static function get_yes_no_options() {
@@ -246,6 +247,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the insert stars select menu.
      */
     public static function get_insert_star_options() {
@@ -262,6 +264,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the input syntax hint display attribute.
      */
     public static function get_syntax_attribute_options() {
@@ -272,6 +275,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the decimal sign select menu.
      */
     public static function get_decimals_sign_options() {
@@ -282,6 +286,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the scientific notation select menu.
      */
     public static function get_scientificnotation_options() {
@@ -292,6 +297,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the multiplication sign select menu.
      */
     public static function get_multiplication_sign_options() {
@@ -304,6 +310,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the complex number select menu.
      */
     public static function get_complex_no_options() {
@@ -316,6 +323,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the inverse trig select menu.
      */
     public static function get_inverse_trig_options() {
@@ -328,6 +336,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the inverse trig select menu.
      */
     public static function get_logic_options() {
@@ -338,6 +347,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the matrix prenthesis select menu.
      */
     public static function get_matrix_parens_options() {
@@ -351,6 +361,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the show validation select menu.
      */
     public static function get_showvalidation_options() {
@@ -363,6 +374,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the monospace input select menu.
      */
     public static function get_monospace_options() {

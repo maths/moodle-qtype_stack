@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../block.interface.php');
 
 class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $channel;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $variable;

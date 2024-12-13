@@ -279,6 +279,7 @@ class stack_ans_test_controller {
     }
 
     /**
+     * Add description here.
      * @return array the list of available answertest types. An array
      *      answertest internal name => language string key.
      */

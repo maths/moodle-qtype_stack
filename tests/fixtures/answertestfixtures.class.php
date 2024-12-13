@@ -2756,11 +2756,13 @@ class stack_answertest_test_data {
 
         ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();
         return array_merge(self::$rawdata, $equiv->get_answertestfixtures());
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_available_tests() {
         $availabletests = [];
         foreach (self::$rawdata as $test) {
@@ -2769,6 +2771,7 @@ class stack_answertest_test_data {
         return $availabletests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data) {
 
         $test = new stdClass();
@@ -2782,6 +2785,7 @@ class stack_answertest_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all() {
         $tests = [];
         $rawdata = self::get_raw_test_data();
@@ -2791,6 +2795,7 @@ class stack_answertest_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_tests_for($anstest) {
         $tests = [];
         $rawdata = self::get_raw_test_data();
@@ -2803,6 +2808,7 @@ class stack_answertest_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         $sans = stack_ast_container::make_from_teacher_source($test->studentanswer, '', new stack_cas_security());
         $tans = stack_ast_container::make_from_teacher_source($test->teacheranswer, '', new stack_cas_security());

@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_singlechar_input extends stack_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,

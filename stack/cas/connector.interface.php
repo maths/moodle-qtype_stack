@@ -31,6 +31,7 @@ interface stack_cas_connection {
     public function compute($command);
 
     /**
+     * Add description here.
      * @return string any debug info from this session. Will be blank unless
      *      debugging is enabled by the configuration.
      */

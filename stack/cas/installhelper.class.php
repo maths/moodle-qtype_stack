@@ -300,6 +300,7 @@ END;
     }
 
     /**
+     * Add description here.
      * @return stack_cas_configuration the singleton instance of this class.
      */
     protected static function get_instance() {

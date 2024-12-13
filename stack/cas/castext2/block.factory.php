@@ -54,6 +54,7 @@ class castext2_block_factory {
         return null;
     }
     /**
+     * Add description here.
      * @return array of available type names.
      */
     public static function get_available_types() {

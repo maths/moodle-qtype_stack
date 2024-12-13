@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../algebraic/algebraic.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_string_input extends stack_algebraic_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
@@ -119,6 +119,7 @@ class stack_string_input extends stack_algebraic_input {
     }
 
     /**
+     * Add description here.
      * @return string The teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {

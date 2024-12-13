@@ -279,6 +279,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here.
      * @return bool do any of the inputs in this question require the student
      *      validate the input.
      */
@@ -1370,6 +1371,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here.
      * @return bool whether this question uses randomisation.
      */
     public function has_random_variants() {

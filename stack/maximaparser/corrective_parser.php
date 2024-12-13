@@ -269,6 +269,7 @@ class maxima_corrective_parser {
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function handle_parse_error($exception, $string, &$errors, &$answernote, $decimals) {
         // @codingStandardsIgnoreStart
         // We also disallow backticks.
@@ -517,6 +518,7 @@ class maxima_corrective_parser {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function strings_replace($stringles, $original) {
         $strings = stack_utils::all_substring_strings($original);
         if (count($strings) > 0) {

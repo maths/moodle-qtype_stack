@@ -1738,10 +1738,12 @@ class stack_api_test_data {
         'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0"}',
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_question_string(string $name): string {
         return self::$questiondata[$name];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_answer_string(string $name): string {
         return self::$answers[$name];
     }

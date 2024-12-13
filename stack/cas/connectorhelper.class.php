@@ -123,6 +123,7 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Add description here.
      * @return string the configured platform type.
      */
     public static function get_platform() {
@@ -131,6 +132,7 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Add description here.
      * @return string the configured version number.
      */
     public static function get_maximaversion() {
@@ -200,6 +202,7 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Add description here.
      * @return string the version of the STACK Maxima libraries that should be in use.
      */
     public static function get_required_stackmaxima_version() {

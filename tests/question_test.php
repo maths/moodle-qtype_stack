@@ -41,6 +41,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  */
 final class question_test extends qtype_stack_testcase {
     /**
+     * Add description here.
      * @return qtype_stack_question the requested question object.
      */
     protected function get_test_stack_question($which = null) {

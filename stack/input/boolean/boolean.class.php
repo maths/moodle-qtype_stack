@@ -26,6 +26,7 @@ class stack_boolean_input extends stack_input {
     const T = 'true';
     const NA = '';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_choices() {
         return [
             self::F => stack_string('false'),

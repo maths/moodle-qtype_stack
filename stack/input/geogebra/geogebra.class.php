@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_geogebra_input extends stack_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => true,
         'simp' => false,
@@ -137,6 +137,7 @@ class stack_geogebra_input extends stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, displayed to the student in the general feedback. default = hideanswer.
      */
     public function get_teacher_answer_display($value, $display) {

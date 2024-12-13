@@ -56,6 +56,7 @@ class castext2_parser_utils {
         return $root->compile($format, $options);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_casstrings(string $castext): array {
         if ($castext === '' || $castext === null) {
             return [];
@@ -75,6 +76,7 @@ class castext2_parser_utils {
         return $css;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function has_todoblocks(string $castext): bool {
         if ($castext === '' || $castext === null) {
             return false;
@@ -95,6 +97,7 @@ class castext2_parser_utils {
         return $hastodo;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_todoblocks(string $castext): array {
         if ($castext === '' || $castext === null) {
             return [];

@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 
 class stack_cas_castext2_special_raw extends stack_cas_castext2_block {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $content;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

@@ -88,6 +88,7 @@ class stack_input_factory {
     }
 
     /**
+     * Add description here.
      * @return array of available type names.
      */
     public static function get_available_types() {
@@ -137,6 +138,7 @@ class stack_input_factory {
     }
 
     /**
+     * Add description here.
      * @return array input type internal name => display name.
      */
     public static function get_available_type_choices() {

@@ -190,14 +190,17 @@ class stack_subscripts_test_data {
         ['F_1x', 'F_1x', '!', '{F}_{\text{1x}}', '!'],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_legacy() {
         return self::$rawdatalegacy;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data) {
         $test = new stdClass();
         $test->rawinput      = $data[self::RAWINPUT];
@@ -216,6 +219,7 @@ class stack_subscripts_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test, $simp) {
         $sec = new stack_cas_security();
 

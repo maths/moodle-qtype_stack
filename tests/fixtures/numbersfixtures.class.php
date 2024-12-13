@@ -93,10 +93,12 @@ class stack_numbers_test_data {
         ["3434...34*34", 4, 4, 0, '"~a"'],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_utils() {
         return self::$rawdatautils;
     }

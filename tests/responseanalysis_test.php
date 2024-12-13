@@ -442,6 +442,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public static $question;
     public static $question2;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function setUpBeforeClass(): void {
         self::$question = test_question_maker::make_question('stack', 'test1');
         self::$question2 = test_question_maker::make_question('stack', 'test3');

@@ -111,6 +111,7 @@ class stack_question_test_result {
     }
 
     /**
+     * Add description here.
      * @return array input name => object with fields ->input, ->display and ->status.
      */
     public function get_input_states() {
@@ -139,6 +140,7 @@ class stack_question_test_result {
     }
 
     /**
+     * Add description here.
      * @return array input name => object with fields ->mark, ->expectedmark,
      *      ->penalty, ->expectedpenalty, ->answernote, ->expectedanswernote,
      *      ->feedback and ->testoutcome.
@@ -237,6 +239,7 @@ class stack_question_test_result {
     }
 
     /**
+     * Add description here.
      * @return bool whether the test passed successfully.
      */
     public function passed() {
@@ -252,6 +255,7 @@ class stack_question_test_result {
     }
 
     /**
+     * Add description here.
      * @return array whether the test passed successfully + outcomes, inputs and reasons for failure.
      */
     public function passed_with_reasons() {

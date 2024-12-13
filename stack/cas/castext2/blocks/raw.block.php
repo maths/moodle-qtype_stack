@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 
 class stack_cas_castext2_raw extends stack_cas_castext2_block {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $content;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

@@ -633,6 +633,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, an example of what could be typed into
      * this input as part of a correct response to the question.
      */
@@ -641,6 +642,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {
@@ -648,6 +650,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {

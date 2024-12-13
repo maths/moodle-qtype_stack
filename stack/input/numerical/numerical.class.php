@@ -170,6 +170,7 @@ class stack_numerical_input extends stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {

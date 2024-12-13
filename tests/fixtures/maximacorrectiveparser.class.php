@@ -100,10 +100,12 @@ class maxima_corrective_parser_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data) {
         $test = new stdClass();
         $test->rawinput      = $data[self::RAWINPUT];
@@ -116,6 +118,7 @@ class maxima_corrective_parser_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         $notes      = [];
         $errors     = [];

@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../dropdown/dropdown.class.php');
 class stack_radio_input extends stack_dropdown_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'radio';
 
     /*

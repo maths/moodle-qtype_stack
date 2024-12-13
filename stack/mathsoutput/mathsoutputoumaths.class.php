@@ -31,6 +31,7 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 class stack_maths_output_oumaths extends stack_maths_output_filter_base {
 
     /**
+     * Add description here.
      * @return boolean is the OU maths filter installed?
      */
     public static function filter_is_installed() {

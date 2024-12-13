@@ -211,6 +211,7 @@ class stack_parsing_rule_factory {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
             // If the static set has not been initialised do so.
@@ -263,6 +264,7 @@ class stack_parsing_rule_factory {
         return self::$singletons[$name];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_filter_pipeline(array $activefilters, array $settings, bool $includecore=true): stack_cas_astfilter {
         $tobeincluded = [];
         if ($includecore === true) {
@@ -315,6 +317,7 @@ class stack_parsing_rule_factory {
         return new stack_ast_filter_pipeline($tobeincluded);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function list_filters(): array {
         if (empty(self::$singletons)) {
             self::get_by_common_name('001_fix_call_of_a_group_or_function');

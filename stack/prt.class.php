@@ -134,6 +134,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return int.
      */
     public function get_feedbackstyle() {
@@ -141,6 +142,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return string The keyval-bit for some version changes.
      */
     public function get_feedbackvariables_keyvals() {
@@ -151,6 +153,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return array Returns the answer tests used by this PRT for version changes.
      */
     public function get_answertests(): array {
@@ -162,6 +165,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return string Representation of the PRT for Maxima offline use.
      */
     public function get_maxima_representation() {
@@ -215,6 +219,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return array All the "sans" strings used in the nodes with test requiring a raw input.
      */
     public function get_raw_sans_used() {
@@ -229,6 +234,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return array All the non-trivial strings used in the node arguments.
      */
     public function get_raw_arguments_used() {
@@ -314,6 +320,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return array Languages used in the feedback.
      */
     public function get_feedback_languages() {
@@ -332,6 +339,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the show validation select menu.
      */
     public static function get_feedbackstyle_options() {

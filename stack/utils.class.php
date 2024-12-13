@@ -34,6 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 interface stack_debug_log {
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log();
@@ -55,10 +56,11 @@ interface stack_debug_log {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_debug_log_base implements stack_debug_log {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $debuginfo = '';
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log() {
@@ -91,6 +93,7 @@ class stack_debug_log_base implements stack_debug_log {
 class stack_debug_log_null implements stack_debug_log {
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log() {
@@ -663,6 +666,7 @@ class stack_utils {
         return self::$config;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function clear_config_cache() {
         self::$config = null;
     }
@@ -898,6 +902,7 @@ class stack_utils {
         return [$nint * $oden + $onum, $oden];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function fix_to_continued_fraction($n, $accuracy) {
         $frac = self::rational_approximation($n, $accuracy);
         return $frac[0] / $frac[1];

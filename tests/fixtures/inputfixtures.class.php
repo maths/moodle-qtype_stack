@@ -819,18 +819,22 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_units() {
         return self::$rawdataunits;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_decimals() {
         return self::$rawdatadecimals;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data, $validationmethod) {
 
         $test = new stdClass();
@@ -853,6 +857,7 @@ class stack_inputvalidation_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_decimals_from_raw($data, $decimals) {
 
         $test = new stdClass();
@@ -878,6 +883,7 @@ class stack_inputvalidation_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all() {
         $tests = [];
         foreach (self::$rawdata as $data) {
@@ -889,6 +895,7 @@ class stack_inputvalidation_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         // @codingStandardsIgnoreStart
 

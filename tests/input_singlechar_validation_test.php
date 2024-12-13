@@ -38,6 +38,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_singlechar_input
  */
 final class input_singlechar_validation_test extends qtype_stack_testcase {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function test_validate_student_response_true(): void {
 
         $options = new stack_options();

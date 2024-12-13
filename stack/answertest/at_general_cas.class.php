@@ -49,7 +49,7 @@ class stack_answertest_general_cas extends stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
      */

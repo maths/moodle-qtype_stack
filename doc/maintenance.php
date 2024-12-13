@@ -35,10 +35,12 @@ require_once(__DIR__ . '/docslib.php');
 
 require_login();
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function contains($haystack, $needle) {
     return mb_strpos($haystack, $needle) !== false;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function report($d) {
     global $CFG;
     $dirroot = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');

@@ -32,6 +32,7 @@ require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession2.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_configuration {
     protected static $instance = null;
 

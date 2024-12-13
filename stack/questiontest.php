@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/questiontestresult.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_question_test {
     /**
      * @var string Give each testcase a meaningful description.

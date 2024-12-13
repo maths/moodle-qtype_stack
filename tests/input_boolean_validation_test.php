@@ -39,6 +39,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \stack_boolean_input
  */
 final class input_boolean_validation_test extends qtype_stack_testcase {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function test_validate_student_response_true(): void {
 
         $options = new stack_options();

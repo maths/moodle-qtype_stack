@@ -35,6 +35,7 @@ require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container extends stack_ast_container_silent implements cas_latex_extractor,
             cas_value_extractor, cas_display_value_extractor {
 

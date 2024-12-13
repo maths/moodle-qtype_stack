@@ -33,6 +33,7 @@ require_once(__DIR__ . '/../../../../vle_specific.php');
 require_once(__DIR__ . '/iframe.block.php');
 stack_cas_castext2_iframe::register_counter('///PARSONS_COUNT///');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
     public static $namedversions = [

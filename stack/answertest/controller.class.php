@@ -30,6 +30,7 @@ require_once(__DIR__ . '/at_general_cas.class.php');
 require_once(__DIR__ . '/../cas/connector.class.php');
 require_once(__DIR__ . '/../cas/ast.container.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ans_test_controller {
     protected static $types = [
         'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
@@ -217,7 +218,7 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
      */
@@ -227,7 +228,7 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */
@@ -236,7 +237,7 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return float
      */
@@ -245,7 +246,7 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
      */
@@ -254,7 +255,7 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */
@@ -263,7 +264,7 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */

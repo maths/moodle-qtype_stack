@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_casstring_units {
 
     /*

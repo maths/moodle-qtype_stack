@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../../cas/castext2/utils.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_dropdown_input extends stack_input {
 
     /*

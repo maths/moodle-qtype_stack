@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_escape extends stack_cas_castext2_block {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $content;

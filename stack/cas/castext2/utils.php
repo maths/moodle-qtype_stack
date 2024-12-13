@@ -33,6 +33,7 @@ require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
 require_once(__DIR__ . '/../../utils.class.php');
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_parser_utils {
 
     // For the cases where you need to define the format.

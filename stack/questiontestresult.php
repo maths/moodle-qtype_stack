@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('utils.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_question_test_result {
     /**
      * @var stack_question_test the test case that this is the results for.

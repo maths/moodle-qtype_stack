@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../../vle_specific.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_parser_utils {
 
     /**

@@ -30,6 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('equivfixtures.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_answertest_test_data {
     const NAME    = 0;
     const OPTIONS = 1;

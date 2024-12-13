@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_numbers_test_data {
 
     // In this text digits are 1-9 and 0 is not a digit.

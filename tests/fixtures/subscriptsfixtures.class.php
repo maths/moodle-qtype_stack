@@ -23,6 +23,7 @@
  */
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_subscripts_test_data {
     const RAWINPUT   = 0; // What a student might type.
     const MAXIMA     = 1; // Correct maxima syntax, as extended by STACK.

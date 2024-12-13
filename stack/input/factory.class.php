@@ -35,6 +35,7 @@ require_once(__DIR__ . '/inputbase.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_input_factory {
     /**
      * @var array type name => array of parameter names used. Used to cache the

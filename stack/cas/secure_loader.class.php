@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL')|| die();
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_secure_loader implements cas_evaluatable {
 
     private $code;
@@ -105,6 +106,7 @@ class stack_secure_loader implements cas_evaluatable {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_secure_loader_value extends stack_secure_loader implements cas_value_extractor {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $value;

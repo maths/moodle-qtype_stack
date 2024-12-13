@@ -51,7 +51,9 @@ interface castext2_processor {
             castext2_processor $override = null): string;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_default_processor implements castext2_processor {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
             castext2_processor $override = null): string {
         $proc = $this;
@@ -80,6 +82,7 @@ class castext2_default_processor implements castext2_processor {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_qa_processor extends castext2_default_processor {
     // Special one giving access to a question-attempt so that the blocks
     // can call things like `rewrite_pluginfile_urls`.

@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../../../engine/bank.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_bulk_tester {
 
     /**

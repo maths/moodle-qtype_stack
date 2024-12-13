@@ -35,6 +35,7 @@ require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional extends stack_ast_container {
 
     private $conditions;
@@ -86,6 +87,7 @@ class stack_ast_container_conditional extends stack_ast_container {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional_value extends stack_ast_container_silent implements cas_value_extractor {
 
     private $conditions;
@@ -157,6 +159,7 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent
         implements cas_value_extractor, cas_latex_extractor {
 
@@ -246,6 +249,7 @@ class stack_ast_container_conditional_latex_and_value extends stack_ast_containe
 }
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional_silent extends stack_ast_container_silent {
 
     private $conditions;

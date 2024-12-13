@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_inputvalidation_test_data {
 
     const RAWSTRING     = 0;

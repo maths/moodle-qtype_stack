@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_silent implements cas_evaluatable {
 
     /**

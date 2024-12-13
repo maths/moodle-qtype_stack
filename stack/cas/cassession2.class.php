@@ -33,6 +33,7 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 require_once(__DIR__ . '/caserror.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_session2 {
     /**
      * @var string separator used between successive CAS commands inside the block.

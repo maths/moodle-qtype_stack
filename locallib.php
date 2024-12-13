@@ -29,6 +29,7 @@ require_once(__DIR__ . '/stack/mathsoutput/mathsoutput.class.php');
  * Base class for all the types of exception we throw.
  */
 class stack_exception extends moodle_exception {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($error) {
         parent::__construct('exceptionmessage', 'qtype_stack', '', $error);
     }
@@ -171,6 +172,7 @@ function stack_maxima_translate($rawfeedback) {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_maxima_format_casstring($str) {
     // Santise the output, E.g. '>' -> '&gt;'.
     $str = stack_string_sanitise($str);
@@ -180,6 +182,7 @@ function stack_maxima_format_casstring($str) {
     return html_writer::tag('span', $str, ['class' => 'stacksyntaxexample']);
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_string_sanitise($str) {
     // Students may not input strings containing specific LaTeX
     // i.e. no math-modes due to us being unable to decide if

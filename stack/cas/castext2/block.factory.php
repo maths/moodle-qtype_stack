@@ -21,6 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_block_factory {
     /**
      * Cache the block types so that we do not need to check from the

@@ -35,6 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_admin_setting_maths_display_method extends admin_setting_configselect {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function load_choices() {
         if (is_array($this->choices)) {
             return true;
@@ -76,6 +77,7 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_admin_setting_input_types extends admin_setting_configselect {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function load_choices() {
         global $CFG;
         require_once($CFG->dirroot . '/question/type/stack/stack/input/factory.class.php');

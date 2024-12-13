@@ -37,6 +37,7 @@ require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession2.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_healthcheck {
     /* This variable holds the state of the healthcheck. */
     protected $ishealthy = true;

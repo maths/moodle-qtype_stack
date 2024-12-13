@@ -112,6 +112,7 @@ if ($astonly) {
     die();
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function check_filter($ast, $filter, $security, $filtername) {
     $errors = [];
     $answernotes = [];

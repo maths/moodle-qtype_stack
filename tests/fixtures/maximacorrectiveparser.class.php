@@ -27,6 +27,7 @@
  */
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_corrective_parser_test_data {
 
     const RAWINPUT    = 0; // What a student might type.

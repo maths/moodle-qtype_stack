@@ -34,6 +34,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * turns that -/+ to an op.
  */
 class stack_ast_filter_450_split_floats implements stack_cas_astfilter_exclusion {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Float && $node->raw !== null) {

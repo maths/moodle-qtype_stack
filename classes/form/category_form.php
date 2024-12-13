@@ -24,6 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/formslib.php");
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class category_form extends moodleform {
     // Add elements to form.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

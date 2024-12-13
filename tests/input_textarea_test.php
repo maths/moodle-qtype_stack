@@ -42,6 +42,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \stack_textarea_input
  */
 final class input_textarea_test extends qtype_stack_testcase {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function test_render_blank(): void {
 
         $el = stack_input_factory::make('textArea', 'ans1', null);

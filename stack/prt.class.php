@@ -33,6 +33,7 @@ require_once(__DIR__ . '/../vle_specific.php');
 // A rewrite dropping everything not needed for compiled PRTs.
 // Works as the compiler for the matching evaluatable.
 // Otherwise used as a store for meta-data related to the question-model.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_potentialresponse_tree_lite {
 
     /** @var string Name of the PRT. */

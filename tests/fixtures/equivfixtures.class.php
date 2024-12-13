@@ -21,6 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_equiv_test_data {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $rawdata;

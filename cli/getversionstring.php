@@ -32,6 +32,8 @@ require_once($CFG->libdir.'/clilib.php');
 require_once($CFG->libdir.'/adminlib.php');
 
 // Fake settings object to catch some values.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+function
 class fakesettings {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $maximaversions = [];

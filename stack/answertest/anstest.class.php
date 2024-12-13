@@ -128,7 +128,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */
@@ -137,7 +137,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return float
      */
@@ -146,7 +146,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
      */
@@ -155,7 +155,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */
@@ -164,7 +164,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */

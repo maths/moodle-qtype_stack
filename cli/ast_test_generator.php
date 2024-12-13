@@ -163,6 +163,7 @@ $findinvalid = function($node) use(&$hasinvalid) {
     return true;
 };
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function escp(string $string): string {
     // TO-DO: for coding style we should not use double quotes unless necessary.
     $a = addslashes($string);

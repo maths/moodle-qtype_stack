@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
  * @package    qtype_stack
  * @copyright  2024 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -318,6 +319,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // Applies the held back things to the filtered feedback.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function apply_placeholder_holder(string $filtered): string {
         if ($this->holder === null) {
             return $filtered;

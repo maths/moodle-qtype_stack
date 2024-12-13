@@ -53,6 +53,7 @@ class castext2_test extends qtype_stack_testcase {
     // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function evaluate(string $code, array $preamble=[], stack_options $options=null,
             $context='castext-test-case'): string {
         $statements = [];

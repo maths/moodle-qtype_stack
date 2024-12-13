@@ -16,6 +16,7 @@
 // Stateful by Matti Harjula 2017.
 
 /**
+ * Add description here!
  * @package    qtype_stack
  * @copyright  2017 Matti Harjula.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.

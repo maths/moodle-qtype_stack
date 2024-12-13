@@ -15,6 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
  * @package    qtype_stack
  * @copyright  2017 Matti Harjula.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -113,6 +114,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     // some blocks may need details. Note though that if you give this
     // Markdown or other types of formated stuff it will do the formating
     // and the rendered output will be FORMAT_HTML.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid($format=null, $options=null, $sec=null): bool {
         if ($this->valid !== null) {
             return $this->valid;

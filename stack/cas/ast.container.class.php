@@ -178,6 +178,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp, $checkvars) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'

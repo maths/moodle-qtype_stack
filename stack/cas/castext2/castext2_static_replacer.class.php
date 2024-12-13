@@ -15,6 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
  * @package    qtype_stack
  * @copyright  2017 Matti Harjula.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -43,6 +44,7 @@ class castext2_static_replacer {
     }
 
     // One might need to gain access to this after extraction.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_map(): array {
         return $this->map;
     }

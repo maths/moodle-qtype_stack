@@ -797,6 +797,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     // Used in reporting - needs to return an array.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function summarise_response_data(array $response) {
         $bits = [];
         foreach ($this->inputs as $name => $input) {

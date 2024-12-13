@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
  * @package    qtype_stack
  * @copyright  2024 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -285,6 +286,7 @@ class stack_potentialresponse_tree_lite {
     }
 
     // Summary of the nodes, for use in various logics that track answernotes and scores.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_nodes_summary(): array {
         $summary = [];
         foreach ($this->nodes as $node) {
@@ -379,6 +381,7 @@ class stack_potentialresponse_tree_lite {
     // what to use as local variables.
     // The returned array contains the function declaration, its call signature,
     // and any necessary additional preamble, i.e. textput rules and the like.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile(array $inputs, array $boundvars, $defaultpenalty, $security, $pathprefix, $map): array {
         $r = ['sig' => '', 'def' => '', 'cv' => null, 'be' => null, 'required' => [], 'units' => false];
         // Note these variables are initialised before the feedback-vars and if not forbidden

@@ -26,6 +26,7 @@ require_once("$CFG->libdir/formslib.php");
 
 class category_form extends moodleform {
     // Add elements to form.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function definition() {
         $mform = $this->_form;
         $mform->disable_form_change_checker();
@@ -34,6 +35,7 @@ class category_form extends moodleform {
     }
 
     // Custom validation should be added here.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($data, $files) {
         return [];
     }

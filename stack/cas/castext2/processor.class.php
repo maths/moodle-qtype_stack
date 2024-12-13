@@ -15,6 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
  * @package    qtype_stack
  * @copyright  2017 Matti Harjula.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -45,6 +46,7 @@ interface castext2_processor {
     // The override helps when you want to chain things. Basically, use it to
     // give the top most processor to the lower ones so that they can pass things
     // back when processing nested things.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
             castext2_processor $override = null): string;
 }

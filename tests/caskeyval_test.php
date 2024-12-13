@@ -100,6 +100,7 @@ class caskeyval_test extends qtype_stack_testcase {
     // Now here we have a problem, keyvals do not generate output values
     // they just load stuff to the session, therefore you cannot get
     // the instantiated values.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function test_equations_1(): void {
 
         $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1; ta3:x=1 nounor x=2', null, 123);

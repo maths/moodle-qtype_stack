@@ -42,6 +42,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
 
     // Compatibility with php 7.4: Defining "str_ends_with" if not in existence, delete this function when
     // dropping support for php 7.4, replace all occurences of this->str_ends_with(args) by str_ends_with(args).
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function str_ends_with($word, $searchstring) {
         $searchstringlen = mb_strlen($searchstring);
         if (mb_substr($word, -$searchstringlen, $searchstringlen) == $searchstring) {

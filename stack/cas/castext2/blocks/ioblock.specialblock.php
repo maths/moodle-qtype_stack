@@ -15,6 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
  * @package    qtype_stack
  * @copyright  2024 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -59,6 +60,7 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
     }
 
     // Might seem odd to postprocess this but this is a hook that others connect to.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         return '[[' . $params[1] . ':' . $params[2] . ']]';

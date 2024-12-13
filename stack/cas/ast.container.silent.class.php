@@ -279,6 +279,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // Functions required by cas_evaluatable.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         if ($this->valid === null) {
             if ($this->ast === null) {
@@ -328,6 +329,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false,
             $decimals = '.'): string {
         if (!($nounify === null || is_int($nounify))) {
@@ -534,6 +536,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     // When asking for errors the default is to implode them into a string.
     // One can also have an array of strings or objects depending on which
     // is more convenient.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
@@ -720,6 +723,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // Exception of the bool value style, we return the length of the list or -1 if not a list.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_list(bool $evaluated=false): int {
         $root = $this->ast;
         if ($evaluated) {
@@ -879,6 +883,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     // Do not call this unless you are dealing with a list.
     // TO-DO: ?MP_Node for return type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_list_element(int $index, bool $evaluated=false) {
         $root = $this->ast;
         if ($evaluated) {

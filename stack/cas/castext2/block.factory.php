@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 class castext2_block_factory {
     /**
      * Cache the block types so that we do not need to check from the

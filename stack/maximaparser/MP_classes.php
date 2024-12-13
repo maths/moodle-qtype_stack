@@ -15,6 +15,12 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 // Stateful by Matti Harjula 2017.
 
+/**
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 /*
  * Class defintions for the PHP version of the PEGJS parser.
  * toString functions are mainly to document what the objects parts mean.
@@ -1307,7 +1313,7 @@ class MP_Group extends MP_Node {
             $this->items[0]->name instanceof MP_Atom &&
             $this->items[0]->name->value === stack_ast_filter_996_call_modification::IDCHECK;
     }
-    
+
     public function toString($params = null): string {
         $indent = '';
 

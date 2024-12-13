@@ -161,7 +161,7 @@ class stack_options {
         return true;
     }
 
-    /*
+    /**
      * This function validates the information.
      */
     private function validate_key($key, $val) {

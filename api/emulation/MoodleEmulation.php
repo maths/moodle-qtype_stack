@@ -149,9 +149,9 @@ function download_file_content($url) {
 
     $result = curl_exec($curl);
     $info  = curl_getinfo($curl);
-    $error_no = curl_errno($curl);
+    $errorno = curl_errno($curl);
 
-    if ($error_no) {
+    if ($errorno) {
         return false;
     }
     if (empty($info['http_code'])) {

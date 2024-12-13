@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
 class stack_answertest_general_cas_preprepare extends stack_answertest_general_cas {
 
     /**
+     * Add description here
      * @param  string $sans
      * @param  string $tans
      * @param  string $casoption

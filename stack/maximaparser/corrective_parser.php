@@ -44,6 +44,7 @@ require_once(__DIR__ . '/MP_classes.php');
 class maxima_corrective_parser {
 
     // Returns an AST if possible.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function parse(string $string, array &$errors, array &$answernote, array $parseroptions) {
         static $safespacepatterns = [
             ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT', 'nounnot ' => 'STACKNOUNNOT',

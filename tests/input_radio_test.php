@@ -40,6 +40,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_radio_input
  */
 final class input_radio_test extends qtype_stack_walkthrough_test_base {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function expected_choices() {
 
         return [

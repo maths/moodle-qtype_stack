@@ -108,6 +108,7 @@ class stack_maths {
     }
 
     /**
+     * Add description here
      * @param string $type the output method name.
      * @return stack_maths_output instance of the output class for this method.
      */

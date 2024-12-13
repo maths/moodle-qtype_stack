@@ -43,6 +43,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
     // Add separate running numbering for different block types to
     // ease debugging, so that one does not need to know which all affect
     // the numbers. This numbering applies only to the titles.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function register_counter(string $name): void {
         self::$counters[$name] = 1;
     }

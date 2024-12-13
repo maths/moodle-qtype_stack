@@ -26,7 +26,6 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-
 /**
  * Tests that walk STACK questions that are special cases.
  * Specifically a question with neither inputs nor PRTs,
@@ -41,7 +40,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
 
     public function test_neither_inputs_nor_prts(): void {
-
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'information');
@@ -94,7 +92,6 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
 
     public function test_no_prts_left_blank(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'survey');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -128,7 +125,6 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_no_prts_answered(): void {
-
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'survey');

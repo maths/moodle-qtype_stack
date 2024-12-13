@@ -106,6 +106,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
     }
 
     /**
+     * Add description here
      * @param MP_Node $ast
      */
     public function assert_marked_invalid($ast) {
@@ -123,6 +124,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
     }
 
     /**
+     * Add description here
      * @param MP_Node $ast
      */
     public function assert_not_marked_invalid($ast) {

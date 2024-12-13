@@ -202,14 +202,16 @@ class stack_units_input extends stack_input {
         return stack_string('teacheranswershow', ['value' => '<code>'.$value.'</code>', 'display' => $display]);
     }
 
-    /* Allows individual input types to change the way the list of variables is tagged.
+    /**
+     * Allows individual input types to change the way the list of variables is tagged.
      * Used by the units input type.
      */
     protected function tag_listofvariables($vars) {
         return html_writer::tag('p', stack_string('studentValidation_listofunits', $vars));
     }
 
-    /* Allow different input types to change the CAS method used.
+    /**
+     * Allow different input types to change the CAS method used.
      * In particular, the units test does something different here.
      */
     protected function get_validation_method() {

@@ -106,6 +106,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function __construct() {
         $this->errors = [];
         $this->holder = new castext2_placeholder_holder();

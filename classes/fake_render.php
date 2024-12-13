@@ -31,6 +31,7 @@ namespace qtype_stack;
  * Render is tested seperately in questionlibrary_test.php.
  */
 class fake_render extends library_render {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function call_question_render($question) {
         return '<p>Hello World</p>';
     }

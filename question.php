@@ -821,7 +821,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $teacheranswer;
     }
 
-    /*
+    /**
      * This function returns an array of values for inputs which could be typed into Maxima.
      * Used in the caschat function as possible input values.
      */
@@ -897,6 +897,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here
      * @param array $response the current response being processed.
      * @return boolean whether any of the inputs are blank.
      */
@@ -1379,6 +1380,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here
      * @param string Input text (raw keyvals) to check for random functions, or use of stack_seed.
      * @return bool Actual test of whether text uses randomisation.
      */
@@ -1449,7 +1451,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 ($USER->id == $this->createdby && has_capability("moodle/question:{$type}mine", $context));
     }
 
-    /* Get the values of all variables which have a key.  So, function definitions
+    /**
+     * Get the values of all variables which have a key.  So, function definitions
      * and assignments are ignored by this method.  Used to display the values of
      * variables used in a question variant.  Beware that some functions have side
      * effects in Maxima, e.g. orderless.  If you use these values you may not get
@@ -1686,7 +1689,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return implode(' ', $errors);
     }
 
-    /*
+    /**
      * Unfortunately, "errors" stop a question being saved.  So, we have a parallel warning mechanism.
      * Warnings need to be addressed but should not stop a question being saved.
      */

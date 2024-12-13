@@ -29,12 +29,13 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
 class stack_answertest_general_cas extends stack_anstest {
 
     /**
-     * $var bool If this variable is set to true or false we override the
+     * @var bool If this variable is set to true or false we override the
      *      simplification options in the CAS variables.
      */
     protected $simp;
 
     /**
+     * Add description here
      * @param  string $sans
      * @param  string $tans
      * @param  string $casoption
@@ -211,6 +212,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function unpack_result(MP_Node $result): array {
         $r = ['valid' => false, 'result' => 'unknown', 'answernote' => '', 'feedback' => ''];
 

@@ -269,6 +269,7 @@ class stack_potentialresponse_tree_lite {
         return $notes;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function get_reverse_post_order_nodes(): array {
         // That is to say, list the nodes in the order they are last visited to allow simple
         // guard clauses... nice feature of acyclic graphs... drops the orphans too.
@@ -284,6 +285,7 @@ class stack_potentialresponse_tree_lite {
         return array_reverse($order);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function get_node($name) {
         // Simple getter that handles the cases where the key is bad or null.
         if (isset($this->nodes[$name])) {
@@ -370,6 +372,7 @@ class stack_potentialresponse_tree_lite {
         return $text;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function po_recurse($node, array &$postorder, array &$visited): array {
         $truenode                 = $this->get_node($node->truenextnode);
         $falsenode                = $this->get_node($node->falsenextnode);
@@ -585,7 +588,7 @@ class stack_potentialresponse_tree_lite {
         return $r;
     }
 
-    /*
+    /**
      * Generate the complete maxima command for a single answertest in a specific node.
      */
     public static function compile_node_answertest($node) {
@@ -621,6 +624,7 @@ class stack_potentialresponse_tree_lite {
         return $at;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function compile_node($node, $usage, $defaultpenalty, $security, $path, $ct2options): array {
         /* In the old system there is a hack that covers some options let's repeat that here.
          * For some tests there is an option assume_pos. This will be evaluated by maxima (since this is also the name
@@ -876,7 +880,8 @@ class stack_potentialresponse_tree_lite {
         return [$body, $usage, $ctincludes];
     }
 
-    /*
+    /**
+     * Add description here
      * @param array $labels an array of labels for the branches.
      */
     public function get_prt_graph($labels = false) {
@@ -911,7 +916,7 @@ class stack_potentialresponse_tree_lite {
         return $graph;
     }
 
-    /*
+    /**
      * Returns the trace of the PRT.
      */
     public function get_trace() {

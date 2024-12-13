@@ -30,12 +30,12 @@ require_once(__DIR__ . '/../dropdown/dropdown.class.php');
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_checkbox_input extends stack_dropdown_input {
 
-    /*
+    /**
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
      */
     protected $ddltype = 'checkbox';
 
-    /*
+    /**
      * Default ddldisplay for checkboxes is 'LaTeX'.
      */
     protected $ddldisplay = 'LaTeX';

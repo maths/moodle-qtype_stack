@@ -1593,7 +1593,7 @@ class qtype_stack extends question_type {
         return [$number, $testcase];
     }
 
-    /*
+    /**
      * This method takes Moodle's "fromform" data type and validates the question.  All question level validation and warnings
      * should be in this method.
      * Much of this code was in edit_stack_form.php (until Jan 2018).
@@ -2297,6 +2297,7 @@ class qtype_stack extends question_type {
         return($this->get_input_names_from_question_text_lang($ml->filter($questiontext, $lang)));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function get_input_names_from_question_text_lang($questiontext) {
         $inputs = stack_utils::extract_placeholders($questiontext, 'input');
         $validations = stack_utils::extract_placeholders($questiontext, 'validation');
@@ -2345,6 +2346,7 @@ class qtype_stack extends question_type {
         return($this->get_prt_names_from_question_lang($ml->filter($questiontext.$specificfeedback, $lang)));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function get_prt_names_from_question_lang($text) {
         $prts = stack_utils::extract_placeholders($text, 'feedback');
         $prtnames = [];

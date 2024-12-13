@@ -198,7 +198,7 @@ class stack_cas_session2 {
         return $valid;
     }
 
-    /*
+    /**
      * TO-DO: set return value of : ?cas_evaluatable
      */
     public function get_by_key(string $key) {
@@ -529,7 +529,7 @@ class stack_cas_session2 {
         return $this->instantiated;
     }
 
-    /*
+    /**
      * This representation is only used in debugging questions, and for
      * offline (sandbox) testing.  We need to provide teachers with something
      * they can type back into Maxima.

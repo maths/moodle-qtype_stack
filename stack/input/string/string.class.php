@@ -34,7 +34,7 @@ class stack_string_input extends stack_algebraic_input {
         'validator' => false,
     ];
 
-    /*
+    /**
      * @var integer We allow string inputs to be longer.
      */
     protected $maxinputlength = 262144;

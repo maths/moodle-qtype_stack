@@ -129,6 +129,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         $this->renderedfeedback = $feedback;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function unpack() {
         if (!$this->is_evaluated()) {
             return; // Cannot do this.

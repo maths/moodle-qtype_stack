@@ -32,6 +32,7 @@ require_once(__DIR__ . '/../cas/ast.container.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ans_test_controller {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $types = [
         'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
         'AlgEquivNouns'        => 'stackOptions_AnsTest_values_AlgEquivNouns',
@@ -74,13 +75,14 @@ class stack_ans_test_controller {
         'Validator'            => 'stackOptions_AnsTest_values_Validator',
     ];
 
-    /*
+    /**
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
      * In [2] we have the value of simp in the CAS session.
      * Does the test require the raw value of the student's answer as a string [3] ?
      *
      * Note, the options are currently always simplified in the node class.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $pops = [
         'AlgEquiv'             => [false, false, true, false],
         'AlgEquivNouns'        => [false, false, false, false],
@@ -126,7 +128,6 @@ class stack_ans_test_controller {
     /**
      * The answertest object that the functions call.
      * @var stack_anstest
-     * @access private
      */
     private $at;
 

@@ -47,6 +47,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
  final class prt_test extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function create_default_node() {
 
         $node = new stdClass();

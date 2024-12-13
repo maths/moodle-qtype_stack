@@ -30,7 +30,7 @@ class stack_radio_input extends stack_dropdown_input {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'radio';
 
-    /*
+    /**
      * Default ddldisplay for radio is 'LaTeX'.
      */
     protected $ddldisplay = 'LaTeX';

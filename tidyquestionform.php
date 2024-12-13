@@ -37,6 +37,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php')
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_tidy_question_form extends moodleform {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
 
         $mform = $this->_form;

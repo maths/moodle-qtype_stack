@@ -39,7 +39,9 @@ require_once(__DIR__ . '/cassession2.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_healthcheck {
-    /* This variable holds the state of the healthcheck. */
+    /**
+     * This variable holds the state of the healthcheck.
+     */
     protected $ishealthy = true;
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -264,7 +266,7 @@ class stack_cas_healthcheck {
         $this->tests[] = $test;
     }
 
-    /*
+    /**
      * Try and evaluate the raw castext and build a result entry.
      *
      * $hideraw is for those cases where we do not wish to show the raw CASText.
@@ -298,14 +300,14 @@ class stack_cas_healthcheck {
         $this->tests[] = $test;
     }
 
-    /*
+    /**
      * This function returns a summary of the status of the healthcheck.
      */
     public function get_test_results() {
         return $this->tests;
     }
 
-    /*
+    /**
      * Return overall results.
      */
     public function get_overall_result() {

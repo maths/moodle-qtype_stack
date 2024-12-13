@@ -77,7 +77,7 @@ class connection_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $return);
     }
 
-    /*
+    /**
      * Note, with this test on SBCL the timeout can create a runaway process.
      */
     public function test_compute_miss_formed_command(): void {

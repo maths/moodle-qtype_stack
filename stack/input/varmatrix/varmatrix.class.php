@@ -251,6 +251,7 @@ class stack_varmatrix_input extends stack_input {
     }
 
     /**
+     * Add description here
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */

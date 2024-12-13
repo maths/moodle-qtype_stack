@@ -36,6 +36,7 @@ require_once($CFG->libdir . '/formslib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_question_test_form extends moodleform {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
 
         $mform = $this->_form;

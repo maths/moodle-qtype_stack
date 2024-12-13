@@ -40,31 +40,37 @@ class stack_ast_container_silent implements cas_evaluatable {
     /**
      * The parsetree representing this ast after all modifications.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ast;
 
     /**
      * The source of this ast. As used for security considerations.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $source = 's';
 
     /**
      * Cached result of the validity check.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $valid = null;
 
     /**
      * Errors collected from various sources of validation.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $errors = [];
 
     /**
      * Answernotes collected from various sources of validation.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $answernotes = [];
 
     /**
      * Feedback collected from various sources of validation and processing.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $feedback = [];
 
     /**
@@ -72,11 +78,13 @@ class stack_ast_container_silent implements cas_evaluatable {
      * ast comes from. e.g., '/questionvariables' or '/prt/0/node/2/tans'.
      * more specific location data i.e. character position data is in the AST.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $context;
 
     /**
      * The cassecurity settings applied to this question.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $securitymodel;
 
     /**
@@ -86,6 +94,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      * If 1 we add all nouns.
      * If 2 we only add logic nouns such as nounand.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $nounify = null;
 
     /**
@@ -94,16 +103,19 @@ class stack_ast_container_silent implements cas_evaluatable {
      * cassession only returning the values of last statements with a given
      * key.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $keyless = false;
 
     /**
      * Track the status of correct evaluation at statement level.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $isevaluated = false;
 
     /**
      * These strings might occur as errors or notes and need to be tided up.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $maximastrings = [
         'DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
         'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
@@ -117,7 +129,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
     public $errclass = 'stack_cas_error';
 
-    /*
+    /**
      * NOTES:
      *  1. this does not provide means of storing the results of evaluation.
      *  2. the usage of this class boils down to this:
@@ -127,7 +139,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      *    - ask for inputform or evaluation form representation
      *    - you can also retrieve the AST but it is not secured and you should
      *      never modify it when taking it from an existing casstring, make
-            sure that the AST is ready before you put it in a casstring
+     *      sure that the AST is ready before you put it in a casstring
      */
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -187,7 +199,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_teacher_source(string $raw, string $context='',
-            stack_cas_security $securitymodel=null) {
+            ?stack_cas_security $securitymodel=null) {
         // If you wonder why the security model is in play for teachers it
         // is here to bring in the information on whether units are constants
         // or not and thus affect the teachers ability to write into them.
@@ -277,7 +289,9 @@ class stack_ast_container_silent implements cas_evaluatable {
         $this->keyless = $key;
     }
 
-    /* TO-DO: a more coherent system for dealing with all options such as keyless, nounify. */
+    /**
+     * TO-DO: a more coherent system for dealing with all options such as keyless, nounify.
+     */
     public function set_nounify(int $key=1) {
         $this->nounify = $key;
     }
@@ -321,7 +335,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->valid;
     }
 
-    /*
+    /**
      * This is the string which actually gets sent to Maxima.
      */
     public function get_evaluationform(): string {
@@ -364,7 +378,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->ast_to_string($this->ast, $params);
     }
 
-    /*
+    /**
      * Top-level function for turning AST into a string representation.
      */
     public function ast_to_string($root = null, $parameters = []): string {

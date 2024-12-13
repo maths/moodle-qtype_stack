@@ -136,7 +136,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $this->debug->get_log();
     }
 
-    /* On a Linux system list the versions of maxima available for use. */
+    /**
+     *  On a Linux system list the versions of maxima available for use.
+     */
     public function get_maxima_available() {
         if ('linux' != stack_connection_helper::get_platform()) {
             return stack_string('healthunabletolistavail');

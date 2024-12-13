@@ -158,6 +158,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     }
 
     /**
+     * Add description here
      * @param string $command Maxima code to execute.
      * @return string the key used to store this command.
      */
@@ -193,6 +194,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     }
 
     /**
+     * Add description here
      * @param moodle_database $db the database connection to use to access the cache.
      * @return int the number of entries in the cache.
      */

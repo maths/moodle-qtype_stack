@@ -73,7 +73,9 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var array the set of choices used for the score mode of all PRT branches. */
     protected $scoremodechoices;
 
-    /** Patch up data from the database before a user edits it in the form. */
+    /**
+     * Patch up data from the database before a user edits it in the form.
+     */
     public function set_data($question) {
         if (!empty($question->questiontext)) {
             $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
@@ -232,7 +234,6 @@ class qtype_stack_edit_form extends question_edit_form {
 
         /* Check if we have a new question. */
         if (isset($this->question->id)) {
-            //var_dump($this->question);die();
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
@@ -419,7 +420,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('stackBlock_geogebra_heading'));
             $mform->insertElementBefore($geogebraheading, 'questiontext');
 
-            // Add function to get GeoGebra material_ids in STACK questiontext.
+            /**
+             * Add function to get GeoGebra material_ids in STACK questiontext.
+             */
             function get_geogebra_material_ids($str) {
                 $start = "material_id:\"";
                 $end = "\"";

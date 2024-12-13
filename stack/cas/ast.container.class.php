@@ -56,21 +56,25 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     /**
      * If this is an input about to be validated, then we need to store some information here.
      */
-    private $validationcontext = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+     private $validationcontext = null;
 
     /**
      * AST value coming back from CAS.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated;
 
     /**
      * LaTeX value coming back from CAS.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $latex;
 
     /**
      * CAS rendered displayvalue.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $displayvalue;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -210,7 +214,8 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->ast_to_string($this->evaluated, ['checkinggroup' => true]);
     }
 
-    /* This function returns something a teacher might claim a student types in.
+    /**
+     * This function returns something a teacher might claim a student types in.
      * This means we have to de-parse a lot of things, listed below.
      */
     public function get_dispvalue() {
@@ -252,7 +257,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return trim($this->latex);
     }
 
-    /*
+    /**
      * Used to test the ast within the container.
      */
     public function get_ast_test() {
@@ -310,7 +315,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->answernotes;
     }
 
-    /*
+    /**
      * We sometimes need to modify the ast to set a particular key.
      */
     public function set_key($key) {

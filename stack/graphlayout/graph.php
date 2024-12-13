@@ -389,6 +389,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here
      * @param stack_abstract_graph_node $node the parent node of the edge.
      * @param int $direction self::LEFT or self::RIGHT.
      * @return book whether this edge was broken to break a cycle.
@@ -426,6 +427,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here
      * @param stack_abstract_graph_node $parent the parent node.
      * @param stack_abstract_graph_node $child one of its children.
      * @return bool whether there is another node on the direct line from parent to child.

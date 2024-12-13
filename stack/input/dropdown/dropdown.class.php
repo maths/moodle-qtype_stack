@@ -31,39 +31,39 @@ require_once(__DIR__ . '/../../cas/castext2/utils.php');
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_dropdown_input extends stack_input {
 
-    /*
+    /**
      * ddlvalues is an array of the types used.
      */
     protected $ddlvalues = [];
 
-    /*
+    /**
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
      */
     protected $ddltype = 'select';
 
-    /*
+    /**
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
      * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
      */
     protected $ddldisplay = 'casstring';
 
-    /*
+    /**
      * Controls whether a "not answered" option is presented to the students.
      */
     protected $nonotanswered = true;
 
-    /*
+    /**
      * Controls the "not answered" message presented to the students.
      */
     protected $notanswered = '';
 
-    /*
+    /**
      * This holds the value of those
      * entries which the teacher has indicated are correct.
      */
     protected $teacheranswervalue = '';
 
-    /*
+    /**
      * This holds a displayed form of $this->teacheranswer. We need to generate this from those
      * entries which the teacher has indicated are correct.
      */
@@ -127,7 +127,7 @@ class stack_dropdown_input extends stack_input {
         return true;
     }
 
-    /*
+    /**
      * For the dropdown, each expression must be a list of pairs:
      * [CAS expression, true/false].
      * The second Boolean value determines if this should be considered
@@ -360,6 +360,7 @@ class stack_dropdown_input extends stack_input {
         return;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function key_order($values) {
 
         // Make sure the array keys start at 1.  This avoids
@@ -429,7 +430,8 @@ class stack_dropdown_input extends stack_input {
         return $this->get_input_ddl_value($contents[0]);
     }
 
-    /* This function always returns an array where the key is the key in the ddlvalues.
+    /**
+     * This function always returns an array where the key is the key in the ddlvalues.
      */
     protected function get_choices() {
 
@@ -635,7 +637,7 @@ class stack_dropdown_input extends stack_input {
         return $allblank;
     }
 
-    /*
+    /**
      * In this type we use the array keys in $this->ddlvalues within the HTML interactions,
      * not the CAS values.  These next two methods map between the keys and the CAS values.
      */

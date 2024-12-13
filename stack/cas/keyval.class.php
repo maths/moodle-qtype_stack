@@ -88,6 +88,7 @@ class stack_cas_keyval {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function validate($inputs) {
 
         if (empty($this->raw) || '' == trim($this->raw) || null == $this->raw) {
@@ -205,7 +206,7 @@ class stack_cas_keyval {
     }
 
 
-    /*
+    /**
      * @array $inputs Holds an array of the input names which are forbidden as keys.
      * @bool $inputstrict Decides if we should forbid any reference to the inputs in the values of variables.
      */

@@ -472,7 +472,7 @@ abstract class stack_input {
         // By default, do nothing.
     }
 
-    /*
+    /**
      * Set the contextsession values.
      */
     public function add_contextsession($contextsession) {
@@ -483,6 +483,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here
      * @param string $param a settings parameter name.
      * @return bool whether this input type uses this parameter.
      */
@@ -611,7 +612,7 @@ abstract class stack_input {
         }
     }
 
-    /*
+    /**
      * Return the value of any extra options.
      */
     public function get_extra_options() {
@@ -938,7 +939,8 @@ abstract class stack_input {
         return $state;
     }
 
-    /* Allow different input types to change the CAS method used.
+    /**
+     * Allow different input types to change the CAS method used.
      * In particular, the units and equiv inputs do something different here.
      */
     protected function get_validation_method() {
@@ -949,7 +951,7 @@ abstract class stack_input {
         return $validationmethod;
     }
 
-    /*
+    /**
      * Sort out which filters to apply, based on options to the input.
      * Should be mostly independent of input type.
      */
@@ -1131,6 +1133,7 @@ abstract class stack_input {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function extra_option_variables($questionvariables) {
 
         $additionalvars = [];
@@ -1410,7 +1413,7 @@ abstract class stack_input {
      */
     abstract public function render(stack_input_state $state, $fieldname, $readonly, $tavalue);
 
-    /*
+    /**
      * Render any error messages.
      */
     protected function render_error($error) {
@@ -1496,7 +1499,8 @@ abstract class stack_input {
         return $feedback;
     }
 
-    /* Allows individual input types to change the way the list of variables is tagged.
+    /**
+     * Allows individual input types to change the way the list of variables is tagged.
      * Used by the units input type.
      */
     protected function tag_listofvariables($vars) {
@@ -1656,7 +1660,7 @@ abstract class stack_input {
         return [$this->name => $in];
     }
 
-    /*
+    /**
      * Return the value of any errors.
      */
     public function get_errors() {
@@ -1672,7 +1676,7 @@ abstract class stack_input {
         return array_keys($errors);
     }
 
-    /*
+    /**
      * Provide a summary of the student's response for the Moodle reporting.
      * Notes do something different here.
      */

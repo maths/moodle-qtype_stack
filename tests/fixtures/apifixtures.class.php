@@ -24,6 +24,7 @@
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_api_test_data {
+    // phpcs:ignore moodle.Commenting.VariableComment.MissingVar
     protected static array $questiondata = [
         'matrices' =>
            '<quiz>

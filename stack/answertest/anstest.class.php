@@ -87,7 +87,7 @@ class stack_anstest {
     protected $atfeedback;
 
     /**
-     * $var string.  Copies the debug info, e.g. from the CAS session.
+     * @var string.  Copies the debug info, e.g. from the CAS session.
      */
     protected $debuginfo;
 

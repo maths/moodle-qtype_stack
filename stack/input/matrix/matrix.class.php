@@ -554,7 +554,6 @@ class stack_matrix_input extends stack_input {
      * @author Matti Harjula
      *
      * @param string $in
-     * @access private
      * @return array with the parsed elements, if no elements then array
      *         contains only the input string
      */

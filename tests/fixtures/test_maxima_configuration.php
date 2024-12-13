@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../../stack/cas/installhelper.class.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class qtype_stack_test_config {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function is_test_config_available() {
         // Either the platform is already non-default (e.g.
         // because auto-optimse worked during install, or

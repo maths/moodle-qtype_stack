@@ -37,6 +37,7 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
 
 
     // Is a node of the form ["%root",...].
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function is_castext($node) {
         if ($node instanceof MP_List && count($node->items) > 0 && $node->items[0] instanceof MP_String) {
             return $node->items[0]->value === "%root";

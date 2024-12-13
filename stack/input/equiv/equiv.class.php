@@ -467,6 +467,7 @@ class stack_equiv_input extends stack_input {
         return 'equiv';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function comment_tag($index) {
         return 'EQUIVCOMMENT'.$index;
     }

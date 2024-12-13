@@ -251,7 +251,8 @@ function qtype_stack_setup_question_test_page($question) {
     return [$context, $seed, $urlparams];
 }
 
-/* This class is needed to ignore requests for pluginfile rewrites in the bulk tester
+/**
+ * This class is needed to ignore requests for pluginfile rewrites in the bulk tester
  * and possibly elsewhere, e.g. API.
  */
 class stack_outofcontext_process {

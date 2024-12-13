@@ -646,6 +646,7 @@ class stack_utils {
     }
 
     /**
+     * Add description here
      * @param string $name a potential name for part of a STACK question.
      * @return bool whether that name is allowed.
      */
@@ -944,7 +945,7 @@ class stack_utils {
         return 0 + $str;
     }
 
-    /*
+    /**
      * This function takes user input of the form "option:arg" and splits them up.
      * Used to sort out options to the inputs field.
      */
@@ -958,7 +959,7 @@ class stack_utils {
         return([$option, $arg]);
     }
 
-    /*
+    /**
      * This function takes html and counts the number of img fields
      * with missing or empty alt text.
      */

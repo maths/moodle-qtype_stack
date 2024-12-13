@@ -32,7 +32,8 @@ class stack_subscripts_test_data {
     const TEXSIMP    = 4; // TeX output from stack_disp with simp:true.
     const NOTES      = 5;
 
-    /* Raw data should be in the following form.
+    /**
+     * Raw data should be in the following form.
      * Input, as a raw (but syntactically valid, string.
      * Maxima representation
      * TeX string

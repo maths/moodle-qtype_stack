@@ -44,7 +44,7 @@ class stack_cas_castext2_unknown extends stack_cas_castext2_block {
         return [];
     }
 
-    /*
+    /**
      * Unknown blocks are always invalid.
      */
     public function validate(&$errors = [], $options = []): bool {

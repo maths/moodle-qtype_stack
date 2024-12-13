@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class, Generic.Classes.DuplicateClassName.Found
 class qtype_stack_renderer {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function fact_sheet($name, $fact) {

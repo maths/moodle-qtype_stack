@@ -246,6 +246,7 @@ class stack_question_test {
     }
 
     /**
+     * Add description here
      * @param string $inputname the name of one of the inputs.
      * @return string the value to be entered into that input.
      */

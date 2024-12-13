@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Serve files.
+ *
+ * @package qtype_stack
+ * @copyright 2024 University of Edinburgh
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 // This is a dirty hack trying to remove the need to configure webservers
 // to set the correct CORS headers for the few scripts in this directory that need them.
 

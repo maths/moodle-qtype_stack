@@ -22,7 +22,7 @@
  * e.g. for /CAS/Maxima.md    request    /doc.php/CAS/Maxima.md
  * Language selection is done automatically.
  *
- * @package stackDoc
+ * @package qtype_stack
  * @author Ben Holmes
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -161,7 +161,6 @@ $PAGE->set_title($title);
 <p><a href="doc.php">STACK documentation</a></p>
 <p>This script crawls the entire documentation and checks for dead links and other issues.
 <pre><?php
-
 $docs = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
 $a = report($docs);
 

@@ -171,6 +171,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
 
     // Creates a block from a node.
     // TO-DO: pick another place for this function.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make(CTP_Node $node): stack_cas_castext2_block {
         if ($node instanceof CTP_IOBlock) {
             $r = new stack_cas_castext2_special_ioblock([], [], $node->

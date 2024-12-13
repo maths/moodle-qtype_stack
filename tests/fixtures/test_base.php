@@ -39,7 +39,8 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  */
 abstract class qtype_stack_testcase extends advanced_testcase {
 
-    /* Different underlying versions of LISP (behind Maxima) have different results,
+    /**
+     * Different underlying versions of LISP (behind Maxima) have different results,
      * especially with the floating point routines upon which Maxima relies.
      *
      * This must only be CLISP or SBCL.
@@ -325,7 +326,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $this->assertEquals($note, $qs->get_new_response_summary());
     }
 
-    /*
+    /**
      * This function is needed because Maxima versions generate different error messages.
      */
     protected function check_response_summary_contains($note) {

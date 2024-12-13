@@ -15,8 +15,6 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 define('CLI_SCRIPT', true);
-require(__DIR__ . '/../../../../config.php');
-require_once($CFG->libdir . '/clilib.php');
 
 /**
  * This script updates stack/cas/security-map.json to include new identifiers
@@ -25,6 +23,9 @@ require_once($CFG->libdir . '/clilib.php');
  * @copyright  2018 Aalto University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
+
+require(__DIR__ . '/../../../../config.php');
+require_once($CFG->libdir . '/clilib.php');
 
 list($options, $unrecognized) = cli_get_params(['help' => false],
     ['h' => 'help']);

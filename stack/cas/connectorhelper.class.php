@@ -394,7 +394,7 @@ abstract class stack_connection_helper {
         return [$message, $debug, $success];
     }
 
-    /*
+    /**
      * This function is in this class, rather than installhelper.class.php, to
      * ensure the lowest level connection to the CAS, without caching.
      */

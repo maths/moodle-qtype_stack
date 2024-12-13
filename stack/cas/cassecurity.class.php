@@ -28,6 +28,7 @@ require_once(__DIR__ . '/casstring.units.class.php');
 class stack_cas_security {
     // This holds a copy of the security-map.json so that it does not need to
     // be loaded too many times.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $securitymap = null;
 
     /** @var bool if this security context considers units as constants. */
@@ -57,6 +58,7 @@ class stack_cas_security {
      * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
      * Actually, not lower case, Maxima is not case insensitive just check "ModeMatrix" for an example.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $keywordlists = [
         '[[basic-algebra]]' => [
             'coeff' => true, 'conjugate' => true, 'cspline' => true, 'disjoin' => true,
@@ -90,6 +92,7 @@ class stack_cas_security {
     ];
 
     // TO-DO: remove once baselogic.class.php has been removed.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function is_good_function(string $identifier): bool {
         // Generic tool for telling if a given identifier matches a function.
         if (self::$securitymap === null) {
@@ -559,6 +562,7 @@ class stack_cas_security {
     }
 
     // Takes a string form allowed/forbiddenwords list and turns it into an array.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function list_to_map(string $list): array {
         // Probably called often, why waste time repeating the loops.
         static $cache = [];
@@ -634,6 +638,7 @@ class stack_cas_security {
     }
 
     // Returns all identifiers with a given feature as long as the feature is not valued 'f'.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all_with_feature(string $feature, bool $units = false): array {
         static $cache = [];
         if (!isset($cache[$units ? 'true' : 'false'])) {
@@ -669,6 +674,7 @@ class stack_cas_security {
     // The so called alpha-map, of all known identifiers that should be protected from
     // insert-stars. Indexed with the identifiers.
     // NOT ordered by length anymore.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_protected_identifiers(string $type = 'variable', bool $units = false): array {
         static $variablewithoutunits = null;
         static $variablewithunits = null;

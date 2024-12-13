@@ -264,6 +264,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function acceptable_forms(): string {
         $r = [];
         if ($this->integer) {

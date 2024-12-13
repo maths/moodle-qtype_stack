@@ -48,6 +48,7 @@ class stack_cas_keyval {
 
     // For those using keyvals as a generator for sessions.
     private $options;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $seed;
 
     /** @var bool to hold when we add slashes to Maxima strings. */

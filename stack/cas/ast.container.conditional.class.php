@@ -89,6 +89,7 @@ class stack_ast_container_conditional extends stack_ast_container {
 class stack_ast_container_conditional_value extends stack_ast_container_silent implements cas_value_extractor {
 
     private $conditions;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -160,7 +161,9 @@ class stack_ast_container_conditional_latex_and_value extends stack_ast_containe
         implements cas_value_extractor, cas_latex_extractor {
 
     private $conditions;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $latex;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

@@ -24,6 +24,7 @@ class stack_equiv_test_data {
 
     public $rawdata;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $answertestfixtures;
 
     public function __construct() {

@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * it after it returns from the CAS.
  */
 class castext2_static_replacer {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $map;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

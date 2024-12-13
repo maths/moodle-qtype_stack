@@ -37,6 +37,7 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * exists only over the filtering phase.
  */
 class castext2_placeholder_holder {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $map;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

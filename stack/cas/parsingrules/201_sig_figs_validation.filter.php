@@ -34,7 +34,9 @@ class stack_ast_filter_201_sig_figs_validation implements stack_cas_astfilter_pa
     // Min and max are integer or null, null or values less than
     // 1 signify that there is no limit in the given direction.
     private $min = 3;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $max = 3;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $strict = false;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

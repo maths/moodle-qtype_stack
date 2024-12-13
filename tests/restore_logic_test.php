@@ -30,6 +30,7 @@ require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_logic_test_class extends \restore_qtype_stack_plugin {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $log = '';
 
     public function __construct(): void {

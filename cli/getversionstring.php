@@ -33,6 +33,7 @@ require_once($CFG->libdir.'/adminlib.php');
 
 // Fake settings object to catch some values.
 class fakesettings {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $maximaversions = [];
     public function add($some) {
         if ($some->name === 'maximaversion') {

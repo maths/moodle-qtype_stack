@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../../../utils.class.php');
  * stack_maxima_latex_tidy() function.
  */
 class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_castext2_block {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $content;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

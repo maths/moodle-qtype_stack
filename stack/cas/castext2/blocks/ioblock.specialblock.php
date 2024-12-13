@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../block.interface.php');
 class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
 
     public $channel;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $variable;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

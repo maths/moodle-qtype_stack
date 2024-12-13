@@ -51,7 +51,9 @@ require_once(__DIR__ . '/../cas/parsingrules/996_call_modification.filter.php');
 // @codingStandardsIgnoreStart
 // We ignore coding in this file, because the library is used outside Moodle.
 class MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $parentnode  = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $position    = null;
     // Parsers that comments within the statements may place them here.
     public $comments    = null;
@@ -292,10 +294,10 @@ class MP_Node {
         return null;
     }
     */
-   
-   /** 
+
+   /**
     * Generates an array listing the types of nodes present in this subtree.
-    * Including this node. Keyed with class-name and includes some specific 
+    * Including this node. Keyed with class-name and includes some specific
     * predefined special cases like `ops` and `has control flow`
     */
    public function type_count(): array {
@@ -369,9 +371,9 @@ class MP_Node {
         return $r;
    }
 
-   /** 
+   /**
     * Checks if this node has a call for a given function in its ancestry.
-    * Returns false if not otherwise tells the index of the arguments of 
+    * Returns false if not otherwise tells the index of the arguments of
     * that function call that includes this.
     * @param  string $funname Name of the function we are intersted of
     * @return false or index.
@@ -394,8 +396,11 @@ class MP_Node {
 }
 
 class MP_Operation extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $op  = '+';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $lhs = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $rhs = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -623,6 +628,7 @@ class MP_Operation extends MP_Node {
 }
 
 class MP_Atom extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $value = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -971,7 +977,9 @@ class MP_Identifier extends MP_Atom {
 
 // TO-DO: remove this?  Only one occurance in the search.
 class MP_Annotation extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $annotationtype = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $params         = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1016,7 +1024,9 @@ class MP_Annotation extends MP_Node {
 }
 
 class MP_Comment extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $value       = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $annotations = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1059,7 +1069,9 @@ class MP_Comment extends MP_Node {
 }
 
 class MP_FunctionCall extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $name      = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $arguments = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1249,6 +1261,7 @@ class MP_FunctionCall extends MP_Node {
 }
 
 class MP_Group extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $items = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1363,6 +1376,7 @@ class MP_Group extends MP_Node {
 }
 
 class MP_Set extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $items = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1462,6 +1476,7 @@ class MP_Set extends MP_Node {
 }
 
 class MP_List extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $items = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1587,7 +1602,9 @@ class MP_List extends MP_Node {
 }
 
 class MP_PrefixOp extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $op  = '-';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $rhs = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1692,7 +1709,9 @@ class MP_PrefixOp extends MP_Node {
 }
 
 class MP_PostfixOp extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $op  = '!';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $lhs = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1749,6 +1768,7 @@ class MP_PostfixOp extends MP_Node {
 }
 
 class MP_Indexing extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $target = null;
     // This is an identifier or a function call.
     public $indices = null;
@@ -1816,7 +1836,9 @@ class MP_Indexing extends MP_Node {
 }
 
 class MP_If extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $conditions = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $branches   = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1923,7 +1945,9 @@ class MP_If extends MP_Node {
 }
 
 class MP_Loop extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $body = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $conf = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2000,7 +2024,9 @@ class MP_Loop extends MP_Node {
 }
 
 class MP_LoopBit extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $mode  = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $param = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2047,7 +2073,9 @@ class MP_LoopBit extends MP_Node {
 }
 
 class MP_EvaluationFlag extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $name  = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $value = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2095,7 +2123,9 @@ class MP_EvaluationFlag extends MP_Node {
 }
 
 class MP_Statement extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $statement = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $flags     = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2162,6 +2192,7 @@ class MP_Statement extends MP_Node {
 }
 
 class MP_Prefixeq extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $statement = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2206,6 +2237,7 @@ class MP_Prefixeq extends MP_Node {
 }
 
 class MP_Let extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $statement = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2257,6 +2289,7 @@ class MP_Let extends MP_Node {
 }
 
 class MP_Root extends MP_Node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $items = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

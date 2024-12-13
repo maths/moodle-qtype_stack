@@ -34,8 +34,11 @@ require_once($CFG->libdir . '/questionlib.php');
  * filestores.
  */
 class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_castext2_block {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $filearea;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $itemid;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $component = 'qtype_stack';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

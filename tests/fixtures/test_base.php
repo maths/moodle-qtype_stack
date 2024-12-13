@@ -251,6 +251,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough_test_base {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $currentoutput = null;
 
     public function setUp(): void {

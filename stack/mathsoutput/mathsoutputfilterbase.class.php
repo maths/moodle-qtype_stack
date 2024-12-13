@@ -24,12 +24,19 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_maths_output_filter_base extends stack_maths_output {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $filter = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displaywrapstart = '<span class="displayequation">';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displaywrapend = '</span>';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displaystart;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displayend;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $inlinestart;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $inlineend;
 
     /**

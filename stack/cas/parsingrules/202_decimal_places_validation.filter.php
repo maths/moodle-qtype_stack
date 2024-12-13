@@ -34,6 +34,7 @@ class stack_ast_filter_202_decimal_places_validation implements stack_cas_astfil
     // Min and max are integer or null, null or values less than
     // 1 signify that there is no limit in the given direction.
     private $min = 3;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $max = 3;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

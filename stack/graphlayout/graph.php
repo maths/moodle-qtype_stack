@@ -68,6 +68,7 @@ class stack_abstract_graph {
      */
     protected $stack = [];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $clumps = null;
 
     /**

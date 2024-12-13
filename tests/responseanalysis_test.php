@@ -51,7 +51,9 @@ define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: 11 [score]; ans2: vv [valid
  * @covers \stack_question_report
  */
 class responseanalysis_test extends qtype_stack_testcase {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $report;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $sqlsummary = '{
         "974": {
             "id": "974",
@@ -84,21 +86,25 @@ class responseanalysis_test extends qtype_stack_testcase {
             "responsesummary": "' . RESPONSE3TT . '"
         }
     }';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $notes = [
         1 => 'Variant One',
         3 => 'Variant Three',
         5 => 'Variant Five',
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $seeds = [
         1 => 123456789,
         3 => 333333333,
         5 => 555555555,
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $summary = [
         3 => [RESPONSE3F => 1, RESPONSE3TF => 1, RESPONSE3TT => 2],
         1 => [RESPONSE1F => 1],
         5 => [RESPONSE5F => 1],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $inputreport = [
         "3" => [
             "ans1" => [
@@ -133,6 +139,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             ],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $inputreportsummary = [
         "ans1" => [
             "score" => [
@@ -147,6 +154,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             "other" => [],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreport = [
         "3" => [
             "PotResTree_1" => [
@@ -166,6 +174,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             ],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreportinputs = [
         "3" => [
             "PotResTree_1" => [
@@ -195,6 +204,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             ],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreportsummary = [
         "PotResTree_1" => [
             RESPONSEFS1 => 1,
@@ -204,6 +214,7 @@ class responseanalysis_test extends qtype_stack_testcase {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $sqlsummarymult = '{
         "974": {
             "id": "974",
@@ -217,11 +228,13 @@ class responseanalysis_test extends qtype_stack_testcase {
         }
     }';
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $summarymult = [
         3 => [MULTRESPONSE3TTFT => 1],
         1 => [MULTRESPONSE1TNNN => 1],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $inputreportmult = [
         "3" => [
             "ans1" => [
@@ -292,6 +305,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             ],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $inputreportsummarymult = [
         "ans1" => [
             "score" => [
@@ -332,6 +346,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             ],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreportmult = [
         "3" => [
             "odd" => [
@@ -362,6 +377,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             ],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreportinputsmult = [
         "3" => [
             "odd" => [
@@ -408,6 +424,7 @@ class responseanalysis_test extends qtype_stack_testcase {
             ],
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreportsummarymult = [
         "odd" => [
             RESPONSETS => 2,

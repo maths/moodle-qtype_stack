@@ -48,17 +48,22 @@ class stack_cas_configuration {
         'simplex' => 'floatnump(epsilon_lp)',
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $settings;
 
     /** @var string the date when these settings were worked out. */
     protected $date;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $maximacodepath;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $logpath;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $vnum;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $blocksettings;
 
     /**

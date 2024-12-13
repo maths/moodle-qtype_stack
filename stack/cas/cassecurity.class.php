@@ -36,11 +36,13 @@ class stack_cas_security {
     /** @var string specific allowed words or groups of them. Used to expand
              the student allowed identifiers set. */
     private $allowedwords = '';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $allowedwordsasmap = null;
 
     /** @var string specific forbidden words or groups of them. Used to cut down
              the student allowed identifiers set. */
     private $forbiddenwords = '';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $forbiddenwordsasmap = null;
 
     /** @var array typically the teacher side variable identifiers. Used to cut

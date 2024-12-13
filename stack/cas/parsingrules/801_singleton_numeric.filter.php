@@ -37,6 +37,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
     // These two control the aceptable raw data types as well as
     // the mantissa allowed in the third option.
     private $integer = true;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $float = true;
 
     // @codingStandardsIgnoreStart

@@ -45,11 +45,17 @@ require_once(__DIR__ . '/blocks/include.block.php');
 class castext2_evaluatable implements cas_raw_value_extractor {
 
     private $compiled = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $source = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $value = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $valid = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $errors = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $context = null;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values

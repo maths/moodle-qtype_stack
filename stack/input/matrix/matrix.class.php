@@ -22,9 +22,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_matrix_input extends stack_input {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $width;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $height;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,

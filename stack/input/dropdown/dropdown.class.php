@@ -608,7 +608,6 @@ class stack_dropdown_input extends stack_input {
      *
      * @param string $in
      * @return string
-     * @access public
      */
     public function response_to_contents($response) {
         $contents = [];

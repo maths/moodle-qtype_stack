@@ -384,7 +384,6 @@ class stack_utils {
     /**
      * Converts windows style paths to unix style with forward slashes
      *
-     * @access public
      * @return string|null
      */
     public static function convert_slash_paths($string) {
@@ -415,7 +414,6 @@ class stack_utils {
      * Extracts double quoted strings with \-escapes, extracts only the content
      * not the quotes.
      *
-     * @access public
      * @return array
      */
     public static function all_substring_strings($string) {
@@ -451,7 +449,6 @@ class stack_utils {
      * Replaces all Maxima strings with zero length strings to eliminate string
      * contents for validation tasks.
      *
-     * @access public
      * @return string
      */
     public static function eliminate_strings($string) {
@@ -486,7 +483,6 @@ class stack_utils {
      * Convert strings to protect LaTeX backslashes for use in Maxima strings.
      * @param string in
      * @return string out
-     * @access public
      */
     public static function protect_backslash_latex($string) {
         $string = addslashes($string);
@@ -500,7 +496,6 @@ class stack_utils {
      *
      * @param string in
      * @return array out
-     * @access public
      */
     public static function cvs_to_array($string, $token = ',') {
         $exploded = explode($token, $string);

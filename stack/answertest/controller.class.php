@@ -137,7 +137,6 @@ class stack_ans_test_controller {
      * @param  string $tans A CAS string assumed to represent the tecaher's answer.
      * @param  object $options
      * @param  CasString $casoption
-     * @access public
      */
     public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans, $casoption = null,
             $options = null, $contextsession = []) {
@@ -221,7 +220,6 @@ class stack_ans_test_controller {
      *
      *
      * @return bool
-     * @access public
      */
     public function do_test() {
         $result = $this->at->do_test();
@@ -232,7 +230,6 @@ class stack_ans_test_controller {
      *
      *
      * @return string
-     * @access public
      */
     public function get_at_errors() {
         return $this->at->get_at_errors();
@@ -242,7 +239,6 @@ class stack_ans_test_controller {
      *
      *
      * @return float
-     * @access public
      */
     public function get_at_mark() {
         return $this->at->get_at_mark();
@@ -252,7 +248,6 @@ class stack_ans_test_controller {
      *
      *
      * @return bool
-     * @access public
      */
     public function get_at_valid() {
         return $this->at->get_at_valid();
@@ -262,7 +257,6 @@ class stack_ans_test_controller {
      *
      *
      * @return string
-     * @access public
      */
     public function get_at_answernote() {
         return trim($this->at->get_at_answernote());
@@ -272,7 +266,6 @@ class stack_ans_test_controller {
      *
      *
      * @return string
-     * @access public
      */
     public function get_at_feedback() {
         return ($this->at->get_at_feedback());
@@ -291,7 +284,6 @@ class stack_ans_test_controller {
      * Returns whether the testops are required for this test.
      *
      * @return bool
-     * @access public
      */
     public static function required_atoptions($atest) {
         $op = self::$pops[$atest];
@@ -302,7 +294,6 @@ class stack_ans_test_controller {
      * Returns a list of the answer tests who do not require test options
      *
      * @return array
-     * @access public
      */
     public static function get_ans_tests_without_options() {
         $anstests = [];
@@ -318,7 +309,6 @@ class stack_ans_test_controller {
      * Returns whether the testops should be processed by the CAS for this AnswerTest
      *
      * @return bool
-     * @access public
      */
     public static function process_atoptions($atest) {
         $op = self::$pops[$atest];
@@ -329,7 +319,6 @@ class stack_ans_test_controller {
      * Returns whether the session needs simplification.
      *
      * @return bool
-     * @access public
      */
     public static function simp($atest) {
         $op = self::$pops[$atest];
@@ -340,7 +329,6 @@ class stack_ans_test_controller {
      * Returns whether the test requires the raw input of the student's answer.
      *
      * @return bool
-     * @access public
      */
     public static function required_raw($atest) {
         $op = self::$pops[$atest];
@@ -351,7 +339,6 @@ class stack_ans_test_controller {
      * Validates the options, when needed.
      *
      * @return bool
-     * @access public
      */
     public function validate_atoptions($opt) {
         return $this->at->validate_atoptions($opt);
@@ -361,7 +348,6 @@ class stack_ans_test_controller {
      * Pass back CAS debug information for testing.
      *
      * @return string
-     * @access public
      */
     public function get_debuginfo() {
         return $this->at->get_debuginfo();
@@ -371,7 +357,6 @@ class stack_ans_test_controller {
      * Returns an intelligible trace of an executed answer test.
      *
      * @return string
-     * @access public
      */
     public function get_trace($includeresult = true) {
         return $this->at->get_trace($includeresult);

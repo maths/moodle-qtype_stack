@@ -183,7 +183,6 @@ class stack_checkbox_input extends stack_dropdown_input {
      *
      * @param string $in
      * @return string
-     * @access public
      */
     public function response_to_contents($response) {
         // Did the student chose the "Not answered" response?

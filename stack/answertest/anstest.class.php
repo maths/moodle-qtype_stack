@@ -176,7 +176,6 @@ class stack_anstest {
      * Returns some sensible debug information for testing questions.
      *
      * @return string
-     * @access public
      */
     public function get_debuginfo() {
         return $this->debuginfo;
@@ -186,7 +185,6 @@ class stack_anstest {
      * Returns some sensible debug information for testing questions.
      *
      * @return string
-     * @access public
      */
     protected function get_casfunction() {
         return $this->casfunction;
@@ -197,7 +195,6 @@ class stack_anstest {
      * This should strip out any internal functions like _C(..).
      *
      * @return string
-     * @access public
      */
     public function get_trace($includeresult) {
 

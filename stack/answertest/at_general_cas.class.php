@@ -52,7 +52,6 @@ class stack_answertest_general_cas extends stack_anstest {
      *
      *
      * @return bool
-     * @access public
      */
     public function do_test() {
 
@@ -252,7 +251,6 @@ class stack_answertest_general_cas extends stack_anstest {
      * Validates the options, when needed.
      *
      * @return (bool, string)
-     * @access public
      */
     public function validate_atoptions($opt) {
         if (stack_ans_test_controller::process_atoptions($this->atname)) {

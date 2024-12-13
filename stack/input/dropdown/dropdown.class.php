@@ -14,10 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once(__DIR__ . '/../../cas/castext2/utils.php');
-
 /**
  * Input that is a dropdown list/multiple choice that the teacher
  * has specified.
@@ -28,45 +24,56 @@ require_once(__DIR__ . '/../../cas/castext2/utils.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__ . '/../../cas/castext2/utils.php');
+
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_dropdown_input extends stack_input {
 
     /**
      * ddlvalues is an array of the types used.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddlvalues = [];
 
     /**
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'select';
 
     /**
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
      * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddldisplay = 'casstring';
 
     /**
      * Controls whether a "not answered" option is presented to the students.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $nonotanswered = true;
 
     /**
      * Controls the "not answered" message presented to the students.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $notanswered = '';
 
     /**
      * This holds the value of those
      * entries which the teacher has indicated are correct.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $teacheranswervalue = '';
 
     /**
      * This holds a displayed form of $this->teacheranswer. We need to generate this from those
      * entries which the teacher has indicated are correct.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $teacheranswerdisplay = '';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

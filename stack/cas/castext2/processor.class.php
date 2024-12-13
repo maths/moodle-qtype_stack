@@ -86,6 +86,7 @@ class castext2_default_processor implements castext2_processor {
 class castext2_qa_processor extends castext2_default_processor {
     // Special one giving access to a question-attempt so that the blocks
     // can call things like `rewrite_pluginfile_urls`.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $qa;
     public function __construct($qa) {
         if (!method_exists($qa, 'rewrite_pluginfile_urls')) {

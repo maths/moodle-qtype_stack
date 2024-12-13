@@ -32,10 +32,11 @@ require_once(__DIR__ . '/../doc/docslib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class docslib_test extends qtype_stack_testcase {
+final class docslib_test extends qtype_stack_testcase {
 
     public function test_stack_docs_title_from_filename(): void {
 

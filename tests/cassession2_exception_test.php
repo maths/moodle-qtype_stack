@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use TypeError;
@@ -31,10 +38,11 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 // Unit tests for {@link stack_cas_session} that involve exceptions.
 
 /**
+ * Add description
  * @group qtype_stack
  * @covers \stack_cas_session2
  */
-class cassession2_exception_test extends qtype_stack_testcase {
+final class cassession2_exception_test extends qtype_stack_testcase {
 
     public function test_exception_1(): void {
 

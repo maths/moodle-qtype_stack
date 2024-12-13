@@ -16,10 +16,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
- @copyright  2018 Aalto University.
- @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-*/
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2018 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
@@ -100,7 +102,7 @@ class maxima_parser_utils {
     // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
     // use when you need to have pretty printed position data.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
+    public static function position_remap(MP_Node $ast, string $code, ?array $limits = null) {
         if ($limits === null) {
             $limits = [];
             foreach (explode("\n", $code) as $line) {
@@ -2344,7 +2346,8 @@ class maxima_parser_utils {
     }
 
     /**
-     * Common merge actions for type struct fixing. */
+     * Common merge actions for type struct fixing.
+    */
     private static function mergeclasses(array $data, array $funcs, stack_cas_security $sec, bool $merge = false): array {
         $output = $data;
 
@@ -2501,7 +2504,8 @@ class maxima_parser_utils {
     }
 
     /**
-     * Turn a subtree to `stack_complex_expression`. */
+     * Turn a subtree to `stack_complex_expression`.
+     */
     private static function to_sce(MP_Node $ast, stack_cas_security $sec): MP_Node {
         $terms = [];
         $seek2 = function($n) use (&$terms, &$sec) {

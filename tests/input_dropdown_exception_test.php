@@ -40,13 +40,13 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  */
 final class input_dropdown_exception_test extends qtype_stack_testcase {
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function make_dropdown($parameters = []) {
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function make_ta() {
 
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';

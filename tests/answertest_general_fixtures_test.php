@@ -37,6 +37,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \stack_answertest_general_cas
  * @covers \stack_anstest

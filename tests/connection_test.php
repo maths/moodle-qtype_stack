@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_testcase;
@@ -27,10 +34,11 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \stack_connection_helper
  */
-class connection_test extends qtype_stack_testcase {
+final class connection_test extends qtype_stack_testcase {
 
     public function test_compute_true(): void {
 

@@ -41,7 +41,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  */
 final class input_checkbox_test extends qtype_stack_testcase {
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function expected_choices() {
 
         return [
@@ -52,7 +52,7 @@ final class input_checkbox_test extends qtype_stack_testcase {
         ];
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function expected_choices_latex() {
 
         return [
@@ -63,13 +63,13 @@ final class input_checkbox_test extends qtype_stack_testcase {
         ];
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function make_checkbox($parameters = []) {
         $el = stack_input_factory::make('checkbox', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function make_ta() {
 
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';

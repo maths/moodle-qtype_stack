@@ -34,6 +34,7 @@ class stack_cas_casstring_units {
      * Entries in this array are supported prefix mulipliers.
      * They are in the form of array(label, multiplier, TeX, fullname).
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $supportedprefix = [
         ['y', '10^-24', 'y', 'yocto'],
         ['z', '10^-21', 'z', 'zepto'],
@@ -66,6 +67,7 @@ class stack_cas_casstring_units {
      *
      * Entries below are in the form of array(label, base, TeX, fullname).
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $supportedunits = [
         ['m', 'm', 'm', 'meter'],
         ['l', 'm^3/1000', 'l', 'litre'],
@@ -122,6 +124,7 @@ class stack_cas_casstring_units {
      * Entries below are in the form of array(label, base, TeX, fullname).
      * Remember to add any with three or more letters to security-map.json.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $nonprefixunits = [
         ['min', 's*60', 'min', 'minutes'],
         ['amu', 'amu', 'amu', 'Atomic mass units'],
@@ -159,6 +162,7 @@ class stack_cas_casstring_units {
      * This array keeps a list of synoymns which students are likely to use.
      * These arrays are used for generating helpful feedback.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $unitsynonyms = [
         'mol' => ['mols', 'moles', 'mole'],
         'kat' => ['kats', 'katal', 'katals'],

@@ -37,6 +37,7 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \stack_ast_container
  */

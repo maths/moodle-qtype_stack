@@ -746,7 +746,6 @@ final class input_numerical_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_10x(): void {
 
-
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '23.2*10^2');
         $el->set_parameter('insertStars', 1);

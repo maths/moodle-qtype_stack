@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use CTP_Block;
@@ -38,9 +45,10 @@ require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class castext2_internals_test extends qtype_stack_testcase {
+final class castext2_internals_test extends qtype_stack_testcase {
 
     /**
+     * Add description here.
      * @covers \qtype_stack\CTP_Parser
      * @covers \qtype_stack\CTP_Parser::parse
      */
@@ -83,6 +91,7 @@ class castext2_internals_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\CTP_Parser
      * @covers \qtype_stack\CTP_Parser::parse
      * @covers \qtype_stack\CTP_IOBlock
@@ -105,6 +114,7 @@ class castext2_internals_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
     public function test_math_paint_1(): void {
@@ -127,6 +137,7 @@ class castext2_internals_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
     public function test_math_paint_2(): void {

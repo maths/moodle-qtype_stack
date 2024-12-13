@@ -36,6 +36,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \maxima_corrective_parser
  */

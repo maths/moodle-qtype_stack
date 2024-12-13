@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use castext2_evaluatable;
@@ -40,7 +47,6 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../lang/multilang.php');
 
-
 // Unit tests for {@link stack_cas_text}.
 // Castext2 has no such class the repalcement is castext2_evaluatable
 // which instead of being given a cassession is expected to be placed
@@ -48,10 +54,11 @@ require_once(__DIR__ . '/../lang/multilang.php');
 // the same session.
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class castext_test extends qtype_stack_testcase {
+final class castext_test extends qtype_stack_testcase {
 
     public function basic_castext_instantiation($strin, $sa, $val, $disp) {
 
@@ -82,10 +89,10 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      */
     public function test_basic_castext_instantiation(): void {
-
 
         $a1 = ['a:x^2', 'b:(x+1)^2'];
         $a2 = ['a:x^2)', 'b:(x+1)^2'];
@@ -130,6 +137,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      */
     public function test_validation_error_castext_text(): void {
@@ -158,6 +166,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      */
     public function test_runtime_error_castext_text(): void {
@@ -185,6 +194,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      * @covers \qtype_stack\stack_cas_keyval::get_valid
      */
@@ -215,6 +225,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2
      */
     public function test_runtime_error_castext_session(): void {
@@ -242,6 +253,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_if
      */
     public function test_if_block(): void {
@@ -277,6 +289,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_if
      */
     public function test_if_block_error(): void {
@@ -310,6 +323,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_if
      */
     public function test_broken_block_error(): void {
@@ -328,6 +342,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\CTP_Parser
      */
     public function test_broken_block_error2(): void {
@@ -348,6 +363,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_define
      */
     public function test_define_block(): void {
@@ -365,6 +381,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_foreach
      */
     public function test_foreach_block(): void {
@@ -388,6 +405,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_comment
      */
     public function test_comment_block_define(): void {
@@ -427,6 +445,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable
      */
     public function test_not_confused_by_pluginfile_real_example(): void {
@@ -441,6 +460,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_raw_casstrings(): void {
@@ -454,6 +474,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_raw_casstrings_if(): void {
@@ -469,6 +490,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_raw_casstrings_foreach(): void {
@@ -491,6 +513,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_raw_casstrings_empty(): void {
@@ -504,10 +527,10 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_raw_casstrings_session(): void {
-
 
         $sa = ['p:diff(sans,x)', 'q = int(tans,x)'];
         foreach ($sa as $s) {
@@ -527,6 +550,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_todo_tags_null(): void {
@@ -539,6 +563,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_todo_tags_none(): void {
@@ -551,6 +576,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_todo_tags_empty(): void {
@@ -563,6 +589,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_todo_tags_order(): void {
@@ -575,6 +602,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
      */
     public function test_get_all_todo_tags_multiple(): void {
@@ -588,6 +616,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_redefine_variables(): void {
@@ -603,6 +632,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_maths::process_display_castext
      */
     public function test_fact_sheets(): void {
@@ -618,6 +648,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_assignmatrixelements(): void {
@@ -638,6 +669,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -661,6 +693,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -684,6 +717,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_plot(): void {
@@ -710,10 +744,10 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_plot_alttext(): void {
-
 
         $a2 = ['p:sin(x)'];
         $s2 = [];
@@ -733,6 +767,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_plot_alttext_html(): void {
@@ -749,10 +784,10 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_plot_alttext_error(): void {
-
 
         $a2 = ['p:sin(x)'];
         $s2 = [];
@@ -773,10 +808,10 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_plot_small_margin(): void {
-
 
         $a2 = ['p:sin(x)'];
         $s2 = [];
@@ -795,10 +830,10 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_plot_nottags(): void {
-
 
         $a2 = ['p:sin(x)'];
         $s2 = [];
@@ -817,10 +852,10 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_plot_option_error(): void {
-
 
         $cs2 = new stack_cas_session2([], null, 0);
 
@@ -835,20 +870,20 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      */
     public function test_currency_1(): void {
-
 
         $at1 = castext2_evaluatable::make_from_source('This is system cost \$100,000 to create.', 'test-case');
         $this->assertTrue($at1->get_valid());
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      */
     public function test_forbidden_words(): void {
-
 
         $at1 = castext2_evaluatable::make_from_source('This is system cost {@system("rm /tmp/test")@} to create.',
             'test-case');
@@ -857,6 +892,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
     public function test_mathdelimiters1(): void {
@@ -877,6 +913,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
     public function test_mathdelimiters2(): void {
@@ -900,6 +937,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_decimalplaces(): void {
@@ -923,6 +961,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_decimalplaces2(): void {
@@ -945,6 +984,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_decimalplaces_error(): void {
@@ -967,6 +1007,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_mult_blank(): void {
@@ -988,6 +1029,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_mult_dot(): void {
@@ -1009,6 +1051,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_mult_cross(): void {
@@ -1030,6 +1073,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_mult_switch(): void {
@@ -1053,6 +1097,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_equiv_natural_domain(): void {
@@ -1085,6 +1130,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_ode1(): void {
@@ -1107,6 +1153,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_ode2(): void {
@@ -1127,6 +1174,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_int(): void {
@@ -1147,6 +1195,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_strings_in_castext(): void {
@@ -1167,6 +1216,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_strings_in_castext_escaped(): void {
@@ -1186,6 +1236,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_strings_in_castext_translated(): void {
@@ -1212,6 +1263,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_strings_only(): void {
@@ -1229,6 +1281,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_strings_only_latex(): void {
@@ -1247,6 +1300,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_strings_embeded(): void {
@@ -1264,6 +1318,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_float_default(): void {
@@ -1285,6 +1340,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_float_decimal(): void {
@@ -1309,6 +1365,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_float_scientific(): void {
@@ -1334,6 +1391,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_float_scientific_small(): void {
@@ -1364,6 +1422,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_1(): void {
@@ -1384,6 +1443,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_binary(): void {
@@ -1409,6 +1469,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_ampersand_roman(): void {
@@ -1430,6 +1491,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_roman(): void {
@@ -1455,6 +1517,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_numerical_display_commas(): void {
@@ -1483,6 +1546,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_inline_fractions(): void {
@@ -1499,6 +1563,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_inline_fractions_all(): void {
@@ -1522,6 +1587,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_disp_greek(): void {
@@ -1546,6 +1612,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_subscripts(): void {
@@ -1571,6 +1638,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_maxima_arrays(): void {
@@ -1597,6 +1665,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1620,6 +1689,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1649,6 +1719,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1675,6 +1746,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1717,6 +1789,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1736,6 +1809,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_jsxgraph
      */
     public function test_stack_jsxgraph_statestore(): void {
@@ -1752,6 +1826,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_geogebra
      */
     public function test_stack_geogebra_statestore(): void {
@@ -1765,6 +1840,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1793,6 +1869,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1823,6 +1900,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1855,6 +1933,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1885,6 +1964,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
@@ -1915,6 +1995,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -1947,6 +2028,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -1967,6 +2049,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -1990,6 +2073,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2042,6 +2126,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2110,6 +2195,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2129,6 +2215,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2156,6 +2243,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2177,6 +2265,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2196,6 +2285,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2217,6 +2307,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2289,6 +2380,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2314,6 +2406,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2336,6 +2429,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2360,6 +2454,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2402,6 +2497,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2437,6 +2533,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2466,6 +2563,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2492,6 +2590,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2514,6 +2613,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2534,6 +2634,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2557,6 +2658,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2582,6 +2684,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2618,6 +2721,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2655,6 +2759,7 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -2692,7 +2797,7 @@ class castext_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', true);
         $cs2 = new stack_cas_session2($s2, $options, 7);
-        
+
         $txtinput = '{@p1@}, {@block([sqrtdispflag],sqrtdispflag:false,p1)@}, {@p1@}';
         // None of the expressions use ^(1/2) because the sqrtdispflag:false is a local variable.
         $expected = '\({\sqrt{x}+1}\), \({\sqrt{x}+1}\), \({\sqrt{x}+1}\)';

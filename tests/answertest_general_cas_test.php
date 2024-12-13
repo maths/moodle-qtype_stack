@@ -40,6 +40,7 @@ require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 require_once(__DIR__ . '/../stack/answertest/at_general_cas.class.php');
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \stack_answertest_general_cas
  * @covers \stack_anstest

@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_testcase;
@@ -32,6 +39,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 // Unit tests for {@link stack_cas_keyval}.
 
 /**
+ * Add description.
  * @group qtype_stack
  * @covers \stack_cas_keyval
  */
@@ -50,7 +58,6 @@ class caskeyval_test extends qtype_stack_testcase {
     }
 
     public function test_get_valid(): void {
-
 
         $cs0 = new stack_cas_session2([], null, 123);
         $cs0->instantiate();
@@ -260,7 +267,6 @@ class caskeyval_test extends qtype_stack_testcase {
     }
 
     public function test_needs_mbstring(): void {
-
 
         $tests = "x : rand([1,2,3])\ny : rand([2,3,4])\nA : matrix([x,2,1],[3,4,2],[1,y,5])\n" .
                  "R : get_lu_factors(lu_factor(A))\nL : R[2]\nU : R[3]\n\n/* Help for worked solutions */\n" .

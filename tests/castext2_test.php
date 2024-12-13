@@ -97,6 +97,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_latex_injection_2(): void {
@@ -110,6 +111,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_latex_injection_3(): void {
@@ -122,6 +124,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_latex_injection_4(): void {
@@ -132,6 +135,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_latex_injection_5(): void {
@@ -152,6 +156,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_castext2_markdownformat
      * @covers \qtype_stack\castext2_parser_utils::math_paint
@@ -188,6 +193,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_raw
      */
     public function test_value_injection_2(): void {
@@ -201,6 +207,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_raw
      */
     public function test_value_injection_3(): void {
@@ -215,6 +222,7 @@ class castext2_test extends qtype_stack_testcase {
     // STACK-options level requirements 1/3:
     // Tuning LaTeX-injection multiplication sign.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -228,6 +236,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -241,6 +250,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -256,6 +266,7 @@ class castext2_test extends qtype_stack_testcase {
     // STACK-option level requirements 2/3:
     // Tuning LaTeX-injection inverse trigonometric functions.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -269,6 +280,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -282,6 +294,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -297,6 +310,7 @@ class castext2_test extends qtype_stack_testcase {
     // STACK-option level requirements 3/3:
     // Tuning LaTeX-injection matrix parenthesis.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -310,6 +324,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -323,6 +338,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -336,6 +352,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -349,6 +366,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -362,6 +380,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_options
      */
@@ -411,6 +430,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_if
      */
     public function test_blocks_if_2(): void {
@@ -423,6 +443,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_if
      */
     public function test_blocks_if_3(): void {
@@ -436,6 +457,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_if
      */
     public function test_blocks_if_4(): void {
@@ -470,6 +492,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_foreach
      */
     public function test_blocks_foreach_2(): void {
@@ -482,6 +505,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_foreach
      */
     public function test_blocks_foreach_3(): void {
@@ -494,6 +518,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_foreach
      */
     public function test_blocks_foreach_4(): void {
@@ -534,6 +559,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_hint
      */
     public function test_blocks_hint(): void {
@@ -545,6 +571,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_hint
      */
     public function test_blocks_hint_hint(): void {
@@ -600,6 +627,7 @@ class castext2_test extends qtype_stack_testcase {
     // Low level tuning, features that are not strictly CASText:
     // Use of texput().
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_keyval
      */
@@ -612,6 +640,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
@@ -628,6 +657,7 @@ class castext2_test extends qtype_stack_testcase {
 
     // Check stackfltfmt for presentation of floating point numbers.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_stackfltfmt(): void {
@@ -643,6 +673,7 @@ class castext2_test extends qtype_stack_testcase {
 
     // Check stackintfmt for presentation of integers.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_stackintfmt(): void {
@@ -658,6 +689,7 @@ class castext2_test extends qtype_stack_testcase {
 
     // Inline fractions using stack_disp_fractions("i").
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_stack_disp_fractions(): void {
@@ -669,6 +701,7 @@ class castext2_test extends qtype_stack_testcase {
 
     // JavaScript string generation.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_jsstring
      */
     public function test_jsstring(): void {
@@ -685,6 +718,7 @@ class castext2_test extends qtype_stack_testcase {
 
     // Inline castext.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_keyval
      * @covers \qtype_stack\stack_cas_castext2_castext
      */
@@ -710,6 +744,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_keyval
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
@@ -736,6 +771,7 @@ class castext2_test extends qtype_stack_testcase {
 
     // Inline castext inline castext, not something you see in many places.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_special_root
      */
     public function test_inline_castext_inline(): void {
@@ -746,6 +782,7 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_keyval
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
@@ -776,6 +813,7 @@ class castext2_test extends qtype_stack_testcase {
 
     // Test common string population.
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_commonstring
      */
     public function test_commonsstring(): void {

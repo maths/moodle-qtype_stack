@@ -50,6 +50,7 @@ require_once(__DIR__ . '/../stack/cas/evaluatable_object.interfaces.php');
 
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @group qtype_stateful
  * @group qtype_stack_compatibility

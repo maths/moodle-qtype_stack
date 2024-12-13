@@ -27,6 +27,7 @@ class castext2_block_factory {
      * Cache the block types so that we do not need to check from the
      * filesystem every time.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $types = [];
 
     /**

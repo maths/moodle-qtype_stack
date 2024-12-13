@@ -37,7 +37,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @group qtype_stack
  * @covers \stack_equiv_input
  */
-class input_equiv_test extends qtype_stack_testcase {
+final class input_equiv_test extends qtype_stack_testcase {
 
     public function test_internal_validate_parameter(): void {
 

@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * This class supports the healthcheck functions.
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
@@ -24,14 +31,6 @@ require_once(__DIR__ . '/cassession2.class.php');
 require_once(__DIR__ . '/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/connector.dbcache.class.php');
 require_once(__DIR__ . '/installhelper.class.php');
-
-/**
- * This class supports the healthcheck functions..
- *
- * @package    qtype_stack
- * @copyright  2023 The University of Edinburgh
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 require_once(__DIR__ . '/ast.container.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession2.class.php');

@@ -40,7 +40,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_dropdown_input
  */
 final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function expected_choices() {
 
         return [
@@ -51,7 +51,7 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         ];
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function expected_choices_latex() {
 
         return [
@@ -62,13 +62,13 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         ];
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function make_dropdown($parameters = []) {
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function make_ta() {
 
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';
@@ -139,7 +139,8 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreEnd
-        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" '
+                . 'class="select menustack1__ans1" name="stack1__ans1">'
                 . '<option value="">(Clear my choice)</option><option value="1"><code>1</code></option>'
                 . '<option selected="selected" value="2"><code>1</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -364,7 +365,8 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, []);
         $el->adapt_to_model_answer($ta);
 
-        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" ' .
+            'class="select menustack1__ans1" name="stack1__ans1">' .
             '<option selected="selected" value="">(Clear my choice)</option>' .
             '<option value="1"><code>union(oo(-inf,0),oo(0,inf))</code></option>' .
             '<option value="2"><code>union({1},{2})</code></option>'.

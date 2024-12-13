@@ -46,12 +46,14 @@ use stack_cas_castext2_iframe;
 // Unit tests for {@link stack_cas_castext2_parsons}.
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
 class parsons_block_test extends qtype_stack_testcase {
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_basic_parsons_block(): void {
@@ -74,6 +76,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_height_unit(): void {
@@ -111,6 +114,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_width_unit(): void {
@@ -148,6 +152,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_height_num(): void {
@@ -183,6 +188,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_width_num(): void {
@@ -218,6 +224,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_overdefined_dimensions_1(): void {
@@ -236,6 +243,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_underdefined_dimensions(): void {
@@ -254,6 +262,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_version(): void {
@@ -291,6 +300,7 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_params(): void {

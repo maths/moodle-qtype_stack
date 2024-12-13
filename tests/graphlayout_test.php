@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qtype_stack;
-
-use stack_abstract_graph;
-use basic_testcase;
-
-defined('MOODLE_INTERNAL') || die();
-
-require_once(__DIR__ . '/../stack/graphlayout/graph.php');
-
 /**
  * Unit tests for stack_abstract_graph and friends.
  *
@@ -32,6 +23,15 @@ require_once(__DIR__ . '/../stack/graphlayout/graph.php');
  * @group qtype_stack
  * @covers \stack_abstract_graph
  */
+
+namespace qtype_stack;
+
+use stack_abstract_graph;
+use basic_testcase;
+
+defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__ . '/../stack/graphlayout/graph.php');
 
 final class graphlayout_test extends basic_testcase {
 

@@ -32,17 +32,23 @@ abstract class stack_cas_castext2_block {
 
     // In entry phase these are the params of the CTP_Node matching this block.
     // But in postprocess phase this will be NULL.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $params;
     // These are the blocks matching the children of the CTP block. NULL again in
     // postprocess phase.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $children;
     // We have no clue what this would be in postprocess phase.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $mathmode = false;
     // Position data from the parser.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $position = null;
     // Painter detected format. TO-DO: remove compile-function argument for this.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $paintformat = null;
     // Store any errors.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $err = [];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

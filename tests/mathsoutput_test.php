@@ -31,13 +31,10 @@ require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
  * @package    qtype_stack
  * @copyright 2017 Aalto University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_maths
  */
-class mathsoutput_test extends advanced_testcase {
+final class mathsoutput_test extends advanced_testcase {
 
     public function test_replace_dollars_and_abacus(): void {
 

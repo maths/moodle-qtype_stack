@@ -30,13 +30,10 @@ require_once(__DIR__ . '/../lang/multilang.php');
  * @package    qtype_stack
  * @copyright  2018 The University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_multilang
  */
-class multilang_test extends qtype_stack_testcase {
+final class multilang_test extends qtype_stack_testcase {
 
     public function test_get_languages(): void {
 

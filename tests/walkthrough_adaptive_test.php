@@ -41,16 +41,12 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @package    qtype_stack
  * @copyright 2012 The Open University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
+final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_then_submit_right_first_time(): void {
-
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
@@ -172,7 +168,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_then_submit_wrong_answer(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -212,7 +207,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test0_validate_then_submit_question(): void {
-
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
@@ -274,7 +268,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_then_submit_check_pm(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -310,7 +303,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test0_validate_reset_vars(): void {
-
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
@@ -355,7 +347,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_subscripts_questionvars(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -399,7 +390,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test1_validate_then_submit_right_first_time(): void {
-
 
         // Create the stack question 'test1'.
         $q = \test_question_maker::make_question('stack', 'test1');
@@ -478,7 +468,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test1_validate_wrong_validate_right_submit_right(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'test1');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -545,7 +534,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test1_invalid_valid_but_wrong_with_specific_feedback(): void {
-
 
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test1');
@@ -623,7 +611,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test1_invalid_student_uses_question_variables(): void {
 
-
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test1');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -681,7 +668,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_invalid_student_uses_single_letter_question_variables(): void {
 
-
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test0');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -723,7 +709,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test0_invalid_student_uses_single_letter_question_variables_permitted(): void {
-
 
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test0');
@@ -771,7 +756,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test1_invalid_student_uses_forbidden_words(): void {
-
 
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test1');
@@ -2042,7 +2026,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_numsigfigs_validate_then_submit_right_first_time(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'numsigfigs');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -2093,7 +2076,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_numsigfigs_trailing_zero(): void {
-
 
         $q = \test_question_maker::make_question('stack', 'numsigfigszeros');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -2177,7 +2159,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_numdpsfeedbackvars_basic(): void {
-
 
         $q = \test_question_maker::make_question('stack', 'numdpsfeedbackvars');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -2339,7 +2320,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_save_does_validate_but_does_not_submit(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -2384,7 +2364,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test_boolean_validate_then_submit_right_first_time(): void {
-
 
         // Create the stack question 'test_boolean'.
         $q = \test_question_maker::make_question('stack', 'test_boolean');
@@ -2548,7 +2527,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_adaptive_nopenalties_wrong_then_right_then_regrade(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
         $this->start_attempt_at_question($q, 'adaptivenopenalty', 1);
@@ -2615,7 +2593,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_single_char_vars(): void {
-
 
         // Create the stack question 'test-single-char_vars'.
         $q = \test_question_maker::make_question('stack', 'single_char_vars');
@@ -2685,7 +2662,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_guard_clause_prt_ok(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'runtime_prt_err');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -2754,7 +2730,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_guard_clause_prt_err(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'runtime_prt_err');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -2801,7 +2776,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_runtime_err_feedback_variables(): void {
-
 
         $q = \test_question_maker::make_question('stack', 'runtime_prt_err');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -2852,7 +2826,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_runtime_error_session(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'runtime_ses_err');
         $this->start_attempt_at_question($q, 'adaptive', 1);
         $this->render();
@@ -2866,7 +2839,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_runtime_error_cas(): void {
-
 
         $q = \test_question_maker::make_question('stack', 'runtime_cas_err');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -2998,7 +2970,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test0_validate_then_submit_wrong_answer_explicit_penalty(): void {
-
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
@@ -3368,7 +3339,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_unitsoptions(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'unitsoptions');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -3445,7 +3415,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_unitsmulti(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'unitsmulti');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -3494,7 +3463,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_equiv_quad_1(): void {
-
 
         // Create the stack question 'equiv_quad'.
         $q = \test_question_maker::make_question('stack', 'equiv_quad');
@@ -3601,7 +3569,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_equiv_quad_first_line(): void {
 
-
         // Create the stack question 'equiv_quad'.
         $q = \test_question_maker::make_question('stack', 'equiv_quad');
 
@@ -3678,7 +3645,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_equiv_quad_hideequiv(): void {
 
-
         // Create the stack question 'equiv_quad'.
         $q = \test_question_maker::make_question('stack', 'equiv_quad');
 
@@ -3721,7 +3687,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_checkbox_empty(): void {
-
 
         $q = \test_question_maker::make_question('stack', 'checkbox_all_empty');
 
@@ -3810,7 +3775,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_do_not_show_penalties(): void {
 
-
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -3879,7 +3843,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test_stringsloppy(): void {
-
 
         // Create the stack question 'stringsloppy'.
         $q = \test_question_maker::make_question('stack', 'stringsloppy');
@@ -3972,7 +3935,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test_sregexp(): void {
 
-
         // Create the stack question 'stringsloppy'.
         $q = \test_question_maker::make_question('stack', 'sregexp');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -4039,7 +4001,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test_feedbackstyle(): void {
-
 
         // Create the stack question 'feedbackstyle'.
         $q = \test_question_maker::make_question('stack', 'feedbackstyle');
@@ -4147,7 +4108,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test_contextvars(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'contextvars');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -4249,7 +4209,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test_contextvars_feedbackvars(): void {
 
-
         // Create a situation which requires contextvars defined only in the feedbackvars.
         $q = \test_question_maker::make_question('stack', 'contextvars');
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -4294,7 +4253,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_multilang(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'multilang');
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -4325,7 +4283,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_lang_blocks_en(): void {
-
 
         // TO-DO: how do we explicitly set the user's preferences, i.e. language?
         $q = \test_question_maker::make_question('stack', 'lang_blocks');
@@ -4377,7 +4334,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_block_locals(): void {
 
-
         $q = \test_question_maker::make_question('stack', 'block_locals');
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -4428,7 +4384,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_debug(): void {
 
-
         // Create the stack question 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
         $q->questiontext = $q->questiontext . ' [[ debug /]]';
@@ -4452,7 +4407,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_test3_debug(): void {
-
 
         $q = test_question_maker::make_question('stack', 'test3');
         $q->questiontext = $q->questiontext . ' [[ debug /]]';
@@ -4732,7 +4686,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_input_feedback(): void {
-
 
         $q = test_question_maker::make_question('stack', 'feedback');
         $this->start_attempt_at_question($q, 'adaptive', 1);

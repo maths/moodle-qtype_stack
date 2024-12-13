@@ -28,13 +28,10 @@ require_once(__DIR__ . '/../edit_stack_form.php');
  * @package    qtype_stack
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \qtype_stack_edit_form
  */
-class editform_test_class extends \qtype_stack_edit_form {
+final class editform_test_class extends \qtype_stack_edit_form {
 
     public function __construct($questiontext, $specificfeedback) {
         global $USER;

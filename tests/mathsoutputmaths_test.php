@@ -33,13 +33,10 @@ require_once(__DIR__ . '/../doc/docslib.php');
  * @package    qtype_stack
  * @copyright 2012 The Open University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_maths_output_maths
  */
-class mathsoutputmaths_test extends advanced_testcase {
+final class mathsoutputmaths_test extends advanced_testcase {
 
     public function test_maths_rendering(): void {
 

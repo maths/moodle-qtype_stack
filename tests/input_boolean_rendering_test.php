@@ -35,13 +35,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @package    qtype_stack
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_boolean_input
  */
-class input_boolean_rendering_test extends question_testcase {
+final class input_boolean_rendering_test extends question_testcase {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function expected_choices(): void {

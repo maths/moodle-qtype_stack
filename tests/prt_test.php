@@ -41,16 +41,13 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @package    qtype_stack
  * @copyright 2022 The University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_potentialresponse_tree_lite
  */
 
-class prt_test extends qtype_stack_testcase {
+ final class prt_test extends qtype_stack_testcase {
 
-    private function create_default_node(): void {
+    private function create_default_node() {
 
         $node = new stdClass();
         $node->id                  = '';

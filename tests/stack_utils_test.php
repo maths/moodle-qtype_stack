@@ -33,13 +33,10 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
  * @package    qtype_stack
  * @copyright 2012 The Open Unviersity.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_utils
  */
-class stack_utils_test extends qtype_stack_testcase {
+final class stack_utils_test extends qtype_stack_testcase {
 
     public function test_check_bookends(): void {
 

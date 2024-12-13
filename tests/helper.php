@@ -24,12 +24,10 @@ require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
  * @package   qtype_stack.
  * @copyright 2012 The Open University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  */
-class qtype_stack_test_helper extends question_test_helper {
+
+final class qtype_stack_test_helper extends question_test_helper {
     const DEFAULT_CORRECT_FEEDBACK          = '<p>Correct answer, well done.</p>';
     const DEFAULT_PARTIALLYCORRECT_FEEDBACK = '<p>Your answer is partially correct.</p>';
     const DEFAULT_INCORRECT_FEEDBACK        = '<p>Incorrect answer.</p>';

@@ -37,13 +37,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @package    qtype_stack
  * @copyright 2012 The Open University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_base {
+final class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_partially_right_then_right(): void {
 

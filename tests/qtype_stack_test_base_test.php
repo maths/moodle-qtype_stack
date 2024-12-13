@@ -28,13 +28,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @package    qtype_stack
  * @copyright 2016 The Open Unviersity.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \qtype_stack_testcase
  */
-class qtype_stack_test_base_test extends qtype_stack_testcase {
+final class qtype_stack_test_base_test extends qtype_stack_testcase {
 
     public function test_prepare_actual_maths_filtering(): void {
 

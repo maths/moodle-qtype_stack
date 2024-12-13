@@ -32,13 +32,10 @@ require_once(__DIR__ . '/../stack/options.class.php');
  * @package    qtype_stack
  * @copyright 2012 The University of Birmingham.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_options
  */
-class stack_options_test extends qtype_stack_testcase {
+final class stack_options_test extends qtype_stack_testcase {
 
     public function test_set_exception_1(): void {
 

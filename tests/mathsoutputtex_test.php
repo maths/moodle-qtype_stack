@@ -32,13 +32,10 @@ require_once(__DIR__ . '/../doc/docslib.php');
  * @package    qtype_stack
  * @copyright 2012 The Open University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_maths_output_tex
  */
-class mathsoutputtex_test extends qtype_stack_testcase {
+final class mathsoutputtex_test extends qtype_stack_testcase {
 
     public function test_tex_rendering(): void {
 

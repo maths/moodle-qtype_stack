@@ -92,7 +92,7 @@ class api_controller_test extends qtype_stack_testcase {
             ->getMock();
         // Need to use callback so data can be altered in each test.
         $this->request->method("getParsedBody")->will($this->returnCallback(
-            function(): void {
+            function() {
 
                 return $this->requestdata;
             })
@@ -121,7 +121,7 @@ class api_controller_test extends qtype_stack_testcase {
             ->getMock();
 
         $this->result->expects($this->any())->method('write')->will($this->returnCallback(
-            function(): void {
+            function() {
 
                 $this->output = json_decode(func_get_args()[0]);
                 return 1;

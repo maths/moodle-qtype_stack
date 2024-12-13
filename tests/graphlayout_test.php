@@ -29,13 +29,11 @@ require_once(__DIR__ . '/../stack/graphlayout/graph.php');
  * @package    qtype_stack
  * @copyright 2013 The Open Unviersity.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_abstract_graph
  */
-class graphlayout_test extends basic_testcase {
+
+final class graphlayout_test extends basic_testcase {
 
     /**
      * This graph has 4 nodes and should look like:

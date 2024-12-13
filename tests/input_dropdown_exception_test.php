@@ -35,13 +35,10 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @package    qtype_stack
  * @copyright  2015 The University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_dropdown_input
  */
-class input_dropdown_exception_test extends qtype_stack_testcase {
+final class input_dropdown_exception_test extends qtype_stack_testcase {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_dropdown($parameters = []) {
@@ -50,7 +47,7 @@ class input_dropdown_exception_test extends qtype_stack_testcase {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    protected function make_ta(): void {
+    protected function make_ta() {
 
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';
     }

@@ -34,13 +34,10 @@ require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
  * @package    qtype_stack
  * @copyright 2016 The University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_input
  */
-class studentinput_test extends qtype_stack_testcase {
+final class studentinput_test extends qtype_stack_testcase {
 
     /**
      * @codingStandardsIgnoreStart

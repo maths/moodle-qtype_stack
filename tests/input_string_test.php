@@ -38,13 +38,10 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @package    qtype_stack
  * @copyright  2018 The University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_string_input
  */
-class input_string_test extends qtype_stack_testcase {
+final class input_string_test extends qtype_stack_testcase {
 
     public function test_render_blank(): void {
 

@@ -36,16 +36,13 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @package    qtype_stack
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_checkbox_input
  */
-class input_checkbox_test extends qtype_stack_testcase {
+final class input_checkbox_test extends qtype_stack_testcase {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    protected function expected_choices(): void {
+    protected function expected_choices() {
 
         return [
             '' => stack_string('notanswered'),
@@ -56,7 +53,7 @@ class input_checkbox_test extends qtype_stack_testcase {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    protected function expected_choices_latex(): void {
+    protected function expected_choices_latex() {
 
         return [
             '' => stack_string('notanswered'),
@@ -73,7 +70,7 @@ class input_checkbox_test extends qtype_stack_testcase {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    protected function make_ta(): void {
+    protected function make_ta() {
 
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';
     }

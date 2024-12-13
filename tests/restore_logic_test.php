@@ -33,7 +33,7 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $log = '';
 
-    public function __construct(): void {
+    public function __construct() {
 
         // Passing $this as $step, since we only need some log method, which we implemente below.
         parent::__construct('qtype', 'stack', $this);
@@ -53,7 +53,7 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
      * @param $message the message.
      * @param $level the level.
      */
-    public function get_task(): void {
+    public function get_task() {
 
         return  null;
     }
@@ -62,7 +62,7 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
      * Get everything that was logged.
      * @return string the log messages, separated by newline.
      */
-    public function get_log(): void {
+    public function get_log() {
 
         return $this->log;
     }

@@ -36,13 +36,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @package    qtype_stack
  * @copyright 2008 The Open University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \qtype_stack_question
  */
-class question_test extends qtype_stack_testcase {
+final class question_test extends qtype_stack_testcase {
     /**
      * @return qtype_stack_question the requested question object.
      */

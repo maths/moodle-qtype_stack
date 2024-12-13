@@ -43,13 +43,10 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  * @package    qtype_stack
  * @copyright 2016 The University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_ast_container
  */
-class subscript_test extends qtype_stack_testcase {
+final class subscript_test extends qtype_stack_testcase {
 
     /**
      * @codingStandardsIgnoreStart

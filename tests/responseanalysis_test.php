@@ -44,13 +44,10 @@ define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: 11 [score]; ans2: vv [valid
  * @package    qtype_stack
  * @copyright 2023 The University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \stack_question_report
  */
-class responseanalysis_test extends qtype_stack_testcase {
+final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $report;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

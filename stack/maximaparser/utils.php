@@ -2347,7 +2347,7 @@ class maxima_parser_utils {
 
     /**
      * Common merge actions for type struct fixing.
-    */
+     */
     private static function mergeclasses(array $data, array $funcs, stack_cas_security $sec, bool $merge = false): array {
         $output = $data;
 

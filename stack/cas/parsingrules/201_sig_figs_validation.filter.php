@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_ast_filter_201_sig_figs_validation implements stack_cas_astfilter_parametric {
     // Min and max are integer or null, null or values less than
     // 1 signify that there is no limit in the given direction.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $min = 3;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $max = 3;

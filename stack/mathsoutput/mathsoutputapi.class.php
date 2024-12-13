@@ -36,6 +36,7 @@ class stack_maths_output_api extends stack_maths_output_filter_base {
         $this->inlinestart = '\(';
         $this->inlineend = '\)';
     }
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_filter() {
         return true;
     }
@@ -46,7 +47,7 @@ class stack_maths_output_api extends stack_maths_output_filter_base {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null) {
+    public function process_display_castext($text, $replacedollars, ?qtype_stack_renderer $renderer = null) {
         if ($replacedollars) {
             $text = $this->replace_dollars($text);
         }

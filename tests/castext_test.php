@@ -60,6 +60,7 @@ require_once(__DIR__ . '/../lang/multilang.php');
  */
 final class castext_test extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function basic_castext_instantiation($strin, $sa, $val, $disp) {
 
         if (is_array($sa)) {

@@ -42,19 +42,20 @@ require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
  * @covers \stack_answertest_general_cas
  * @covers \stack_anstest
  */
-class answertest_general_fixtures_test extends qtype_stack_testcase {
+final class answertest_general_fixtures_test extends qtype_stack_testcase {
 
     /**
+     * Add description
      * @dataProvider answertest_fixtures
      */
-    public function test_answertest($name, $test) {
+    public function test_answertest($name, $test): void {
         list($passed, $error, $rawmark, $feedback, $ansnote, $anomalynote) = stack_answertest_test_data::run_test($test);
 
         $this->assertEquals($test->ansnote, $ansnote);
         $this->assertTrue($passed, $anomalynote);
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public static function answertest_fixtures(): array {
 
         $tests = stack_answertest_test_data::get_all();

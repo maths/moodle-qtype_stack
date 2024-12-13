@@ -577,6 +577,7 @@ class stack_utils {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function list_to_array_workhorse($list, $rec = true) {
         $array = [];
         $list = trim($list);
@@ -654,7 +655,9 @@ class stack_utils {
         return preg_match('~^' . self::VALID_NAME_REGEX . '$~', $name);
     }
 
-    /** Get the stack configuration settings. */
+    /**
+     * Get the stack configuration settings.
+     */
     public static function get_config() {
         if (is_null(self::$config)) {
             self::$config = get_config('qtype_stack');

@@ -90,8 +90,10 @@ require_once(__DIR__ . '/999_strict.filter.php');
  */
 class stack_parsing_rule_factory {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $singletons = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function build_from_name(string $name): stack_cas_astfilter {
         // Might as well do the require once here, but better limit to
         // vetted and require all by default to catch syntax errors.

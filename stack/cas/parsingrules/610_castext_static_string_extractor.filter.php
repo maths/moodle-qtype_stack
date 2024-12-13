@@ -31,6 +31,7 @@ require_once(__DIR__ . '/filter.interface.php');
 class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_astfilter_parametric {
 
     // A reference to the extractor.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $extractor = false;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

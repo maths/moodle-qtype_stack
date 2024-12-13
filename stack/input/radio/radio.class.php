@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 
 require_once(__DIR__ . '/../dropdown/dropdown.class.php');
+
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_radio_input extends stack_dropdown_input {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'radio';
@@ -33,6 +35,7 @@ class stack_radio_input extends stack_dropdown_input {
     /**
      * Default ddldisplay for radio is 'LaTeX'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddldisplay = 'LaTeX';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

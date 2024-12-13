@@ -36,6 +36,7 @@ stack_cas_castext2_iframe::register_counter('///PARSONS_COUNT///');
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $namedversions = [
         'cdn' => [
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js',

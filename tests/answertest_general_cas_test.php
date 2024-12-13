@@ -45,8 +45,9 @@ require_once(__DIR__ . '/../stack/answertest/at_general_cas.class.php');
  * @covers \stack_answertest_general_cas
  * @covers \stack_anstest
  */
-class answertest_general_cas_test extends qtype_stack_testcase {
+final class answertest_general_cas_test extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function stack_answertest_general_cas_builder($sans, $tans, $atname,
             $atop = 'null', $options = null) {
         $sa = stack_ast_container::make_from_teacher_source($sans, '', new stack_cas_security());

@@ -30,6 +30,7 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $ssmap = null;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

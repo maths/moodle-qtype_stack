@@ -37,45 +37,59 @@ require_once(__DIR__ . '/cas/castext2/utils.php');
 class prt_evaluatable implements cas_raw_value_extractor {
 
     // The function to call.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $signature;
 
     // The generated feedback.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $feedback = null;
 
     // Render the castext only if specifically asked.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $renderedfeedback = null;
 
     // The generated path.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $path = null;
 
     // Node notes, i.e. not the test notes.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $notes = null;
 
     // The generated score.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $score = null;
 
     // The generated penalty.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $penalty = null;
 
     // The value from CAS.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated = null;
 
     // Cas errors.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $errors;
 
     // Did we bailout of execution?
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $bailed = false;
 
     // A holder for the secured feedback bits.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $holder = null;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $weight = 1;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
     // and replace them into the result once everything is complete.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $statics = null;
 
     // Stores the human-readable trace created at compile time.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $trace = [];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

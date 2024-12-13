@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use maxima_parser_utils;
@@ -33,8 +40,9 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
  * @group qtype_stack_ast_filters
  * @covers \ast_filter_801_singleton_numeric_auto_generated_test
  */
-class parser_rule_801_test extends qtype_stack_testcase {
+final class parser_rule_801_test extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function filter(string $input, bool $floats = true, bool $ints = true, bool $power = true,
             string $convert = 'none'): array {
         $ast = maxima_parser_utils::parse($input);

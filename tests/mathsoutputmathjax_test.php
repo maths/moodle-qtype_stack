@@ -39,7 +39,6 @@ final class mathsoutputmathjax_test extends qtype_stack_testcase {
 
     public function test_maths_output_mathsjax(): void {
 
-
         // MathJax output is the default.
         $this->assert_content_with_maths_equals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
                 stack_string('ATSingleFrac_part'));

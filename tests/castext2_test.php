@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use castext2_evaluatable;
@@ -47,14 +54,14 @@ require_once(__DIR__ . '/../stack/options.class.php');
  * @group qtype_stack_castext_module
  * @covers \qtype_stack
  */
-class castext2_test extends qtype_stack_testcase {
+final class castext2_test extends qtype_stack_testcase {
 
     // This function maps a given set of CASText code, CASString
     // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    private function evaluate(string $code, array $preamble=[], stack_options $options=null,
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
+    private function evaluate(string $code, array $preamble=[], ?stack_options $options=null,
             $context='castext-test-case'): string {
         $statements = [];
         foreach ($preamble as $statement) {

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.
  *
@@ -63,7 +61,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null) {
+    public function process_display_castext($text, $replacedollars, ?qtype_stack_renderer $renderer = null) {
         $text = parent::process_display_castext($text, $replacedollars, $renderer);
         $text = $this->find_equations_and_replace_delimiters($text);
         return $text;

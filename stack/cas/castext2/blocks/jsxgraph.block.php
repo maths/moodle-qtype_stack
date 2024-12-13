@@ -37,7 +37,9 @@ stack_cas_castext2_iframe::register_counter('///JSXGRAPH_COUNT///');
 class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     /**
-     * This is not something we want people to edit in general. */
+     * This is not something we want people to edit in general.
+     */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $namedversions = [
         'cdn' => [
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',

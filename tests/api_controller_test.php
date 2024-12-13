@@ -52,7 +52,7 @@ use qtype_stack_testcase;
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class api_controller_test extends qtype_stack_testcase {
+final class api_controller_test extends qtype_stack_testcase {
     /** @var object used to store output */
     public object $output;
     /** @var object used to store output */
@@ -143,11 +143,13 @@ class api_controller_test extends qtype_stack_testcase {
     }
 
     public function tearDown(): void {
+        parent::tearDown();
         \stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function tearDownAfterClass(): void {
+        parent::tearDownAfterClass();
         // Should not really be necessary.
         set_config('stackapi', false, 'qtype_stack');
     }

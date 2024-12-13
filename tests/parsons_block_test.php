@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use castext2_evaluatable;
@@ -50,7 +57,7 @@ use stack_cas_castext2_iframe;
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class parsons_block_test extends qtype_stack_testcase {
+final class parsons_block_test extends qtype_stack_testcase {
 
     /**
      * Add description here.

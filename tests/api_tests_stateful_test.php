@@ -56,7 +56,7 @@ require_once(__DIR__ . '/../stack/cas/evaluatable_object.interfaces.php');
  * @group qtype_stack_compatibility
  * @covers \qtype_stack
  */
-class api_tests_stateful_test extends \qtype_stack_testcase {
+final class api_tests_stateful_test extends \qtype_stack_testcase {
 
     public function test_security_map_path(): void {
 

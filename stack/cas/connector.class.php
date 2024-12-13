@@ -60,6 +60,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::compute() */
     // @codingStandardsIgnoreEnd
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compute($command) {
 
         $context = "Platform: ". stack_connection_helper::get_platform() . "\n";
@@ -132,6 +133,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::get_debuginfo() */
     // @codingStandardsIgnoreEnd
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         return $this->debug->get_log();
     }

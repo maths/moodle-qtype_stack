@@ -39,7 +39,7 @@ use qtype_stack_testcase;
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class api_stackquestionloader_test extends qtype_stack_testcase {
+final class api_stackquestionloader_test extends qtype_stack_testcase {
 
     public function test_question_loader(): void {
 

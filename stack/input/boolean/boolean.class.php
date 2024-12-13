@@ -22,8 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_boolean_input extends stack_input {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const F = 'false';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const T = 'true';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NA = '';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

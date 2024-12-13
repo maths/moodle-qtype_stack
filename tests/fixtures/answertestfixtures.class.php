@@ -32,12 +32,19 @@ require_once('equivfixtures.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_answertest_test_data {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NAME    = 0;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const OPTIONS = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SANS    = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const TANS    = 3;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SCORE   = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const ANSNOTE = 5;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES   = 6;
 
     /**

@@ -415,7 +415,8 @@ class stack_equiv_input extends stack_input {
     }
 
 
-    /** This function creates additional session variables.
+    /**
+     * This function creates additional session variables.
      */
     protected function additional_session_variables($caslines, $teacheranswer) {
         $equivdebug = 'false';

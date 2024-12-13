@@ -14,24 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Test helper code for the Stack question type.
+ *
+ * @package   qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
 
-/**
- * Test helper code for the Stack question type.
- *
- * @package   qtype_stack.
- * @copyright 2012 The Open University.
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- * @group qtype_stack
- */
-
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 final class qtype_stack_test_helper extends question_test_helper {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DEFAULT_CORRECT_FEEDBACK          = '<p>Correct answer, well done.</p>';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DEFAULT_PARTIALLYCORRECT_FEEDBACK = '<p>Your answer is partially correct.</p>';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DEFAULT_INCORRECT_FEEDBACK        = '<p>Incorrect answer.</p>';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_test_questions() {
         return [
             'test0', // One input, one PRT, not randomised. 1 + 1 = 2.
@@ -265,6 +269,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_stack_question_form_data_test1() {
         $formform = new stdClass();
 
@@ -2641,6 +2646,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         return $qdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_stack_question_form_data_test3() {
         $formform = new stdClass();
 

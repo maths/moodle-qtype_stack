@@ -31,15 +31,24 @@ require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_inputvalidation_test_data {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWSTRING     = 0;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PHPVALID      = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PHPCASSTRING  = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const CASVALID      = 3;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DISPLAY       = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const ANSNOTES      = 5;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES         = 6;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const BRITISH       = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const CONTINENTIAL  = 2;
 
 

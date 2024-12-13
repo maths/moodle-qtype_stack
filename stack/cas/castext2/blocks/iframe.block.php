@@ -45,6 +45,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
     // All frames need unique (at request level) identifiers,
     // we use running numbering.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $counters = ['///IFRAME_COUNT///' => 1];
 
     // Add separate running numbering for different block types to

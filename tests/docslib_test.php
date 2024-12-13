@@ -56,7 +56,8 @@ final class docslib_test extends qtype_stack_testcase {
                         'LTI</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
-                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima_installation.md">Maxima installation</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima_installation.md">' .
+                        'Maxima installation</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Migration.md">Migration</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Optimising_Maxima.md">' .
                         'Optimising Maxima</a></li>' .

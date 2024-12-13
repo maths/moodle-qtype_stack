@@ -34,7 +34,7 @@ require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/docslib.php');
 
 require_login();
-
+// phpcs:disable moodle.Commenting.MissingDocblock.File
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function contains($haystack, $needle) {
     return mb_strpos($haystack, $needle) !== false;

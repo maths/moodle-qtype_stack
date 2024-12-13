@@ -39,14 +39,22 @@ require_once(__DIR__ . '/inputstate.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_input {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const BLANK = '';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const VALID = 'valid';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const INVALID = 'invalid';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SCORE = 'score';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_INSERT_STARS = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_SPACES = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_SINGLE_CHAR = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_FUNCTIONS = 16;
 
     /**
@@ -68,6 +76,7 @@ abstract class stack_input {
     /**
      * Special variables in the question which should be exposed to the inputs and answer tests.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $contextsession = [];
 
     /**
@@ -111,6 +120,7 @@ abstract class stack_input {
     /**
      * The question level options for CAS sessions.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $options;
 
     /**

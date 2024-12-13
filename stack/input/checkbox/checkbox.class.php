@@ -33,11 +33,13 @@ class stack_checkbox_input extends stack_dropdown_input {
     /**
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'checkbox';
 
     /**
      * Default ddldisplay for checkboxes is 'LaTeX'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddldisplay = 'LaTeX';
 
     /**

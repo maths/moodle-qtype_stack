@@ -69,7 +69,8 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $this->assertEquals('<div class="matrixsquarebrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
                 'spellcheck="false" class="varmatrixinput" size="5.5" style="width: 4.6em" rows="5" cols="10" ' .
-                'data-stack-input-type="varmatrix" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">a b' ."\n" .
+                'data-stack-input-type="varmatrix" data-stack-input-decimal-separator="." ' .
+                'data-stack-input-list-separator=",">a b' ."\n" .
                 '? d</textarea></div>',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'ans1', false, null));
@@ -96,7 +97,8 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $this->assertEquals('<div class="matrixroundbrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
             'spellcheck="false" class="varmatrixinput" size="5.5" style="width: 4.6em" rows="5" cols="10" ' .
-            'data-stack-input-type="varmatrix" data-stack-input-decimal-separator="." data-stack-input-list-separator=",">a b' ."\n" .
+            'data-stack-input-type="varmatrix" data-stack-input-decimal-separator="." ' .
+            'data-stack-input-list-separator=",">a b' ."\n" .
             '? d</textarea></div>',
             $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'ans1', false, null));
@@ -393,7 +395,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
 
         // Matrix inside should be accepted.
         $inputvals = [
-            'ans1' => "a b\n c matrix([a,b],[c,d])"
+            'ans1' => "a b\n c matrix([a,b],[c,d])",
         ];
         $state = $el->validate_student_response($inputvals, $options,
             'matrix([a,b],[c,d])', new stack_cas_security());
@@ -428,7 +430,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
 
         // Matrix inside should be forbidden.
         $inputvals = [
-            'ans1' => "a b\n c matrix([a,b],[c,d])"
+            'ans1' => "a b\n c matrix([a,b],[c,d])",
         ];
         $state = $el->validate_student_response($inputvals, $options,
             'matrix([a,b],[c,d])', new stack_cas_security());

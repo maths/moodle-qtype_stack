@@ -1169,7 +1169,6 @@ final class input_units_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_10x(): void {
 
-
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
         $el->set_parameter('insertStars', 1);

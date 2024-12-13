@@ -41,7 +41,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @group qtype_stack
  * @covers \stack_ast_container
  */
-class ast_container_test extends qtype_stack_testcase {
+final class ast_container_test extends qtype_stack_testcase {
 
     public function test_types(): void {
 
@@ -96,6 +96,7 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('3-4', $list->get_list_element(2)->toString());
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function get_valid($s, $st, $te) {
 
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -218,7 +219,6 @@ class ast_container_test extends qtype_stack_testcase {
 
     public function test_global_forbidden_words(): void {
 
-
         $s = 'system("rm *")';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
@@ -250,7 +250,6 @@ class ast_container_test extends qtype_stack_testcase {
     }
 
     public function test_teacher_only_words(): void {
-
 
         $s = 'setelmx(2,1,1,C)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -742,7 +741,7 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('logsubs', $at1->get_answernote());
     }
 
-    public function unary_plus(): void {
+    public function test_unary_plus(): void {
 
         // This is an interesting parser edge case.
         $s = 'p:+a^b*c';
@@ -771,7 +770,6 @@ class ast_container_test extends qtype_stack_testcase {
 
     public function test_decimal_digits(): void {
 
-
         $tests = stack_numbers_test_data::get_raw_test_data();
 
         foreach ($tests as $t) {
@@ -786,7 +784,6 @@ class ast_container_test extends qtype_stack_testcase {
     }
 
     public function test_decimal_digits_utils(): void {
-
 
         $tests = stack_numbers_test_data::get_raw_test_data_utils();
 

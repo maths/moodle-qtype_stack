@@ -72,6 +72,7 @@ class stack_potentialresponse_tree_lite {
      * and other details when building those messages but do not need about those
      * details otherewise.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $question = null;
 
     /**

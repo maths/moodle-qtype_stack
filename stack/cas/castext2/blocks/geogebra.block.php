@@ -39,6 +39,7 @@ require_once(__DIR__ . '/stack_translate.specialblock.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $countgraphs = 1;
 
     // Compatibility with php 7.4: Defining "str_ends_with" if not in existence, delete this function when

@@ -48,7 +48,7 @@ class stack_abstract_graph_node {
     /** @var string label on the left edge. */
     public $rightlabel = '';
 
-    /** @param string $url if set, this node should be a link to that URL. */
+    /** @var string $url if set, this node should be a link to that URL. */
     public $url = '';
 
     /** @var int depth of this node in the display. */

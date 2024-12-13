@@ -40,7 +40,9 @@ class castext2_parser_utils {
     // In general it is either MD or anything else. For now we
     // have no other special cases.
     // Intentionally matching Moodle values.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const MDFORMAT = FORMAT_MARKDOWN;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWFORMAT = FORMAT_HTML;
 
     // Does the whole compile process.
@@ -143,7 +145,8 @@ class castext2_parser_utils {
     // Postprocesses the result from CAS. For those that have parsed the response
     // to PHP array/string form. Note that you need to give unescaped strings...
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function postprocess_parsed(array $casresult, ?castext2_processor $processor, castext2_placeholder_holder $holder): string {
+    public static function postprocess_parsed(array $casresult, ?castext2_processor $processor,
+                                                castext2_placeholder_holder $holder): string {
         if ($processor === null) {
             $processor = new castext2_default_processor();
         }
@@ -152,7 +155,8 @@ class castext2_parser_utils {
 
     // Postprocesses AST style result, as often one includes stuff in larger structures.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function postprocess_mp_parsed(MP_Node $result, ?castext2_processor $processor, castext2_placeholder_holder $holder): string {
+    public static function postprocess_mp_parsed(MP_Node $result, ?castext2_processor $processor,
+                                                    castext2_placeholder_holder $holder): string {
         // Some common unpacking.
         if ($result instanceof MP_Root) {
             $result = $result->items[0];
@@ -559,7 +563,7 @@ class castext2_parser_utils {
     // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
     // use when you need to have pretty printed position data.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function position_remap(CTP_Node $ast, string $code, array $limits = null) {
+    public static function position_remap(CTP_Node $ast, string $code, ?array $limits = null) {
         if ($limits === null) {
             $limits = [];
             foreach (explode("\n", $code) as $line) {

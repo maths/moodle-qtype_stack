@@ -41,6 +41,7 @@ class stack_cas_healthcheck {
     /**
      * This variable holds the state of the healthcheck.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ishealthy = true;
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

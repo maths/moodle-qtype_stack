@@ -35,7 +35,7 @@ class stack_string_input extends stack_algebraic_input {
     ];
 
     /**
-     * @var integer We allow string inputs to be longer.
+     * @var int We allow string inputs to be longer.
      */
     protected $maxinputlength = 262144;
 

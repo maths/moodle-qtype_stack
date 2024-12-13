@@ -46,17 +46,21 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
     // Do we only accept the default units or do we allow additional
     // variables/constants? Use the forbidden words to limit more accurately.
     // That limitation will happen through the security-filter.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $allowvariables = false;
 
     // Allow the expression to contain constants like `pi`.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $allowconstants = false;
 
     // Convert all floats to powers.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $floattopower = false;
 
     // Invalid if no known unit found. This means that one can allow
     // this to function even if the "unit" is not one of the official ones
     // it will still require an identifier though.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $mandatoryunit = true;
 
 

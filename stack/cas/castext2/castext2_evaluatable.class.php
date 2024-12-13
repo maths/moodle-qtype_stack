@@ -45,6 +45,7 @@ require_once(__DIR__ . '/blocks/include.block.php');
  */
 class castext2_evaluatable implements cas_raw_value_extractor {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $compiled = null;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $source = null;
@@ -61,9 +62,11 @@ class castext2_evaluatable implements cas_raw_value_extractor {
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
     // and replace them into the result once eberything is complete.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $statics = null;
 
     // Values from blocks that escape the context.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $special = [];
 
     /**
@@ -75,6 +78,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     /**
      * The placeholder holder.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $holder;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -287,7 +291,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_rendered(castext2_processor $processor = null): string {
+    public function get_rendered(?castext2_processor $processor = null): string {
         if ($this->evaluated === null) {
             // Do the simpler parse of the value. The full MaximaParser
             // would obviously work but would be more expensive.

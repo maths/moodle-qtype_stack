@@ -275,6 +275,7 @@ class stack_cas_casstring_units {
     /**
      * This array keeps a list of substitutions which are made when we deal with units.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $unitsubstitutions = [
         'Torr' => 'torr',
         'kgm/s' => 'kg*m/s',

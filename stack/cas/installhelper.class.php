@@ -34,7 +34,7 @@ require_once(__DIR__ . '/cassession2.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_configuration {
-    // phpcs:ignore moodle.Commenting.VariableComment.MissingVar
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $instance = null;
 
     /**

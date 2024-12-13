@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Subclass of qtype_stack_edit_form_testable that is easier to use in unit tests.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
@@ -24,15 +32,12 @@ require_once(__DIR__ . '/../edit_stack_form.php');
 
 /**
  * Subclass of qtype_stack_edit_form_testable that is easier to use in unit tests.
- *
- * @package    qtype_stack
- * @copyright  2012 The Open University.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \qtype_stack_edit_form
  */
 final class editform_test_class extends \qtype_stack_edit_form {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function __construct($questiontext, $specificfeedback) {
         global $USER;
         $syscontext = \context_system::instance();
@@ -70,9 +75,9 @@ final class editform_test_class extends \qtype_stack_edit_form {
  * @group qtype_stack
  * @covers \qtype_stack_edit_form
  */
-class editform_test extends \advanced_testcase {
+final class editform_test extends \advanced_testcase {
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function get_form($questiontext, $specificfeedback) {
         $this->setAdminUser();
         $this->resetAfterTest();

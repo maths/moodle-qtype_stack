@@ -439,15 +439,19 @@ final class responseanalysis_test extends qtype_stack_testcase {
             "!" => 1,
         ],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $question;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $question2;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function setUpBeforeClass(): void {
+        parent::setUpBeforeClass();
         self::$question = test_question_maker::make_question('stack', 'test1');
         self::$question2 = test_question_maker::make_question('stack', 'test3');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function set_question(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['run_report'])
@@ -459,6 +463,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->report->reports_sort();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function set_question_mult(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->setMethods(['run_report'])

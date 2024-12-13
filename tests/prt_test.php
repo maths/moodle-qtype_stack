@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Unit tests for stack_potentialresponse_tree_lite, including the prt_evaluatable.
+ *
+ * @package    qtype_stack
+ * @copyright 2022 The University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use castext2_static_replacer;
@@ -38,16 +46,12 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * Unit tests for stack_potentialresponse_tree_lite, including the prt_evaluatable.
  *
- * @package    qtype_stack
- * @copyright 2022 The University of Edinburgh.
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_potentialresponse_tree_lite
  */
+final class prt_test extends qtype_stack_testcase {
 
- final class prt_test extends qtype_stack_testcase {
-
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     private function create_default_node() {
 
         $node = new stdClass();
@@ -79,7 +83,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
     }
 
     public function test_single_node_prt(): void {
-
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';
@@ -209,7 +212,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
     public function test_multi_node_prt(): void {
 
-
         $newprt = new stdClass;
         $newprt->name = 'multiprt';
         $newprt->id = '0';
@@ -311,7 +313,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
     }
 
     public function test_runtime_score_error(): void {
-
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';

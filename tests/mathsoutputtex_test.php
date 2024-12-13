@@ -69,6 +69,7 @@ final class mathsoutputtex_test extends qtype_stack_testcase {
         }
 
         // Test docs - make sure code is not rendered.
+        // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
         $md = 'Latex for `\[x^2 + y^2\]`.';
         $this->assertEquals('<p>Latex for <code>\[x^2 + y^2\]</code>.</p>' . "\n",
             stack_docs_render_markdown($md));

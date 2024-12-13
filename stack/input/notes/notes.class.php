@@ -22,6 +22,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * Input that is a text area.
  * However, the purpose is to allow a student to write language (English) notes.
  * These are not passed into the CAS
+ * @package    qtype_stack
  * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

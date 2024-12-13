@@ -28,6 +28,7 @@ require_once(__DIR__ . '/processor.class.php');
 require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
 require_once(__DIR__ . '/../../maximaparser/MP_classes.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 abstract class stack_cas_castext2_block {
 
     // In entry phase these are the params of the CTP_Node matching this block.

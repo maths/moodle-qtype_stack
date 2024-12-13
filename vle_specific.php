@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 // This file defines question_display_options which the next class extends.
@@ -260,6 +267,7 @@ function question_display_options() {
  *
  *  Returns the string content of the URL/file. If failign return false.
  */
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_fetch_included_content(string $url) {
     static $cache = [];
     $lc = trim(strtolower($url));

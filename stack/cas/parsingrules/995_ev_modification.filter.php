@@ -33,6 +33,7 @@ require_once(__DIR__ . '/996_call_modification.filter.php');
 class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parametric {
 
     // Whether to rewrite evaluation flags. Don't do for students.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $flags = false;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

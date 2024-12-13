@@ -30,9 +30,11 @@ require_once(__DIR__ . '/filter.interface.php');
 class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
 
     // The name of the function that checks identifiers.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const IDCHECK = '%_C';
 
     // The name of the function that checks expressions.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const EXPCHECK = '%_E';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

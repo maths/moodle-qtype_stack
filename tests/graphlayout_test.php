@@ -33,6 +33,11 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/graphlayout/graph.php');
 
+/**
+ * Unit tests for stack_abstract_graph and friends.
+ * @group qtype_stack
+ * @covers \stack_abstract_graph
+ */
 final class graphlayout_test extends basic_testcase {
 
     /**

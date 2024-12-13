@@ -24,6 +24,7 @@
  */
 class stack_options {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $options;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

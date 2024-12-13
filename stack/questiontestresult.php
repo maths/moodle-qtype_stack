@@ -74,7 +74,7 @@ class stack_question_test_result {
     public $questionpenalty;
 
     /**
-     * @bool Store whether this looks like a trivial empty test case.
+     * @var bool Store whether this looks like a trivial empty test case.
      */
     public $emptytestcase;
 

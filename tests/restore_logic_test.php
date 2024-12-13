@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Unit tests for the restore logic.
+ *
+ * @package    qtype_stack
+ * @copyright  2017 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
@@ -22,17 +30,12 @@ global $CFG;
 require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_stack_plugin.class.php');
 
-/**
- * Unit tests for the restore logic.
- *
- * @package    qtype_stack
- * @copyright  2017 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class restore_logic_test_class extends \restore_qtype_stack_plugin {
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+final class restore_logic_test_class extends \restore_qtype_stack_plugin {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $log = '';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function __construct() {
 
         // Passing $this as $step, since we only need some log method, which we implemente below.
@@ -84,7 +87,7 @@ class restore_logic_test_class extends \restore_qtype_stack_plugin {
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class restore_logic_test extends \advanced_testcase {
+final class restore_logic_test extends \advanced_testcase {
 
     public function test_fix_prt_roots(): void {
 

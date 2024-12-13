@@ -43,6 +43,7 @@ require_once(__DIR__ . '/../utils.php');
  */
 class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $countfiles = 1;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

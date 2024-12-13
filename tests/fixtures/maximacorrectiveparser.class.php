@@ -30,9 +30,13 @@
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_corrective_parser_test_data {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWINPUT    = 0; // What a student might type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PARSED      = 1; // What we expect to get from maxima corrective parser.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const EXPECTNOTES = 2; // Expected array of answer notes.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const EXPECTERRS  = 3; // Expected array of errors.
 
     protected static $rawdata = [

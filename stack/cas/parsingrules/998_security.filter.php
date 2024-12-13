@@ -29,6 +29,7 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $source = 's';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

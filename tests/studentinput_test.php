@@ -40,6 +40,7 @@ require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 final class studentinput_test extends qtype_stack_testcase {
 
     /**
+     * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data
@@ -56,6 +57,7 @@ final class studentinput_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_units
@@ -72,6 +74,7 @@ final class studentinput_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
@@ -88,6 +91,7 @@ final class studentinput_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals

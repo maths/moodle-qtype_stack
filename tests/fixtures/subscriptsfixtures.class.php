@@ -25,11 +25,17 @@
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_subscripts_test_data {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWINPUT   = 0; // What a student might type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const MAXIMA     = 1; // Correct maxima syntax, as extended by STACK.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const MAXIMASIMP = 2; // Correct maxima syntax, as extended by STACK, with simp:true.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const TEX        = 3; // TeX output from stack_disp.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const TEXSIMP    = 4; // TeX output from stack_disp with simp:true.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES      = 5;
 
     /**

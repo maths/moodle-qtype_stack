@@ -37,6 +37,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
 
     // These two control the aceptable raw data types as well as
     // the mantissa allowed in the third option.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $integer = true;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $float = true;
@@ -45,10 +46,12 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
     // Accepts 0.123*10^45 or 123*10^45.
     // Will not accept 0.123e4*10^5 as that is mixed usage.
     // @codingStandardsIgnoreEnd
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $power = true;
 
     // Convert from power form to float or vice versa
     // Will not convert raw integers to floats.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $convert = 'none'; // Other options are 'to float', 'to power'.
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

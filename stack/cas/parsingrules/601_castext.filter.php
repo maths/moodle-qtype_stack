@@ -32,6 +32,7 @@ require_once(__DIR__ . '/filter.interface.php');
 class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
 
     // What do we mark as the context of the CASText.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $context = 'unknown';
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $errclass = 'stack_cas_error';

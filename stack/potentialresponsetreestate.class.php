@@ -23,6 +23,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_potentialresponse_tree_state {
 
     /**

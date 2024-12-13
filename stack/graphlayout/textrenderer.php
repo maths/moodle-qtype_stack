@@ -34,6 +34,7 @@ class stack_prt_graph_text_renderer {
     /**
      * Hold the graph itself.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $g = null;
 
     /**

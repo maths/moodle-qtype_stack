@@ -133,7 +133,7 @@ final class api_controller_test extends qtype_stack_testcase {
         // so we have to mock both. We override the write method to write to a propery of the testsuite
         // so we have something easily accessible to perform some asserts on.
         $this->response->expects($this->any())->method('getBody')->will($this->returnCallback(
-            function(): void {
+            function() {
 
                 return $this->result;
             })

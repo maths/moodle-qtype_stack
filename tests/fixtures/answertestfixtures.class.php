@@ -64,7 +64,7 @@ class stack_answertest_test_data {
      * Header row in the table (optional).
      */
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
-     protected static $rawdata = [
+    protected static $rawdata = [
 
         ['AlgEquiv', '', '1/0', '1', -1, 'ATAlgEquiv_STACKERROR_SAns.', ''],
         ['AlgEquiv', '', '1', '1/0', -1, 'ATAlgEquiv_STACKERROR_TAns.', ''],

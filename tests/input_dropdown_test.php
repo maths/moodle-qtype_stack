@@ -429,7 +429,7 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
-    public function test_validate_student_response_castext() {
+    public function test_validate_student_response_castext(): void {
         $options = new stack_options();
         $ta = '[[1+x^2,false],[1-x^2,false],' .
             '["1+x^3",true,["%root","Hello world ",["smlt","\\({x^3}\\)"]]]]';

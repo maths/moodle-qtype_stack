@@ -254,7 +254,9 @@ class stack_dropdown_input extends stack_input {
                     // In case we see CASText2 values we need to postproc them.
                     $tmp = castext2_parser_utils::string_to_list($display, true);
                     $tmp = castext2_parser_utils::unpack_maxima_strings($tmp);
-                    $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_parsed($tmp);
+                    $holder = new castext2_placeholder_holder();
+                    $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_parsed($tmp, null, $holder);
+                    $ddlvalues[$key]['display'] = $holder->replace($ddlvalues[$key]['display']);
                 } else {
                     $cs = stack_ast_container::make_from_teacher_source($display);
                     if ($cs->get_valid()) {
@@ -264,8 +266,10 @@ class stack_dropdown_input extends stack_input {
                 }
                 if ($ddlvalues[$key]['correct']) {
                     if (substr($display, 0, 9) === '["%root",') {
-                        $tmp = castext2_parser_utils::unpack_maxima_strings($display);
-                        $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp);
+                        $tmp = castext2_parser_utils::string_to_list($display, true);
+                        $tmp = castext2_parser_utils::unpack_maxima_strings($tmp);
+                        $holder = new castext2_placeholder_holder();
+                        $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp, null, $holder);
                     } else {
                         $correctanswerdisplay[] = $display;
                     }
@@ -336,7 +340,10 @@ class stack_dropdown_input extends stack_input {
                 // And now we need to care about holders.
                 $holder = new castext2_placeholder_holder();
                 $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_mp_parsed(
-                    $at1->get_by_key('val'.$key)->get_evaluated(), $holder);
+                    $at1->get_by_key('val'.$key)->get_evaluated(),
+                    null,
+                    $holder,
+                );
                 $ddlvalues[$key]['display'] = $holder->replace($ddlvalues[$key]['display']);
             } else if (substr($display, 0, 1) == '"') {
                 $ddlvalues[$key]['display'] = stack_utils::maxima_string_to_php_string($display);

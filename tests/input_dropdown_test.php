@@ -428,4 +428,21 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $expected = 'A correct answer is: <code>3,1415</code>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
+
+    public function test_validate_student_response_castext() {
+        $options = new stack_options();
+        $ta = '[[1+x^2,false],[1-x^2,false],' .
+            '["1+x^3",true,["%root","Hello world ",["smlt","\\({x^3}\\)"]]]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, $options, ['options' => '']);
+        $el->adapt_to_model_answer($ta);
+        $state = $el->validate_student_response(['ans1' => '2'], $options, '2', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+
+        $ta = '[[1+x^2,true],[1-x^2,false],' .
+            '["1+x^3",false,["%root","Hello world ",["smlt","\\({x^3}\\)"]]]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, $options, ['options' => '']);
+        $el->adapt_to_model_answer($ta);
+        $state = $el->validate_student_response(['ans1' => '2'], $options, '2', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+    }
 }

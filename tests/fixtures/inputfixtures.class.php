@@ -52,6 +52,7 @@ class stack_inputvalidation_test_data {
     const CONTINENTIAL  = 2;
 
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
 
         ['123', 'php_true', '123', 'cas_true', '123', '', ""],
@@ -703,6 +704,7 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdataunits = [
         ['123', 'php_true', '123', 'cas_true', '123', 'Units_SA_no_units', "Units"],
         ['9.81*m/s^2', 'php_true', 'dispdp(9.81,2)*m/s^2', 'cas_true', '9.81\, {\mathrm{m}}/{\mathrm{s}^2}', '', ""],
@@ -749,6 +751,7 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatadecimals = [
         [
             0 => '123',

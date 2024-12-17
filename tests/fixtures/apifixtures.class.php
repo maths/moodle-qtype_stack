@@ -24,7 +24,7 @@
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_api_test_data {
-    // phpcs:ignore moodle.Commenting.VariableComment.MissingVar
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $questiondata = [
         'matrices' =>
            '<quiz>
@@ -1735,6 +1735,7 @@ class stack_api_test_data {
         </quiz>',
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $answers = [
         'matrices_correct' => '{"ans1_sub_0_0": "35", "ans1_sub_0_1": "30", "ans1_sub_1_0": "28", "ans1_sub_1_1": "24"}',
         'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0"}',

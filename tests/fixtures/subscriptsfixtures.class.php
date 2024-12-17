@@ -44,6 +44,7 @@ class stack_subscripts_test_data {
      * Maxima representation
      * TeX string
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
         ['Delta*v_x', 'Delta*v_x', '!', '\Delta\,{v}_{x}', '!'],
         ['Delta*v_x0', 'Delta*v_x0', '!', '\Delta\,{v}_{x_{0}}', '!'],
@@ -124,6 +125,7 @@ class stack_subscripts_test_data {
         ['F_1x', 'F_1x', '!', '{F}_{\text{1x}}', '!'],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatalegacy = [
         ['Delta*v_x', 'Delta*v_x', '!', '\Delta\,{v}_{x}', '!'],
         ['Delta*v_x0', 'Delta*v_x0', '!', '\Delta\,{v}_{{\it x_0}}', '!'],

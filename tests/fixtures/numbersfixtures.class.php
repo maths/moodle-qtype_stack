@@ -28,6 +28,7 @@ class stack_numbers_test_data {
 
     // In this text digits are 1-9 and 0 is not a digit.
     // array("string", lower, upper, decimal places, dispvalue, err).
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
 
         ["0", 1, 1, 0, '"~a"', '0', ''], // Decision: zero has one significant digit.
@@ -71,6 +72,7 @@ class stack_numbers_test_data {
     ];
 
     // Use the format array("string", lower, upper, decimal places).
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatautils = [
 
             // Scientific notation.

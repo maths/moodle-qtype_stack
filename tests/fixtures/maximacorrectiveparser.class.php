@@ -38,7 +38,7 @@ class maxima_corrective_parser_test_data {
     const EXPECTNOTES = 2; // Expected array of answer notes.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const EXPECTERRS  = 3; // Expected array of errors.
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
         ['2x', '2*x', [0 => 'missing_stars'], []],
         ['sin(x)a', 'sin(x)*a', [0 => 'missing_stars'], []],

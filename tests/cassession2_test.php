@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_testcase;
@@ -36,12 +43,14 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
 /**
+ * Add description
  * @group qtype_stack
  * @covers \stack_cas_session2
  */
-class cassession2_test extends qtype_stack_testcase {
+final class cassession2_test extends qtype_stack_testcase {
 
-    public function test_internal_config() {
+    public function test_internal_config(): void {
+
         // This test checks if the version number returned by Maxima matches our internal config.
         $cs = ['m:MAXIMA_VERSION_NUM'];
         foreach ($cs as $s) {
@@ -56,7 +65,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($maximaconfig, $maximaversion);
     }
 
-    public function test_get_valid() {
+    public function test_get_valid(): void {
+
         $strings = ['foo', 'bar', 'sqrt(4)'];
 
         $casstrings = [];
@@ -71,7 +81,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertTrue($session->get_valid());
     }
 
-    public function test_get_valid_false() {
+    public function test_get_valid_false(): void {
+
         $strings = ['foo', 'bar', 'system(4)'];
 
         $casstrings = [];
@@ -86,7 +97,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertFalse($session->get_valid());
     }
 
-    public function test_instantiation_and_return_values() {
+    public function test_instantiation_and_return_values(): void {
+
         $strings = [
             '1+2' => '3',
             'sqrt(4)' => '2',
@@ -114,7 +126,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_keys_or_not() {
+    public function test_keys_or_not(): void {
+
         // Keys are optional in the new cassession, we can extract the values
         // if need be even if keys do not exist, and if you do an assignement
         // it wont be visible in the return values anyway.
@@ -145,7 +158,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_error() {
+    public function test_error(): void {
+
         $simpon = stack_ast_container::make_from_teacher_source('simp:true', 'test_error()', new stack_cas_security());
         $divzero = stack_ast_container::make_from_teacher_source('1/0', 'test_error()', new stack_cas_security());
         $foo = stack_ast_container::make_from_teacher_source('sconcat("f","o","o")', 'test_error()', new stack_cas_security());
@@ -166,7 +180,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals(['Division by zero.'], $divzero->get_errors(true));
     }
 
-    public function test_feedback() {
+    public function test_feedback(): void {
+
         $simpoff = stack_ast_container::make_from_teacher_source('simp:false', 'test_answernote()', new stack_cas_security());
         $validation = stack_ast_container::make_from_teacher_source('stack_validate_typeless([2/4], true, 1/2, 0, true)',
                 'test_answernote()', new stack_cas_security());
@@ -182,7 +197,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertStringContainsString('lowest terms', $validation->get_feedback());
     }
 
-    public function test_answertest_usage() {
+    public function test_answertest_usage(): void {
+
         $qv = 'ta:diff(sin(x),x);';
         $qv = new stack_cas_keyval($qv, null, 123);
 
@@ -246,7 +262,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
-    public function test_get_display() {
+    public function test_get_display(): void {
 
         $cs = ['a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)'];
         foreach ($cs as $s) {
@@ -264,7 +280,8 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
-    public function test_polarform_simp() {
+    public function test_polarform_simp(): void {
+
         $cs = ['p0:polarform_simp(%i+1)'];
         $cs[] = 'p1:polarform_simp(2)';
         $cs[] = 'p2:polarform_simp(-2)';
@@ -286,7 +303,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('%e^((%i*%pi)/2)', $s1[3]->get_value());
     }
 
-    public function test_multiplication_option_complexno_i() {
+    public function test_multiplication_option_complexno_i(): void {
 
         $cs = ['p:a+b*%i', 'q:a+b*i', 'r:a+b*j'];
         foreach ($cs as $s) {
@@ -307,7 +324,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('a+b\cdot j', $r->get_display());
     }
 
-    public function test_multiplication_option_complexno_j() {
+    public function test_multiplication_option_complexno_j(): void {
 
         $cs = ['p:a+b*%i', 'q:a+b*i', 'r:a+b*j'];
         foreach ($cs as $s) {
@@ -328,7 +345,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('a+b\cdot \mathrm{j}', $r->get_display());
     }
 
-    public function test_multiplication_option_complexno_symi() {
+    public function test_multiplication_option_complexno_symi(): void {
 
         $cs = ['p:a+b*%i', 'q:a+b*i', 'r:a+b*j'];
         foreach ($cs as $s) {
@@ -349,7 +366,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('a+b\cdot j', $r->get_display());
     }
 
-    public function test_multiplication_option_complexno_vector_order() {
+    public function test_multiplication_option_complexno_vector_order(): void {
 
         $cs = ['ordergreat(i,j,k)', 'texput(i,"\\\\vec{i}")', 'texput(j,"\\\\vec{j}")', 'texput(k,"\\\\vec{k}")',
             'p:j*4+3*i+5*k', 'q:j*b+a*i+c*k', ];
@@ -369,7 +386,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}', $q->get_display());
     }
 
-    public function test_multiplication_option_complexno_symj() {
+    public function test_multiplication_option_complexno_symj(): void {
 
         $cs = ['p:a+b*%i', 'q:a+b*i', 'r:a+b*j'];
         foreach ($cs as $s) {
@@ -390,7 +407,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('a+b\cdot j', $r->get_display());
     }
 
-    public function test_multiplication_option_dot() {
+    public function test_multiplication_option_dot(): void {
 
         $cs = ['a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z'];
         foreach ($cs as $s) {
@@ -410,7 +427,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('x\cdot y\cdot z', $s1[3]->get_display());
     }
 
-    public function test_multiplication_option_none() {
+    public function test_multiplication_option_none(): void {
 
         $cs = ['a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z'];
         foreach ($cs as $s) {
@@ -430,7 +447,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('x\,y\,z', $s1[3]->get_display());
     }
 
-    public function test_multiplication_option_cross() {
+    public function test_multiplication_option_cross(): void {
 
         $cs = ['a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z'];
         foreach ($cs as $s) {
@@ -451,7 +468,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
-    public function test_multiplication_option_onum() {
+    public function test_multiplication_option_onum(): void {
 
         $s1 = [];
         $cs = ['a:2*x', 'b:2*3*x', 'c:3*5^2', 'd:3*x^2', 's1:x*(-y)', 's2:3*(-4)*x*(-y)'];
@@ -495,7 +512,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('3\, \left(\frac{5}{2}\right)', $s1[5]->get_display());
     }
 
-    public function test_function_power_display() {
+    public function test_function_power_display(): void {
 
         $cs = ['A:f(0)', 'B:f(0)^5', 'C:f(x)', 'D:f(x)^3', 'E:f(x+1)', 'F:f(x+1)^30'];
         $s1 = [];
@@ -534,7 +551,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\sin ^{50}', $s1[6]->get_display());
     }
 
-    public function test_acos_option_cosmone() {
+    public function test_acos_option_cosmone(): void {
 
         $cs = ['a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30'];
         foreach ($cs as $s) {
@@ -556,7 +573,7 @@ class cassession2_test extends qtype_stack_testcase {
         // Babbage comlained around 1820 about people using this notation and people still use this notation!
     }
 
-    public function test_acos_option_acos() {
+    public function test_acos_option_acos(): void {
 
         $cs = ['a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30'];
         foreach ($cs as $s) {
@@ -575,7 +592,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('{\rm asin}^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
-    public function test_acos_option_arccos() {
+    public function test_acos_option_arccos(): void {
 
         $cs = ['a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30'];
         foreach ($cs as $s) {
@@ -594,7 +611,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\arcsin ^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
-    public function test_acos_option_arcosh() {
+    public function test_acos_option_arcosh(): void {
 
         $cs = [
             'a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30',
@@ -618,7 +635,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('{\rm arsinh}^{70}\left(x\right)', $s1[6]->get_display());
     }
 
-    public function test_logicsymbol_option_lang() {
+    public function test_logicsymbol_option_lang(): void {
 
         $cs = ['a:A and B', 'b:A nounand B', 'c:A and (B or C)', 'd:A nounand (B nounor C)'];
         foreach ($cs as $s) {
@@ -636,7 +653,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('A\,{\text{ and }}\, \left(B\,{\text{ or }}\, C\right)', $s1[3]->get_display());
     }
 
-    public function test_logicsymbol_option_symbol() {
+    public function test_logicsymbol_option_symbol(): void {
 
         $cs = ['a:A and B', 'b:A nounand B', 'c:A and (B or C)', 'd:A nounand (B nounor C)'];
         foreach ($cs as $s) {
@@ -654,7 +671,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('A\land \left(B\lor C\right)', $s1[3]->get_display());
     }
 
-    public function test_keyval_representation_1() {
+    public function test_keyval_representation_1(): void {
 
         $cs = ['a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)'];
         foreach ($cs as $s) {
@@ -666,7 +683,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals("a:x^2;\nb:1/(1+x^2);\nc:e^(i*%pi);", $at1->get_keyval_representation());
     }
 
-    public function test_keyval_representation_2() {
+    public function test_keyval_representation_2(): void {
 
         $cs = ['a:(-1)^2'];
         foreach ($cs as $s) {
@@ -679,7 +696,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('a:1;', $at1->get_keyval_representation(true));
     }
 
-    public function test_get_display_unary_minus() {
+    public function test_get_display_unary_minus(): void {
 
         $cs = ['p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x#pm#3+y', 'p5:x+(-5+y)'];
         // Notice the subtle difference in p4 & p5.
@@ -701,7 +718,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('x+\\left(-5+y\\right)', $s1[4]->get_display());
     }
 
-    public function test_string1() {
+    public function test_string1(): void {
 
         $cs = ['s:"This is a string"'];
         foreach ($cs as $s) {
@@ -712,7 +729,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('"This is a string"', $s1[0]->get_value());
     }
 
-    public function test_qmchar() {
+    public function test_qmchar(): void {
 
         $cs = ['s:5*?+6*?', 'A:matrix([?,1],[1,?])'];
         foreach ($cs as $s) {
@@ -727,7 +744,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([QMCHAR,1],[1,QMCHAR])', $s1[1]->get_value());
     }
 
-    public function test_subscript_disp() {
+    public function test_subscript_disp(): void {
+
         // Fails with actual display output like '{\it pi_{025}}'.
         $this->skip_if_old_maxima('5.23.2');
 
@@ -757,7 +775,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($s1[4]->get_display(), '{{\pi}_{4}}^5');
     }
 
-    public function test_matrix_eigenvalues() {
+    public function test_matrix_eigenvalues(): void {
 
         $cs = ['A:matrix([7,1,3],[5,-3,4],[5,3,-4])', 'E:first(eigenvalues(A))', 'dt:determinant(A)'];
         foreach ($cs as $s) {
@@ -777,7 +795,8 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
-    public function test_assignmatrixelements() {
+    public function test_assignmatrixelements(): void {
+
         // Assign a value to matrix entries.
         $cs = ['A:matrix([1,2],[1,1])', 'A[1,2]:3', 'B:A'];
         foreach ($cs as $s) {
@@ -790,7 +809,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([1,3],[1,1])', $s1[2]->get_value());
     }
 
-    public function test_simplify_false() {
+    public function test_simplify_false(): void {
 
         $cs = ['a:2+3', 'b:ev(a,simp)'];
 
@@ -807,7 +826,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('5', $s1[1]->get_value());
     }
 
-    public function test_disp_control_structures() {
+    public function test_disp_control_structures(): void {
 
         $csl = [
             'p:if a>b then setelmx(0,m[k],m[j],A)',
@@ -844,7 +863,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('[sin,cos,log,rho,atan]', $s1[5]->get_value());
     }
 
-    public function test_redefine_variable() {
+    public function test_redefine_variable(): void {
 
         // This example redefines the value of n.
         // It should return the last value.
@@ -876,7 +895,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('36', $s1[2]->get_display());
     }
 
-    public function test_indirect_redefinition_of_varibale() {
+    public function test_indirect_redefinition_of_varibale(): void {
 
         // This example uses a loop to change the values of elements of C.
         // However the loop returns "done", and the values of C are changed.
@@ -904,7 +923,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([5*4+2*6,5*5+2*5],[4*4+3*6,4*5+3*5])', $s1[6]->get_value());
     }
 
-    public function test_numerical_precision() {
+    public function test_numerical_precision(): void {
 
         $cs = ['a:1385715.257'];
         foreach ($cs as $s) {
@@ -915,7 +934,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('1385715.257', $s1[0]->get_value());
     }
 
-    public function test_rat() {
+    public function test_rat(): void {
 
         $cs = ['a:ratsimp(sqrt(27))', 'b:rat(sqrt(27))', 'm:MAXIMA_VERSION_NUM'];
         foreach ($cs as $s) {
@@ -940,7 +959,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_ordergreat() {
+    public function test_ordergreat(): void {
+
         $cs = [
             'stack_reset_vars(true)', 'ordergreat(i,j,k)', 'p:matrix([-7],[2],[-3])',
             'q:matrix([i],[j],[k])', 'v:dotproduct(p,q)',
@@ -954,7 +974,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('-7\cdot i+2\cdot j-3\cdot k', $s1[4]->get_display());
     }
 
-    public function test_ordergreat_2() {
+    public function test_ordergreat_2(): void {
+
         $cs = ['ordergreat(a,b,c)', 'p:matrix([-7],[2],[-3])', 'q:matrix([a],[b],[c])', 'v:dotproduct(p,q)'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -965,7 +986,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('-7\cdot a+2\cdot b-3\cdot c', $s1[3]->get_display());
     }
 
-    public function test_plot_constant_function() {
+    public function test_plot_constant_function(): void {
 
         $cs = ['a:0', 'p:plot(a*x,[x,-2,2],[y,-2,2])'];
         foreach ($cs as $s) {
@@ -978,7 +999,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('', trim($s1[0]->get_errors()));
     }
 
-    public function test_plot_fail() {
+    public function test_plot_fail(): void {
 
         $cs = ['a:0', 'p:plot(a*x/0,[x,-2,2],[y,-2,2])'];
         foreach ($cs as $s) {
@@ -991,7 +1012,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertFalse(strpos($s1[1]->get_value(), 'STACK auto-generated plot of 0 with parameters'));
     }
 
-    public function test_rand_selection_err_1() {
+    public function test_rand_selection_err_1(): void {
+
         $cs = ['a:rand_selection(1,1)'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1002,7 +1024,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('rand_selection error: first argument must be a list or set.', $s1[0]->get_errors());
     }
 
-    public function test_rand_selection_err_2() {
+    public function test_rand_selection_err_2(): void {
+
         $cs = ['a:rand_selection([a,b,c,d], 7)'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1013,7 +1036,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('rand_selection error: insuffient elements in the list/set.', $s1[0]->get_errors());
     }
 
-    public function test_rand_selection() {
+    public function test_rand_selection(): void {
+
         $cs = ['a:rand_selection([a,b,c,d], 4)', 'b:sort(a)'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1023,7 +1047,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('[a,b,c,d]', $s1[1]->get_value());
     }
 
-    public function test_rand_selection_set() {
+    public function test_rand_selection_set(): void {
+
         $cs = ['a:rand_selection({a,b,c,d}, 4)', 'b:sort(a)'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1033,7 +1058,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('[a,b,c,d]', $s1[1]->get_value());
     }
 
-    public function test_trivial_rand_range() {
+    public function test_trivial_rand_range(): void {
+
         // Cases should be in the form array('input', 'value', 'display').
         $cases = [];
         $cmds = [];
@@ -1063,7 +1089,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_greek_lower() {
+    public function test_greek_lower(): void {
+
         // The case gamma is separated out below, so we can skip it on old Maxima where it is a known fail.
         $cs = [
             'greek1:[alpha,beta,delta,epsilon]',
@@ -1091,7 +1118,8 @@ class cassession2_test extends qtype_stack_testcase {
                 $s1[3]->get_display());
     }
 
-    public function test_greek_lower_gamma() {
+    public function test_greek_lower_gamma(): void {
+
         // In old maxima, you get '\Gamma' for the display output.
         $this->skip_if_old_maxima('5.23.2');
         $cs = stack_ast_container::make_from_student_source('greek1:gamma', '', new stack_cas_security(), []);
@@ -1102,7 +1130,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\gamma', $cs->get_display());
     }
 
-    public function test_greek_upper() {
+    public function test_greek_upper(): void {
+
         $cs = [
             'greek1:[Alpha,Beta,Gamma,Delta,Epsilon]',
             'greek2:[Zeta,Eta,Theta,Iota,Kappa]',
@@ -1131,7 +1160,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('3', $s1[4]->get_value());
     }
 
-    public function test_taylor_cos_simp() {
+    public function test_taylor_cos_simp(): void {
+
         $cs = [
             'c1:taylor(cos(x),x,0,1)',
             'c3:taylor(cos(x),x,0,3)',
@@ -1152,7 +1182,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('1-\frac{x^2}{2}+\cdots', $s1[1]->get_display());
     }
 
-    public function test_taylor_cos_nosimp() {
+    public function test_taylor_cos_nosimp(): void {
+
         $cs = [
             'c1:taylor(cos(x),x,0,1)',
             'c3:taylor(cos(x),x,0,3)',
@@ -1173,7 +1204,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('1-\frac{x^2}{2}+\cdots', $s1[1]->get_display());
     }
 
-    public function test_lambda() {
+    public function test_lambda(): void {
+
         $cs = [
             'l1:lambda([ex], ex^3)',
             'l2:[1,2,3]',
@@ -1189,7 +1221,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('[1,8,27]', $s1[2]->get_value());
     }
 
-    public function test_sets_simp() {
+    public function test_sets_simp(): void {
+
         $cs = ['c1:{}', 'c2:{b,a,c}'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
@@ -1206,7 +1239,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\left \{a , b , c \right \}', $s1[1]->get_display());
     }
 
-    public function test_sets_simp_false() {
+    public function test_sets_simp_false(): void {
+
         $cs = ['c1:{}', 'c2:{b,a,c}'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
@@ -1223,7 +1257,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\left \{b , a , c \right \}', $s1[1]->get_display());
     }
 
-    public function test_numerical_rounding() {
+    public function test_numerical_rounding(): void {
 
         $tests = stack_numbers_test_data::get_raw_test_data();
         $s1 = [];
@@ -1252,7 +1286,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_dispdp() {
+    public function test_dispdp(): void {
+
         // @codingStandardsIgnoreStart
 
         // Tests in the following form.
@@ -1313,7 +1348,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_dispdp_systematic() {
+    public function test_dispdp_systematic(): void {
+
         $cs = stack_ast_container::make_from_teacher_source("L:makelist(dispdp(10^-1+10^-k,k+1),k,12,20)",
                 '', new stack_cas_security(), []);
         $s1[] = $cs;
@@ -1343,7 +1379,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s1[0]->get_value());
     }
 
-    public function test_dispdp_systematic_longer() {
+    public function test_dispdp_systematic_longer(): void {
 
         $cs = stack_ast_container::make_from_teacher_source("fpprintprec:16", '', new stack_cas_security(), []);
         $s1[] = $cs;
@@ -1376,7 +1412,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s1[1]->get_value());
     }
 
-    public function test_dispsf() {
+    public function test_dispsf(): void {
+
         // @codingStandardsIgnoreStart
 
         // Tests in the following form.
@@ -1423,7 +1460,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_significantfigures_errors() {
+    public function test_significantfigures_errors(): void {
+
         $tests = [
             ['significantfigures(%pi/3,3)', '1.05', ''],
             [
@@ -1452,7 +1490,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_significantfigures_list() {
+    public function test_significantfigures_list(): void {
+
         $tests = [
             [
                 'significantfigures([0.2,0.4,0.5,0.6,0.7,0.8,1]*1.9,3)',
@@ -1474,7 +1513,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_sf() {
+    public function test_sf(): void {
+
         // @codingStandardsIgnoreStart
 
         // Tests in the following form.
@@ -1527,7 +1567,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_scientific_notation() {
+    public function test_scientific_notation(): void {
+
         // @codingStandardsIgnoreStart
 
         // Tests in the following form.
@@ -1805,7 +1846,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_pm_simp_false() {
+    public function test_pm_simp_false(): void {
+
         $cs = [
             'c0:a#pm#b',
             'c1:x = (-b #pm# sqrt(b^2-4*a*c))/(2*a)',
@@ -1851,7 +1893,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $s1[9]->get_display());
     }
 
-    public function test_pm_simp_true() {
+    public function test_pm_simp_true(): void {
+
         $cs = [
             'c1:a#pm#b',
             'c2:x=(-b #pm# sqrt(b^2-4*a*c))/(2*a)',
@@ -1897,7 +1940,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $s1[9]->get_display());
     }
 
-    public function test_logic_nouns() {
+    public function test_logic_nouns(): void {
+
         // Nouns forms of logic operators are added by student validation.
         $s1 = [];
         $s1[] = stack_ast_container::make_from_teacher_source('p0:x=1 or x=2', '', new stack_cas_security(), []);
@@ -1921,7 +1965,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('false', $s1[3]->get_value());
     }
 
-    public function test_natural_domain() {
+    public function test_natural_domain(): void {
 
         // Cases should be in the form array('input', 'value', 'display').
         $cases = [];
@@ -1955,7 +1999,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_union_tex() {
+    public function test_union_tex(): void {
 
         // Cases should be in the form array('input value', 'display').
         $cases[] = ['%union(a,b,c)', 'a \cup b \cup c'];
@@ -2000,7 +2044,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_disp_comma_separate() {
+    public function test_stack_disp_comma_separate(): void {
 
         // Cases should be in the form array('input', 'value', 'display').
         $cases = [];
@@ -2023,7 +2067,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_disp_innards_ntuple() {
+    public function test_stack_disp_innards_ntuple(): void {
 
         // Cases should be in the form array('input', 'value', 'display').
         $cases = [];
@@ -2046,7 +2090,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_stackintfmt() {
+    public function test_stack_stackintfmt(): void {
 
         // Cases should be in the form array('input', 'value', 'display').
         $cases = [];
@@ -2074,7 +2118,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_stack_equiv_find_step() {
+    public function test_stack_stack_equiv_find_step(): void {
 
         $r1 = [
             'ta:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2*lg(5,5)),stackeq(2*1),stackeq(2)]',
@@ -2111,7 +2155,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_dispvalue() {
+    public function test_dispvalue(): void {
+
         // These are tests of test-case generation.
 
         $tests = [
@@ -2153,7 +2198,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_strip_percent() {
+    public function test_stack_strip_percent(): void {
+
         $tests = [
             'assume(x>0)',
             'eq1:x^2*\'diff(y,x)+3*y*x=sin(x)/x',
@@ -2176,7 +2222,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('y = (k-cos(x))/x^3', $s1[4]->get_value());
     }
 
-    public function test_stack_quantile_gamma() {
+    public function test_stack_quantile_gamma(): void {
+
         // This command has lisp throw an error.
         $tests = ['p:quantile_gamma(0.5,26896/81,81/164)'];
 
@@ -2197,7 +2244,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('163.835395267', $actual);
     }
 
-    public function test_stack_parse_inequalities() {
+    public function test_stack_parse_inequalities(): void {
+
         // This command has lisp throw an error.
         $tests = ['f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3;', 'v1:f(-5);', 'v2:f(4);'];
 
@@ -2215,7 +2263,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('f(x):=if x < 0 then (if x < 1 then 1 else 2) else 3', $s1[0]->get_value());
     }
 
-    public function test_stack_rat() {
+    public function test_stack_rat(): void {
+
         $tests = [
             's1 : 8.5*sin(rat(2*pi*((0.37/1.86440677966E-4)-(5.8/0.22))))', 's2:1',
             'm:MAXIMA_VERSION_NUM',
@@ -2239,7 +2288,8 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_pmpoly() {
+    public function test_stack_pmpoly(): void {
+
         $tests = [
             's1:-(4*x^7)+3*x^5-2*x^3+x',
             'p1:-a/b', 'p2:(-a)/b', 'p3:-(a/b)',
@@ -2277,7 +2327,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('{a \pm b}', $s1[4]->get_display());
     }
 
-    public function test_stack_pm_maximaoutput() {
+    public function test_stack_pm_maximaoutput(): void {
+
         $tests = ['a*b+c*d+-A*B'];
 
         foreach ($tests as $key => $c) {
@@ -2305,7 +2356,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 
-    public function test_stack_pm_taylor() {
+    public function test_stack_pm_taylor(): void {
+
         $tests = ['ta:ev(taylor(10*cos(2*x),x,%pi/4,2),simp)'];
 
         foreach ($tests as $key => $c) {
@@ -2336,7 +2388,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 
-    public function test_stack_scientific_notationp() {
+    public function test_stack_scientific_notationp(): void {
+
         $truetests = [
             '3*10^2',
             '3.1*10^2',
@@ -2398,7 +2451,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_regex_match_exactp() {
+    public function test_stack_regex_match_exactp(): void {
 
         $t1 = [];
         $t1[] = ['regex_match_exactp("(aaa)*(b|d)c", "aaaaaabc")', 'true'];
@@ -2420,7 +2473,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_at_units_sigfigs() {
+    public function test_stack_at_units_sigfigs(): void {
 
         $t1 = [];
         $t1[] = ['simp:false', 'false'];
@@ -2442,7 +2495,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_rational_numberp() {
+    public function test_stack_rational_numberp(): void {
 
         $s1 = [];
         $t1 = [];
@@ -2485,7 +2538,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_numerical_not_alg_equiv_edge() {
+    public function test_stack_numerical_not_alg_equiv_edge(): void {
 
         $s1 = [];
         $t1 = [];
@@ -2508,7 +2561,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_blockexternal() {
+    public function test_stack_blockexternal(): void {
 
         $s1 = [];
         $t1 = [];
@@ -2541,7 +2594,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_silent_tellsimp() {
+    public function test_silent_tellsimp(): void {
 
         $qv = "matchdeclare(pmpatex1,true);\nmatchdeclare(pmpatex2,true);" .
             "tellsimpafter((pmpatex1 #pm# pmpatex2)!,(pmpatex1^2) #pm# pmpatex2);\n" .
@@ -2554,7 +2607,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals("b^2#pm#c", $cs->get_value());
     }
 
-    public function test_eval_in_block() {
+    public function test_eval_in_block(): void {
+
         $qv = "f:ev(2*x,x=2);\n" .
             "ev(g:3*x,x=3);\n" .
             "h:5*x,x=5;\n".
@@ -2573,7 +2627,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('[4,9,25,36]', $s1->get_value());
     }
 
-    public function test_confirm_induced_timeout() {
+    public function test_confirm_induced_timeout(): void {
+
         $qv = "p:1;\n" .
               "for i:1 thru 2^100 do p:p+(-1)^i;\n";
         $qv = new stack_cas_keyval($qv, null, 123);
@@ -2589,7 +2644,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('CAS failed to return any data due to timeout.', $s1->get_errors());
     }
 
-    public function test_complex_number_display() {
+    public function test_complex_number_display(): void {
 
         // These test cases get wrapped in the general display_complex(ex) function to test the default conversion.
         $cases = [];
@@ -2671,7 +2726,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_complex_number_display_options() {
+    public function test_complex_number_display_options(): void {
 
         // These test cases get wrapped in the general display_complex(ex) function to test the default conversion.
         $cases = [];
@@ -2703,7 +2758,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_parens_delect_display() {
+    public function test_parens_delect_display(): void {
 
         $cases = [];
         $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c'];
@@ -2733,7 +2788,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_parens_select() {
+    public function test_parens_select(): void {
 
         $cases = [];
         $cases[] = ['select(integerp, 3)', '\color{red}{\underline{3}}'];
@@ -2764,7 +2819,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_fboundp() {
+    public function test_fboundp(): void {
 
         $cases = [];
         $cases[] = ['fboundp(sinner)', 'false'];
@@ -2791,7 +2846,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_diag() {
+    public function test_diag(): void {
 
         $cases = [];
         $cases[] = [
@@ -2819,7 +2874,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_cartesian_product() {
+    public function test_cartesian_product(): void {
 
         $cases = [];
         $cases[] = [
@@ -2843,7 +2898,7 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_keyword_end() {
+    public function test_keyword_end(): void {
 
         $cases = [
             'v1: (-x^2+1)/(x^2+1)^2', 'v2: 1/(x^2+1)-(2*x^2)/(x^2+1)^2', 'end:3',
@@ -2868,7 +2923,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
-    public function test_use_at() {
+    public function test_use_at(): void {
 
         // This testcase arose as issue #762.
         $cases = [
@@ -2920,7 +2975,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([-4],[1])', $t1->get_value());
     }
 
-    public function test_s_test() {
+    public function test_s_test(): void {
 
         $cases = ['t1:s_assert(a,b)'];
 
@@ -2938,7 +2993,7 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('s_assert: STACK expected \' b \' but was given \' a \'.', $session->get_errors());
     }
 
-    public function test_let() {
+    public function test_let(): void {
 
         // Note, the rule deliberarly does not correspond to normal mathematics!
         $cases = [
@@ -2959,7 +3014,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('cos(x)^6-2*cos(x)^3+1', $p->get_value());
     }
 
-    public function test_let_matrix() {
+    public function test_let_matrix(): void {
+
         $cases = ['orderless(I);',
             'matchdeclare([a],true)',
             '(let(I*a, a), let(I^2, I), true)',
@@ -2997,7 +3053,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
     }
 
-    public function test_stackmaximaversion() {
+    public function test_stackmaximaversion(): void {
+
         // This test ensures that we are not running against different
         // version number of the STACK-Maxima scripts. For example,
         // old image in a server setup or a cache layer somewhere.

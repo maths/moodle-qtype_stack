@@ -14,10 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../string/string.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_parsons_input extends stack_string_input {
 
     /**
@@ -77,6 +85,7 @@ class stack_parsons_input extends stack_string_input {
     protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display',
         '912_inert_string_for_display', ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // This is the same as `string` input render except we hide the input box.
 
@@ -151,6 +160,7 @@ class stack_parsons_input extends stack_string_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {

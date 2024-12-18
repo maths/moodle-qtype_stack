@@ -34,6 +34,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetreest
 /**
  * Stack question editing form definition.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -72,7 +73,9 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var array the set of choices used for the score mode of all PRT branches. */
     protected $scoremodechoices;
 
-    /** Patch up data from the database before a user edits it in the form. */
+    /**
+     * Patch up data from the database before a user edits it in the form.
+     */
     public function set_data($question) {
         if (!empty($question->questiontext)) {
             $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
@@ -108,6 +111,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Add description here.
      * @return string the current value of the question text, given the state the form is in.
      */
     protected function get_current_question_text() {
@@ -130,6 +134,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Add description here.
      * @return string the current value of the specific feedback, given the state the form is in.
      */
     protected function get_current_specific_feedback() {
@@ -149,6 +154,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $this->specificfeedback;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
         parent::definition();
         $mform = $this->_form;
@@ -166,6 +172,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
         global $OUTPUT;
 
@@ -227,7 +234,6 @@ class qtype_stack_edit_form extends question_edit_form {
 
         /* Check if we have a new question. */
         if (isset($this->question->id)) {
-            //var_dump($this->question);die();
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
@@ -414,7 +420,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('stackBlock_geogebra_heading'));
             $mform->insertElementBefore($geogebraheading, 'questiontext');
 
-            // Add function to get GeoGebra material_ids in STACK questiontext.
+            /**
+             * Add function to get GeoGebra material_ids in STACK questiontext.
+             */
             function get_geogebra_material_ids($str) {
                 $start = "material_id:\"";
                 $end = "\"";
@@ -728,6 +736,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
         $question = $this->data_preprocessing_options($question);
@@ -921,6 +930,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $data;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
@@ -928,6 +938,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $qtype->validate_fromform($fromform, $errors);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function qtype() {
         return 'stack';
     }

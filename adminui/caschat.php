@@ -19,6 +19,7 @@
  * This can be useful for learning about the CAS syntax, and also for testing
  * that maxima is working correctly.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Unit tests for stack_abstract_graph and friends.
+ *
+ * @package    qtype_stack
+ * @copyright 2013 The Open Unviersity.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * @group qtype_stack
+ * @covers \stack_abstract_graph
+ */
+
 namespace qtype_stack;
 
 use stack_abstract_graph;
@@ -23,23 +33,20 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/graphlayout/graph.php');
 
-// Unit tests for stack_abstract_graph and friends.
-//
-// @copyright 2013 The Open Unviersity.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_abstract_graph and friends.
  * @group qtype_stack
  * @covers \stack_abstract_graph
  */
-class graphlayout_test extends basic_testcase {
+final class graphlayout_test extends basic_testcase {
 
     /**
      * This graph has 4 nodes and should look like:
      * /\
      * \
      */
-    public function test_simple_graph() {
+    public function test_simple_graph(): void {
+
         $graph = new stack_abstract_graph();
         $graph->add_node(1, '', 2, 3, '=1', '=0');
         $graph->add_node(2, '', null, 4, '+0.1', '-0.1');
@@ -76,7 +83,8 @@ class graphlayout_test extends basic_testcase {
      * This is quite a common pattern in STACK questions.
      * Also, here we test layout out a graph where the root node is not first.
      */
-    public function test_linear_graph() {
+    public function test_linear_graph(): void {
+
         $graph = new stack_abstract_graph();
         $graph->add_node(2, '', null, null, '+0.1', '-0.1');
         $graph->add_node(1, '', 2, 2, '=1', '=0');
@@ -100,7 +108,8 @@ class graphlayout_test extends basic_testcase {
     /**
      * This graph has 1 node and contains a loop. We verify it is detected.
      */
-    public function test_loop_detection() {
+    public function test_loop_detection(): void {
+
         $graph = new stack_abstract_graph();
         $graph->add_node(1, '', 1, 1, '=1', '=0');
         $graph->layout();
@@ -121,7 +130,8 @@ class graphlayout_test extends basic_testcase {
     /**
      * This graph has 2 distinct nodes. We verify that they are both detected as roots.
      */
-    public function test_two_roots() {
+    public function test_two_roots(): void {
+
         $graph = new stack_abstract_graph();
         $graph->add_node(1, '', null, null, '=1', '=0');
         $graph->add_node(2, '', null, null, '=1', '=0');
@@ -142,7 +152,8 @@ class graphlayout_test extends basic_testcase {
     /**
      * This graph has a link to a non-existent node. We verify that throws an exception.
      */
-    public function test_missing_node() {
+    public function test_missing_node(): void {
+
         $this->expectException(\coding_exception::class);
         $graph = new stack_abstract_graph();
         $graph->add_node(1, '', null, 2, '=1', '=0');
@@ -153,7 +164,8 @@ class graphlayout_test extends basic_testcase {
     /**
      * This graph has a link to a non-existent node. We verify that throws an exception.
      */
-    public function test_get_suggested_node_names() {
+    public function test_get_suggested_node_names(): void {
+
         $graph = new stack_abstract_graph();
         $graph->add_node(1, '', 2, 3);
         $graph->add_node(2, '', 7, null);

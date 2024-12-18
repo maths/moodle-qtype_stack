@@ -20,28 +20,34 @@ use qtype_stack_testcase;
 
 defined('MOODLE_INTERNAL') || die();
 
-// Unit tests for the documentation library functions.
-//
-// @copyright 2012 The Open University.
-// @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for the documentation library functions.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../doc/docslib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class docslib_test extends qtype_stack_testcase {
+final class docslib_test extends qtype_stack_testcase {
 
-    public function test_stack_docs_title_from_filename() {
+    public function test_stack_docs_title_from_filename(): void {
+
         $this->assertEquals('About', stack_docs_title_from_filename('About'));
         $this->assertEquals('Some folder', stack_docs_title_from_filename('Some_folder'));
         $this->assertEquals('Documentation', stack_docs_title_from_filename('Documentation.md'));
         $this->assertEquals('Future plans', stack_docs_title_from_filename('Future_plans.md'));
     }
 
-    public function test_stack_docs_index() {
+    public function test_stack_docs_index(): void {
+
         global $CFG;
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
@@ -50,7 +56,8 @@ class docslib_test extends qtype_stack_testcase {
                         'LTI</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
-                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima_installation.md">Maxima installation</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima_installation.md">' .
+                        'Maxima installation</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Migration.md">Migration</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Optimising_Maxima.md">' .
                         'Optimising Maxima</a></li>' .
@@ -73,7 +80,8 @@ class docslib_test extends qtype_stack_testcase {
                 $CFG->wwwroot . '/question/type/stack/doc.php/Students'));
     }
 
-    public function test_stack_docs_render_markdown() {
+    public function test_stack_docs_render_markdown(): void {
+
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
         $currentversion = normalize_version(get_config('', 'release'));
@@ -106,14 +114,16 @@ class docslib_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_docs_render_markdown_with_proof() {
+    public function test_stack_docs_render_markdown_with_proof(): void {
+
         $md = '<div class="proof"><p>H1. Assume that \(3 \cdot 2^{172} + 1\) is a perfect square.</p></div>';
         $ex = $md . "\n";
         $this->assert_content_with_maths_equals($ex,
             stack_docs_render_markdown($md));
     }
 
-    public function test_stack_docs_render_markdown_with_table() {
+    public function test_stack_docs_render_markdown_with_table(): void {
+
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
         $currentversion = normalize_version(get_config('', 'release'));

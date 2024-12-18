@@ -21,7 +21,8 @@
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
+// phpcs:disable moodle.Files.LangFilesOrdering.UnexpectedComment
 $string['pluginname']        = 'STACK';
 $string['pluginname_help']   = 'STACK is an assessment system for mathematics.';
 $string['pluginnameadding']  = 'Adding a STACK question';
@@ -317,9 +318,8 @@ $string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/
 $string['questionwarnings'] = 'Question warnings';
 $string['questionwarnings_help'] = 'Question warnings are issues you might want to address, but which are not outright errors.';
 $string['questiontext'] = 'Question text';
-// @codingStandardsIgnoreStart
+// phpcs:ignore
 $string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
-// @codingStandardsIgnoreEnd
 $string['questiontext_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#question_text';
 $string['questiontextnonempty'] = 'The question text must be non-empty.';
 $string['questiontextmustcontain'] = 'The question text must contain the token \'{$a}\'.';

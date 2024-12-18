@@ -19,6 +19,7 @@
  * This version handles transfer of the plots generated on possibly remote servlet.
  * For details of this see https://github.com/maths/stack_util_maximapool/
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @copyright  2012 Aalto University - Matti Harjula
  * @copyright  2014 Loughborough University
@@ -26,10 +27,12 @@
  */
 class stack_cas_connection_server extends stack_cas_connection_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function guess_maxima_command($path) {
         return 'http://localhost:8080/MaximaPool/MaximaPool';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function call_maxima($command) {
         global $CFG;
         $err = '';

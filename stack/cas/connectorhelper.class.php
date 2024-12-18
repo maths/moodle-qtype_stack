@@ -25,6 +25,7 @@ require_once(__DIR__ . '/installhelper.class.php');
 /**
  * The base class for connections to Maxima.
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -122,6 +123,7 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Add description here.
      * @return string the configured platform type.
      */
     public static function get_platform() {
@@ -130,6 +132,7 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Add description here.
      * @return string the configured version number.
      */
     public static function get_maximaversion() {
@@ -199,6 +202,7 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Add description here.
      * @return string the version of the STACK Maxima libraries that should be in use.
      */
     public static function get_required_stackmaxima_version() {
@@ -390,7 +394,7 @@ abstract class stack_connection_helper {
         return [$message, $debug, $success];
     }
 
-    /*
+    /**
      * This function is in this class, rather than installhelper.class.php, to
      * ensure the lowest level connection to the CAS, without caching.
      */

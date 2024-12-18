@@ -27,10 +27,11 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_multilang {
 
-    /*
-     * Variable to hold the current language.
+    /**
+     * @var string Variable to hold the current language.
      */
     private $lang = 'en';
 
@@ -40,11 +41,14 @@ class stack_multilang {
     protected static $parentcache = [];
 
     // Note, we only support the new style language tags.  For more information see Moodle's filter/multilang.php class.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $searchtosplit = '/<(?:lang|span)[^>]+lang="([a-zA-Z0-9_-]+)"[^>]*>(.*?)<\/(?:lang|span)>/is';
 
     // The search pattern as seen in filter/multilang2.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $search2 =
                   '/{\s*mlang\s+(                               # Look for the leading {mlang
                                     (?:[a-z0-9_-]+)             # At least one language must be present
@@ -56,7 +60,7 @@ class stack_multilang {
                    {\s*mlang\s*}                                # And look for the trailing {mlang}.
                    /isx';
 
-    /*
+    /**
      * Filter text for the specified language.
      */
     public function filter($text, $lang) {
@@ -134,6 +138,7 @@ class stack_multilang {
         return $text;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function filter_multilang_impl($langblock) {
 
         $mylang = $this->lang;
@@ -165,6 +170,7 @@ class stack_multilang {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function filter_multilang2_impl($langblock) {
         // Note that this is pretty much perfect clone of the original.
         $blocklangs = explode(',', str_replace(' ', '', str_replace('-', '_', strtolower($langblock[1]))));
@@ -180,7 +186,7 @@ class stack_multilang {
         return '';
     }
 
-    /*
+    /**
      * Return those languages _explicitly_ found in the text.
      */
     public function languages_used($langblock) {
@@ -189,7 +195,7 @@ class stack_multilang {
     }
 
 
-    /*
+    /**
      * Consolidate all the text inside langage blocks.
      */
     public function consolidate_languages($text) {
@@ -212,7 +218,7 @@ class stack_multilang {
         return implode("\n", $filtered);
     }
 
-    /*
+    /**
      * Check for non-trivial content.
      */
     public function non_trivial_content_for_check($text) {
@@ -224,7 +230,7 @@ class stack_multilang {
         return true;
     }
 
-    /*
+    /**
      * Identify used filter. We know of a few tools that are used for this.
      * Will return the first matching in this list, we do not deal with mixed ones.
      *  0 for no match
@@ -298,7 +304,7 @@ class stack_multilang {
         return [0, []];
     }
 
-    /*
+    /**
      * Select the best language match from a list.
      * Note this is one of those functions that will need to be tuned in othe VLEs.
      */

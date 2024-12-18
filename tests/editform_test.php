@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Subclass of qtype_stack_edit_form_testable that is easier to use in unit tests.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
@@ -22,17 +30,14 @@ global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once(__DIR__ . '/../edit_stack_form.php');
 
-// Subclass of qtype_stack_edit_form_testable that is easier to use in unit tests.
-//
-// @copyright  2012 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Subclass of qtype_stack_edit_form_testable that is easier to use in unit tests.
  * @group qtype_stack
  * @covers \qtype_stack_edit_form
  */
-class editform_test_class extends \qtype_stack_edit_form {
+final class editform_test_class extends \qtype_stack_edit_form {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function __construct($questiontext, $specificfeedback, $quizmoduleid) {
         global $USER;
         // ISS1325 - Use quiz context rather than system context as
@@ -76,13 +81,15 @@ class editform_test_class extends \qtype_stack_edit_form {
 /**
  * Unit tests for Stack question editing form.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  * @covers \qtype_stack_edit_form
  */
-class editform_test extends \advanced_testcase {
+final class editform_test extends \advanced_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function get_form($questiontext, $specificfeedback) {
         $this->setAdminUser();
         $this->resetAfterTest();
@@ -94,7 +101,8 @@ class editform_test extends \advanced_testcase {
         return new editform_test_class($questiontext, $specificfeedback, $quizmoduleid);
     }
 
-    public function test_get_input_names_from_question_text_default() {
+    public function test_get_input_names_from_question_text_default(): void {
+
         $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
         $qtype = new \qtype_stack();
@@ -103,7 +111,8 @@ class editform_test extends \advanced_testcase {
                 $qtype->get_input_names_from_question_text(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
     }
 
-    public function test_get_prt_names_from_question_default() {
+    public function test_get_prt_names_from_question_default(): void {
+
         $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
         $qtype = new \qtype_stack();

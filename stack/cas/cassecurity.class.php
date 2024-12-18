@@ -18,13 +18,17 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/casstring.units.class.php');
 
-// CAS identifier related security data-lookups.
-//
-// @copyright  2018 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * CAS identifier related security data-lookups.
+ *
+ * @package    qtype_stack
+ * @copyright  2018 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 class stack_cas_security {
     // This holds a copy of the security-map.json so that it does not need to
     // be loaded too many times.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $securitymap = null;
 
     /** @var bool if this security context considers units as constants. */
@@ -33,11 +37,13 @@ class stack_cas_security {
     /** @var string specific allowed words or groups of them. Used to expand
              the student allowed identifiers set. */
     private $allowedwords = '';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $allowedwordsasmap = null;
 
     /** @var string specific forbidden words or groups of them. Used to cut down
              the student allowed identifiers set. */
     private $forbiddenwords = '';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $forbiddenwordsasmap = null;
 
     /** @var array typically the teacher side variable identifiers. Used to cut
@@ -52,6 +58,7 @@ class stack_cas_security {
      * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
      * Actually, not lower case, Maxima is not case insensitive just check "ModeMatrix" for an example.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $keywordlists = [
         '[[basic-algebra]]' => [
             'coeff' => true, 'conjugate' => true, 'cspline' => true, 'disjoin' => true,
@@ -85,6 +92,7 @@ class stack_cas_security {
     ];
 
     // TO-DO: remove once baselogic.class.php has been removed.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function is_good_function(string $identifier): bool {
         // Generic tool for telling if a given identifier matches a function.
         if (self::$securitymap === null) {
@@ -102,6 +110,7 @@ class stack_cas_security {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_feature(string $identifier, string $feature) {
         // Generic tool for telling if a given identifier matches a function.
         if (self::$securitymap === null) {
@@ -118,6 +127,7 @@ class stack_cas_security {
         return null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = []) {
         if (self::$securitymap === null) {
             // Initialise the map.
@@ -154,11 +164,13 @@ class stack_cas_security {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_allowedwords(string $allowedwords) {
         $this->allowedwords = $allowedwords;
         $this->allowedwordsasmap = null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_allowedwords(string $allowedwords) {
         // We now add things like "dispdp" to existing allowedwords.
         if ($this->allowedwords === '') {
@@ -169,20 +181,24 @@ class stack_cas_security {
         $this->allowedwordsasmap = null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_forbiddenwords(string $forbiddenwords) {
         $this->forbiddenwords = $forbiddenwords;
         $this->forbiddenwordsasmap = null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_context(array $context) {
         $this->context = $context;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_context(): array {
         return $this->context;
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_forbiddenkeys(array $forbiddenkeys) {
         $this->forbiddenkeys  = $forbiddenkeys;
         // Check that the keys if present are the correct way around.
@@ -210,10 +226,12 @@ class stack_cas_security {
         $this->forbiddenkeys = $real;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_units(bool $units) {
         $this->units = $units;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_units(): bool {
         return $this->units;
     }
@@ -435,6 +453,7 @@ class stack_cas_security {
         return $security === 't';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_allowed_word(string $identifier, string $type='variable'): bool {
         if ($this->allowedwordsasmap == null) {
             $this->allowedwordsasmap = self::list_to_map($this->allowedwords);
@@ -543,6 +562,7 @@ class stack_cas_security {
     }
 
     // Takes a string form allowed/forbiddenwords list and turns it into an array.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function list_to_map(string $list): array {
         // Probably called often, why waste time repeating the loops.
         static $cache = [];
@@ -618,6 +638,7 @@ class stack_cas_security {
     }
 
     // Returns all identifiers with a given feature as long as the feature is not valued 'f'.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all_with_feature(string $feature, bool $units = false): array {
         static $cache = [];
         if (!isset($cache[$units ? 'true' : 'false'])) {
@@ -653,6 +674,7 @@ class stack_cas_security {
     // The so called alpha-map, of all known identifiers that should be protected from
     // insert-stars. Indexed with the identifiers.
     // NOT ordered by length anymore.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_protected_identifiers(string $type = 'variable', bool $units = false): array {
         static $variablewithoutunits = null;
         static $variablewithunits = null;

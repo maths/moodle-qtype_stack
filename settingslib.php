@@ -30,10 +30,12 @@ defined('MOODLE_INTERNAL') || die();
  *
  * Just so we can lazy-load the choices.
  *
+ * @package    qtype_stack
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_admin_setting_maths_display_method extends admin_setting_configselect {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function load_choices() {
         if (is_array($this->choices)) {
             return true;
@@ -70,10 +72,12 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
  *
  * So we can lazy-load the choices.
  *
+ * @package    qtype_stack
  * @copyright  2013 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_admin_setting_input_types extends admin_setting_configselect {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function load_choices() {
         global $CFG;
         require_once($CFG->dirroot . '/question/type/stack/stack/input/factory.class.php');

@@ -26,18 +26,19 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 require_once(__DIR__ . '/../doc/docslib.php');
 
-// Unit tests for the Moodle TeX filter maths output class.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the Moodle TeX filter maths output class.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_maths_output_tex
  */
-class mathsoutputtex_test extends qtype_stack_testcase {
+final class mathsoutputtex_test extends qtype_stack_testcase {
 
-    public function test_tex_rendering() {
+    public function test_tex_rendering(): void {
+
         $this->resetAfterTest();
         global $CFG;
         require_once($CFG->libdir . '/environmentlib.php');
@@ -68,6 +69,7 @@ class mathsoutputtex_test extends qtype_stack_testcase {
         }
 
         // Test docs - make sure code is not rendered.
+        // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
         $md = 'Latex for `\[x^2 + y^2\]`.';
         $this->assertEquals('<p>Latex for <code>\[x^2 + y^2\]</code>.</p>' . "\n",
             stack_docs_render_markdown($md));

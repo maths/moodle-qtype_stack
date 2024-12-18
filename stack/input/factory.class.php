@@ -28,7 +28,11 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/inputbase.class.php');
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+/**
+ * Input factory.
+ * Provides a convenient way to create an input of any type,
+ * and to get metadata about the input types.
+ */
 class stack_input_factory {
     /**
      * @var array type name => array of parameter names used. Used to cache the

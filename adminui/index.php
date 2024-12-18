@@ -35,6 +35,8 @@ require_capability('qtype/stack:usediagnostictools', context_system::instance())
 $links = [
     get_string('stackDoc_docs_desc', 'qtype_stack',
             ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/')]),
+    get_string('healthcheck_desc', 'qtype_stack',
+            ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')]),
     get_string('chat_desc', 'qtype_stack',
             ['link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php')]),
     get_string('bulktestindexintro_desc', 'qtype_stack',

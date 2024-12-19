@@ -15,16 +15,21 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
+ * @package    qtype_stack
  * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_equiv_test_data {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $rawdata;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $answertestfixtures;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
 
         $samplearguments = [];
@@ -1641,6 +1646,7 @@ class stack_equiv_test_data {
         $this->rawdata = $samplearguments;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_answertestfixtures() {
         // Reformulate the data into answer test fixtures.
         $answertestfixtures = [];

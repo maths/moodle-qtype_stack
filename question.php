@@ -44,6 +44,7 @@ require_once(__DIR__ . '/vle_specific.php');
 /**
  * Represents a Stack question.
  *
+ * @package    qtype_stack
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -278,6 +279,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here.
      * @return bool do any of the inputs in this question require the student
      *      validate the input.
      */
@@ -290,6 +292,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
         if (empty($this->inputs)) {
             return question_engine::make_behaviour('informationitem', $qa, $preferredbehaviour);
@@ -322,6 +325,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return parent::make_behaviour($qa, $preferredbehaviour);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function start_attempt(question_attempt_step $step, $variant) {
         // @codingStandardsIgnoreStart
         // Work out the right seed to use.
@@ -535,6 +539,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function apply_attempt_state(question_attempt_step $step) {
         $this->seed = (int) $step->get_qt_var('_seed');
         $this->initialise_question_from_seed();
@@ -717,6 +722,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return stack_ouput_castext($feedback);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_expected_data() {
         $expected = ['step_lang' => 'raw'];
         foreach ($this->inputs as $input) {
@@ -725,6 +731,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $expected;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_question_summary() {
         $processor = new castext2_qa_processor(new stack_outofcontext_process());
         if ($this->questionnoteinstantiated !== null &&
@@ -734,6 +741,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return stack_string('questionnote_missing');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_question_todos() {
         $hastodos = false;
         $tags = [];
@@ -754,6 +762,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return [$hastodos, $tags];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function summarise_response(array $response) {
         // Provide seed information on student's version via the normal moodle quiz report.
         $bits = ['Seed: ' . $this->seed];
@@ -789,6 +798,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     // Used in reporting - needs to return an array.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function summarise_response_data(array $response) {
         $bits = [];
         foreach ($this->inputs as $name => $input) {
@@ -798,6 +808,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $bits;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_correct_response() {
         $teacheranswer = [];
         if ($this->runtimeerrors || $this->get_cached('units') === null) {
@@ -810,7 +821,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $teacheranswer;
     }
 
-    /*
+    /**
      * This function returns an array of values for inputs which could be typed into Maxima.
      * Used in the caschat function as possible input values.
      */
@@ -825,6 +836,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $teacheranswer;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_same_response(array $prevresponse, array $newresponse) {
         foreach ($this->get_expected_data() as $name => $notused) {
             if (!question_utils::arrays_same_at_key_missing_is_blank(
@@ -835,6 +847,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_same_response_for_part($index, array $prevresponse, array $newresponse) {
         $previnput = $this->get_prt_input($index, $prevresponse, true);
         $newinput = $this->get_prt_input($index, $newresponse, true);
@@ -884,6 +897,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here
      * @param array $response the current response being processed.
      * @return boolean whether any of the inputs are blank.
      */
@@ -896,6 +910,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_any_part_invalid(array $response) {
         // Invalid if any input is invalid, ...
         foreach ($this->inputs as $name => $input) {
@@ -915,6 +930,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_complete_response(array $response) {
 
         // If all PRTs are gradable, then the question is complete. Optional inputs may be blank.
@@ -937,6 +953,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_gradable_response(array $response) {
         // Manually graded answers are always gradable.
         if (!empty($this->inputs)) {
@@ -968,6 +985,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_validation_error(array $response) {
         if ($this->is_any_part_invalid($response)) {
             // There will already be a more specific validation error displayed.
@@ -981,6 +999,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function grade_response(array $response) {
         $fraction = 0;
 
@@ -1001,6 +1020,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return [$fraction, question_state::graded_state_for_fraction($fraction)];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function is_same_prt_input($index, $prtinput1, $prtinput2) {
         foreach ($this->get_cached('required')[$this->prts[$index]->get_name()] as $name => $ignore) {
             if (!question_utils::arrays_same_at_key_missing_is_blank($prtinput1, $prtinput2, $name)) {
@@ -1010,6 +1030,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_parts_and_weights() {
         $weights = [];
         foreach ($this->prts as $index => $prt) {
@@ -1020,6 +1041,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $weights;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function grade_parts_that_can_be_graded(array $response, array $lastgradedresponses, $finalsubmit) {
         $partresults = [];
 
@@ -1060,6 +1082,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $partresults;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compute_final_grade($responses, $totaltries) {
         // This method is used by the interactive behaviour to compute the final
         // grade after all the tries are done.
@@ -1349,6 +1372,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here.
      * @return bool whether this question uses randomisation.
      */
     public function has_random_variants() {
@@ -1356,6 +1380,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
+     * Add description here
      * @param string Input text (raw keyvals) to check for random functions, or use of stack_seed.
      * @return bool Actual test of whether text uses randomisation.
      */
@@ -1364,6 +1389,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             || preg_match('~\bstack_seed~', $text);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_num_variants() {
         if (!$this->has_random_variants()) {
             // This question does not use randomisation. Only declare one variant.
@@ -1379,6 +1405,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return 1000000;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_variants_selection_seed() {
         if (!empty($this->variantsselectionseed)) {
             return $this->variantsselectionseed;
@@ -1387,6 +1414,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
         if ($component == 'qtype_stack' && $filearea == 'specificfeedback') {
             // Specific feedback files only visibile when the feedback is.
@@ -1410,10 +1438,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_context() {
         return context::instance_by_id($this->contextid);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function has_question_capability($type) {
         global $USER;
         $context = $this->get_context();
@@ -1421,7 +1451,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 ($USER->id == $this->createdby && has_capability("moodle/question:{$type}mine", $context));
     }
 
-    /* Get the values of all variables which have a key.  So, function definitions
+    /**
+     * Get the values of all variables which have a key.  So, function definitions
      * and assignments are ignored by this method.  Used to display the values of
      * variables used in a question variant.  Beware that some functions have side
      * effects in Maxima, e.g. orderless.  If you use these values you may not get
@@ -1483,6 +1514,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function classify_response(array $response) {
         $classification = [];
 
@@ -1657,7 +1689,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return implode(' ', $errors);
     }
 
-    /*
+    /**
      * Unfortunately, "errors" stop a question being saved.  So, we have a parallel warning mechanism.
      * Warnings need to be addressed but should not stop a question being saved.
      */

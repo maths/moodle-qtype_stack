@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_testcase;
@@ -27,23 +34,27 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 // Unit tests for {@link stack_fact_sheets}.
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \stack_fact_sheets
  */
-class fact_sheets_test extends qtype_stack_testcase {
+final class fact_sheets_test extends qtype_stack_testcase {
 
-    public function test_basic_castext_instantiation() {
+    public function test_basic_castext_instantiation(): void {
+
         $this->assertEquals([], stack_fact_sheets::get_unrecognised_tags('Hello world'));
     }
 
-    public function test_trap_bad_fact_sheet_names() {
+    public function test_trap_bad_fact_sheet_names(): void {
+
         $this->assertEquals([0 => 'bad_hint', 1 => 'badder_hint'],
                 stack_fact_sheets::get_unrecognised_tags(
                         "This is some CAStext with a [[facts:bad_hint]] " .
                         "and yet another [[facts:badder_hint]]"));
     }
 
-    public function test_legacy_convert() {
+    public function test_legacy_convert(): void {
+
         $this->assertEquals("An [[facts:old_hint]] and [[facts:older_hint]].",
                 stack_fact_sheets::convert_legacy_tags("An <hint>old_hint</hint> and <hint>older_hint</hint>."));
     }

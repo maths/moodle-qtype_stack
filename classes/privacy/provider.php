@@ -27,6 +27,7 @@ namespace qtype_stack\privacy;
 /**
  * Privacy Subsystem for qtype_stack implementing null_provider.
  *
+ * @package    qtype_stack
  * @copyright  2018 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

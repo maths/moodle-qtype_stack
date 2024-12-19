@@ -21,6 +21,7 @@
  * correctly, and second it serves to document the expected behaviour of answer
  * tests, which is useful for learning how they work.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,13 +30,21 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('equivfixtures.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_answertest_test_data {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NAME    = 0;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const OPTIONS = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SANS    = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const TANS    = 3;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SCORE   = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const ANSNOTE = 5;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES   = 6;
 
     /**
@@ -54,6 +63,7 @@ class stack_answertest_test_data {
      * Comments on this test.
      * Header row in the table (optional).
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
 
         ['AlgEquiv', '', '1/0', '1', -1, 'ATAlgEquiv_STACKERROR_SAns.', ''],
@@ -1257,6 +1267,11 @@ class stack_answertest_test_data {
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.
         ['CasEqual', '', 'integerp(-1)', 'true', 0, 'ATCASEqual_false.', ''],
         ['CasEqual', '', 'integerp(ev(-1,simp))', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'a+(b+c)', '(a+b)+c', 0, 'ATCASEqual (AlgEquiv-true).', 'Associativity'],
+        ['CasEqual', '', 'a+(b+c)', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', 'a+(b+c)', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
 
         ['SameType', '', '1/0', '1', -1, 'ATSameType_STACKERROR_SAns.', ''],
         ['SameType', '', '1', '1/0', -1, 'ATSameType_STACKERROR_TAns.', ''],
@@ -2750,11 +2765,13 @@ class stack_answertest_test_data {
 
         ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();
         return array_merge(self::$rawdata, $equiv->get_answertestfixtures());
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_available_tests() {
         $availabletests = [];
         foreach (self::$rawdata as $test) {
@@ -2763,6 +2780,7 @@ class stack_answertest_test_data {
         return $availabletests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data) {
 
         $test = new stdClass();
@@ -2776,6 +2794,7 @@ class stack_answertest_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all() {
         $tests = [];
         $rawdata = self::get_raw_test_data();
@@ -2785,6 +2804,7 @@ class stack_answertest_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_tests_for($anstest) {
         $tests = [];
         $rawdata = self::get_raw_test_data();
@@ -2797,6 +2817,7 @@ class stack_answertest_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         $sans = stack_ast_container::make_from_teacher_source($test->studentanswer, '', new stack_cas_security());
         $tans = stack_ast_container::make_from_teacher_source($test->teacheranswer, '', new stack_cas_security());

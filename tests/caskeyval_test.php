@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_testcase;
@@ -32,11 +39,13 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 // Unit tests for {@link stack_cas_keyval}.
 
 /**
+ * Add description.
  * @group qtype_stack
  * @covers \stack_cas_keyval
  */
-class caskeyval_test extends qtype_stack_testcase {
+final class caskeyval_test extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function get_valid($s, $val, $session) {
         $kv = new stack_cas_keyval($s, null, 123);
         $kv->instantiate();
@@ -49,7 +58,7 @@ class caskeyval_test extends qtype_stack_testcase {
                             $kv->get_session()->get_keyval_representation());
     }
 
-    public function test_get_valid() {
+    public function test_get_valid(): void {
 
         $cs0 = new stack_cas_session2([], null, 123);
         $cs0->instantiate();
@@ -90,7 +99,8 @@ class caskeyval_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_empty_case_1() {
+    public function test_empty_case_1(): void {
+
         $at1 = new stack_cas_keyval('', null, 123);
         $this->assertTrue($at1->get_valid());
     }
@@ -98,7 +108,9 @@ class caskeyval_test extends qtype_stack_testcase {
     // Now here we have a problem, keyvals do not generate output values
     // they just load stuff to the session, therefore you cannot get
     // the instantiated values.
-    public function test_equations_1() {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function test_equations_1(): void {
+
         $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1; ta3:x=1 nounor x=2', null, 123);
         $at1->instantiate();
         $s = $at1->get_session();
@@ -108,7 +120,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x = 1 nounor x = 2');
     }
 
-    public function test_equations_2() {
+    public function test_equations_2(): void {
+
         $at1 = new stack_cas_keyval('ta1 : x=1$ ta2 : x^2-2*x=1$ ta3:x=1 nounor x=2', null, 123);
         $at1->instantiate();
         $s = $at1->get_session();
@@ -118,7 +131,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x = 1 nounor x = 2');
     }
 
-    public function test_keyval_session_keyval_0() {
+    public function test_keyval_session_keyval_0(): void {
+
         $kvin = "";
         $at1 = new stack_cas_keyval($kvin, null, 123);
         $session = $at1->get_session();
@@ -126,7 +140,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($kvin, $kvout);
     }
 
-    public function test_keyval_session_keyval_1() {
+    public function test_keyval_session_keyval_1(): void {
+
         $kvin = "a:1;\nc:3;";
         $at1 = new stack_cas_keyval($kvin, null, 123);
         $session = $at1->get_session();
@@ -134,7 +149,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($kvin, $kvout);
     }
 
-    public function test_keyval_session_keyval_2() {
+    public function test_keyval_session_keyval_2(): void {
+
         // Equation and function.
         $kvin = "ans1:x^2-2*x = 1;\nf(x):=x^2;\nsin(x^3);";
         $at1 = new stack_cas_keyval($kvin, null, 123);
@@ -143,7 +159,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($kvin, $kvout);
     }
 
-    public function test_basic_logic() {
+    public function test_basic_logic(): void {
+
         $tests = "t1: is(1>0);
                 t2: t1 and true;
                 t3: true or true;
@@ -164,13 +181,15 @@ class caskeyval_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_keyval_input_capture() {
+    public function test_keyval_input_capture(): void {
+
         $s = 'a:x^2; ans1:a+1; ta:a^2';
         $kv = new stack_cas_keyval($s, null, 123);
         $this->assertFalse($kv->get_valid(['ans1']));
     }
 
-    public function test_remove_comment() {
+    public function test_remove_comment(): void {
+
         $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3^2", null, 123);
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
@@ -186,13 +205,15 @@ class caskeyval_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_remove_comment_hanging() {
+    public function test_remove_comment_hanging(): void {
+
         $at1 = new stack_cas_keyval("a:1\n /* This is an open comment \n b:2\n \n c:3^2", null, 123);
         $this->assertFalse($at1->get_valid());
         $at1->instantiate();
     }
 
-    public function test_multiline_input() {
+    public function test_multiline_input(): void {
+
         $tests = "n:3;\nif is(n=3) then (\nk1:1,\nk2:2\n) else (\nk1:3,\nk2:4\n);\na:k2^2;";
 
         $kv = new stack_cas_keyval($tests);
@@ -206,7 +227,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s->get_keyval_representation(true));
     }
 
-    public function test_brackets_in_strings() {
+    public function test_brackets_in_strings(): void {
+
         $tests = "k1:4^2;\nprefix:\"[\";\nsuffix:\"]\";";
 
         $kv = new stack_cas_keyval($tests);
@@ -220,7 +242,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s->get_keyval_representation(true));
     }
 
-    public function test_ampersand_in_strings() {
+    public function test_ampersand_in_strings(): void {
+
         $tests = 'k1:"~@r";n1:2*4;';
 
         $kv = new stack_cas_keyval($tests);
@@ -234,7 +257,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s->get_keyval_representation(true));
     }
 
-    public function test_ampersand_outside_strings() {
+    public function test_ampersand_outside_strings(): void {
+
         $tests = 'k1:u@x;n1:2*4;';
 
         $kv = new stack_cas_keyval($tests);
@@ -243,7 +267,7 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $kv->get_errors());
     }
 
-    public function test_needs_mbstring() {
+    public function test_needs_mbstring(): void {
 
         $tests = "x : rand([1,2,3])\ny : rand([2,3,4])\nA : matrix([x,2,1],[3,4,2],[1,y,5])\n" .
                  "R : get_lu_factors(lu_factor(A))\nL : R[2]\nU : R[3]\n\n/* Help for worked solutions */\n" .
@@ -268,7 +292,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s->get_keyval_representation());
     }
 
-    public function test_usage() {
+    public function test_usage(): void {
+
         // Notes, for global variable usage:
         // The ev case where both : and = work as the definition of values.
         // The block case where some variables may be listed as locals.
@@ -297,7 +322,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertTrue(isset($usage['write']['V']));
     }
 
-    public function test_unclear_subs() {
+    public function test_unclear_subs(): void {
+
         $tests = 'v:2;trig:[sin,cos][v];sub:[(sin(x))^2=1-(cos(x))^2,(cos(x))^2=1-(sin(x))^2][v];f:(trig(x))^n;'
             . 'df:diff(f,x);df_simp:(subst(sub,df));ta1:expand(df_simp);';
 
@@ -319,7 +345,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s->get_keyval_representation());
     }
 
-    public function test_stack_seed_redef() {
+    public function test_stack_seed_redef(): void {
+
         $tests = 'v:2;stack_seed:2';
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
@@ -330,7 +357,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $kv->get_errors());
     }
 
-    public function test_stack_compile() {
+    public function test_stack_compile(): void {
+
         $tests = 'stack_reset_vars(true);ordergreat(i,j,k);p:matrix([-7],[2],[-3]);' .
                  'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
         $kv = new stack_cas_keyval($tests);
@@ -348,7 +376,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $compiled['contextvariables']);
     }
 
-    public function test_stack_compile_preamble_end1() {
+    public function test_stack_compile_preamble_end1(): void {
+
         $tests = 'stack_reset_vars(true);n1:1;ordergreat(i,j,k);%_stack_preamble_end;' .
             'p:matrix([-7],[2],[-3]);' .
             'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
@@ -367,7 +396,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $compiled['contextvariables']);
     }
 
-    public function test_stack_compile_unexpected_lambda() {
+    public function test_stack_compile_unexpected_lambda(): void {
+
         // This is related to issue #1279.
         $tests = 'c:(b+1)-(b+1)(d+1);';
         $kv = new stack_cas_keyval($tests);
@@ -378,7 +408,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $kv->get_errors());
     }
 
-    public function test_stack_add_slash() {
+    public function test_stack_add_slash(): void {
+
         // This is related to issue #1279.
         $tests = 's1:"String with LaTeX:  \(x^2\).";';
         $kv = new stack_cas_keyval($tests, null, 0, '', true);

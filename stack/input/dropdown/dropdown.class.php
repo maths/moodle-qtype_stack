@@ -14,59 +14,69 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once(__DIR__ . '/../../cas/castext2/utils.php');
-
 /**
  * Input that is a dropdown list/multiple choice that the teacher
  * has specified.
  *
+ * @package    qtype_stack
  * @copyright  2015 University of Edinburgh
  * @author     Chris Sangwin
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__ . '/../../cas/castext2/utils.php');
+
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_dropdown_input extends stack_input {
 
-    /*
+    /**
      * ddlvalues is an array of the types used.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddlvalues = [];
 
-    /*
+    /**
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'select';
 
-    /*
+    /**
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
      * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddldisplay = 'casstring';
 
-    /*
+    /**
      * Controls whether a "not answered" option is presented to the students.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $nonotanswered = true;
 
-    /*
+    /**
      * Controls the "not answered" message presented to the students.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $notanswered = '';
 
-    /*
+    /**
      * This holds the value of those
      * entries which the teacher has indicated are correct.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $teacheranswervalue = '';
 
-    /*
+    /**
      * This holds a displayed form of $this->teacheranswer. We need to generate this from those
      * entries which the teacher has indicated are correct.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $teacheranswerdisplay = '';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function internal_construct() {
         $options = $this->get_parameter('options');
         if ($options != null && trim($options) != '') {
@@ -124,7 +134,7 @@ class stack_dropdown_input extends stack_input {
         return true;
     }
 
-    /*
+    /**
      * For the dropdown, each expression must be a list of pairs:
      * [CAS expression, true/false].
      * The second Boolean value determines if this should be considered
@@ -244,7 +254,9 @@ class stack_dropdown_input extends stack_input {
                     // In case we see CASText2 values we need to postproc them.
                     $tmp = castext2_parser_utils::string_to_list($display, true);
                     $tmp = castext2_parser_utils::unpack_maxima_strings($tmp);
-                    $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_parsed($tmp);
+                    $holder = new castext2_placeholder_holder();
+                    $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_parsed($tmp, null, $holder);
+                    $ddlvalues[$key]['display'] = $holder->replace($ddlvalues[$key]['display']);
                 } else {
                     $cs = stack_ast_container::make_from_teacher_source($display);
                     if ($cs->get_valid()) {
@@ -254,8 +266,10 @@ class stack_dropdown_input extends stack_input {
                 }
                 if ($ddlvalues[$key]['correct']) {
                     if (substr($display, 0, 9) === '["%root",') {
-                        $tmp = castext2_parser_utils::unpack_maxima_strings($display);
-                        $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp);
+                        $tmp = castext2_parser_utils::string_to_list($display, true);
+                        $tmp = castext2_parser_utils::unpack_maxima_strings($tmp);
+                        $holder = new castext2_placeholder_holder();
+                        $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp, null, $holder);
                     } else {
                         $correctanswerdisplay[] = $display;
                     }
@@ -326,7 +340,10 @@ class stack_dropdown_input extends stack_input {
                 // And now we need to care about holders.
                 $holder = new castext2_placeholder_holder();
                 $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_mp_parsed(
-                    $at1->get_by_key('val'.$key)->get_evaluated(), $holder);
+                    $at1->get_by_key('val'.$key)->get_evaluated(),
+                    null,
+                    $holder,
+                );
                 $ddlvalues[$key]['display'] = $holder->replace($ddlvalues[$key]['display']);
             } else if (substr($display, 0, 1) == '"') {
                 $ddlvalues[$key]['display'] = stack_utils::maxima_string_to_php_string($display);
@@ -357,6 +374,7 @@ class stack_dropdown_input extends stack_input {
         return;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function key_order($values) {
 
         // Make sure the array keys start at 1.  This avoids
@@ -379,6 +397,7 @@ class stack_dropdown_input extends stack_input {
         return $values;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function extra_validation($contents) {
         if (!array_key_exists($contents[0], $this->get_choices())) {
             return stack_string('dropdowngotunrecognisedvalue');
@@ -386,6 +405,7 @@ class stack_dropdown_input extends stack_input {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function validate_contents($contents, $basesecurity, $localoptions) {
         $valid = true;
         $errors = $this->errors;
@@ -424,7 +444,8 @@ class stack_dropdown_input extends stack_input {
         return $this->get_input_ddl_value($contents[0]);
     }
 
-    /* This function always returns an array where the key is the key in the ddlvalues.
+    /**
+     * This function always returns an array where the key is the key in the ddlvalues.
      */
     protected function get_choices() {
 
@@ -441,6 +462,7 @@ class stack_dropdown_input extends stack_input {
         return $choices;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -479,6 +501,7 @@ class stack_dropdown_input extends stack_input {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -507,6 +530,7 @@ class stack_dropdown_input extends stack_input {
         return $expected;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);
         $mform->setDefault($this->name, '');
@@ -557,6 +581,7 @@ class stack_dropdown_input extends stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {
@@ -584,6 +609,7 @@ class stack_dropdown_input extends stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
@@ -599,7 +625,6 @@ class stack_dropdown_input extends stack_input {
      *
      * @param string $in
      * @return string
-     * @access public
      */
     public function response_to_contents($response) {
         $contents = [];
@@ -626,7 +651,7 @@ class stack_dropdown_input extends stack_input {
         return $allblank;
     }
 
-    /*
+    /**
      * In this type we use the array keys in $this->ddlvalues within the HTML interactions,
      * not the CAS values.  These next two methods map between the keys and the CAS values.
      */
@@ -646,6 +671,7 @@ class stack_dropdown_input extends stack_input {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_input_ddl_key($value) {
         foreach ($this->ddlvalues as $key => $val) {
             if ($val['value'] == $value) {
@@ -657,6 +683,7 @@ class stack_dropdown_input extends stack_input {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         $solution = "";
         foreach ($this->ddlvalues as $key => $value) {

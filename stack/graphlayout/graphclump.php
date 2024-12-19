@@ -26,6 +26,7 @@
  * Used by {@link stack_abstract_graph} during the layout algorithm.
  * This represents a group of nodes that have been laid out relative to each other.
  *
+ * @package    qtype_stack
  * @copyright 2013 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

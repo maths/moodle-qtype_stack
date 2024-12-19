@@ -27,6 +27,7 @@
  * The script takes one parameter id which is a questionid as a parameter.
  * In can optionally also take a random seed.
  *
+ * @package    qtype_stack
  * @copyright  2012 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -333,6 +334,7 @@ if (empty($question->deployedseeds)) {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     function sort_by_note($a1, $b1) {
         $a = $a1['1'];
         $b = $b1['1'];

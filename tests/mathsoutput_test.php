@@ -24,19 +24,20 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 
-// Unit tests for the OU maths filter output classes replace-dollars
-// functionality.
-//
-// @copyright 2017 Aalto University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the OU maths filter output classes replace-dollars
+ * functionality.
+ *
+ * @package    qtype_stack
+ * @copyright 2017 Aalto University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_maths
  */
-class mathsoutput_test extends advanced_testcase {
+final class mathsoutput_test extends advanced_testcase {
 
-    public function test_replace_dollars_and_abacus() {
+    public function test_replace_dollars_and_abacus(): void {
+
         $test0 = 'Test $\frac12$ $$\frac14$$ @1/8@ \(\frac{@a@}{2}\).';
         $expected0 = 'Test \(\frac12\) \[\frac14\] {@1/8@} \(\frac{@a@}{2}\).';
         $this->assertEquals($expected0, stack_maths::replace_dollars($test0));

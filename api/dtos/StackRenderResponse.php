@@ -14,14 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\dtos;
 defined('MOODLE_INTERNAL') || die();
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackRenderResponse {
     /** @var string */
     public $questionrender;
@@ -29,6 +33,7 @@ class StackRenderResponse {
     public $questionsamplesolutiontext;
     /** @var StackRenderInput[]  */
     public $questioninputs;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $questionassets;
     /** @var int */
     public $questionseed;
@@ -38,9 +43,11 @@ class StackRenderResponse {
     public $iframes;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackRenderInput {
     /** @var int */
     public $validationtype;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $samplesolution;
     /** @var string */
     public $samplesolutionrender;

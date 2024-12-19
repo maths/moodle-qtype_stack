@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the running of question tests for a supplied question
-//
-// @copyright  2024 University of Edinburgh
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the running of question tests for a supplied question
+ *
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\controller;
 defined('MOODLE_INTERNAL') || die();
@@ -40,10 +43,7 @@ use api\dtos\StackTestResponse;
  * leaving display for the front end.
  */
 class TestController {
-    /**
-     * @throws \stack_exception
-     * @throws \Exception
-     */
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();

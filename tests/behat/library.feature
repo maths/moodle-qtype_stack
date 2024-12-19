@@ -64,8 +64,9 @@ Feature: Test STACK library
     And I should see "CR-Diff-02-linearity-1.b"
 
   @javascript
-  Scenario: Import a question starting from quiz in Moodle ≥ 4.3.
+  Scenario: Import a question starting from quiz in 4.3 <= Moodle <= 4.5.
     Given the site is running Moodle version 4.3 or higher
+    Given the site is running Moodle version 4.5 or lower
     When I am on the "Quiz 1" "mod_quiz > Edit" page logged in as "teacher"
     When I open the "last" add to quiz menu
     And I follow "a new question"
@@ -85,4 +86,26 @@ Feature: Test STACK library
     And I click on "[id^=form_autocomplete_downarrow]" "css_element"
     And I click on "ul[id^=form_autocomplete_suggestions] li:nth-child(3)" "css_element"
     And I click on "Apply filters" "button"
+    And I should see "CR-Diff-02-linearity-1.b"
+
+  @javascript
+  Scenario: Import a question starting from quiz in Moodle ≥ 5.0.
+    Given the site is running Moodle version 5.0 or higher
+    When I am on the "Quiz 1" "mod_quiz > Edit" page logged in as "teacher"
+    When I open the "last" add to quiz menu
+    And I follow "a new question"
+    And I set the field "item_qtype_stack" to "1"
+    And I press "submitbutton"
+    And I click on "STACK question library" "link"
+    Then I should see "Default for Quiz 1"
+    And I should not see "Question variables"
+    And I click on "Calculus-Refresher" "button"
+    And I click on "CR_Diff_02" "button"
+    And I click on "CR-Diff-02-linearity-1-b.xml" "button"
+    And I should see "Differentiate \[{@p@}\] with respect to {@v@}. [[input:ans1]]"
+    And I click on "Import" "button"
+    And I click on "Return to quiz" "link"
+    And I open the "last" add to quiz menu
+    And I follow "from question bank"
+    And I should see "Default for Quiz 1 (1)"
     And I should see "CR-Diff-02-linearity-1.b"

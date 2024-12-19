@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 // This provides helper code for creating the files needed to connect to the CAS.
@@ -25,7 +32,9 @@ require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession2.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_configuration {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $instance = null;
 
     /**
@@ -42,17 +51,22 @@ class stack_cas_configuration {
         'simplex' => 'floatnump(epsilon_lp)',
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $settings;
 
     /** @var string the date when these settings were worked out. */
     protected $date;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $maximacodepath;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $logpath;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $vnum;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $blocksettings;
 
     /**
@@ -149,6 +163,7 @@ class stack_cas_configuration {
         throw new stack_exception('Could not locate GNUPlot.');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function maxima_win_location() {
         if ($this->settings->platform != 'win') {
             return '';
@@ -191,6 +206,7 @@ class stack_cas_configuration {
                 implode(', ', $locations));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function copy_maxima_bat() {
         global $CFG;
 
@@ -212,6 +228,7 @@ class stack_cas_configuration {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_maximalocal_contents() {
         $contents = <<<END
 /* ***********************************************************************/
@@ -285,6 +302,7 @@ END;
     }
 
     /**
+     * Add description here.
      * @return stack_cas_configuration the singleton instance of this class.
      */
     protected static function get_instance() {
@@ -378,7 +396,7 @@ END;
         return self::get_instance()->get_validate_maximalibraries();
     }
 
-    /*
+    /**
      * This function genuinely recreates the maxima image and stores the results in
      * the configuration settings.
      */

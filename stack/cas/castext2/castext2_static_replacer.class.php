@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../maximaparser/utils.php');
@@ -28,17 +35,21 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * it after it returns from the CAS.
  */
 class castext2_static_replacer {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $map;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(array $map) {
         $this->map = $map;
     }
 
     // One might need to gain access to this after extraction.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_map(): array {
         return $this->map;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function replace($in) {
         // This might be called with a complete string.
         if (is_string($in)) {
@@ -67,6 +78,7 @@ class castext2_static_replacer {
         return $in;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function extract(string $in): string {
         // If the castext is already a static string don't do anything.
         if (mb_substr($in, 0, 1) === '"') {

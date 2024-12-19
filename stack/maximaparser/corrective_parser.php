@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
@@ -23,17 +30,21 @@ require_once(__DIR__ . '/../utils.class.php');
 
 require_once(__DIR__ . '/MP_classes.php');
 
-// A Maxima parser wrapper that tries to insert missing stars to statements
-// to make them parseable.
-//
-// Once we have an ast we filter further to handle extended syntax and more
-// complex star insertion.
-//
-// @copyright  2019 Aalto University
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * A Maxima parser wrapper that tries to insert missing stars to statements
+ * to make them parseable.
+ *
+ * Once we have an ast we filter further to handle extended syntax and more
+ * complex star insertion.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 class maxima_corrective_parser {
 
     // Returns an AST if possible.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function parse(string $string, array &$errors, array &$answernote, array $parseroptions) {
         static $safespacepatterns = [
             ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT', 'nounnot ' => 'STACKNOUNNOT',
@@ -259,6 +270,7 @@ class maxima_corrective_parser {
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function handle_parse_error($exception, $string, &$errors, &$answernote, $decimals) {
         // @codingStandardsIgnoreStart
         // We also disallow backticks.
@@ -507,6 +519,7 @@ class maxima_corrective_parser {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function strings_replace($stringles, $original) {
         $strings = stack_utils::all_substring_strings($original);
         if (count($strings) > 0) {

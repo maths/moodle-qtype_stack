@@ -16,13 +16,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Holds the results of one {@link stack_question_test).
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Holds the results of one {@link stack_question_test).
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once('utils.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_question_test_result {
     /**
      * @var stack_question_test the test case that this is the results for.
@@ -70,7 +74,7 @@ class stack_question_test_result {
     public $questionpenalty;
 
     /**
-     * @bool Store whether this looks like a trivial empty test case.
+     * @var bool Store whether this looks like a trivial empty test case.
      */
     public $emptytestcase;
 
@@ -97,15 +101,18 @@ class stack_question_test_result {
         $this->inputerrors[$inputname]         = $error;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_prt_result($prtname, prt_evaluatable $actualresult) {
         $this->actualresults[$prtname] = $actualresult;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_questionpenalty($penalty) {
         $this->questionpenalty = $penalty;
     }
 
     /**
+     * Add description here.
      * @return array input name => object with fields ->input, ->display and ->status.
      */
     public function get_input_states() {
@@ -134,6 +141,7 @@ class stack_question_test_result {
     }
 
     /**
+     * Add description here.
      * @return array input name => object with fields ->mark, ->expectedmark,
      *      ->penalty, ->expectedpenalty, ->answernote, ->expectedanswernote,
      *      ->feedback and ->testoutcome.
@@ -232,6 +240,7 @@ class stack_question_test_result {
     }
 
     /**
+     * Add description here.
      * @return bool whether the test passed successfully.
      */
     public function passed() {
@@ -247,6 +256,7 @@ class stack_question_test_result {
     }
 
     /**
+     * Add description here.
      * @return array whether the test passed successfully + outcomes, inputs and reasons for failure.
      */
     public function passed_with_reasons() {

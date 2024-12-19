@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
@@ -27,18 +34,27 @@ require_once(__DIR__ . '/inputstate.class.php');
  * Inputs are the controls that the teacher can put into the question
  * text to receive the student's response.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_input {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const BLANK = '';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const VALID = 'valid';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const INVALID = 'invalid';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SCORE = 'score';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_INSERT_STARS = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_SPACES = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_SINGLE_CHAR = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_FUNCTIONS = 16;
 
     /**
@@ -60,6 +76,7 @@ abstract class stack_input {
     /**
      * Special variables in the question which should be exposed to the inputs and answer tests.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $contextsession = [];
 
     /**
@@ -103,6 +120,7 @@ abstract class stack_input {
     /**
      * The question level options for CAS sessions.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $options;
 
     /**
@@ -464,7 +482,7 @@ abstract class stack_input {
         // By default, do nothing.
     }
 
-    /*
+    /**
      * Set the contextsession values.
      */
     public function add_contextsession($contextsession) {
@@ -475,6 +493,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here
      * @param string $param a settings parameter name.
      * @return bool whether this input type uses this parameter.
      */
@@ -603,7 +622,7 @@ abstract class stack_input {
         }
     }
 
-    /*
+    /**
      * Return the value of any extra options.
      */
     public function get_extra_options() {
@@ -625,6 +644,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, an example of what could be typed into
      * this input as part of a correct response to the question.
      */
@@ -633,6 +653,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {
@@ -640,6 +661,7 @@ abstract class stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
@@ -927,7 +949,8 @@ abstract class stack_input {
         return $state;
     }
 
-    /* Allow different input types to change the CAS method used.
+    /**
+     * Allow different input types to change the CAS method used.
      * In particular, the units and equiv inputs do something different here.
      */
     protected function get_validation_method() {
@@ -938,7 +961,7 @@ abstract class stack_input {
         return $validationmethod;
     }
 
-    /*
+    /**
      * Sort out which filters to apply, based on options to the input.
      * Should be mostly independent of input type.
      */
@@ -1120,6 +1143,7 @@ abstract class stack_input {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function extra_option_variables($questionvariables) {
 
         $additionalvars = [];
@@ -1383,6 +1407,7 @@ abstract class stack_input {
         return [$valid, $errors, $display];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function requires_validation() {
         return $this->get_parameter('mustVerify', true);
     }
@@ -1398,7 +1423,7 @@ abstract class stack_input {
      */
     abstract public function render(stack_input_state $state, $fieldname, $readonly, $tavalue);
 
-    /*
+    /**
      * Render any error messages.
      */
     protected function render_error($error) {
@@ -1484,7 +1509,8 @@ abstract class stack_input {
         return $feedback;
     }
 
-    /* Allows individual input types to change the way the list of variables is tagged.
+    /**
+     * Allows individual input types to change the way the list of variables is tagged.
      * Used by the units input type.
      */
     protected function tag_listofvariables($vars) {
@@ -1644,7 +1670,7 @@ abstract class stack_input {
         return [$this->name => $in];
     }
 
-    /*
+    /**
      * Return the value of any errors.
      */
     public function get_errors() {
@@ -1660,7 +1686,7 @@ abstract class stack_input {
         return array_keys($errors);
     }
 
-    /*
+    /**
      * Provide a summary of the student's response for the Moodle reporting.
      * Notes do something different here.
      */

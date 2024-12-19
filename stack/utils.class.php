@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Various utility classes for Stack.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,12 +27,14 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Interface for a class that stores debug information (or not).
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 interface stack_debug_log {
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log();
@@ -48,14 +51,16 @@ interface stack_debug_log {
 /**
  * Interface for a class that stores debug information (or not).
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_debug_log_base implements stack_debug_log {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $debuginfo = '';
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log() {
@@ -81,12 +86,14 @@ class stack_debug_log_base implements stack_debug_log {
 /**
  * A null stack_debug_log. Does not acutally log anything. Used when debugging is off.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_debug_log_null implements stack_debug_log {
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log() {
@@ -107,6 +114,7 @@ class stack_debug_log_null implements stack_debug_log {
 /**
  * Utility methods for processing strings.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -376,7 +384,6 @@ class stack_utils {
     /**
      * Converts windows style paths to unix style with forward slashes
      *
-     * @access public
      * @return string|null
      */
     public static function convert_slash_paths($string) {
@@ -407,7 +414,6 @@ class stack_utils {
      * Extracts double quoted strings with \-escapes, extracts only the content
      * not the quotes.
      *
-     * @access public
      * @return array
      */
     public static function all_substring_strings($string) {
@@ -443,7 +449,6 @@ class stack_utils {
      * Replaces all Maxima strings with zero length strings to eliminate string
      * contents for validation tasks.
      *
-     * @access public
      * @return string
      */
     public static function eliminate_strings($string) {
@@ -478,7 +483,6 @@ class stack_utils {
      * Convert strings to protect LaTeX backslashes for use in Maxima strings.
      * @param string in
      * @return string out
-     * @access public
      */
     public static function protect_backslash_latex($string) {
         $string = addslashes($string);
@@ -492,7 +496,6 @@ class stack_utils {
      *
      * @param string in
      * @return array out
-     * @access public
      */
     public static function cvs_to_array($string, $token = ',') {
         $exploded = explode($token, $string);
@@ -574,6 +577,7 @@ class stack_utils {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function list_to_array_workhorse($list, $rec = true) {
         $array = [];
         $list = trim($list);
@@ -643,6 +647,7 @@ class stack_utils {
     }
 
     /**
+     * Add description here
      * @param string $name a potential name for part of a STACK question.
      * @return bool whether that name is allowed.
      */
@@ -650,7 +655,9 @@ class stack_utils {
         return preg_match('~^' . self::VALID_NAME_REGEX . '$~', $name);
     }
 
-    /** Get the stack configuration settings. */
+    /**
+     * Get the stack configuration settings.
+     */
     public static function get_config() {
         if (is_null(self::$config)) {
             self::$config = get_config('qtype_stack');
@@ -658,6 +665,7 @@ class stack_utils {
         return self::$config;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function clear_config_cache() {
         self::$config = null;
     }
@@ -893,6 +901,7 @@ class stack_utils {
         return [$nint * $oden + $onum, $oden];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function fix_to_continued_fraction($n, $accuracy) {
         $frac = self::rational_approximation($n, $accuracy);
         return $frac[0] / $frac[1];
@@ -939,7 +948,7 @@ class stack_utils {
         return 0 + $str;
     }
 
-    /*
+    /**
      * This function takes user input of the form "option:arg" and splits them up.
      * Used to sort out options to the inputs field.
      */
@@ -953,7 +962,7 @@ class stack_utils {
         return([$option, $arg]);
     }
 
-    /*
+    /**
      * This function takes html and counts the number of img fields
      * with missing or empty alt text.
      */

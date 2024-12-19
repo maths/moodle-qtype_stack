@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * This File defines various classes and functions present in moodle,
@@ -33,23 +36,30 @@ require_once('../config.php');
 // Required to pass Moodle code check.
 require_login();
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class moodle_exception extends Exception {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($a1, $a2, $a3, $error) {
         parent::__construct($error);
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class question_graded_automatically_with_countback {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $defaultmark = 1;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface question_automatically_gradable_with_multiple_parts {
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function clean_param($in, $param) {
     return $in;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_config($component, $parameter = null) {
     global $CFG;
     if ($parameter === null) {
@@ -82,16 +92,21 @@ function s($var) {
     return preg_replace('/&amp;#(\d+|x[0-9a-f]+);/i', '&#$1;', htmlspecialchars($var, ENT_QUOTES, 'UTF-8'));
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function format_text($text) {
     return $text;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function require_login() {
     return;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_file_storage() {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Class
     $storage = new class {
+        // phpcs:ignore moodle.Commenting.MissingDocblock.Function
         public function get_area_files($x, $y, $z, $a) {
             return [];
         }
@@ -134,9 +149,9 @@ function download_file_content($url) {
 
     $result = curl_exec($curl);
     $info  = curl_getinfo($curl);
-    $error_no = curl_errno($curl);
+    $errorno = curl_errno($curl);
 
-    if ($error_no) {
+    if ($errorno) {
         return false;
     }
     if (empty($info['http_code'])) {

@@ -17,12 +17,14 @@
 /**
  * Response to a question test request
  *
+ * @package    qtype_stack
  * @copyright  2024 Uuniversity of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 namespace api\dtos;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackTestResponse {
     /** @var string */
     public $name = '';

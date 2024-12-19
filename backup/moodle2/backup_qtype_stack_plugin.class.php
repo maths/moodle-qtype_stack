@@ -24,12 +24,14 @@
 /**
  * Provides the information to backup STACK questions
  *
+ * @package    qtype_stack
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_qtype_stack_plugin extends backup_qtype_plugin {
 
     /**
+     * Add description here.
      * @return backup_plugin_element the qtype information to attach to question element.
      */
     protected function define_question_plugin_structure() {

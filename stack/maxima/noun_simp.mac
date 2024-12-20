@@ -632,11 +632,10 @@ sqrtRem(ex):=first(ex) nounpow (1 nounmul UNARY_RECIP(2))$
 
 
 /**********************************************************/
-/* We either have an integer, or "UNARY_MINUS * integer". */
-noun_simp_integerp(ex) := if atom(ex) then integerp(ex) else
-                      if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(args(ex))=2 and 
-                           ((part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2))) 
-                             or (part(ex, 2)=UNARY_MINUS and atom(part(ex, 1)) and integerp(part(ex, 1)))) then true else false$
+/* We either have an integer, UNARY_MINUS 
+                     or "UNARY_MINUS * integer".          */
+noun_simp_integerp(ex) := if atom(ex) then (is(ex=UNARY_MINUS) or integerp(ex)) else
+                      if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(args(ex))=2 and part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2)) then true else false$
 notnoun_simp_integerp(ex):=not(noun_simp_integerp(ex))$
 
 /* Evaluate integer arithmetic. */
@@ -654,9 +653,13 @@ intAdd(ex) := block([a1, a2],
     else apply(op(ex),append([a1], a2))
 )$
 
-intMulp(ex):= block(
+intMulp(ex):= block([sl],
     if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
-    if length(sublist(args(ex), noun_simp_integerp))>1 then return(true) else return(false)
+    sl:sublist(args(ex), noun_simp_integerp),
+    if emptyp(sl) then return(false),
+    if length(sl)=1 then return(not(is(first(args(ex))=first(sl)))),
+    if length(sl)=2 then return(not((is(first(sl)=UNARY_MINUS) and integerp(second(sl))))),
+    return(true)
 )$
 intMul(ex) := block([a1, a2], 
     if intMulp(ex)=false then return(ex),

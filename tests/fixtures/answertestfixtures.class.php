@@ -1160,14 +1160,14 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[ID_TRANS,intAdd]', '(3-5)*x+x', '-2*x+x', 1, '', ''],
         ['EqualComAssRules', '[ID_TRANS,intMul]', '7*x*(-3*x)', '-21*x*x', 1, '', ''],
         [
-            'EqualComAssRules', '[testdebug,ID_TRANS,intMul]', '(-7*x)*(-3*x)', '21*x*x', 0,
-            'ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul 21 nounmul x nounmul x,21 nounmul x nounmul x].', '',
+            'EqualComAssRules', '[testdebug,ID_TRANS,intMul]', '(-7*x)*(-3*x)', '21*x*x', 1,
+            'ATEqualComAssRules: [21 nounmul x nounmul x,21 nounmul x nounmul x].', '',
         ],
         ['EqualComAssRules', '[ID_TRANS,intMul,negNeg]', '(-7*x)*(-3*x)', '21*x*x', 1, '', ''],
         ['EqualComAssRules', '[noncomMul,intMul]', '2*a*3', '6*a', 1, '', ''],
-        ['EqualComAssRules', '[noncomMul,intMul]', '2*a*3', 'a*6', 0, '', ''],
-        ['EqualComAssRules', '[noncomMul,intMul]', 'a*6', '6*a', 0, '', ''],
-        ['EqualComAssRules', '[noncomMul,intMul]', 'A^2+2*A*B+B^2', 'B^2+A*2*B+A^2', 0, '', ''],
+        ['EqualComAssRules', '[noncomMul,intMul]', '2*a*3', 'a*6', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul,intMul]', 'a*6', '6*a', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul,intMul]', 'A^2+2*A*B+B^2', 'B^2+A*2*B+A^2', 1, '', ''],
         // This next example is parsing rules.  In Maxima ev(a/b/c, simp)=a/(b*c).
         [
             'EqualComAssRules', '[testdebug,ID_TRANS]', 'a/b/c', 'a/(b*c)', 0,

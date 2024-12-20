@@ -53,7 +53,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         foreach ($contents as $key) {
             // ISS1211 - Moodle App returns value of 0 if box not checked but
             // always safe to ignore 0 thanks to stack_dropdown_input->key_order().
-            if ($key !== 0) {
+            if ($key !== 0  && $key != 'EMPTYANSWER') {
                 $vals[] = $this->get_input_ddl_value($key);
             }
         }
@@ -190,13 +190,16 @@ class stack_checkbox_input extends stack_dropdown_input {
     public function response_to_contents($response) {
         // Did the student chose the "Not answered" response?
         if (array_key_exists($this->name.'_', $response)) {
-                return [];
+            return [];
         }
         $contents = [];
         foreach ($this->ddlvalues as $key => $val) {
             if (array_key_exists($this->name.'_'.$key, $response)) {
                 $contents[] = (int) $response[$this->name.'_'.$key];
             }
+        }
+        if ($contents === [] && $this->get_extra_option('allowempty')) {
+            $contents[] = 'EMPTYANSWER';
         }
         return $contents;
     }

@@ -1392,7 +1392,7 @@ SVD(M):= block([U,S,VT],
 format_as_coeff(expr):= block([ops, repr],
   if stringp(expr) then return(expr),
   ops: errcatch(op(expr)),
-  repr: if emptyp(ops) or not elementp(first(ops), {"+", "-"}) then tex1(expr) else simplode(["(", tex1(expr), ")"]),
+  repr: if emptyp(ops) or not elementp(first(ops), {"+", "-"}) then tex1(expr) else simplode(["\\left(", tex1(expr), "\\right)"]),
   return(repr)
 );
 
@@ -1404,10 +1404,10 @@ format_as_coeff(expr):= block([ops, repr],
  * @param[list] vars A list of variables in the order that they should appear.
  * @return[string] TeX output for this system of equations
  */
-disp_eqns(eqns,vars):= block([is_neg,s_in,s_first,format_as_positive_coeff,one_zero_remover,delete_if_zero,m,n,p,pivot,ii,jj,v,a],
+disp_eqns(eqns,vars):= block([is_neg,s_in,s_first,format_as_positive_coeff,one_zero_remover,delete_if_zero,m,n,p,pivot,new_pivot,ii,jj,v,a],
   is_neg(ex) := ev(is(signum(ex)=-1),simp),  /* return true if ex is numerical and negative, false otherwise */
-  s_in(ex):= if is_neg(ex) then "-" else "+", /* returns the sign of a coefficient as a string, assuming 0 is positive */
-  s_first(ex):= if is_neg(ex) then "-" else "", /* Altered version of above that doesn't return + for leading coefficient */
+  s_in(ex):= if ev(is_neg(ex),simp) then "-" else "+", /* returns the sign of a coefficient as a string, assuming 0 is positive */
+  s_first(ex):= if ev(is_neg(ex),simp) then "-" else "", /* Altered version of above that doesn't return + for leading coefficient */
   format_as_positive_coeff(ex) := if is_neg(ex) then tex1(ev(abs(ex),simp)) else format_as_coeff(ev(ex,simp)),
   one_zero_remover(ex):= if ev(is(ex=1) or is(ex=0) or is(ex=-1),simp) then "" else format_as_positive_coeff(ev(ex,simp)), /* scrubs out unwanted ones and zeros */
   delete_if_zero(ex,var):= if is(ex=0) then "" else var, /* returns nothing if the coefficient is zero, otherwise returns the coefficient */
@@ -1418,6 +1418,7 @@ disp_eqns(eqns,vars):= block([is_neg,s_in,s_first,format_as_positive_coeff,one_z
   for ii: 1 thru n do block(
     ii: ev(ii,simp),
     pivot: false, /* each row will have a pivot, assume false until we find it */
+    new_pivot: false,
     v: vars[1], /* v is the variable we are looking at in this column */
     a: ev(coeff(lhs(eqns[ii]),v),simp), /* find coefficient of v */
     if is(a#0) and not(pivot) then pivot: true, /* If the coefficient is non-zero, we have found our pivot! */
@@ -1426,8 +1427,9 @@ disp_eqns(eqns,vars):= block([is_neg,s_in,s_first,format_as_positive_coeff,one_z
       jj: ev(jj,simp),
       v: vars[jj],
       a: ev(coeff(lhs(eqns[ii]),v),simp),
-      if is(a#0) then p: append(p,[simplode(["& ", if pivot then s_in(a) else ""," & ",one_zero_remover(a),tex1(delete_if_zero(a,v))])]) else p: append(p,["& & "]),
-      if is(a#0) and not(pivot) then pivot: true
+      if is(a#0) and not(pivot) then new_pivot: true,
+      if is(a#0) then p: append(p,[simplode(["& ", if pivot then s_in(a) else ""," & ",if new_pivot then s_first(a) else "",one_zero_remover(a),tex1(delete_if_zero(a,v))])]) else p: append(p,["& & "]),
+      if new_pivot then [pivot, new_pivot]: [true, false]
     ),
     if is(fullratsimp(lhs(eqns[ii]))=0) then p: append(p, ["0"]),  /* Display "0=0" properly */
     p: append(p,[simplode(["& = &",tex1(rhs(eqns[ii]))])]),

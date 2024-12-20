@@ -441,6 +441,18 @@ class stack_potentialresponse_tree_lite {
         // For the feedback we might want to provide extra information related to
         // feedback vars. Basically, for the debug-block we tell that these are
         // the bound ones.
+        // ISS1085 - Add question variables as well.
+        /* $bvars = array_merge($fv['references']['write']);
+        if (!empty($this->question->questionvariables)) {
+            $kv = new stack_cas_keyval($this->question->questionvariables);
+            if (!$kv->get_valid()) {
+                throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
+            }
+            $c = $kv->compile('/qv', $map);
+            $bvars = array_merge($fv['references']['write'], $c['references']['write']);
+        }
+        $ct2options = ['bound-vars' => $bvars, 'static string extractor' => $map];
+        */
         $ct2options = ['bound-vars' => $fv['references']['write'], 'static string extractor' => $map];
 
         if ($fv['statement'] !== null) {

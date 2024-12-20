@@ -56,7 +56,7 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
                 $castext .= "\n| `$key` | `{#$key,simp#}` | `{#$key,simp=false#}` | {@$key,simp@} | {@$key,simp=false@} |";
             }
         } else {
-            $castext = '<table><thead><th>[[commonstring key="castext_debug_header_key"/]]</th>' .
+            $castext = '<table class="table"><thead><th>[[commonstring key="castext_debug_header_key"/]]</th>' .
                 '<th>[[commonstring key="castext_debug_header_value_simp"/]]</th>' .
                 '<th>[[commonstring key="castext_debug_header_value_no_simp"/]]</th>' .
                 '<th>[[commonstring key="castext_debug_header_disp_simp"/]]</th>' .

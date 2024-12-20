@@ -26,8 +26,8 @@ Feature: Test STACK library
   Scenario: Import a question starting from question bank.
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     And I click on "Create a new question" "button"
-    And I click on "STACK" "text"
-    And I click on "[name$='submitbutton']" "css_element"
+    And I set the field "item_qtype_stack" to "1"
+    And I press "submitbutton"
     And I click on "STACK question library" "link"
     Then I should see "Test questions"
     And I should not see "Question variables"

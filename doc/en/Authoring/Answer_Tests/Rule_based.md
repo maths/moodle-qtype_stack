@@ -33,7 +33,7 @@ This is an advanced test.
 
 This test allows question authors to create equivalence classes based on equality up to associativity and commutativity with the addition of optional rules. For example, the teacher can include the identity operations of addition and multiplication: \(0+ x\rightarrow x\) and \(1\times x\rightarrow x\).  This makes it much easier to establish things like \(0-1\times i\) is equivalent to \(-i\).  However, more general integer arithmetic is still not automatically included so \(2\times 3 \neq 6\).
 
-This test always assumes associativity and commutativity of addition and multiplication.  Essentially this test extends the `EqualComAss` test by adding in additional rules. Without assumptions of commutativity and associativity we would need all sorts of additional rules, such as \(x+0 \rightarrow x\), since without commutativity this would not be captured by the rule `zeroAdd`, i.e. \(0+x \rightarrow x\).  Furthermore, the way `EqualComAss` deals with unary minus and division make associativity and commutativity difficult to add in their pure form.
+This test always assumes associativity of addition and multiplication.   By default the test assumes commutativity of addition and multiplication, but this can be dropped.  Essentially this test extends the `EqualComAss` test by adding in additional rules. Without assumptions of commutativity and associativity we would need all sorts of additional rules, such as \(x+0 \rightarrow x\), since without commutativity this would not be captured by the rule `zeroAdd`, i.e. \(0+x \rightarrow x\).  Furthermore, the way `EqualComAss` deals with unary minus and division make associativity and commutativity difficult to add in their pure form.
 
 Each rule is a named function in Maxima, and each rule has an associated predicate function to decide if the rule is applicable at the top level of an expression.   E.g. `zeroAddp(0+x)` would return `true` and `zeroAdd(0+x)` would return `x`.
 
@@ -46,6 +46,9 @@ The teacher must supply an option consisting of a list of the following rule nam
 | `assMul`          | Associativity of multiplication                                                        |
 | `comAdd`          | Commutativity of addition                                                              |
 | `comMul`          | Commutativity of multiplication                                                        |
+|  -                 | _Options to switch off the defaults_                                                   |
+| `noncomAdd`       | Indicate addition is non-commutative                                                   |
+| `noncomMul`       | Indicate multiplication is non-commutative                                             |
 | (`ID_TRANS`)      |                                                                                        |
 | `zeroAdd`         | \(0+x \rightarrow x\)                                                                  |
 | `zeroMul`         | \(0\times x \rightarrow 0\)                                                            |
@@ -77,6 +80,8 @@ The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exac
 However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative.
 Factoring out is better than distributing here, since in a produce such as \(-(x-y)(x-z)\) it is not clear which term in the product the initial minus sign will end up in.
 Since `negOrd` is a factor command, it is incompatible with `negDist`.
+
+By default the test assumes commutativity of addition and multiplication.  If you choose the `nonmulCom` rule then you can switch off commutativity of multiplication.  However, rules such as `zeroMul` include both \(0\times x \rightarrow 0\) and \(x\times 0 \rightarrow 0\).  The rules `intMul` (etc) would appear to be non-compatible with `nonmulCom`, however they are very useful in that by performing integer arithmetic we bring integers to the front of the expression.
 
 For convenience sets of rules can be specified.  E.g. you can use the name `ID_TRANS` in place of the list `[zeroAdd,zeroMul,oneMul,oneDiv,onePow,idPow,zeroPow,zPow]` to include all of the basic identity operators.
 

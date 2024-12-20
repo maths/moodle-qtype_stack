@@ -32,8 +32,6 @@ require_once(__DIR__ . '/stack/prt.class.php');
 $links = [
     get_string('stackDoc_docs_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/')]),
-    get_string('healthcheck_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')]),
     get_string('chat_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php')]),
     get_string('bulktestindexintro_desc', 'qtype_stack',
@@ -48,6 +46,9 @@ $links = [
         ['link' => (string) new moodle_url('/question/type/stack/adminui/answertests.php')]),
     get_string('stackInstall_input_title_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php')]),
+    // The healthcheck is not part of the adminui collection as it's only for plugin admins.
+    get_string('healthcheck_desc', 'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')]),
 ];
 
 $settings->add(new admin_setting_heading('docs',

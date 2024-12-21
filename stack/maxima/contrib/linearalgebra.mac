@@ -372,11 +372,11 @@ diagp(M):= block([dia,imax,jmax,ii,jj],
  * No RREFp function is given, as rref(M) is unique
  *
  * @param[matrix] M An mxn matrix
- * @param[boolean] normalise_pivots Optional: If true is given here, then pivots are required to be equal to 1
+ * @param[boolean] normalize_pivots Optional: If true is given here, then pivots are required to be equal to 1
  * @return[boolean] Is this matrix in row echelon form?
  */
-REFp(M,[normalise_pivots]):= block([isREF,pivot_row,m,n,jj,ii],
-  if emptyp(normalise_pivots) then normalise_pivots: false else normalise_pivots: first(normalise_pivots),
+REFp(M,[normalize_pivots]):= block([isREF,pivot_row,m,n,jj,ii],
+  if emptyp(normalize_pivots) then normalize_pivots: false else normalize_pivots: first(normalize_pivots),
   isREF: matrixp(M),
   if isREF then block(
     pivot_row: 0,
@@ -386,7 +386,7 @@ REFp(M,[normalise_pivots]):= block([isREF,pivot_row,m,n,jj,ii],
       if is(pivot_row < m) then block(
         if is(M[ev(pivot_row+1,simp),jj] # 0) then block(
           pivot_row: ev(pivot_row + 1,simp),
-          if normalise_pivots and is(M[ev(pivot_row,simp),jj] # 1) then isREF: false
+          if normalize_pivots and is(M[ev(pivot_row,simp),jj] # 1) then isREF: false
         ),
         for ii: ev(pivot_row+1,simp) thru m do block(
           ii: ev(ii,simp),
@@ -414,13 +414,13 @@ squarep(M):= block([isSquare],
 );
 
 /** 
- * Is a given object a diagonalisable matrix?
+ * Is a given object a diagonalizable matrix?
  * i.e. Is there an invertible matrix P and diagonal matrix D such that P^^-1 . M . P = D?
  *
  * @param[matrix] M a matrix
- * @return[boolean] Is M a diagonalisable matrix?
+ * @return[boolean] Is M a diagonalizable matrix?
  */
-diagonalisablep(M):= if squarep(M) then ev(diagp(dispJordan(jordan(M))),simp) else false;
+diagonalizablep(M):= if squarep(M) then ev(diagp(dispJordan(jordan(M))),simp) else false;
 
 /** 
  * Is a given object a symmetric matrix?
@@ -810,21 +810,21 @@ get_eigenvalue(v,M):= block([],
 
 /**
  * Given an eigenvalue, retrieve a basis for the corresponding eigenspace
- * Optionally will orthonormalise the eigenspace.
+ * Optionally will orthonormalize the eigenspace.
  * 
  * @param[number] L The eigenvalue, a number
  * @param[matrix] M The matrix, a mxm matrix
- * @param[boolean] orthonormalise Optional: if true then orthonormalise the eigenspace
+ * @param[boolean] orthonormalize Optional: if true then orthonormalize the eigenspace
  * @return[list] A list of mx1 matrices; a basis for the eigenspace of L. Empty list if L is not an eigenvalue. 
  */
-get_eigenvector(L,M,[orthonormalise]):= block([evals,evects,ii],
-  if emptyp(orthonormalise) then orthonormalise: false else orthonormalise: first(orthonormalise),
+get_eigenvector(L,M,[orthonormalize]):= block([evals,evects,ii],
+  if emptyp(orthonormalize) then orthonormalize: false else orthonormalize: first(orthonormalize),
   if not(squarep(M)) then return([]),
   [evals, evects]: ev(eigenvectors(M),simp),
   if not(member(L,first(evals))) then return([]),
   ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
   vecs: evects[ii],
-  if orthonormalise then vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),gramschmidt(vecs)),simp)
+  if orthonormalize then vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),gramschmidt(vecs)),simp)
   else vecs: map(scale_nicely,vecs),
   return( map(transpose,vecs) )
 );
@@ -1283,7 +1283,7 @@ QR(M):= block([cols,Q,R],
 /**
  * M = P.J.P^^-1
  * J is in Jordan normal form
- * P is invertible and made up of generalised eigenvectors of M
+ * P is invertible and made up of generalized eigenvectors of M
  * This really just calls existing functions in one go and avoids annoying errors.
  *
  * @param[matrix] M a square matrix
@@ -1299,15 +1299,15 @@ get_Jordan_form(M):= block([jordan_info,J,P],
 
 /**
  * M = P.D.P^^-1
- * M must be diagonalisable (i.e. all eigenvalues must have matching geometric and algebraic multiplicities)
+ * M must be diagonalizable (i.e. all eigenvalues must have matching geometric and algebraic multiplicities)
  * P is invertible and contains the eigenvectors of M
  * D is diagonal and contains the eigenvalues of M
- * If M is symmetric it will automatically orthogonally diagonalise
+ * If M is symmetric it will automatically orthogonally diagonalize
  *
- * @param[matrix] M a diagonalisable matrix
- * @return[list] A list of two matrices: [P, D] such that D is diagonal and M = P . D . P^^-1. Returns empty list if M is not diagonalisable
+ * @param[matrix] M a diagonalizable matrix
+ * @return[list] A list of two matrices: [P, D] such that D is diagonal and M = P . D . P^^-1. Returns empty list if M is not diagonalizable
  */
-diagonalise(M):= block([P,D],
+diagonalize(M):= block([P,D],
   if not(squarep(M)) then return([]),
   [P, D]: get_Jordan_form(M),
   if symp(M) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
@@ -1327,7 +1327,7 @@ SVD_red(M):= block([MTM,V,S2,components,n,S,U,ii],
   if ev(zeromatrixp(M),simp) then return([matrix([]),matrix([]),matrix([])]),
   MTM: ev(transpose(M).M,simp),
   if atom(MTM) then MTM: matrix([MTM]),
-  [V, S2]: diagonalise(MTM),
+  [V, S2]: diagonalize(MTM),
   /* TODO: does this work? */
   V: first(QR(V)),
   components: ev(makelist([S2[ii,ii],col(V,ii)],ii,1,second(matrix_size(MTM))),simp),

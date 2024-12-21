@@ -134,10 +134,10 @@ s_test_case(squarep(matrix([1],[2])),false);
 s_test_case(squarep(matrix([1,2],[2,3])),true);
 s_test_case(squarep(1),false);
 
-s_test_case(diagonalisablep(ident(2)),true);
-s_test_case(diagonalisablep(matrix([1,1],[0,1])),false);
-s_test_case(diagonalisablep(1),false);
-s_test_case(diagonalisablep(matrix([1,1],[1,1])),true);
+s_test_case(diagonalizablep(ident(2)),true);
+s_test_case(diagonalizablep(matrix([1,1],[0,1])),false);
+s_test_case(diagonalizablep(1),false);
+s_test_case(diagonalizablep(matrix([1,1],[1,1])),true);
 
 s_test_case(symp(ident(3)),true);
 s_test_case(symp(matrix([1,1],[0,1])),false);
@@ -489,13 +489,13 @@ s_test_case(get_Jordan_form(matrix([1,1],[0,1])),[ident(2),matrix([1,1],[0,1])])
 s_test_case(get_Jordan_form(matrix([1,2],[2,3])),[matrix([1,1],[-((sqrt(5)-1)/2),(sqrt(5)+1)/2]),matrix([2-sqrt(5),0],[0,sqrt(5)+2])]);
 s_test_case(get_Jordan_form(matrix([8,-3],[12,-4])),[matrix([6,1],[12,0]),matrix([2,1],[0,2])]);
 
-s_test_case(diagonalise(1),[]);
-s_test_case(diagonalise(matrix([1,2])),[]);
-s_test_case(diagonalise(matrix([8,-3],[12,-4])),[]);
-s_test_case(diagonalise(matrix([1,2],[3,4])),[matrix([1,1],[-(sqrt(33)-3)/4,(sqrt(33)+3)/4]),matrix([-(sqrt(33)-5)/2,0],[0,(sqrt(33)+5)/2])]);
-s_test_case(diagonalise(matrix([1,2],[2,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-1/sqrt(2)]),matrix([3,0],[0,-1])]);
-s_test_case(diagonalise(matrix([1,2],[1,2])),[matrix([1,1],[-1/2,1]),matrix([0,0],[0,3])]);
-s_test_case(diagonalise(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[-1/sqrt(2),1/sqrt(2)]),matrix([0,0],[0,2])]);
+s_test_case(diagonalize(1),[]);
+s_test_case(diagonalize(matrix([1,2])),[]);
+s_test_case(diagonalize(matrix([8,-3],[12,-4])),[]);
+s_test_case(diagonalize(matrix([1,2],[3,4])),[matrix([1,1],[-(sqrt(33)-3)/4,(sqrt(33)+3)/4]),matrix([-(sqrt(33)-5)/2,0],[0,(sqrt(33)+5)/2])]);
+s_test_case(diagonalize(matrix([1,2],[2,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-1/sqrt(2)]),matrix([3,0],[0,-1])]);
+s_test_case(diagonalize(matrix([1,2],[1,2])),[matrix([1,1],[-1/2,1]),matrix([0,0],[0,3])]);
+s_test_case(diagonalize(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[-1/sqrt(2),1/sqrt(2)]),matrix([0,0],[0,2])]);
 
 s_test_case(SVD_red(matrix([0,0],[0,0])),[matrix([]),matrix([]),matrix([])]);
 s_test_case(SVD_red(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);

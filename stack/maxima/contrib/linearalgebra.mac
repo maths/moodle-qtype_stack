@@ -475,7 +475,7 @@ orthogonalize(L, [sp]) := block([M, Morth],
     sp: if emptyp(sp) then "." else first(sp),
     M: cols_to_matrix(L),
     if M = matrix([null]) then return([]),
-    Morth: transpose(apply(matrix, gramschmidt(transpose(M), sp))),
+    Morth: transpose(apply(matrix, ev(gramschmidt(transpose(M), sp), simp))),
     return(if matrixp(L) then Morth else matrix_to_cols(Morth))
 );
 
@@ -664,7 +664,7 @@ cols_to_matrix(L):=block([op1, colmat],
  * @param[matrix] M 
  * @return[list] List of Mx1 matrices (column vectors)
  */
-matrix_to_cols(M):= makelist(col(M, i), i, 1, second(matrix_size(M)));
+matrix_to_cols(M):= ev(makelist(col(M, i), i, 1, second(matrix_size(M))), simp);
 
  /**
  * Convert input to a list of column vectors of the same dimension.

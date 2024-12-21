@@ -651,6 +651,7 @@ convert_to_colvec(ex):= block([op1],
  * @return[matrix] A matrix containing the input elements as columns, or matrix([null]) in case of invalid input.
  */
 cols_to_matrix(L):=block([op1, colmat],
+  L: ev(L,simp),
   if matrixp(L) then return(L),
   L: cols_to_cols(L),
   if emptyp(L) then return(matrix([null])),

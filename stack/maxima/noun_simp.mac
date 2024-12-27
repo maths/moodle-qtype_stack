@@ -161,42 +161,31 @@ unary_minus_remove(ex):= block([exl],
     apply("nounmul", exl)
 )$
 
-equals_commute_prepare(ex):=block([ex1n],
+/*
+  Prepare an expression for rules based simplifier.
+  ex: expression to be prepared.
+  opcomset: list of operators (as strings) to be considered commutative.
+            e.g. {"nouneq", "nounand", "nounor", "nounset", "nounadd", "nounmul"}
+*/
+equals_commute_prepare([ex]):=block([ex1n, opcomset],
+
     /* We need to strip out any internal simplification. */
-    ex1n:parse_string(string(ex)),
+    ex1n:parse_string(string(first(ex))),
+
+    opcomset:{"nouneq", "nounand", "nounor", "nounset", "nounadd", "nounmul"},
+    if length(ex)>1 then opcomset:second(ex),
 
     ex1n:subst(nounset, set, ex1n),
     ex1n:noun_arith_full(ex1n),
     ex1n:flatten_recurse_nouns(ex1n),
-    ex1n:sort_nouns(ex1n),
+    ex1n:sort_nouns(ex1n, opcomset),
     return(ex1n)
 )$
 
-sort_nouns(ex) := block([exl],
+sort_nouns(ex, opcomset) := block([exl],
     if atom(ex) then return(ex),
-    exl:maplist(sort_nouns, args(ex)),
-    if safe_op(ex)="nouneq" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounnot" or safe_op(ex)="nounset" or safe_op(ex)="nounadd" or safe_op(ex)="nounmul" then
-        exl:sort(exl),
-    apply(op(ex), exl)
-)$
-
-/* Add in a version in which *, + are not assumed commuatative. */
-equals_commute_prepare_noncom(ex):=block([ex1n],
-    /* We need to strip out any internal simplification. */
-    ex1n:parse_string(string(ex)),
-
-    ex1n:subst(nounset, set, ex1n),
-    ex1n:noun_arith_full(ex1n),
-    ex1n:flatten_recurse_nouns(ex1n),
-    ex1n:sort_nouns_noncom(ex1n),
-    return(ex1n)
-)$
-
-sort_nouns_noncom(ex) := block([exl],
-    if atom(ex) then return(ex),
-    exl:maplist(sort_nouns_noncom, args(ex)),
-    if safe_op(ex)="nouneq" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounnot" or safe_op(ex)="nounset" then
-        exl:sort(exl),
+    exl:maplist(lambda([ex2], sort_nouns(ex2, opcomset)), args(ex)),
+    if ev(elementp(safe_op(ex), opcomset),simp) then exl:sort(exl),
     apply(op(ex), exl)
 )$
 
@@ -304,8 +293,8 @@ ATEqualComAssRules(sa, sb, so) :=
         (ret[3]:StackAddNote("ATEqualComAssRules (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
 
     /* Put the expressions in basic form (non-com version). */
-    SAA:equals_commute_prepare_noncom(SAA),
-    SBB:equals_commute_prepare_noncom(SBB),
+    SAA:equals_commute_prepare(SAA, {"nouneq", "nounand", "nounor", "nounset"}),
+    SBB:equals_commute_prepare(SBB, {"nouneq", "nounand", "nounor", "nounset"}),
 
     if debug then print(["Transforming", SAA]),
     SAA:transl(SAA, so),

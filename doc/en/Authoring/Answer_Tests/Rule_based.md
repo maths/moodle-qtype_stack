@@ -115,9 +115,38 @@ Imagine the teacher's answer is \(\frac{\sin(3x)}{2}\) but a student types in \(
 
 This functionality was introduced in April 2021.  It is essential that the rules, and any combination of the rules, can only proceed in a single direction and that no infinite loops are created.  So, `intAdd` is fine because adding together two integers will make an expression _simpler_ which in this case is shorter.  For this reason we do not have expanding out (i.e. distribution) rules in the above set, and no rules of indices (which readily lead to mathematical errors).  Use Maxima's simplifier if you want to include such rules.
 
-The rules names are Maxima functions, but they assume `simp:false` and that the expression has noun forms e.g. `nounadd` instead of `+`.  You can use `equals_commute_prepare(ex)` to change an expression into this noun form.  The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the way unary minus is transformed into multiplication with a special tag `UNARY_MINUS` is likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The transformation is designed to go in one direction only, and we do not support displaying the resulting manipulated expressions in traditional form.
+STACK creates parallel operators for `*`, `+` etc. so that we have full control over the simplifier and the rules in play.  E.g. `nounadd` instead of `+`.
 
-__As of May 2023, these rules are not intended as an end-user simplifier and we do not currently support user-defined rules (sorry!).__
+You can use `equals_commute_prepare(ex)` to change an expression into this noun form.  An optional second argument `equals_commute_prepare(ex, sc)` is the set of operators considered commutative, e.g. typically a subset of `{"nouneq", "nounand", "nounor", "nounset", "nounadd", "nounmul"}`.
+
+The simplifier rules assume `simp:false` and that the expression has noun forms.
+The simplifier rule names are Maxima functions with exactly the names shown above.
+Each rule has a predicate function, which decides if the rule can be applied _at the top level of the expression_.  E.g. `oneMulp(1*x)` is true, but `oneMulp(2+(1*x))` is false because the `1*x` is not at the top level of the expression `2+(1*x)`, it's deeper within the expression.
+
+To deal with unary minus we transform it into multiplication with a special tag `UNARY_MINUS`. For example `-x` becomes `UNARY_MINUS * x`.  This approach looks odd at first, but does not confuse `UNARY_MINUS` with the integer \(-1\) or the unary function "minus".  In this way multiple unary minus operations commute to the front of an expression.  E.g. `(-x)*(-y) = UNARY_MINUS * UNARY_MINUS * x * y` (when `*` is assumed to be commutative and associative, of course!)
+
+Similarly, division is also conveted to `UNARY_RECIP`.  E.g. `(-x)/(-y) = UNARY_MINUS nounmul UNARY_RECIP(UNARY_MINUS nounmul y) nounmul x`.
+
+
+We the use the rule `negDiv` to pull out the unary minus outside the devision (pulls `UNARY_MINUS` outside `UNARY_RECIP`), but we also need the rules `assMul` (associativity) and `comMul` (commutativity).  E.g. try the following in the STACK-maxima sandbox.
+
+    ex:(-x)/(-y);
+    ex:equals_commute_prepare(ex);
+    transl(ex,[assMul, comMul, negDiv]);
+
+This results in `UNARY_MINUS nounmul UNARY_MINUS nounmul x nounmul UNARY_RECIP(y)`, literally `- * - * x * 1/y`.   We could also include the rule `negNeg` to remove the double minus.
+
+    transl(ex,[assMul, comMul, negDiv, negNeg]);
+
+gives `x nounmul UNARY_RECIP(y)`.
+
+The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are replaced by `(-1)*` and `ex^(-1)` respectively.  E.g. `verb_arith(UNARY_MINUS nounmul x nounmul UNARY_RECIP(y)) =  (-1)*x*y^-1`.
+
+The simplfier is designed to go in one direction only to establish membership of an equivalence class. We do not (as of Dec 2024) support displaying the resulting manipulated expressions in traditional form.
+
+The code is all in `stack/maxima/noun_simp.mac`.
+
+__We do not currently support user-defined rules (sorry!).__
 
 # See also
 

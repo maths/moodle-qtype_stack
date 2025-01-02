@@ -49,8 +49,7 @@ class stack_cas_security {
 
     /**
      * These lists are used by question authors for groups of words.
-     * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
-     * Actually, not lower case, Maxima is not case insensitive just check "ModeMatrix" for an example.
+     * These correspond to Maxima names, and should follow the case in maxima, e.g. "ModeMatrix" for an example.
      */
     public static $keywordlists = [
         '[[basic-algebra]]' => [

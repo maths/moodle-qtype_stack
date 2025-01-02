@@ -75,6 +75,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'lowesttermsp(-y/-x)', 'true', 1, 'ATLogic_True.', ''],
         ['AlgEquiv', '', 'lowesttermsp((x^2-1)/(x-1))', 'true', 0, '', ''],
         ['AlgEquiv', '', 'lowesttermsp((x^2-1)/(x+2))', 'true', 1, 'ATLogic_True.', ''],
+        ['AlgEquiv', '', 'scientific_notationp(4.1561*10^16)', 'true', 0, '', ''],
         ['AlgEquiv', '', 'X', 'x', 0, 'ATAlgEquiv_WrongCase.', 'Case sensitivity'],
         ['AlgEquiv', '', '1/(R-r)', '1', 0, '', ''],
         ['AlgEquiv', '', 'exdowncase(X)', 'x', 1, '', ''],
@@ -996,6 +997,9 @@ class stack_answertest_test_data {
         ['EqualComAss', '', 'lowesttermsp(-y/-x)', 'true', 0, 'ATEqualComAss (AlgEquiv-false).', ''],
         ['EqualComAss', '', 'lowesttermsp((x^2-1)/(x-1))', 'true', 0, 'ATEqualComAss (AlgEquiv-false).', ''],
         ['EqualComAss', '', 'lowesttermsp((x^2-1)/(x+2))', 'true', 1, '', ''],
+
+        ['EqualComAss', '', 'scientific_notationp(1/3)', 'true', 0, 'ATEqualComAss (AlgEquiv-false).', ''],
+        ['EqualComAss', '', 'scientific_notationp(4.1561*10^16)', 'true', 1, '', ''],
 
         // We can't use ATAlgEquiv with rationalized as Maxima simplified sqrt(3)/3 to 1/sqrt(3).
         ['EqualComAss', '', 'rationalized(1+sqrt(3)/3)', 'true', 1, '', 'Bad things in denominators'],

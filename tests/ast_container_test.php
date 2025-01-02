@@ -324,6 +324,7 @@ final class ast_container_test extends qtype_stack_testcase {
             ['[x,y,z]', 'b,\,,c', false],
             ['diff(x^2,x)', '[[BASIC-CALCULUS]]', false], // From lists.
             ['solve((x-6)^4,x)', '[[BASIC-ALGEBRA]]', false], // From lists.
+            ['sin(A-B)', '[[BASIC-TRIG]]', false], // From lists.
         ];
 
         foreach ($cases as $case) {

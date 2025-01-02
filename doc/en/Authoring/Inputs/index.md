@@ -109,6 +109,8 @@ There are groups of common keywords which you can forbid simply as
 * `[[BASIC-CALCULUS]]` common calculus operations such as `int`, `diff`, `taylor`, etc.
 * `[[BASIC-MATRIX]]` common matrix operations such as `transpose`, `invert`, `charpoly`, etc.
 
+These list are hard-wired into the code [here](https://github.com/maths/moodle-qtype_stack/blob/master/stack/cas/cassecurity.class.php#L56).
+
 If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.
 
 

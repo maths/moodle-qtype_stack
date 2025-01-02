@@ -168,11 +168,15 @@ See the entry on [matrices](../CAS/Matrix.md#matrixparens).
 
 ### Inline and displayed fractions. ###
 
-The display of fractions can take two forms: inline \( 1/x \) and displayed \( \frac{1}{x} \).
+There are three ways to display fractions.
+
+1. displayed \( \frac{1}{x} \);
+2. inline \( 1/x \);
+3. negative powers \( x^{-1} \).
 
 The default behaviour is displayed, i.e. using LaTeX `\frac{}{}`.
 
-The function `stack_disp_fractions(ex)` can be used to control the display.
+The function `stack_disp_fractions(ex)` can be used to control the display globally within a question.
 
 * `stack_disp_fractions("i")` switches display to inline.
 * `stack_disp_fractions("d")` switches display to display.
@@ -180,3 +184,7 @@ The function `stack_disp_fractions(ex)` can be used to control the display.
 Note, for CASText the display is controlled by the prevailing setting at the moment the text is displayed, not when a variable is defined in the question variables. Hence, if you would like a single inline fraction within a CASText you will need to use
 
     Normally fractions are displayed {@1/x@}. This switches to inline {@(stack_disp_fractions("i"), 1/x)@}, which persists {@1/a@}.  Switch explicitly back to displayed {@(stack_disp_fractions("d"),1/x)@}.  
+
+For scientific units we also have an input "extra option" `negpow` for student's input to be displayed as negative powers, e.g. \(m\,s^{-1}\).
+
+We do not, currently, have support for global display of fractions using negative powers (Dec 2024).  This is because the difference between displayed and inline fractions is purely notational, involving the TeX output from the division operator.  Converting division to negative powers is a mathematical re-write rule and is therefore significantly more complicated.  E.g. we would have to decide how to display \( \frac{1}{x^{-2}} \).

@@ -2101,6 +2101,9 @@ final class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['(stackintfmt:"~r",n0)', '73', '\text{seventy-three}'];
         $cases[] = ['(stackintfmt:"~:r",n0)', '73', '\text{seventy-third}'];
         $cases[] = ['(stackintfmt:"~@R",n0)', '73', 'LXXIII'];
+        $cases[] = ['(stackintfmt:"~:d",123456789)', '123456789', '123,456,789'];
+        $cases[] = ['(stackintfmt:"~,,\',,:d",123456789)', '123456789', '123,456,789'];
+        $cases[] = ['(stackintfmt:"~,,\' ,:d",123456789)', '123456789', '123\\ 456\\ 789'];
 
         foreach ($cases as $i => $case) {
             $s = 'n' . $i . ':' . $case[0];

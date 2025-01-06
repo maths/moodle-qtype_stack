@@ -1547,6 +1547,35 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Fix to issue #1349, actually display spaces in TeX output.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_numerical_display_group_spaces(): void {
+
+        $st = 'The number {@10000000@} is written with spaces. ';
+        $st .= 'Sets {@{1200, 45678}@} and lists {@[1200, 45678]@}';
+
+        $a2 = ['stackintfmt:"~,,\' ,:d"'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals(
+            'The number \({10\\ 000\\ 000}\) is written with spaces. ' .
+            'Sets \({\left \{1\\ 200 , 45\\ 678 \right \}}\) ' .
+            'and lists \({\left[ 1\\ 200 , 45\\ 678 \right]}\)',
+            $at2->get_rendered());
+    }
+
+    /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */

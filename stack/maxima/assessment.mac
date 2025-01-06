@@ -542,7 +542,7 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf,simp],
 */
 
 
-/* Decides if an expression is precicely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
+/* Decides if an expression is precisely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
 scientific_notationp(ex) := block([tn],
   if not(safe_op(ex)="*") then return(false),
   if not(length(args(ex))=2) then return(false),

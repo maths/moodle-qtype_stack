@@ -28,7 +28,7 @@ require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/prt.class.php');
 
-// Useful links.
+// Useful links in the adminui.
 $links = [
     get_string('stackDoc_docs_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/')]),
@@ -46,14 +46,19 @@ $links = [
         ['link' => (string) new moodle_url('/question/type/stack/adminui/answertests.php')]),
     get_string('stackInstall_input_title_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php')]),
-    // The healthcheck is not part of the adminui collection as it's only for plugin admins.
-    get_string('healthcheck_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')]),
 ];
 
+// These links are only for plugin admins, e.g. the healthcheck.  They are not part of the adminui collection.
+$link = '* ' . implode("\n* ", $links);
+$link .= "\n***\n";
+$links = [
+    get_string('healthcheck_desc', 'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')])
+];
+$link .= '* ' . implode("\n* ", $links);
+
 $settings->add(new admin_setting_heading('docs',
-        get_string('settingusefullinks', 'qtype_stack'),
-        '* ' . implode("\n* ", $links)));
+        get_string('settingusefullinks', 'qtype_stack'), $link));
 
 // Options for connection to Maxima.
 // Note that any settings here where we try to set the default

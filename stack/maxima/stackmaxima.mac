@@ -768,8 +768,11 @@ texput_decimal(ex):= stackfltsep:ex$
     ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
             tx:sconcat("\\text{",ev(printf(false, stackintfmt, x), simp),"}")
-        else
-            tx:ev(printf(false, stackintfmt, x), simp)
+        else (
+            /* Protect spaces in integers so TeX (MathJax) displays them as spaces. */
+            tx:ev(printf(false, stackintfmt, x), simp),
+            tx:ssubst("\\ ", " ", tx)
+            )
     ) else
     tx:string(x),
     /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
@@ -777,7 +780,7 @@ texput_decimal(ex):= stackfltsep:ex$
         tx:ssubst("\\ ", ",", tx),
         tx:ssubst("{,}", ".", tx)
     ),
-    tx
+   tx
 )$
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));

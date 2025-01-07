@@ -55,8 +55,7 @@ class stack_cas_security {
 
     /**
      * These lists are used by question authors for groups of words.
-     * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
-     * Actually, not lower case, Maxima is not case insensitive just check "ModeMatrix" for an example.
+     * These correspond to Maxima names, and should follow the case in maxima, e.g. "ModeMatrix" for an example.
      */
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $keywordlists = [
@@ -73,6 +72,13 @@ class stack_cas_security {
             'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
             'trigrat' => true, 'trigreduce' => true, 'trigsign' => true,
             'trigsimp' => true, 'truncate' => true, 'decimalplaces' => true, 'simplify' => true,
+        ],
+        '[[basic-trig]]' => [
+            'sin' => true, 'cos' => true, 'tan' => true, 'sec' => true, 'csc' => true, 'cot' => true, 
+            'asin' => true, 'acos' => true, 'atan' => true, 'asec' => true, 'acsc' => true, 'acot' => true,
+            'atan2' => true,
+            'sinh' => true, 'cosh' => true, 'tanh' => true, 'sech' => true, 'csch' => true, 'coth' => true, 
+            'asinh' => true, 'acosh' => true, 'atanh' => true, 'asech' => true, 'acsch' => true, 'acoth' => true,
         ],
         '[[basic-calculus]]' => [
             'defint' => true, 'diff' => true, 'int' => true, 'integrate' => true,

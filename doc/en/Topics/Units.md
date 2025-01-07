@@ -67,7 +67,9 @@ Note, the input does not currently support a situation where you want to accept 
 
 The extra options to the input should be a comma separated list of tags.  This input type makes use of the additional options in two ways:
 
-1. Units can be displayed using inline fractions \(m/s\) or negative powers \(m\,s^{-1}\).  Add `negpow` to the Extra Options field to use negative powers.
+1. Units can be displayed using inline fractions \(\frac{m}{s}\) (by default fractions are displayed, not inline) or negative powers \(m\,s^{-1}\).  Add `negpow` to the Extra Options field to use negative powers.
+
+See the question options entry on [inline and displayed fractions](../Authoring/Question_options.md).
 
 ## Answer tests  ##
 

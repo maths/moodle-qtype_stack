@@ -540,4 +540,36 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
             '\(\left[ a ; b ; c ; 2{,}78 \right] \)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
+
+    public function test_validate_student_response_with_allowempty(): void {
+        $options = new stack_options();
+        $ta = '[[A,false],[B,true],[C,false]]';
+        $el = stack_input_factory::make('radio', 'sans1', $ta, $options, ['options' => '']);
+        $el->set_parameter('options', 'allowempty');
+        $state = $el->validate_student_response(['sans1' => ''], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+        $this->assertEquals('', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+            '<span class="nolink">\(B\)</span></span></li></ul>',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_student_response_with_allowempty_nocorrect(): void {
+        $options = new stack_options();
+        // Normally teachers must have one correct answer.
+        $ta = '[[A,false],[B,false],[C,false]]';
+        $el = stack_input_factory::make('radio', 'sans1', $ta, $options, ['options' => '']);
+        $el->set_parameter('options', 'allowempty');
+        $state = $el->validate_student_response(['sans1' => ''], $options, '2', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+        $this->assertEquals('', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('A correct answer is: This input can be left blank.',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
 }

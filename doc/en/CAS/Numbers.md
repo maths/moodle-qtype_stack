@@ -87,18 +87,19 @@ To force all floating point numbers to decimal floating point numbers use
 
 You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.  This function calls the LISP `format` function, which is complex and more example are available [online](http://www.gigamonkeys.com/book/a-few-format-recipes.html) elsewhere.
 
-| Template    | Input       |  TeX Output      |  Description/notes
+| Template       | Input       |  TeX Output      |  Description/notes
 | ----------- | ----------- | ---------------- | ----------------------------------------------------------------------------------------------
-| `"~,4f"`    | `0.12349`   | \(0.1235\)       |  Output four decimal places: floating point.
-|             | `0.12345`   | \(0.1234\)       |  Note the rounding.
-|             | `0.12`      | \(0.1200\)       |
-| `"~,5e"`    | `100.34`    | \(1.00340e+2\)   |  Output five decimal places: scientific notation.
-| `"~:d"`     | `10000000`  | \(10,000,000\)   |  Separate decimal groups of three digits with commas.
-| `~r`        | `9`         | \(\text{nine}\)  |  Rhetoric.
-| `~:r`       | `9`         | \(\text{ninth}\) |  Ordinal rhetoric.
-| `~7r`       | `9`         | \(12\)           |  Base 7.
-| `~@r`       | `9`         | \(IX\)           |  Roman numerals.
-| `~:@r`      | `9`         | \(VIIII\)        |  Old style Roman numerals.
+| `"~,4f"`       | `0.12349`   | \(0.1235\)       |  Output four decimal places: floating point.
+|                | `0.12345`   | \(0.1234\)       |  Note the rounding.
+|                | `0.12`      | \(0.1200\)       |
+| `"~,5e"`       | `100.34`    | \(1.00340e+2\)   |  Output five decimal places: scientific notation.
+| `"~:d"`        | `10000000`  | \(10,000,000\)   |  Separate decimal groups of three digits with commas.
+| `"~,,\' ,:d"` | `10000000`  | \(10\ 000\ 000\)   |  Separate decimal groups of three digits with spaces.
+| `~r`           | `9`         | \(\text{nine}\)  |  Rhetoric.
+| `~:r`          | `9`         | \(\text{ninth}\) |  Ordinal rhetoric.
+| `~7r`          | `9`         | \(12\)           |  Base 7.
+| `~@r`          | `9`         | \(IX\)           |  Roman numerals.
+| `~:@r`         | `9`         | \(VIIII\)        |  Old style Roman numerals.
 
 There are many other options within the LISP format command. Please note with the rhetoric and Roman numerals that the numbers will be in LaTeX mathematics environments.
 
@@ -155,3 +156,4 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `anyfloatex(ex)`            | Decides if any floats are in the expression.
 | `scientific_notationp(ex)` | Determines if \(ex\) is written in the form \(a10^n\) where \(a\) is an integer or float, and \(n\) is an integer.
 
+Please note that these predicate functions need to be used with `simp:false`.  Some answer tests, including the default algebraic equivalence (`ATAlgEquiv`) always simplify their arguments.  Instead use a non-simplifying answer test such as `EqualComAss`.

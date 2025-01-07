@@ -2529,7 +2529,6 @@ class qtype_stack extends question_type {
         // Just do the full compile it does all the checking including feedback.
         $compile['required'] = [];
         try {
-            //$compile = $prt->compile($inputkeys, [], 0.0, new stack_cas_security(), '/p/0', new castext2_static_replacer([]));
             $compile = $prt->compile($inputkeys, [], 0.0, new stack_cas_security(), '/p/0', null);
         } catch (Exception $e) {
             // Avoids dealing with an error in the PRT definition that a latter part handles.

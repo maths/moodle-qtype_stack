@@ -4422,7 +4422,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/This question has no question variables to debug/'),
+            new question_pattern_expectation(
+                '/This question has no variables to debug here! ' .
+                'Display question variables in question text and feedback variables in node feedback./'
+            ),
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()

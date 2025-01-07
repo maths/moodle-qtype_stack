@@ -74,7 +74,8 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
-        return true;
+        //ISS1085 - Change to false. Common strings need to be evaluated.
+        return false;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

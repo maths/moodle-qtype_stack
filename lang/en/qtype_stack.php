@@ -1569,6 +1569,7 @@ $string['api_choose_file'] = 'Please select a question file';
 $string['api_choose_folder'] = 'Choose a STACK folder';
 $string['api_choose_q'] = 'Choose a STACK sample file';
 $string['api_correct'] = 'Correct answers';
+$string['api_correct_answer'] = 'A correct answer is: ';
 $string['api_display'] = 'Display Question';
 $string['api_errors'] = 'Errors';
 $string['api_failures'] = 'failures';

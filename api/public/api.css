@@ -1,0 +1,59 @@
+.CodeMirror { border: 1px solid #ddd;}
+.CodeMirror {
+  width: 100%;
+  float: left;
+  height: 400px;
+}
+.feedback {
+  color: #7d5a29;
+  background-color: #fcf2d4;
+  border-radius: 4px;
+  border: 1px solid #7d5a2933;
+  display: inline-block;
+  padding: 5px;
+}
+.validation {
+  border-radius: 4px;
+  border: 1px solid darkgrey;
+  padding: 5px;
+  display: inline-block;
+}
+.correct-answer {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid darkgrey;
+  padding: 0px 5px 0px;
+  display: inline-block;
+}
+a.nav-link:link, a.nav-link:visited, a.nav-link:hover, a.nav-link:active {
+  color:black;
+  text-decoration:none;
+}
+.stack-library-file-list {
+  padding: 20px 0px 20px 0px;
+  height: 400px;
+  overflow-y: scroll;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+}
+/* The side navigation menu */
+.sidebar {margin: 0; padding: 0; position: absolute; width: 200px;}
+.sidebar a {display: block; color: black; padding: 16px; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf; text-decoration: none;}
+.sidebar a.active {background-color: #004f71; color: white; pointer-events: none;}
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+.main-content {margin-left: 200px; padding: 1px 16px;}
+/* On screens that are less than 800px wide, make the sidebar into a topbar */
+@media screen and (max-width: 800px) {
+    .sidebar {width: 100%; height: 110px; position: relative; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf }
+    .sidebar a {float: left; border-style: none;}
+    .main-content {margin-left: 0; padding: 0px;}
+}
+/* On screens that are less than 720px wide, make the sidebar into a taller topbar as menu goes to three lines*/
+@media screen and (max-width: 720px) {
+    .sidebar {width: 100%; height: 160px; position: relative; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf}
+}
+/* On screens that are less than 550px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 550px) {
+    .sidebar {height: auto;}
+    .sidebar a {text-align: center; float: none;}
+}

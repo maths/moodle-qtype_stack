@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Sample API usage showing loading of questions from directory, display and validation/grading.
+ * This page presents the user with a selection of questions to try.
  *
  * @package    qtype_stack
  * @copyright  2023 University of Edinburgh
@@ -28,6 +28,19 @@ require_once(__DIR__ . '/../../stack/questionlibrary.class.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
 // @codingStandardsIgnoreStart
+$files = stack_question_library::get_file_list('../../samplequestions/stacklibrary/Algebra-Refresher/01-Combinations-of-arithmetic-operations/*');
+$questions = [];
+foreach ($files->children as $file) {
+  if (!$file->isdirectory) {
+      $question = new StdClass();
+      $questiondata = file_get_contents('../../samplequestions/' . $file->path);
+      $questionobject = simplexml_load_string($questiondata)->question;
+      $question->definition = $questiondata;
+      $question->name = $questionobject->name->text;
+      $question->seeds = $questionobject->deployedseed;
+      $questions[] = $question;
+  }
+}
 ?>
 <html>
   <head>
@@ -35,9 +48,9 @@ require_login();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../api.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="cors.php?name=sortable.min.css" />
-    <link rel="stylesheet" href="../api.css" />
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -67,15 +80,33 @@ require_login();
       const inputPrefix = 'stackapi_input_';
       const feedbackPrefix = 'stackapi_fb_';
       const validationPrefix = 'stackapi_val_';
+      let questions = [];
+      let page = 0;
+      let seed = null;
+
+      $(document).ready(function() {
+          goToPage(page);
+      });
+
+      /**
+       * Go to internal page and update sidebar, etc.
+       *
+       * @param page - string - name of page
+       */
+      function goToPage(page) {
+          send(page);
+          $('.sidebar .active').removeClass('active');
+          $('.sidebar #' + page + '-nav').addClass('active');
+      }
+
 
       // Create data for call to API.
       function collectData() {
         const res = {
-          questionDefinition: yamlEditor.getDoc().getValue(),
+          questionDefinition: questions[page].definition,
           answers: collectAnswer(),
-          seed: parseInt(document.getElementById('seed').value),
+          seed: seed,
           renderInputs : inputPrefix,
-          readOnly: document.getElementById('readOnly').checked,
         };
         return res;
       }
@@ -110,7 +141,11 @@ require_login();
       }
 
       // Display rendered question and solution.
-      function send() {
+      function send(targetPage, targetSeed = null) {
+        page = targetPage;
+        if (questions[page].seeds.length && targetSeed == null) {
+          seed = questions[page].seeds[0];
+        }
         const http = new XMLHttpRequest();
         const url = window.location.origin + '/render';
         http.open("POST", url, true);
@@ -164,7 +199,6 @@ require_login();
               document.getElementById('output').innerHTML = question;
               // Only display results sections once question retrieved.
               document.getElementById('stackapi_qtext').style.display = 'block';
-              document.getElementById('stackapi_correct').style.display = 'block';
 
               // Setup a validation call on inputs. Timeout length is reset if the input is updated
               // before the validation call is made.
@@ -184,12 +218,10 @@ require_login();
               if (sampleText) {
                 sampleText = replaceFeedbackTags(sampleText);
                 document.getElementById('generalfeedback').innerHTML = sampleText;
-                document.getElementById('stackapi_generalfeedback').style.display = 'block';
               } else {
-                // If the question is updated, there may no longer be general feedback.
-                document.getElementById('stackapi_generalfeedback').style.display = 'none';
+                document.getElementById('generalfeedback').innerHTML = '';
               }
-              document.getElementById('stackapi_score').style.display = 'none';
+              document.getElementById('stackapi_combinedfeedback').style.display = 'none';
               document.getElementById('stackapi_validity').innerText = '';
               const innerFeedback = document.getElementById('specificfeedback');
               innerFeedback.innerHTML = '';
@@ -276,12 +308,7 @@ require_login();
                 return;
               }
               renameIframeHolders();
-              document.getElementById('score').innerText
-                = (json.score * json.scoreweights.total).toFixed(2) +
-                ' <?php echo stack_string('api_out_of')?> ' + json.scoreweights.total;
-              document.getElementById('stackapi_score').style.display = 'block';
-              document.getElementById('response_summary').innerText = json.responsesummary;
-              document.getElementById('stackapi_summary').style.display = 'block';
+              document.getElementById('stackapi_combinedfeedback').style.display = 'block';
               const feedback = json.prts;
               const specificFeedbackElement = document.getElementById('specificfeedback');
               // Replace tags and plots in specific feedback and then display.
@@ -291,9 +318,6 @@ require_login();
                 }
                 json.specificfeedback = replaceFeedbackTags(json.specificfeedback);
                 specificFeedbackElement.innerHTML = json.specificfeedback;
-                specificFeedbackElement.classList.add('feedback');
-              } else {
-                specificFeedbackElement.classList.remove('feedback');
               }
               // Replace plots in tagged feedback and then display.
               for (let [name, fb] of Object.entries(feedback)) {
@@ -329,66 +353,14 @@ require_login();
         const specificFeedbackElement = document.getElementById('specificfeedback');
         specificFeedbackElement.innerHTML = "";
         specificFeedbackElement.classList.remove('feedback');
-        document.getElementById('response_summary').innerText = "";
-        document.getElementById('stackapi_summary').style.display = 'none';
         const inputElements = document.querySelectorAll(`[name^=${feedbackPrefix}]`);
         for (const inputElement of Object.values(inputElements)) {
           inputElement.innerHTML = "";
           inputElement.classList.remove('feedback');
         }
-        document.getElementById('stackapi_score').style.display = 'none';
+        document.getElementById('stackapi_combinedfeedback').style.display = 'none';
         document.getElementById('stackapi_validity').innerText = '';
         http.send(JSON.stringify(collectData()));
-      }
-
-      function download(filename, fileid) {
-        const http = new XMLHttpRequest();
-        const url = window.location.origin + '/download';
-        http.open("POST", url, true);
-        http.setRequestHeader('Content-Type', 'application/json');
-        // Something funky going on with closures and callbacks. This seems
-        // to be the easiest way to pass through the file details.
-        http.filename = filename;
-        http.fileid = fileid;
-        http.onreadystatechange = function() {
-          if(http.readyState == 4) {
-            try {
-              // Only download the file once. Replace call to download controller with link
-              // to downloaded file.
-              const blob = new Blob([http.responseText], {type: 'application/octet-binary', endings: 'native'});
-              const selector = CSS.escape(`javascript\:download\(\'${http.filename}\'\, ${http.fileid}\)`)
-              const linkElements = document.querySelectorAll(`a[href^=${selector}]`);
-
-              const link = linkElements[0];
-              link.setAttribute('href', URL.createObjectURL(blob));
-              link.setAttribute('download', filename);
-              link.click();
-            }
-            catch(e) {
-              document.getElementById('errors').innerText = http.responseText;
-              return;
-            }
-          }
-        };
-        const data = collectData();
-        data.filename = filename;
-        data.fileid = fileid;
-        http.send(JSON.stringify(data));
-      }
-
-      // Save contents of question editor locally.
-      function saveState(key, value) {
-        if (typeof(Storage) !== "undefined") {
-          localStorage.setItem(key, value);
-        }
-      }
-
-      // Load locally stored question on page refresh.
-      function loadState(key) {
-        if (typeof(Storage) !== "undefined") {
-          return localStorage.getItem(key) || '';
-        }
-        return '';
       }
 
       function renameIframeHolders() {
@@ -418,57 +390,10 @@ require_login();
         return result;
       }
 
-      function getQuestionFile(questionURL) {
-        if (questionURL) {
-          fetch(questionURL)
-            .then(result => result.text())
-            .then((result) => {
-              createQuestionList(result);
-            });
-        }
-      }
-
-      function getLocalQuestionFile(filepath) {
-        if (filepath) {
-          var reader = new FileReader();
-          reader.readAsText(filepath, "UTF-8");
-          reader.onload = function (evt) {
-            createQuestionList(evt.target.result);
-          }
-        }
-      }
-
-      function createQuestionList(fileContents) {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(fileContents, "text/xml");
-        const selectQuestion = document.createElement("select");
-        selectQuestion.setAttribute("onchange", "setQuestion(this.value)");
-        selectQuestion.id = "stackapi_question_select";
-        const holder = document.getElementById("stackapi_question_select_holder");
-        holder.innerHTML = "<?php echo stack_string('api_q_select')?>: ";
-        holder.appendChild(selectQuestion);
-        let firstquestion = null
-        for (const question of xmlDoc.getElementsByTagName("question")) {
-          if (question.getAttribute('type').toLowerCase() === 'stack') {
-            firstquestion = (firstquestion) ? firstquestion : question.outerHTML;
-            const option = document.createElement("option");
-            option.value = question.outerHTML;
-            option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
-
-            selectQuestion.appendChild(option);
-          }
-        }
-        setQuestion(firstquestion);
-      }
-
-      function setQuestion(question) {
-        yamlEditor.getDoc().setValue('<quiz>\n' + question + '\n</quiz>');
-      }
-
     </script>
 
     <div class="container-fluid que stack">
-      <div class="vstack gap-3 ms-3 col-lg-8">
+      <div>
         <div>
           <a href="https://stack-assessment.org/" class="nav-link">
             <span style="display: flex; align-items: center; font-size: 20px">
@@ -480,79 +405,46 @@ require_login();
             </span>
           </a>
         </div>
-        <?php echo stack_string('api_choose_q')?>:
-        <?php
-        $files = stack_question_library::get_file_list('../../samplequestions/*');
-        function render_directory($dirdetails) {
-            echo '<div style="margin-left: 30px;">';
-            foreach ($dirdetails as $file) {
-                if (!$file->isdirectory) {
-                    echo '<button class="btn btn-link library-file-link" type="button" onclick="getQuestionFile(\'cors.php?name='
-                        . $file->path . '&question=true\')">' .
-                        $file->label . '</button><br>';
-                } else {
-                    echo '<button class="btn btn-link" type="button" data-toggle="collapse" ' .
-                      'data-target="#' . $file->divid . '" aria-expanded="false" aria-controls="' . $file->divid . '">' .
-                      $file->label . '</button><br><div class="collapse" id="' . $file->divid . '">';
-                    render_directory($file->children);
-                    echo '</div>';
-                }
-            }
-            echo '</div>';
-        }
-        echo '<div class="stack-library-file-list">';
-        render_directory($files->children);
-        echo '</div>';
-        ?>
-        <?php echo stack_string('api_local_file')?>:
-        <input type="file" id="local-file" name="local-file" accept=".xml" onchange="getLocalQuestionFile(this.files[0])"/>
-        <div id="stackapi_question_select_holder"></div>
-        <h2><?php echo stack_string('api_q_xml')?></h2>
-        <textarea id="xml" cols="100" rows="10"></textarea>
-        <h2><?php echo stack_string('seedx', '')?> <input id="seed" type="number"></h2>
         <div>
-          <input type="button" onclick="send()" class="btn btn-primary" value="<?php echo stack_string('api_display')?>"/>
-          <input type="checkbox" id="readOnly" style="margin-left: 10px"/> <?php echo stack_string('api_read_only')?>
+          <div class='sidebar'>
+            <? foreach($questions as $key => $question): ?>
+              <a id='<?=$key?>-nav' href='#<?=$key?>' onclick="event.preventDefault();goToPage(<?=$key?>, null)"><?=$question->name?></a>
+            <? endforeach ?>
+          </div>
+          <div class="main-content">
+            <br>
+            <div class="col-lg-8">
+              <div id='errors'></div>
+              <div id="stackapi_qtext">
+                <div id="output" class="formulation"></div>
+                <br>
+                <input type="button" onclick="answer()" class="btn btn-primary" value="<?php echo stack_string('api_submit')?>"/>
+                <span id="stackapi_validity" style="color:darkred"></span>
+              </div>
+              <br>
+              <div id="stackapi_combinedfeedback" class="feedback col-lg-8" style="display: none">
+                <div id="specificfeedback"></div>
+                <div id="generalfeedback"></div>
+              </div>
+              <div id="stackapi_correct" style="display: none">
+                <h2><?php echo stack_string('api_correct')?>:</h2>
+                <div id="formatcorrectresponse" class="feedback"></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id='errors'></div>
-        <div id="stackapi_qtext" class="col-lg-8" style="display: none">
-          <h2><?php echo stack_string('questiontext')?>:</h2>
-          <div id="output" class="formulation"></div>
-          <div id="specificfeedback"></div>
-          <br>
-          <input type="button" onclick="answer()" class="btn btn-primary" value="<?php echo stack_string('api_submit')?>"/>
-          <span id="stackapi_validity" style="color:darkred"></span>
-        </div>
-        <div id="stackapi_generalfeedback" class="col-lg-8" style="display: none">
-          <h2><?php echo stack_string('generalfeedback')?>:</h2>
-          <div id="generalfeedback" class="feedback"></div>
-        </div>
-        <h2 id="stackapi_score" style="display: none"><?php echo stack_string('score')?>: <span id="score"></span></h2>
-        <div id="stackapi_summary" class="col-lg-10" style="display: none">
-          <h2><?php echo stack_string('api_response')?>:</h2>
-          <div id="response_summary" class="feedback"></div>
-        </div>
-        <div id="stackapi_correct" class="col-lg-10" style="display: none">
-          <h2><?php echo stack_string('api_correct')?>:</h2>
-          <div id="formatcorrectresponse" class="feedback"></div>
-        </div>
+        <br>
       </div>
     </div>
-    <br>
-
   </body>
-  <script>
-    const yamlEditor = CodeMirror.fromTextArea(document.getElementById("xml"),
-      {
-        lineNumbers: true,
-        mode: "xml",
-        gutters: ["CodeMirror-lint-markers"],
-        lint: true
-      });
-    yamlEditor.getDoc().on('change', function (cm) {
-      saveState('xml', cm.getValue());
-    });
-    yamlEditor.getDoc().setValue(loadState('xml'));
+  <script type="text/javascript">
+    var jErrArray = null;
+    <?php
+        // Create error array for javascript access.
+        if(!empty($questions)) {
+            echo "questions=".json_encode($questions).";";
+        }
+    ?>
   </script>
 </html>
 

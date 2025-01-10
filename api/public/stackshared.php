@@ -179,7 +179,6 @@ require_login();
 
     // Validate an input. Called a set amount of time after an input is last updated.
     function validate(element) {
-        loading(true);
         const http = new XMLHttpRequest();
         const url = window.location.origin + '/validate';
         http.open("POST", url, true);
@@ -189,7 +188,6 @@ require_login();
         http.onreadystatechange = function () {
             if (http.readyState == 4) {
                 try {
-                    loading(false);
                     const json = JSON.parse(http.responseText);
                     if (json.message) {
                         document.getElementById('errors').innerText = json.message;
@@ -211,7 +209,6 @@ require_login();
                 }
                 catch (e) {
                     document.getElementById('errors').innerText = http.responseText;
-                    loading(false);
                     return;
                 }
             }

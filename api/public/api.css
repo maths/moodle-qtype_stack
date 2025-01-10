@@ -41,7 +41,7 @@ a.nav-link:link, a.nav-link:visited, a.nav-link:hover, a.nav-link:active {
 .sidebar a {display: block; color: black; padding: 16px; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf; text-decoration: none;}
 .sidebar a.active {background-color: #004f71; color: white; pointer-events: none;}
 /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
-.main-content {margin-left: 200px; padding: 1px 16px;}
+.main-content {margin-left: 220px; padding: 1px 16px;}
 /* On screens that are less than 800px wide, make the sidebar into a topbar */
 @media screen and (max-width: 800px) {
     .sidebar {width: 100%; height: 110px; position: relative; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf }

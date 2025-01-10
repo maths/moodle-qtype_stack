@@ -25,6 +25,7 @@
 require_once('../config.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
+// @codingStandardsIgnoreStart
 ?>
 
 <script>

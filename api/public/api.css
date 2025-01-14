@@ -36,24 +36,24 @@ a.nav-link:link, a.nav-link:visited, a.nav-link:hover, a.nav-link:active {
   border: 1px solid lightblue;
   border-radius: 10px;
 }
+.link-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+}
+#errors {
+  background-color: pink;
+}
 /* The side navigation menu */
 .sidebar {margin: 0; padding: 0; position: absolute; width: 200px;}
 .sidebar a {display: block; color: black; padding: 16px; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf; text-decoration: none;}
 .sidebar a.active {background-color: #004f71; color: white; pointer-events: none;}
 /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
 .main-content {margin-left: 220px; padding: 1px 16px;}
-/* On screens that are less than 800px wide, make the sidebar into a topbar */
-@media screen and (max-width: 800px) {
-    .sidebar {width: 100%; height: 110px; position: relative; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf }
-    .sidebar a {float: left; border-style: none;}
-    .main-content {margin-left: 0; padding: 0px;}
-}
-/* On screens that are less than 720px wide, make the sidebar into a taller topbar as menu goes to three lines*/
-@media screen and (max-width: 720px) {
-    .sidebar {width: 100%; height: 160px; position: relative; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf}
-}
-/* On screens that are less than 550px, display the bar vertically, instead of horizontally */
-@media screen and (max-width: 550px) {
-    .sidebar {height: auto;}
-    .sidebar a {text-align: center; float: none;}
+
+/* On screens that are less than 600px, display the bar vertically, instead of horizontally */
+@media screen and (max-width:750px) {
+  .sidebar {width: 100%; height: auto; position: relative; border-style: solid; border-width: 0px 0px 1px 0px; border-color: #e0dfdf}
+  .sidebar a {text-align: center; float: none;}
+  .main-content {margin-left: 0; padding: 0px;}
 }

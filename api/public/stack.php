@@ -171,6 +171,7 @@ require_login();
           <div id="output" class="formulation"></div>
           <div id="specificfeedback"></div>
           <br>
+          <br>
           <input type="button" onclick="answer()" class="btn btn-primary" value="<?php echo stack_string('api_submit')?>"/>
           <span id="stackapi_validity" style="color:darkred"></span>
         </div>

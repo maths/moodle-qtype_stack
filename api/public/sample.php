@@ -37,7 +37,7 @@ foreach ($files->children as $file) {
       $questiondata = file_get_contents('../../samplequestions/' . $file->path);
       $questionobject = simplexml_load_string($questiondata)->question;
       $question->definition = $questiondata;
-      $question->name = $questionobject->name->text;
+      $question->name = (string) $questionobject->name->text;
       $question->seeds = $questionobject->deployedseed;
       $questions[] = $question;
   }
@@ -75,7 +75,7 @@ foreach ($files->children as $file) {
         }
         send();
         $('.sidebar .active').removeClass('active');
-        $('.sidebar #' + page + '-nav').addClass('active');
+        $('.sidebar #' + page + '-stackapi-nav').addClass('active');
     }
 
     // Create data for call to API.
@@ -123,6 +123,7 @@ foreach ($files->children as $file) {
             </span>
           </a>
         </div>
+        <br>
         <div>
           <p>
             STACK is the world-leading open-source online assessment system for mathematics and STEM.
@@ -137,18 +138,26 @@ foreach ($files->children as $file) {
           <p>
             STACK questions can have random variants. If these are available for a question, you can click 'Next Variant' to see another.
           </p>
+          <a>
+            For more information on STACK, visit <a href="https://stack-assessment.org/">the STACK community page</a>.
+          </p>
         </div>
-        <br>
+        <hr>
         <div>
           <div class='sidebar'>
             <? foreach($questions as $key => $question): ?>
-              <a id='<?=$key?>-nav' href='#<?=$key?>' onclick="event.preventDefault();goToPage(<?=$key?>, null)"><?=$question->name?></a>
+              <a id='<?=$key?>-stackapi-nav' href='#<?=$key?>' onclick="event.preventDefault();goToPage(<?=$key?>, null)"><?=$question->name?></a>
             <? endforeach ?>
           </div>
           <div class="main-content">
+            <br>
             <div class="col-lg-8">
               <div id='errors'></div>
+              <h1 id="stackapi_name"></h1>
+              <br>
               <div id="stackapi_qtext">
+                <h1 id="stackapi_name"></h1>
+                <br>
                 <div id="output" class="formulation"></div>
                 <br>
                 <input type="button" onclick="answer()" class="btn btn-primary" value="<?php echo stack_string('api_submit')?>"/>
@@ -176,9 +185,8 @@ foreach ($files->children as $file) {
     </div>
   </body>
   <script type="text/javascript">
-    var jErrArray = null;
     <?php
-        // Create error array for javascript access.
+        // Create JSON array of questions.
         if(!empty($questions)) {
             echo "questions=".json_encode($questions).";";
         }

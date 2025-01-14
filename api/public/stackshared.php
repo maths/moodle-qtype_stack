@@ -93,16 +93,23 @@ require_login();
                         question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
                         if (input.samplesolutionrender && name !== 'remember') {
                             // Display render of answer and matching user input to produce the answer.
-                            correctAnswers += `<p>
-                <?php echo stack_string('api_correct_answer') ?> \\[{${input.samplesolutionrender}}\\],
-                <?php echo stack_string('api_which_typed') ?>: `;
-                            for (const [name, solution] of Object.entries(input.samplesolution)) {
-                                if (name.indexOf('_val') === -1) {
-                                    correctAnswers += `<span class='correct-answer'>${solution}</span>`;
+                            correctAnswers += `<p><?php echo stack_string('api_correct_answer') ?>`;
+                            // Is the solution fully rendered? If not we need to surround with LaTeX.
+                            if (input.samplesolutionrender.substring(0, 1) === '<') {
+                                correctAnswers += input.samplesolutionrender;
+                            } else {
+                                correctAnswers += `\\[{${input.samplesolutionrender}}\\]`;
+                            }
+                            if (input.samplesolution) {
+                                correctAnswers += `, <?php echo stack_string('api_which_typed') ?>: `;
+                                for (const [name, solution] of Object.entries(input.samplesolution)) {
+                                    if (name.indexOf('_val') === -1) {
+                                        correctAnswers += `<span class='correct-answer'>${solution}</span>`;
+                                    }
                                 }
                             }
                             correctAnswers += '.</p>';
-                        } else if (name !== 'remember') {
+                        } else if (name !== 'remember' && input.samplesolution) {
                             // For dropdowns, radio buttons, etc, only the correct option is displayed.
                             for (const solution of Object.values(input.samplesolution)) {
                                 if (input.configuration.options) {
@@ -159,6 +166,7 @@ require_login();
                             document.getElementById('generalfeedback').innerHTML = '';
                         }
                         document.getElementById('stackapi_combinedfeedback').style.display = 'none';
+                        document.getElementById('stackapi_name').innerText = questions[page].name;
                     }
                     document.getElementById('stackapi_validity').innerText = '';
                     const innerFeedback = document.getElementById('specificfeedback');
@@ -169,7 +177,7 @@ require_login();
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 }
                 catch (e) {
-                    document.getElementById('errors').innerText = http.responseText;
+                    document.getElementById('errors').innerText = '<?php echo stack_string('api_error_msg') ?>';
                     return;
                 }
             }
@@ -208,7 +216,7 @@ require_login();
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 }
                 catch (e) {
-                    document.getElementById('errors').innerText = http.responseText;
+                    document.getElementById('errors').innerText = '<?php echo stack_string('api_error_msg') ?>';
                     return;
                 }
             }
@@ -298,7 +306,7 @@ require_login();
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 }
                 catch (e) {
-                    document.getElementById('errors').innerText = http.responseText;
+                    document.getElementById('errors').innerText = '<?php echo stack_string('api_error_msg') ?>';
                     loading(false);
                     return;
                 }
@@ -354,9 +362,11 @@ require_login();
     function loading(isLoading) {
       if (isLoading) {
         $('.main-content .btn-primary').prop('disabled', true);
+        $('[id$="stackapi-nav"]').addClass('link-disabled');
         $('#stackapi_spinner').show();
       } else {
         $('.main-content .btn-primary').prop('disabled', false);
+        $('[id$="stackapi-nav"]').removeClass('link-disabled');
         $('#stackapi_spinner').hide();
       }
     }

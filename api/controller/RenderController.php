@@ -102,7 +102,8 @@ class RenderController {
             $apiinput = new StackRenderInput();
 
             $apiinput->samplesolution = $input->get_api_solution($question->get_ta_for_input($name));
-            $apiinput->samplesolutionrender = $input->get_api_solution_render($question->get_ta_render_for_input($name));
+            $apiinput->samplesolutionrender = $input->get_api_solution_render(
+                $question->get_ta_render_for_input($name), $question->get_ta_for_input($name));
 
             $apiinput->validationtype = $input->get_parameter('showValidation', 1);
             $apiinput->configuration = $input->render_api_data($question->get_ta_for_input($name));

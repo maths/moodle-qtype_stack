@@ -1574,6 +1574,7 @@ $string['api_correct_answer'] = 'A correct answer is: ';
 $string['api_display'] = 'Display Question';
 $string['api_display_correct'] = 'Display Correct Answers';
 $string['api_display_correct_hide'] = 'Hide Correct Answers';
+$string['api_error_msg'] = 'There was an error attempting to display the request. Please try again or reload the page.';
 $string['api_errors'] = 'Errors';
 $string['api_failures'] = 'failures';
 $string['api_general_errors'] = 'General errors e.g. broken XML';

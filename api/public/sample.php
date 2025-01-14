@@ -27,21 +27,21 @@ require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
 require_once(__DIR__ . '/../../stack/questionlibrary.class.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
-// @codingStandardsIgnoreStart
 $files = stack_question_library::get_file_list('../../samplequestions/stacklibrary/Topics/*');
 
 $questions = [];
 foreach ($files->children as $file) {
-  if (!$file->isdirectory) {
-      $question = new StdClass();
-      $questiondata = file_get_contents('../../samplequestions/' . $file->path);
-      $questionobject = simplexml_load_string($questiondata)->question;
-      $question->definition = $questiondata;
-      $question->name = (string) $questionobject->name->text;
-      $question->seeds = $questionobject->deployedseed;
-      $questions[] = $question;
-  }
+    if (!$file->isdirectory) {
+        $question = new StdClass();
+        $questiondata = file_get_contents('../../samplequestions/' . $file->path);
+        $questionobject = simplexml_load_string($questiondata)->question;
+        $question->definition = $questiondata;
+        $question->name = (string) $questionobject->name->text;
+        $question->seeds = $questionobject->deployedseed;
+        $questions[] = $question;
+    }
 }
+// @codingStandardsIgnoreStart
 ?>
 <html>
   <head>

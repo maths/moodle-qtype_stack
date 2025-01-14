@@ -124,7 +124,7 @@ foreach ($files->children as $file) {
           </a>
         </div>
         <br>
-        <div>
+        <div class="col-lg-9">
           <p>
             STACK is the world-leading open-source online assessment system for mathematics and STEM.
             It is available for Moodle, ILIAS and as an integration through LTI.
@@ -141,8 +141,8 @@ foreach ($files->children as $file) {
           <a>
             For more information on STACK, visit <a href="https://stack-assessment.org/">the STACK community page</a>.
           </p>
+          <hr>
         </div>
-        <hr>
         <div>
           <div class='sidebar'>
             <? foreach($questions as $key => $question): ?>

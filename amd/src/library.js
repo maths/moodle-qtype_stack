@@ -66,7 +66,9 @@ define([
             elem.addEventListener('click', libraryRender);
         });
         const importButton = document.querySelector('.library-import-link');
-        importButton.addEventListener('click', libraryImport);
+        importButton.addEventListener('click', ()=>libraryImport(false));
+        const importFolderButton = document.querySelector('.library-import-link-folder');
+        importFolderButton.addEventListener('click', ()=>libraryImport(true));
         // Remove number of questions from category dropdown as we're not
         // updating them and that will confuse users.
         const catOptions = document.querySelectorAll('#id_category option');
@@ -123,6 +125,7 @@ define([
                 document.querySelectorAll('.library-secondary-info')
                     .forEach(el => el.removeAttribute('hidden'));
                 document.querySelector('.library-import-link').removeAttribute('disabled');
+                document.querySelector('.library-import-link-folder').removeAttribute('disabled');
                 // This fires the Maths filters for content in the validation div.
                 CustomEvents.notifyFilterContentUpdated(libraryDiv);
             },
@@ -136,8 +139,9 @@ define([
     /**
      * Performs AJAX call to Moodle to import a question.
      *
+     * @param {boolean} isFolder is this a request to load the whole folder
      */
-    function libraryImport() {
+    function libraryImport(isFolder) {
         if (!currentPath) {
             return;
         }
@@ -147,7 +151,7 @@ define([
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_import',
-            args: {category: categoryId, filepath: filepath},
+            args: {category: categoryId, filepath: filepath, isfolder: (isFolder) ? 1 : 0},
             done: function(response) {
                 loading(false);
                 if (response.success) {
@@ -174,13 +178,14 @@ define([
     /**
      * Disable/enable features before/after loading.
      *
-     * @param {*} isLoading Is an AJAX call taking place?
+     * @param {boolean} isLoading Is an AJAX call taking place?
      */
     function loading(isLoading) {
         errorDiv.hidden = true;
         if (isLoading) {
             document.querySelector('.loading-display').removeAttribute('hidden');
             document.querySelector('.library-import-link').setAttribute('disabled', 'disabled');
+            document.querySelector('.library-import-link-folder').setAttribute('disabled', 'disabled');
             document.querySelectorAll('.library-file-link').forEach(el => el.setAttribute('disabled', 'disabled'));
             importSuccessDiv.setAttribute('hidden', true);
         } else {

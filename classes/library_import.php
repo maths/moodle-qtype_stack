@@ -54,19 +54,25 @@ class library_import extends \external_api {
         return new \external_function_parameters([
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
             'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions'),
+            'isfolder' => new \external_value(PARAM_BOOL, 'Is import of whole question folder requested?'),
         ]);
     }
 
     /**
      * Returns result type for library_import webservice.
      *
-     * @return \external_description Result type
+     * @return \external_multiple_structure Result type
      */
     public static function import_execute_returns() {
-        return new \external_single_structure([
-            'success' => new \external_value(PARAM_BOOL, 'Success'),
-            'questionid' => new \external_value(PARAM_INT, 'Question id'),
-        ]);
+        return new \external_multiple_structure(
+            new \external_single_structure([
+                'success' => new \external_value(PARAM_BOOL, 'Success'),
+                'questionid' => new \external_value(PARAM_INT, 'Question id'),
+                'filename' => new \external_value(PARAM_TEXT, 'File name'),
+                'questionname' => new \external_value(PARAM_TEXT, 'Question name'),
+                'isstack' => new \external_value(PARAM_BOOL, 'Is this a stack question?'),
+            ])
+        );
     }
 
     /**
@@ -74,50 +80,83 @@ class library_import extends \external_api {
      *
      * @param int $category Question category id for import.
      * @param string $filepath File path relative to samplequestions.
-     * @return object Success.
+     * @return array Question details.
      */
-    public static function import_execute($category, $filepath) {
+    public static function import_execute($category, $filepath, $isfolder) {
         global $CFG, $DB;
-
+        $params = self::validate_parameters(self::import_execute_parameters(), [
+            'category' => $category,
+            'filepath' => $filepath,
+            'isfolder' => $isfolder,
+        ]);
         // Check parameters and permissions.
         $thiscontext = null;
         $qformat = null;
-        $thiscategory = $DB->get_record('question_categories', ['id' => $category]);
+        $thiscategory = $DB->get_record('question_categories', ['id' => $params['category']]);
         $contextid = $thiscategory->contextid;
         $thiscontext = context::instance_by_id($contextid);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
 
-        // Set up import. All files are XML.
-        $qformat = new qformat_xml();
-        $qformat->set_display_progress(false);
-
-        $qformat->setCategory($thiscategory);
-        $qformat->setCatfromfile(false);
-
-        $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
-        $qformat->setContextfromfile(false);
-        $qformat->setStoponerror(true);
-        $contexts = new question_edit_contexts($thiscontext);
-        $qformat->setContexts($contexts->having_one_edit_tab_cap('import'));
-
-        // Import.
-        if (!$qformat->importpreprocess()) {
-            throw new moodle_exception('importerror', 'qtype_stack', null, $filepath);
+        if (!$params['isfolder']) {
+            $files = $params['filepath'];
+        } else {
+            $fullpath = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
+            $reldirname = dirname($params['filepath']);
+            $files = scandir(dirname($fullpath));
+            $files = array_filter($files, function($file) {
+                return pathinfo($file, PATHINFO_EXTENSION) === 'xml' && strrpos($file, 'gitsync_category') === false;
+            });
+            $files = array_map(function($file) use ($reldirname) {
+                return $reldirname . '/' . $file;
+            }, $files);
         }
+        $response = [];
 
-        if (!$qformat->importprocess()) {
-            throw new moodle_exception('importerror', 'qtype_stack', null, $filepath);
+        foreach ($files as $file) {
+            $output = new \stdClass();
+            $output->success = false;
+            $output->filename = basename($file);
+            $output->questionid = 0;
+            $output->questionname = '';
+            $output->isstack = false;
+
+            // Set up import. All files are XML.
+            $qformat = new qformat_xml();
+            $qformat->set_display_progress(false);
+
+            $qformat->setCategory($thiscategory);
+            $qformat->setCatfromfile(false);
+
+            $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/' . $file);
+            $qformat->setContextfromfile(false);
+            $qformat->setStoponerror(true);
+            $contexts = new question_edit_contexts($thiscontext);
+            $qformat->setContexts($contexts->having_one_edit_tab_cap('import'));
+
+            // Import.
+            if (!$qformat->importpreprocess()) {
+                $response[] = $output;
+                continue;
+            }
+
+            if (!$qformat->importprocess()) {
+                $response[] = $output;
+                continue;
+            }
+            // In case anything needs to be done after.
+            if (!$qformat->importpostprocess()) {
+                $response[] = $output;
+                continue;
+            }
+
+            $output->success = true;
+            $output->questionid = $qformat->questionids[0];
+            $question = $DB->get_record('question', ['id' => $qformat->questionids[0]], 'id, name, qtype');
+            $output->questionname = $question->name;
+            $output->isstack = ($question->qtype === 'stack') ? true : false;
+            $response[] = $output;
         }
-        // In case anything needs to be done after.
-        if (!$success = $qformat->importpostprocess()) {
-            throw new moodle_exception('importerror', 'qtype_stack', null, $filepath);
-        }
-
-        $response = new \stdClass();
-        $response->success = true;
-        $response->questionid = $qformat->questionids[0];
-
         // Log import.
         $eventparams = [
             'contextid' => $qformat->category->contextid,
@@ -125,7 +164,6 @@ class library_import extends \external_api {
         ];
         $event = \core\event\questions_imported::create($eventparams);
         $event->trigger();
-
         return $response;
     }
 }

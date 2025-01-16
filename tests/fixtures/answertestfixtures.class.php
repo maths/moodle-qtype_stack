@@ -2484,6 +2484,7 @@ class stack_answertest_test_data {
         ['Units', '1', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units m/s.', ''],
         ['Units', '1', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''],
         ['Units', '1', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''],
+        ['Units', '3', '0.200*dpt', '0.200/m', 1, 'ATUnits_compatible_units 1/m.', ''],
         ['Units', '1', '7*in', '7*in', 1, 'ATUnits_units_match.', 'Imperial'],
         ['Units', '1', '6*in', '0.5*ft', 1, 'ATUnits_compatible_units in.', ''],
         ['Units', '4', '2640*ft', '0.5*mi', 1, 'ATNumSigFigs_WithinRange. ATUnits_compatible_units in.', ''],

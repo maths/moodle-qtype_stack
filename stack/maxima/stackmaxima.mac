@@ -134,6 +134,7 @@ load("functs");
 /* Load the logic package, but remove the "eq" infix operator which conflicts with too many existing things. */
 /* We've edited the logic package which over writes the eq operator as xnor.                                 */
 load("stack_logic.lisp");
+load("Ksimplifier.lisp");
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;

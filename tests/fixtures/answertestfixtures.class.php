@@ -711,6 +711,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'not(A) and B', 'A implies B', 0, '', ''],
         ['AlgEquiv', '', '(not A and B) or (not B and A)', 'A xor B', 1, 'ATLogic_True.', ''],
         ['AlgEquiv', '', '(A and B) or (not A and not B)', 'A xnor B', 1, 'ATLogic_True.', ''],
+        ['AlgEquiv', '', '((not A) and (not B)) or ((not A) and B)', 'not A', 1, 'ATLogic_True.', ''],
         // We can't apply this simplification to sets, as it breaks sets of inequalities.
         ['AlgEquiv', '', '{not(A) or B,A and B}', '{A implies B,A and B}', 0, 'ATSet_wrongentries.', ''],
         ['AlgEquiv', '', '{A implies B,A and B}', '{not(A) and B,A and B}', 0, 'ATSet_wrongentries.', ''],

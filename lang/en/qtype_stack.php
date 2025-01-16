@@ -1565,11 +1565,16 @@ $string['stack_library_not_stack'] = 'This is not a STACK question and so cannot
 $string['stack_library_quiz_return'] = 'Return to quiz';
 $string['stack_library_qb_return'] = 'Return to question bank';
 // API strings.
+$string['api_advance_variant'] = 'Next Variant';
 $string['api_choose_file'] = 'Please select a question file';
 $string['api_choose_folder'] = 'Choose a STACK folder';
 $string['api_choose_q'] = 'Choose a STACK sample file';
 $string['api_correct'] = 'Correct answers';
+$string['api_correct_answer'] = 'A correct answer is: ';
 $string['api_display'] = 'Display Question';
+$string['api_display_correct'] = 'Display Correct Answers';
+$string['api_display_correct_hide'] = 'Hide Correct Answers';
+$string['api_error_msg'] = 'There was an error attempting to display the request. Please try again or reload the page.';
 $string['api_errors'] = 'Errors';
 $string['api_failures'] = 'failures';
 $string['api_general_errors'] = 'General errors e.g. broken XML';

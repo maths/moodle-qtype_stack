@@ -235,7 +235,7 @@ class stack_notes_input extends stack_input {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution_render($tadisplay) {
+    public function get_api_solution_render($tadisplay, $ta) {
         return '';
     }
 

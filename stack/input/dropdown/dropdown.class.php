@@ -722,7 +722,7 @@ class stack_dropdown_input extends stack_input {
     /**
      * We return an empty value to ensure the rendering result is stable, even if the content included plots
      */
-    public function get_api_solution_render($tadisplay) {
+    public function get_api_solution_render($tadisplay, $ta) {
         return '';
     }
 }

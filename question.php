@@ -762,7 +762,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return [$hastodos, $tags];
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    /*
+     * The purpose of this function is to generate a human readable summary.
+     * This is used by moodle in the anslaysis scripts.
+     * For download and offline analysis use the JSON version.
+     */
     public function summarise_response(array $response) {
         // Provide seed information on student's version via the normal moodle quiz report.
         $bits = ['Seed: ' . $this->seed];
@@ -797,8 +801,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return implode('; ', $bits);
     }
 
-    // Used in reporting - needs to return an array.
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    /*
+     * Used in reporting - needs to return an array.
+     */
     public function summarise_response_data(array $response) {
         $bits = [];
         foreach ($this->inputs as $name => $input) {

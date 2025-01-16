@@ -156,6 +156,7 @@ class stack_cas_casstring_units {
         ['yd', '36*in', 'yd', 'yard'],
         ['mi', '5280*12*in', 'mi', 'mile'],
         ['lb', '4.4482*N', 'lb', 'pound'],
+        ['dpt', '1/m', 'dpt', 'Dioptre'],
     ];
 
     /**

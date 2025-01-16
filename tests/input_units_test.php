@@ -1327,4 +1327,17 @@ final class input_units_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
+
+    public function test_validate_student_response_dpt(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '0.520*dpt');
+        $el->set_parameter('insertStars', 1);
+        $state = $el->validate_student_response(['sans1' => '0.520*dpt'], $options, '0.520*dpt',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('0.520*dpt', $state->contentsmodified);
+        $this->assertEquals('\[ 0.520\, \mathrm{dpt} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
 }

@@ -1553,6 +1553,7 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 $string['stack_library'] = 'STACK question library';
 $string['stack_library_destination'] = 'Questions will be imported into the following category:';
 $string['stack_library_error'] = 'Something went wrong. Please refresh the page and try again.';
+$string['stack_library_failure'] = 'Failed import of:';
 $string['stack_library_help'] = 'Rather than creating your own question, follow this link to go to the STACK question library. The STACK question library contains many pre-made STACK questions ready for you to import into Moodle. You can then use them as they are or edit them to fit your needs.';
 $string['stack_library_instructions_one'] = 'Select a question from the list below to view it here.';
 $string['stack_library_instructions_two'] = 'Click \'Import\' to import the question into the current question category. Alternatively, click \'Import folder\' to import all questions in the current folder.';

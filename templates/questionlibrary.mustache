@@ -83,6 +83,7 @@
       </div>
       <p class="stack-library-error alert alert-danger" hidden>
         {{#str}} stack_library_error, qtype_stack {{/str}}
+        <span class="stack-library-error-details"></span>
       </p>
       <div class="alert alert-secondary" style="position: relative; color: black;">
         {{#str}} stack_library_destination, qtype_stack {{/str}}
@@ -97,6 +98,13 @@
                 {{#str}} stack_library_success, qtype_stack {{/str}}
               </span>
               <span class="stack-library-import-success-file">
+              </span>
+            </div>
+            <div class="stack-library-import-failure" hidden>
+              <span>
+                {{#str}} stack_library_failure, qtype_stack {{/str}}
+              </span>
+              <span class="stack-library-import-failure-file">
               </span>
             </div>
           </div>

@@ -99,7 +99,7 @@ class library_import extends \external_api {
         require_capability('moodle/question:add', $thiscontext);
 
         if (!$params['isfolder']) {
-            $files = $params['filepath'];
+            $files = [$params['filepath']];
         } else {
             $fullpath = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
             $reldirname = dirname($params['filepath']);
@@ -112,6 +112,8 @@ class library_import extends \external_api {
             }, $files);
         }
         $response = [];
+        $qcontextid = null;
+        $qcategoryid = null;
 
         foreach ($files as $file) {
             $output = new \stdClass();
@@ -136,16 +138,20 @@ class library_import extends \external_api {
 
             // Import.
             if (!$qformat->importpreprocess()) {
+                // Import failure writes directly to output. This breaks the response JSON.
+                ob_clean();
                 $response[] = $output;
                 continue;
             }
 
             if (!$qformat->importprocess()) {
+                ob_clean();
                 $response[] = $output;
                 continue;
             }
             // In case anything needs to be done after.
             if (!$qformat->importpostprocess()) {
+                ob_clean();
                 $response[] = $output;
                 continue;
             }
@@ -156,14 +162,19 @@ class library_import extends \external_api {
             $output->questionname = $question->name;
             $output->isstack = ($question->qtype === 'stack') ? true : false;
             $response[] = $output;
+            $qcategoryid = $qformat->category->id;
+            $qcontextid = $qformat->category->contextid;
         }
-        // Log import.
-        $eventparams = [
-            'contextid' => $qformat->category->contextid,
-            'other' => ['format' => 'xml', 'categoryid' => $qformat->category->id],
-        ];
-        $event = \core\event\questions_imported::create($eventparams);
-        $event->trigger();
+
+        if ($qcontextid) {
+            // Log import if we've had a success.
+            $eventparams = [
+                'contextid' => $qcontextid,
+                'other' => ['format' => 'xml', 'categoryid' => $qcategoryid],
+            ];
+            $event = \core\event\questions_imported::create($eventparams);
+            $event->trigger();
+        }
         return $response;
     }
 }

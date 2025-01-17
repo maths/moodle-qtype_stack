@@ -36,13 +36,14 @@ define([
     let descriptionDiv = null;
     let importListDiv = null;
     let importSuccessDiv = null;
+    let importFailureDiv = null;
     let importSuccessFileDiv = null;
+    let importFailureFileDiv = null;
     let displayedDiv = null;
     let dashLink = null;
     let errorDiv = null;
+    let errorDetailsDiv = null;
     let currentPath = null;
-    let currentName = null;
-    let isstack = false;
 
     /**
      * Sets up event listeners.
@@ -56,8 +57,11 @@ define([
         displayedDiv = document.querySelector('.stack_library_selected_question');
         descriptionDiv = document.querySelector('.stack_library_description_display');
         errorDiv = document.querySelector('.stack-library-error');
+        errorDetailsDiv = document.querySelector('.stack-library-error-details');
         importSuccessDiv = document.querySelector('.stack-library-import-success');
+        importFailureDiv = document.querySelector('.stack-library-import-failure');
         importSuccessFileDiv = document.querySelector('.stack-library-import-success-file');
+        importFailureFileDiv = document.querySelector('.stack-library-import-failure-file');
         dashLink = document.querySelector('#dashboard-link-holder').innerHTML.trim();
         dashLink = dashLink.includes('?') ? dashLink = dashLink + '&questionid=' : dashLink = dashLink + '?questionid=';
         loading(true);
@@ -95,7 +99,6 @@ define([
         const filepath = e.target.getAttribute('data-filepath');
         currentPath = filepath;
         loading(true);
-        errorDiv.hidden = true;
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_render',
@@ -120,8 +123,6 @@ define([
                 descriptionDiv.innerHTML = response.questiondescription;
                 variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
                 displayedDiv.innerHTML = response.questionname + '<br>(' + currentPath.split('/').pop() + ')';
-                currentName = response.questionname;
-                isstack = response.isstack;
                 document.querySelectorAll('.library-secondary-info')
                     .forEach(el => el.removeAttribute('hidden'));
                 document.querySelector('.library-import-link').removeAttribute('disabled');
@@ -129,8 +130,9 @@ define([
                 // This fires the Maths filters for content in the validation div.
                 CustomEvents.notifyFilterContentUpdated(libraryDiv);
             },
-            fail: function() {
+            fail: function(response) {
                 loading(false);
+                errorDetailsDiv.innerHTML = (response.message) ? response.message : '';
                 errorDiv.hidden = false;
             }
         }]);
@@ -145,7 +147,6 @@ define([
         if (!currentPath) {
             return;
         }
-        errorDiv.hidden = true;
         const filepath = currentPath;
         loading(true);
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
@@ -154,22 +155,28 @@ define([
             args: {category: categoryId, filepath: filepath, isfolder: (isFolder) ? 1 : 0},
             done: function(response) {
                 loading(false);
-                if (response.success) {
-                    let currentDashLink = dashLink + response.questionid;
-                    if (isstack) {
-                        importListDiv.innerHTML = importListDiv.innerHTML
-                            + '<br>' + '<a target="_blank" href="' + currentDashLink + '">' + currentName + '</a>';
+                for (const currentQuestion of response) {
+                    if (currentQuestion.success) {
+                        let currentDashLink = dashLink + currentQuestion.questionid;
+                        if (currentQuestion.isstack) {
+                            importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
+                                + currentDashLink + '">' + currentQuestion.questionname + '</a>';
+                        } else {
+                            importListDiv.innerHTML += '<br>' + currentQuestion.questionname;
+                        }
+                        importSuccessFileDiv.innerHTML += '<br>' +
+                            currentQuestion.filename.split('/').pop() + ' --> ' + currentQuestion.questionname;
+                        importSuccessDiv.removeAttribute('hidden');
                     } else {
-                        importListDiv.innerHTML = importListDiv.innerHTML + '<br>' + currentName;
+                        importFailureFileDiv.innerHTML += '<br>' +
+                            currentQuestion.filename.split('/').pop();
+                        importFailureDiv.removeAttribute('hidden');
                     }
-                    importSuccessFileDiv.innerHTML = currentPath.split('/').pop() + ' as ' + currentName;
-                    importSuccessDiv.removeAttribute('hidden');
-                } else {
-                    errorDiv.hidden = false;
                 }
             },
-            fail: function() {
+            fail: function(response) {
                 loading(false);
+                errorDetailsDiv.innerHTML = (response.message) ? response.message : '';
                 errorDiv.hidden = false;
             }
         }]);
@@ -187,7 +194,10 @@ define([
             document.querySelector('.library-import-link').setAttribute('disabled', 'disabled');
             document.querySelector('.library-import-link-folder').setAttribute('disabled', 'disabled');
             document.querySelectorAll('.library-file-link').forEach(el => el.setAttribute('disabled', 'disabled'));
+            importSuccessFileDiv.innerHTML = '';
             importSuccessDiv.setAttribute('hidden', true);
+            importFailureFileDiv.innerHTML = '';
+            importFailureDiv.setAttribute('hidden', true);
         } else {
             document.querySelector('.loading-display').setAttribute('hidden', true);
             document.querySelectorAll('.library-file-link').forEach(el => el.removeAttribute('disabled'));

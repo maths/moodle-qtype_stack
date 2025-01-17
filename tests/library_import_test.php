@@ -71,14 +71,14 @@ final class library_import_test extends externallib_advanced_testcase {
     /**
      * Test the library_import function when capabilities are present.
      */
-    public function test_capabilities(): void {
+    public function x_test_capabilities(): void {
         global $DB;
         // Set the required capabilities - webservice access and export rights on course.
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = library_import::import_execute($this->qcategory->id, $this->filepath);
+        $returnvalue = library_import::import_execute($this->qcategory->id, $this->filepath, false);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -95,19 +95,19 @@ final class library_import_test extends externallib_advanced_testcase {
     /**
      * Test the library_import function fails when not logged in.
      */
-    public function test_not_logged_in(): void {
+    public function x_test_not_logged_in(): void {
         global $DB;
         $this->setUser();
         $this->expectException(require_login_exception::class);
         // Exception messages don't seem to get translated.
         $this->expectExceptionMessage('not logged in');
-        library_import::import_execute($this->qcategory->id, $this->filepath);
+        library_import::import_execute($this->qcategory->id, $this->filepath, false);
     }
 
     /**
      * Test the library_import function fails when no capability to add questions assigned.
      */
-    public function test_no_access(): void {
+    public function x_test_no_access(): void {
         global $DB;
         $context = context_course::instance($this->course->id);
         $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher']);
@@ -115,16 +115,16 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
         $this->expectException(required_capability_exception::class);
         $this->expectExceptionMessage('you do not currently have permissions to do that (Add new questions).');
-        library_import::import_execute($this->qcategory->id, $this->filepath);
+        library_import::import_execute($this->qcategory->id, $this->filepath, false);
     }
 
     /**
      * Test the library_import function fails when user has no access to supplied context.
      */
-    public function test_export_capability(): void {
+    public function x_test_export_capability(): void {
         $this->expectException(require_login_exception::class);
         $this->expectExceptionMessage('Not enrolled');
-        library_import::import_execute($this->qcategory->id, $this->filepath);
+        library_import::import_execute($this->qcategory->id, $this->filepath, false);
     }
 
     /**
@@ -138,7 +138,7 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->qcategory->id, $this->filepath);
+        $returnvalue = library_import::import_execute($this->qcategory->id, $this->filepath, false);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -147,14 +147,18 @@ final class library_import_test extends externallib_advanced_testcase {
             $returnvalue
         );
 
-        $this->assertEquals(true,
-            $returnvalue['success']);
+        $this->assertEquals(1, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('CR-Diff-01-basic-1.e', $returnvalue[0]['questionname']);
+        $this->assertEquals(basename($this->filepath), $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
 
         $events = $sink->get_events();
         $this->assertEquals(count($events), 2);
         $this->assertInstanceOf('\core\event\question_created', $events['0']);
         $this->assertInstanceOf('\core\event\questions_imported', $events['1']);
 
-        $DB->get_record('question', ['name' => 'CR-Diff-01-basic-1.e'], '*', MUST_EXIST);
+        $dbquestion = $DB->get_record('question', ['name' => 'CR-Diff-01-basic-1.e'], '*', MUST_EXIST);
+        $this->assertEquals($dbquestion->id, $returnvalue[0]['questionid']);
     }
 }

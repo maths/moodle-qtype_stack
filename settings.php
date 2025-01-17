@@ -53,7 +53,7 @@ $link = '* ' . implode("\n* ", $links);
 $link .= "\n***\n";
 $links = [
     get_string('healthcheck_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')])
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')]),
 ];
 $link .= '* ' . implode("\n* ", $links);
 

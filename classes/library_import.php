@@ -98,7 +98,16 @@ class library_import extends \external_api {
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
 
-        if (!$params['isfolder']) {
+        if (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
+                    && strrpos($params['filepath'], '_quiz.json') !== false) {
+            $quizcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
+            $json = json_decode($quizcontents);
+            $questions = $json->questions;
+            $reldirname = dirname($params['filepath']);
+            $files = array_map(function($question) use ($reldirname) {
+                return $reldirname . '/' . $question->quizfilepath;
+            }, $questions);
+        } else if (!$params['isfolder']) {
             $files = [$params['filepath']];
         } else {
             $fullpath = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];

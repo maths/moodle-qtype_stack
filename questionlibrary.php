@@ -39,6 +39,7 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $cm = get_coursemodule_from_id(false, $cmid);
     require_login($cm->course, false, $cm);
     $thiscontext = context_module::instance($cmid);
+    $coursename = $DB->get_field('course', 'fullname', ['id' => $cm->course]);
     $urlparams['cmid'] = $cmid;
     if (strpos(optional_param('returnurl', null, PARAM_LOCALURL), 'quiz') !== false) {
         $returntext = get_string('stack_library_quiz_return', 'qtype_stack');
@@ -48,6 +49,7 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
 } else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
     require_login($courseid);
     $thiscontext = context_course::instance($courseid);
+    $coursename = $DB->get_field('course', 'fullname', ['id' => $courseid]);
     $urlparams['courseid'] = $courseid;
     $returntext = get_string('stack_library_qb_return', 'qtype_stack');
 }
@@ -96,6 +98,7 @@ $outputdata->dashboardlink = $dashboardlink->out();
 $outputdata->returntext = $returntext;
 $outputdata->files = $files->children;
 $outputdata->category = $mform->render();
+$outputdata->coursename = $coursename;
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 

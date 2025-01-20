@@ -96,19 +96,23 @@ class library_render extends \external_api {
      */
     public static function render_execute($category, $filepath) {
         global $CFG, $DB;
+        $params = self::validate_parameters(self::render_execute_parameters(), [
+            'category' => $category,
+            'filepath' => $filepath,
+        ]);
         StackIframeHolder::$islibrary = true;
         // Check parameters and that user has question add capability in the supplied category.
-        $context = $DB->get_field('question_categories', 'contextid', ['id' => $category]);
+        $context = $DB->get_field('question_categories', 'contextid', ['id' => $params['category']]);
         $thiscontext = context::instance_by_id($context);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
 
         // Check if we've already cached the answer.
         $cache = cache::make('qtype_stack', 'librarycache');
-        $result = $cache->get($filepath);
+        $result = $cache->get($params['filepath']);
         if (!$result) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
+            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
             try {
                 $question = StackQuestionLoader::loadxml($qcontents)['question'];
                 $render = static::call_question_render($question);
@@ -132,7 +136,7 @@ class library_render extends \external_api {
                     'questiondescription' => $question->questiondescription,
                     'isstack' => true,
                 ];
-                $cache->set($filepath, $result);
+                $cache->set($params['filepath'], $result);
             } catch (\stack_exception $e) {
                 // If the question is not a STACK question we can't render it
                 // but we staill want users to be able to import it.

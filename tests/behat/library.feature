@@ -39,6 +39,26 @@ Feature: Test STACK library
     And I click on "Return to question bank" "link"
     Then I should see "CR-Diff-02-linearity-1.b"
 
+  @javascript @current
+  Scenario: Import a question folder starting from question bank.
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    And I click on "Create a new question" "button"
+    And I set the field "item_qtype_stack" to "1"
+    And I press "submitbutton"
+    And I click on "STACK question library" "link"
+    Then I should see "Test questions"
+    And I should not see "Question variables"
+    And I click on "Calculus-Refresher" "button"
+    And I click on "CR_Diff_02" "button"
+    And I click on "CR-Diff-02-linearity-1-b.xml" "button"
+    And I should see "Differentiate \[{@p@}\] with respect to {@v@}. [[input:ans1]]"
+    And I click on "Import folder" "button"
+    And I click on "Return to question bank" "link"
+    Then I should see "CR-Diff-02-linearity-1.a"
+    And I should see "CR-Diff-02-linearity-1.b"
+    And I should see "CR-Diff-02-linearity-2.a"
+    And I should see "CR-Diff-02-linearity-5.b"
+
   @javascript
   Scenario: Import a question starting from quiz in Moodle < 4.3.
     Given the site is running Moodle version 4.2 or lower

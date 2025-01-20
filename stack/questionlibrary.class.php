@@ -106,6 +106,7 @@ class stack_question_library {
     /**
      * Gets the structure of folders and files within a given directory
      * See questionfolder.mustache for output and usage.
+     * We sanitise the structure a bit to remove gitsync files and folders.
      * @param string directory within samplequestions to be examined
      * @return object StdClass Representation of the file system
      */
@@ -120,7 +121,10 @@ class stack_question_library {
         $results->isdirectory = 1;
         foreach ($files as $path) {
             if (!is_dir($path)) {
-                if (!strpos($path, 'gitsync_category.xml')) {
+                if (
+                    (pathinfo($path, PATHINFO_EXTENSION) === 'xml' && strrpos($path, 'gitsync_category') === false)
+                    || (pathinfo($path, PATHINFO_EXTENSION) === 'json' && strrpos($path, '_quiz.json') !== false)
+                 ) {
                     $childless = new StdClass();
                     // Get the path relative to the samplequestions folder.
                     $pathfromsq = str_replace('samplequestions/', '', $path);
@@ -132,7 +136,35 @@ class stack_question_library {
                     $results->children[] = $childless;
                 }
             } else {
-                $results->children[] = self::get_file_list($path . '/*');
+                if (strrpos($path, 'manifest_backups') === false) {
+                    $children = self::get_file_list($path . '/*');
+                    if ($children->label === 'top') {
+                        $topchildren = $children->children;
+                        $topquizzes = [];
+                        $topfolders = [];
+                        foreach ($topchildren as $topchild) {
+                            if (pathinfo($topchild->path, PATHINFO_EXTENSION) === 'json'
+                                    && strrpos($topchild->path, '_quiz.json') !== false) {
+                                $topquizzes[] = $topchild;
+                            } else if ($topchild->isdirectory) {
+                                $topfolders[] = $topchild;
+                            }
+                        }
+                        if (count($topfolders) === 1 && count($topquizzes) === 0) {
+                            // If we have a 'top' folder containing only a single folder (e.g. 'Default for...)
+                            // strip out both from file display.
+                            $results->children = array_merge($results->children, $topchildren[0]->children);
+                        } else if (count($topfolders) === 1 && count($topquizzes) > 0) {
+                            // Quizzes and a single folder. Display quizzes and contents of folder.
+                            $results->children = array_merge($topquizzes, $topfolders[0]->children);
+                        } else {
+                            // Just strip out 'top'.
+                            $results->children = array_merge($results->children, $topchildren);
+                        }
+                    } else {
+                        $results->children[] = $children;
+                    }
+                }
             }
         }
 

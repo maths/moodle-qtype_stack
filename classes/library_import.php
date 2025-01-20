@@ -97,6 +97,7 @@ class library_import extends \external_api {
         $thiscontext = context::instance_by_id($contextid);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
+        $loadingquiz = false;
 
         if (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                     && strrpos($params['filepath'], '_quiz.json') !== false) {
@@ -105,8 +106,16 @@ class library_import extends \external_api {
             $questions = $json->questions;
             $reldirname = dirname($params['filepath']);
             $files = array_map(function($question) use ($reldirname) {
-                return $reldirname . '/' . $question->quizfilepath;
+                return $reldirname . $question->quizfilepath;
             }, $questions);
+            $categories = [];
+            foreach ($files as $file) {
+                $category = dirname($file) . '/' . 'gitsync_category.xml';
+                if (!array_search($category, $categories)) {
+                    array_push($categories, $category);
+                }
+            }
+            $loadingquiz = true;
         } else if (!$params['isfolder']) {
             $files = [$params['filepath']];
         } else {
@@ -117,12 +126,45 @@ class library_import extends \external_api {
                 return pathinfo($file, PATHINFO_EXTENSION) === 'xml' && strrpos($file, 'gitsync_category') === false;
             });
             $files = array_map(function($file) use ($reldirname) {
-                return $reldirname . '/' . $file;
+                return $reldirname . $file;
             }, $files);
         }
         $response = [];
         $qcontextid = null;
         $qcategoryid = null;
+
+        $categoryids = [];
+        foreach ($categories as $category) {
+            // We supply the base category for the context and let the import process
+            // figure out if it needs to create a new category based on the info in the file.
+            $qformat = new qformat_xml();
+            $qformat->set_display_progress(false);
+            $qformat->setCategory($thiscategory);
+            $qformat->setCatfromfile(true);
+            $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/' . $category);
+            $qformat->setContextfromfile(false);
+            $qformat->setStoponerror(true);
+            $contexts = new question_edit_contexts($thiscontext);
+            $qformat->setContexts($contexts->having_one_edit_tab_cap('import'));
+
+            // Import.
+            if (!$qformat->importpreprocess()) {
+                // Import failure writes directly to output. This breaks the response JSON.
+                ob_clean();
+                continue;
+            }
+
+            if (!$qformat->importprocess()) {
+                ob_clean();
+                continue;
+            }
+            // In case anything needs to be done after.
+            if (!$qformat->importpostprocess()) {
+                ob_clean();
+                continue;
+            }
+            $categoryids[dirname($category)] = $qformat->category->id;
+        }
 
         foreach ($files as $file) {
             $output = new \stdClass();
@@ -135,8 +177,13 @@ class library_import extends \external_api {
             // Set up import. All files are XML.
             $qformat = new qformat_xml();
             $qformat->set_display_progress(false);
-
-            $qformat->setCategory($thiscategory);
+            if ($loadingquiz) {
+                $currentcategoryid = $categoryids[dirname($file)];
+                $currentcategory = $DB->get_record('question_categories', ['id' => $currentcategoryid]);
+                $qformat->setCategory($currentcategory);
+            } else {
+                $qformat->setCategory($thiscategory);
+            }
             $qformat->setCatfromfile(false);
 
             $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/' . $file);

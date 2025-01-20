@@ -277,7 +277,7 @@ function stack_fetch_included_content(string $url) {
     if (strpos($lc, 'http://') === 0 || strpos($lc, 'https://') === 0) {
         $good = true;
     } else {
-        if (strpos($path, '..') !== false || strpos($path, '/') === 0 || strpos($path, '~') === 0) {
+        if (str_contains($path, '..') || strpos($path, '/') === 0 || strpos($path, '~') === 0) {
             $error = 'Traversing the directory tree is forbidden.';
             $good = false;
             return false;

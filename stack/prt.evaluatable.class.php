@@ -271,7 +271,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     public function get_fverrors($format='strings') {
         $err = [];
         foreach ($this->errors as $er) {
-            if (strpos($er->get_context(), '/fv') !== false) {
+            if (str_contains($er->get_context(), '/fv')) {
                 if ($format === 'strings') {
                     $err[] = $er->get_legacy_error();
                 } else {

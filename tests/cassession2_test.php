@@ -2190,7 +2190,7 @@ class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         $actual = $s1[0]->get_dispvalue();
-        if (strpos($actual, 'quantile_gamma(') !== false) {
+        if (str_contains($actual, 'quantile_gamma(')) {
             // Seems that the distrib package is not available. Skip this test.
             $this->markTestSkipped('Skipping because it seems the distrib package is not installed.');
         }

@@ -136,7 +136,7 @@ function stack_docs_no_found($links) {
 function stack_docs_page($links, $file) {
     $preprocess = true;
     // This auto-generated file does not need maths processing.
-    if (strpos($file, 'Answer_Tests/Results') !== false) {
+    if (str_contains($file, 'Answer_Tests/Results')) {
         $preprocess = false;
     }
     $body = '';

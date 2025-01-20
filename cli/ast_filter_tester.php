@@ -133,7 +133,7 @@ $filters = stack_parsing_rule_factory::list_filters();
 if ($only !== false) {
     $f = [];
     foreach ($filters as $filter) {
-        if (strpos($filter, $only) !== false) {
+        if (str_contains($filter, $only)) {
             $f[] = $filter;
         }
     }

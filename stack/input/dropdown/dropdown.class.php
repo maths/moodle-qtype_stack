@@ -176,7 +176,7 @@ class stack_dropdown_input extends stack_input {
             if (is_array($value)) {
                 // Inject strings back if they exist.
                 foreach ($value as $key => $something) {
-                    if (strpos($something, '[STR:') !== false) {
+                    if (str_contains($something, '[STR:')) {
                         foreach ($strings as $skey => $string) {
                             $value[$key] = str_replace("[STR:$skey]", '"' . $string . '"', $value[$key]);
                         }

@@ -73,7 +73,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             if ($this->float) {
                 // Turn floats that are to small or large to powers of ten.
                 $p = 0;
-                if (strpos($node->toString(), 'E') !== false) {
+                if (str_contains($node->toString(), 'E')) {
                     $p = intval(explode('E', $node->toString())[1]);
                 }
 
@@ -279,12 +279,12 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
     public function float_to_power(MP_Float $float): MP_Node {
         $raw = strtolower($float->raw);
         $p = 0;
-        if (strpos($raw, 'e') !== false) {
+        if (str_contains($raw, 'e')) {
             $parts = explode('e', $raw);
             $raw = $parts[0];
             $p = intval($parts[1]);
         }
-        if (strpos($raw, '.') !== false) {
+        if (str_contains($raw, '.')) {
             $parts = explode('.', $raw);
             $raw = $parts[0] . $parts[1];
             $p = $p - strlen($parts[1]);

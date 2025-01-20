@@ -27,10 +27,10 @@ if (isset($_GET['question'])) {
     $is_question = false;
 }
 
-if (strpos('..', $scriptname) !== false
-    || strpos('/', $scriptname) !== false
-    || strpos('\\', $scriptname) !== false) {
-    die("No such script here.");
+if (str_contains($scriptname, '..')
+    || str_contains($scriptname, '/')
+    || str_contains($scriptname, '\\')) {
+        die("No such script here.");
 }
 
 if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.css'

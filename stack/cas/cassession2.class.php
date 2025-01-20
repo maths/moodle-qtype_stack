@@ -454,7 +454,7 @@ class stack_cas_session2 {
             $last = null;
             $errb = [];
             foreach ($err as $error) {
-                if (strpos($error->get_legacy_error(), 'STACK: ignore previous error.') !== false) {
+                if (str_contains($error->get_legacy_error(), 'STACK: ignore previous error.')) {
                     $last = null;
                 } else {
                     if ($last !== null) {

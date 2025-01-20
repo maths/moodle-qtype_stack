@@ -190,7 +190,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $this->timeout        = $settings->castimeout;
         $this->serveruserpass = $settings->serveruserpass;
         $this->debug          = $debuglog;
-        if (strpos($CFG->wwwroot, '_') !== false) {
+        if (str_contains($CFG->wwwroot, '_')) {
             $this->wwwroothasunderscores = true;
             $this->wwwrootfixupfind = str_replace('_', '\_', $CFG->wwwroot);
             $this->wwwrootfixupreplace = $CFG->wwwroot;
@@ -334,15 +334,15 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $errorclean = [];
         foreach ($error as $err) {
             // This case arises when we use a numerical test for algebraic equivalence.
-            if (strpos($err, 'STACK: ignore previous error.') !== false) {
+            if (str_contains($err, 'STACK: ignore previous error.')) {
                 $err = '';
             }
 
-            if (strpos($err, '0 to a negative exponent') !== false) {
+            if (str_contains($err, '0 to a negative exponent')) {
                 $err = stack_string('Maxima_DivisionZero');
             }
 
-            if (strpos($err, 'args: argument must be a non-atomic expression;') !== false) {
+            if (str_contains($err, 'args: argument must be a non-atomic expression;')) {
                 $err = stack_string('Maxima_Args');
             }
 

@@ -63,7 +63,7 @@ class stack_ast_filter_201_sig_figs_validation implements stack_cas_astfilter_pa
 
             $pre = explode('.', $raw)[0];
             $post = '';
-            if (strpos($raw, '.') !== false) {
+            if (str_contains($raw, '.')) {
                 $post = explode('.', $raw)[1];
             }
             $min = null;

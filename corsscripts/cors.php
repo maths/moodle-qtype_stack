@@ -22,9 +22,9 @@
 
 $scriptname = urldecode($_GET['name']);
 
-if (strpos('..', $scriptname) !== false
-    || strpos('/', $scriptname) !== false
-    || strpos('\\', $scriptname) !== false) {
+if (str_contains($scriptname, '..')
+    || str_contains($scriptname, '/')
+    || str_contains($scriptname, '\\')) {
     die("No such script here.");
 }
 

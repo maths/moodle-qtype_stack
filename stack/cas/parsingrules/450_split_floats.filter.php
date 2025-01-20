@@ -31,9 +31,9 @@ class stack_ast_filter_450_split_floats implements stack_cas_astfilter_exclusion
         $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Float && $node->raw !== null) {
                 $replacement = false;
-                if (strpos($node->raw, 'e') !== false) {
+                if (str_contains($node->raw, 'e')) {
                     $parts = explode('e', $node->raw);
-                    if (strpos($parts[0], '.') !== false) {
+                    if (str_contains($parts[0], '.')) {
                         $replacement = new MP_Operation('*', new MP_Float(floatval($parts[0]), $parts[0]),
                                 new MP_Operation('*', new MP_Identifier('e'), new MP_Integer(intval($parts[1]))));
                     } else {
@@ -49,9 +49,9 @@ class stack_ast_filter_450_split_floats implements stack_cas_astfilter_exclusion
                                 new MP_Identifier('e')), new MP_Integer($val));
                         $replacement->lhs->position['insertstars'] = true;
                     }
-                } else if (strpos($node->raw, 'E') !== false) {
+                } else if (str_contains($node->raw, 'E')) {
                     $parts = explode('E', $node->raw);
-                    if (strpos($parts[0], '.') !== false) {
+                    if (str_contains($parts[0], '.')) {
                         $replacement = new MP_Operation('*', new MP_Float(floatval($parts[0]), $parts[0]),
                                 new MP_Operation('*', new MP_Identifier('E'), new MP_Integer(intval($parts[1]))));
                     } else {

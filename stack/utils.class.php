@@ -181,7 +181,7 @@ class stack_utils {
         $length = strlen($string);
         for ($i = 0; $i < $length; $i++) {
             $char = $string[$i];
-            if (strpos($lefts, $char) !== false) {
+            if (str_contains($lefts, $char)) {
                 array_push($openstack, $char);
 
             } else if (($closerpos = strpos($rights, $char)) !== false) {
@@ -828,9 +828,9 @@ class stack_utils {
      */
     public static function maxima_translate_string(string $string) {
         $fixed = $string;
-        if (strpos($string, '0 to a negative exponent') !== false) {
+        if (str_contains($string, '0 to a negative exponent')) {
             $fixed = stack_string('Maxima_DivisionZero');
-        } else if (strpos($string, 'args: argument must be a non-atomic expression;') !== false) {
+        } else if (str_contains($string, 'args: argument must be a non-atomic expression;')) {
             $fixed = stack_string('Maxima_Args');
         }
         return $fixed;

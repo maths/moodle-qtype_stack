@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.8.2
+
+Released January 2025.
+
+Bring forward bug fixes to include in an official release.
+
 ## Version 4.8.1
 
 Released November 2024.

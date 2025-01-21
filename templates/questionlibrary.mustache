@@ -86,10 +86,16 @@
         <span class="stack-library-error-details"></span>
       </p>
       <div class="alert alert-secondary" style="position: relative; color: black;">
-        {{#str}} stack_library_destination, qtype_stack {{/str}}
-        <br><br>
-        <div>
-          {{{category}}}
+        <div class="stack-library-category-holder">
+          {{#str}} stack_library_destination, qtype_stack {{/str}}
+          <br><br>
+          <div class="stack-library-category">
+            {{{category}}}
+          </div>
+        </div>
+        <div class="stack-library-course" hidden>
+          {{#str}} stack_library_quiz_course, qtype_stack {{/str}} {{coursename}}.
+          <br><br>
         </div>
         <div class="row">
           <div class="col-sm-6 col-lg-7">
@@ -152,6 +158,11 @@
       <div id="dashboard-link-holder" hidden>
         {{dashboardlink}}
       </div>
+      <div id="quiz-link-holder" hidden>
+        {{quizlink}}
+      </div>
     </div>
+  </div>
+  <div data-id="stack_library_course_id" data-value="{{courseid}}" hidden>
   </div>
 </div>

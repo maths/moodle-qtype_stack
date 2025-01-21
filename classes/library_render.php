@@ -185,8 +185,8 @@ class library_render extends \external_api {
                     get_string('stack_library_quiz', 'qtype_stack') .
                     '<br><br>' . $quiztext . '</div>',
                 'iframes' => [],
-                'questionname' => $quiz->name,
-                'questiontext' => $quiztext,
+                'questionname' => stack_string('stack_library_quiz_prefix') . ' ' . $quiz->name,
+                'questiontext' => '',
                 'questionvariables' => '',
                 'questiondescription' => '',
                 'isstack' => false,

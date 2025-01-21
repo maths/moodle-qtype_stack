@@ -292,13 +292,13 @@ class stack_question_report {
                             // Tidy up inputs by (i) trimming status and whitespace, and (2) removing input name.
                             $datas = trim(substr($data, strlen($input . ':')));
                             $status = 'other';
-                            if (str_contains($datas, '[score]')) {
+                            if (strpos($datas, '[score]') !== false) {
                                 $status = 'score';
                                 $datas = trim(substr($datas, 0, -7));
-                            } else if (str_contains($datas, '[valid]')) {
+                            } else if (strpos($datas, '[valid]') !== false) {
                                 $status = 'valid';
                                 $datas = trim(substr($datas, 0, -7));
-                            } else if (str_contains($datas, '[invalid]')) {
+                            } else if (strpos($datas, '[invalid]') !== false) {
                                 $status = 'invalid';
                                 $datas = trim(substr($datas, 0, -9));
                             }

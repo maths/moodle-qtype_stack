@@ -60,7 +60,7 @@ class stack_ast_filter_202_decimal_places_validation implements stack_cas_astfil
             $raw = explode('e', $raw)[0];
 
             $post = '';
-            if (str_contains($raw, '.')) {
+            if (strpos($raw, '.') !== false) {
                 $post = explode('.', $raw)[1];
             }
             if ($this->min !== null && $this->min > 0) {

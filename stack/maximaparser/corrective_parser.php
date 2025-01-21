@@ -79,9 +79,9 @@ class maxima_corrective_parser {
         $stringles = str_replace(array_keys($letters), array_values($letters), $stringles);
 
         // Check for all three of . and , and ; which must indicate inconsistency.
-        if (str_contains($stringles, '.') &&
-            str_contains($stringles, ',') &&
-            str_contains($stringles, ';')) {
+        if (strpos($stringles, '.') !== false &&
+            strpos($stringles, ',') !== false &&
+            strpos($stringles, ';') !== false) {
                 $errors[] = stack_string('stackCas_decimal_usedthreesep');
         }
         $decimals = '.';
@@ -90,7 +90,7 @@ class maxima_corrective_parser {
         }
         if ($decimals == ',') {
             // Clearly there is a lot more work to do here to get this all to work!
-            if (str_contains($stringles, '.')) {
+            if (strpos($stringles, '.') !== false) {
                 $answernote[] = 'forbiddenCharDecimal';
                 $errors[] = stack_string('stackCas_decimal_usedcomma');
                 return null;
@@ -188,7 +188,7 @@ class maxima_corrective_parser {
         $stringles = trim($stringles);
         $stringles = preg_replace('!\s+!', ' ', $stringles);
 
-        if (str_contains($stringles, ' ')) {
+        if (strpos($stringles, ' ') !== false) {
             // Special cases: allow students to type in expressions such as "x>1 and x<4".
             foreach ($safespacepatterns as $key => $pat) {
                 $stringles = str_replace($key, $pat, $stringles);
@@ -449,7 +449,7 @@ class maxima_corrective_parser {
             $cmds = str_replace('@@Is@@', '[[syntaxexamplehighlight]_[syntaxexamplehighlight]]', $cmds);
             $answernote[] = 'spaces';
             $errors[] = stack_string('stackCas_spaces', ['expr' => stack_maxima_format_casstring($cmds)]);
-        } else if ($foundchar === ':' && (str_contains($string, ':lisp'))) {
+        } else if ($foundchar === ':' && (strpos($string, ':lisp') !== false)) {
             $errors[] = stack_string('stackCas_forbiddenWord',
                     ['forbid' => stack_maxima_format_casstring('lisp')]);
             $answernote[] = 'forbiddenWord';

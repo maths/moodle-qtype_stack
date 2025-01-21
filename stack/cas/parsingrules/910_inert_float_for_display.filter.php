@@ -47,7 +47,7 @@ class stack_ast_filter_910_inert_float_for_display implements stack_cas_astfilte
                     return true;
                 }
                 $dp = 0;
-                if (str_contains($raw, '.')) {
+                if (strpos($raw, '.') !== false) {
                     $parts = explode('.', $raw);
                     $dp = strlen(explode('e', $parts[1])[0]);
                 }

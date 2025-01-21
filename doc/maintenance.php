@@ -120,12 +120,12 @@ function report($d) {
                                         $link = implode('/', $segs);
 
                                         // Finally it looks like #--- are getting parsed in the request, let's omit them.
-                                        if (str_contains($link, '#')) {
+                                        if (strpos($link, '#') !== false) {
                                             $link = substr($link, 0, strpos($link, '#'));
                                         }
                                     }
                                     $hs = get_headers($link);
-                                    if (str_contains($hs[0], '404')) {
+                                    if (strpos($hs[0], '404') !== false) {
                                         $a[] = [$fpath, 'E', 'Error 404 [' . $found[1][$i] . '] appears to be a dead link.'];
                                     } else {
                                         $fileslinkedto[$found[0][$i]] = true;

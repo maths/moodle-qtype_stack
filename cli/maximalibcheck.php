@@ -35,10 +35,10 @@ $globalvariablesused = [];
 
 // Get the files ../stack/maxima/*.mac.
 foreach (glob("../stack/maxima/*.mac") as $filename) {
-    if (str_contains($filename, 'rtest_')) {
+    if (strpos($filename, 'rtest_') !== false) {
         continue;
     }
-    if (str_contains($filename, 'unittests_load.mac')) {
+    if (strpos($filename, 'unittests_load.mac') !== false) {
         continue;
     }
 
@@ -62,7 +62,7 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
         }
     }
 
-    if (str_contains($filename, 'assessment.mac')) {
+    if (strpos($filename, 'assessment.mac') !== false) {
         // Some parser breaking cases. List calling and the wacky syntax of defines.
         $contents = str_replace('?\*autoconf\-version\*', '"cencored"', $contents);
         $contents = str_replace('define(UNARY_RECIP a, a^(-1)),', '"cencored",', $contents);
@@ -76,12 +76,12 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
         $contents = str_replace('ret:ev(exc1 %or exc2, simp)', 'ret:ev(exc1 or exc2, simp)', $contents);
     }
 
-    if (str_contains($filename, 'stackmaxima.mac')) {
+    if (strpos($filename, 'stackmaxima.mac') !== false) {
         // Some parser breaking cases.
         $contents = str_replace('?\*autoconf\-version\*', '"cencored"', $contents);
     }
 
-    if (str_contains($filename, 'intervals.mac')) {
+    if (strpos($filename, 'intervals.mac') !== false) {
         // Some parser breaking cases.
         $contents = str_replace('stack_single_variable_solver_rec(ex %and (v>=0), v)',
                 'stack_single_variable_solver_rec(ex and (v>=0), v)', $contents);

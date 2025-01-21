@@ -151,7 +151,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $title = $parameters['title'];
             // Counter updates.
             foreach (self::$counters as $key => $value) {
-                if (str_contains($title, $key)) {
+                if (strpos($title, $key) !== false) {
                     $title = str_replace($key, '' . $value, $title);
                     self::$counters[$key] = $value + 1;
                 }

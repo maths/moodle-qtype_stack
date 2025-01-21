@@ -27,9 +27,9 @@ if (isset($_GET['question'])) {
     $is_question = false;
 }
 
-if (str_contains($scriptname, '..')
-    || str_contains($scriptname, '/')
-    || str_contains($scriptname, '\\')) {
+if (str_pos($scriptname, '..') !== false
+    || strpos($scriptname, '/') !== false
+    || strpos($scriptname, '\\') !== false) {
         die("No such script here.");
 }
 

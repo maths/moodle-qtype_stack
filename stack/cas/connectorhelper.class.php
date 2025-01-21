@@ -374,7 +374,7 @@ abstract class stack_connection_helper {
             }
         }
 
-        if (str_contains($debug, 'failed to load')) {
+        if (strpos($debug, 'failed to load') !== false) {
             $message[] = stack_string('settingmaximalibraries_failed');
             $success = false;
         }

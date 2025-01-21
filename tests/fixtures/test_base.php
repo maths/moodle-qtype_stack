@@ -180,7 +180,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
             function(array $matches): string {
                 $decimals = strlen(explode('.', $matches[1])[1] ?? '') ?: 0;
                 $fixedbase = sprintf("%.{$decimals}E", (float)$matches[0]);
-                return str_contains($matches[2], '+') ? $fixedbase : str_replace('+', '', $fixedbase);
+                return strpos($matches[2], '+') !== false ? $fixedbase : str_replace('+', '', $fixedbase);
             },
             $content
         );
@@ -317,7 +317,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
         $qs = $attempt->get_last_step();
-        $this->assertTrue(str_contains($qs->get_new_response_summary(), $note));
+        $this->assertTrue(strpos($qs->get_new_response_summary(), $note) !== false);
     }
 
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {

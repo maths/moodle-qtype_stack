@@ -201,7 +201,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
 
         // Check floats and fix if need be.
         foreach ($floats as $node) {
-            if ((str_contains($node->toString(), 'E') || $this->floattopower) && $node->raw !== null) {
+            if ((strpos($node->toString(), 'E') !== false || $this->floattopower) && $node->raw !== null) {
                 $p = 0;
                 $parts = explode('E', $node->toString());
                 $p = intval($parts[1]);

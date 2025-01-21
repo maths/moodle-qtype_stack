@@ -173,7 +173,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         }
 
         if ($this->valid) {
-            if ($this->context === '/qt' || str_contains($this->context, 'scenetext') ||
+            if ($this->context === '/qt' || strpos($this->context, 'scenetext') !== false ||
                     $this->context === 'validation-questiontext') {
                 $options['in main content'] = true;
             }

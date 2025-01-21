@@ -6,7 +6,7 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 Released January 2025.
 
-Bring forward bug fixes to include in an official release.
+Bring forward bug fixes to include in an official release.  Update JSXGraph.
 
 ## Version 4.8.1
 

@@ -34,11 +34,6 @@ jobs:
         # As of Sept 2024, SBCL is not working.
         include:
           - php: '8.2'
-            moodle-branch: 'main'
-            database: 'pgsql'
-            maxima: 'GCL'
-            moodle-app: true
-          - php: '8.2'
             moodle-branch: 'MOODLE_405_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'

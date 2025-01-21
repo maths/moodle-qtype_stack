@@ -109,7 +109,7 @@ class stack_cas_keyval {
         $str = str_replace('?', 'QMCHAR', $str);
 
         // CAS keyval may not contain @ outside strings.
-        if (strpos($str, '@') !== false {
+        if (strpos($str, '@') !== false) {
             $this->errors[] = new $this->errclass(stack_string('illegalcaschars'), $this->context);
             $this->valid = false;
             return false;

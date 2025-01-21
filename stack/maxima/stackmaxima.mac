@@ -3361,4 +3361,3 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
 stackmaximaversion:2025012200$
-

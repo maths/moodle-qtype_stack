@@ -464,7 +464,7 @@ END;
                 $ts->instantiate();
                 if (!$ts->get_valid() || $cs->get_value() != '2') {
                     $errors = $ts->get_errors();
-                    $errmsg = "Evaluation test failed, errors: $errors . " . stack_utils::get_config()->castimeout;
+                    $errmsg = "Installation evaluation test failed, errors: $errors ";
                 } else {
                     // It worked!
                     $errmsg = '';

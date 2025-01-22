@@ -301,7 +301,7 @@ abstract class stack_connection_helper {
         $casdebugging = self::$config->casdebugging;
         self::$config->casresultscache = 'none';
         self::$config->casdebugging = true;
-        self::$config->castimeout = min(100, self::$config->castimeout);
+        self::$config->castimeout = max(100, self::$config->castimeout);
 
         $connection = self::make();
         $results = $connection->compute($command);

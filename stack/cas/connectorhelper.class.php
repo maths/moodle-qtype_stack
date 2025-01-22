@@ -452,6 +452,10 @@ abstract class stack_connection_helper {
         // Really make sure there is no cache.
         list($results, $debug) = self::stackmaxima_nocache_call($maximacommand);
 
+        if (empty($results)) {
+            return [$debug, $debug, false, $rawcommand, $rawcommand];
+        }
+
         // Question: should we at this stage try to use the optimised image we have created?
         $success = true;
 

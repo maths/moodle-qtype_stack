@@ -74,10 +74,10 @@ class stack_cas_security {
             'trigsimp' => true, 'truncate' => true, 'decimalplaces' => true, 'simplify' => true,
         ],
         '[[basic-trig]]' => [
-            'sin' => true, 'cos' => true, 'tan' => true, 'sec' => true, 'csc' => true, 'cot' => true, 
+            'sin' => true, 'cos' => true, 'tan' => true, 'sec' => true, 'csc' => true, 'cot' => true,
             'asin' => true, 'acos' => true, 'atan' => true, 'asec' => true, 'acsc' => true, 'acot' => true,
             'atan2' => true,
-            'sinh' => true, 'cosh' => true, 'tanh' => true, 'sech' => true, 'csch' => true, 'coth' => true, 
+            'sinh' => true, 'cosh' => true, 'tanh' => true, 'sech' => true, 'csch' => true, 'coth' => true,
             'asinh' => true, 'acosh' => true, 'atanh' => true, 'asech' => true, 'acsch' => true, 'acoth' => true,
         ],
         '[[basic-calculus]]' => [

@@ -405,7 +405,7 @@ class stack_cas_session2 {
                 $this->timeoutdebug = $results['timeoutdebug'];
             }
             foreach ($this->statements as $num => $statement) {
-                $errors = [new $this->errclass(stack_string('stackCas_failedtimeout') . $command . print_r($results, true) . print_r($connection->get_debuginfo(), true)), '')];
+                $errors = [new $this->errclass(stack_string('stackCas_failedtimeout') . $command . print_r($results, true) . print_r($connection->get_debuginfo(), true), '')];
                 $statement->set_cas_status($errors, [], []);
             }
             return false;

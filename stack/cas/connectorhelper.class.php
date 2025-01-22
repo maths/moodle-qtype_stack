@@ -301,6 +301,7 @@ abstract class stack_connection_helper {
         $casdebugging = self::$config->casdebugging;
         self::$config->casresultscache = 'none';
         self::$config->casdebugging = true;
+        self::$config->castimeout = min(30, self::$config->castimeout);
 
         $connection = self::make();
         $results = $connection->compute($command);
@@ -455,7 +456,7 @@ abstract class stack_connection_helper {
         $success = true;
 
         // Add the timeout command to the message.
-        $commandline = 'timeout --kill-after=10s 10s '.$rawcommand;
+        $commandline = 'timeout --kill-after=30s 30s '.$rawcommand;
         $message = stack_string('healthautomaxopt_ok', ['command' => $commandline]);
         if (!file_exists($imagename)) {
             $success = false;

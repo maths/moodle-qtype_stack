@@ -245,6 +245,16 @@
                 "description":"Automatically generated test cases for the ??? answer test."
                 },
                 {
+                "file":"AddConst.md",
+                "title":"Test cases for AddConst - STACK Documentation",
+                "description":"Automatically generated test cases for the AddConst answer test."
+                },
+                {
+                "file":"Antidiff.md",
+                "title":"Test cases for ATInt - STACK Documentation",
+                "description":"Automatically generated test cases for the Antidiff answer test."
+                },
+                {
                 "file":"GT.md",
                 "title":"Test cases for ATGT - STACK Documentation",
                 "description":"Automatically generated test cases for the ??? answer test."

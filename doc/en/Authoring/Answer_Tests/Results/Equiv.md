@@ -2552,7 +2552,7 @@ undiff(y(x),x)=0,-5*noundiff(y
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &3\cdot x^{\frac{3}{2}}-\frac{2}{x}&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&\frac{9\cdot \sqrt{x}}{2}+\frac{2}{x^2}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\int\ldots\mathrm{d}x}&3\cdot x^{\frac{3}{2}}-\frac{2}{x}+c& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &3\cdot x^{\frac{3}{2}}-\frac{2}{x}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&\frac{9\cdot \sqrt{x}}{2}+\frac{2}{x^2}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\int\ldots\mathrm{d}x}&3\cdot x^{\frac{3}{2}}-\frac{2}{x}+c& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

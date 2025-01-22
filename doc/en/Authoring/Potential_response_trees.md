@@ -84,7 +84,7 @@ The outcomes of score, penalty, feedback and note are always produced.  Normally
 
 There are rare, but important, situations where we need a purely formative PRT.
 
-E.g. Imagine a questions with inputs A, and B.
+E.g. Imagine a question with inputs A and B.
 
 1. Input A has a dedicated PRT to establish if it is correct.
 2. Input B has a dedicated PRT to establish if it is correct.

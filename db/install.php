@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 require_once(__DIR__ . '/../stack/cas/connectorhelper.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function xmldb_qtype_stack_install() {
     global $CFG;
 

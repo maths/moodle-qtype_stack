@@ -19,9 +19,11 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * This class represents the current state of a potential response tree.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_potentialresponse_tree_state {
 
     /**
@@ -114,6 +116,7 @@ class stack_potentialresponse_tree_state {
         $this->_debuginfo   = $debuginfo;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __get($field) {
         switch ($field) {
             case 'weight':
@@ -271,6 +274,7 @@ class stack_prt_feedback_element {
     /** @var int node id (used as the file area item id). */
     public $itemid;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($feedback, $format, $filearea, $itemid) {
         $this->feedback = $feedback;
         $this->format   = $format;

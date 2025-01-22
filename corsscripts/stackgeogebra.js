@@ -7,6 +7,7 @@
  * nor the project's national funding agency DAAD are responsible for the content or liable for
  * any losses or damage resulting of the use of these resources.
  *
+ * @package    qtype_stack
  * @copyright  2022 University of Edinburgh
  * @author     Tim Lutz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

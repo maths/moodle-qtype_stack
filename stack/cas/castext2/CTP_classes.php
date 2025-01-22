@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 declare(strict_types = 1);
 
 /*
@@ -59,10 +66,10 @@ declare(strict_types = 1);
    return true;
   }
   public function removeChild(CTP_Node $node) {
-   return "[NO REMOVECHILD FOR ".get_class($this)."]"; 
-  }  
+   return "[NO REMOVECHILD FOR ".get_class($this)."]";
+  }
   public function insertChild(CTP_Node $node, $before = null) {
-   return "[NO INSERTCHILD FOR ".get_class($this)."]"; 
+   return "[NO INSERTCHILD FOR ".get_class($this)."]";
   }
  }
 
@@ -85,7 +92,7 @@ declare(strict_types = 1);
    $i = array_search($node, $this->items);
    if ($i !== false) {
     array_splice($this->items, $i, 1);
-   } 
+   }
   }
   public function insertChild(CTP_Node $node, $before = null) {
    if ($before === null) {
@@ -175,7 +182,7 @@ class CTP_Block extends CTP_Node {
    }
 
    if ($this->name === 'if' && array_key_exists(' branch lengths', $this->parameters)) {
-    // if-blocks use the parameters for more complex things for their branches. 
+    // if-blocks use the parameters for more complex things for their branches.
     // Note the space in front of the parameter name...
     $i = 0; // Total iterator
     $j = 0; // In block iterator

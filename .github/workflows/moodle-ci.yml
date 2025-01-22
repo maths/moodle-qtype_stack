@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:14
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -42,6 +42,7 @@ jobs:
             moodle-branch: 'MOODLE_405_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
+            moodle-app: true
           - php: '8.2'
             moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
@@ -52,7 +53,7 @@ jobs:
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
-          # Edinburgh is planning to run the setup below for 2023-24.
+          # Edinburgh is planning to run the setup below for 2024-25.
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'mariadb'

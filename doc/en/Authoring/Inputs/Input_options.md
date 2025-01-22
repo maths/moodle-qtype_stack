@@ -33,6 +33,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .
 `checkvars`    |  Y  |  .  |  .    |   Y    |   .   |   .   |   .  |  .  |    .     |   Y   |   .    |   .
 `validator`    |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .
+`feedback`    |  Y  |  .  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 
@@ -57,6 +58,7 @@ Normally a _blank_, i.e. empty, answer has a special status and are not consider
 * String inputs will return the empty string `""` as an empty answer (to avoid a type-mismatch).
 * Textarea inputs will return `[EMPTYANSWER]` to make sure the answer is always a list (to avoid a type-mismatch).
 * Matrix inputs will return the correct size matrix filled with `null` atoms, e.g. `matrix([null,null],[null,null])`.
+* Checkbox inputs will return `[]` to make sure the answer is always a list (to avoid a type-mismatch).
 
 We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!
 

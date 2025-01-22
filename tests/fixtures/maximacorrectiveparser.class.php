@@ -21,18 +21,24 @@
  * correctly, and second it serves to document the expected behaviour of answer
  * tests, which is useful for learning how they work.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_corrective_parser_test_data {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWINPUT    = 0; // What a student might type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PARSED      = 1; // What we expect to get from maxima corrective parser.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const EXPECTNOTES = 2; // Expected array of answer notes.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const EXPECTERRS  = 3; // Expected array of errors.
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
         ['2x', '2*x', [0 => 'missing_stars'], []],
         ['sin(x)a', 'sin(x)*a', [0 => 'missing_stars'], []],
@@ -99,10 +105,12 @@ class maxima_corrective_parser_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data) {
         $test = new stdClass();
         $test->rawinput      = $data[self::RAWINPUT];
@@ -115,6 +123,7 @@ class maxima_corrective_parser_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         $notes      = [];
         $errors     = [];

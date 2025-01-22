@@ -14,22 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../ast.container.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_raw extends stack_cas_castext2_block {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $content;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($params, $children=[], $mathmode=false) {
         parent::__construct($params, $children, $mathmode);
         $this->content = $children[0]->content; // The child is a different type of RAW.
         $this->children = []; // We want to modify the iteration here a bit.
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Convert possible simplification flags.
         $ev = stack_ast_container::make_from_teacher_source($this->content);
@@ -90,10 +100,12 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [stack_ast_container::make_from_teacher_source($this->content, 'ct2:raw', new stack_cas_security())];
     }

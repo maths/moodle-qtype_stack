@@ -17,17 +17,22 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-// Answer test controller class.
-//
-// @copyright  2012 University of Birmingham
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Answer test controller class.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/anstest.class.php');
 require_once(__DIR__ . '/at_general_cas.class.php');
 require_once(__DIR__ . '/../cas/connector.class.php');
 require_once(__DIR__ . '/../cas/ast.container.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ans_test_controller {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $types = [
         'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
         'AlgEquivNouns'        => 'stackOptions_AnsTest_values_AlgEquivNouns',
@@ -72,13 +77,14 @@ class stack_ans_test_controller {
         'Validator'            => 'stackOptions_AnsTest_values_Validator',
     ];
 
-    /*
+    /**
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
      * In [2] we have the value of simp in the CAS session.
      * Does the test require the raw value of the student's answer as a string [3] ?
      *
      * Note, the options are currently always simplified in the node class.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $pops = [
         'AlgEquiv'             => [false, false, true, false],
         'AlgEquivNouns'        => [false, false, false, false],
@@ -126,7 +132,6 @@ class stack_ans_test_controller {
     /**
      * The answertest object that the functions call.
      * @var stack_anstest
-     * @access private
      */
     private $at;
 
@@ -138,7 +143,6 @@ class stack_ans_test_controller {
      * @param  string $tans A CAS string assumed to represent the tecaher's answer.
      * @param  object $options
      * @param  CasString $casoption
-     * @access public
      */
     public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans, $casoption = null,
             $options = null, $contextsession = []) {
@@ -221,10 +225,9 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
-     * @access public
      */
     public function do_test() {
         $result = $this->at->do_test();
@@ -232,56 +235,52 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
-     * @access public
      */
     public function get_at_errors() {
         return $this->at->get_at_errors();
     }
 
     /**
-     *
+     * Add description here
      *
      * @return float
-     * @access public
      */
     public function get_at_mark() {
         return $this->at->get_at_mark();
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
-     * @access public
      */
     public function get_at_valid() {
         return $this->at->get_at_valid();
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
-     * @access public
      */
     public function get_at_answernote() {
         return trim($this->at->get_at_answernote());
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
-     * @access public
      */
     public function get_at_feedback() {
         return ($this->at->get_at_feedback());
     }
 
     /**
+     * Add description here.
      * @return array the list of available answertest types. An array
      *      answertest internal name => language string key.
      */
@@ -293,7 +292,6 @@ class stack_ans_test_controller {
      * Returns whether the testops are required for this test.
      *
      * @return bool
-     * @access public
      */
     public static function required_atoptions($atest) {
         $op = self::$pops[$atest];
@@ -304,7 +302,6 @@ class stack_ans_test_controller {
      * Returns a list of the answer tests who do not require test options
      *
      * @return array
-     * @access public
      */
     public static function get_ans_tests_without_options() {
         $anstests = [];
@@ -320,7 +317,6 @@ class stack_ans_test_controller {
      * Returns whether the testops should be processed by the CAS for this AnswerTest
      *
      * @return bool
-     * @access public
      */
     public static function process_atoptions($atest) {
         $op = self::$pops[$atest];
@@ -331,7 +327,6 @@ class stack_ans_test_controller {
      * Returns whether the session needs simplification.
      *
      * @return bool
-     * @access public
      */
     public static function simp($atest) {
         $op = self::$pops[$atest];
@@ -342,7 +337,6 @@ class stack_ans_test_controller {
      * Returns whether the test requires the raw input of the student's answer.
      *
      * @return bool
-     * @access public
      */
     public static function required_raw($atest) {
         $op = self::$pops[$atest];
@@ -353,7 +347,6 @@ class stack_ans_test_controller {
      * Validates the options, when needed.
      *
      * @return bool
-     * @access public
      */
     public function validate_atoptions($opt) {
         return $this->at->validate_atoptions($opt);
@@ -363,7 +356,6 @@ class stack_ans_test_controller {
      * Pass back CAS debug information for testing.
      *
      * @return string
-     * @access public
      */
     public function get_debuginfo() {
         return $this->at->get_debuginfo();
@@ -373,7 +365,6 @@ class stack_ans_test_controller {
      * Returns an intelligible trace of an executed answer test.
      *
      * @return string
-     * @access public
      */
     public function get_trace($includeresult = true) {
         return $this->at->get_trace($includeresult);

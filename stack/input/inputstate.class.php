@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
@@ -28,6 +35,7 @@ require_once(__DIR__ . '/../options.class.php');
  * @property-read string $contentsdisplayed how Stack interpreted the current contents of the input.
  * @property-read string $errors any validation errors.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -100,6 +108,7 @@ class stack_input_state {
         $this->_simp                = $simp;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __get($field) {
         switch ($field) {
             case 'status':

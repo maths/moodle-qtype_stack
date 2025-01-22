@@ -6,7 +6,7 @@ This folder contains a standalone REST-API for integration of STACK into externa
 
 ### Docker
 
-The STACK API has been designed to be deployed using Docker. Pre-made images are publicly available via a gitlab registry under the identifier `registry.git.rwth-aachen.de/medien-public/moodle-stack`. The used Dockerfile is available [here](docker/Dockerfile).
+The STACK API has been designed to be deployed using Docker. Pre-made images are publicly available via a gitlab registry under the identifier `https://hub.docker.com/u/stackmaths`. The used Dockerfile is available [here](https://github.com/maths/moodle-qtype_stack/blob/master/api/docker/).
 
 E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for images.
 
@@ -321,7 +321,7 @@ The implementation of the standalone api required some modifications to existing
 To allow the API to return appropriate data describing input configuration, the abstract `stack_input` class has been extended with the following methods:
 
 - `get_api_solution($tavalue)`: Returns the model answer of the input in the same format in which it would be input by the user
-- `get_api_solution_render($tadisplay)`: Returns a rendered version of the model answer of this input.
+- `get_api_solution_render($tadisplay, $ta)`: Returns a rendered version of the model answer of this input.
 - `render_api_data($tavalue)`: Returns an array of configuration options which should be exposed via the API.
 
 The `get_api_solution` and `get_api_solution_render` functions have sensible default implementations, which are only overwritten for more complex input types. The `render_api_data` function on the other hand is abstract, and needs to be implemented by each concrete input type individually.

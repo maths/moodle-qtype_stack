@@ -17,13 +17,16 @@
 /**
  * Script to download the export of a single STACK question.
  *
+ * @package    qtype_stack
+ * @copyright 2015 the Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/**
  * TO-DO: Since MDL-63738 landed in Moodle 3.6, this has been a core Moodle
  * feature, so we don't really need to keep mainaining this file. We could
  * use question/exportone.php, or question/bank/exporttoxml/exportone.php,
  * as it later became, instead.
- *
- * @copyright 2015 the Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(__DIR__.'/../../../config.php');
 

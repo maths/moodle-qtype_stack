@@ -61,7 +61,7 @@ Currently STACK supports the following kinds of inputs.  These have a variety of
 Some of the special blocks provide interactions which can be linked to inputs.  These include
 
 1. **JSXGraph** diagrams.
-2, **GeoGebra** diagrams.
+2. **GeoGebra** diagrams.
 3. **Drag and drop** problems.
 
 #### True/False inputs ####
@@ -106,8 +106,11 @@ If you wish to forbid commas, then escape it with a backslash.
 There are groups of common keywords which you can forbid simply as
 
 * `[[BASIC-ALGEBRA]]` common algebraic operations such as `simplify`, `factor`, `expand`, `solve`, etc.
+* `[[BASIC-TRIG]]` names of all the trig and hyperbolic trig functions and their inverses, e.g.  `sin`, `asin`, `sinh`, `asinh`, etc.
 * `[[BASIC-CALCULUS]]` common calculus operations such as `int`, `diff`, `taylor`, etc.
 * `[[BASIC-MATRIX]]` common matrix operations such as `transpose`, `invert`, `charpoly`, etc.
+
+These list are hard-wired into the code [here](https://github.com/maths/moodle-qtype_stack/blob/master/stack/cas/cassecurity.class.php#L56).
 
 If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.
 

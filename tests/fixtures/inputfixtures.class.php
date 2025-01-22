@@ -19,6 +19,7 @@
  *
  * This helps us verify how STACK "validates" strings supplied by the student.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,20 +28,31 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_inputvalidation_test_data {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWSTRING     = 0;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PHPVALID      = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PHPCASSTRING  = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const CASVALID      = 3;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DISPLAY       = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const ANSNOTES      = 5;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES         = 6;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const BRITISH       = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const CONTINENTIAL  = 2;
 
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
 
         ['123', 'php_true', '123', 'cas_true', '123', '', ""],
@@ -692,6 +704,7 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdataunits = [
         ['123', 'php_true', '123', 'cas_true', '123', 'Units_SA_no_units', "Units"],
         ['9.81*m/s^2', 'php_true', 'dispdp(9.81,2)*m/s^2', 'cas_true', '9.81\, {\mathrm{m}}/{\mathrm{s}^2}', '', ""],
@@ -738,6 +751,7 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatadecimals = [
         [
             0 => '123',
@@ -818,18 +832,22 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_units() {
         return self::$rawdataunits;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_decimals() {
         return self::$rawdatadecimals;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data, $validationmethod) {
 
         $test = new stdClass();
@@ -852,6 +870,7 @@ class stack_inputvalidation_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_decimals_from_raw($data, $decimals) {
 
         $test = new stdClass();
@@ -877,6 +896,7 @@ class stack_inputvalidation_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all() {
         $tests = [];
         foreach (self::$rawdata as $data) {
@@ -888,6 +908,7 @@ class stack_inputvalidation_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         // @codingStandardsIgnoreStart
 

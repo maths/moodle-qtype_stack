@@ -24,7 +24,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
+// phpcs:disable moodle.Files.LangFilesOrdering.UnexpectedComment
 $string['ATAlgEquiv_SA_not_equation'] = 'Ihre Anwort sollte eine Gleichung sein, ist es aber nicht.';
 $string['ATAlgEquiv_SA_not_expression'] = 'Ihre Antwort sollte ein Ausdruck und keine Gleichung/Ungleichung/Liste/Menge/Matrix sein.';
 $string['ATAlgEquiv_SA_not_function'] = 'Ihre Antwort sollte eine Funktion sein, die durch den Operator <tt>:=</tt> definiert wird. Sie ist es aber nicht.';

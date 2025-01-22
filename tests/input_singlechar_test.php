@@ -23,7 +23,6 @@ use stack_input_factory;
 use stack_input_state;
 use stack_options;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -32,18 +31,19 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
-// Unit tests for stack_singlechar_input.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_singlechar_input.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_singlechar_input
  */
-class input_singlechar_test extends qtype_stack_testcase {
+final class input_singlechar_test extends qtype_stack_testcase {
 
-    public function test_render_blank() {
+    public function test_render_blank(): void {
+
         $el = stack_input_factory::make('singleChar', 'ans1', null);
         $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
                 'value="" autocapitalize="none" spellcheck="false" data-stack-input-type="singlechar" />',
@@ -51,7 +51,8 @@ class input_singlechar_test extends qtype_stack_testcase {
                         'question__ans1', false, null));
     }
 
-    public function test_render_pre_filled() {
+    public function test_render_pre_filled(): void {
+
         $el = stack_input_factory::make('singleChar', 'test', null);
         $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
                 'value="Y" autocapitalize="none" spellcheck="false" data-stack-input-type="singlechar" />',
@@ -59,7 +60,8 @@ class input_singlechar_test extends qtype_stack_testcase {
                         'question__ans1', false, null));
     }
 
-    public function test_render_disabled() {
+    public function test_render_disabled(): void {
+
         $el = stack_input_factory::make('singleChar', 'input', null);
         $expected = '<input type="text" name="question__stack1" id="question__stack1" size="1" maxlength="1" ' .
             'value="a" autocapitalize="none" spellcheck="false" readonly="readonly" data-stack-input-type="singlechar" />';
@@ -68,7 +70,8 @@ class input_singlechar_test extends qtype_stack_testcase {
                         'question__stack1', true, null));
     }
 
-    public function test_validate_student_response_1() {
+    public function test_validate_student_response_1(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'A');
         $state = $el->validate_student_response(['sans1' => 'a'], $options, 'A', new stack_cas_security());

@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 /**
  * This File defines various classes and functions present in moodle,
@@ -27,28 +30,36 @@
 define('MOODLE_INTERNAL', true);
 define('PARAM_RAW', 'raw');
 define('PARAM_PLUGIN', true);
+define('PARAM_URL', true);
 
 require_once('../config.php');
 // Required to pass Moodle code check.
 require_login();
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class moodle_exception extends Exception {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($a1, $a2, $a3, $error) {
         parent::__construct($error);
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class question_graded_automatically_with_countback {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $defaultmark = 1;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface question_automatically_gradable_with_multiple_parts {
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function clean_param($in, $param) {
     return $in;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_config($component, $parameter = null) {
     global $CFG;
     if ($parameter === null) {
@@ -81,21 +92,77 @@ function s($var) {
     return preg_replace('/&amp;#(\d+|x[0-9a-f]+);/i', '&#$1;', htmlspecialchars($var, ENT_QUOTES, 'UTF-8'));
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function format_text($text) {
     return $text;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function require_login() {
     return;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_file_storage() {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Class
     $storage = new class {
+        // phpcs:ignore moodle.Commenting.MissingDocblock.Function
         public function get_area_files($x, $y, $z, $a) {
             return [];
         }
     };
     return $storage;
+}
+
+/**
+ * Fetches content of file from Internet.
+ * Due to security concerns only downloads from http(s) sources are supported.
+ * (This is extremely stripped down from the Moodle function in lib/filelib.php which
+ * utilises the Moodle curl class.
+ * https://github.com/totara/moodle/blob/dda862abb57f656633f0736b858f7f048efd44bb/lib/filelib.php#L1172)
+ *
+ * @param string $url file url starting with http(s)://
+ * @return string|bool false if request failed or the file content as a string.
+ */
+function download_file_content($url) {
+    global $CFG;
+
+    // Only http and https links supported.
+    if (!preg_match('|^https?://|i', $url)) {
+        return false;
+    }
+
+    $options = [];
+    $options[CURLOPT_SSL_VERIFYPEER] = 1;
+    $options[CURLOPT_CONNECTTIMEOUT] = 20;
+    $options[CURLOPT_FOLLOWLOCATION] = 1;
+    $options[CURLOPT_MAXREDIRS] = 5;
+    $options[CURLOPT_RETURNTRANSFER] = true;
+    $options[CURLOPT_NOBODY] = false;
+    $options[CURLOPT_TIMEOUT] = 300;
+    $options[CURLOPT_HTTPGET] = 1;
+    $options[CURLOPT_URL] = $url;
+    $curl = curl_init();
+    foreach ($options as $name => $value) {
+        curl_setopt($curl, $name, $value);
+    }
+
+    $result = curl_exec($curl);
+    $info  = curl_getinfo($curl);
+    $errorno = curl_errno($curl);
+
+    if ($errorno) {
+        return false;
+    }
+    if (empty($info['http_code'])) {
+        // For security reasons we support only true http connections (Location: file:// exploit prevention).
+        return false;
+    }
+    if ($info['http_code'] != 200) {
+        return false;
+    }
+
+    return $result;
 }
 
 // Specialized emulations.

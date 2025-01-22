@@ -1,19 +1,18 @@
 # Statistics in STACK
 
-STACK was not designed with Statistics in mind. To assess statistics, we can use the algebraic tools, and standard support for [proofs/derivation](Proof\index.md). However this is not the main concern in statistics education. This is intended as a guide to writing Statistics questions in STACK.
+STACK was originall designed with algebra and calculus in mind, rather than statistics. To assess statistics, we can use the algebraic tools, and standard support for [proofs/derivation](Proof/index.md). However this is not the main concern in statistics education. This is intended as a guide to writing statistics questions in STACK.
+
 ## Assessment approaches
 
 ### Code
 
-Most statistics courses use programming in R or python. It may be tempting to assess code snippets by asking students to input a string, but this is very hard to assess due to different interpretations of what is required, and different variable names. 
+Most statistics courses use programming in R or python. It may be tempting to assess code snippets by asking students to input a string, but this is very hard to assess due to different interpretations of what is required, and different variable names.
 
 If you wish to assess code using a Moodle quiz, this can be done using the [Coderunner question type](https://docs.moodle.org/405/en/CodeRunner_question_type). This question type allows students to write code which is assessed on its effectiveness on specified examples.
 
 ### Numerics
+
 However, we can assess the _results_ of statistical annalysis (such as in \(R\)). 
-
-
-
 
 Most teachers using STACK make use of randomisation, but this relies on Maxima's ability to calculate the correct answer. This section is intended to aid the translation of questions relying on commands in the statistical computing software \(R\) into STACK questions using Maxima. You do not need an in depth knowledge of statistics to use this.  
 
@@ -221,6 +220,7 @@ For detailed informaion on this see the [distrib package documentation](https://
 ##### Mean variance and standard deviation
 
 ###### Key points 
+
 - R and maxima have different default settings for Variance (and by extension, standard deviation). `var(x)` in R will calculate the sample variance while maxima calculates the population variance. In maxima, `var1(x)` would be the equivalent to `var(x)` in R.
 - In R, if no mean and standard deviation is provided, mean = 0 and standard deviation = 1. 
 <div class="divTable">
@@ -266,28 +266,23 @@ For detailed informaion on this see the [distrib package documentation](https://
 
 Variatations of make list are detailed in the [Maxima documentation for lists](https://maxima.sourceforge.io/docs/manual/maxima_21.html).
 
-
-
-
 ## Presenting information
-In statistics education, we may want to display R code or data. It can be tempting to take a screenshot and upload this, but it is better to use the `<pre>` environment to display this code as formatted in a code editor. Alternatively, you can upload a file of data using the Moodle link feature or [serving out data](..\Authoring\Serving_out_data.md).
 
+In statistics education, we may want to display R code or data. It can be tempting to take a screenshot and upload this, but it is better to use the `<pre>` environment to display this code as formatted in a code editor. Alternatively, you can upload a file of data using the Moodle link feature or [serving out data](../Authoring/Serving_out_data.md).
 
 It may be difficult for students to input some statistical notation so try to keep things simple or use an input type other than algebraic expression. STACK uses `\var<LETTER>{}` for greek letters, as such it is logical to use these versions in your questions, to ensure the validation a student view matches the question. 
+
 ## General tips
 
 STACK may simplify when not appropriate for statistics. For instance, while \(\sigma^2\) is in fact the standard deviation squared, it is often not desired to simplify this in an expression. Consider this when writing algebraic questions or using question variables with `simp:true` on.
 
 It is worth being careful with using `i` as a sum index. Maxima may interpret this as the imaginary number `i`.  
 
-
-
 ## Example 
 
-In this example, the student is asked find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](..\Authoring\Serving_out_data.md).
+In this example, the student is asked find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](../Authoring/Serving_out_data.md).
+
 ### Question variables 
-
-
 
 For our example, the _Question variables_ field looks as follows.
 ```

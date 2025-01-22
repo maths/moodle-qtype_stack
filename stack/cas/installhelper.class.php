@@ -462,7 +462,7 @@ END;
                 $cs = stack_ast_container::make_from_teacher_source('a:1+1', '', new stack_cas_security());
                 $ts = new stack_cas_session2([$cs]);
                 $ts->instantiate();
-                if ($cs->get_value() != '2') {
+                if (!$ts->get_valid() || $cs->get_value() != '2') {
                     $errors = $ts->get_errors();
                     $errmsg = "Evaluation test failed, errors: $errors";
                 } else {

@@ -1700,7 +1700,7 @@ abstract class stack_input {
     /**
      * Returns the solution in the format used by the api
      * @param $tavalue
-     * @return array
+     * @return array|null
      */
     public function get_api_solution($tavalue) {
         return ['' => $tavalue];
@@ -1709,9 +1709,10 @@ abstract class stack_input {
     /**
      * Returns the rendering of the solution
      * @param $tadisplay
+     * @param $ta
      * @return mixed
      */
-    public function get_api_solution_render($tadisplay) {
+    public function get_api_solution_render($tadisplay, $ta) {
         return $tadisplay;
     }
 }

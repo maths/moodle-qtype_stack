@@ -83,6 +83,7 @@
       </div>
       <p class="stack-library-error alert alert-danger" hidden>
         {{#str}} stack_library_error, qtype_stack {{/str}}
+        <span class="stack-library-error-details"></span>
       </p>
       <div class="alert alert-secondary" style="position: relative; color: black;">
         {{#str}} stack_library_destination, qtype_stack {{/str}}
@@ -91,7 +92,7 @@
           {{{category}}}
         </div>
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-6 col-lg-7">
             <div class="stack-library-import-success" hidden>
               <span>
                 {{#str}} stack_library_success, qtype_stack {{/str}}
@@ -99,13 +100,26 @@
               <span class="stack-library-import-success-file">
               </span>
             </div>
+            <div class="stack-library-import-failure" hidden>
+              <span>
+                {{#str}} stack_library_failure, qtype_stack {{/str}}
+              </span>
+              <span class="stack-library-import-failure-file">
+              </span>
+            </div>
           </div>
-          <div class="col-sm-3">
-            <button class="btn btn-primary library-import-link" style="width:100px; float:right"
-                type="button" data-filepath="{{path}}">
-              {{#str}} stack_library_import, qtype_stack {{/str}}
-              <span class="loading-display" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
-            </button>
+          <div class="col-sm-6 col-lg-5">
+            <div class="btn-group" role="group" style="float:right">
+              <button class="btn btn-primary library-import-link"
+                  type="button" data-filepath="{{path}}" disabled>
+                {{#str}} stack_library_import, qtype_stack {{/str}}
+              </button>
+              <button class="btn btn-primary library-import-link-folder"
+                  type="button" data-filepath="{{path}}" disabled>
+                {{#str}} stack_library_import_folder, qtype_stack {{/str}}
+              </button>
+            </div>
+            <span class="loading-display" style="float:right" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
           </div>
         </div>
       </div>

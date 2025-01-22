@@ -227,4 +227,16 @@ class stack_parsons_input extends stack_string_input {
     private static function is_proof_question($in) {
         return substr($in, 1, 5) === 'proof';
     }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_api_solution_render($tadisplay, $ta) {
+        $render = $this->get_teacher_answer_display($ta, null);
+
+        return $render;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_api_solution($value) {
+        return null;
+    }
 }

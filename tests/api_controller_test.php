@@ -88,7 +88,7 @@ final class api_controller_test extends qtype_stack_testcase {
             $methods[] = $method->name;
         }
         $this->request = $this->getMockBuilder(RequestInt::class)
-            ->setMockClassName('Request')
+            ->setMockClassName('RequestTest')
             ->setMethods($methods)
             ->getMock();
         // Need to use callback so data can be altered in each test.
@@ -106,7 +106,7 @@ final class api_controller_test extends qtype_stack_testcase {
         }
 
         $this->response = $this->getMockBuilder(ResponseInt::class)
-            ->setMockClassName('Response')
+            ->setMockClassName('ResponseTest')
             ->setMethods($methods)
             ->getMock();
 
@@ -117,7 +117,7 @@ final class api_controller_test extends qtype_stack_testcase {
         }
 
         $this->result = $this->getMockBuilder(StreamInt::class)
-            ->setMockClassName('StreamInterface')
+            ->setMockClassName('StreamInterfaceTest')
             ->setMethods($methods)
             ->getMock();
 
@@ -271,7 +271,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['fileid'] = 1;
 
         $dc = $this->getMockBuilder(DownloadController::class)
-            ->setMockClassName('DownloadController')
+            ->setMockClassName('DownloadControllerTest')
             ->setMethods(['set_headers'])
             ->getMock();
 

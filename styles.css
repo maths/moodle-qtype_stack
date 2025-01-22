@@ -1258,3 +1258,8 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     background-color: lightgreen;
     border-radius: 10px;
 }
+.stack-library-import-failure {
+    padding: 5px 0 5px 10px;
+    background-color: pink;
+    border-radius: 10px;
+}

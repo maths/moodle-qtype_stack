@@ -194,7 +194,7 @@ class stack_string_input extends stack_algebraic_input {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution_render($tadisplay) {
-        return stack_utils::maxima_string_strip_mbox($tadisplay);
+    public function get_api_solution_render($tadisplay, $ta) {
+        return $tadisplay;
     }
 }

@@ -53,7 +53,7 @@ jobs:
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
-          # Edinburgh is planning to run the setup below for 2023-24.
+          # Edinburgh is planning to run the setup below for 2024-25.
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'mariadb'

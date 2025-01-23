@@ -342,15 +342,15 @@ class library_import extends \external_api {
             // We're updating a quiz.
             $moduleinfo->coursemodule = (int) $quizdata->quiz->cmid;
             $moduleinfo->cmidnumber = $moduleinfo->coursemodule;
-            $module = get_coursemodule_from_id('', $moduleinfo->coursemodule, 0, false, \MUST_EXIST);
+            $module = \get_coursemodule_from_id('', $moduleinfo->coursemodule, 0, false, \MUST_EXIST);
             list($module, $moduleinfo) = \update_moduleinfo($module, $moduleinfo, \get_course($courseid));
-            $module = get_module_from_cmid($moduleinfo->coursemodule)[0];
+            $module = \get_module_from_cmid($moduleinfo->coursemodule)[0];
         } else {
             // We're creating the quiz.
             $moduleinfo->cmidnumber = '';
             $moduleinfo = \add_moduleinfo($moduleinfo, \get_course($courseid));
 
-            $module = get_module_from_cmid($moduleinfo->coursemodule)[0];
+            $module = \get_module_from_cmid($moduleinfo->coursemodule)[0];
         }
         $result->cmid = $module->cmid;
         // Post-creation updates.

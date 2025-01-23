@@ -858,6 +858,11 @@
         "description":"This document explains how the Maxima statement parser infrastruture works."
         },
         {
+        "file":"STACK_library.md",
+        "title":"Maintaining the STACK library using Gitsync",
+        "description":"How to add and maintain courses in the library using Gitsync."
+        },
+        {
         "file":"STACK-JS.md",
         "title":"Including Javascript in STACK questions.",
         "description":"This page documents how to include Javascript into STACK questions."

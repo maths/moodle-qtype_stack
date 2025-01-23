@@ -143,7 +143,7 @@ class stack_question_library {
                         $topquizzes = [];
                         $topfolders = [];
                         foreach ($topchildren as $topchild) {
-                            if (pathinfo($topchild->path, PATHINFO_EXTENSION) === 'json'
+                            if (isset($topchild->path) && pathinfo($topchild->path, PATHINFO_EXTENSION) === 'json'
                                     && strrpos($topchild->path, '_quiz.json') !== false) {
                                 $topquizzes[] = $topchild;
                             } else if ($topchild->isdirectory) {

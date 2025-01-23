@@ -338,7 +338,7 @@ class library_import extends \external_api {
         $moduleinfo->grademethod = 1;
         $moduleinfo->graceperiod = 0;
         $moduleinfo->timelimit = 0;
-        if ($quizdata->quiz->cmid) {
+        if (!empty($quizdata->quiz->cmid)) {
             // We're updating a quiz.
             $moduleinfo->coursemodule = (int) $quizdata->quiz->cmid;
             $moduleinfo->cmidnumber = $moduleinfo->coursemodule;
@@ -375,7 +375,7 @@ class library_import extends \external_api {
                 return 0;
             }
         });
-        if ($quizdata->quiz->cmid) {
+        if (!empty($quizdata->quiz->cmid)) {
             // We can only add questions if the quiz already exists.
             foreach ($quizdata->questions as $question) {
                 // Double-check user has question access.
@@ -383,8 +383,12 @@ class library_import extends \external_api {
                 quiz_add_quiz_question($question->id, $module, (int) $question->page, (float) $question->maxmark);
                 if ($question->requireprevious) {
                     $quizcontext = \context_module::instance($result->cmid);
+                    $questionbankentryid = $DB->get_field_sql(
+                        'SELECT MAX(questionbankentryid) FROM {question_versions} WHERE questionid = :questionid',
+                        ['questionid' => $question->id]
+                    );
                     $itemid = $DB->get_field('question_references', 'itemid',
-                        ['usingcontextid' => $quizcontext->id, 'questionbankentryid' => $question->questionbankentryid]);
+                        ['usingcontextid' => $quizcontext->id, 'questionbankentryid' => $questionbankentryid]);
                     $DB->set_field('quiz_slots', 'requireprevious', 1, ['id' => $itemid]);
                 }
             }

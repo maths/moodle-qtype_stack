@@ -78,7 +78,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = library_import::import_execute($this->qcategory->id, $this->filepath, false);
+        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -101,7 +101,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->expectException(require_login_exception::class);
         // Exception messages don't seem to get translated.
         $this->expectExceptionMessage('not logged in');
-        library_import::import_execute($this->qcategory->id, $this->filepath, false);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
     }
 
     /**
@@ -115,7 +115,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
         $this->expectException(required_capability_exception::class);
         $this->expectExceptionMessage('you do not currently have permissions to do that (Add new questions).');
-        library_import::import_execute($this->qcategory->id, $this->filepath, false);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
     }
 
     /**
@@ -124,7 +124,7 @@ final class library_import_test extends externallib_advanced_testcase {
     public function test_export_capability(): void {
         $this->expectException(require_login_exception::class);
         $this->expectExceptionMessage('Not enrolled');
-        library_import::import_execute($this->qcategory->id, $this->filepath, false);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
     }
 
     /**
@@ -138,7 +138,7 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->qcategory->id, $this->filepath, false);
+        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -173,7 +173,7 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->qcategory->id, $this->filepath, true);
+        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, true);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.

@@ -149,12 +149,10 @@ class library_import extends \external_api {
             });
             // Convert file names into paths relative to the sample questions folder.
             $files = array_map(function($file) use ($reldirname) {
-                return $reldirname . $file;
+                return $reldirname . '/' . $file;
             }, $files);
         }
         $response = [];
-        $qcontextid = null;
-        $qcategoryid = null;
 
         $categoryids = [];
         // If we're importing a quiz we need to make sure the required question categories exist.
@@ -258,7 +256,17 @@ class library_import extends \external_api {
             $output->questionname = $question->name;
             $output->isstack = ($question->qtype === 'stack') ? true : false;
             $response[] = $output;
-            $questionevents[] = ['qcategoryid' => $qformat->category->id, 'qcontextid' => $qformat->category->contextid];
+            $eventdata = ['qcategoryid' => $qformat->category->id, 'qcontextid' => $qformat->category->contextid];
+            $aleadylisted = false;
+            foreach ($questionevents as $currentevent) {
+                if ($currentevent['qcategoryid'] === $eventdata['qcategoryid'] && $currentevent['qcontextid'] === $eventdata['qcontextid']) {
+                    $aleadylisted = true;
+                    break;
+                }
+            }
+            if (!$aleadylisted) {
+                $questionevents[] = $eventdata;
+            }
         }
 
         foreach ($questionevents as $questionevent) {

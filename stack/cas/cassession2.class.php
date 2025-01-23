@@ -222,7 +222,7 @@ class stack_cas_session2 {
         $errors = [];
 
         if ($this->timeoutdebug !== '') {
-            $errors[] = [stack_string('stackCas_failedtimeout') . $this->timeoutdebug];
+            $errors[] = [stack_string('stackCas_failedtimeout')];
         }
 
         foreach ($this->statements as $num => $statement) {

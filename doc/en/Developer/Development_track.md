@@ -12,7 +12,7 @@ Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack
 1. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
 2. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 3. Remove all "cte" code from Maxima - mostly install.
-
+4. Resolve [issue #1363] to download students data in json format.
 
 ## Future Parson's block development track
 

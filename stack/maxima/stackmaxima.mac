@@ -2044,8 +2044,8 @@ ATPropLogic(SA,SB) := block([simp:true, ret, SAc, SBc],
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATPropLogic_STACKERROR_TAns"), ""]),
     SB:SB[1],
     /* We don't want noun forms getting in the way here. */
-    SA:noun_logic_remove(SA),
-    SB:noun_logic_remove(SB),
+    SA:noun_logic_remove(logical_normal(SA)),
+    SB:noun_logic_remove(logical_normal(SB)),
     /* Can we find a permutation of the variables? */
     if logic_equiv(SA, SB) then
         return([true, true, "", ""]

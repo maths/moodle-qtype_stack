@@ -104,6 +104,14 @@ For example, if we have the question variable `f:matrix([4*x+4, x<1],[-x^2-4*x-8
 \[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\ -x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]
 Notice the use of LaTeX `\left\{` to automatically size the parentheses and `\right.` to represent a matching, but invisible closing parentesis.
 
+You can control the alignment of the columns of the matrix using the function `stack_matrix_col(m)`. This function takes the matrix, and returns the string of characters "c", "l", or "r" to decide how to format the column in the LaTeX representation of the array.  By default, this is centered with "c". We need a _function_ to count the number of columns.  This is the default function.
+
+    stack_matrix_col(ex) := simplode(maplist(lambda([ex], "c"), first(args(ex))))$
+
+To change to right aligned columns, switch `"c"` to `"r"`.  This function takes the whole matrix and therefore potentially gives you full control.
+
+For this function to take effect in the whole question, including validation of students' input, place the redefinition before `%_stack_preamble_end;` in the question variables.
+
 ## Vectors ## {#vectors}
 
 If you are trying to use the vector notation such as \(3i+4j\) you will probably want to redefine \(i\) to be an abstract symbol, not a complex number.

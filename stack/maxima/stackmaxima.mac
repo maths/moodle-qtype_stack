@@ -855,6 +855,12 @@ detexcolor(ex) := block([argsex],
 */
 stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{", "\\{", "\\}"], ["", "", ""], [".", "", ""], ["|", "|", "|"]] $
 
+/* This function takes the matrix, and returns the string of characters "c", "l", or "r" to
+   decide how to format the columns in the array.  By default, this is centered with "c".
+   We need a _function_ to count the number of columns.
+*/
+stack_matrix_col(ex):=simplode(maplist(lambda([ex], "c"), first(args(ex))))$
+
 stack_matrix_disp(m):= block([ret, lp, rp, parens],
   if not(matrixp(m)) then error("stack_matrix_disp: argument must be a matrix."),
   if not(stringp(lmxchar)) then error("stack_matrix_disp requires lmxchar to be a string. "),
@@ -866,7 +872,7 @@ stack_matrix_disp(m):= block([ret, lp, rp, parens],
   ret: maplist(lambda([ex], maplist(tex1, args(ex))), args(m)),
   ret: maplist(lambda([ex], simplode(ex, " & ")), ret),
   ret: simplode(ret, " \\\\ "),
-  ret: sconcat("\\begin{array}{", simplode(maplist(lambda([ex], "c"), first(args(m)))), "} ", ret, " \\end{array}"),
+  ret: sconcat("\\begin{array}{", stack_matrix_col(m), "} ", ret, " \\end{array}"),
   if ""#lp then
     ret: sconcat("\\left", lp, ret),
   if ""#rp then

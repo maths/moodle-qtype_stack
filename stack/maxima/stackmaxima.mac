@@ -134,6 +134,7 @@ load("functs");
 /* Load the logic package, but remove the "eq" infix operator which conflicts with too many existing things. */
 /* We've edited the logic package which over writes the eq operator as xnor.                                 */
 load("stack_logic.lisp");
+load("Ksimplifier.lisp");
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;
@@ -2043,8 +2044,8 @@ ATPropLogic(SA,SB) := block([simp:true, ret, SAc, SBc],
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATPropLogic_STACKERROR_TAns"), ""]),
     SB:SB[1],
     /* We don't want noun forms getting in the way here. */
-    SA:noun_logic_remove(SA),
-    SB:noun_logic_remove(SB),
+    SA:noun_logic_remove(logical_normal(SA)),
+    SB:noun_logic_remove(logical_normal(SB)),
     /* Can we find a permutation of the variables? */
     if logic_equiv(SA, SB) then
         return([true, true, "", ""]

@@ -1299,13 +1299,14 @@ logical_normal(ex):=block(
     /* Change the noun logical operators into associative indenpotent ones. */
     ex:abs_replace_eq(ex),
     ex:boolean_form(ex),
-    ex:subst("%and", "nounand", ex),
-    ex:subst("%or", "nounor", ex),
-    /* %not is not an infix operator... */
-    ex:subst(%not, "not", ex),
-    ex:subst(%not, "nounnot", ex),
+    ex:subst("and", "nounand", ex),
+    ex:subst("or", "nounor", ex),
+    ex:subst("not", "nounnot", ex),
+    ex:if not ev(numberp(ex), simp) then logic_simplify(ex) else ex,    
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
+    /* %not is not an infix operator... */
+    ex:subst(%not, "not", ex),
     ex:de_morgan(ex),
     ex:trigsimp(ex),
     ex:exponentialize(ex),

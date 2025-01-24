@@ -177,6 +177,26 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = [];
+        $newarg['section'] = 'Boolean logic arguments.';
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(A nounor B) nounand (not A nounor B),B]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(A nounor B) nounand (not A nounor B),stackeq(B)]";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
         $newarg['section'] = 'Numerical arguments.';
         $samplearguments[] = $newarg;
 

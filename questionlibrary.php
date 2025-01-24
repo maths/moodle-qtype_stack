@@ -103,7 +103,7 @@ $outputdata->returntext = $returntext;
 $outputdata->files = $files->children;
 $outputdata->category = $mform->render();
 $outputdata->coursename = $coursename;
-$outputdata->courseid= $courseid;
+$outputdata->courseid = $courseid;
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 

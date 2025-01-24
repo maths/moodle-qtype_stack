@@ -114,7 +114,7 @@ class library_import extends \external_api {
             $quizdata = json_decode($quizcontents);
             // We have to create the quiz, import the questions and then add the questions to the quiz.
             // Create quiz and its default category. This is now our target category which we add to the quiz data.
-            $quizcreate = library_import::import_quiz($courseid, $quizdata);
+            $quizcreate = self::import_quiz($courseid, $quizdata);
             $thiscategory = $quizcreate->defaultcategory;
             $quizdata->quiz->cmid = $quizcreate->cmid;
             $questions = $quizdata->questions;
@@ -260,7 +260,10 @@ class library_import extends \external_api {
             $eventdata = ['qcategoryid' => $qformat->category->id, 'qcontextid' => $qformat->category->contextid];
             $aleadylisted = false;
             foreach ($questionevents as $currentevent) {
-                if ($currentevent['qcategoryid'] === $eventdata['qcategoryid'] && $currentevent['qcontextid'] === $eventdata['qcontextid']) {
+                if (
+                    $currentevent['qcategoryid'] === $eventdata['qcategoryid'] &&
+                    $currentevent['qcontextid'] === $eventdata['qcontextid']
+                ) {
                     $aleadylisted = true;
                     break;
                 }
@@ -282,7 +285,7 @@ class library_import extends \external_api {
 
         if ($loadingquiz) {
             // We need to insert the questions into the quiz.
-            library_import::import_quiz($courseid, $quizdata);
+            self::import_quiz($courseid, $quizdata);
             $output = new \stdClass();
             $output->success = true;
             $output->filename = basename($params['filepath']);

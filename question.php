@@ -895,7 +895,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $this->security, $rawinput,
-                $this->castextprocessor, $qv, $lang);
+                $this->castextprocessor, $qv, $lang, $this->seed);
             return $this->inputstates[$name];
         }
         return '';

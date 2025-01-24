@@ -4688,6 +4688,46 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         );
     }
 
+    public function test_input_validator_seed(): void {
+
+        $q = test_question_maker::make_question('stack', 'validator_seed');
+        $this->start_attempt_at_question($q, 'adaptive', 1, 2);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/The value of ta is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
+
+        // Process an invalid request.
+        $ia = 'x';
+        $this->process_submission(['ans1' => $ia, '-submit' => 1]);
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1729; ans1: x [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/The value of ta in the validator is 21, using seed 1729/')
+        );
+    }
+
     public function test_input_feedback(): void {
 
         $q = test_question_maker::make_question('stack', 'feedback');

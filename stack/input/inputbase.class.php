@@ -700,7 +700,7 @@ abstract class stack_input {
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, stack_cas_security $basesecurity,
-            $ajaxinput = false, $castextprocessor = null, $questionvariables = null, $lang = null) {
+            $ajaxinput = false, $castextprocessor = null, $questionvariables = null, $lang = null, $seed = null) {
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -846,7 +846,7 @@ abstract class stack_input {
                 $this->additional_session_variables($caslines, $teacheranswer));
         $sessionvars = array_merge($sessionvars, $additionalvars);
 
-        $session = new stack_cas_session2($sessionvars, $localoptions, 0);
+        $session = new stack_cas_session2($sessionvars, $localoptions, $seed);
 
         // If we are dealing with units in this question we apply units texput rules everywhere.
         if ($basesecurity->get_units()) {

@@ -7308,6 +7308,10 @@
       "function": "t",
       "built-in": true
   },
+  "stack_matrix_col": {
+      "function": "?",
+      "contextvariable": "true"
+  },
   "stack_disp": {
       "function": "t",
       "built-in": true

@@ -233,6 +233,13 @@ zip_with(zf, a, b) := block(
   cons(zf(first(a), first(b)),  zip_with(zf, rest(a), rest(b)))
 )$
 
+/* Enable use of zipwith on matrices, not just lists. */
+zip_with_matrix(zfm, A, B) := block(
+    if not(matrixp(A)) then error("zip_with_matrix expects its second argument to be a matrix"),
+    if not(matrixp(B)) then error("zip_with_matrix expects its third argument to be a matrix"),
+    apply(matrix, zip_with(lambda([ex1, ex2], zip_with(zfm, ex1, ex2)), args(A), args(B)))
+)$
+
 /* This function makes a substitution of all variables for their lower case equivalents.
    Useful when wanting to do a specific case sensitivity
    check, e.g. that X^2=1 is x^2=1, without using subst_equiv.

@@ -895,7 +895,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('36', $s1[2]->get_display());
     }
 
-    public function test_indirect_redefinition_of_varibale(): void {
+    public function test_indirect_redefinition_of_variable(): void {
 
         // This example uses a loop to change the values of elements of C.
         // However the loop returns "done", and the values of C are changed.
@@ -921,6 +921,36 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals('matrix([5,2],[4,3])', $s1[0]->get_value());
         $this->assertEquals('matrix([5*4+2*6,5*5+2*5],[4*4+3*6,4*5+3*5])', $s1[6]->get_value());
+    }
+
+    public function test_zip_with_matrix(): void {
+
+        $cs = ['A:matrix([5,2],[4,5])', 'B:matrix([4,5],[6,5])'];
+        $cs[] = 'M1:zip_with_matrix("+",A,B)';
+        $cs[] = 'M2:zip_with_matrix(algebraic_equivalence,A,B)';
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        // Note, we have simp false here.
+        $this->assertEquals('matrix([5+4,2+5],[4+6,5+5])', $s1[2]->get_value());
+        $this->assertEquals('matrix([false,false],[false,true])', $s1[3]->get_value());
+    }
+
+    public function test_zip_with_matrix_AT(): void {
+        $cs = ['M1:matrix([3.1415,10.0])', 'M2:matrix([%pi,%pi^2])'];
+        $cs[] = 'M:matrixmap(second,zip_with_matrix(lambda([ex1,ex2], ATNumAbsolute(ex1,ex2,0.01)), M1, M2))';
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('matrix([true,false])', $s1[2]->get_value());
     }
 
     public function test_numerical_precision(): void {

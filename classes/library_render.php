@@ -110,7 +110,9 @@ class library_render extends \external_api {
         // Check if we've already cached the answer.
         $cache = cache::make('qtype_stack', 'librarycache');
         $result = $cache->get($params['filepath']);
-        if (!$result) {
+        $isquiz = (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
+                            && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
+        if (!$result && !$isquiz) {
             // Get contents of file and run through API question loader to render.
             $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
             try {
@@ -159,6 +161,36 @@ class library_render extends \external_api {
                     throw $e;
                 }
             }
+        }
+        if (!$result && $isquiz) {
+            $quizcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
+            $json = json_decode($quizcontents);
+            $quiz = $json->quiz;
+            $questions = $json->questions;
+            $sections = $json->sections;
+            $quiztext = '<h4>' . $quiz->name . '</h4>';
+            $quiztext .= $quiz->intro;
+            $numquestions = count($questions);
+            $sectionno = 0;
+            for ($questionno = 0; $questionno < $numquestions; $questionno++) {
+                $slot = $questions[$questionno]->slot;
+                if ($sections[$sectionno]->firstslot === $slot) {
+                    $quiztext .= '<h5>' . $sections[$sectionno]->heading . '</h5>';
+                    $sectionno++;
+                }
+                $quiztext .= substr($questions[$questionno]->quizfilepath, 5) . '<br>';
+            }
+            $result = [
+                'questionrender' => '<div class="formulation">' .
+                    get_string('stack_library_quiz', 'qtype_stack') .
+                    '<br><br>' . $quiztext . '</div>',
+                'iframes' => [],
+                'questionname' => stack_string('stack_library_quiz_prefix') . ' ' . $quiz->name,
+                'questiontext' => '',
+                'questionvariables' => '',
+                'questiondescription' => '',
+                'isstack' => false,
+            ];
         }
         return $result;
     }

@@ -15,6 +15,7 @@ STACK is open source, and as such relies on users to make contributions. These d
 * [STACK's parser design](Parser.md)
 * [PHP interface to the CAS](PHP-CAS.md).
 * [clearing the cache](Question_state_caching.md).
+* [Maintaining the STACK library](STACK_library.md)
 * [Syntax_Future.md](Syntax_Future.md)
 * [Updating JSXGraph](Updating_JSXGraph.md)
 

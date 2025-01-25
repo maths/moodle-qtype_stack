@@ -29,6 +29,7 @@ define([
     CustomEvents
 ) {
 
+    let courseId = null;
     let categoryId = null;
     let libraryDiv = null;
     let rawDiv = null;
@@ -40,6 +41,7 @@ define([
     let importSuccessFileDiv = null;
     let importFailureFileDiv = null;
     let displayedDiv = null;
+    let quizLink = null;
     let dashLink = null;
     let errorDiv = null;
     let errorDetailsDiv = null;
@@ -63,12 +65,14 @@ define([
         importSuccessFileDiv = document.querySelector('.stack-library-import-success-file');
         importFailureFileDiv = document.querySelector('.stack-library-import-failure-file');
         dashLink = document.querySelector('#dashboard-link-holder').innerHTML.trim();
+        quizLink = document.querySelector('#quiz-link-holder').innerHTML.trim();
         dashLink = dashLink.includes('?') ? dashLink = dashLink + '&questionid=' : dashLink = dashLink + '?questionid=';
         loading(true);
         const linksArray = document.querySelectorAll('.library-file-link');
         linksArray.forEach(function(elem) {
             elem.addEventListener('click', libraryRender);
         });
+        courseId = document.querySelector('[data-id="stack_library_course_id"]').getAttribute('data-value');
         const importButton = document.querySelector('.library-import-link');
         importButton.addEventListener('click', ()=>libraryImport(false));
         const importFolderButton = document.querySelector('.library-import-link-folder');
@@ -122,11 +126,18 @@ define([
                 rawDiv.innerHTML = response.questiontext;
                 descriptionDiv.innerHTML = response.questiondescription;
                 variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
-                displayedDiv.innerHTML = response.questionname + '<br>(' + currentPath.split('/').pop() + ')';
+                displayedDiv.innerHTML = response.questionname + '<br>(' + filepath.split('/').pop() + ')';
                 document.querySelectorAll('.library-secondary-info')
                     .forEach(el => el.removeAttribute('hidden'));
                 document.querySelector('.library-import-link').removeAttribute('disabled');
-                document.querySelector('.library-import-link-folder').removeAttribute('disabled');
+                if (filepath.endsWith('_quiz.json')) {
+                    document.querySelector('.stack-library-category-holder').setAttribute('hidden', true);
+                    document.querySelector('.stack-library-course').removeAttribute('hidden');
+                } else {
+                    document.querySelector('.stack-library-course').setAttribute('hidden', true);
+                    document.querySelector('.stack-library-category-holder').removeAttribute('hidden');
+                    document.querySelector('.library-import-link-folder').removeAttribute('disabled');
+                }
                 // This fires the Maths filters for content in the validation div.
                 CustomEvents.notifyFilterContentUpdated(libraryDiv);
             },
@@ -152,7 +163,7 @@ define([
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_import',
-            args: {category: categoryId, filepath: filepath, isfolder: (isFolder) ? 1 : 0},
+            args: {courseid: courseId, category: categoryId, filepath: filepath, isfolder: (isFolder) ? 1 : 0},
             done: function(response) {
                 loading(false);
                 for (const currentQuestion of response) {
@@ -161,6 +172,10 @@ define([
                         if (currentQuestion.isstack) {
                             importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
                                 + currentDashLink + '">' + currentQuestion.questionname + '</a>';
+                        } else if (filepath.endsWith('_quiz.json')) {
+                            importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
+                                + quizLink + '?id=' + currentQuestion.questionid + '">'
+                                + currentQuestion.questionname + '</a>';
                         } else {
                             importListDiv.innerHTML += '<br>' + currentQuestion.questionname;
                         }

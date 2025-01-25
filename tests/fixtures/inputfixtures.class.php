@@ -755,80 +755,80 @@ class stack_inputvalidation_test_data {
     protected static $rawdatadecimals = [
         [
             0 => '123',
-            '.' => [null, 'php_true', '123', 'cas_true', '123', '', ""],
-            ',' => [null, 'php_true', '123', 'cas_true', '123', '', ""],
+            1 => [null, 'php_true', '123', 'cas_true', '123', '', ""],
+            2 => [null, 'php_true', '123', 'cas_true', '123', '', ""],
         ],
         [
             0 => '1.23',
-            '.' => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '-1.27',
-            '.' => [null, 'php_true', '-dispdp(1.27,2)', 'cas_true', '-1.27', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', '-dispdp(1.27,2)', 'cas_true', '-1.27', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '2.78e-3',
-            '.' => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '1,23',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
         ],
         [
             0 => '-1,29',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_true', '-dispdp(1.29,2)', 'cas_true', '-1.29', '', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', '-dispdp(1.29,2)', 'cas_true', '-1.29', '', ""],
         ],
         [
             0 => '2,79e-5',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_true', 'displaysci(2.79,2,-5)', 'cas_true', '2.79 \times 10^{-5}', '', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', 'displaysci(2.79,2,-5)', 'cas_true', '2.79 \times 10^{-5}', '', ""],
         ],
         // For students' input the character ; is forbidden, but not in this test.
         [
             0 => '1;23',
-            '.' => [null, 'php_true', '1', 'cas_true', '1', '', ""],
-            ',' => [null, 'php_false', '1', '', '', 'unencapsulated_comma', ""],
+            1 => [null, 'php_true', '1', 'cas_true', '1', '', ""],
+            2 => [null, 'php_false', '1', '', '', 'unencapsulated_comma', ""],
         ],
         // With strict interpretation both the following are invalid.
         [
             0 => '1.2+2,3*x',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1,23}',
-            '.' => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
-            ',' => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
+            1 => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
+            2 => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
         ],
         [
             0 => '{1.23}',
-            '.' => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1;23}',
-            '.' => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
-            ',' => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
+            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            2 => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
         ],
         [
             0 => '{1.2,3}',
-            '.' => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1,2;3}',
-            '.' => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
-            ',' => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
+            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            2 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
         ],
         [
             0 => '{1,2;3;4.1}',
-            '.' => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
     ];
 
@@ -925,7 +925,7 @@ class stack_inputvalidation_test_data {
         $filterstoapply = [];
 
         // The common insert stars rules, that will be forced
-        // and if you do not allow inserttion of stars then it is invalid.
+        // and if you do not allow insertion of stars then it is invalid.
         $filterstoapply[] = '180_char_based_superscripts';
 
         $filterstoapply[] = '402_split_prefix_from_common_function_name';

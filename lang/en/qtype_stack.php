@@ -62,7 +62,8 @@ $string['stackversioncomment']    = 'This question appears to use /*...*/ style 
 // Strings used on the editing form.
 $string['generalerrors']     = 'There are errors in your question.  Please check carefully below.';
 $string['usetextarea']     = 'We strongly recommend you use the "textarea" editor for STACK questions.  Other editors may change content, and this is likely to break questions with Javascript and other code when you save your question.  Go to Preferences -> Editor Preferences and choose the "Plain text area".';
-$string['addanothernode'] = 'Add another node';
+$string['addanothernode'] = 'Add node(s)';
+$string['nodeaddnum'] = 'Number to add (max 9)';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
 $string['answernote'] = 'Answer note';
 $string['answernote_err'] = 'Answer notes may not contain the character |.  This character is inserted by STACK and is later used to split answer notes automatically.';

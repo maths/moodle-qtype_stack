@@ -634,6 +634,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('submit', $prtname . 'nodeadd', stack_string('addanothernode'));
         $mform->registerNoSubmitButton($prtname . 'nodeadd');
+        $mform->addElement('text', $prtname . 'nodeaddnum', stack_string('nodeaddnum'), ['size' => 3]);
+        $mform->setType($prtname . 'nodeaddnum', PARAM_INT);
+        $mform->setDefault($prtname . 'nodeaddnum', 1);
     }
 
     /**

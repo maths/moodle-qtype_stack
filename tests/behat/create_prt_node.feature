@@ -68,7 +68,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
       | SAns                 | ans1                                                                          |
       | TAns                 | diff(p,x)                                                                     |
 
-    When I press "Add another node"
+    When I press "Add node(s)"
     And I press "collapseElement-2"
     Then I should see "Node 2"
     And I set the following fields to these values:

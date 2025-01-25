@@ -7810,6 +7810,7 @@
       "globalyforbiddenfunction": true
   },
   "timedate": {
+      "comment": "If we include this function then STACK ceases to be a pure function.  See https://github.com/maths/moodle-qtype_stack/issues/1365",
       "function": "f"
   },
   "timer": {

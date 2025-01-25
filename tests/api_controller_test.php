@@ -89,7 +89,7 @@ final class api_controller_test extends qtype_stack_testcase {
         }
         $this->request = $this->getMockBuilder(RequestInt::class)
             ->setMockClassName('RequestTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
         // Need to use callback so data can be altered in each test.
         $this->request->method("getParsedBody")->will($this->returnCallback(
@@ -107,7 +107,7 @@ final class api_controller_test extends qtype_stack_testcase {
 
         $this->response = $this->getMockBuilder(ResponseInt::class)
             ->setMockClassName('ResponseTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
 
         $reflection = new \ReflectionClass(StreamInt::class);
@@ -118,7 +118,7 @@ final class api_controller_test extends qtype_stack_testcase {
 
         $this->result = $this->getMockBuilder(StreamInt::class)
             ->setMockClassName('StreamInterfaceTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
 
         $this->result->expects($this->any())->method('write')->will($this->returnCallback(
@@ -272,7 +272,7 @@ final class api_controller_test extends qtype_stack_testcase {
 
         $dc = $this->getMockBuilder(DownloadController::class)
             ->setMockClassName('DownloadControllerTest')
-            ->setMethods(['set_headers'])
+            ->onlyMethods(['set_headers'])
             ->getMock();
 
         $dc->expects($this->any())->method('set_headers')->willReturn(true);

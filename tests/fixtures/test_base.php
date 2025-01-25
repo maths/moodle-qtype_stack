@@ -220,6 +220,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         $this->assertEquals($e, $a);
     }
+}
 
 /**
  * Base class for STACK walkthrough tests.

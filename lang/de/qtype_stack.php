@@ -885,7 +885,6 @@ $string['stackCas_unknownFunction'] = 'Unbekannte Funktion: {$a->forbid} im Term
 $string['stackCas_unknownFunctionCase'] = 'Bei der Eingabe wird zwischen Groß- und Kleinschreibung unterschieden: {$a->forbid} ist eine unbekannte Funktion. Meinten Sie {$a->lower}?';
 $string['stackCas_unknownUnitsCase'] = 'Bei der Eingabe von Einheiten wird zwischen Groß- und Kleinschreibung unterschieden: {$a->forbid} ist eine unbekannte Einheit. Meinten Sie eine aus der folgenden Liste {$a->unit}?';
 $string['stackCas_unknownVariableCase'] = 'Bei der Eingabe wird zwischen Groß- und Kleinschreibung unterschieden: {$a->forbid} ist eine unbekannte Varriable. Meinten Sie {$a->lower}?';
-$string['stackCas_unsupportedKeyword'] = 'Nicht unterstütztes Schlüsselwort: {$a->forbid}.';
 $string['stackCas_useinsteadChar'] = 'Bitte ersetzen Sie <span class="stacksyntaxexample">{$a->bad}</span> durch \'<span class="stacksyntaxexample">{$a->char}</span>\'.';
 $string['stackDoc_404'] = 'Fehler 404';
 $string['stackDoc_404message'] = 'Datei nicht gefunden.';

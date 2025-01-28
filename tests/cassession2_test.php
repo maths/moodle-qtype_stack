@@ -940,7 +940,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([false,false],[false,true])', $s1[3]->get_value());
     }
 
-    public function test_zip_with_matrix_AT(): void {
+    public function test_zip_with_matrix_at(): void {
         $cs = ['M1:matrix([3.1415,10.0])', 'M2:matrix([%pi,%pi^2])'];
         $cs[] = 'M:matrixmap(second,zip_with_matrix(lambda([ex1,ex2], ATNumAbsolute(ex1,ex2,0.01)), M1, M2))';
         foreach ($cs as $s) {

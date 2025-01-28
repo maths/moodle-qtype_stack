@@ -88,15 +88,14 @@ final class api_controller_test extends qtype_stack_testcase {
             $methods[] = $method->name;
         }
         $this->request = $this->getMockBuilder(RequestInt::class)
-            ->setMockClassName('RequestTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
         // Need to use callback so data can be altered in each test.
-        $this->request->method("getParsedBody")->will($this->returnCallback(
+        $this->request->method("getParsedBody")->willReturnCallback(
             function() {
 
                 return $this->requestdata;
-            })
+            }
         );
 
         $reflection = new \ReflectionClass(ResponseInt::class);
@@ -106,8 +105,7 @@ final class api_controller_test extends qtype_stack_testcase {
         }
 
         $this->response = $this->getMockBuilder(ResponseInt::class)
-            ->setMockClassName('ResponseTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
 
         $reflection = new \ReflectionClass(StreamInt::class);
@@ -117,26 +115,25 @@ final class api_controller_test extends qtype_stack_testcase {
         }
 
         $this->result = $this->getMockBuilder(StreamInt::class)
-            ->setMockClassName('StreamInterfaceTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
 
-        $this->result->expects($this->any())->method('write')->will($this->returnCallback(
+        $this->result->expects($this->any())->method('write')->willReturnCallback(
             function() {
 
                 $this->output = json_decode(func_get_args()[0]);
                 return 1;
-            })
+            }
         );
 
         // The controllers call getBody() on the response object but then call write() on the result
         // so we have to mock both. We override the write method to write to a propery of the testsuite
         // so we have something easily accessible to perform some asserts on.
-        $this->response->expects($this->any())->method('getBody')->will($this->returnCallback(
+        $this->response->expects($this->any())->method('getBody')->willReturnCallback(
             function() {
 
                 return $this->result;
-            })
+            }
         );
 
         $this->response->expects($this->any())->method('withHeader')->willReturn($this->response);
@@ -271,8 +268,8 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['fileid'] = 1;
 
         $dc = $this->getMockBuilder(DownloadController::class)
-            ->setMockClassName('DownloadControllerTest')
-            ->setMethods(['set_headers'])
+            ->setMockClassName('DownloadController')
+            ->onlyMethods(['set_headers'])
             ->getMock();
 
         $dc->expects($this->any())->method('set_headers')->willReturn(true);

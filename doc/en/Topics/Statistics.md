@@ -276,7 +276,7 @@ For example,
 	results: linear_regression(XY);
 	coeffs: take_inference('b_estimation, results);	
 
-
+More information can be found in the [Maxima documentation for Functions and Variables](https://maxima.sourceforge.io/docs/manual/maxima_370.html)
 #### Useful other functions
 
 - <code>binomial(n,k)</code> := \( \frac{n!}{k!(n-k)!} \)

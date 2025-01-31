@@ -91,7 +91,7 @@ Mostly, it is simple to figure out the format of the maxima equivalent, however 
 <div class="divTableRow">
 <div class="divTableCell"><code>r*</code></div>
 <div class="divTableCell"><code>random_*</code></div>
-<div class="divTableCell">A list of normally numbers with the specified distribition.</div>
+<div class="divTableCell">A list of normally numbers with the specified distribution.</div>
 <div class="divTableCell">in R, inputs will be (n,[vars]), in maxima inputs are ([vars], n). See normal for example.</div>
 </div>
 </div>
@@ -251,6 +251,32 @@ For detailed informaion on this see the [distrib package documentation](https://
 </div>
 </div>
 
+#### Linear regression
+
+Maxima can calculate linear regressions. The function `linear_regression(x)` takes an argument `x`, a two column matrix or a list of pairs, and will return a summary of results. The following is a list of the results that can be extracted. 
+
+- 'b_estimation: regression coefficients estimates.
+- 'b_covariances: covariance matrix of the regression coefficients estimates.
+- b_conf_int: confidence intervals of the regression coefficients.
+- b_statistics: statistics for testing coefficient.
+- b_p_values: p-values for coefficient tests.
+- b_distribution: probability distribution for coefficient tests.
+- v_estimation: unbiased variance estimator.
+- v_conf_int: variance confidence interval.
+- v_distribution: probability distribution for variance test.
+- residuals: residuals.
+- adc: adjusted determination coefficient.
+- aic: Akaike’s information criterion.
+- bic: Bayes’s information criterion. 
+
+Results can be used using the function `take_inference(prop, res)`. Where prop is the property you want to extract and res is the variable the linear regression is saved to.
+For example,
+
+	XY: addcol(matrix(), x, y);
+	results: linear_regression(XY);
+	coeffs: take_inference('b_estimation, results);	
+
+
 #### Useful other functions
 
 - <code>binomial(n,k)</code> := \( \frac{n!}{k!(n-k)!} \)
@@ -265,16 +291,18 @@ Variatations of make list are detailed in the [Maxima documentation for lists](h
 In statistics education, we may want to display R code or data. It can be tempting to take a screenshot and upload this, but it is better to use the `<pre>` environment to display this code as formatted in a code editor. Alternatively, you can upload a file of data using the Moodle link feature or [serving out data](..\Authoring\Serving_out_data.md).
 
 
-It may be difficult for students to input some statistical notation so try to keep things simple or use an input type other than algebraic expression. STACK uses `\var<LETTER>{}` for greek letters, as such it is logical to use these versions in your questions, to ensure the validation a student view matches the question. 
+It may be difficult for students to input some statistical notation, so try to keep things simple or use an input type other than algebraic expression. STACK uses `\var<LETTER>{}` for Greek letters, as such it is logical to use these versions in your question to ensure the validation a student view matches the question. 
 ## General tips
 
 STACK may simplify when not appropriate for statistics. For instance, while \(\sigma^2\) is in fact the standard deviation squared, it is often not desired to simplify this in an expression. Consider this when writing algebraic questions or using question variables with `simp:true` on.
 
-If you feel that you cannot randomise questions using maxima. Consider writing the questions in your chosen programming language, then copying the question and changing the values, then make use of the [Moodle random question](https://docs.moodle.org/405/en/Random_question_type) function. 
+If you feel that you cannot randomise questions using Maxima, consider writing the questions in your chosen programming language, then copying the question and changing the values, and then make use of the [Moodle random question](https://docs.moodle.org/405/en/Random_question_type) function. 
 
 ## Example 
 
-In this example, the student is asked find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](..\Authoring\Serving_out_data.md).
+In this example, the student is asked to find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](..\Authoring\Serving_out_data.md).
+
+
 ### Question variables 
 
 

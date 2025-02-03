@@ -131,7 +131,7 @@ Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to con
 On the STACK question dashboard, add in a test case.  Test case construction requires use of a special function `parsons_answer` to mock up the input from a Parsons block (with hashing) and send to the testing code what a correct response from the user would look like.  The test case should look like
 
 ````
-parsons_answer([ta, proof_steps])
+parsons_answer(ta, proof_steps)
 ````
 
 In general, you need to provide a list of tags in place of `ta`, and the `proof_steps` array.
@@ -246,7 +246,7 @@ We have much more sophisticated [general assessment tools](../../Topics/Proof/Pr
 On the STACK question dashboard, add in a test case.  Test case construction requires use of a special function `parsons_answer` to mock up the input from a Parsons block (with hashing) and send to the testing code what a correct response from the user would look like.  The test case should look like
 
 ````
-parsons_answer([ta, proof_steps])
+parsons_answer(ta, proof_steps)
 ````
 
 In general, you need to provide a list of tags in place of `ta`, and the `proof_steps` array.

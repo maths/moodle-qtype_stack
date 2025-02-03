@@ -126,6 +126,16 @@ The student's answer will be a _JSON string_, but we need to interpret which of 
 
 Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to confirm the student's answer is the same as the teacher's answer.
 
+### Adding a test case
+
+On the STACK question dashboard, add in a test case.  Test case construction requires use of a special function `parsons_answer` to mock up the input from a Parsons block (with hashing) and send to the testing code what a correct response from the user would look like.  The test case should look like
+
+````
+parsons_answer([ta, proof_steps])
+````
+
+In general, you need to provide a list of tags in place of `ta`, and the `proof_steps` array.
+
 ## Example question 2: a proof with interchangeable block order
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
@@ -230,6 +240,16 @@ Can you see the differences between these proofs?
 ````
 
 We have much more sophisticated [general assessment tools](../../Topics/Proof/Proof_assessment.md) for establishing the edit distance between the student's and teacher's proof and providing feedback on how to correct a partially correct proof.  These are documented elsewhere.
+
+### Adding a test case
+
+On the STACK question dashboard, add in a test case.  Test case construction requires use of a special function `parsons_answer` to mock up the input from a Parsons block (with hashing) and send to the testing code what a correct response from the user would look like.  The test case should look like
+
+````
+parsons_answer([ta, proof_steps])
+````
+
+In general, you need to provide a list of tags in place of `ta`, and the `proof_steps` array.
 
 ## Legacy versions
 

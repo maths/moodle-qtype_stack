@@ -18,5 +18,5 @@ STACK is open source, and as such relies on users to make contributions. These d
 * [Maintaining the STACK library](STACK_library.md)
 * [Syntax_Future.md](Syntax_Future.md)
 * [Updating JSXGraph](Updating_JSXGraph.md)
-
+* [Profiling the Maxima code](Questoin_profiling.md) to find inefficient Maxima code.
 

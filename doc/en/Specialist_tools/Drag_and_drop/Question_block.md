@@ -147,7 +147,7 @@ proof_steps: [
 
 ## Legacy versions
 
-We recently changed the way we deal with Parsons problems, adding in a special input type to support them.
+In (2024072500) we changed the way we deal with Parsons problems, adding in a special input type to support them.
 These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. 
 This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
 
@@ -157,7 +157,9 @@ This also fixes a randomisation bug that occurred when numerical keys are used (
 | Input | `proof_parsons_key_json`   | `parsons_answer`      | Used in test-case construction |
 | PRT   | `proof_parsons_interpret`  | `parsons_decode`      |             |
 
-Legacy versions of questions are still supported and should function as previously. However it is strongly recommended to update questions to use the new functions.
+E.g. in test-case construction use `parsons_answer([ta, proof_steps])` where `ta` is a list of tags and `proof_steps` is the proof steps array.
+
+Legacy versions of questions are still supported and should function as previously. However it is strongly recommended to update questions to use the new functions.  You will be prompted to upgrade by the bulk test.
 
 ## Obtaining attempt histories
 

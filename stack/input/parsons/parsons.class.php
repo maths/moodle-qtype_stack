@@ -48,10 +48,16 @@ class stack_parsons_input extends stack_string_input {
     private static function answer_function($in) {
         if (self::is_proof_question($in)) {
             return ["parsons_answer", $in];
-        } else if (count(json_decode($in)) === 3) {
+        }
+        $decode = json_decode($in);
+        if (!is_array($decode)) {
+            // TODO: return something which degrades with a sensible error message...
+            return ["error", ""];
+        }
+        if (count($decode) === 3) {
             // In this case input looks like `[ta, steps, 3]` and only the first two are needed for `group_answer`.
             return ["group_answer", json_encode(array_slice(json_decode($in), 0, 2))];
-        } else if (count(json_decode($in)) === 4) {
+        } else if (count($decode) === 4) {
             // In this case input looks like `[ta, steps, 3, 2]` and only the first three are needed for `match_answer`.
             return ["match_answer", json_encode(array_slice(json_decode($in), 0, 3))];
         }
@@ -139,13 +145,17 @@ class stack_parsons_input extends stack_string_input {
         // Get the relevant Maxima function and arguments.
         [$answerfun, $args] = $this::answer_function($in);
 
+        if ($answerfun === 'error') {
+            $this->errors[] = "The answer field to the Parsons input is malformed.";
+            return [];
+        }
+
         // Extract actual correct answer from the steps.
         $ta = 'apply(' . $answerfun . ',' . $args . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
         $value = json_decode($cs->get_value());
-
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
             return;
@@ -225,7 +235,7 @@ class stack_parsons_input extends stack_string_input {
      * @return bool
      */
     private static function is_proof_question($in) {
-        return substr($in, 1, 5) === 'proof';
+        return substr(trim($in), 1, 5) === 'proof';
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

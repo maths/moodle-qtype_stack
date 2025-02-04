@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 30639  -->
   <question type="stack">
     <name>
       <text>Statistics_example</text>
@@ -20,20 +19,23 @@
       <text>2024072400</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/*function to round to a number of decimal points*/
+      <text><![CDATA[/* Function to round to a number of decimal points. */
 rnd(x,dp):=float((round(x*10^dp)/10^dp));
-/* Randomise a mean and standard deviation*/
+/* Randomise a mean and standard deviation. */
+me:rand([48,49,50,51]);
+sd:1+rand(2);
+/* Randomise a mean and standard deviation. */
 me:rand([48,49,50,51]);
 sd:1+rand(2);
 nn:50;
-/*randomise dataset*/
+/* Randomise dataset. */
 AA:rnd(random_normal(me,sd,nn),2);
 BB:rnd(random_normal(50,2,nn),2);
 CC:rnd(random_normal(51,5,nn),2);
-/*format data*/
+/* Format data. */
 lab: ["A","B","C"];
 data: makelist([AA[i],BB[i],CC[i]],i,1,nn);
-/*find confidence interval 95%*/
+/* Find confidence interval 95%. */
 tme: mean(AA);
 tsd: std1(AA);
 tse: float(quantile_normal(0.975,0,1)*tsd/sqrt(nn));

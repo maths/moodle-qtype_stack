@@ -18,6 +18,7 @@
  * This script lets the user see the latest commands stored to CAS
  * cache as pretty printted presentations. This exists for debugging.
  *
+ * @package    qtype_stack
  * @copyright  2019 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

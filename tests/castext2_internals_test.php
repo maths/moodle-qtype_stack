@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use CTP_Block;
@@ -38,13 +45,15 @@ require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class castext2_internals_test extends qtype_stack_testcase {
+final class castext2_internals_test extends qtype_stack_testcase {
 
     /**
+     * Add description here.
      * @covers \qtype_stack\CTP_Parser
      * @covers \qtype_stack\CTP_Parser::parse
      */
-    public function test_parser() {
+    public function test_parser(): void {
+
         $parser = new CTP_Parser();
         $code   = '[[ if test="0"]] {#1#} {@2@}[[/if]]';
         $ast    = $parser->parse($code);
@@ -82,11 +91,13 @@ class castext2_internals_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\CTP_Parser
      * @covers \qtype_stack\CTP_Parser::parse
      * @covers \qtype_stack\CTP_IOBlock
      */
-    public function test_ioblockextensions() {
+    public function test_ioblockextensions(): void {
+
         $parser = new CTP_Parser();
         $code   = '[[list_errors:ans1,ans2]][[ whatever : ans3 ]]';
         $ast    = $parser->parse($code);
@@ -103,9 +114,11 @@ class castext2_internals_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
-    public function test_math_paint_1() {
+    public function test_math_paint_1(): void {
+
         $parser = new CTP_Parser();
         $code   = '\({#1#}\) {@3@} \[{@5@}\] \begin{equation}{@7@} \end{equation} {#9#}';
         $ast    = $parser->parse($code);
@@ -124,9 +137,11 @@ class castext2_internals_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
-    public function test_math_paint_2() {
+    public function test_math_paint_2(): void {
+
         $parser = new CTP_Parser();
         $code   = '<p>[[commonstring key="your_answer_interpreted_as"/]]</p>';
         $code  .= '[[if test="stringp(ans1)"]]<p style="text-align:center">{@false@}</p>';

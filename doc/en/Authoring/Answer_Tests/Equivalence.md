@@ -32,9 +32,9 @@ This is the most commonly used test.  The pseudo code
 This test will work with a variety of [types of object](../../CAS/Maxima_background.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
 
 * This test disregards whether [simplification](../../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
-* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../../CAS/Predicate_functions.md).
+* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../../CAS/Predicate_functions.md), to test the result is true.  But note that many predicate functions only work without simplification!  In particular, testing for "form" such as scientific notation need `simp:false`, in which case use `EqualComAss(predicate(ex),true)` rather than algebraic equivalence.
 
-Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
+Note: exactly what this answer test does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
 
 For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.
 

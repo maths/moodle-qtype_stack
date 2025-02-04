@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use castext2_evaluatable;
@@ -46,15 +53,18 @@ use stack_cas_castext2_iframe;
 // Unit tests for {@link stack_cas_castext2_parsons}.
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class parsons_block_test extends qtype_stack_testcase {
+final class parsons_block_test extends qtype_stack_testcase {
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_basic_parsons_block() {
+    public function test_basic_parsons_block(): void {
+
         // This needs reset as the class variable must be being upped in a different
         // test and the value is bleeding through.
         stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
@@ -73,9 +83,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_validate_height_unit() {
+    public function test_parsons_validate_height_unit(): void {
+
         $validunits = [
             'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
             'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
@@ -109,9 +121,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_validate_width_unit() {
+    public function test_parsons_validate_width_unit(): void {
+
         $validunits = [
             'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
             'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
@@ -145,9 +159,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_validate_height_num() {
+    public function test_parsons_validate_height_num(): void {
+
         $validheights = ['500', '4', '432.5'];
         $invalidheights = ['-5', 'ghjd', ''];
 
@@ -179,9 +195,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_validate_width_num() {
+    public function test_parsons_validate_width_num(): void {
+
         $validversions = ['500', '4', '432.5'];
         $invalidversions = ['-5', 'ghjd', ''];
 
@@ -213,9 +231,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_overdefined_dimensions_1() {
+    public function test_parsons_overdefined_dimensions_1(): void {
+
         $raw = '[[parsons height="500px" width="100%" aspect-ratio="1"]]{' .
             '"1":"Assume that \\(n\\) is odd.",' .
             '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
@@ -230,9 +250,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_underdefined_dimensions() {
+    public function test_parsons_underdefined_dimensions(): void {
+
         $raw = '[[parsons aspect-ratio="1"]]{' .
             '"1":"Assume that \\(n\\) is odd.",' .
             '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
@@ -247,9 +269,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_validate_version() {
+    public function test_parsons_validate_version(): void {
+
         $validversions = ['cdn', 'local'];
         $invalidversions = ['-5', 'ghjd', ''];
 
@@ -283,9 +307,11 @@ class parsons_block_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_validate_params() {
+    public function test_parsons_validate_params(): void {
+
         $invalidparameters = ['bad_param', 'HEIGHT', 'Height', 'override-css'];
         $validparameters = [
             'width', 'height', 'aspect-ratio', 'version', 'overridecss',

@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/blocks/root.specialblock.php');
@@ -35,17 +42,21 @@ require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
  * similar io-blocks.
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface castext2_processor {
     // The override helps when you want to chain things. Basically, use it to
     // give the top most processor to the lower ones so that they can pass things
     // back when processing nested things.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
-            castext2_processor $override = null): string;
+            ?castext2_processor $override = null): string;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_default_processor implements castext2_processor {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
-            castext2_processor $override = null): string {
+            ?castext2_processor $override = null): string {
         $proc = $this;
         $block = null;
         if ($override !== null) {
@@ -72,10 +83,13 @@ class castext2_default_processor implements castext2_processor {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_qa_processor extends castext2_default_processor {
     // Special one giving access to a question-attempt so that the blocks
     // can call things like `rewrite_pluginfile_urls`.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $qa;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($qa) {
         if (!method_exists($qa, 'rewrite_pluginfile_urls')) {
             stack_exception('Error in constructing castext2_qa_processor: argument must provide rewrite_pluginfile_urls.');

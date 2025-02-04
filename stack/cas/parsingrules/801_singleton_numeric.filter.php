@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/../../maximaparser/utils.php');
@@ -30,19 +37,24 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
 
     // These two control the aceptable raw data types as well as
     // the mantissa allowed in the third option.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $integer = true;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $float = true;
 
     // @codingStandardsIgnoreStart
     // Accepts 0.123*10^45 or 123*10^45.
     // Will not accept 0.123e4*10^5 as that is mixed usage.
     // @codingStandardsIgnoreEnd
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $power = true;
 
     // Convert from power form to float or vice versa
     // Will not convert raw integers to floats.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $convert = 'none'; // Other options are 'to float', 'to power'.
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         $this->integer = $parameters['integer'];
         $this->float = $parameters['float'];
@@ -50,6 +62,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         $this->convert = $parameters['convert'];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // First unpack the $ast.
@@ -254,6 +267,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function acceptable_forms(): string {
         $r = [];
         if ($this->integer) {
@@ -276,6 +290,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         return implode(', ', $r);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function float_to_power(MP_Float $float): MP_Node {
         $raw = strtolower($float->raw);
         $p = 0;

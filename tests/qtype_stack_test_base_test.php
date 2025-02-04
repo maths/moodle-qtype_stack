@@ -22,18 +22,19 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for test_base.
-//
-// @copyright 2016 The Open Unviersity.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for test_base.
+ *
+ * @package    qtype_stack
+ * @copyright 2016 The Open Unviersity.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \qtype_stack_testcase
  */
-class qtype_stack_test_base_test extends qtype_stack_testcase {
+final class qtype_stack_test_base_test extends qtype_stack_testcase {
 
-    public function test_prepare_actual_maths_filtering() {
+    public function test_prepare_actual_maths_filtering(): void {
+
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths('frog'));
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths(
                 '<span class="nolink">frog</span>'));
@@ -45,7 +46,8 @@ class qtype_stack_test_base_test extends qtype_stack_testcase {
                 "<span class=\"filter_mathjaxloader_equation\">\n<span class=\"nolink\">\nfrog\n</span>\n</span>"));
     }
 
-    public function test_prepare_actual_maths_floats() {
+    public function test_prepare_actual_maths_floats(): void {
+
         $this->assertEquals('x = \(1.0E10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.e10\).'));
         $this->assertEquals('x = \(1.0E10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.0e10\).'));
         $this->assertEquals('x = \(1.2E10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.2e10\).'));

@@ -97,6 +97,27 @@ none$
 natural_domain(ln(-x^2));
 none$
 
+natural_domain(log((x+4)^3));
+realset(x,oo(-4,inf))$
+
+natural_domain((x-4)^(5/2));
+realset(x,oo(4,inf))$
+
+natural_domain(sqrt((x-4)^5));
+realset(x,oo(4,inf))$
+
+natural_domain((x+1)^(1/3));
+all$
+
+natural_domain((x+7)^(3/2));
+realset(x,oo(-7,inf))$
+
+natural_domain((x+1)^(-1/3));
+realset(x,%union(oo(-1,inf),oo(-inf,-1)))$
+
+natural_domain(2^x);
+all$
+
 natural_domain(ln(1-x^2));
 realset(x,oo(-1,1))$
 
@@ -119,7 +140,7 @@ stack_single_variable_solver(x^2-4>0);
 realset(x,%union(oo(2,inf),oo(-inf,-2)))$
 
 stack_single_variable_solver(2*x/abs(x-1)<1);
-(1-(2*x)/(x-1) > 0) %or ((2*x)/(x-1)+1 > 0)$
+(1-(2*x)/abs(x-1) > 0)$
 
 stack_single_variable_solver(x>1 or x<2);
 all$

@@ -28,18 +28,19 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for the Stack question type with the interactive behaviour.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the Stack question type with the interactive behaviour.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
+final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_test3_partially_right_the_right() {
+    public function test_test3_partially_right_the_right(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = [
@@ -210,7 +211,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test3_partially_right_three_times_no_validation() {
+    public function test_test3_partially_right_three_times_no_validation(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = [
@@ -380,7 +382,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     }
 
-    public function test_test3_sumbit_and_finish_before_validating() {
+    public function test_test3_sumbit_and_finish_before_validating(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = [
@@ -454,7 +457,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_divide_by_0() {
+    public function test_divide_by_0(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'divide');
         $this->start_attempt_at_question($q, 'interactive', 1);
@@ -523,7 +527,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
-    public function test_test3_submit_and_finish_incomplete() {
+    public function test_test3_submit_and_finish_incomplete(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = [

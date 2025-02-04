@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// Unit tests for the Stack question type API.
-//
-// @copyright 2023 University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for the Stack question type API.
+ *
+ * @package    qtype_stack
+ * @copyright 2023 University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace qtype_stack;
 
@@ -32,12 +35,14 @@ use stack_api_test_data;
 use qtype_stack_testcase;
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class api_stackquestionloader_test extends qtype_stack_testcase {
+final class api_stackquestionloader_test extends qtype_stack_testcase {
 
-    public function test_question_loader() {
+    public function test_question_loader(): void {
+
         $xml = stack_api_test_data::get_question_string('matrices');
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml)['question'];
@@ -62,7 +67,8 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($question->deployedseeds));
     }
 
-    public function test_question_loader_use_defaults() {
+    public function test_question_loader_use_defaults(): void {
+
         global $CFG;
         $xml = stack_api_test_data::get_question_string('usedefaults');
         $ql = new StackQuestionLoader();
@@ -93,7 +99,8 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
-    public function test_question_loader_do_not_use_defaults() {
+    public function test_question_loader_do_not_use_defaults(): void {
+
         global $CFG;
         $xml = stack_api_test_data::get_question_string('optionset');
         $ql = new StackQuestionLoader();

@@ -24,6 +24,7 @@ require_once(__DIR__ . '/../../vle_specific.php');
  *
  * This class also defines the syntax for those context/location paths.
  *
+ * @package    qtype_stack
  * @copyright  2022 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -39,6 +40,7 @@ class stack_cas_error {
      */
     private $error;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(string $error , string $context = '') {
         $this->error   = $error;
         $this->context = $context;
@@ -182,10 +184,12 @@ class stack_cas_error {
         return $this->error;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_context(): string {
         return $this->context;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_interpreted_context($question): array {
         // Maybe that should be cached, on the other hand errors are slow anyway.
         return self::interpret_context($this->context);

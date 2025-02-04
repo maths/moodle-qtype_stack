@@ -33,20 +33,18 @@ In this way, the teacher can record, within the question itself, how they expect
 ## Writing tests ##
 
 1. Author and save your question.
-2. From the Question bank, choose the _Preview_ option.
-3. The _Preview question_ window will open.  If you have authority to edit the question, then the top right of the question window will contain a link to _question tests and deployed variants..._.  Follow this link.
-4. This page manages both question tests and deployed variants.  Initially you will have no tests or deployed variants.  Choose _Add a test case..._
-5. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
-6. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.
+2. Navigate to the "STACK question dashboard". This page manages both question tests and deployed variants.  Initially you will have no tests or deployed variants.  Choose _Add a test case..._
+3. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
+4. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.
    * Currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
    * Scores and penalties are rounded to three decimal places for testing purposes.
-7. Once you have added the test case, STACK will automatically validate and submit these responses and display the outcomes.
-8. You may add as many test cases are you need.  It is sensible to add in the following.
+5. Once you have added the test case, STACK will automatically validate and submit these responses and display the outcomes.
+6. You may add as many test cases are you need.  It is sensible to add in the following.
     1. The correct response.  There is a button which will copy the expression used as the "Teacher's answer" in the input as a basis for a test case to help create this test.
     2. One example of each distinction you wish to make, i.e. if you have added specific feedback then provide an answer you expect to trigger this.
     3. Some "invalid" responses, especially if these are syntactically-valid expressions.  E.g. If the answer is an equation such as \(y=2x+1\), then \(2x+1\) might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this.
     4. Add a totally incorrect answer.
-9. If you leave the penalty field blank it will assume you mean the default penalty for the question.
+7. If you leave the penalty field blank it will assume you mean the default penalty for the question.
 
 If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used.
 
@@ -58,7 +56,7 @@ A Moodle administrator can run all of the questions tests within a particular co
 
 Test cases can include a meaningful description of up to 255 characters.  This field is a simple string, and is not castext.
 
-## Test case construction and Maxima evaluation
+### Test case construction and Maxima evaluation
 
 Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of un-simplified test cases.
 
@@ -129,10 +127,9 @@ You can set global [simplification](../CAS/Simplification.md) flags in two place
 1. Globally in the question.
 2. In each potential response tree.
 
-Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is "what is \({@a@}+{@b@}\)?" where {@a@} and {@b@} are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
+Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is `what is \({@a@}+{@b@}\)?` where `{@a@}` and `{@b@}` are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
 
-If you have set `simplify:true` everywhere in your question, and you are only establishing algebraic equivalence of your answers anyway, "un-simplified" expressions as inputs to the tests will not matter.
-
+(If you have set `simplify:true` everywhere in your question, and you are only establishing algebraic equivalence of your answers anyway, "un-simplified" expressions as inputs to the tests will not matter.)
 
 ## Next steps
 

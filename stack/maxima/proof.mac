@@ -359,8 +359,10 @@ proof_step_missing_disp(exs, ps):=block(
                                     proof_getstep(ex, ps))), args(exs)), "<br/>")
 )$
 proof_step_must_disp(ex1, ex2, ps):=block(
-  sconcat(proof_getstep(ex1, ps),
+  sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-up'></i></span> ",
+          proof_getstep(ex1, ps),
           "<br/><span style='font-size: 1.1em; color:red;'>[?...?]</span><br/>",
+          "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-down'></i></span> ",
           proof_getstep(ex2, ps),
           "<br/>")
 )$

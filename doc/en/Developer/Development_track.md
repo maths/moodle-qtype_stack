@@ -7,12 +7,16 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.9.0
 
+Done.
+1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.
+2. Support `allowrmpty` for dropdown, radio and checkbox inputs.
+
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 
 1. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
 2. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 3. Remove all "cte" code from Maxima - mostly install.
-
+4. Resolve [issue #1363] to download students data in json format.
 
 ## Future Parson's block development track
 

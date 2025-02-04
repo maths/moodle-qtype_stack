@@ -6,14 +6,18 @@ This document contains suggestions for effective question authoring workflow, es
 
 The first task is to create a minimal working question.  At the outset
 
-1. add minimal [question variables](../Authoring/Variables.md) to prevent repetition of information in the "Model answer" field of the inputs, and PRT nodes;
-2. use question variables for key information in the question, especially if you intend to create [random variants](../CAS/Random.md) later;
-3. add minimal feedback in the PRTs.
+1. Give the question a meaningful name. E.g. it can match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.
+2. By default the variable `ta` is used as the "teacher's answer".  Give this a value in the [question variables](../Authoring/Variables.md).
+    * The default "model answer" for input `ans1` is `ta`.
+    * The default potential response tree checks `ATAlgEquiv(ans1, ta)`
+3. Write the question itself.
 
-It is helpful if the question name is meaningful and consistent in a course.  E.g. it can match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.  This makes finding questions later much easier.
-
-Create any multi-parts needed, but we recommend at this stage _not_ to add random variants.  Random variants will be added later.
-
+The above gives a minimal working question. Then you can do the following.
+  
+* Add minimal [question variables](../Authoring/Variables.md), especially if you intend to create [random variants](../CAS/Random.md) later. We recommend you **add random variants later**.
+* Add minimal feedback in the PRTs.
+* Create any multi-parts needed.
+ 
 If you already have a good idea of common mistakes, misconception, or intended feedback then you can use the potential response trees to test for this.  This can be added now, however it might be better to wait until step 5 below to add feedback.
 
 Consider
@@ -26,11 +30,11 @@ Consider
 
 ### 2. Add basic question tests
 
-It is important to test questions for quality control, as described in the [testing](Testing.md) documentation.  Navigate to the "STACK question dashboard" page by following the link at the top of the question editing page, or on the preview page.  At this stage the preview question page will warn "Question is missing tests or variants."
+It is important to [test questions](Testing.md) for quality control, via the "STACK question dashboard".  At this stage the preview question page will warn "Question is missing tests or variants."
 
 We recommend the following two test cases:
 
-1. Ensure what you have given in the inputs as the "Model answer" is really awarded full marks by your PRT.
+1. Ensure the "Model answer" is really awarded full marks by your PRT.
 2. Ensure that not every answer is given full marks!
 
 The STACK question dashboard makes it relatively easy to check the mode answer:  press the button marked "Add test case assuming teacher's answer gets full marks".  You will have to think about an answer which is wrong, and the format of this will depend on the types of inputs used.

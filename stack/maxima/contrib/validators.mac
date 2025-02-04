@@ -31,6 +31,15 @@ validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then ""
 /* Add in unit-test cases using STACK's s_test_case function.  At least two please! */
 /* Place test cases in validators_test.mac                                          */
 
+/* The student may not use a user-defined function, or arrays, anywhere in their input. */
+validate_nofunctions(ex):= block([op1,opp],
+  if atom(ex) then return(""),
+  op1:ev(op(ex)),
+  opp:apply(properties, [op1]),
+  if ev(emptyp(opp) or is(opp=[noun]),simp) then return(sconcat("User-defined functions are not permitted in this input. In your answer ", stack_disp(op1, "i"), " appears to be used as a function. ")),
+  apply(sconcat, map(validate_nofunctions, args(ex)))
+);
+
 /* The student may only use single-character variable names in their answer. */
 /* This is intended for use when Insert Stars is turned off, but we still want to indicate to students that they may have forgotten a star */
 validate_all_one_letter_variables(ex) := if not(is(ev(lmax(map(lambda([ex2],slength(string(ex2))),listofvars(ex))),simp)>1)) then ""

@@ -6,12 +6,13 @@ In some parts of this document we mention "Abacus". The Abacus project is a STAC
 
 The most important things are listed here. More detail is below.
 
-1. Build questions so that it is possible to detect changes in the platform. All questions must have "question tests", which allow unit testing of each question variant.
+1. All questions must have ["question tests"](Testing.md), which allow unit testing of each question variant.  You can test the question variables with the `s_assert` function.  Testing helps build questions that detect changes in the platform.
 2. Use simple correct HTML with all closing tags, avoiding explicit style of your own.
 3. Use only simple core LaTeX Maths environments/commands, with only `\(...\)` and `\[...\]` as the maths delimiters.
 4. Avoid linking to externally hosted content, such as pictures and applets.
 5. End Maxima commands with a semi-colon `;`.
 6. Add comments to your Maxima code.
+7. **Do not use arbitrary Javascript!**  Future versions of STACK will not support arbitrary Javascript.  Please work with developers to create supported features, e.g. the `[[reveal]]` block is a prime example of this approach working.
 
 ## Writing CASText
 

@@ -135,7 +135,7 @@ class library_render extends \external_api {
                 $cache->set($filepath, $result);
             } catch (\stack_exception $e) {
                 // If the question is not a STACK question we can't render it
-                // but we staill want users to be able to import it.
+                // but we still want users to be able to import it.
                 if (strpos($e->getMessage(), 'not of type STACK') !== false) {
                     $xmldata = new SimpleXMLElement($qcontents);
                     $questiontext = (string) $xmldata->question->questiontext->text;

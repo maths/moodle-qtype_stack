@@ -155,3 +155,4 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `anyfloatex(ex)`            | Decides if any floats are in the expression.
 | `scientific_notationp(ex)` | Determines if \(ex\) is written in the form \(a10^n\) where \(a\) is an integer or float, and \(n\) is an integer.
 
+Please note that these predicate functions need to be used with `simp:false`.  Some answer tests, including the default algebraic equivalence (`ATAlgEquiv`) always simplify their arguments.  Instead use a non-simplifying answer test such as `EqualComAss`.

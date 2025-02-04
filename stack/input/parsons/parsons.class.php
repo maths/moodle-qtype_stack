@@ -190,7 +190,10 @@ class stack_parsons_input extends stack_string_input {
      * We unhash here to provide meaningful information in response history for authors.
      */
     public function summarise_response($name, $state, $response) {
-        $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
+        $display = $state->contents[0];
+        if ($state->status !== 'invalid') {
+            $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
+        }
         return $name . ': ' . $display . ' [' . $state->status . ']';
     }
 

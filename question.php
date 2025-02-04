@@ -1099,8 +1099,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // TO-DO: switch the nesting, now that the eval is by response and not by PRT.
         // Current CAS-cache helps but it is wasted cycles to go to it so many times.
-        print_r($responses);
-        die();
         $fraction = 0;
         foreach ($this->prts as $index => $prt) {
             if ($prt->is_formative()) {

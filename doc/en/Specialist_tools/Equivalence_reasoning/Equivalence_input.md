@@ -119,7 +119,7 @@ For example, try the following in the equiv-reasoning input.
     let a=2
     (x-2)*(x+2)=0
 
-Internally there is a special function `stacklet(v,a)` which is used to indicate the variable `v` should have the value `a` within equivalence reasoning.
+Internally there is a special function `stacklet(v,a)` which is used to indicate the variable `v` should have the value `a` within equivalence reasoning.  Note, this only assigns a value to a variable, and by design is not intended for definition of functions (sorry).
 
 To find all assignments in a student's answer, such as `ans1`, you can filter on the `stacklet` function within the feedback variables.  Note, the student's answer will be a list..
 

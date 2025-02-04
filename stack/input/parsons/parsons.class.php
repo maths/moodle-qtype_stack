@@ -81,6 +81,8 @@ class stack_parsons_input extends stack_string_input {
             return ["group_answer", implode(",", array_slice(explode(",", $ta), 0, 2)) . "]"];
         } else if (count(explode(",", $ta)) === 4) {
             return ["match_answer", implode(",", array_slice(explode(",", $ta), 0, 3)) . "]"];
+        } else {
+            return ["error", ""];
         }
     }
 
@@ -146,7 +148,7 @@ class stack_parsons_input extends stack_string_input {
         [$answerfun, $args] = $this::answer_function($in);
 
         if ($answerfun === 'error') {
-            $this->errors[] = "The answer field to the Parsons input is malformed.";
+            $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
             return [];
         }
 
@@ -158,7 +160,7 @@ class stack_parsons_input extends stack_string_input {
         $value = json_decode($cs->get_value());
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
-            return;
+            return [];
         }
 
         /* We replace the dummy `0` timestamp coming from Maxima with the actual
@@ -175,6 +177,10 @@ class stack_parsons_input extends stack_string_input {
      */
     public function get_teacher_answer_testcase() {
         [$answerfun, $args] = self::answer_function_testcase($this->teacheranswer);
+        if ($answerfun === 'error') {
+            $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
+            return [];
+        }
         $ta = 'apply(' . $answerfun . ',' . $args . ')';
         return $ta;
     }

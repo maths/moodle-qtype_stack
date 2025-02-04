@@ -58,6 +58,7 @@ Normally a _blank_, i.e. empty, answer has a special status and are not consider
 * String inputs will return the empty string `""` as an empty answer (to avoid a type-mismatch).
 * Textarea inputs will return `[EMPTYANSWER]` to make sure the answer is always a list (to avoid a type-mismatch).
 * Matrix inputs will return the correct size matrix filled with `null` atoms, e.g. `matrix([null,null],[null,null])`.
+* Checkbox inputs will return `[]` to make sure the answer is always a list (to avoid a type-mismatch).
 
 We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!
 

@@ -3807,7 +3807,8 @@
       "variable": "f"
   },
   "km": {
-      "function": "?"
+      "function": "s",
+      "variable": "s"
   },
   "kostka": {
       "function": "f"
@@ -7306,6 +7307,10 @@
   "stack_csv_formatter": {
       "function": "t",
       "built-in": true
+  },
+  "stack_matrix_col": {
+      "function": "?",
+      "contextvariable": "true"
   },
   "stack_disp": {
       "function": "t",

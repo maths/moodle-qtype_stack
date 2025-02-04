@@ -21,6 +21,7 @@
  * correctly, and second it serves to document the expected behaviour of answer
  * tests, which is useful for learning how they work.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,13 +30,21 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('equivfixtures.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_answertest_test_data {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NAME    = 0;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const OPTIONS = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SANS    = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const TANS    = 3;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const SCORE   = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const ANSNOTE = 5;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES   = 6;
 
     /**
@@ -54,6 +63,7 @@ class stack_answertest_test_data {
      * Comments on this test.
      * Header row in the table (optional).
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
 
         ['AlgEquiv', '', '1/0', '1', -1, 'ATAlgEquiv_STACKERROR_SAns.', ''],
@@ -701,6 +711,8 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'not(A) and B', 'A implies B', 0, '', ''],
         ['AlgEquiv', '', '(not A and B) or (not B and A)', 'A xor B', 1, 'ATLogic_True.', ''],
         ['AlgEquiv', '', '(A and B) or (not A and not B)', 'A xnor B', 1, 'ATLogic_True.', ''],
+        ['AlgEquiv', '', '((not A) and (not B)) or ((not A) and B)', 'not A', 1, 'ATLogic_True.', ''],
+        ['AlgEquiv', '', '(A xor B) nounand (A xnor B)', 'false', 1, 'ATLogic_True.', ''],
         // We can't apply this simplification to sets, as it breaks sets of inequalities.
         ['AlgEquiv', '', '{not(A) or B,A and B}', '{A implies B,A and B}', 0, 'ATSet_wrongentries.', ''],
         ['AlgEquiv', '', '{A implies B,A and B}', '{not(A) and B,A and B}', 0, 'ATSet_wrongentries.', ''],
@@ -1038,11 +1050,25 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[testdebug,zeroAdd]', '1+1', '2', 0, 'ATEqualComAssRules: [1 nounadd 1,2].', ''],
         ['EqualComAssRules', '[zeroAdd]', '0+a', 'a', 1, '', ''],
         ['EqualComAssRules', '[zeroAdd]', 'a+0', 'a', 1, '', ''],
+        // Confirm basic operations are commutative and associative.
+        ['EqualComAssRules', '[zeroAdd]', 'a+b', 'b+a', 1, '', ''],
+        ['EqualComAssRules', '[zeroAdd]', 'a+(b+c)', '(a+b)+c', 1, '', ''],
+        ['EqualComAssRules', '[zeroAdd]', 'a*b', 'b*a', 1, '', ''],
+        ['EqualComAssRules', '[zeroAdd]', 'a*(b*c)', '(a*b)*c', 1, '', ''],
+        ['EqualComAssRules', '[noncomAdd]', 'a+b', 'b+a', 0, '', ''],
+        ['EqualComAssRules', '[noncomAdd]', 'a+(b+c)', '(a+b)+c', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul]', 'a*b', 'b*a', 0, '', ''],
+        ['EqualComAssRules', '[noncomMul]', 'a*(b*c)', '(a*b)*c', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul]', '-a*b', 'b*-a', 0, '', ''],
+        ['EqualComAssRules', '[noncomMul]', '-a/b', 'a/-b', 0, '', ''],
         ['EqualComAssRules', '[testdebug,zeroAdd]', '1*a', 'a', 0, 'ATEqualComAssRules: [1 nounmul a,a].', ''],
         // This is a common example where EqualComAss is not adequate.
         ['EqualComAssRules', '[zeroAdd]', '1/2*sin(3*x)', 'sin(3*x)/2', 0, '', ''],
         ['EqualComAssRules', '[oneMul]', '1/2*sin(3*x)', 'sin(3*x)/2', 1, '', ''],
         ['EqualComAssRules', '[oneMul]', '1*a', 'a', 1, '', ''],
+        ['EqualComAssRules', '[oneMul,noncomMul]', '1*a', 'a*1', 1, '', ''],
+        ['EqualComAssRules', '[zeroMul,noncomMul]', '0*a', '0', 1, '', ''],
+        ['EqualComAssRules', '[zeroMul,noncomMul]', 'a*0', '0', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', '1*a', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', 'a/1', 'a', 1, '', ''],
         ['EqualComAssRules', 'ID_TRANS', '0*a', '0', 1, '', ''],
@@ -1066,7 +1092,9 @@ class stack_answertest_test_data {
         ['EqualComAssRules', 'ID_TRANS', '0^(1-1)', '0', 0, 'ATEqualComAssRules_STACKERROR_SAns.', ''],
         ['EqualComAssRules', 'delete(zeroMul, ID_TRANS)', '0*a', '0', 0, '', ''],
         ['EqualComAssRules', '[negNeg]', '-(-a)', 'a', 1, '', ''],
+        ['EqualComAssRules', '[negNeg,noncomMul]', '-(-a)', 'a', 1, '', ''],
         ['EqualComAssRules', '[negNeg]', '-(-(-a))', '-a', 1, '', ''],
+        ['EqualComAssRules', '[negNeg,noncomMul]', '-(-(-a))', '-a', 1, '', ''],
         ['EqualComAssRules', '[testdebug,negNeg]', '-(-(-a))', 'a', 0, 'ATEqualComAssRules (AlgEquiv-false).', ''],
         ['EqualComAssRules', 'ID_TRANS', '3/(-x)', '-3/x', 0, '', ''],
         [
@@ -1138,10 +1166,14 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[ID_TRANS,intAdd]', '(3-5)*x+x', '-2*x+x', 1, '', ''],
         ['EqualComAssRules', '[ID_TRANS,intMul]', '7*x*(-3*x)', '-21*x*x', 1, '', ''],
         [
-            'EqualComAssRules', '[testdebug,ID_TRANS,intMul]', '(-7*x)*(-3*x)', '21*x*x', 0,
-            'ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul 21 nounmul x nounmul x,21 nounmul x nounmul x].', '',
+            'EqualComAssRules', '[testdebug,ID_TRANS,intMul]', '(-7*x)*(-3*x)', '21*x*x', 1,
+            'ATEqualComAssRules: [21 nounmul x nounmul x,21 nounmul x nounmul x].', '',
         ],
         ['EqualComAssRules', '[ID_TRANS,intMul,negNeg]', '(-7*x)*(-3*x)', '21*x*x', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul,intMul]', '2*a*3', '6*a', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul,intMul]', '2*a*3', 'a*6', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul,intMul]', 'a*6', '6*a', 1, '', ''],
+        ['EqualComAssRules', '[noncomMul,intMul]', 'A^2+2*A*B+B^2', 'B^2+A*2*B+A^2', 1, '', ''],
         // This next example is parsing rules.  In Maxima ev(a/b/c, simp)=a/(b*c).
         [
             'EqualComAssRules', '[testdebug,ID_TRANS]', 'a/b/c', 'a/(b*c)', 0,
@@ -1261,6 +1293,11 @@ class stack_answertest_test_data {
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.
         ['CasEqual', '', 'integerp(-1)', 'true', 0, 'ATCASEqual_false.', ''],
         ['CasEqual', '', 'integerp(ev(-1,simp))', 'true', 1, 'ATCASEqual_true.', ''],
+        ['CasEqual', '', 'a+(b+c)', '(a+b)+c', 0, 'ATCASEqual (AlgEquiv-true).', 'Associativity'],
+        ['CasEqual', '', 'a+(b+c)', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', '"+"(a,b,c)', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', '(a+b)+c', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
+        ['CasEqual', '', 'a+(b+c)', 'a+b+c', 0, 'ATCASEqual (AlgEquiv-true).', ''],
 
         ['SameType', '', '1/0', '1', -1, 'ATSameType_STACKERROR_SAns.', ''],
         ['SameType', '', '1', '1/0', -1, 'ATSameType_STACKERROR_TAns.', ''],
@@ -1488,7 +1525,15 @@ class stack_answertest_test_data {
         ['PropLogic', '', '0', '1/0', -1, 'ATPropLogic_STACKERROR_TAns.', ''],
         ['PropLogic', '', 'true', 'true', 1, '', ''],
         ['PropLogic', '', 'true', 'false', 0, '', ''],
-        ['PropLogic', '', 'A implies B', 'not(A) or B', 1, '', ''],
+        ['PropLogic', '', 'not(A) and not(B)', 'not(A or B)', 1, '', ''],
+        ['PropLogic', '', 'not(A) and not(B)', 'not(A and B)', 0, '', ''],
+        ['PropLogic', '', 'not(A) or B', 'boolean_form(A implies B)', 1, '', ''],
+        ['PropLogic', '', 'not(A) or B', 'A implies B', 1, '', ''],
+        ['PropLogic', '', 'not(A) and B', 'A implies B', 0, '', ''],
+        ['PropLogic', '', '(not A and B) or (not B and A)', 'A xor B', 1, '', ''],
+        ['PropLogic', '', '(A and B) or (not A and not B)', 'A xnor B', 1, '', ''],
+        ['PropLogic', '', '((not A) and (not B)) or ((not A) and B)', 'not A', 1, '', ''],
+        ['PropLogic', '', '(A xor B) nounand (A xnor B)', 'false', 1, '', ''],
         ['PropLogic', '', '(a and b and c) xor (a and b) xor (a and c) xor a xor true', '(a implies b) or c', 1, '', ''],
 
         ['Equiv', '', 'x', '[x^2=4,x=2 or x=-2]', -1, 'ATEquiv_SA_not_list.', ''],
@@ -2449,6 +2494,7 @@ class stack_answertest_test_data {
         ['Units', '1', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units m/s.', ''],
         ['Units', '1', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''],
         ['Units', '1', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''],
+        ['Units', '3', '0.200*dpt', '0.200/m', 1, 'ATUnits_compatible_units 1/m.', ''],
         ['Units', '1', '7*in', '7*in', 1, 'ATUnits_units_match.', 'Imperial'],
         ['Units', '1', '6*in', '0.5*ft', 1, 'ATUnits_compatible_units in.', ''],
         ['Units', '4', '2640*ft', '0.5*mi', 1, 'ATNumSigFigs_WithinRange. ATUnits_compatible_units in.', ''],
@@ -2754,11 +2800,13 @@ class stack_answertest_test_data {
 
         ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();
         return array_merge(self::$rawdata, $equiv->get_answertestfixtures());
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_available_tests() {
         $availabletests = [];
         foreach (self::$rawdata as $test) {
@@ -2767,6 +2815,7 @@ class stack_answertest_test_data {
         return $availabletests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data) {
 
         $test = new stdClass();
@@ -2780,6 +2829,7 @@ class stack_answertest_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all() {
         $tests = [];
         $rawdata = self::get_raw_test_data();
@@ -2789,6 +2839,7 @@ class stack_answertest_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_tests_for($anstest) {
         $tests = [];
         $rawdata = self::get_raw_test_data();
@@ -2801,6 +2852,7 @@ class stack_answertest_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         $sans = stack_ast_container::make_from_teacher_source($test->studentanswer, '', new stack_cas_security());
         $tans = stack_ast_container::make_from_teacher_source($test->teacheranswer, '', new stack_cas_security());

@@ -21,6 +21,7 @@
  * re-generate reports.  The script is designed to let a question author improve feedback
  * and assessment by looking at what students type, easily and without going through a quiz report.
  *
+ * @package    qtype_stack
  * @copyright  2020 the University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

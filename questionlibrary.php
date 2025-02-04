@@ -39,11 +39,18 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $cm = get_coursemodule_from_id(false, $cmid);
     require_login($cm->course, false, $cm);
     $thiscontext = context_module::instance($cmid);
+    $coursename = $DB->get_field('course', 'fullname', ['id' => $cm->course]);
+    $courseid = $cm->course;
     $urlparams['cmid'] = $cmid;
-    $returntext = get_string('stack_library_quiz_return', 'qtype_stack');
+    if (strpos(optional_param('returnurl', null, PARAM_LOCALURL), 'quiz') !== false) {
+        $returntext = get_string('stack_library_quiz_return', 'qtype_stack');
+    } else {
+        $returntext = get_string('stack_library_qb_return', 'qtype_stack');
+    }
 } else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
     require_login($courseid);
     $thiscontext = context_course::instance($courseid);
+    $coursename = $DB->get_field('course', 'fullname', ['id' => $courseid]);
     $urlparams['courseid'] = $courseid;
     $returntext = get_string('stack_library_qb_return', 'qtype_stack');
 }
@@ -71,6 +78,8 @@ if ($backurl = optional_param('returnurl', null, PARAM_LOCALURL)) {
 }
 
 $dashboardlink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+$quizlink = new moodle_url('/mod/quiz/view.php');
+
 $PAGE->requires->js_amd_inline(
     'require(["qtype_stack/library"], '
     . 'function(library,){library.setup();});'
@@ -89,9 +98,12 @@ $mform = new category_form(null, ['qcontext' => $contexts]);
 $outputdata = new StdClass();
 $outputdata->returnlink = $returnlink->out();
 $outputdata->dashboardlink = $dashboardlink->out();
+$outputdata->quizlink = $quizlink->out();
 $outputdata->returntext = $returntext;
 $outputdata->files = $files->children;
 $outputdata->category = $mform->render();
+$outputdata->coursename = $coursename;
+$outputdata->courseid = $courseid;
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 

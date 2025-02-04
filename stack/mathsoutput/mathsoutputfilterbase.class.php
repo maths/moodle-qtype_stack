@@ -14,21 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_maths_output_filter_base extends stack_maths_output {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $filter = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displaywrapstart = '<span class="displayequation">';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displaywrapend = '</span>';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displaystart;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $displayend;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $inlinestart;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $inlineend;
 
     /**
@@ -38,6 +44,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         $this->initialise_delimiters();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function process_lang_string($string) {
         $string = $this->find_and_render_equations($string);
         $string = str_replace('!ploturl!',
@@ -45,6 +52,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         return $string;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function post_process_docs_page($html) {
         $html = parent::post_process_docs_page($html);
         $html = str_replace('&#92;', '\\', $html);
@@ -52,7 +60,8 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         return $html;
     }
 
-    public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null) {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function process_display_castext($text, $replacedollars, ?qtype_stack_renderer $renderer = null) {
         $text = parent::process_display_castext($text, $replacedollars, $renderer);
         $text = $this->find_equations_and_replace_delimiters($text);
         return $text;
@@ -140,6 +149,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     }
 
     /**
+     * Add description here.
      * @return moodle_text_filter an instance of the text filter to use to
      * render equations.
      */
@@ -156,6 +166,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     abstract protected function initialise_delimiters();
 
     /**
+     * Add description here.
      * @return moodle_text_filter an newly created instance of the text filter
      * to use to render equations.
      */

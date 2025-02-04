@@ -116,7 +116,7 @@
     <span>
       {{#str}} selectquiz, qtype_stack {{/str}}:
     </span>
-    <select onChange="$('[data-id=\'qa-loading\']').show();window.location.href=this.value">
+    <select onChange="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');window.location.href=this.value;">
       {{^summary}}
         <option value="#">Select an option</option>
       {{/summary}}
@@ -126,7 +126,7 @@
         </option>
       {{/quizzes}}
     </select>
-    <span data-id='qa-loading' style="display:none">
+    <span data-id='qa-loading' hidden>
       {{#pix}}y/loading, core, {{#str}}loading, tool_lp{{/str}}{{/pix}}
     </span>
   </p>

@@ -171,6 +171,7 @@ function stack_docs_render_markdown($page, $preprocess = true) {
 }
 
 /**
+ * Add description here.
  * @param string $url Docs page being considered.
  * @return array Metadata content.
  */

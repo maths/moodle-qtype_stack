@@ -134,6 +134,7 @@ load("functs");
 /* Load the logic package, but remove the "eq" infix operator which conflicts with too many existing things. */
 /* We've edited the logic package which over writes the eq operator as xnor.                                 */
 load("stack_logic.lisp");
+load("Ksimplifier.lisp");
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;
@@ -768,8 +769,11 @@ texput_decimal(ex):= stackfltsep:ex$
     ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
             tx:sconcat("\\text{",ev(printf(false, stackintfmt, x), simp),"}")
-        else
-            tx:ev(printf(false, stackintfmt, x), simp)
+        else (
+            /* Protect spaces in integers so TeX (MathJax) displays them as spaces. */
+            tx:ev(printf(false, stackintfmt, x), simp),
+            tx:ssubst("\\ ", " ", tx)
+            )
     ) else
     tx:string(x),
     /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
@@ -777,7 +781,7 @@ texput_decimal(ex):= stackfltsep:ex$
         tx:ssubst("\\ ", ",", tx),
         tx:ssubst("{,}", ".", tx)
     ),
-    tx
+   tx
 )$
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
@@ -851,6 +855,12 @@ detexcolor(ex) := block([argsex],
 */
 stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{", "\\{", "\\}"], ["", "", ""], [".", "", ""], ["|", "|", "|"]] $
 
+/* This function takes the matrix, and returns the string of characters "c", "l", or "r" to
+   decide how to format the columns in the array.  By default, this is centered with "c".
+   We need a _function_ to count the number of columns.
+*/
+stack_matrix_col(ex):=simplode(maplist(lambda([ex], "c"), first(args(ex))))$
+
 stack_matrix_disp(m):= block([ret, lp, rp, parens],
   if not(matrixp(m)) then error("stack_matrix_disp: argument must be a matrix."),
   if not(stringp(lmxchar)) then error("stack_matrix_disp requires lmxchar to be a string. "),
@@ -862,7 +872,7 @@ stack_matrix_disp(m):= block([ret, lp, rp, parens],
   ret: maplist(lambda([ex], maplist(tex1, args(ex))), args(m)),
   ret: maplist(lambda([ex], simplode(ex, " & ")), ret),
   ret: simplode(ret, " \\\\ "),
-  ret: sconcat("\\begin{array}{", simplode(maplist(lambda([ex], "c"), first(args(m)))), "} ", ret, " \\end{array}"),
+  ret: sconcat("\\begin{array}{", stack_matrix_col(m), "} ", ret, " \\end{array}"),
   if ""#lp then
     ret: sconcat("\\left", lp, ret),
   if ""#rp then
@@ -2040,8 +2050,8 @@ ATPropLogic(SA,SB) := block([simp:true, ret, SAc, SBc],
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATPropLogic_STACKERROR_TAns"), ""]),
     SB:SB[1],
     /* We don't want noun forms getting in the way here. */
-    SA:noun_logic_remove(SA),
-    SB:noun_logic_remove(SB),
+    SA:noun_logic_remove(logical_normal(SA)),
+    SB:noun_logic_remove(logical_normal(SB)),
     /* Can we find a permutation of the variables? */
     if logic_equiv(SA, SB) then
         return([true, true, "", ""]
@@ -3357,4 +3367,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025012100$
+stackmaximaversion:2025012200$

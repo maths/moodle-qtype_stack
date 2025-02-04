@@ -14,24 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// Class to hold an array of iframes created during an API call
-//
-// Iframes are defined by an array of arguments suitable for
-// sending to stackjsvle.js->create_iframe().
-//
-// Honestly this is acting like a global variable. It minimises changes to
-// to the iframe block to accomodate the API.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Class to hold an array of iframes created during an API call
+ *
+ * Iframes are defined by an array of arguments suitable for
+ * sending to stackjsvle.js->create_iframe().
+ *
+ * Honestly this is acting like a global variable. It minimises changes to
+ * to the iframe block to accomodate the API.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\util;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackIframeHolder {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $iframes = [];
     /** @var bool Are we on the library page? */
     public static $islibrary = false;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function add_iframe($args) {
         for ($i = 0; $i < 5; $i++) {
             $args[$i] = json_decode($args[$i]);

@@ -15,6 +15,13 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -38,15 +45,18 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
     // All frames need unique (at request level) identifiers,
     // we use running numbering.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $counters = ['///IFRAME_COUNT///' => 1];
 
     // Add separate running numbering for different block types to
     // ease debugging, so that one does not need to know which all affect
     // the numbers. This numbering applies only to the titles.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function register_counter(string $name): void {
         self::$counters[$name] = 1;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('iframe'),
@@ -71,16 +81,19 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // These are never flat.
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         // No CAS arguments.
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         global $PAGE;
@@ -213,6 +226,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         return $holder->add_to_map(html_writer::tag('div', '', $attributes));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.

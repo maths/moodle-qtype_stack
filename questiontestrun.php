@@ -27,6 +27,7 @@
  * The script takes one parameter id which is a questionid as a parameter.
  * In can optionally also take a random seed.
  *
+ * @package    qtype_stack
  * @copyright  2012 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -100,10 +101,12 @@ if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
 }
 $todoparams = $qbankparams;
 $todoparams['contextid'] = $question->contextid;
+$exportparams = $urlparams;
+$exportparams['id'] = $question->id;
 
 $questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
-$exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
+$exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', sesskey());
 $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
 
@@ -333,6 +336,7 @@ if (empty($question->deployedseeds)) {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     function sort_by_note($a1, $b1) {
         $a = $a1['1'];
         $b = $b1['1'];

@@ -16,13 +16,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Holds the data defining one question test.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Holds the data defining one question test.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/questiontestresult.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_question_test {
     /**
      * @var string Give each testcase a meaningful description.
@@ -242,6 +246,7 @@ class stack_question_test {
     }
 
     /**
+     * Add description here
      * @param string $inputname the name of one of the inputs.
      * @return string the value to be entered into that input.
      */

@@ -51,7 +51,8 @@ We also need to write the question text.  This is the text that the student sees
 
 By default the question text will read 
 
-    <p></p><p>[[input:ans1]] [[validation:ans1]]</p>
+    <p></p>
+    <p>[[input:ans1]] [[validation:ans1]]</p>
 
 Update this question text, or delete and copy the following into the Question text box:
 

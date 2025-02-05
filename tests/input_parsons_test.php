@@ -73,7 +73,8 @@ final class input_parsons_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', true);
         $state = $el->validate_student_response(['sans1' => 'Hello world'], $options, $ta,
                 new stack_cas_security());
-        $this->assertEquals(stack_input::VALID, $state->status);
+        // TODO: make sure we invalidate inputs which are not correct JSON.
+        $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
         $this->assertEquals('\[ \text{Hello world} \]', $state->contentsdisplayed);
         $this->assertEquals('',
@@ -86,10 +87,14 @@ final class input_parsons_test extends qtype_stack_testcase {
         $ta = '"[[{\"used\":[[[\"UzE=\",\"UzI=\",\"UzQ=\",\"UzU=\",\"UzM=\",\"QzY=\"]]],\"available\":[]},1738672937]]"';
         $el = stack_input_factory::make('parsons', 'sans1', $ta);
         $el->set_parameter('sameType', true);
+        // TODO: please double check in JSON the "'s below should be quoted.
+        // Please compare with the test case below!
         $state = $el->validate_student_response(['sans1' => '[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},0]]'],
             $options, $ta,
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('"[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]"', $state->contentsmodified);
         $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:'
                 . '[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
@@ -109,6 +114,8 @@ final class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '{\"used\":[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]'],
             $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         // The input does not modify the string contents.
         $this->assertEquals('"{\\\\\"used\\\\\":[[]]],\\\\\"available\\\\\":[\\\\\"aGVsbG8=\\\\\",\\\\\"d29ybGQ=\\\\\"]},0]]"',
             $state->contentsmodified);
@@ -148,7 +155,6 @@ final class input_parsons_test extends qtype_stack_testcase {
         $ta = "\"[[{\"used\":[[[\"UzE=\",\"UzI=\",\"UzQ=\",\"UzU=\",\"UzM=\",\"QzY=\"]]],\"available\":[]},1738672937]]\"";
         $el = stack_input_factory::make('parsons', 'sans1', $ta);
         $el->set_parameter('sameType', true);
-        // Note here the student has used ?, $ etc. within a string.
         $state = $el->validate_student_response(['sans1' => '[\"aGVsbG8=\",\"d29ybGQ=\"]'],
             $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -164,13 +170,13 @@ final class input_parsons_test extends qtype_stack_testcase {
         $ta = "\"[[{\"used\":[[[\"UzE=\",\"UzI=\",\"UzQ=\",\"UzU=\",\"UzM=\",\"QzY=\"]]],\"available\":[]},1738672937]]\"";
         $el = stack_input_factory::make('parsons', 'sans1', $ta);
         $el->set_parameter('sameType', true);
-        // Note here the student has used ?, $ etc. within a string.
         $state = $el->validate_student_response(
             ['sans1' => '[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},"I am invalid timestamp"]]'],
             $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('"[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},\"I am invalid timestamp\"]]"',
             $state->contentsmodified);
+        // TODO: do we get a specific error message here?
         // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed.
         $this->assertEquals(
             '<span class="stacksyntaxexample">&quot;[[{\&quot;used\&quot;:[[[]]],\&quot;available\&quot;:' .

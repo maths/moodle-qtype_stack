@@ -1051,6 +1051,7 @@ class stack_utils {
      */
     public static function unhash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
+        // TODO: make sure we don't assume this really is an array!
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
                 foreach ($row as $j => $item) {

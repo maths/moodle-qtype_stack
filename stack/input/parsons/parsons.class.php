@@ -51,7 +51,6 @@ class stack_parsons_input extends stack_string_input {
         }
         $decode = json_decode($in);
         if (!is_array($decode)) {
-            // TODO: return something which degrades with a sensible error message...
             return ["error", ""];
         }
         if (count($decode) === 3) {
@@ -92,6 +91,21 @@ class stack_parsons_input extends stack_string_input {
      */
     protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display',
         '912_inert_string_for_display', ];
+
+    /**
+     * Make sure we have a valid JSON object we can really decode.
+     * @see stack_input::extra_validation()
+     */
+    protected function extra_validation($contents) {
+        $validation = $contents[0];
+        if ($validation === 'EMPTYANSWER') {
+            $validation = '';
+        }
+        // TODO: add in a meaningful check that we can at least json_decode the value here.
+        // Check out stack_ast_filter_909_parsons_decode_state_for_display.
+        return '';
+        return stack_string('booleangotunrecognisedvalue');
+    }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

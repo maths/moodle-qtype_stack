@@ -68,13 +68,14 @@ Notes:
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`, e.g. syntax errors caused by missing brackets.
 * These tags could be positioned anywhere in the question text.
 
+
+The next sections will automatically filled in for you for a basic question, so you can save and preview at this point. However, it is worth taking a look at these other main options
+
 ## Input: ans1
 
 Scroll down:  there will be an [inputs](../Authoring/Inputs/index.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
 
-For a minimal question, we must specify the _model answer_. Let this be
-
-    3*(x-1)^2
+For a minimal question, we must specify the _model answer_. This will be `ta` by default, which we have defined to be the solution to this problem.
 
 Notes
 
@@ -106,11 +107,11 @@ Each branch can then
 * Leave an [answer note](../Authoring/Potential_response_trees.md#Answer_note) for statistical [reporting](../Authoring/../STACK_question_admin/Reporting.md) purposes,
 * Continue to the next potential response node, or end the process with `[stop]`.
 
-Let us configure the first node to determine if the student has differentiated correctly.
+We can leave the default settings for a minimal question, which is the following:
 
 1. Specify the variable `ans1` in the `SAns` setting.
-2. Specify the correct answer in the `TAns` setting: `3*(x-1)^2`.
-3. Confirm we have `AlgEquiv` in the _Answer test_ drop-down menu (this is the default).
+2. Specify the correct answer in the `TAns` setting: `ta`.
+3. `AlgEquiv` in the _Answer test_ drop-down menu.
 
 ## Saving the question
 
@@ -123,7 +124,7 @@ To recap, we have
 1. The "question name",
 2. The "question text",
 3. The teacher's "model answer", (`ta` in the question variables).
-4. A test of "correctness" (set to Algebraic equivalence by default).
+4. A test of "correctness" (set to Algebraic equivalence).
 
 Next we should try out our question by pressing the `Preview` link at the bottom of the page.
 

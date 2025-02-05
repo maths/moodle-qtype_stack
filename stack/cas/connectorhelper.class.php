@@ -55,10 +55,6 @@ abstract class stack_connection_helper {
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
 
         switch (self::$config->platform) {
-            case 'win':
-                require_once(__DIR__ . '/connector.windows.class.php');
-                $connection = new stack_cas_connection_windows(self::$config, $debuglog);
-                break;
             case 'linux':
             case 'linux-optimised':
                 require_once(__DIR__ . '/connector.linux.class.php');

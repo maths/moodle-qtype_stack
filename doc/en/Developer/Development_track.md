@@ -9,7 +9,8 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Done.
 1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.
-2. Support `allowrmpty` for dropdown, radio and checkbox inputs.
+2. Support `allowempty` for dropdown, radio and checkbox inputs.
+3. Remove support for the `win` platform (which hasn't been tested for many years).  See [issue #1379](https://github.com/maths/moodle-qtype_stack/issues/1379).
 
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 

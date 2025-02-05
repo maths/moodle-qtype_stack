@@ -790,7 +790,6 @@ $string['settingplatformtype_desc'] = 'STACK muss wissen, auf welchem Betriebssy
 $string['settingplatformtypelinux'] = 'Linux';
 $string['settingplatformtypelinuxoptimised'] = 'Linux (optimiert)';
 $string['settingplatformtypeserver'] = 'Server';
-$string['settingplatformtypewin'] = 'Windows';
 $string['settingreplacedollars'] = '<code>$</code> und <code>$$</code> ersetzen';
 $string['settingreplacedollars_desc'] = 'Ersetze <code>$...$</code> und <code>$$...$$</code> Trennzeichen in Fragetexten, zusätzlich zu <code>\\\\[...\\\\]</code> und <code>\\\\(...\\\\)</code>. Eine bessere Option ist die Verwendung des Skripts \'Maths-Trennzeichen korrigieren\', auf das im Folgenden Bezug genommen wird.';
 $string['settingserveruserpass'] = 'Server username:password';

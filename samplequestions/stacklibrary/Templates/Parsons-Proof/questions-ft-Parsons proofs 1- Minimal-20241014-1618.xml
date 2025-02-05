@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 12232  -->
+<!-- question: 12237  -->
   <question type="stack">
     <name>
-      <text>parsons proof 2-Interchangable order</text>
+      <text>Parsons proofs 1- Minimal</text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>Let \(n\in\mathbb{N}\).  Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
+      <text><![CDATA[<p>Show that \(\log_2(3)\) is irrational. </p>
 [[parsons input="ans1"]]
 {# parsons_encode(proof_steps) #}
 [[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text><![CDATA[This is the proof, written with some structure
-{@proof_display(tal[2], proof_steps)@}
-Notice this proof has two sub-proofs, which can occur in any order.  Therefore we have two correct versions of this proof.
-<table><tr>
-<td><div class="proof">{@proof_display_para(tal[1], proof_steps)@}</div></td>
-<td><div class="proof">{@proof_display_para(tal[2], proof_steps)@}</div></td>
-</tr></table>
-Can you see the differences between these proofs?]]></text>
+      <text></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
@@ -32,31 +25,20 @@ Can you see the differences between these proofs?]]></text>
     <questionvariables>
       <text><![CDATA[stack_include("contribl://prooflib.mac");
 
-ta: proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"), proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));
-
 proof_steps: [
-    ["assodd",     "Assume that \\(n\\) is odd."],
-    ["defn_odd",   "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\)."],
-    ["alg_odd",    "\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]"],
-    ["def_M_odd",  "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\)."],
-    ["conc_odd",   "Hence \\(n^2\\) is odd."],
-
-    ["contrapos",  "We reformulate \"\\(n^2\\) is odd \\(\\Rightarrow \\) \\(n\\) is odd \" as the contrapositive."],
-    ["assnotodd",  "Assume that \\(n\\) is not odd."],
-    ["even",       "Then \\(n\\) is even, and so there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m\\)."],
-    ["alg_even",   "\\[ n^2 = (2m)^2 = 2(2m^2).\\]"],
-    ["def_M_even", "Define \\(M=2m^2\\in\\mathbb{Z}\\) then \\(n^2=2M\\)."],
-    ["conc_even",  "Hence \\(n^2\\) is even."]
+    ["assume", "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
+    ["defn_rat", "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where "],
+    ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers."],
+    ["defn_log", "Using the definition of logarithm:"],
+    ["defn_log2", "\\[ 3 = 2^{\\frac{p}{q}}\\]"],
+    ["alg", "\\[ 3^q = 2^p\\]"],
+    ["alg_int", "The left hand side is always odd and the right hand side is always even."],
+    ["contra", "This is a contradiction."],
+    ["conc", "Hence \\(\\log_2(3)\\) is irrational."]
 ];
-
-/* Permute the steps randomly. */ 
 proof_steps: random_permutation(proof_steps);
 
-/* Generate the alternative proofs. */
-tal: proof_alternatives(ta);
-
-/* Create a set of flattened proofs. */
-tas: setify(map(proof_flatten, tal));]]></text>
+ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "alg_int", "contra", "conc");]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -112,15 +94,14 @@ tas: setify(map(proof_flatten, tal));]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>sa: parsons_decode(ans1);
-check: elementp(sa,tas);</text>
+        <text>sa: parsons_decode(ans1);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>check</sans>
-        <tans>true</tans>
+        <sans>sa</sans>
+        <tans>ta</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
@@ -141,12 +122,11 @@ check: elementp(sa,tas);</text>
         </falsefeedback>
       </node>
     </prt>
-    <deployedseed>263493547</deployedseed>
-    <deployedseed>2080086703</deployedseed>
-    <deployedseed>2119685624</deployedseed>
-    <deployedseed>2065386162</deployedseed>
-    <deployedseed>1272837801</deployedseed>
-    <deployedseed>2105511895</deployedseed>
+    <deployedseed>927793447</deployedseed>
+    <deployedseed>241245299</deployedseed>
+    <deployedseed>652900190</deployedseed>
+    <deployedseed>1939981977</deployedseed>
+    <deployedseed>1718433118</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description>Test case assuming the teacher's input gets full marks.</description>

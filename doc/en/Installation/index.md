@@ -4,7 +4,9 @@ STACK is being used live at many institutions, including the University of Edinb
 
 We appreciate some people prefer hosted services as an alternative to running their own server.  If so, then please contact the developers for more details of current providers.
 
-STACK is designed to be used on a Linux-based server.  For testing and local question development we recommend using virtual box on a Windows/MS machine.  (The windows/MS option exists for legacy reasons and is currently not supported.)
+STACK is designed to be used on a Linux-based server.  For testing and local question development we recommend using virtual box.
+
+Direct connection to Maxima on windows/MS is not supported.  On windows/MS please set up a server with [goemaxima](https://github.com/mathinstitut/goemaxima) (installed via docker) and connect your server to Maxima that way.  Note, you _must_ match the version of goemaxima to the same version of the STACK plugin.  (This is not suitable for development, where you want to change Maxima code.)
 
 ## 0. Set up PHP with mbstring
 

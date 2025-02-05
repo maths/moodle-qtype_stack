@@ -2,10 +2,10 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/stacklibrary/Doc-Examples</text>
+      <text>top/stacklibrary/Features/Dynamic-Blocks</text>
     </category>
     <info format="moodle_auto_format">
-      <text>Examples tied to the STACK documentation</text>
+      <text>Examples of questions using dynamic blocks</text>
     </info>
     <idnumber/>
   </question>

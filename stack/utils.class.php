@@ -1028,6 +1028,10 @@ class stack_utils {
         return $arr;
     }
 
+    public static function is_array_string($str) {
+        return preg_match('/^\[\s*(.*\S)?\s*\]$/', $str);
+    }
+
     /**
      * Takes a string that contains a list where each element has the format
      * [<JSON>, <int>]
@@ -1051,7 +1055,9 @@ class stack_utils {
      */
     public static function unhash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
-        // TODO: make sure we don't assume this really is an array!
+        if (!is_array($decoded)) {
+            return stack_string('invalid_json');;
+        }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
                 foreach ($row as $j => $item) {
@@ -1092,6 +1098,9 @@ class stack_utils {
      */
     public static function hash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
+        if (!is_array($decoded)) {
+            return stack_string('invalid_json');;
+        }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
                 foreach ($row as $j => $item) {

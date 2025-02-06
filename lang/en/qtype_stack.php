@@ -415,6 +415,8 @@ $string['dropdowngotunrecognisedvalue'] = 'Invalid input.';
 $string['pleaseananswerallparts'] = 'Please answer all parts of the question.';
 $string['pleasecheckyourinputs'] = 'Please verify that what you entered was interpreted as expected.';
 $string['singlechargotmorethanone'] = 'You can only enter a single character here.';
+$string['parsons_got_unrecognised_value'] = 'Invalid state for Parson\'s input.';
+$string['invalid_json'] = 'Invalid JSON passed';
 
 $string['true'] = 'True';
 $string['false'] = 'False';

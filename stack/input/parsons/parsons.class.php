@@ -59,6 +59,8 @@ class stack_parsons_input extends stack_string_input {
         } else if (count($decode) === 4) {
             // In this case input looks like `[ta, steps, 3, 2]` and only the first three are needed for `match_answer`.
             return ["match_answer", json_encode(array_slice(json_decode($in), 0, 3))];
+        } else {
+            return ["error", ""];
         }
     }
 
@@ -74,11 +76,15 @@ class stack_parsons_input extends stack_string_input {
      * @return array
      */
     private static function answer_function_testcase($ta) {
-        if (count(explode(",", $ta)) === 2) {
+        if (!stack_utils::is_array_string($ta)) {
+            return ["error", ""];
+        }
+        $ex = explode(",", $ta);
+        if (count($ex) === 2) {
             return ["parsons_answer", $ta];
-        } else if (count(explode(",", $ta)) === 3) {
+        } else if (count($ex) === 3) {
             return ["group_answer", implode(",", array_slice(explode(",", $ta), 0, 2)) . "]"];
-        } else if (count(explode(",", $ta)) === 4) {
+        } else if (count($ex) === 4) {
             return ["match_answer", implode(",", array_slice(explode(",", $ta), 0, 3)) . "]"];
         } else {
             return ["error", ""];
@@ -101,10 +107,10 @@ class stack_parsons_input extends stack_string_input {
         if ($validation === 'EMPTYANSWER') {
             $validation = '';
         }
-        // TODO: add in a meaningful check that we can at least json_decode the value here.
-        // Check out stack_ast_filter_909_parsons_decode_state_for_display.
+        if (!self::validate_parsons_contents($contents)) {
+            return stack_string('parsons_got_unrecognised_value');
+        }
         return '';
-        return stack_string('booleangotunrecognisedvalue');
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -271,5 +277,118 @@ class stack_parsons_input extends stack_string_input {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($value) {
         return null;
+    }
+
+    /**
+     * Takes a PHP array and validates it's structure to check whether it represents a single Parson's state.
+     * In particular the PHP should be of the following format:
+     * array(2) {
+     *  [0]=>
+     *  array(2) {
+     *      ["used"]=>
+     *      array(1) {
+     *          [0]=>
+     *          array(1) {
+     *              [0]=>
+     *              array(_) {
+     *                  [0]=>
+     *                  string(_) <str>
+     *                  ...
+     *                  [n]=>
+     *                  string(_) <str>
+     *              }
+     *          }
+     *      }
+     *      ["available"]=>
+     *          array(_) {
+     *              [0]=>
+     *              string(_) <str>
+     *              ...
+     *              [m]=>
+     *              string(_) <str>
+     *          }
+     *      }
+     *      [1]=>
+     *      int(_)
+     *  }
+     *
+     * @param array $input
+     * @return bool whether $input represents a single Parson's state or not
+     */
+    public static function validate_parsons_state($state) {
+        // Check if $state is an array.
+        if (!is_array($state)) {
+            return false;
+        }
+
+        // Check if it's an array with exactly two elements.
+        if (count($state) !== 2) {
+            return false;
+        }
+
+        // Check if the first element is an associative array with keys "used" and "available".
+        $dict = $state[0];
+        if (!isset($dict['used']) || !isset($dict['available']) || !is_array($dict['used'])) {
+            return false;
+        }
+
+        // Validate that "used" is an array of at least two dimensions.
+        if (!is_array($dict['used'][0]) || !is_array($dict['used'][0][0])) {
+            return false;
+        }
+
+        // Check if "available" is an array of at least one dimension.
+        if (!is_array($dict['available'])) {
+            return false;
+        }
+
+        // Validate that the second element is an integer.
+        if (!is_int($state[1])) {
+            return false;
+        }
+
+        // If all checks pass, the string is valid.
+        return true;
+    }
+
+    /**
+     * Takes a string and checks whether it is a string containing a list of Parson's states.
+     * In particular, it checks whether each item in the list is of the following format:
+     * "[{"used": [[[<str>, ..., <str>]]], "available": [<str>, ..., <str>]}, <int>]"
+     *
+     * @param string $input
+     * @return bool whether $input represents a list of Parson's state or not
+     */
+    public static function validate_parsons_string($input) {
+        $data = json_decode($input, true);
+        // Check if the JSON decoding was successful and the resulting structure is an array.
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+            return false;
+        }
+
+        // Check whether each item is a valid PHP array corresponding to a single Parson's state.
+        foreach ($data as $state) {
+            if (!self::validate_parsons_state($state)) {
+                // If one of them fails, then the string is invalid.
+                return false;
+            }
+        }
+
+        // If all items pass, then the string is valid.
+        return true;
+    }
+
+    public static function validate_parsons_contents($contents) {
+        $strings = function($node) use (&$answernotes, &$errors) {
+            // We validate the node to check that it is a string that represents a Parson's state.
+            // This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an additional safety
+            // measure to ensure we do not dehash other strings.
+            if ($node instanceof MP_String && self::validate_parsons_string($node->value)) {
+                $node->value = stack_utils::unhash_parsons_string($node->value);
+            }
+            
+            return true;
+        };
+        return $strings($contents);
     }
 }

@@ -1275,33 +1275,143 @@ The "tag" is chosen from the list below.
 ';
 
 $string['greek_alphabet_name'] = 'The Greek Alphabet';
-$string['greek_alphabet_fact'] = '||||
-|--- |--- |--- |
-|Upper case, \(\quad\)|lower case, \(\quad\)|name|
-|\(A\)|\(\alpha\)|alpha|
-|\(B\)|\(\beta\)|beta|
-|\(\Gamma\)|\(\gamma\)|gamma|
-|\(\Delta\)|\(\delta\)|delta|
-|\(E\)|\(\epsilon\)|epsilon|
-|\(Z\)|\(\zeta\)|zeta|
-|\(H\)|\(\eta\)|eta|
-|\(\Theta\)|\(\theta\)|theta|
-|\(K\)|\(\kappa\)|kappa|
-|\(M\)|\(\mu\)|mu|
-|\(N\)|\( u\)|nu|
-|\(\Xi\)|\(\xi\)|xi|
-|\(O\)|\(o\)|omicron|
-|\(\Pi\)|\(\pi\)|pi|
-|\(I\)|\(\iota\)|iota|
-|\(P\)|\(\rho\)|rho|
-|\(\Sigma\)|\(\sigma\)|sigma|
-|\(\Lambda\)|\(\lambda\)|lambda|
-|\(T\)|\(\tau\)|tau|
-|\(\Upsilon\)|\(\upsilon\)|upsilon|
-|\(\Phi\)|\(\phi\)|phi|
-|\(X\)|\(\chi\)|chi|
-|\(\Psi\)|\(\psi\)|psi|
-|\(\Omega\)|\(\omega\)|omega|';
+$string['greek_alphabet_fact'] = '<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Upper case, (\quad)</td>
+<td>lower case, (\quad)</td>
+<td>name</td>
+</tr>
+<tr>
+<td>(A)</td>
+<td>(\alpha)</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>(B)</td>
+<td>(\beta)</td>
+<td>beta</td>
+</tr>
+<tr>
+<td>(\Gamma)</td>
+<td>(\gamma)</td>
+<td>gamma</td>
+</tr>
+<tr>
+<td>(\Delta)</td>
+<td>(\delta)</td>
+<td>delta</td>
+</tr>
+<tr>
+<td>(E)</td>
+<td>(\epsilon)</td>
+<td>epsilon</td>
+</tr>
+<tr>
+<td>(Z)</td>
+<td>(\zeta)</td>
+<td>zeta</td>
+</tr>
+<tr>
+<td>(H)</td>
+<td>(\eta)</td>
+<td>eta</td>
+</tr>
+<tr>
+<td>(\Theta)</td>
+<td>(\theta)</td>
+<td>theta</td>
+</tr>
+<tr>
+<td>(K)</td>
+<td>(\kappa)</td>
+<td>kappa</td>
+</tr>
+<tr>
+<td>(M)</td>
+<td>(\mu)</td>
+<td>mu</td>
+</tr>
+<tr>
+<td>(N)</td>
+<td>( u)</td>
+<td>nu</td>
+</tr>
+<tr>
+<td>(\Xi)</td>
+<td>(\xi)</td>
+<td>xi</td>
+</tr>
+<tr>
+<td>(O)</td>
+<td>(o)</td>
+<td>omicron</td>
+</tr>
+<tr>
+<td>(\Pi)</td>
+<td>(\pi)</td>
+<td>pi</td>
+</tr>
+<tr>
+<td>(I)</td>
+<td>(\iota)</td>
+<td>iota</td>
+</tr>
+<tr>
+<td>(P)</td>
+<td>(\rho)</td>
+<td>rho</td>
+</tr>
+<tr>
+<td>(\Sigma)</td>
+<td>(\sigma)</td>
+<td>sigma</td>
+</tr>
+<tr>
+<td>(\Lambda)</td>
+<td>(\lambda)</td>
+<td>lambda</td>
+</tr>
+<tr>
+<td>(T)</td>
+<td>(\tau)</td>
+<td>tau</td>
+</tr>
+<tr>
+<td>(\Upsilon)</td>
+<td>(\upsilon)</td>
+<td>upsilon</td>
+</tr>
+<tr>
+<td>(\Phi)</td>
+<td>(\phi)</td>
+<td>phi</td>
+</tr>
+<tr>
+<td>(X)</td>
+<td>(\chi)</td>
+<td>chi</td>
+</tr>
+<tr>
+<td>(\Psi)</td>
+<td>(\psi)</td>
+<td>psi</td>
+</tr>
+<tr>
+<td>(\Omega)</td>
+<td>(\omega)</td>
+<td>omega</td>
+</tr>
+</tbody>
+</table>
+';
 
 $string['alg_inequalities_name'] = 'Inequalities';
 $string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater than } b.\]
@@ -1417,33 +1527,87 @@ $string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}
  \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \text{ for } -1< x < 1\]';
 
 $string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
-$string['calc_diff_standard_derivatives_fact'] = 'The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.
-
-|\(f(x)\)|\(f\'(x)\)|
-|--- |--- |
-|\(k\), constant|\(0\)|
-|\(x^n\), any constant \(n\)|\(nx^{n-1}\)|
-|\(e^x\)|\(e^x\)|
-|\(\ln(x)=\log_{\rm e}(x)\)|\(\frac{1}{x}\)|
-|\(\sin(x)\)|\(\cos(x)\)|
-|\(\cos(x)\)|\(-\sin(x)\)|
-|\(\tan(x) = \frac{\sin(x)}{\cos(x)}\)|\(\sec^2(x)\)|
-|\(cosec(x)=\frac{1}{\sin(x)}\)|\(-cosec(x)\cot(x)\)|
-|\(\sec(x)=\frac{1}{\cos(x)}\)|\(\sec(x)\tan(x)\)|
-|\(\cot(x)=\frac{\cos(x)}{\sin(x)}\)|\(-cosec^2(x)\)|
-|\(\cosh(x)\)|\(\sinh(x)\)|
-|\(\sinh(x)\)|\(\cosh(x)\)|
-|\(\tanh(x)\)|\(sech^2(x)\)|
-|\(sech(x)\)|\(-sech(x)\tanh(x)\)|
-|\(cosech(x)\)|\(-cosech(x)\coth(x)\)|
-|\(coth(x)\)|\(-cosech^2(x)\)|
-
- \[ \frac{d}{dx}\left(\sin^{-1}(x)\right) =  \frac{1}{\sqrt{1-x^2}}\]
- \[ \frac{d}{dx}\left(\cos^{-1}(x)\right) =  \frac{-1}{\sqrt{1-x^2}}\]
- \[ \frac{d}{dx}\left(\tan^{-1}(x)\right) =  \frac{1}{1+x^2}\]
- \[ \frac{d}{dx}\left(\cosh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2-1}}\]
- \[ \frac{d}{dx}\left(\sinh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2+1}}\]
- \[ \frac{d}{dx}\left(\tanh^{-1}(x)\right) =  \frac{1}{1-x^2}\]
+$string['calc_diff_standard_derivatives_fact'] = '<p>The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.</p>
+<table>
+<thead>
+<tr>
+<th>(f(x))</th>
+<th>(f\&#39;(x))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(k), constant</td>
+<td>(0)</td>
+</tr>
+<tr>
+<td>(x^n), any constant (n)</td>
+<td>(nx^{n-1})</td>
+</tr>
+<tr>
+<td>(e^x)</td>
+<td>(e^x)</td>
+</tr>
+<tr>
+<td>(\ln(x)=\log_{\rm e}(x))</td>
+<td>(\frac{1}{x})</td>
+</tr>
+<tr>
+<td>(\sin(x))</td>
+<td>(\cos(x))</td>
+</tr>
+<tr>
+<td>(\cos(x))</td>
+<td>(-\sin(x))</td>
+</tr>
+<tr>
+<td>(\tan(x) = \frac{\sin(x)}{\cos(x)})</td>
+<td>(\sec^2(x))</td>
+</tr>
+<tr>
+<td>(cosec(x)=\frac{1}{\sin(x)})</td>
+<td>(-cosec(x)\cot(x))</td>
+</tr>
+<tr>
+<td>(\sec(x)=\frac{1}{\cos(x)})</td>
+<td>(\sec(x)\tan(x))</td>
+</tr>
+<tr>
+<td>(\cot(x)=\frac{\cos(x)}{\sin(x)})</td>
+<td>(-cosec^2(x))</td>
+</tr>
+<tr>
+<td>(\cosh(x))</td>
+<td>(\sinh(x))</td>
+</tr>
+<tr>
+<td>(\sinh(x))</td>
+<td>(\cosh(x))</td>
+</tr>
+<tr>
+<td>(\tanh(x))</td>
+<td>(sech^2(x))</td>
+</tr>
+<tr>
+<td>(sech(x))</td>
+<td>(-sech(x)\tanh(x))</td>
+</tr>
+<tr>
+<td>(cosech(x))</td>
+<td>(-cosech(x)\coth(x))</td>
+</tr>
+<tr>
+<td>(coth(x))</td>
+<td>(-cosech^2(x))</td>
+</tr>
+</tbody>
+</table>
+<p> [ \frac{d}{dx}\left(\sin^{-1}(x)\right) =  \frac{1}{\sqrt{1-x^2}}]
+ [ \frac{d}{dx}\left(\cos^{-1}(x)\right) =  \frac{-1}{\sqrt{1-x^2}}]
+ [ \frac{d}{dx}\left(\tan^{-1}(x)\right) =  \frac{1}{1+x^2}]
+ [ \frac{d}{dx}\left(\cosh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2-1}}]
+ [ \frac{d}{dx}\left(\sinh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2+1}}]
+ [ \frac{d}{dx}\left(\tanh^{-1}(x)\right) =  \frac{1}{1-x^2}]</p>
 ';
 
 $string['calc_diff_linearity_rule_name'] = 'The Linearity Rule for Differentiation';

@@ -1055,7 +1055,7 @@ class stack_utils {
      */
     public static function unhash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
-        if (!is_array($decoded)) {
+        if (!is_array($decodedlist)) {
             return stack_string('invalid_json');;
         }
         foreach ($decodedlist as $key => $json) {
@@ -1098,7 +1098,7 @@ class stack_utils {
      */
     public static function hash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
-        if (!is_array($decoded)) {
+        if (!is_array($decodedlist)) {
             return stack_string('invalid_json');;
         }
         foreach ($decodedlist as $key => $json) {

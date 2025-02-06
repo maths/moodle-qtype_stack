@@ -994,6 +994,10 @@ abstract class stack_input {
         // Then ban the rest.
         $filterstoapply[] = '505_no_evaluation_groups';
 
+        if (get_class($this) === 'stack_parsons_input') {
+            $filterstoapply[] = '909_parsons_get_final_submission';
+        }
+
         // Remove scripts and other related things from string-values.
         $filterstoapply[] = '997_string_security';
 

@@ -26,7 +26,7 @@ require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/../../utils.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class stack_ast_filter_909_parsons_decode_state_for_display implements stack_cas_astfilter {
+class stack_ast_filter_909_parsons_get_final_submission implements stack_cas_astfilter {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $strings = function($node) use (&$answernotes, &$errors) {
@@ -34,7 +34,8 @@ class stack_ast_filter_909_parsons_decode_state_for_display implements stack_cas
             // This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an additional safety
             // measure to ensure we do not dehash other strings.
             if ($node instanceof MP_String && stack_parsons_input::validate_parsons_string($node->value)) {
-                $node->value = stack_utils::unhash_parsons_string($node->value);
+                $decoded = json_decode($node->value);
+                $node->value = json_encode(reset($decoded));
             }
             
             return true;

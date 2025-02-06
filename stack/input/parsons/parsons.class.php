@@ -95,7 +95,7 @@ class stack_parsons_input extends stack_string_input {
      * Filters to apply for display in validate_contents
      * @var array
      */
-    protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display',
+    protected $protectfilters = ['908_parsons_decode_state_for_display', '910_inert_float_for_display',
         '912_inert_string_for_display', ];
 
     /**

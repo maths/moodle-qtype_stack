@@ -1645,32 +1645,115 @@ Alternatively, we can write:
 
 $string['calc_int_standard_integrals_name'] = 'Standard Integrals';
 $string['calc_int_standard_integrals_fact'] = '
-
-\[\int k\ dx = kx +c, \text{ where k is constant.}\]
-\[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
-\[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
-\ln(-x)+c & x<0\cr}\right.\]
-
-|\(f(x)\)|\(\int f(x)\ dx\)||
-|--- |--- |--- |
-|\(e^x\)|\(e^x+c\)||
-|\(\cos(x)\)|\(\sin(x)+c\)||
-|\(\sin(x)\)|\(-\cos(x)+c\)||
-|\(\tan(x)\)|\(\ln(\sec(x))+c\)|\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)|
-|\(\sec x\)|\(\ln (\sec(x)+\tan(x))+c\)|\( -{\pi\over 2}< x < {\frac{\pi}{2}}\)|
-|\(\text{cosec}(x)\)|\(\ln (\text{cose}c(x)-\cot(x))+c\quad\)   |\(0 < x < \pi\)|
-|cot\(\,x\)|\(\ln(\sin(x))+c\)|\(0< x< \pi\)|
-|\(\cosh(x)\)|\(\sinh(x)+c\)||
-|\(\sinh(x)\)|\(\cosh(x) + c\)||
-|\(\tanh(x)\)|\(\ln(\cosh(x))+c\)||
-|\(\text{coth}(x)\)|\(\ln(\sinh(x))+c \)|\(x>0\)|
-|\({1\over x^2+a^2}\)|\({1\over a}\tan^{-1}{x\over a}+c\)|\(a>0\)|
-|\({1\over x^2-a^2}\)|\({1\over 2a}\ln{x-a\over x+a}+c\)|\(|x|>a>0\)|
-|\({1\over a^2-x^2}\)|\({1\over 2a}\ln{a+x\over a-x}+c\)|\(|x|\)|
-|\(\frac{1}{\sqrt{x^2+a^2}}\)|\(\sinh^{-1}\left(\frac{x}{a}\right) + c\)|\(a>0\)|
-|\({1\over \sqrt{x^2-a^2}}\)|\(\cosh^{-1}\left(\frac{x}{a}\right) + c\)|\(x\geq a > 0\)|
-|\({1\over \sqrt{x^2+k}}\)|\(\ln (x+\sqrt{x^2+k})+c\)||
-|\({1\over \sqrt{a^2-x^2}}\)|\(\sin^{-1}\left(\frac{x}{a}\right)+c\)|\(-a\leq x\leq a\)|
+<p>[\int k\ dx = kx +c, \text{ where k is constant.}]
+[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)]
+[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k|x|) = \left{\matrix{\ln(x)+c &amp; x&gt;0\cr
+\ln(-x)+c &amp; x&lt;0\cr}\right.]</p>
+<table>
+<thead>
+<tr>
+<th>(f(x))</th>
+<th>(\int f(x)\ dx)</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(e^x)</td>
+<td>(e^x+c)</td>
+<td></td>
+</tr>
+<tr>
+<td>(\cos(x))</td>
+<td>(\sin(x)+c)</td>
+<td></td>
+</tr>
+<tr>
+<td>(\sin(x))</td>
+<td>(-\cos(x)+c)</td>
+<td></td>
+</tr>
+<tr>
+<td>(\tan(x))</td>
+<td>(\ln(\sec(x))+c)</td>
+<td>(-\frac{\pi}{2} &lt; x &lt; \frac{\pi}{2})</td>
+</tr>
+<tr>
+<td>(\sec x)</td>
+<td>(\ln (\sec(x)+\tan(x))+c)</td>
+<td>( -{\pi\over 2}&lt; x &lt; {\frac{\pi}{2}})</td>
+</tr>
+<tr>
+<td>(\text{cosec}(x))</td>
+<td>(\ln (\text{cose}c(x)-\cot(x))+c\quad)</td>
+<td>(0 &lt; x &lt; \pi)</td>
+</tr>
+<tr>
+<td>cot(\,x)</td>
+<td>(\ln(\sin(x))+c)</td>
+<td>(0&lt; x&lt; \pi)</td>
+</tr>
+<tr>
+<td>(\cosh(x))</td>
+<td>(\sinh(x)+c)</td>
+<td></td>
+</tr>
+<tr>
+<td>(\sinh(x))</td>
+<td>(\cosh(x) + c)</td>
+<td></td>
+</tr>
+<tr>
+<td>(\tanh(x))</td>
+<td>(\ln(\cosh(x))+c)</td>
+<td></td>
+</tr>
+<tr>
+<td>(\text{coth}(x))</td>
+<td>(\ln(\sinh(x))+c )</td>
+<td>(x&gt;0)</td>
+</tr>
+<tr>
+<td>({1\over x^2+a^2})</td>
+<td>({1\over a}\tan^{-1}{x\over a}+c)</td>
+<td>(a&gt;0)</td>
+</tr>
+<tr>
+<td>({1\over x^2-a^2})</td>
+<td>({1\over 2a}\ln{x-a\over x+a}+c)</td>
+<td>(</td>
+<td>x</td>
+<td>&gt;a&gt;0)</td>
+</tr>
+<tr>
+<td>({1\over a^2-x^2})</td>
+<td>({1\over 2a}\ln{a+x\over a-x}+c)</td>
+<td>(</td>
+<td>x</td>
+<td>)</td>
+</tr>
+<tr>
+<td>(\frac{1}{\sqrt{x^2+a^2}})</td>
+<td>(\sinh^{-1}\left(\frac{x}{a}\right) + c)</td>
+<td>(a&gt;0)</td>
+</tr>
+<tr>
+<td>({1\over \sqrt{x^2-a^2}})</td>
+<td>(\cosh^{-1}\left(\frac{x}{a}\right) + c)</td>
+<td>(x\geq a &gt; 0)</td>
+</tr>
+<tr>
+<td>({1\over \sqrt{x^2+k}})</td>
+<td>(\ln (x+\sqrt{x^2+k})+c)</td>
+<td></td>
+</tr>
+<tr>
+<td>({1\over \sqrt{a^2-x^2}})</td>
+<td>(\sin^{-1}\left(\frac{x}{a}\right)+c)</td>
+<td>(-a\leq x\leq a)</td>
+</tr>
+</tbody>
+</table>
 ';
 
 $string['calc_int_linearity_rule_name'] = 'The Linearity Rule for Integration';

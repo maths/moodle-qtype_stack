@@ -96,8 +96,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('"[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]"', $state->contentsmodified);
-        $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:'
-                . '[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;hello&quot;,&quot;world&quot;]},0]} \]', $state->contentsdisplayed);
         $this->assertEquals('',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $expected = 'sana1: "[[{\\"used\\":[[[]]],\\"available\\":[\\"hello\\",\\"world\\"]},0]]" [valid]';
@@ -193,10 +192,10 @@ final class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => ' [[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},0]]  '],
                 $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('" [{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]  "',
+        $this->assertEquals('"[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]"',
             $state->contentsmodified);
-        $this->assertEquals('\[ \text{[[{&quot;used&quot;:[[[]]],&quot;available&quot;:'
-                . '[&quot;hello&quot;,&quot;world&quot;]},0]]} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{[{&quot;used&quot;:[[[]]],&quot;available&quot;:'
+                . '[&quot;hello&quot;,&quot;world&quot;]},0]} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_parsons_empty(): void {

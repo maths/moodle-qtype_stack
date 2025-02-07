@@ -33,7 +33,7 @@ class stack_ast_filter_908_parsons_decode_state_for_display implements stack_cas
             // We validate the node to check that it is a string that represents a Parson's state.
             // This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an additional safety
             // measure to ensure we do not dehash other strings.
-            if ($node instanceof MP_String && stack_parsons_input::validate_parsons_string($node->value)) {
+            if ($node instanceof MP_String && stack_utils::validate_parsons_string($node->value)) {
                 $node->value = stack_utils::unhash_parsons_string($node->value);
             }
             

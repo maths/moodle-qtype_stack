@@ -37,25 +37,25 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  *
  * @group qtype_stack
  * @group qtype_stack_ast_filters
- * @covers \ast_filter_909_parsons_decode_state_for_display
+ * @covers \ast_filter_909_parsons_get_final_submission
  */
-final class ast_filter_909_parsons_decode_state_for_display_auto_generated_test extends qtype_stack_ast_testcase {
+final class ast_filter_909_parsons_get_final_submission_auto_generated_test extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units(): void {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_decode_state_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_get_final_submission');
 
     }
 
     public function test_affected_units(): void {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_decode_state_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_get_final_submission');
 
     }
 
     public function test_non_affected_units(): void {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_decode_state_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_get_final_submission');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -1851,7 +1851,7 @@ final class ast_filter_909_parsons_decode_state_for_display_auto_generated_test 
 
     public function test_non_affected_no_units(): void {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_decode_state_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('909_parsons_get_final_submission');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',

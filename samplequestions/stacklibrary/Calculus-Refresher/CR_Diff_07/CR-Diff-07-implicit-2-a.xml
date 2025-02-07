@@ -31,7 +31,7 @@ dum1:yfun(x) := y;
 ta:ev(ta);
 ta:solve(ta=0,YP);
 ans:rhs(ta[1]);
-tans1:-2*sin(2*x)/(cos(2*x)^2+1);</text>
+tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>

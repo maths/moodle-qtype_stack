@@ -107,7 +107,8 @@ class stack_parsons_input extends stack_string_input {
         if ($validation === 'EMPTYANSWER') {
             $validation = '';
         }
-        if (!self::validate_parsons_contents($contents)) {
+
+        if (!self::validate_parsons_string($validation)) {
             return stack_string('parsons_got_unrecognised_value');
         }
         return '';
@@ -361,6 +362,12 @@ class stack_parsons_input extends stack_string_input {
      */
     public static function validate_parsons_string($input) {
         $data = json_decode($input, true);
+        // When used in the input class $input is a string of a string, so we need to decode twice
+        // But in later usage (e.g., for filters) $input is just a string
+        if (is_string($data)) { 
+            $data = json_decode($data, true);
+        }
+        //print_r($data);
         // Check if the JSON decoding was successful and the resulting structure is an array.
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
             return false;

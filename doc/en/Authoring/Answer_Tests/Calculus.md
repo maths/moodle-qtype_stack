@@ -1,6 +1,6 @@
 # Calculus answer tests
 
-There are two answer tests for dealing with calculus problems.
+There are four answer tests for dealing with calculus problems. The first is used with differentiation, the other three handle integration questions.
 
 ### Diff ###
 
@@ -29,7 +29,7 @@ In many cases simply differentiating the teacher's answer is fine, in which case
 
     [x, x*exp(5*x+7)]
 
-The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated!
+The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated! If this test does not behave the way you want, consider using Antidiff and/or AddConst, described further below.
 
 This test, in particular, has a lot of test cases which really document what the test does in detail.
 
@@ -50,3 +50,9 @@ Note that STACK sets the value of Maxima's `logabs:true`, which is not the defau
 In the case of partial  fractions where there are more than one term of the form \(\log(x-a)\) then
 we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the
 student must have all or none. 
+
+### Antidiff ###
+
+This test works similarly to Int, but it only checks if the student answer and the model answer have the same (meaning, algebraically equivalent) derivative in respect to the (mandatory) variable given in the options. This test does not check for absolute values in logarithms or for the algebraic form of the student answer, but really only for algebraic equivalence. If you want to also check the algebraic form, consider using Int or other answer tests.
+
+### AddConst ###

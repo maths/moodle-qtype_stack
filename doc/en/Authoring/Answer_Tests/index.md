@@ -65,6 +65,8 @@ Documentation is grouped as follows.
 6. [Calculus](Calculus.md), e.g. for symbolic integration questions.
   * Diff
   * Int
+  * Antidiff
+  * AddConst
 7. [String match tests](String.md) and regular expressions.
   * String
   * StringSloppy

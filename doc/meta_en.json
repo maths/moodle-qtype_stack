@@ -152,97 +152,97 @@
                 {
                 "file":"AlgEquiv.md",
                 "title":"Test cases for ATAlgEquiv - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the AlgEquiv answer test."
                 },
                 {
                 "file":"AlgEquivNouns.md",
                 "title":"Test cases for ATAlgEquivNouns - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the AlgEquivNouns answer test."
                 },
                 {
                 "file":"SubstEquiv.md",
                 "title":"Test cases for ATSubstEquiv - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the SubstEquiv answer test."
                 },
                 {
                 "file":"EqualComAss.md",
                 "title":"Test cases for ATEqualComAss - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the EqualComAss answer test."
                 },
                 {
                 "file":"EqualComAssRules.md",
                 "title":"Test cases for ATEqualComAssRules - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the EqualComAssRules answer test."
                 },
                 {
                 "file":"CasEqual.md",
                 "title":"Test cases for ATCasEqual - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the CasEqual answer test."
                 },
                 {
                 "file":"SameType.md",
                 "title":"Test cases for ATSameType - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the SameType answer test."
                 },
                 {
                 "file":"SysEquiv.md",
                 "title":"Test cases for ATSysEquiv - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the SysEquiv answer test."
                 },
                 {
                 "file":"Sets.md",
                 "title":"Test cases for ATSets - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the Sets answer test."
                 },
                 {
                 "file":"Expanded.md",
                 "title":"Test cases for ATExpanded - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the Expanded answer test."
                 },
                 {
                 "file":"FacForm.md",
                 "title":"Test cases for ATFacForm - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the FacForm answer test."
                 },
                 {
                 "file":"CompSquare.md",
                 "title":"Test cases for ATCompSquare - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the PropLogic answer test."
                 },
                 {
                 "file":"PropLogic.md",
                 "title":"Test cases for ATPropLogic - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the PropLogic answer test."
                 },
                 {
                 "file":"Equiv.md",
                 "title":"Test cases for ATEquiv - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the Equiv answer test."
                 },
                 {
                 "file":"EquivFirst.md",
                 "title":"Test cases for ATEquivFirst - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the EquivFirst answer test."
                 },
                 {
                 "file":"SingleFrac.md",
                 "title":"Test cases for ATSingleFrac - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the SingleFrac answer test."
                 },
                 {
                 "file":"PartFrac.md",
                 "title":"Test cases for ATPartFrac - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the PartFrac answer test."
                 },
                 {
                 "file":"Diff.md",
                 "title":"Test cases for ATDiff - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the Diff answer test."
                 },
                 {
                 "file":"Int.md",
                 "title":"Test cases for ATInt - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the Int answer test."
                 },
                 {
                 "file":"AddConst.md",
@@ -257,97 +257,102 @@
                 {
                 "file":"GT.md",
                 "title":"Test cases for ATGT - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the GT (greater than) answer test."
                 },
                 {
                 "file":"GTE.md",
                 "title":"Test cases for ATGTE - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the GTE (greater than or equals) answer test."
                 },
                 {
                 "file":"NumRelative.md",
                 "title":"Test cases for ATNumRelative - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the NumRelative answer test."
                 },
                 {
                 "file":"NumAbsolute.md",
                 "title":"Test cases for ATNumAbsolute - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the NumAbsolute answer test."
                 },
                 {
                 "file":"NumSigFigs.md",
                 "title":"Test cases for ATNumSigFigs - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the NumSigFigs answer test."
                 },
                 {
                 "file":"NumDecPlaces.md",
                 "title":"Test cases for ATNumDecPlaces - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the NumDecPlaces answer test."
                 },
                 {
                 "file":"NumDecPlacesWrong.md",
                 "title":"Test cases for ATNumDecPlacesWrong - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the NumDecPlacesWrong answer test."
                 },
                 {
                 "file":"SigFigsStrict.md",
                 "title":"Test cases for ATSigFigsStrict - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the SigFigsStrict answer test."
                 },
                 {
                 "file":"UnitsStrict.md",
                 "title":"Test cases for ATUnitsStrict - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the UnitsStrict answer test."
                 },
                 {
                 "file":"UnitsRelative.md",
                 "title":"Test cases for ATUnitsRelative - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the UnitsRelative answer test."
                 },
                 {
                 "file":"Units.md",
                 "title":"Test cases for ATUnits - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the Units answer test."
                 },
                 {
                 "file":"UnitsStrictRelative.md",
                 "title":"Test cases for ATUnitsStrictRelative - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the UnitsStrictRelative answer test."
                 },
                 {
                 "file":"UnitsAbsolute.md",
                 "title":"Test cases for ATUnitsAbsolute - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the UnitsAbsolute answer test."
                 },
                 {
                 "file":"UnitsStrictAbsolute.md",
                 "title":"Test cases for ATUnitsStrictAbsolute - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the UnitsStrictAbsolute answer test."
                 },
                 {
                 "file":"String.md",
                 "title":"Test cases for ATString - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the String answer test."
                 },
                 {
                 "file":"StringSloppy.md",
                 "title":"Test cases for ATStringSloppy - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the StringSloppy answer test."
                 },
                 {
                 "file":"Levenshtein.md",
                 "title":"Test cases for ATLevenshtein - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the Levenshtein answer test."
                 },
                 {
                 "file":"SRegExp.md",
                 "title":"Test cases for ATSRegExp - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "description":"Automatically generated test cases for the SRegExp answer test."
                 },
                 {
                 "file":"LowestTerms.md",
-                "title":"Test cases for ATLowestTerms - STACK Documentation",
-                "description":"Automatically generated test cases for the ??? answer test."
+                "title":"Test cases for ATLowestTerms - STACK DocumentLowestTerms answer test.",
+                "description":"Automatically generated test cases for the LowestTerms answer test."
+                },
+                {
+                "file":"Validator.md",
+                "title":"Test cases for Validator - STACK Documentation",
+                "description":"Automatically generated test cases for the Validator answer test."
                 },
                 {
                 "file":"index.md",
@@ -868,6 +873,11 @@
         "description":"This document explains how the Maxima statement parser infrastruture works."
         },
         {
+        "file":"STACK_library.md",
+        "title":"Maintaining the STACK library using Gitsync",
+        "description":"How to add and maintain courses in the library using Gitsync."
+        },
+        {
         "file":"STACK-JS.md",
         "title":"Including Javascript in STACK questions.",
         "description":"This page documents how to include Javascript into STACK questions."
@@ -1032,6 +1042,11 @@
         "file":"Propositional_Logic.md",
         "title":"Propositional Logic - STACK Documentation",
         "description":"Support for propositional logic, using Maxima's logic package."
+        },
+        {
+        "file":"Statistics.md",
+        "title":"Statistics - STACK Documentation",
+        "description":"Examples of how STACK supports assessment of statistics."
         },
         {
         "file":"Units.md",

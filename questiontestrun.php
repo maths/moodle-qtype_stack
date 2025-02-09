@@ -101,10 +101,12 @@ if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
 }
 $todoparams = $qbankparams;
 $todoparams['contextid'] = $question->contextid;
+$exportparams = $urlparams;
+$exportparams['id'] = $question->id;
 
 $questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
-$exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
+$exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', sesskey());
 $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
 

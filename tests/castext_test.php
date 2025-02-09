@@ -2858,4 +2858,33 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $this->assertEquals($expected, $at1->get_rendered());
     }
+
+    /**
+     * Tests the function stack_matrix_col() which controls column alignment of matrices.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_matrix_col(): void {
+
+        $a2 = ['m1:matrix([1/2,3/4],[-1/2,2000])',
+               'stack_matrix_col(ex):=simplode(maplist(lambda([ex], "r"), first(args(ex))))',
+              ];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $at1 = castext2_evaluatable::make_from_source("{@m1@}",
+            'test-case');
+        $this->assertTrue($at1->get_valid(FORMAT_MOODLE));
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $expected = '\({\left[\begin{array}{rr} \frac{1}{2} & \frac{3}{4} \\\\ ' .
+                    '-\frac{1}{2} & 2000 \end{array}\right]}\)';
+        $this->assertEquals($expected, $at1->get_rendered());
+    }
 }

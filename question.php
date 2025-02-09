@@ -895,7 +895,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $this->security, $rawinput,
-                $this->castextprocessor, $qv, $lang);
+                $this->castextprocessor, $qv, $lang, $this->seed);
             return $this->inputstates[$name];
         }
         return '';
@@ -1588,15 +1588,16 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $stackversion = (int) $this->stackversion;
 
         // Things no longer allowed in questions.
+        // Use 'datespecific' => true for checks which are only done on older questions.
         $patterns = [
-            ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
+            ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd', 'datespecific' => true],
             ['pat' => 'texdecorate', 'ver' => 2018080600],
             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
             ['pat' => 'proof_parsons_key_json', 'ver' => 2024092500, 'alt' => 'parsons_answer'],
             ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
         ];
         foreach ($patterns as $checkpat) {
-            if ($stackversion < $checkpat['ver']) {
+            if ($stackversion < $checkpat['ver'] || !array_key_exists('dataspecific', $checkpat)) {
                 foreach ($qfields as $field) {
                     if (strstr($this->$field ?? '', $checkpat['pat'])) {
                         $a = ['pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field)];

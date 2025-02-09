@@ -77,6 +77,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
             'block_locals',       // Make sure local variables within a block are still permitted student input.
             'validator',          // Test teacher-defined input validators and language.
+            'validator_seed',     // Test validators have access to the random seed.
             'feedback',           // Test teacher-defined input feedback and complex numbers.
             'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
             'exdowncase',         // Test the ordergreat function with exdowncase.
@@ -4076,6 +4077,72 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-0-1';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * This question arose in issue #1370, when people neeed validator functions to have access to the random variables.
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_validator_seed() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'validator_seed';
+        $q->questionvariables = 'ta:rand(100);' .
+                'validator_returnta(ex) := castext("The value of ta in the validator is {#ta#}, using seed {#stack_seed#}");';
+        // This question is also used to test the lang blocks at the top level.
+        $q->questiontext = "<p>The value of ta is {@ta@}.</p><p>But is it? [[input:ans1]] [[validation:ans1]]</p>";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
+                'options' => 'validator:validator_returnta',
+            ]);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "Wrong!";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "OK!";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->deployedseeds = ['43', '1729'];
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 

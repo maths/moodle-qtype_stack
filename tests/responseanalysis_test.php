@@ -454,7 +454,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function set_question(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
         $this->report->summary = $this->summary;
         $this->report->questionnotes = $this->notes;
@@ -466,7 +466,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function set_question_mult(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
         $this->report->summary = $this->summarymult;
         $this->report->questionnotes = $this->notes;
@@ -478,7 +478,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_create_summary(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['load_summary_data', 'run_report'])
+            ->onlyMethods(['load_summary_data', 'run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
         $this->report->expects($this->any())
             ->method("load_summary_data")
@@ -490,7 +490,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_collate(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
         $this->report->summary = $this->summary;
         $this->report->questionnotes = $this->notes;
@@ -571,7 +571,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_create_summary_multiple(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['load_summary_data', 'run_report'])
+            ->onlyMethods(['load_summary_data', 'run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
         $this->report->expects($this->any())
             ->method("load_summary_data")
@@ -583,7 +583,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_collate_multiple(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
         $this->report->summary = $this->summarymult;
         $this->report->questionnotes = $this->notes;

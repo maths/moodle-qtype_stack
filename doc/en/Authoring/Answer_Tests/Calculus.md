@@ -76,7 +76,7 @@ In calculus literature, this family is often defined as *the indefinite integral
 This answer test requires the author to fill the options field with a list of variables which are to be ignored, i.e. the integration variable and any further variables.
 You can thus check for the additive constant for the indefinite integral of \(x^n\) by passing the options `[x, n]`.
 
-This test will only accept additive constants of the form `+c` and constant multiples of it (`+c/3`), even though  any surjective function on the reals (`+c^3`, `+ln(c)`) results in a mathematically correct parametrization of the family of antiderivatives.
+This test will only accept additive constants of the form `+c`, even though constant multiples of it (`+c/3`)and any surjective function on the reals (`+c^3`, `+ln(c)`) results in a mathematically correct parametrization of the family of antiderivatives.
 The constant does not have to be added explicitely.
 Testing `ln(x*exp(c))+k` with the given variables `[x,k]` will identify `c` as an additive constant, passing the answer test.
 However, the answer will complain if the number of additional variables besides the list given in the options is not exactly one.

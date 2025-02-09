@@ -3268,7 +3268,7 @@ hasAddConst(expr, vars) := block([othervars, const, deriv, allvariables, strict]
     
     /* if there is one candidate, check if it's exactly additive or something else */
     const : othervars[1],
-    deriv : fullratsimp(diff(expr,const)),
+    deriv : diff(expr,const),
     if debug then print(["Derivative by the constant: ", deriv]),
     if strict then (
         if debug then print(["Checking strictly "]),

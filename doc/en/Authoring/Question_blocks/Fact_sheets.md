@@ -491,7 +491,7 @@ Alternatively, we can write:
 <td>\(0 &lt; x &lt; \pi\)</td>
 </tr>
 <tr>
-<td>cot(\,x\)</td>
+<td>cot(\x\)</td>
 <td>\(\ln(\sin(x))+c\)</td>
 <td>\(0&lt; x&lt; \pi\)</td>
 </tr>

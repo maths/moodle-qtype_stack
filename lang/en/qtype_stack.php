@@ -1518,7 +1518,7 @@ $string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}
 
 $string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
 $string['calc_diff_standard_derivatives_fact'] = '<p>The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.</p>
-<table>
+<table style="padding-right:5%;width: 60%;">
 <thead>
 <tr>
 <th>\(f(x)\)</th>
@@ -1639,7 +1639,7 @@ $string['calc_int_standard_integrals_fact'] = '
 <p>\[\int k\ \mathrm{d}x = kx +c, \text{ where } k \text{ is constant.}\]
 \[\int x^n\ \mathrm{d}x  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
 \[\int x^{-1}\ \mathrm{d}x = \int {\frac{1}{x}}\ \mathrm{d}x = \ln(|x|)+c = \ln(k|x|)\]</p>
-<table>
+<table style="padding-right:5%;width: 60%;">
 <thead>
 <tr>
 <th>\(f(x)\)</th>
@@ -1679,7 +1679,7 @@ $string['calc_int_standard_integrals_fact'] = '
 <td>\(0 &lt; x &lt; \pi\)</td>
 </tr>
 <tr>
-<td>cot(\,x\)</td>
+<td>cot(\x\)</td>
 <td>\(\ln(\sin(x))+c\)</td>
 <td>\(0&lt; x&lt; \pi\)</td>
 </tr>

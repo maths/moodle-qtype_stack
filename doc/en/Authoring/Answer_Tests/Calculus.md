@@ -61,10 +61,10 @@ student must have all or none.
 
 ### Antidiff ###
 
-This test works similarly to Int, but it only checks if the student answer and the model answer have the same (meaning, algebraically equivalent) derivative in respect to the (mandatory) variable given in the options.
-This test does not check for absolute values in logarithms or for the algebraic form of the student answer, but really only for algebraic equivalence.
+This test works similarly to Int, but it only checks if the student answer and the model answer have algebraically equivalent derivative in respect to the (mandatory) variable given in the options.
+This test does not check for absolute values in logarithms or for the algebraic form of the student answer, but really only for algebraic equivalence of derivatives.
 If you want to also check the algebraic form, consider using Int or other answer tests.
-Like Int, this tests also checks if the student answer was derived using differentiation instead of integration.
+Like Int, this tests also checks if the student answer was derived using differentiation instead of integration and provides feedback.
 
 ### AddConst ###
 

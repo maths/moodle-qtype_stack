@@ -1268,7 +1268,7 @@ To include a hint, use the syntax
 
     [[facts:tag]]
 
-The "tag" is chosen from the list below.
+The "tag" is chosen from the list below.  Note, these hints are basic HTML strings and are stored in the language files.
 
 <h2> All supported fact sheets </h2>
 

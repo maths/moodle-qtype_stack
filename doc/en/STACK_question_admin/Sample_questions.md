@@ -18,9 +18,10 @@ This directory contains sub-directories with large libraries of questions:
 
 * `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/content/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
-* `General-maths-questions` contains questions in a variety of other topics.
-* `Doc-Examples` contains questions linked to documentation pages.  These are not intended as exemplar questions!  (They may be incomplete, and illustrate a starting point for an exercise for question authors to complete.)
-* `Topics` contains questions linked to the [mathematical topics](../Topics/index.md) using a matching naming/directory structure.
+* `Features` contains questions to illustrate the features of STACK such as different input types.
+* `Templates` contains questions which are templates for question authors to use. They should require a small amount of editing to make them into a complete tailored question.
+* `Doc-Examples` contains questions linked to documentation pages.  These are not intended as exemplar questions!  (They may be incomplete, and illustrate a starting point for an exercise for question authors to complete.) This is split by documentation section.
+* `Topics` contains questions on a variety of mathematical topics.
 
 We would encourage colleagues to release their materials under a creative commons licence.  Please contact the developers.
 

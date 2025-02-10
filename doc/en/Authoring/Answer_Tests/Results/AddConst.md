@@ -26,6 +26,75 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="expectedfail">
   <td class="cell c0">AddConst</td>
   <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c2"><pre>x^3/3</pre></td>
+  <td class="cell c3"><pre>x^3/3</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">-1</td>
+  <td class="cell c6">STACKERROR_OPTION.</td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Missing option when executing the test. </td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AddConst</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c2"><pre>x^3/3</pre></td>
+  <td class="cell c3"><pre>x^3/3</pre></td>
+  <td class="cell c4"><pre>[[x]]</pre></td>
+  <td class="cell c5">-1</td>
+  <td class="cell c6">ATAddConst_Opt.</td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AddConst</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c2"><pre>x^3/3</pre></td>
+  <td class="cell c3"><pre>x^3/3</pre></td>
+  <td class="cell c4"><pre>x^2</pre></td>
+  <td class="cell c5">-1</td>
+  <td class="cell c6">ATAddConst_Opt.</td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AddConst</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c2"><pre>x^3/3</pre></td>
+  <td class="cell c3"><pre>x^3/3</pre></td>
+  <td class="cell c4"><pre>x^3/3</pre></td>
+  <td class="cell c5">-1</td>
+  <td class="cell c6">ATAddConst_Opt.</td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AddConst</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c2"><pre>x^3/3</pre></td>
+  <td class="cell c3"><pre>x^3/3</pre></td>
+  <td class="cell c4"><pre>0</pre></td>
+  <td class="cell c5">-1</td>
+  <td class="cell c6">ATAddConst_Opt.</td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AddConst</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -88,36 +157,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">You need to add a constant. This should be an arbitrary constant, not a number.</td></td>
 </tr>
-<tr class="expectedfail">
-  <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
-  <td class="cell c2"><pre>x^3/3</pre></td>
-  <td class="cell c3"><pre>x^3/3</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">-1</td>
-  <td class="cell c6">STACKERROR_OPTION.</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Missing option when executing the test. </td></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
-  <td class="cell c2"><pre>x^3/3</pre></td>
-  <td class="cell c3"><pre>x^3/3</pre></td>
-  <td class="cell c4"><pre>0</pre></td>
-  <td class="cell c5">-1</td>
-  <td class="cell c6">ATAddConst_Opt.</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
-</tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
@@ -130,45 +169,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
-  <td class="cell c2"><pre>x^3/3</pre></td>
-  <td class="cell c3"><pre>x^3/3</pre></td>
-  <td class="cell c4"><pre>[[x]]</pre></td>
-  <td class="cell c5">-1</td>
-  <td class="cell c6">ATAddConst_Opt.</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
-  <td class="cell c2"><pre>x^3/3</pre></td>
-  <td class="cell c3"><pre>x^3/3</pre></td>
-  <td class="cell c4"><pre>x^2</pre></td>
-  <td class="cell c5">-1</td>
-  <td class="cell c6">ATAddConst_Opt.</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
-  <td class="cell c2"><pre>x^3/3</pre></td>
-  <td class="cell c3"><pre>x^3/3</pre></td>
-  <td class="cell c4"><pre>x^3/3</pre></td>
-  <td class="cell c5">-1</td>
-  <td class="cell c6">ATAddConst_Opt.</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -843,23 +843,31 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">1</td>
   <td class="cell c6">ATAddConst_true.</td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x^3+c)/3</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[x, NONSTRICT]</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATAddConst_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst((x^3+c)/3, x^3/3, [x,NONSTRICT]);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x^3+c)/3</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[NONSTRICT, x]</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATAddConst_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst((x^3+c)/3, x^3/3, [NONSTRICT,x]);</pre></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -944,23 +952,31 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[x, NONSTRICT]</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATAddConst_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(k*abs(x)), ln(abs(x))+c, [x,NONSTRICT]);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>ln(abs(k*x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[x, NONSTRICT]</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATAddConst_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(abs(k*x)), ln(abs(x))+c, [x,NONSTRICT]);</pre></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -971,23 +987,31 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">1</td>
   <td class="cell c6">ATAddConst_true.</td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[NONSTRICT, x]</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATAddConst_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(k*abs(x)), ln(abs(x))+c, [NONSTRICT,x]);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>ln(abs(k*x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[NONSTRICT, x]</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATAddConst_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(abs(k*x)), ln(abs(x))+c, [NONSTRICT,x]);</pre></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>

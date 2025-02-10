@@ -1158,7 +1158,7 @@ $string['ATAntidiff_STACKERROR_Opt']           = 'The answer test failed to exec
 $string['ATAddConst_true']          = '';
 $string['ATAddConst_Opt']           = 'The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.';;
 $string['ATAddConst_noconst']       = 'You need to add a constant. This should be an arbitrary constant, not a number.';
-$string['ATAddConst_severalconst']  = 'You used several additional constants have been found instead of just one!';
+$string['ATAddConst_severalconst']  = 'Several additional constants have been found instead of just one constant of integration!';
 $string['ATAddConst_generic']       = 'You included an additional constant, but you didn\'t simply add it!';
 
 $string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';

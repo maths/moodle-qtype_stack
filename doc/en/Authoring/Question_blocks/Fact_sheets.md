@@ -307,7 +307,7 @@ The similarity between the way hyperbolic and trigonometric functions behave is 
 <code>[[facts:calc_diff_standard_derivatives]]</code>
 
 <p>The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.</p>
-<table>
+<table style="padding-right:5%;width: 60%;">
 <thead>
 <tr>
 <th>\(f(x)\)</th>
@@ -451,7 +451,7 @@ Alternatively, we can write:
 <p>\[\int k\ \mathrm{d}x = kx +c, \text{ where } k \text{ is constant.}\]
 \[\int x^n\ \mathrm{d}x  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
 \[\int x^{-1}\ \mathrm{d}x = \int {\frac{1}{x}}\ \mathrm{d}x = \ln(|x|)+c = \ln(k|x|)\]</p>
-<table>
+<table style="padding-right:5%;width: 60%;">
 <thead>
 <tr>
 <th>\(f(x)\)</th>

@@ -12,7 +12,7 @@ There are edge cases, particularly with \(e^x\) where differentiation is indisti
 
 ## Integration tests ##
 
-For integration, three answer tests.
+For integration, there are three answer tests.
 Int has been part of STACK for a long time and tries to deal with various edge cases all in one answer test, but this complexity can sometimes lead to unexpected or unwanted behaviour.
 With the aim to reduce these disadvantages at the cost of using several PRT nodes, STACK 4.9.0 introduced the Antidiff and AddConst answer tests.
 
@@ -64,7 +64,7 @@ student must have all or none.
 This test works similarly to Int, but it only checks if the student answer and the model answer have the same (meaning, algebraically equivalent) derivative in respect to the (mandatory) variable given in the options.
 This test does not check for absolute values in logarithms or for the algebraic form of the student answer, but really only for algebraic equivalence.
 If you want to also check the algebraic form, consider using Int or other answer tests.
-Like Int, this tests also checks if the student answer was derived using differentiation instead of integration
+Like Int, this tests also checks if the student answer was derived using differentiation instead of integration.
 
 ### AddConst ###
 

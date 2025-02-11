@@ -86,8 +86,6 @@ final class input_parsons_test extends qtype_stack_testcase {
         $ta = '"[[{\"used\":[[[\"UzE=\",\"UzI=\",\"UzQ=\",\"UzU=\",\"UzM=\",\"QzY=\"]]],\"available\":[]},1738672937]]"';
         $el = stack_input_factory::make('parsons', 'sans1', $ta);
         $el->set_parameter('sameType', true);
-        // TODO: please double check in JSON the "'s below should be quoted.
-        // Please compare with the test case below!
         $state = $el->validate_student_response(['sans1' => '[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},0]]'],
             $options, $ta,
                 new stack_cas_security());

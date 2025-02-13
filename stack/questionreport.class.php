@@ -21,6 +21,16 @@
  * @copyright 2024 University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
+use core_question\local\bank\random_question_loader;
+/**
+ * Allows us access to the protected method for retrieving question ids available to
+ * a random question.
+ */
+class stack_random_question_loader extends random_question_loader {
+    public function get_filtered_question_ids(array $filters):array {
+      return parent::get_filtered_question_ids($filters);
+    }
+  }
 
 /**
  * Retrieves and formats the response data for a particular question in a particular quiz.
@@ -695,9 +705,10 @@ class stack_question_report {
     /**
      * Get inofmration on all quizzes containing a version of a given question
      * @param int $questionid
+     * @param IntlBreakIterator $questioncontextid
      * @return array
      */
-    public static function get_relevant_quizzes(int $questionid): array {
+    public static function get_relevant_quizzes(int $questionid, int $questioncontextid): array {
         global $DB;
         $quizzesquery = "SELECT qr.usingcontextid as quizcontextid, q.name, cc.id as coursecontextid, co.fullname as coursename
                     FROM {question_versions} qv
@@ -711,6 +722,34 @@ class stack_question_report {
                         AND cc.contextlevel = 50";
 
         $quizzes = $DB->get_records_sql($quizzesquery, ['questionid' => $questionid]);
+
+        // We also need to find quizzes where the question is a random option.
+        // We retrieve all unique question set references from the question's context.
+        $randomquery = "SELECT DISTINCT qr.usingcontextid as quizcontextid, q.name,
+                            cc.id as coursecontextid, co.fullname as coursename, qr.filtercondition
+                    FROM {question_set_references} qr
+                    LEFT JOIN {context} c ON c.id = qr.usingcontextid
+                    LEFT JOIN {course_modules} cm ON cm.id = c.instanceid
+                    LEFT JOIN {quiz} q ON cm.instance = q.id
+                    LEFT JOIN {course} co ON q.course = co.id
+                    LEFT JOIN {context} cc ON cc.instanceid = co.id
+                    WHERE cc.contextlevel = 50 AND qr.questionscontextid = :questionscontextid;";
+
+        $randomquizzes = $DB->get_records_sql($randomquery, ['questionscontextid' => $questioncontextid]);
+        $randomloader = new stack_random_question_loader(new qubaid_list([]));
+
+        // Only include quiz if the question id is available.
+        foreach ($randomquizzes as $randomquiz) {
+            // Don't bother checking if the question is already in the quiz.
+            if (!isset($quizzes[$randomquiz->quizcontextid])) {
+                $filter = JSON_decode($randomquiz->filtercondition, true)['filter'];
+                $ids = $randomloader->get_filtered_question_ids($filter);
+                if (in_array($questionid, $ids)) {
+                    $quizzes[$randomquiz->quizcontextid] = $randomquiz;
+                }
+            }
+        }
+
         return $quizzes;
     }
 }

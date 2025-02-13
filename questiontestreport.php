@@ -67,7 +67,7 @@ echo $OUTPUT->header();
 
 // Get quizzes in which the course is used.
 // Add data for creating quiz selection dropdown.
-$quizzes = stack_question_report::get_relevant_quizzes($questionid);
+$quizzes = stack_question_report::get_relevant_quizzes($questionid, (int) $question->contextid);
 $quizoutput = [];
 foreach ($quizzes as $contextid => $quiz) {
     $quiz->url = new moodle_url('/question/type/stack/questiontestreport.php',

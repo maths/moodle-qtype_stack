@@ -161,7 +161,7 @@ rand_tril(m,n,[k]):= block([],
  * @param[positive integer] n the number of rows and columns of the matrix.
  * @return[matrix] The n×n permutation matrix.
  */
-rand_perm_matrix(n):= block([order],
+rand_perm_matrix(n):= block([order,simp:true],
   order: random_permutation(makelist(ii,ii,1,n)),
   return(genmatrix(lambda([i, j], if j=order[i] then 1 else 0),n,n))
 );

@@ -53,7 +53,7 @@ rand_orth(n,[k]):= block([rows],
  * @return[matrix] The m×n matrix.
  */
 rand_orthcols(m,n,[k]):= block([cols],
-  if is(n>m) then return(matrix([])),
+  if is(n>m) then return(matrix([null])),
   if emptyp(k) then k: 1 else k: first(k),
   cols: args(transpose(rand_orth(m,k))),
   cols: firstn(cols,n),
@@ -224,7 +224,7 @@ rand_tril_list(m,n,L):= block([],
  * @return[matrix] The m×n matrix.
  */
 rand_matrix_list_no_replacement(m,n,L):= block([],
-  if is(length(L)<m*n) then return(matrix([])),
+  if is(length(L)<m*n) then return(matrix([null])),
   L: random_permutation(L),
   return(genmatrix(lambda([i, j], L[j + (i-1)*n]),m,n))
 );
@@ -239,7 +239,7 @@ rand_matrix_list_no_replacement(m,n,L):= block([],
  * @return[matrix] The m×n diagonal matrix.
  */
 rand_diag_list_no_replacement(m,n,L):= block([],
-  if is(length(L)<min(m,n)) then return(matrix([])),
+  if is(length(L)<min(m,n)) then return(matrix([null])),
   L: random_permutation(L),
   return(genmatrix(lambda([i, j], if is(i=j) then L[i] else 0),m,n))
 );
@@ -257,7 +257,7 @@ rand_triu_list_no_replacement(m,n,L):= block([k,M],
   L: random_permutation(L),
   k: 0,
   M: errcatch(genmatrix(lambda([i, j], if is(i<=j) then (k: k+1, L[k]) else 0),m,n)),
-  if emptyp(M) then return(matrix([])) else return(first(M))
+  if emptyp(M) then return(matrix([null])) else return(first(M))
 );
 
 /**
@@ -273,5 +273,5 @@ rand_tril_list_no_replacement(m,n,L):= block([k,M],
   L: random_permutation(L),
   k: 0,
   M: errcatch(genmatrix(lambda([i, j], if is(i>=j) then (k: k+1, L[k]) else 0),m,n)),
-  if emptyp(M) then return(matrix([])) else return(first(M))
+  if emptyp(M) then return(matrix([null])) else return(first(M))
 );

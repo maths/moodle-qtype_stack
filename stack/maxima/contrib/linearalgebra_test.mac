@@ -172,10 +172,10 @@ s_test_case(proj(matrix([1],[0]),matrix([0],[1])), matrix([0],[0]));
 s_test_case(proj(matrix([1],[0]),matrix([0],[1]), _test_bform), ev(matrix([-(1/2)],[0]), simp));
 s_test_case(orthogonalize([c(1, 0), c(1, 1)]), [matrix([1],[0]), matrix([0],[1])]);
 s_test_case(orthogonalize(matrix([1, 1], [0, 1])), ident(2));
-/* BENIGN ERROR */ s_test_case(orthogonalize(ident(2), _test_bform), _test_Qmat);
-/* BENIGN ERROR */ s_test_case(normalize(matrix([1, 1], [0, 1])), matrix([1, 1/sqrt(2)], [0, 1/sqrt(2)]));
+s_test_case_simp(orthogonalize(ident(2), _test_bform), _test_Qmat);
+s_test_case_simp(normalize(matrix([1, 1], [0, 1])), matrix([1, 1/sqrt(2)], [0, 1/sqrt(2)]));
 s_test_case(normalize([c(2, 0)]), [matrix([1], [0])]);
-/* BENIGN ERROR */ s_test_case(normalize(_test_Qmat, _test_bform), _test_Qmat_n);
+s_test_case_simp(normalize(_test_Qmat, _test_bform), _test_Qmat_n);
 
 s_test_case(orthogonal_columnsp(matrix([1,1],[1,-1],[1,0])),true);
 s_test_case(orthogonal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])),true);
@@ -362,25 +362,25 @@ s_test_case(mat_cond2(matrix([1,2],[1,2])),und);
 s_test_case(mat_solve(matrix([1,2],[3,4]),[3,7]),matrix([1],[1]));
 s_test_case(mat_solve(matrix([1,-1],[1,-1]),[0,0]),matrix([%r1],[%r1]));
 s_test_case(mat_solve(matrix([1,-1],[1,-1]),[1,0]),matrix([]));
-/* BENIGN ERROR */ s_test_case(mat_solve(matrix([1,-1],[1,-1]),[1,0],true),matrix([(2*%r2+1)/2],[%r2]));
-/* BENIGN ERROR */ s_test_case(mat_solve(matrix([0,0],[1,1]),[1,0],true),matrix([-%r3],[%r3]));
+s_test_case_simp(ev(stack_strip_percent(mat_solve(matrix([1,-1],[1,-1]),[1,0],true),[r]),simp),matrix([(2*r+1)/2],[r]));
+s_test_case_simp(mat_solve(matrix([0,0],[1,1]),[1,0],true),matrix([-%r3],[%r3]));
 
 s_test_case(basisify(matrix([1,2],[0,0],[0,0])),ident(3));
 s_test_case(basisify(matrix([1,2],[1,2],[0,0])),matrix([1,1,0],[1,0,0],[0,0,1]));
-/* BENIGN ERROR */ s_test_case(basisify([[1,1,0],[2,2,0]],true),[[1/sqrt(2),1/sqrt(2),0],[1/sqrt(2),-(1/sqrt(2)),0],[0,0,1]]);
+s_test_case_simp(basisify([[1,1,0],[2,2,0]],true),[[1/sqrt(2),1/sqrt(2),0],[1/sqrt(2),-(1/sqrt(2)),0],[0,0,1]]);
 
 s_test_case(lgcd([9,12,27]),3);
 s_test_case(lgcd([-9,-12,-27]),3);
-/* BENIGN ERROR */ s_test_case(lgcd([1/2,1/4,5/6]),1/12);
+s_test_case_simp(lgcd([1/2,1/4,5/6]),1/12);
 
 s_test_case(scale_nicely([9,12,27]),[3,4,9]);
 s_test_case(scale_nicely(matrix([-9],[-12],[-27])),matrix([3],[4],[9]));
-/* BENIGN ERROR */ s_test_case(scale_nicely([1/2,1/4,-5/6]),[6,3,-10]);
+s_test_case_simp(scale_nicely([1/2,1/4,-5/6]),[6,3,-10]);
 s_test_case(scale_nicely([0,0,0]),[0,0,0]);
 
 s_test_case(rowspace(ident(2)),span(matrix([0],[1]),matrix([1],[0])));
 s_test_case(rowspace(matrix([1,0],[0,1],[1,1])),span(matrix([0],[1]),matrix([1],[0])));
-/* BENIGN ERROR */ s_test_case(nullTspace(matrix([1,0],[0,1],[1,1])),span(matrix([-1],[-1],[1])));
+s_test_case_simp(nullTspace(matrix([1,0],[0,1],[1,1])),span(matrix([-1],[-1],[1])));
 
 s_test_case(setrowmx(1,2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[1,1,1],[7,8,9]));
 s_test_case(setrowmx([%e,%pi,%i],2,matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[%e,%pi,%i],[7,8,9]));
@@ -396,8 +396,8 @@ s_test_case(setdiagmx(1,matrix([1,2,3],[4,5,6],[7,8,9]),-2),matrix([1,2,3],[4,5,
 s_test_case(setdiagmx([10,20,30,40,50],matrix([1,2,3,4],[4,5,6,7],[7,8,9,10]),2),matrix([1,2,10,4],[4,5,6,20],[7,8,9,10]));
 
 s_test_case(Rayleigh(matrix([1,1],[1,1]),matrix([1],[1])),2);
-/* BENIGN ERROR */ s_test_case(Rayleigh(matrix([1,1],[0,1]),matrix([1],[1])),3/2);
-/* BENIGN ERROR */ s_test_case(Rayleigh(matrix([0,-1],[1,0]),matrix([%i],[2])),(4*%i)/5);
+s_test_case_simp(Rayleigh(matrix([1,1],[0,1]),matrix([1],[1])),3/2);
+s_test_case_simp(Rayleigh(matrix([0,-1],[1,0]),matrix([%i],[2])),(4*%i)/5);
 
 s_test_case(alg_mult(matrix([1,1,0],[0,1,0],[0,0,1]),1),3);
 s_test_case(geo_mult(matrix([1,1,0],[0,1,0],[0,0,1]),1),2);
@@ -407,7 +407,7 @@ s_test_case(alg_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
 s_test_case(geo_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
 
 s_test_case(projection_matrix(matrix([1,2,3],[4,5,6],[7,8,10])),ident(3));
-/* BENIGN ERROR */ s_test_case(projection_matrix(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([5/6,1/3,-(1/6)],[1/3,1/3,1/3],[-(1/6),1/3,5/6]));
+s_test_case_simp(projection_matrix(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([5/6,1/3,-(1/6)],[1/3,1/3,1/3],[-(1/6),1/3,5/6]));
 
 s_test_case(eigenvectorp(c(1,0),ident(2)),true);
 s_test_case(eigenvectorp(matrix([0],[1]),matrix([1,1],[0,1])),false);
@@ -436,9 +436,9 @@ s_test_case(get_eigenvalue(matrix([%i],[1]),matrix([0,-1],[1,0])),%i);
 s_test_case(get_eigenvector(2,ident(2)),[]);
 s_test_case(get_eigenvector(2,matrix([2,1],[0,1])),[matrix([1],[0])]);
 s_test_case(get_eigenvector(1,ident(2)),[matrix([1],[0]),matrix([0],[1])]);
-/* BENIGN ERROR */ s_test_case(get_eigenvector(2*%i,matrix([0,-2],[2,0])),[matrix([1],[-%i])]);
-/* BENIGN ERROR */ s_test_case(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2])),[matrix([1],[0],[-1]),matrix([0],[1],[2])]);
-/* BENIGN ERROR */ s_test_case(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2]),true),[matrix([1/sqrt(2)],[0],[-(1/sqrt(2))]),matrix([1/sqrt(3)],[1/sqrt(3)],[1/sqrt(3)])]);
+s_test_case_simp(get_eigenvector(2*%i,matrix([0,-2],[2,0])),[matrix([1],[-%i])]);
+s_test_case_simp(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2])),[matrix([1],[0],[-1]),matrix([0],[1],[2])]);
+s_test_case_simp(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2]),true),[matrix([1/sqrt(2)],[0],[-(1/sqrt(2))]),matrix([1/sqrt(3)],[1/sqrt(3)],[1/sqrt(3)])]);
 
 s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),true);
 s_test_case(linear_combinationp(matrix([1+t+s],[2+t],[3+t+s])),true);
@@ -446,27 +446,27 @@ s_test_case(linear_combinationp(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),true);
 s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),false);
 
 _test_paramvec: matrix([t+3*s-4],[2*t+5]);
-/* BENIGN ERROR */ s_test_case(constant_term(2*x-3), -3);
+s_test_case_simp(constant_term(2*x-3), -3);
 s_test_case(constant_term(matrix([1, 2+a], [b, 4])), matrix([1,2],[0,4]));
-/* BENIGN ERROR */ s_test_case(constant_term(2*x-3*y+z-1), -1);
-/* BENIGN ERROR */ s_test_case(constant_term(2*x-3*y+z-1, [y]), -(3*y)-1);
-/* BENIGN ERROR */ s_test_case(constant_term(a*b*c-1), -1);
-/* BENIGN ERROR */ s_test_case(constant_term(c(2*x-3, y)), matrix([-3], [0]));
-/* BENIGN ERROR */ s_test_case(constant_term(r(2*x-3, y)), matrix([-3, 0]));
-/* BENIGN ERROR */ s_test_case(constant_term(_test_paramvec), matrix([-4],[5]));
-/* BENIGN ERROR */ s_test_case(constant_term(_test_paramvec, [s]), matrix([3*s-4],[5]));
+s_test_case_simp(constant_term(2*x-3*y+z-1), -1);
+s_test_case_simp(constant_term(2*x-3*y+z-1, [y]), -(3*y)-1);
+s_test_case_simp(constant_term(a*b*c-1), -1);
+s_test_case_simp(constant_term(c(2*x-3, y)), matrix([-3], [0]));
+s_test_case_simp(constant_term(r(2*x-3, y)), matrix([-3, 0]));
+s_test_case_simp(constant_term(_test_paramvec), matrix([-4],[5]));
+s_test_case_simp(constant_term(_test_paramvec, [s]), matrix([3*s-4],[5]));
 
-s_test_case(vector_parametric_parts(t+2*s-4), [-4,[2,1],[s,t]]);
-s_test_case(vector_parametric_parts(_test_paramvec), [matrix([-4],[5]),[matrix([3],[0]),matrix([1],[2])],[s,t]]);
-s_test_case(vector_parametric_parts(_test_paramvec, [s]), [matrix([3*s-4],[5]),[matrix([1],[2])],[t]]);
-s_test_case(vector_parametric_parts(_test_paramvec, [s, t]), [matrix([t+3*s-4],[2*t+5]),[],[]]);
-s_test_case(vector_parametric_parts(matrix([-4],[5]) + s*matrix([3],[0]) + t*matrix([1],[2])), [matrix([-4],[5]),[matrix([3],[0]),matrix([1],[2])],[s,t]]);
-s_test_case(vector_parametric_parts(matrix([t*s-4],[5])), [matrix([null]),[],[s,t]]);
-s_test_case(vector_parametric_parts(matrix([t*s-4],[5]), [s]), [matrix([-4],[5]),[matrix([s],[0])],[t]]);
-s_test_case(vector_parametric_parts(matrix([t*s-4],[5]), [t]), [matrix([-4],[5]),[matrix([t],[0])],[s]]);
-s_test_case(vector_parametric_parts(matrix([b^2-4],[5])), [matrix([null]),[],[b]]);
-s_test_case(vector_parametric_parts(matrix([b^2-4],[5]), [b]), [matrix([b^2-4],[5]),[],[]]);
-s_test_case(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case_simp(vector_parametric_parts(t+2*s-4), [-4,[2,1],[s,t]]);
+s_test_case_simp(vector_parametric_parts(_test_paramvec), [matrix([-4],[5]),[matrix([3],[0]),matrix([1],[2])],[s,t]]);
+s_test_case_simp(vector_parametric_parts(_test_paramvec, [s]), [matrix([3*s-4],[5]),[matrix([1],[2])],[t]]);
+s_test_case_simp(vector_parametric_parts(_test_paramvec, [s, t]), [matrix([t+3*s-4],[2*t+5]),[],[]]);
+s_test_case_simp(vector_parametric_parts(matrix([-4],[5]) + s*matrix([3],[0]) + t*matrix([1],[2])), [matrix([-4],[5]),[matrix([3],[0]),matrix([1],[2])],[s,t]]);
+s_test_case_simp(vector_parametric_parts(matrix([t*s-4],[5])), [matrix([null]),[],[s,t]]);
+s_test_case_simp(vector_parametric_parts(matrix([t*s-4],[5]), [s]), [matrix([-4],[5]),[matrix([s],[0])],[t]]);
+s_test_case_simp(vector_parametric_parts(matrix([t*s-4],[5]), [t]), [matrix([-4],[5]),[matrix([t],[0])],[s]]);
+s_test_case_simp(vector_parametric_parts(matrix([b^2-4],[5])), [matrix([null]),[],[b]]);
+s_test_case_simp(vector_parametric_parts(matrix([b^2-4],[5]), [b]), [matrix([b^2-4],[5]),[],[]]);
+s_test_case_simp(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
 s_test_case(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
 s_test_case(vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
 s_test_case(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),[matrix([null]),[],[s,t]]);
@@ -486,39 +486,39 @@ s_test_case(vector_in_spacep(matrix([1],[2]),[matrix([4],[5],[6]),matrix([7],[8]
 s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
 s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])],true),true);
 
-/* BENIGN ERROR */ s_test_case(QR(matrix([1,3,5],[1,1,0],[1,1,2],[1,3,3])),[matrix([1/2,1/2,1/2],[1/2,-(1/2),-(1/2)],[1/2,-(1/2),1/2],[1/2,1/2,-(1/2)]),matrix([2,4,5],[0,2,3],[0,0,2])]);
+s_test_case_simp(QR(matrix([1,3,5],[1,1,0],[1,1,2],[1,3,3])),[matrix([1/2,1/2,1/2],[1/2,-(1/2),-(1/2)],[1/2,-(1/2),1/2],[1/2,1/2,-(1/2)]),matrix([2,4,5],[0,2,3],[0,0,2])]);
 s_test_case(QR(matrix([1,1],[2,2])),[]);
 
 s_test_case(get_Jordan_form(1),[]);
 s_test_case(get_Jordan_form(matrix([1,2])),[]);
 s_test_case(get_Jordan_form(matrix([1,1],[0,1])),[ident(2),matrix([1,1],[0,1])]);
-/* BENIGN ERROR */ s_test_case(get_Jordan_form(matrix([1,2],[2,3])),[matrix([1,1],[-((sqrt(5)-1)/2),(sqrt(5)+1)/2]),matrix([2-sqrt(5),0],[0,sqrt(5)+2])]);
+s_test_case_simp(get_Jordan_form(matrix([1,2],[2,3])),[matrix([1,1],[-((sqrt(5)-1)/2),(sqrt(5)+1)/2]),matrix([2-sqrt(5),0],[0,sqrt(5)+2])]);
 s_test_case(get_Jordan_form(matrix([8,-3],[12,-4])),[matrix([6,1],[12,0]),matrix([2,1],[0,2])]);
 
 s_test_case(diagonalize(1),[]);
 s_test_case(diagonalize(matrix([1,2])),[]);
 s_test_case(diagonalize(matrix([8,-3],[12,-4])),[]);
-/* BENIGN ERROR */ s_test_case(diagonalize(matrix([1,2],[3,4])),[matrix([1,1],[-((sqrt(33)-3)/4),(sqrt(33)+3)/4]),matrix([-((sqrt(33)-5)/2),0],[0,(sqrt(33)+5)/2])]);
-/* BENIGN ERROR */ s_test_case(diagonalize(matrix([1,2],[2,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([3,0],[0,-1])]);
-/* BENIGN ERROR */ s_test_case(diagonalize(matrix([1,2],[1,2])),[matrix([1,1],[-(1/2),1]),matrix([0,0],[0,3])]);
-/* BENIGN ERROR */ s_test_case(diagonalize(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[-(1/sqrt(2)),1/sqrt(2)]),matrix([0,0],[0,2])]);
+s_test_case_simp(diagonalize(matrix([1,2],[3,4])),[matrix([1,1],[-((sqrt(33)-3)/4),(sqrt(33)+3)/4]),matrix([-((sqrt(33)-5)/2),0],[0,(sqrt(33)+5)/2])]);
+s_test_case_simp(diagonalize(matrix([1,2],[2,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([3,0],[0,-1])]);
+s_test_case_simp(diagonalize(matrix([1,2],[1,2])),[matrix([1,1],[-(1/2),1]),matrix([0,0],[0,3])]);
+s_test_case_simp(diagonalize(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[-(1/sqrt(2)),1/sqrt(2)]),matrix([0,0],[0,2])]);
 
 s_test_case(SVD_red(matrix([0,0],[0,0])),[matrix([]),matrix([]),matrix([])]);
-/* BENIGN ERROR */ s_test_case(SVD_red(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
-/* BENIGN ERROR */ s_test_case(SVD_red(matrix([1,1],[1,1])),[matrix([1/sqrt(2)],[1/sqrt(2)]),matrix([2]),matrix([1/sqrt(2),1/sqrt(2)])]);
-/* BENIGN ERROR */ s_test_case(SVD_red(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0],[1/(sqrt(2)*sqrt(3)),1/sqrt(2)],[1/(sqrt(2)*sqrt(3)),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
-/* BENIGN ERROR */ s_test_case(SVD_red(matrix([1,1,0],[1,0,1])),[matrix([(sqrt(2)/sqrt(3)+1/(sqrt(2)*sqrt(3)))/sqrt(3),1/sqrt(2)],[(sqrt(2)/sqrt(3)+1/(sqrt(2)*sqrt(3)))/sqrt(3),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([sqrt(2)/sqrt(3),1/(sqrt(2)*sqrt(3)),1/(sqrt(2)*sqrt(3))],[0,1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case_simp(SVD_red(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
+s_test_case_simp(SVD_red(matrix([1,1],[1,1])),[matrix([1/sqrt(2)],[1/sqrt(2)]),matrix([2]),matrix([1/sqrt(2),1/sqrt(2)])]);
+s_test_case_simp(SVD_red(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0],[1/(sqrt(2)*sqrt(3)),1/sqrt(2)],[1/(sqrt(2)*sqrt(3)),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case_simp(SVD_red(matrix([1,1,0],[1,0,1])),[matrix([(sqrt(2)/sqrt(3)+1/(sqrt(2)*sqrt(3)))/sqrt(3),1/sqrt(2)],[(sqrt(2)/sqrt(3)+1/(sqrt(2)*sqrt(3)))/sqrt(3),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([sqrt(2)/sqrt(3),1/(sqrt(2)*sqrt(3)),1/(sqrt(2)*sqrt(3))],[0,1/sqrt(2),-(1/sqrt(2))])]);
 
 s_test_case(pinv(matrix([0,0],[0,0])),matrix([0,0],[0,0]));
-s_test_case(pinv(matrix([1,1],[1,1])),matrix([1/4,1/4],[1/4,1/4]));
-s_test_case(pinv(matrix([1,0],[0,1],[1,1])),matrix([2/3,-(1/3),1/3],[-(1/3),2/3,1/3]));
-s_test_case(pinv(matrix([1,0,1],[0,1,1])),matrix([2/3,-(1/3)],[-(1/3),2/3],[1/3,1/3]));
+s_test_case_simp(pinv(matrix([1,1],[1,1])),matrix([1/4,1/4],[1/4,1/4]));
+s_test_case_simp(pinv(matrix([1,0],[0,1],[1,1])),matrix([2/3,-(1/3),1/3],[-(1/3),2/3,1/3]));
+s_test_case_simp(pinv(matrix([1,0,1],[0,1,1])),matrix([2/3,-(1/3)],[-(1/3),2/3],[1/3,1/3]));
 
 s_test_case(SVD(matrix([0,0],[0,0])),[matrix([1,0],[0,1]),matrix([0,0],[0,0]),matrix([1,0],[0,1])]);
-s_test_case(SVD(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
-s_test_case(SVD(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([2,0],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
-s_test_case(SVD(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0,1/sqrt(3)],[1/(sqrt(2)*sqrt(3)),1/sqrt(2),-(1/sqrt(3))],[1/(sqrt(2)*sqrt(3)),-(1/sqrt(2)),-(1/sqrt(3))]),matrix([sqrt(3),0],[0,1],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
-s_test_case(SVD(matrix([1,1,0],[1,0,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([sqrt(3),0,0],[0,1,0]),matrix([sqrt(2)/sqrt(3),1/(sqrt(2)*sqrt(3)),1/(sqrt(2)*sqrt(3))],[0,1/sqrt(2),-(1/sqrt(2))],[1/sqrt(3),-(1/sqrt(3)),-(1/sqrt(3))])]);
+s_test_case_simp(SVD(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
+s_test_case_simp(SVD(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([2,0],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case_simp(SVD(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0,1/sqrt(3)],[1/(sqrt(2)*sqrt(3)),1/sqrt(2),-(1/sqrt(3))],[1/(sqrt(2)*sqrt(3)),-(1/sqrt(2)),-(1/sqrt(3))]),matrix([sqrt(3),0],[0,1],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case_simp(SVD(matrix([1,1,0],[1,0,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([sqrt(3),0,0],[0,1,0]),matrix([sqrt(2)/sqrt(3),1/(sqrt(2)*sqrt(3)),1/(sqrt(2)*sqrt(3))],[0,1/sqrt(2),-(1/sqrt(2))],[1/sqrt(3),-(1/sqrt(3)),-(1/sqrt(3))])]);
 
 s_test_case(format_as_coeff(2), tex1(2));
 s_test_case(format_as_coeff(-2), "\\left(-2\\right)");
@@ -539,5 +539,5 @@ s_test_case(format_as_coeff(ev(2*k-2,simp)), sconcat("\\left(", tex1(2*k-2), "\\
 s_test_case(disp_eqns([2*x+y-z+(-3)*w = 7,-x-2*y+(-7)*w = -1,3*z = 0,x+w = 0,0 = 0],[x,y,z,w]),"\\begin{array} {rcrcrcrcr}2x& + & y& - & z& - & 3w& = &7\\\\-x& - & 2y& & & - & 7w& = &-1\\\\& & &  & 3z& & & = &0\\\\x& & & & & + & w& = &0\\\\& & & & & & 0& = &0\\end{array}");
 
 s_test_case(mat_disp_eqns(matrix([2,1,-1,-3],[-1,-2,0,-7],[0,0,3,0],[1,0,0,1],[0,0,0,0]),matrix([7],[-1],[0],[0],[0]),[x,y,z,w]),"\\begin{array} {rcrcrcrcr}2x& + & y& - & z& - & 3w& = &7\\\\-x& - & 2y& & & - & 7w& = &-1\\\\& & &  & 3z& & & = &0\\\\x& & & & & + & w& = &0\\\\& & & & & & 0& = &0\\end{array}");
-/* BENIGN ERROR */ s_test_case(mat_disp_eqns(matrix([-2, k-1, -1],[0, 2*k+2, 0], [-1, k, -2]),matrix([k-1],[1],[-1]),[x,y,z]), "\\begin{array} {rcrcrcr}-2x& + & \\left(k-1\\right)y& - & z& = &k-1\\\\& & \\left(2\\cdot k+2\\right)y& & & = &1\\\\-x& + & ky& - & 2z& = &-1\\end{array}");
+/* BENIGN ERROR */ s_test_case_simp(mat_disp_eqns(matrix([-2, k-1, -1],[0, 2*k+2, 0], [-1, k, -2]),matrix([k-1],[1],[-1]),[x,y,z]), "\\begin{array} {rcrcrcr}-2x& + & \\left(k-1\\right)y& - & z& = &k-1\\\\& & \\left(2\\cdot k+2\\right)y& & & = &1\\\\-x& + & ky& - & 2z& = &-1\\end{array}");
 s_test_case(mat_disp_eqns(matrix([-1/2, -k/2, -1/2],[1/2, (k+1)/3, 1/2]),matrix([k/2],[-1/2]),[x,y,z]), "\\begin{array} {rcrcrcr}-\\frac{1}{2}x& + & \\left(-\\left(\\frac{k}{2}\\right)\\right)y& - & \\frac{1}{2}z& = &\\frac{k}{2}\\\\\\frac{1}{2}x& + & \\frac{k+1}{3}y& + & \\frac{1}{2}z& = &-\\left(\\frac{1}{2}\\right)\\end{array}");

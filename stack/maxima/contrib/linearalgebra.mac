@@ -1,6 +1,6 @@
 /*  Author Luke Longworth
     University of Canterbury
-    Copyright (C) 2024 Luke Longworth
+    Copyright (C) 2025 Luke Longworth
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -16,9 +16,12 @@
 /****************************************************************/
 /*  Linear algebra functions for STACK                          */
 /*                                                              */
-/*  V0.2.4 May 2024                                             */
+/*  V1.0 February 2025                                          */
 /*                                                              */
 /****************************************************************/
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
 
 /*******************************************************************************/
 /* Provides convenience functions for column and row vectors for student input */
@@ -1187,7 +1190,7 @@ constant_term(expr, [exclude_params]) := block([],
  *   [t]
  * ]
  */
-vector_parametric_parts(vec, [exclude_params]):=block([vars, nonlinvarsets, param_vects, base_vect],
+vector_parametric_parts(vec, [exclude_params]):=block([simp:true, vars, nonlinvarsets, param_vects, base_vect],
   vec: ev(vec_convert(vec),expand,simp),
   if not emptyp(exclude_params) then exclude_params: first(exclude_params),
   vars: listify(setdifference(setify(listofvars(vec)), setify(exclude_params))),
@@ -1353,17 +1356,13 @@ SVD_red(M):= block([MTM,V,S2,components,n,S,U,ii],
 /**
  * M^+ = V.S^+.U^T 
  * Moore-penrose pseudoinverse.
- * I'm convinced this routine exists somewhere in a package, because I've used it before in other maxima terminals, but I was unable to find it.
+ * An alias for moore_penrose_pseudoinverse(M)
  * Most commonly used to find minimal least squares solution to Ax = b using A^+ . b
  *
  * @param[matrix] M
  * @return[matrix] The moore-penrose pseudoinverse of M
  */
-pinv(M):= block([U,S,VT],
-  if ev(zeromatrixp(M),simp) then return(M),
-  [U, S, VT]: SVD_red(M),
-  return(ev(transpose(VT) . invert(S) . transpose(U),simp))
-);
+pinv(M):= block([simp:true],moore_penrose_pseudoinverse(M));
 
 /**
  * Full SVD

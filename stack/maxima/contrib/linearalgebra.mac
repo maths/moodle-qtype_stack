@@ -946,7 +946,7 @@ mat_cond2(M):= block([svs,cond2],
  * @param[boolean] lstsq Optional: if given true then a least squares solution will be obtained. If false or omitted, only exact solutions obtained.
  * @return[matrix] The general solution to Ax = b. If no solution exists and lstsq is not true, then matrix([]) is returned.
  */
-mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol],
+mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
   if emptyp(lstsq) then lstsq: false else lstsq:first(lstsq),
   if listp(b) then b: transpose(b),
   [m, n]: matrix_size(A),

@@ -10,6 +10,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 Done.
 1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.  Allow addition of multiple nodes in a PRT with one click.
 2. Support `allowrmpty` for dropdown, radio and checkbox inputs.
+3. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../CAS/Random.md) documentation for details.
 
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 

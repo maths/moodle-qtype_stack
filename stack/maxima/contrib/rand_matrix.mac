@@ -1,3 +1,25 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Matrix Randomization functions for STACK                    */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
 /**
  * Generates a random m×n matrix with integer entries on the interval [-k, k].
  * If no third argument is given, k is set to 1.
@@ -77,14 +99,14 @@ rand_integer_invertible(n,[k]):= block([P1, P2, simp:true],
 );
 
 /**
- * Generates a random n×n diagonalisable matrix with integer entries.
+ * Generates a random n×n diagonalizable matrix with integer entries.
  * This function is inflexible, as the modal matrix and diagonal matrix use the same optional scaling factor.
  * 
  * @param[positive integer] n the number of rows and columns of the matrix.
  * @param[positive integer] Optional: k a sort of scaling factor. Defaults to 1 if excluded. Technically, this is the maximum possible value for an entry in the constituent triangular matrices. 
  * @return[matrix] The invertible matrix
  */
-rand_diagonalisable(n,[k]):= block([P, D, simp:true],
+rand_diagonalizable(n,[k]):= block([P, D, simp:true],
   if emptyp(k) then k: 1 else k: first(k),
   P: rand_integer_invertible(n,1),
   D: genmatrix(lambda([i, j], if is(i=j) then rand_with_step(-k,k,1) else 0),n,n),
@@ -226,7 +248,7 @@ rand_tril_list(m,n,L):= block([],
 rand_matrix_list_no_replacement(m,n,L):= block([],
   if is(length(L)<m*n) then return(matrix([null])),
   L: random_permutation(L),
-  return(genmatrix(lambda([i, j], L[j + (i-1)*n]),m,n))
+  return(genmatrix(lambda([i, j], L[ev(j + (i-1)*n,simp)]),m,n))
 );
 
 /**
@@ -239,7 +261,7 @@ rand_matrix_list_no_replacement(m,n,L):= block([],
  * @return[matrix] The m×n diagonal matrix.
  */
 rand_diag_list_no_replacement(m,n,L):= block([],
-  if is(length(L)<min(m,n)) then return(matrix([null])),
+  if ev(is(length(L)<min(m,n)),simp) then return(matrix([null])),
   L: random_permutation(L),
   return(genmatrix(lambda([i, j], if is(i=j) then L[i] else 0),m,n))
 );
@@ -256,7 +278,7 @@ rand_diag_list_no_replacement(m,n,L):= block([],
 rand_triu_list_no_replacement(m,n,L):= block([k,M],
   L: random_permutation(L),
   k: 0,
-  M: errcatch(genmatrix(lambda([i, j], if is(i<=j) then (k: k+1, L[k]) else 0),m,n)),
+  M: errcatch(genmatrix(lambda([i, j], if is(i<=j) then (k: ev(k+1,simp), L[k]) else 0),m,n)),
   if emptyp(M) then return(matrix([null])) else return(first(M))
 );
 
@@ -272,6 +294,6 @@ rand_triu_list_no_replacement(m,n,L):= block([k,M],
 rand_tril_list_no_replacement(m,n,L):= block([k,M],
   L: random_permutation(L),
   k: 0,
-  M: errcatch(genmatrix(lambda([i, j], if is(i>=j) then (k: k+1, L[k]) else 0),m,n)),
+  M: errcatch(genmatrix(lambda([i, j], if is(i>=j) then (k: ev(k+1,simp), L[k]) else 0),m,n)),
   if emptyp(M) then return(matrix([null])) else return(first(M))
 );

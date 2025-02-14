@@ -13,8 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
-defined('MOODLE_INTERNAL') || die();
 
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/raw.block.php');
 require_once(__DIR__ . '/../../ast.container.class.php');
@@ -62,7 +62,7 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         $r = new MP_FunctionCall(new MP_Identifier('block'), [
             new MP_List([new MP_Identifier('_ct2_tmp'), new MP_Identifier('_ct2_simp')]),
             new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
-            new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_String($this->content))
+            new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_String($this->content)),
         ]);
 
         if ($forcesimp) {
@@ -76,9 +76,9 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         $r->arguments[] = new MP_FunctionCall(new MP_Identifier('_EC'),
             [
                 new MP_FunctionCall(new MP_Identifier('errcatch'), [
-                    new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
+                    new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast),
                 ]),
-                new MP_String($epos)
+                new MP_String($epos),
             ]);
 
         // If there is a possibility of the simp value leaking to global context we need to identify it.

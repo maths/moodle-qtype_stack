@@ -21,16 +21,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// @codingStandardsIgnoreStart
+// ISS1211 - Removed login requirement for App compatibility.
 require_once(__DIR__ . '/../../../config.php');
+// @codingStandardsIgnoreEnd
+
 require_once($CFG->libdir . '/filelib.php');
 
-require_login();
 
 $filename = clean_filename(get_file_argument());
 $filenamesplit = explode('.', $filename);
 $filetype = end($filenamesplit);
 
-$permittedtypes = array('png' => true, 'svg' => true);
+$permittedtypes = ['png' => true, 'svg' => true];
 if (!array_key_exists($filetype, $permittedtypes)) {
     header('HTTP/1.0 404 Not Found');
     header('Content-Type: text/plain;charset=UTF-8');

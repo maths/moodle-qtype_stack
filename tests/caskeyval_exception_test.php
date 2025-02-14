@@ -37,7 +37,7 @@ class caskeyval_exception_test extends qtype_stack_testcase {
 
     public function test_exception_1() {
         $this->expectException(stack_exception::class);
-        $at1 = new stack_cas_keyval(array(), false, false);
+        $at1 = new stack_cas_keyval([], false, false);
     }
 
     public function test_exception_2() {
@@ -64,5 +64,19 @@ class caskeyval_exception_test extends qtype_stack_testcase {
     public function test_exception_7() {
         $this->expectException(stack_exception::class);
         $at1 = new stack_cas_keyval('x=1', 't', false);
+    }
+
+    public function test_stack_compile_unexpected_lambda() {
+        $this->expectException(stack_exception::class);
+        // This is related to issue #1279.
+        $tests = 'a:b+1; c:a-a(d+1);';
+        $kv = new stack_cas_keyval($tests);
+        $this->asserttrue($kv->get_valid());
+        $expected = [];
+        $this->assertEquals($expected, $kv->get_errors());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $s->instantiate();
+        $this->assertEquals($s->get_by_key('c')->get_evaluationform(), 'c:(b+1)-(b+1)(d+1)');
     }
 }

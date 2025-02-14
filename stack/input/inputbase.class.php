@@ -39,6 +39,7 @@ abstract class stack_input {
     const GRAMMAR_FIX_INSERT_STARS = 1;
     const GRAMMAR_FIX_SPACES = 2;
     const GRAMMAR_FIX_SINGLE_CHAR = 4;
+    const GRAMMAR_FIX_FUNCTIONS = 16;
 
     /**
      * @var string the name of the input.
@@ -52,9 +53,14 @@ abstract class stack_input {
     protected $name;
 
     /**
+     * @var int the maximum length of a permitted input.
+     */
+    protected $maxinputlength = 32768;
+
+    /**
      * Special variables in the question which should be exposed to the inputs and answer tests.
      */
-    protected $contextsession = array();
+    protected $contextsession = [];
 
     /**
      * @var string Every input must have a non-empty "teacher's answer".
@@ -66,7 +72,7 @@ abstract class stack_input {
      * These are the fixed parameters, most of which have hard-wired columns in the Moodle database.
      * @var array
      */
-    protected static $allparameternames = array(
+    protected static $allparameternames = [
         'mustVerify',
         'showValidation',
         'boxWidth',
@@ -79,7 +85,8 @@ abstract class stack_input {
         'allowWords',
         'forbidFloats',
         'lowestTerms',
-        'sameType');
+        'sameType',
+    ];
 
     /**
      * From STACK 4.1 we are not going to continue to add input options as columns in the database.
@@ -88,10 +95,10 @@ abstract class stack_input {
      * For examples see the numerical input.
      * @var array
      */
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
-        'allowempty' => false
-    );
+        'allowempty' => false,
+    ];
 
     /**
      * The question level options for CAS sessions.
@@ -108,19 +115,25 @@ abstract class stack_input {
      * Catch and report runtime errors.
      * @var array.
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * Store any raw contents for use in error messages.
      * @var array.
      */
-    protected $rawcontents = array();
+    protected $rawcontents = [];
 
     /**
      * Decide if the input is being used at runtime or just constructed elsewhere.
      * @var bool.
      */
     protected $runtime = true;
+
+    /**
+     * Filters to apply for display in validate_contents
+     * @var array
+     */
+    protected $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
 
     /**
      * Constructor
@@ -177,6 +190,7 @@ abstract class stack_input {
      */
     protected function internal_construct() {
         $options = $this->get_parameter('options');
+        $setoptions = [];
         if (trim($options ?? '') != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
@@ -187,15 +201,40 @@ abstract class stack_input {
                     if ($arg === '') {
                         // Extra options with no argument set a Boolean flag.
                         $this->extraoptions[$option] = true;
+                    } else if ($arg === 'false') {
+                        $this->extraoptions[$option] = false;
+                    } else if ($arg === 'true') {
+                        $this->extraoptions[$option] = true;
                     } else {
                         $this->extraoptions[$option] = $arg;
                     }
+                    $setoptions[] = $option;
                 } else {
                     $this->errors[] = stack_string('inputoptionunknown', $option);
                 }
             }
         }
+        $this->set_defaults($setoptions);
         $this->validate_extra_options();
+    }
+
+    /**
+     * Set extra options with defaults to the default if they have not been explicitly set.
+     *
+     * @param [] $setoptions - array of options that have been explicity set
+     * @return void
+     */
+    protected function set_defaults($setoptions) {
+        $optionswithdefaults = ['monospace'];
+        foreach ($optionswithdefaults as $currentoption) {
+            if (!array_key_exists($currentoption, $this->extraoptions) || array_search($currentoption, $setoptions) !== false) {
+                // Option not available for this input type or has been explicitly set.
+                continue;
+            }
+
+            $functionname = "is_{$currentoption}";
+            $this->extraoptions[$currentoption] = stack_options::$functionname(get_class($this));
+        }
     }
 
     /**
@@ -209,97 +248,97 @@ abstract class stack_input {
 
                 case 'manualgraded':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'novars':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'simp':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'floatnum':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'intnum':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'rationalnum':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'hideanswer':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'allowempty':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'rationalized':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'negpow':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'consolidatesubscripts':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'checkvars':
                     if (!($arg === false || is_numeric($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptinterr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'mindp':
                     if (!($arg === false || is_numeric($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptinterr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'maxdp':
                     if (!($arg === false || is_numeric($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptinterr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'minsf':
                     if (!($arg === false || is_numeric($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptinterr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'maxsf':
                     if (!($arg === false || is_numeric($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptinterr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
@@ -309,59 +348,65 @@ abstract class stack_input {
 
                 case 'hideequiv':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'hidedomain':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'comments':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'firstline':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'assume_pos':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'assume_real':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'calculus':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'align':
                     if ($arg !== 'left' && $arg !== 'right') {
-                        $this->errors[] = stack_string('inputopterr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('inputopterr', ['opt' => $option, 'val' => $arg]);
+                    }
+                    break;
+
+                case 'monospace':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
                 case 'nounits':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
-                case 'validator':
+                case 'validator' || 'feedback':
                     // Perform simple checking of function names: not fully general.
                     $good = true;
                     if ($arg === false) {
@@ -370,7 +415,7 @@ abstract class stack_input {
                         $good = false;
                     }
                     if (!$good) {
-                        $this->errors[] = stack_string('inputvalidatorerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('inputvalidatorerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 
@@ -425,7 +470,7 @@ abstract class stack_input {
     public function add_contextsession($contextsession) {
         if ($contextsession != null) {
             // Always make this the start of an array.
-            $this->contextsession = array($contextsession);
+            $this->contextsession = array_merge($this->contextsession, [$contextsession]);
         }
     }
 
@@ -542,7 +587,7 @@ abstract class stack_input {
      * @return array parameters => default value.
      */
     public static function get_parameters_defaults() {
-        return array();
+        return [];
     }
 
     /**
@@ -571,7 +616,7 @@ abstract class stack_input {
      * @return array string input name => PARAM_... type constant.
      */
     public function get_expected_data() {
-        $expected = array();
+        $expected = [];
         $expected[$this->name] = PARAM_RAW;
         if ($this->requires_validation()) {
             $expected[$this->name . '_val'] = PARAM_RAW;
@@ -605,7 +650,7 @@ abstract class stack_input {
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }
-        return stack_string('teacheranswershow_disp', array('display' => '\( '.$display.' \)'));
+        return stack_string('teacheranswershow_disp', ['display' => '\( '.$display.' \)']);
     }
 
     /**
@@ -628,7 +673,7 @@ abstract class stack_input {
     /**
      * Validate any attempts at this question.
      *
-     * @param array $response the student response to the question.
+     * @param array $response the student response to the input.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @param stack_cas_security $basesecurity declares the forbidden keys used in the question
@@ -659,13 +704,13 @@ abstract class stack_input {
             $validator = '';
         }
 
-        if (array() == $contents || (!$this->get_extra_option('allowempty') && $this->is_blank_response($contents))) {
+        if ([] == $contents || (!$this->get_extra_option('allowempty') && $this->is_blank_response($contents))) {
             // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
             $errors = $this->get_errors();
-            if ($errors || $errors === array()) {
+            if ($errors || $errors === []) {
                 $errors = implode(' ', $errors);
             }
-            return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
+            return new stack_input_state(self::BLANK, [], '', '', $errors, '', '');
         }
 
         $secrules = clone $basesecurity;
@@ -678,8 +723,8 @@ abstract class stack_input {
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $notes, $answer, $caslines) = $this->validate_contents($contents, $secrules, $localoptions);
-
+        list($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines)
+            = $this->validate_contents($contents, $secrules, $localoptions);
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
         $validationmethod = $this->get_validation_method();
@@ -691,9 +736,9 @@ abstract class stack_input {
             list($tvalid, $terrors, $tnotes, $tmodifiedcontents, $tcaslines)
                 = $this->validate_contents($tcontents, $secrules, $localoptions);
         } else {
-            $tcaslines = array();
+            $tcaslines = [];
         }
-        $tvalidator = array();
+        $tvalidator = [];
         foreach ($caslines as $index => $cs) {
             $tvalidator[$index] = null;
             if (array_key_exists($index, $tcaslines)) {
@@ -738,8 +783,16 @@ abstract class stack_input {
                         $ta, $ivalidationmethod,
                         $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
                 $sessionvars[] = $cs;
+
+                // The inert caslines also need to be sent over for LaTeX rendering.
+                if ($ilines[$index] !== $cs) {
+                    // The basic assumption is that these are valid as long as the original non inert one is.
+                    // There are some inputs that will have no inert things and will use the same ones.
+                    $sessionvars[] = $ilines[$index];
+                }
             }
         }
+
         // Equiv type checking is done in caslines.
         if ($validationmethod == 'equiv') {
             $validationmethod = 'typeless';
@@ -748,15 +801,24 @@ abstract class stack_input {
             $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
                     $teacheranswer, $validationmethod,
                     $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
+            // Units inputs change the display in very significant ways.
+            if ('units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
+                $inertdisplayform->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
+                    $teacheranswer, $validationmethod,
+                    $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
+            }
             // Evaluate both the answer, and the validation context separately.
             // This allows us to display 1/0 type errors without actually evaluating them.
             $sessionvars[] = $answer;
             $sessionvars[] = $answerd;
+            if ($answer !== $inertdisplayform) {
+                $sessionvars[] = $inertdisplayform;
+            }
         }
 
         // Generate an expression from which we extract the list of variables in the student's answer.
         $raw = 'stack_validate_listofvars('.$this->name.')';
-        $lvars = stack_ast_container::make_from_teacher_source($raw, '', $secrules, array());
+        $lvars = stack_ast_container::make_from_teacher_source($raw, '', $secrules, []);
         if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
@@ -783,7 +845,7 @@ abstract class stack_input {
 
         // Pick up any errors generated by Maxima here.
         if ($answercasvalidation && !$answer->get_valid()) {
-            $errors = array(stack_maxima_translate($answer->get_errors()));
+            $errors = [stack_maxima_translate($answer->get_errors())];
             $valid = false;
         } else {
             if ($lvars->is_correctly_evaluated() && $lvars->get_value() !== '[]') {
@@ -801,24 +863,25 @@ abstract class stack_input {
         if ('units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
             // The units type changes the display, so we really need the validation method display here.
             list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars,
-                $valid, $errors, $castextprocessor);
+                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines);
         } else {
             list($valid, $errors, $display) = $this->validation_display($answerd, $lvars, $caslines, $additionalvars,
-                $valid, $errors, $castextprocessor);
+                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines);
         }
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
         // We make sure +- -> #pm# here so that +- can be interpreted at +(-....).
-        $params = array('inputform' => true,
-                        'qmchar' => false,
-                        'pmchar' => 1,
-                        'nosemicolon' => true,
-                        'keyless' => true,
-                        'dealias' => true, // This is needed to stop pi->%pi etc.
-                        'nounify' => 1,
-                        'nontuples' => false
-        );
+        $params = [
+            'inputform' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => true, // This is needed to stop pi->%pi etc.
+            'nounify' => 1,
+            'nontuples' => false,
+        ];
         $interpretedanswer = $answerd->ast_to_string(null, $params);
         if (!(strpos($interpretedanswer, 'QMCHAR') === false)) {
             $valid = false;
@@ -826,7 +889,7 @@ abstract class stack_input {
             $notes['qm_error'] = true;
         }
 
-        if ($notes == array()) {
+        if ($notes == []) {
             $note = $answer->get_answernote();
         } else {
             $note = implode(' | ', array_keys($notes));
@@ -839,7 +902,7 @@ abstract class stack_input {
             $valid = false;
         }
 
-        if ($errors || $errors === array()) {
+        if ($errors || $errors === []) {
             $errors = trim(implode(' ', $errors));
         }
 
@@ -860,7 +923,8 @@ abstract class stack_input {
             $simp = true;
         }
 
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp, $simp);
+        $state = new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp, $simp);
+        return $state;
     }
 
     /* Allow different input types to change the CAS method used.
@@ -885,11 +949,13 @@ abstract class stack_input {
 
         $grammarautofixes = $this->get_parameter('grammarAutofixes', 0);
 
-        $filterstoapply = array();
+        $filterstoapply = [];
 
         if ($this->get_parameter('forbidFloats', false)) {
             $filterstoapply[] = '101_no_floats';
         }
+
+        $filterstoapply[] = '150_replace_unicode_letters';
 
         if (get_class($this) === 'stack_units_input' || get_class($this) === 'stack_numerical_input') {
             $filterstoapply[] = '210_x_used_as_multiplication';
@@ -939,12 +1005,17 @@ abstract class stack_input {
             $filterstoapply[] = '410_single_char_vars';
         }
 
+        // Assume single letter variable names = 16.
+        if ($grammarautofixes & self::GRAMMAR_FIX_FUNCTIONS) {
+            $filterstoapply[] = '441_split_unknown_functions';
+        }
+
         // Consolidate M_1 to M1 and so on.
         if ($this->get_extra_option('consolidatesubscripts', false)) {
             $filterstoapply[] = '420_consolidate_subscripts';
         }
 
-        return array($secrules, $filterstoapply);
+        return [$secrules, $filterstoapply];
     }
 
     /**
@@ -957,25 +1028,38 @@ abstract class stack_input {
      * @param array $contents the content array of the student's input.
      * @param stack_cas_security $basesecurity declares the variables which must not
      *                                         appear in the student's input.
-     * @return array of the validity, errors strings, modified contents and caslines.
+     * @return array of the validity, errors strings, modified contents, caslines and inertdisplayform.
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
-        $caslines = array();
-        $errors = array();
-        $notes = array();
+        $caslines = [];
+        $errors = [];
+        $notes = [];
+        $ilines = [];
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        // Separate rules for inert display logic, which wraps floats with certain functions.
+        $secrulesd = clone $secrules;
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         foreach ($contents as $index => $val) {
             if ($val === null) {
                 // One of those things logic nouns hid.
                 $val = '';
             }
+
+            // Any student input which is too long is not even parsed.
+            if (strlen($val) > $this->maxinputlength) {
+                $valid = false;
+                $errors[] = stack_string('studentinputtoolong');
+                $notes['too_long'] = true;
+                $val = '';
+            }
+
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                array(), 'Root', $this->options->get_option('decimals'));
+                [], 'Root', $this->options->get_option('decimals'));
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
@@ -986,12 +1070,31 @@ abstract class stack_input {
                     $notes[$n] = true;
                 }
             }
+
+            // Construct inert version of that.
+            $protectfilters = $this->protectfilters;
+
+            if ($this->get_extra_option('simp')) {
+                // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
+                // function to perform calculations on dispdp numbers.
+                $val = 'stack_validate_simpnum(' . $val .')';
+                // Add in an extra Maxima function here so we can eventaually decide how many dps to display.
+            }
+            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
+                array_merge($filterstoapply, $protectfilters),
+                [], 'Root', $this->options->get_option('decimals'));
+            $inertdisplayform->get_valid();
+            $ilines[] = $inertdisplayform;
+
         }
 
         // Construct one final "answer" as a single maxima object.
         $answer = $this->caslines_to_answer($caslines, $basesecurity);
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        // Same for the inert version.
+        $inertdisplayform = $this->caslines_to_answer($ilines, $basesecurity);
+
+        return [$valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines];
     }
 
     /**
@@ -1014,26 +1117,33 @@ abstract class stack_input {
      * If needed, these will be used by the extra options.
      */
     protected function additional_session_variables($caslines, $teacheranswer) {
-        return array();
+        return [];
     }
 
     private function extra_option_variables($questionvariables) {
 
-        $additionalvars = array();
+        $additionalvars = [];
+
+        if ($questionvariables) {
+            if ($questionvariables['preamble-qv'] !== null) {
+                $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'],
+                    'preamble', 'blockexternal');
+            }
+        }
 
         if (array_key_exists('floatnum', $this->extraoptions) && $this->extraoptions['floatnum']) {
             $additionalvars['floatnum'] = stack_ast_container::make_from_teacher_source('simp_floatnump('.$this->name.')',
-                    '', new stack_cas_security(), array());
+                    '', new stack_cas_security(), []);
         }
 
         if (array_key_exists('rationalnum', $this->extraoptions) && $this->extraoptions['rationalnum']) {
             $additionalvars['rationalnum'] = stack_ast_container::make_from_teacher_source('rational_numberp('.$this->name.')',
-                    '', new stack_cas_security(), array());
+                    '', new stack_cas_security(), []);
         }
 
         if (array_key_exists('rationalized', $this->extraoptions) && $this->extraoptions['rationalized']) {
             $additionalvars['rationalized'] = stack_ast_container::make_from_teacher_source('rationalized('.$this->name.')',
-                    '', new stack_cas_security(), array());
+                    '', new stack_cas_security(), []);
         }
 
         if (array_key_exists('assume_pos', $this->extraoptions)) {
@@ -1042,7 +1152,7 @@ abstract class stack_input {
                 $assumepos = 'true';
             }
             $additionalvars['assume_pos'] = stack_ast_container::make_from_teacher_source('assume_pos:'.$assumepos,
-                    '', new stack_cas_security(), array());
+                    '', new stack_cas_security(), []);
         }
 
         if (array_key_exists('assume_real', $this->extraoptions)) {
@@ -1051,7 +1161,7 @@ abstract class stack_input {
                 $assumereal = 'true';
             }
             $additionalvars['assume_real'] = stack_ast_container::make_from_teacher_source('assume_real:'.$assumereal,
-                    '', new stack_cas_security(), array());
+                    '', new stack_cas_security(), []);
         }
 
         if (array_key_exists('calculus', $this->extraoptions)) {
@@ -1060,14 +1170,12 @@ abstract class stack_input {
                 $calculus = 'true';
             }
             $additionalvars['calculus'] = stack_ast_container::make_from_teacher_source('stack_calculus:'.$calculus,
-                    '', new stack_cas_security(), array());;
+                    '', new stack_cas_security(), []);;
         }
 
-        if (array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator']) {
+        if ((array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator']) ||
+            (array_key_exists('feedback', $this->extraoptions) && $this->extraoptions['feedback'])) {
             if ($questionvariables) {
-                if ($questionvariables['preamble-qv'] !== null) {
-                    $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'], 'preamble');
-                }
                 if ($questionvariables['contextvariables-qv'] !== null) {
                     $additionalvars['contextvariables-qv'] = new stack_secure_loader($questionvariables['contextvariables-qv'],
                         'contextvariables');
@@ -1076,8 +1184,14 @@ abstract class stack_input {
                     $additionalvars['statement-qv'] = new stack_secure_loader($questionvariables['statement-qv'], 'statement');
                 }
             }
-            $additionalvars['validator'] = stack_ast_container::make_from_teacher_source(
-                $this->extraoptions['validator'].'('.$this->name.')', '', new stack_cas_security(), array());
+            if ($this->extraoptions['validator']) {
+                $additionalvars['validator'] = stack_ast_container::make_from_teacher_source(
+                    $this->extraoptions['validator'].'('.$this->name.')', '', new stack_cas_security(), []);
+            }
+            if ($this->extraoptions['feedback']) {
+                $additionalvars['feedback'] = stack_ast_container::make_from_teacher_source(
+                    $this->extraoptions['feedback'].'('.$this->name.')', '', new stack_cas_security(), []);
+            }
         }
 
         return $additionalvars;
@@ -1092,13 +1206,14 @@ abstract class stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
+                $castextprocessor, $inertdisplayform, $ilines) {
 
-        $display = stack_maxima_format_casstring($this->contents_to_maxima($this->rawcontents));
+        $display = stack_maxima_format_casstring(htmlentities($this->contents_to_maxima($this->rawcontents), ENT_COMPAT));
         if ($answer->is_correctly_evaluated()) {
-            $display = '\[ ' . $answer->get_display() . ' \]';
+            $display = '\[ ' . $inertdisplayform->get_display() . ' \]';
             if ($this->get_parameter('showValidation', 1) == 3) {
-                $display = '\( ' . $answer->get_display() . ' \)';
+                $display = '\( ' . $inertdisplayform->get_display() . ' \)';
             }
         } else {
             $valid = false;
@@ -1113,7 +1228,7 @@ abstract class stack_input {
 
         // Guard clause at this point.
         if (!$valid) {
-            return array($valid, $errors, $display);
+            return [$valid, $errors, $display];
         }
 
         // The "novars" option is only used by the numerical input type.
@@ -1202,7 +1317,7 @@ abstract class stack_input {
             $rn = $additionalvars['rationalized'];
             if ($this->extraoptions['rationalized'] && $rn->get_value() !== 'true') {
                 $valid = false;
-                $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
+                $errors[] = stack_string('ATLowestTerms_not_rat', ['m0' => '\[ '.$rn->get_display().' \]']);
             }
         }
 
@@ -1216,7 +1331,10 @@ abstract class stack_input {
                     $valid = true;
                 } else {
                     if ($rn instanceof MP_String || $rn instanceof MP_List) {
-                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        $holder = new castext2_placeholder_holder();
+                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        // No filtering here.
+                        $msg = $holder->replace($msg);
                         if (trim($msg) !== '') {
                             $valid = false;
                             $errors[] = $msg;
@@ -1233,11 +1351,36 @@ abstract class stack_input {
             $rnerr = $additionalvars['validator']->get_errors();
             if (trim($rnerr) != '') {
                 $valid = false;
-                $errors[] = stack_string('inputvalidatorerrors', array('err' => $rnerr));
+                $errors[] = stack_string('inputvalidatorerrors', ['err' => $rnerr]);
             }
         }
 
-        return array($valid, $errors, $display);
+        if ($valid && array_key_exists('feedback', $additionalvars)) {
+            $rn = $additionalvars['feedback'];
+            if ($rn->is_correctly_evaluated()) {
+                $rn = $rn->get_ast_clone();
+                $rn = $rn->statement;
+                if ($rn instanceof MP_Boolean && $rn->value == true) {
+                    $valid = true;
+                } else {
+                    if ($rn instanceof MP_String || $rn instanceof MP_List) {
+                        $holder = new castext2_placeholder_holder();
+                        $tmp = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor, $holder);
+                        $display .= $holder->replace($tmp);
+                    }
+                }
+            } else {
+                $valid = false;
+                $errors[] = stack_string('inputvalidatorerrcouldnot');
+            }
+            $rnerr = $additionalvars['feedback']->get_errors();
+            if (trim($rnerr) != '') {
+                $valid = false;
+                $errors[] = stack_string('inputvalidatorerrors', ['err' => $rnerr]);
+            }
+        }
+
+        return [$valid, $errors, $display];
     }
 
     public function requires_validation() {
@@ -1265,7 +1408,7 @@ abstract class stack_input {
         }
         $result = html_writer::tag('p', stack_string_error('ddl_runtime'));
         $result .= html_writer::tag('p', $errors);
-        return html_writer::tag('div', $result, array('class' => 'error'));
+        return html_writer::tag('div', $result, ['class' => 'error']);
     }
 
     /**
@@ -1283,9 +1426,13 @@ abstract class stack_input {
      * Generate the HTML that gives the results of validating the student's input.
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
+     * @param string $lang language of the question.
      * @return string HTML for the validation results for this input.
      */
-    public function render_validation(stack_input_state $state, $fieldname) {
+    public function render_validation(stack_input_state $state, $fieldname, $lang) {
+        if ($lang !== null && $lang !== '') {
+            $prevlang = force_current_language($lang);
+        }
         if (self::BLANK == $state->status) {
             return '';
         }
@@ -1297,13 +1444,8 @@ abstract class stack_input {
         }
         $feedback  = '';
 
-        // TODO: refactor this ast creation away.
         $val = $state->contentsdisplayed;
-        $cs = stack_ast_container::make_from_teacher_source($state->contentsdisplayed,
-                '', new stack_cas_security(), array());
-        if ($cs->get_valid()) {
-            $val = $cs->get_inputform();
-        }
+
         if (trim($val) !== '<span class="stacksyntaxexample"></span>') {
             // Compact validation.
             if ($this->get_parameter('showValidation', 1) == 3) {
@@ -1314,8 +1456,10 @@ abstract class stack_input {
         }
 
         if ($this->requires_validation() && '' !== $state->contents) {
-            $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
-                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)));
+            $feedback .= html_writer::empty_tag('input', [
+                'type' => 'hidden',
+                'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),
+            ]);
         }
 
         $feedbackerr = '';
@@ -1326,11 +1470,16 @@ abstract class stack_input {
             $feedbackerr .= $state->errors;
         }
         if ($feedbackerr != '') {
-            $feedback .= html_writer::tag('div', $feedbackerr, array('class' => 'alert alert-danger stackinputerror'));
+            // Bespoke validation messages might contain maths, which needs to be processed.
+            $feedbackerr = stack_ouput_castext($feedbackerr);
+            $feedback .= html_writer::tag('div', $feedbackerr, ['class' => 'alert alert-danger stackinputerror']);
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
             $feedback .= $this->tag_listofvariables($state->lvars);
+        }
+        if ($lang !== null && $lang !== '') {
+            force_current_language($prevlang);
         }
         return $feedback;
     }
@@ -1351,13 +1500,13 @@ abstract class stack_input {
      */
     protected function response_to_contents($response) {
 
-        $contents = array();
+        $contents = [];
         if (array_key_exists($this->name, $response)) {
             $val = $response[$this->name];
             if (trim($val) == '' && $this->get_extra_option('allowempty')) {
                 $val = 'EMPTYANSWER';
             }
-            $contents = array($val);
+            $contents = [$val];
         }
         return $contents;
     }
@@ -1399,10 +1548,9 @@ abstract class stack_input {
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
             $value = '';
         }
-        // TODO: refactor this ast creation away.
-        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        // TO-DO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
-        $val = '';
 
         $decimal = '.';
         $listsep = ',';
@@ -1410,7 +1558,8 @@ abstract class stack_input {
             $decimal = ',';
             $listsep = ';';
         }
-        $params = array('checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -1419,8 +1568,8 @@ abstract class stack_input {
             'nounify' => 0,
             'nontuples' => false,
             'decimal' => $decimal,
-            'listsep' => $listsep
-        );
+            'listsep' => $listsep,
+        ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
         }
@@ -1451,7 +1600,9 @@ abstract class stack_input {
     public function replace_validation_tags($state, $fieldname, $questiontext) {
 
         $name = $this->name;
-        $feedback = $this->render_validation($state, $fieldname);
+        // ISS879 Set language override to null as we should be in the question render here. It's only
+        // when we're calling the validation via the webservice that we may need to override.
+        $feedback = $this->render_validation($state, $fieldname, null);
 
         $class = "stackinputfeedback standard";
         $divspan = 'div';
@@ -1490,7 +1641,7 @@ abstract class stack_input {
      * @return array
      */
     protected function ajax_to_response_array($in) {
-        return array($this->name => $in);
+        return [$this->name => $in];
     }
 
     /*
@@ -1501,7 +1652,7 @@ abstract class stack_input {
             return null;
         }
         // Send each error only once.
-        $errors = array();
+        $errors = [];
         foreach ($this->errors as $err) {
             $err = trim($err);
             $errors[$err] = true;
@@ -1515,5 +1666,29 @@ abstract class stack_input {
      */
     public function summarise_response($name, $state, $response) {
         return $name . ': ' . $this->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
+    }
+
+    /**
+     * Returns the definition of this input as it should appear in an API response
+     * @return array
+     */
+    abstract public function render_api_data($tavalue);
+
+    /**
+     * Returns the solution in the format used by the api
+     * @param $tavalue
+     * @return array
+     */
+    public function get_api_solution($tavalue) {
+        return ['' => $tavalue];
+    }
+
+    /**
+     * Returns the rendering of the solution
+     * @param $tadisplay
+     * @return mixed
+     */
+    public function get_api_solution_render($tadisplay) {
+        return $tadisplay;
     }
 }

@@ -2,7 +2,7 @@
 
 STACK has a simple system for representing and dealing with real intervals and sets of real numbers.
 
-Simple real intervals may be represented by the inert functions `oo(a,b)`, `oc(a,b)`, `co(a,b)`, and `cc(a,b)`.  Here the character `o` stands for open end point, and `c` for a closed end point.  So `oc(-1,3)` is the interval \( \{ x\in\mathbb{R} | -1 < x \mbox{ and } x\leq 3.\} \), and is displayed as \( (-1,3] \) with mismatching brackets in the tradition of UK mathematics.
+Simple real intervals may be represented by the inert functions `oo(a,b)`, `oc(a,b)`, `co(a,b)`, and `cc(a,b)`.  Here the character `o` stands for open end point, and `c` for a closed end point.  So `oc(-1,3)` is the interval \( \{ x\in\mathbb{R} | -1 < x \text{ and } x\leq 3.\} \), and is displayed as \( (-1,3] \) with mismatching brackets in the tradition of UK mathematics.
 
 The Maxima function `union` requires its arguments to be sets, and intervals are not sets.  You must use the `%union` function (from the package `to_poly_solve`) to join simple intervals and combine them with discrete sets. E.g. `%union(oo(-2,-1),oo(1,2))`
 
@@ -61,3 +61,5 @@ Validation does some simple checks, so that mal-formed intervals such as `oo(1)`
 ## Assessment of students' answers
 
 The algebraic equivalence answer test will apply `interval_tidy` as needed and compare the results. Currently the feedback in this situation provided by this answer test is minimal.
+
+If the student input is an interval, it is possible to access the upper and lower boundary through the `first` and `last` Maxima functions. For example, a PRT node checking whether the boundaries of an interval are correct (but not necessarily the interval type, like `co` or `oo`) can be done checking the algebraic equivalence of the student answer `[first(ans1), last(ans1)]` and the teacher answer `[first(ta1), last(ta1)]`.

@@ -159,6 +159,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/(R-r)</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEqualComAss (AlgEquiv-false).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase(X)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>

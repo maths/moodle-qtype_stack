@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 //
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -27,12 +28,12 @@ require_once(__DIR__ . '/../block.interface.php');
  */
 class stack_cas_castext2_unknown extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ? MP_Node {
+    public function compile($format, $options): ?MP_Node {
         // Unknown blocks do not get anywhere ever.
         return null;
     }
 
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         return true;
     }
 

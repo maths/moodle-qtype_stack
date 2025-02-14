@@ -1,0 +1,49 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Bespoke validators for STACK inputs: test cases             */
+/*                                                              */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
+/*  V1.0 June 2023                                              */
+/*                                                              */
+/*  Please use this file to add public bespoke validators.      */
+/*                                                              */
+/****************************************************************/
+
+
+s_test_case(validate_nofunctions(1+a1), "");
+s_test_case(validate_nofunctions(sin(n*x)), "");
+s_test_case(validate_nofunctions(-b#pm#sqrt(b^2-4*a*c)), "");
+s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(3*x(t)^2), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted in this input. In your answer \\(f\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(x(2)*y(3)), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. User-defined functions are not permitted in this input. In your answer \\(y\\) appears to be used as a function. ");
+s_test_case(validate_underscore(1+a1), "");
+s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");
+
+s_test_case(validate_all_one_letter_variables(1), "");
+s_test_case(validate_all_one_letter_variables((A*x+B)/(x^2+1) + C/x), "");
+s_test_case(validate_all_one_letter_variables((Ax+B)/(x^2+1) + C/x), "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.");
+s_test_case(validate_all_one_letter_variables((theta*x+B)/(x^2+1) + C/x), "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.");
+
+s_test_case(validate_interval_syntax(cc(1,2)), "");
+s_test_case(validate_interval_syntax(oo(1,2)), "");
+s_test_case(validate_interval_syntax(%union(cc(1,2),oo(2,3))), "");
+s_test_case(validate_interval_syntax([1,2]), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. ");
+s_test_case(validate_interval_syntax(ntuple(1,2)), "To give an open interval, use <code>oo(1,2)</code>, not <code>(1,2)</code>. ");
+s_test_case(validate_interval_syntax(%union([1,2],ntuple(2,3))), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. To give an open interval, use <code>oo(2,3)</code>, not <code>(2,3)</code>. ");
+s_test_case(validate_interval_syntax(%union([1,2],%union(oo(1,2),[2,3]))), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. To give a closed interval, use <code>cc(2,3)</code>, not <code>[2,3]</code>. ");
+

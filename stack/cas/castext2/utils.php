@@ -22,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/CTP_classes.php');
 require_once(__DIR__ . '/processor.class.php');
+require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
 require_once(__DIR__ . '/../../utils.class.php');
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 
@@ -67,11 +68,55 @@ class castext2_parser_utils {
         return $css;
     }
 
+    public static function has_todoblocks(string $castext): bool {
+        if ($castext === '' || $castext === null) {
+            return false;
+        }
+
+        $ast  = self::parse($castext);
+        $root = stack_cas_castext2_special_root::make($ast);
+        $hastodo  = false;
+
+        $findtodos = function ($node) use (&$hastodo) {
+            if ($node instanceof stack_cas_castext2_todo) {
+                $hastodo = true;
+                return true;
+            }
+            return true;
+        };
+        $root->callbackRecurse($findtodos);
+        return $hastodo;
+    }
+
+    public static function get_todoblocks(string $castext): array {
+        if ($castext === '' || $castext === null) {
+            return [];
+        }
+
+        $ast  = self::parse($castext);
+        $root = stack_cas_castext2_special_root::make($ast);
+        $tags  = [];
+
+        $collecttags = function ($node) use (&$tags) {
+            if (!($node instanceof stack_cas_castext2_todo)) {
+                return true;
+            }
+            foreach ($node->extract_todo() as $tag) {
+                $tags[] = $tag;
+            }
+            return true;
+        };
+        $root->callbackRecurse($collecttags);
+        $tags = array_unique($tags);
+        sort($tags);
+        return $tags;
+    }
+
     // Postprocesses the result from CAS. For those that have not yet fully
     // parsed the response. Does not use the full maximaparser infrastructure
     // as the result is just an list of strings... well should be for all simple
     // blocks for now.
-    public static function postprocess_string(string $casresult): string {
+    public static function postprocess_string(string $casresult, castext2_placeholder_holder $holder): string {
         if (mb_substr($casresult, 0, 1) === '"') {
             // If it was flat.
             return stack_utils::maxima_string_to_php_string($casresult);
@@ -79,20 +124,20 @@ class castext2_parser_utils {
 
         $parsed = maxima_parser_utils::parse($casresult);
 
-        return self::postprocess_mp_parsed($parsed);
+        return self::postprocess_mp_parsed($parsed, null, $holder);
     }
 
     // Postprocesses the result from CAS. For those that have parsed the response
     // to PHP array/string form. Note that you need to give unescaped strings...
-    public static function postprocess_parsed(array $casresult, castext2_processor $processor=null): string {
+    public static function postprocess_parsed(array $casresult, ?castext2_processor $processor, castext2_placeholder_holder $holder): string {
         if ($processor === null) {
             $processor = new castext2_default_processor();
         }
-        return $processor->process($casresult[0], $casresult);
+        return $processor->process($casresult[0], $casresult, $holder);
     }
 
     // Postprocesses AST style result, as often one includes stuff in larger structures.
-    public static function postprocess_mp_parsed(MP_Node $result, castext2_processor $processor=null): string {
+    public static function postprocess_mp_parsed(MP_Node $result, ?castext2_processor $processor, castext2_placeholder_holder $holder): string {
         // Some common unpacking.
         if ($result instanceof MP_Root) {
             $result = $result->items[0];
@@ -103,7 +148,7 @@ class castext2_parser_utils {
         if ($result instanceof MP_String) {
             return $result->value;
         }
-        return self::postprocess_parsed(maxima_parser_utils::mp_to_php($result), $processor);
+        return self::postprocess_parsed(maxima_parser_utils::mp_to_php($result), $processor, $holder);
     }
 
     // Parses a string of castext code to an AST tree for use elsewhere.
@@ -127,9 +172,11 @@ class castext2_parser_utils {
         $format // In MD-mode we need double and triple slashes.
     ): CTP_Root {
         // These are the environments considered mathmode.
-        static $mathmodeenvs = ['align', 'align*', 'alignat', 'alignat*',
+        static $mathmodeenvs = [
+            'align', 'align*', 'alignat', 'alignat*',
             'eqnarray', 'eqnarray*', 'equation', 'equation*', 'gather',
-            'gather*', 'multline', 'multline*'];
+            'gather*', 'multline', 'multline*',
+        ];
 
         // Ensure that we have the correct coding.
         $old = mb_internal_encoding();
@@ -236,7 +283,7 @@ class castext2_parser_utils {
                     }
                 }
             }
-            // TODO: we might also want to handle escapes and ignore {@...@} contents.
+            // TO-DO: we might also want to handle escapes and ignore {@...@} contents.
             return true;
         };
         $ast->callbackRecurse($populateskipmap);
@@ -493,7 +540,7 @@ class castext2_parser_utils {
     // use when you need to have pretty printed position data.
     public static function position_remap(CTP_Node $ast, string $code, array $limits = null) {
         if ($limits === null) {
-            $limits = array();
+            $limits = [];
             foreach (explode("\n", $code) as $line) {
                 $limits[] = strlen($line) + 1;
             }
@@ -559,7 +606,7 @@ class castext2_parser_utils {
             'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html',
             'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes',
             'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table',
-            'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'
+            'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul',
         ];
 
         // Case 1.
@@ -601,7 +648,7 @@ class castext2_parser_utils {
             }
         }
         // Case 7.
-        // TODO.
+        // TO-DO.
 
         // Not a case.
         return false;

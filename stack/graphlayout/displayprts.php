@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * This script is really a bit of fun. It displays all the tolologically different
  * PRTs that are in your question bank, sorted by frequency.
@@ -38,22 +37,22 @@ $PAGE->set_url('/prt.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('PRT structures used');
 
-$nodes = $DB->get_recordset('qtype_stack_prt_nodes', array(), 'questionid, prtname, nodename',
+$nodes = $DB->get_recordset('qtype_stack_prt_nodes', [], 'questionid, prtname, nodename',
         'questionid, prtname, nodename, truenextnode, falsenextnode');
-$trees = array();
+$trees = [];
 foreach ($nodes as $node) {
-    $questions = $DB->get_records('question', array('id' => $node->questionid), '', 'name');
-    $qnames = array();
+    $questions = $DB->get_records('question', ['id' => $node->questionid], '', 'name');
+    $qnames = [];
     foreach ($questions as $q) {
         $qnames[] = $q->name;
     }
     $trees[implode(', ', $qnames).' ('.$node->questionid . ') ' . $node->prtname][$node->nodename]
-        = array($node->truenextnode, $node->falsenextnode);
+        = [$node->truenextnode, $node->falsenextnode];
 }
 $nodes->close();
-$uniquetrees = array();
-$frequency = array();
-$qnamesused = array();
+$uniquetrees = [];
+$frequency = [];
+$qnamesused = [];
 foreach ($trees as $qname => $tree) {
     $key = json_encode($tree);
     $uniquetrees[$key] = $tree;

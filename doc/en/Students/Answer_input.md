@@ -80,7 +80,7 @@ If you type `a+b/c+d`, then STACK will think that you mean
 
 Think carefully about the expression `a/b/c`.  What do you think this means?  There are two options
 
-\[\frac{a}{b}\cdot\frac{1}{c} = \frac{a}{bc}\quad\mbox{or}\quad\frac{a}{\frac{b}{c}}=\frac{ac}{b}.\]
+\[\frac{a}{b}\cdot\frac{1}{c} = \frac{a}{bc}\quad\text{or}\quad\frac{a}{\frac{b}{c}}=\frac{ac}{b}.\]
 
 Maxima interprets this as \(\frac{a}{bc}\).  If in doubt use brackets.
 
@@ -91,7 +91,7 @@ Note that in this context you should always use ordinary round bracket (like (a+
 
 ### Scientific units  ###
 
-You may be asked to answer a question in which the answer has units.  E.g. \( 9.81\mbox{m}\mbox{s}^{-2} \).  To enter units you must use multiplication, so this is entered as either `9.81*m/s^2` or `9.81*m*s^(-2)`.  Don't use a space, or another symbol such as `+`.
+You may be asked to answer a question in which the answer has units.  E.g. \( 9.81\text{m}\text{s}^{-2} \).  To enter units you must use multiplication, so this is entered as either `9.81*m/s^2` or `9.81*m*s^(-2)`.  Don't use a space, or another symbol such as `+`.
 
 ### Subscripts  ###
 

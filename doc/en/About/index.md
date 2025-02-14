@@ -10,6 +10,7 @@ There is a large, and growing, community of STACK users in many languages.
   * ILIAS users see [https://docu.ilias.de/goto_docu_cat_4119.html](https://docu.ilias.de/goto_docu_cat_4119.html).
   * Moodle users see [the Mathematics tools](https://moodle.org/mod/forum/view.php?id=752) forum.
 * A demonstration server is available in Edinburgh:  [https://stack-demo.maths.ed.ac.uk/demo/](https://stack-demo.maths.ed.ac.uk/demo/)
+* STACK also has an [API](../Installation/API.md) to provide STACK questions as a web service.
 
 The source code, and development discussion, is on [github](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
 
@@ -39,7 +40,7 @@ Give an example of a cubic polynomial with the following properties:
 * \(p(0)=1\),
 * \(p(x)=0\) at \(x=2\) and at \(x=3\).
 
-Here, STACK can check each condition separately on the student's answer and assign partial credit accordingly. If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._ There are a variety of ways in which [feedback](../Authoring/Feedback.md) can be given, including [plotting](../Plots/Plots.md) the students' answer against the teacher's answer.
+Here, STACK can check each condition separately on the student's answer and assign partial credit accordingly. If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._ There are a variety of ways in which [feedback](../Authoring/Feedback.md) can be given, including plotting the students' answer against the teacher's answer.
 
 ### Multipart questions
 
@@ -53,7 +54,7 @@ You can have follow-through marking for situations where, for example, the stude
 
 ### Support for many types of questions
 
-STACK has a large number of [inputs](../Authoring/Inputs.md) and [answer tests](../Authoring/Answer_Tests/index.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/Answer_Tests/Numerical.md), [significant figures](../Authoring/Answer_Tests/Numerical.md#Significant_figure_testing) and [scientific units](../Topics/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Authoring/Equivalence_reasoning.md). 
+STACK has a large number of [inputs](../Authoring/Inputs/index.md) and [answer tests](../Authoring/Answer_Tests/index.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/Answer_Tests/Numerical.md), [significant figures](../Authoring/Answer_Tests/Numerical.md#Significant_figure_testing) and [scientific units](../Topics/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Specialist_tools/Equivalence_reasoning/index.md). 
 
 # Further information
 

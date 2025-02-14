@@ -34,11 +34,14 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/blocks/iframe.block.php');
 require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../lang/multilang.php');
+
+use stack_cas_castext2_iframe;
 
 // Unit tests for {@link stack_cas_castext2_parsons}.
 
@@ -52,6 +55,9 @@ class parsons_block_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_basic_parsons_block() {
+        // This needs reset as the class variable must be being upped in a different
+        // test and the value is bleeding through.
+        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
         $raw = '[[parsons]]{' .
             '"1":"Assume that \\(n\\) is odd.",' .
             '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
@@ -63,15 +69,17 @@ class parsons_block_test extends qtype_stack_testcase {
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $session->instantiate();
-        $this->assertEquals($expected, $at1->get_rendered());
+        $this->assertEquals($expected, $at1->apply_placeholder_holder($at1->get_rendered()));
     }
 
     /**
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_height_unit() {
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-        'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
         $invalidunits = ['VMIN', 'gjd', '50', 'Px', 'pct', ''];
         foreach ($validunits as $unit) {
             $raw = '[[parsons height="500' . $unit . '"]]{' .
@@ -104,8 +112,10 @@ class parsons_block_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
     public function test_parsons_validate_width_unit() {
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-        'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
         $invalidunits = ['VMIN', 'gjd', '50', 'Px', 'pct', ''];
         foreach ($validunits as $unit) {
             $raw = '[[parsons width="500' . $unit . '"]]{' .
@@ -277,8 +287,10 @@ class parsons_block_test extends qtype_stack_testcase {
      */
     public function test_parsons_validate_params() {
         $invalidparameters = ['bad_param', 'HEIGHT', 'Height', 'override-css'];
-        $validparameters = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-        'overridejs', 'input', 'orientation', 'clone'];
+        $validparameters = [
+            'width', 'height', 'aspect-ratio', 'version', 'overridecss',
+            'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height', 'item-width', 'log',
+        ];
 
         foreach ($invalidparameters as $param) {
             $raw = '[[parsons ' . $param . '="500"]]{' .

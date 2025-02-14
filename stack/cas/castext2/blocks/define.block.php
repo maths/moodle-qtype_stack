@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -29,9 +30,9 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
             $r->items[] = new MP_FunctionCall(new MP_Identifier('_EC'),
                 [
                     new MP_FunctionCall(new MP_Identifier('errcatch'), [
-                        new MP_Operation(':', new MP_Identifier($param['key']), $ast)
+                        new MP_Operation(':', new MP_Identifier($param['key']), $ast),
                     ]),
-                    new MP_String($epos)
+                    new MP_String($epos),
                 ]);
         }
 
@@ -41,7 +42,7 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
         // before this, and jsut ignore what happens inside this.
         $r->items[] = new MP_String('');
 
-        // TODO: consider a define that would define something for only its contents?
+        // TO-DO: consider a define that would define something for only its contents?
         // For now however define is assumed to be an empty block.
         // block(local(foo,bar),foo:1,bar:3,contents).
         return $r;
@@ -52,7 +53,7 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
+        $r = [];
         foreach ($this->params as $param) {
             $r[] = stack_ast_container_silent::make_from_teacher_source($param['key'] . ':' .
                 $param['value'], 'ct2:define', new stack_cas_security());

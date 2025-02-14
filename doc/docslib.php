@@ -39,14 +39,24 @@ require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
  */
 function stack_docs_index($dir, $relpath = '') {
     // Write a list describing the directory structure, recursive, discriminates for .md files.
-    $exclude = array('index.md', 'Site_map.md');
-    $details = array('AbInitio', 'Results', 'Developer', 'Reference', 'Installation');
+    $exclude = ['index.md', 'Site_map.md'];
+    $details = ['AbInitio',
+                'Results',
+                'Developer',
+                'Reference',
+                'Installation',
+                'Proof',
+                'Drag and drop',
+                'Equivalence reasoning',
+                'GeoGebra',
+                'JSXGraph',
+    ];
 
     if (!is_dir($dir)) {
         return '';
     }
 
-    $items = array();
+    $items = [];
     foreach (glob($dir . '/*') as $filepath) {
         $filename = basename($filepath);
 
@@ -86,7 +96,7 @@ function stack_docs_index($dir, $relpath = '') {
  * @return string the corresponding title.
  */
 function stack_docs_title_from_filename($filename) {
-    return str_replace(array('_', '.md'), array(' ', ''), $filename);
+    return str_replace(['_', '.md'], [' ', ''], $filename);
 }
 
 /**
@@ -126,7 +136,7 @@ function stack_docs_no_found($links) {
 function stack_docs_page($links, $file) {
     $preprocess = true;
     // This auto-generated file does not need maths processing.
-    if (strpos($file, 'Answer_tests_results') !== false) {
+    if (strpos($file, 'Answer_Tests/Results') !== false) {
         $preprocess = false;
     }
     $body = '';
@@ -139,19 +149,24 @@ function stack_docs_page($links, $file) {
 }
 
 /**
+ * Process the markdown into html, respecting \ for maths, code in markdown (with \), and links to video.
  * @param string $page countent in Markdown format.
  * @param boolean $preprocess Do we need to process the maths in this page?.
  * @return string HTML content.
  */
 function stack_docs_render_markdown($page, $preprocess = true) {
 
-    // Put in links to images etc.
     if ($preprocess) {
         // Don't process the auto-generated answer test output.
         $page = stack_maths::pre_process_docs_page($page);
     }
-    $page = format_text($page, FORMAT_MARKDOWN, array('filter' => false));
+
+    // Note the 'noclean' option is normally not permitted, however, this call to format_text is
+    // only applied to fixed content stored in the STACK git repository as code, and not user-generated content.
+    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false, 'noclean' => true]);
     $page = stack_maths::post_process_docs_page($page);
+    // The 'filter' => true is to ensure we activate the mathjax filter once the markdown has changed to html.
+    $page = format_text($page, FORMAT_HTML, ['filter' => true, 'noclean' => true]);
     return $page;
 }
 
@@ -163,16 +178,16 @@ function stack_docs_page_metadata($uri) {
 
     $metafile = file_get_contents("meta_en.json");
     $meta = json_decode($metafile, true);
-    if ($meta == array()) {
+    if ($meta == []) {
         throw new stack_exception('STACK docs: the metadata json file is broken!');
     }
-    // TODO: langauges.
+    // TO-DO: langauges.
     $meta = $meta['en'];
 
     // Sort out what we are looking for.
     $file = explode('/', substr(trim($uri), 0));
     $endfile = 'index.md';
-    $pathtofile = array();
+    $pathtofile = [];
     foreach ($file as $f) {
         $f = trim($f);
         if ($f !== '') {
@@ -193,7 +208,7 @@ function stack_docs_page_metadata($uri) {
         }
     }
 
-    $metadata = array();
+    $metadata = [];
     foreach ($meta as $dat) {
         if (array_key_exists('file', $dat) && trim($dat['file']) == $endfile) {
             $metadata = $dat;

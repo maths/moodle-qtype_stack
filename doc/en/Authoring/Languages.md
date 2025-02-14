@@ -1,7 +1,11 @@
 # Producing multilingual content
 
-There are many ways for, the multilang-filter that comes with Moodle is often preferred as it is available. But people do seem to prefer multilang2 when dealign with richer content that needs to work with scripting and other syntax. As dealing with the localisation can also affect the way STACK does some special things we have added yet another way as a built-in alternative for those cases where the language needs to be passed into places that traditional Moodle-filters do not see.
+Multilingual content can be developed using two systems.
 
+1. The multilang-filter that comes with Moodle.
+2. STACK's own language blocks (recommended).
+
+Please note that the TinyMCE editor considers paragraph tags (`<p>..</p>`) inside any span tags (e.g. `<span lang="en" class="multilang">...</span>`) to be invalud. The TinyMCE editor will potentially "clean up" (i.e. ruin) your multilingual content if using both the Moodle multilang filter and TinyMCE(as of June 2024).  This is a known issue, and one reason we recommend against using TinyMCE for editing STACK content. (It does nasty things to Javascript content as well).
 
 ## Using the built-in castext block in STACK
 
@@ -110,9 +114,26 @@ But this question text causes no issues:
     <div>[[validation:ans1]]</div>
     <div>[[validation:ans2]]</div>
 
+### multilang in PRTs with several nodes
+
+The multilang filter also works for the feedback texts in PRT nodes. However, as reported in [Issue #940](https://github.com/maths/moodle-qtype_stack/issues/940), STACK simply concatenates these texts, such that multiple multilang instructions from different PRT nodes can end up right next to each other. In such a situation, the multilang filter cannot determine that the author meant all of them to be printed. For the Moodle multilang filter, what STACK returns will look like this:
+
+    <span lang="en" class="multilang">English feedback from PRT node 1</span>
+    <span lang="de" class="multilang">German feedback from PRT node 1</span>
+    <span lang="en" class="multilang">English feedback from PRT node 2</span>
+    <span lang="de" class="multilang">German feedback from PRT node 2</span>
+
+The multilang filter will assume all of these belong together and will only display the feedback from PRT node 2. To fix this, you can use anything which tells the multilang filter to start a new block, like enclosing the `<span>` tag in a paragraph (`<p>`), using a line break (`<br>`), a non-breaking space (`&nbsp;`), or a zero-width space (`&#x200b0;`).
+
 ### Changing STACK's language
 
 If you have written a multilingual question, and a student wants to see it in a certain language, they have to change their preferred language. In Moodle, this is done by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. This will not only change the language of all question text (where multilingual blocks have been used), but also the language of the default Moodle and STACK interface (if this translation is available). The specific language pack has to be installed on your server by the server administrator to allow this. More information is available in the developer docs under [Translating STACK](../Developer/Language_packs.md).
+
+### Language within the CAS.
+
+STACK defines a variable `%_STACK_LANG`, which should be a string reflecting the language preference of the user of the question.  The default is `"en"`.  We also have a predicate function `is_lang(code)` which returns `true` if the current language set is `code`.
+
+A related issue is decimal separators.  An internal variable `stackfltsep` holds either `"."` or `","` to reflect the current option for the decimal separator option.
 
 ### Further reading
 

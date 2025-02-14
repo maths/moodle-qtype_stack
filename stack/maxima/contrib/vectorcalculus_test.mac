@@ -1,0 +1,77 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2024 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Vector calculus functions for STACK                         */
+/*                                                              */
+/*  Test cases.                                                 */
+/*                                                              */
+/*  V2.0 March 2024                                             */
+/*                                                              */
+/****************************************************************/
+
+s_test_case((return_vect:true, grad(x*y*z,[x,y,z])),matrix([y*z],[x*z],[x*y]));
+s_test_case((return_vect:true, grad(x*y*z,x,y,z)),matrix([y*z],[x*z],[x*y]));
+s_test_case((return_vect:true, grad(x*y*z)),matrix([y*z],[x*z],[x*y]));
+s_test_case((return_vect:false, grad(x*y*z,[x,y,z])),[y*z,x*z,x*y]);
+s_test_case((return_vect:false, grad(x*y*z,x,y,z)),[y*z,x*z,x*y]);
+s_test_case((return_vect:false, grad(x*y*z)),[y*z,x*z,x*y]);
+s_test_case((return_vect:false, grad(x^2 + x)),[2*x+1]);
+s_test_case((return_vect:true, grad(a+2*b+3*c+4*d+5*p)),matrix([1],[2],[3],[4],[5]));
+s_test_case((return_vect:true, grad(a+2*b+3*c+4*d+5*p,[p,d,c,b,a])),matrix([5],[4],[3],[2],[1]));
+
+s_test_case(div([x^2*cos(y),y^3],[x,y]), 2*x*cos(y)+3*y^2);
+s_test_case(div(transpose(matrix([x^2*cos(y),y^3])),[x,y]), 2*x*cos(y)+3*y^2);
+s_test_case(div(matrix([x^2*cos(y),y^3]),[x,y]), 2*x*cos(y)+3*y^2);
+s_test_case(div([x^2*cos(y),y^3],[y,x]), -x^2*sin(y));
+s_test_case(div([y^3,x^2*cos(y)],[y,x]), 2*x*cos(y)+3*y^2);
+s_test_case(div([x^2*cos(y),y^3]), 2*x*cos(y)+3*y^2);
+s_test_case(div(transpose(matrix([x^2*cos(y),y^3]))), 2*x*cos(y)+3*y^2);
+s_test_case(div(matrix([x^2*cos(y),y^3])), 2*x*cos(y)+3*y^2);
+s_test_case(div([x^2*cos(y),y^3],x,y), 2*x*cos(y)+3*y^2);
+s_test_case(div(transpose(matrix([x^2*cos(y),y^3])),x,y), 2*x*cos(y)+3*y^2);
+s_test_case(div(matrix([x^2*cos(y),y^3]),x,y), 2*x*cos(y)+3*y^2);
+
+s_test_case((return_vect: true, curl([x*y*z,x*y*z,x*y*z],[x,y,z])),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+s_test_case((return_vect: true, curl([x*y*z,x*y*z,x*y*z])),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+s_test_case((return_vect: false, curl([x*y*z,x*y*z,x*y*z],[x,y,z])),[x*z-x*y,x*y-y*z,y*z-x*z]);
+s_test_case((return_vect: false, curl([x*y*z,x*y*z,x*y*z])),[x*z-x*y,x*y-y*z,y*z-x*z]);
+s_test_case((return_vect: true, curl([x*y*z,x*y*z,x*y*z],[y,z,x])),matrix([x*y-y*z],[y*z-x*z],[x*z-x*y]));
+s_test_case((return_vect: true, curl(matrix([x*y*z,x*y*z,x*y*z]),[x,y,z])),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+s_test_case((return_vect: true, curl(matrix([x*y*z,x*y*z,x*y*z]),x,y,z)),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+s_test_case((return_vect: true, curl(matrix([x*y*z,x*y*z,x*y*z]))),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+s_test_case((return_vect: true, curl(matrix([x*y*z],[x*y*z],[x*y*z]),[x,y,z])),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+s_test_case((return_vect: true, curl(matrix([x*y*z],[x*y*z],[x*y*z]),x,y,z)),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+s_test_case((return_vect: true, curl(matrix([x*y*z],[x*y*z],[x*y*z]))),matrix([x*z-x*y],[x*y-y*z],[y*z-x*z]));
+
+s_test_case((return_vect: false, dir_deriv(x*y*z,[1,2,2],[x,y,z])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,[1,2,2],[x,y,z])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: false, dir_deriv(x*y*z,[1,2,2])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,[1,2,2])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,[1,2,2],[y,z,x])),(2*y*z)/3+(x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,[1,2,2],x,y,z)),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: false, dir_deriv(x*y*z,matrix([1,2,2]),[x,y,z])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,matrix([1,2,2]),[x,y,z])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: false, dir_deriv(x*y*z,matrix([1,2,2]))),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,matrix([1,2,2]))),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,matrix([1,2,2]),[y,z,x])),(2*y*z)/3+(x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,matrix([1,2,2]),x,y,z)),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: false, dir_deriv(x*y*z,transpose([1,2,2]),[x,y,z])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,transpose([1,2,2]),[x,y,z])),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: false, dir_deriv(x*y*z,transpose([1,2,2]))),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,transpose([1,2,2]))),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,transpose([1,2,2]),[y,z,x])),(2*y*z)/3+(x*z)/3+(2*x*y)/3);
+s_test_case((return_vect: true, dir_deriv(x*y*z,transpose([1,2,2]),x,y,z)),(y*z)/3+(2*x*z)/3+(2*x*y)/3);
+

@@ -1,0 +1,76 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/questionfolder
+
+    Loop over folders recursively to show all files.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+      [
+        {
+          "label": "Algebra-Refresher",
+          "divid": "stack-library-folder-2",
+          "isdirectory": 1,
+          "children": [
+              {
+                  "label": "10-Expressions-single-term-common-factors",
+                  "divid": "stack-library-folder-3",
+                  "isdirectory": 1,
+                  "children": [
+                      {
+                          "path": "samplequestions\/stacklibrary\/Algebra-Refresher\/10-Expressions-single-term-common-factors\/AlgMap-10-1.xml",
+                          "label": "AlgMap-10-1.xml",
+                          "isdirectory": 0
+                      },
+                      {
+                          "path": "samplequestions\/stacklibrary\/Algebra-Refresher\/10-Expressions-single-term-common-factors\/AlgMap-10-2.xml",
+                          "label": "AlgMap-10-2.xml",
+                          "isdirectory": 0
+                      }
+                  ]
+              }
+          ]
+        }
+      ]
+}}
+
+<div class="qtype_stack_question_folder" style="margin-left: 30px">
+  {{#isdirectory}}
+    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{divid}}" aria-expanded="false" aria-controls="{{divid}}">
+      {{#pix}} i/folder, core {{/pix}}{{label}}
+    </button>
+    <div class="collapse" id="{{divid}}">
+      {{#children}}
+        {{>qtype_stack/questionfolder}}
+      {{/children}}
+    </div>
+  {{/isdirectory}}
+  {{^isdirectory}}
+    <button class="btn btn-link library-file-link" type="button" data-filepath="{{path}}">
+      {{#pix}} i/files, core {{/pix}}{{label}}
+    </button>
+  {{/isdirectory}}
+</div>

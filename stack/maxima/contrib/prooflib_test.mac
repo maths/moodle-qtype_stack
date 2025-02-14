@@ -1,0 +1,47 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/******************************************************************/
+/*  Functions for representing, typesetting and assessing proof.  */
+/*  Mostly for use with Parsons problems.                         */
+/*                                                                */
+/*  Test cases.                                                   */
+/*                                                                */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                         */
+/*  V1.0 May 2024                                                 */
+/*                                                                */
+/******************************************************************/
+
+
+s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
+s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
+s_test_case(proof_alternatives(proof_iff(A,B)), [proof_iff(A,B),proof_iff(B,A)]);
+s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
+s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_cases(A,B,C),proof_cases(A,C,B)]);
+s_test_case(proof_alternatives(proof_goal(A,B,C)), [proof_goal(A,B,C),proof_goal(B,A,C)]);
+s_test_case(proof_alternatives(proof_iff(proof(proof_opt(A), B),C)), [proof_iff(proof(A,B),C),proof_iff(proof(B),C),proof_iff(C,proof(A,B)),proof_iff(C,proof(B))]);
+
+s_test_case(proof_parsons_interpret("{\"used\":[[[\"MA==\",\"Mw==\",\"NQ==\"]]],\"available\":[\"MQ==\",\"Mg==\",\"NA==\",\"Ng==\",\"Nw==\"]}"), proof("0","3","5"));
+
+s_test_case(proof_inline_maths("\\[ 3 = 2^{\\frac{p}{q}}\\]"), "\\( 3 = 2^{\\frac{p}{q}}\\)");
+
+/******************************************************************/
+
+s_test_case(proof_damerau_levenstein([1,2,3],[1,2,3]), [0,[]]);
+s_test_case(proof_damerau_levenstein([1,2,3],[1,2,3,4]), [1,[dl_ok(1),dl_ok(2),dl_ok(3),dl_add(4)]]);
+s_test_case(proof_damerau_levenstein([1,3,4],[1,2,3,4]), [1,[dl_ok(1),dl_add(2),dl_ok(3),dl_ok(4)]]);
+s_test_case(proof_damerau_levenstein([3,4],[1,2,3,4]), [2,[dl_add(1),dl_add(2),dl_ok(3),dl_ok(4)]]);
+s_test_case(proof_damerau_levenstein([1,3,2,4],[1,2,3,4]), [1,[dl_ok(1),dl_swap(3,2),dl_swap_follow(2),dl_ok(4)]]);
+

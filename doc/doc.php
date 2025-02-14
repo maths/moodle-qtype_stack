@@ -63,33 +63,39 @@ if (substr($_SERVER['REQUEST_URI'], -7) == 'doc.php') {
 } else {
     $uri = get_file_argument();
 }
+
+// Are we asking for the "dev" docs, which are now only local.
+if (substr($uri, 0, 4) == '/dev') {
+    $docsroot = $CFG->dirroot . '/question/type/stack/doc';
+}
+
 $segs    = explode('/', $uri);
 $lastseg = $segs[count($segs) - 1];
 
 // Links for the end of the page.
 if ($uri == '/') {
     // The docs front page at .../doc.php/.
-    $linkurls = array();
+    $linkurls = [];
     $sitemapurl = '<a href = "' . $docsurl . '/Site_map' .'">'
         . stack_string('stackDoc_siteMap') . '</a>';
 
 } else if ('/Site_map' == $uri) {
-    $linkurls = array(
-        $docsurl               => stack_string('stackDoc_home')
-    );
+    $linkurls = [
+        $docsurl               => stack_string('stackDoc_home'),
+    ];
 
 } else {
-    $linkurls = array(
+    $linkurls = [
         $docsurl               => stack_string('stackDoc_home'),
         './'                   => stack_string('stackDoc_index'),
-        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
-    );
+        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap'),
+    ];
     if (current_language() != 'en') {
         $linkurls[$docsurl . '/Site_map_en'] = stack_string('stackDoc_siteMap_en');
     }
 }
 
-$links = array();
+$links = [];
 foreach ($linkurls as $url => $link) {
     $links[] = '<a href="' . $url . '">' . $link . '</a>';
 }
@@ -118,7 +124,7 @@ if ('Site_map' == $lastseg) {
         $meta = stack_docs_page_metadata($uri);
     } else {
         $body = stack_docs_no_found($links);
-        $meta = array();
+        $meta = [];
     }
 }
 

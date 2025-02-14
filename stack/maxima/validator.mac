@@ -39,10 +39,7 @@ stack_validate_checkvars(sexpr, texpr, chkopt) := block([%_sansvar,%_tansvar,%_e
     return(%_errstr)
 )$
 
-stack_validate(expr, LowestTerms, TAns, fltfmt, chkopt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2, chkvars],
-  /* If we have a float format, then use it. */
-  if not(is(fltfmt=false)) then
-    stackfltfmt:fltfmt,
+stack_validate(expr, LowestTerms, TAns, chkopt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2, chkvars],
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
   if exs = [] then (
@@ -83,10 +80,7 @@ stack_validate(expr, LowestTerms, TAns, fltfmt, chkopt) := block([simp:false, ex
 )$
 
 /* Validate an expression without type checking. Floats and mathematical errors only. */
-stack_validate_typeless(expr, LowestTerms, TAns, fltfmt, chkopt, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
-  /* If we have a float format, then use it. */
-  if not(is(fltfmt=false)) then
-    stackfltfmt:fltfmt,
+stack_validate_typeless(expr, LowestTerms, TAns, chkopt, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
   if exs = [] then (
@@ -171,6 +165,27 @@ stack_validate_missing_assignment(ex) := block([ret, ex2, v, exop],
     return([true, ex])
 )$
 
+/* The purpose of this function is to simplify numbers which have significant figures protected
+   Currently, all significant figure information is just lost.
+   However, in the future we might improve this.
+
+   This version just removes all dispdp functions.
+   stack_validate_simpnum(ex):= ev(ex, displaydp=lambda([a,b],a));
+*/
+
+stack_validate_simpnum(ex):= block([maxdps, ex2],
+    maxdps:flatten(stack_validate_simpnum_maxdps(ex)),
+    ex2: ev(ex, displaydp=lambda([a,b],a), simp),
+    if (not(emptyp(maxdps)) and floatnump(ex2)) then ex2:dispdp(ex2, ev(apply(max, maxdps), simp)),
+    ex2
+);
+/* This function finds the maximum number of dps in an expression. */
+stack_validate_simpnum_maxdps(ex) := block(
+    if atom(ex) then return([]),
+    if safe_op(ex)="displaydp" then return([second(args(ex))]),
+    map(stack_validate_simpnum_maxdps, args(ex))
+);
+
 /* ****************************************** */
 /* Functions associated with validators       */
 /* ****************************************** */
@@ -238,3 +253,22 @@ stack_seq_validator(ex, validators):=block([%_tmp, %_val, %_continue],
 /* ****************************************** */
 /* Supported validators                       */
 /* ****************************************** */
+
+/* The student may not use a user-defined function, or arrays, anywhere in their input. */
+validate_nofunctions(ex):= block([op1,opp],
+  if atom(ex) then return(""),
+  op1:ev(op(ex)),
+  opp:apply(properties, [op1]),
+  if ev(emptyp(opp) or is(opp=[noun]),simp) then return(sconcat("User-defined functions are not permitted, however ", stack_disp(op1, "i"), " appears to be used as a function. ")),
+  apply(sconcat, map(validate_nofunctions, args(ex)))
+);
+
+s_test_case(validate_nofunctions(1+a1), "");
+s_test_case(validate_nofunctions(sin(n*x)), "");
+s_test_case(validate_nofunctions(-b#pm#sqrt(b^2-4*a*c)), "");
+s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitted, however \\(x\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(3*x(t)^2), "User-defined functions are not permitted, however \\(x\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted, however \\(f\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(x(2)*y(3)), "User-defined functions are not permitted, however \\(x\\) appears to be used as a function. User-defined functions are not permitted, however \\(y\\) appears to be used as a function. ");
+
+

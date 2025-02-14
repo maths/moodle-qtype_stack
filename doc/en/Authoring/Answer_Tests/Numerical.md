@@ -59,7 +59,9 @@ This is a more liberal test.  Primarily it checks numerical accuracy, but it als
 Tests 
 
 1. whether the student's answer contains `opt` significant figures, and
-2. whether the answer is accurate to `opt` significant figures.   
+2. whether the answer is accurate to `opt` significant figures.
+
+Numerical accuracy here ensures the student's answer is within \(\pm .5\) of the last significant place.  So, for example, by design this test will consider \(9.8\) to be equivalent to \(10\) to 2 significant figures.  The student's answer has been written to 2sf, and the answer is within \(\pm 0.5\) of \(10\).  Indeed, by this test `9.6`, `9.7`, `9.8`, `9.9` and `10` will all pass this test.  But `10.1` etc will fail (3 significant figures), rather than accuracy.  (This may make this test, with default options, less useful but changing the behaviour now would be problematic as well!)
 
 If the option is a list `[n,m]` then we check the answer has been written to `n` significant figures, with an accuracy of up to `m` places.  If the answer is too far out then rounding feedback will not be given.   A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
 
@@ -93,4 +95,4 @@ There is currently no functionality within the numerical answer tests to automat
 * [Answer tests](index.md)
 * [CAS and numbers](../../CAS/Numbers.md)
 * [Scientific units](../../Topics/Units.md)
-* [Maxima](../../CAS/Maxima.md)
+* [Maxima](../../CAS/Maxima_background.md)

@@ -43,11 +43,15 @@ class stack_checkbox_input extends stack_dropdown_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        $vals = array();
+        $vals = [];
         foreach ($contents as $key) {
-            $vals[] = $this->get_input_ddl_value($key);
+            // ISS1211 - Moodle App returns value of 0 if box not checked but
+            // always safe to ignore 0 thanks to stack_dropdown_input->key_order().
+            if ($key !== 0) {
+                $vals[] = $this->get_input_ddl_value($key);
+            }
         }
-        if ($vals == array( 0 => '')) {
+        if ($vals == [0 => '']) {
             return '';
         }
         return '['.implode(',', $vals).']';
@@ -57,24 +61,27 @@ class stack_checkbox_input extends stack_dropdown_input {
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
-
         // Create html.
         $result = '';
         $values = $this->get_choices();
         $selected = $state->contents;
         $selected = array_flip($state->contents);
-        $radiobuttons = array();
-        $classes = array();
+        $radiobuttons = [];
+        $classes = [];
         foreach ($values as $key => $ansid) {
-            $inputattributes = array(
+            $inputattributes = [
                 'type' => 'checkbox',
                 'name' => $fieldname.'_'.$key,
                 'value' => $key,
-                'id' => $fieldname.'_'.$key
-            );
-            $labelattributes = array(
-                'for' => $fieldname.'_'.$key
-            );
+                'id' => $fieldname.'_'.$key,
+            ];
+
+            // Metadata for JS users.
+            $inputattributes['data-stack-input-type'] = 'checkbox';
+
+            $labelattributes = [
+                'for' => $fieldname.'_'.$key,
+            ];
             if (array_key_exists($key, $selected)) {
                 $inputattributes['checked'] = 'checked';
             }
@@ -87,13 +94,26 @@ class stack_checkbox_input extends stack_dropdown_input {
 
         $result = '';
 
-        $result .= html_writer::start_tag('div', array('class' => 'answer'));
+        $result .= html_writer::start_tag('div', ['class' => 'answer']);
         foreach ($radiobuttons as $key => $radio) {
-            $result .= html_writer::tag('div', stack_maths::process_lang_string($radio), array('class' => 'option'));
+            $result .= html_writer::tag('div', stack_maths::process_lang_string($radio), ['class' => 'option']);
         }
         $result .= html_writer::end_tag('div');
 
         return $result;
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'checkbox';
+        $data['options'] = $this->get_choices();
+
+        return $data;
     }
 
     /**
@@ -102,7 +122,7 @@ class stack_checkbox_input extends stack_dropdown_input {
      * @return array string input name => PARAM_... type constant.
      */
     public function get_expected_data() {
-        $expected = array();
+        $expected = [];
         $expected[$this->name] = PARAM_RAW;
         foreach ($this->ddlvalues as $key => $val) {
             $expected[$this->name.'_'.$key] = PARAM_RAW;
@@ -122,11 +142,11 @@ class stack_checkbox_input extends stack_dropdown_input {
      */
     public function maxima_to_response_array($in) {
         if ('' === $in || '[]' === $in) {
-            return array();
+            return [];
         }
 
         $tc = stack_utils::list_to_array($in, false);
-        $response = array();
+        $response = [];
         foreach ($tc as $key => $val) {
             $ddlkey = $this->get_input_ddl_key($val);
             $response[$this->name.'_'.$ddlkey] = $ddlkey;
@@ -142,10 +162,10 @@ class stack_checkbox_input extends stack_dropdown_input {
 
     protected function ajax_to_response_array($in) {
         if (((string) $in) === '') {
-            return array();
+            return [];
         }
         $selected = explode(',', $in);
-        $result = array();
+        $result = [];
         foreach ($selected as $choice) {
             $result[$this->name . '_' . $choice] = $choice;
         }
@@ -162,9 +182,9 @@ class stack_checkbox_input extends stack_dropdown_input {
     public function response_to_contents($response) {
         // Did the student chose the "Not answered" response?
         if (array_key_exists($this->name.'_', $response)) {
-                return array();
+                return [];
         }
-        $contents = array();
+        $contents = [];
         foreach ($this->ddlvalues as $key => $val) {
             if (array_key_exists($this->name.'_'.$key, $response)) {
                 $contents[] = (int) $response[$this->name.'_'.$key];
@@ -195,5 +215,15 @@ class stack_checkbox_input extends stack_dropdown_input {
             }
         }
         return $allblank;
+    }
+
+    public function get_api_solution($tavalue) {
+        $solution = [];
+        foreach ($this->ddlvalues as $key => $value) {
+            if ($value['correct']) {
+                $solution['_' . $key] = strval($key);
+            }
+        }
+        return $solution;
     }
 }

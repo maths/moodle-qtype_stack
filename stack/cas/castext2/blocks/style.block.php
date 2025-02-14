@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 //
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -31,7 +32,7 @@ class stack_cas_castext2_style extends stack_cas_castext2_block {
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('style'),
-            new MP_String(json_encode($this->params))
+            new MP_String(json_encode($this->params)),
         ]);
 
         if (!isset($options['in iframe'])) {
@@ -61,13 +62,14 @@ class stack_cas_castext2_style extends stack_cas_castext2_block {
         return [];
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
 
         $parameters = json_decode($params[1], true);
         $content    = '';
         for ($i = 2; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+                $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $content .= $params[$i];
             }

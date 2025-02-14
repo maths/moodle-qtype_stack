@@ -16,8 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/filterlib.php');
-require_once($CFG->dirroot . '/filter/tex/filter.php');
 require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 
 
@@ -37,6 +35,14 @@ class stack_maths_output_tex extends stack_maths_output_filter_base {
     }
 
     protected function make_filter() {
-        return new filter_tex(context_system::instance(), array());
+        global $CFG;
+        if (class_exists('\filter_tex\text_filter')) {
+            return new \filter_tex\text_filter(context_system::instance(), []);
+        } else {
+            // Once Moodle 4.5 is the lowest supported version of Moodle.
+            require_once($CFG->libdir . '/filterlib.php');
+            require_once($CFG->dirroot . '/filter/tex/filter.php');
+            return new filter_tex(context_system::instance(), []);
+        }
     }
 }

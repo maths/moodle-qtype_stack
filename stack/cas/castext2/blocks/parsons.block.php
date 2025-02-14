@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with STACK.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -27,28 +28,64 @@ stack_cas_castext2_iframe::register_counter('///PARSONS_COUNT///');
 
 class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
-    /* This is not something we want people to edit in general. */
     public static $namedversions = [
         'cdn' => [
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js',
         ],
         'local' => [
             'css' => 'cors://sortable.min.css',
-            'js' => 'cors://sortable.min.js'
-        ]
+            'js' => 'cors://sortablecore.min.js',
+        ],
     ];
 
-    public function compile($format, $options):  ? MP_Node {
+    public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
 
         // Define iframe params.
         $xpars = [];
-        $inputs = []; // From inputname to variable name.
-        $clone = "false"; // Whether to have all keys in available list cloned.
-        $mathjaxversion = "2"; // MathJax version (either "2" or "3").
+
+        // Input identifiers.
+        $inputs = [];
+
+        // Whether to have all keys in available list cloned.
+        $clone = 'false';
+
+        // MathJax version (either "2" or "3").
+        $mathjaxversion = '2';
+
+        // Number of available columns.
+        $columns = null;
+
+        // Number of available rows.
+        $rows = null;
+
+        // Tranpose.
+        $transpose = false;
+
+        // Item height.
+        $itemheight = null;
+
+        // Item width.
+        $itemwidth = null;
+
+        // Whether to return full history or final answer.
+        $log = 'false';
+
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
+            } else if ($key === 'columns') {
+                $columns = $value;
+            } else if ($key === 'rows') {
+                $rows = $value;
+            } else if ($key === 'transpose') {
+                $transpose = ($value === 'true');
+            } else if ($key === 'item-height') {
+                $itemheight = $value;
+            } else if ($key === 'item-width') {
+                $itemwidth = $value;
+            } else if ($key === 'log') {
+                $log = $value;
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -64,9 +101,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
-        }
-        if (isset($xpars['orientation'])) {
-            unset($xpars['orientation']);
         }
 
         // Set default width and height here.
@@ -102,14 +136,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $mathjax = ($mathjaxversion === "2") ? stack_get_mathjax_url() : stack_get_mathjax3_url();
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
+        ]);
         $r->items[] = new MP_List([
             new MP_String('style'),
-            new MP_String(json_encode(['href' => $css]))
+            new MP_String(json_encode(['href' => $css])),
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'module', 'src' => $js]))
+            new MP_String(json_encode(['type' => 'module', 'src' => $js])),
         ]);
 
         // We need to define a size for the inner content.
@@ -125,15 +160,19 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
+        // Identify default proof mode based on block header params
+        // Note that proof mode behaves the same as the general mode, but we just
+        // need to redefine columns.
+        $proofmode = ($columns === null && $rows === null);
+        $gridmode = !$proofmode;
+        $columns = $proofmode ? '1' : $columns;
         // Add correctly oriented container divs for the proof lists to be accessed by sortable.
-        $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
-        $outer = $orientation === 'horizontal' ? 'row' : 'col';
-        $inner = $orientation === 'horizontal' ? 'col' : 'row';
-        $innerui = '<ul class="list-group ' . $inner . '" id="usedList"></ul>
-                        <ul class="list-group ' . $inner . '" id="availableList"></ul>';
+        $orientation = $transpose ? 'row' : 'col';
+        $ogcolumns = $columns;
+        $ogrows = $rows;
+        $columns = $transpose ? $ogrows : $ogcolumns;
+        $rows = $transpose ? $ogcolumns : $ogrows;
 
-        $r->items[] = new MP_String("<button type='button' class='parsons-button' id='orientation'>
-            <i class='fa fa-refresh'></i></button>");
         $r->items[] = new MP_String("<button type='button' class='parsons-button' id='resize'>
             <i class='fa fa-expand'></i></button>");
         if ($clone === 'true') {
@@ -143,28 +182,21 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             <i class="fa fa-times-circle "></i></div>');
         }
 
-        $r->items[] = new MP_String('<div class="container" id="sortableContainer" style="' . $astyle . '">
-            <div class=row>' . $innerui . '
-            </div>
-        </div>');
+        $r->items[] = new MP_String('<div class="container row" id="containerRow" style="' . $astyle . '"></div>');
 
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
 
         $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
+        $importcode .= "import {Sortable} from '" . stack_cors_link('sortablecore.min.js') . "';\n";
         $importcode .= "import {preprocess_steps,
                                 stack_sortable,
-                                add_orientation_listener,
                                 get_iframe_height,
                                 SUPPORTED_CALLBACK_FUNCTIONS
                 } from '" .
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
 
-        // Add flip orientation listener to the orientation button.
-        // TODO: automatically set orientation based on device?
-        $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
         // Add the resize button listener.
         $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
             "click", () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});' . "\n");
@@ -186,17 +218,64 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $r->items[] = $c;
             }
         }
+        $r->items[] = new MP_String(";\n");
 
-        // Parse steps and Sortable options separately if they exist. Invalid JSON will be identified by preprocess_steps function.
-        $code = 'var headers = {used: {header: "' . stack_string('stackBlock_parsons_used_header') . '"},
-        available: {header: "' . stack_string('stackBlock_parsons_available_header') . '"}};' . "\n";
+        // Define default headers.
+        if ($proofmode) {
+            $code = 'var headers = ["' . stack_string('stackBlock_parsons_used_header') . '"];' . "\n";
+        } else {
+            $code = 'var headers = [' . implode(', ', range(1, intval($ogcolumns))) . '];' . "\n";
+        }
+        $code .= 'var available_header = "' . stack_string('stackBlock_parsons_available_header') . '";' . "\n";
+
+        // Parse steps, Sortable options, headers and index separately if they exist.
+        // Invalid JSON will be identified by preprocess_steps function.
         $code .= 'var sortableUserOpts = {};' . "\n";
-        $code .= 'var valid;' . "\n";
-        $code .= '[proofSteps, headers, sortableUserOpts, valid] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
+        $code .= 'var valid, index;' . "\n";
 
-        // If the author's JSON has invalid format throw an error.
+        $code .= '[proofSteps, sortableUserOpts, headers, available_header, index, valid] =
+            preprocess_steps(proofSteps, sortableUserOpts, headers, available_header, index);' . "\n";
+
+        // If the author's JSON has invalid structure throw an error.
         $code .= 'if (valid === false)
             {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
+
+        // More specific pieces of validation
+        // Check typing of headers, it should be an array containing strings.
+        $code .= 'if (!(Array.isArray(headers)))
+            {stack_js.display_error("' . stack_string('stackBlock_incorrect_header_type') . '");}' . "\n";
+
+        // If the length of headers does not match the number of columns expected throw an error.
+        // Error is different for proof vs. matching.
+        $code .= 'if (headers.length !== ' . $ogcolumns . ') {stack_js.display_error("';
+        if ($proofmode) {
+            $code .= stack_string('stackBlock_proof_incorrect_header_length') . '");}' . "\n";
+        } else {
+            $code .= stack_string('stackBlock_incorrect_header_length') . '");}' . "\n";
+        }
+
+        // Validate available headers. It is either a string or an array containing a single string.
+        $code .= 'if (!(typeof(available_header) === "string" ||
+        (Array.isArray(available_header) && available_header.length === 1 && typeof(available_header[0]) === "string")))
+            {stack_js.display_error("' . stack_string('stackBlock_incorrect_available_header_type') . '");}' . "\n";
+        // Extract available header if it is an array containing a single string.
+        $code .= 'if (Array.isArray(available_header)) {available_header = available_header[0]};' . "\n";
+
+        // If index is passed then it should be an array containing strings.
+        $code .= 'if (index !== undefined && !(Array.isArray(index) && index.every((idx) => typeof(idx) === "string")))
+            {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_type') . '");}' . "\n";
+
+        // If rows and index are passed then the length of index should match the value of rows + 1.
+        if ($ogrows !== null) {
+            $code .= 'if (index !== undefined && index.length !== ' . ($ogrows + 1) . ')
+                {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_length') . '");}' . "\n";
+        }
+
+        // Index cannot be used in proof mode due to styling issues.
+        if ($proofmode) {
+            $code .= 'if (index !== undefined)
+                {stack_js.display_error("' . stack_string('stackBlock_proof_mode_index') . '");}' . "\n";
+        }
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {
@@ -208,23 +287,45 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         };
 
         // Instantiate STACK sortable helper class.
-        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, sortableUserOpts, "' .
-                $clone .'");' . "\n";
-        // Generate the two lists in HTML.
-        $code .= 'stackSortable.add_headers(headers);' . "\n";
+        $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
+                $clone .'", "' . $columns .'", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
+                "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
+        // Generate the two lists, headers and index in HTML.
+        $code .= 'stackSortable.add_reorientation_button();' . "\n";
+        $code .= 'stackSortable.create_row_col_divs();' . "\n";
+        $code .= 'if (index !== undefined) {stackSortable.add_index(index);};' . "\n";
+        $code .= 'stackSortable.add_headers(headers, available_header);' . "\n";
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
+        // Update the empty placeholders in grid mode, which is required for non-empty start or fill in correct responses.
+        $code .= 'stackSortable.update_grid_empty_css();' . "\n";
 
         // Create the Sortable objects.
         // First, instantiate with default options first in order to extract all possible options for validation.
-        $code .= 'var sortableUsed = Sortable.create(usedList);' . "\n";
-        $code .= 'var possibleOptionKeys = Object.keys(sortableUsed.options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
+        $code .= 'var sortableUsed =
+        stackSortable.ids.used.map((idList) =>
+            idList.map((usedId) => Sortable.create(document.getElementById(usedId))));' . "\n";
+        $code .= 'var possibleOptionKeys = Object.keys(sortableUsed[0][0].options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
         // Now set appropriate options.
-        $code .= 'Object.entries(stackSortable.options.used).forEach(([key, val]) => sortableUsed.option(key, val));' . "\n";
+
+        $code .= 'sortableUsed.forEach((sortableList) =>
+            sortableList.forEach((sortable) =>
+                Object.entries(stackSortable.options.used).forEach(
+            ([key, val]) => sortable.option(key, val))));' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
         // Add the onSort option in order to link up to input and overwrite user onSort if passed.
-        $code .= 'sortableUsed.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
-        $code .= 'sortableAvailable.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
+        $code .= 'sortableUsed.forEach((sortableList) =>
+            sortableList.forEach((sortable) =>
+                sortable.option("onSort", () => {
+                    stackSortable.update_state(sortableUsed, sortableAvailable);
+                    stackSortable.update_grid_empty_css();})
+            )
+        );' . "\n";
+
+        $code .= 'sortableAvailable.option("onSort",
+            () => {
+                stackSortable.update_state(sortableUsed, sortableAvailable);
+                stackSortable.update_grid_empty_css();});' . "\n";
 
         // Options can now be validated since sortable objects have been instantiated, we throw warnings only.
         $code .= 'stackSortable.validate_options(
@@ -239,8 +340,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'stackSortable.add_delete_all_listener("delete-all", sortableUsed, sortableAvailable);' . "\n";
         }
 
-        // Add double-click events.
-        $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+        // Add double-click events for proof.
+        if ($proofmode) {
+            $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+        }
+
+        // Resize grid-items if window size is changed.
+        $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items())' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ?
@@ -250,8 +356,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
             $code .= ($mathjaxversion === "2") ?
-                'MathJax.Hub.Queue(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
-                'mathJaxPromise.then(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
+                'MathJax.Hub.Queue(() => {
+                    stackSortable.resize_grid_items();
+                    stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
+                'mathJaxPromise.then(() => {
+                    stackSortable.resize_grid_items();
+                    stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
             $code .= "\n";
         }
 
@@ -265,12 +375,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
@@ -278,7 +389,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         return [];
     }
 
-    public function validate (
+    public function validate(
         &$errors = [],
         $options = []
     ): bool {
@@ -289,8 +400,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
 
         $widthend   = false;
         $heightend  = false;
@@ -347,8 +460,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 self::$namedversions)) {
             $valid    = false;
             $validversions = ['cdn', 'local'];
-            $err[] = stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ',
-                $validversions)]);
+            $err[] = stack_string('stackBlock_parsons_unknown_named_version', [
+                'version' => implode(', ',
+                $validversions),
+            ]);
         }
 
         // Check MathJax version is valid.
@@ -356,8 +471,56 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $validmjversions = ['2', '3'];
             if (!in_array($this->params['mathjax'], $validmjversions)) {
                 $valid = false;
-                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', ['mjversion' => implode(', ',
-                    $validmjversions)]);
+                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
+                    'mjversion' => implode(', ',
+                    $validmjversions),
+                ]);
+            }
+        }
+
+        // Check value of transpose is only "true" or "false".
+        if (array_key_exists('transpose', $this->params)) {
+            if (!in_array($this->params['transpose'], ['true', 'false'])) {
+                $valid = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_transpose_value');
+            }
+        }
+
+        // Check value of columns is a string containing a numeric positive integer.
+        if (array_key_exists("columns", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["columns"]) && intval($this->params["columns"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_columns_value");
+            }
+        }
+
+        // Check value of rows is a string containing a numeric positive integer.
+        if (array_key_exists("rows", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["rows"]) && intval($this->params["rows"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_rows_value");
+            }
+        }
+
+        // Check we cannot have rows specified without columns.
+        if (array_key_exists("rows", $this->params) && !array_key_exists("columns", $this->params)) {
+            $valid = false;
+            $err[] = stack_string("stackBlock_parsons_underdefined_grid");
+        }
+
+        // Check value of `item-height` is a string containing a positive integer.
+        if (array_key_exists("item-height", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["item-height"]) && intval($this->params["item-height"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_item-height_value");
+            }
+        }
+
+        // Check value of `item-width` is a string containing a positive integer.
+        if (array_key_exists("item-width", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["item-width"]) && intval($this->params["item-width"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_item-width_value");
             }
         }
 
@@ -365,15 +528,20 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone') {
+                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input'
+                    && $key !== 'clone' && $key !== 'columns' && $key !== 'rows' &&
+                    $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width' && $key !== 'log') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone'];
+                    $valids = [
+                        'width', 'height', 'aspect-ratio', 'version', 'overridecss',
+                        'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height',
+                        'item-width', 'log',
+                    ];
                     $err[] = stack_string('stackBlock_parsons_param', [
-                        'param' => implode(', ', $valids)]);
+                        'param' => implode(', ', $valids),
+                    ]);
                 }
             }
         }

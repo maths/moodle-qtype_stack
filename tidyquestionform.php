@@ -45,7 +45,7 @@ class qtype_stack_tidy_question_form extends moodleform {
 
         foreach ($question->inputs as $inputname => $input) {
             $mform->addElement('text', 'inputname_' . $inputname,
-                    stack_string('newnameforx', $inputname), array('size' => 20));
+                    stack_string('newnameforx', $inputname), ['size' => 20]);
             $mform->setDefault('inputname_' . $inputname, $inputname);
             $mform->setType('inputname_' . $inputname, PARAM_RAW); // Validated in the validation method.
         }
@@ -55,7 +55,7 @@ class qtype_stack_tidy_question_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $mform->addElement('text', 'prtname_' . $prtname,
-                    stack_string('newnameforx', $prtname), array('size' => 20));
+                    stack_string('newnameforx', $prtname), ['size' => 20]);
             $mform->setDefault('prtname_' . $prtname, $prtname);
             $mform->setType('prtname_' . $prtname, PARAM_RAW); // Validated in the validation method.
         }
@@ -70,9 +70,11 @@ class qtype_stack_tidy_question_form extends moodleform {
             $mform->addElement('static', $prtname . 'graph', '',
                     stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
 
-            foreach ($prt->get_nodes_summary() as $nodekey => $notused) {
+            $nodes = $prt->get_nodes_summary();
+            uasort($nodes, fn($a, $b) => $a->nodename - $b->nodename);
+            foreach ($nodes as $nodekey => $notused) {
                 $mform->addElement('text', 'nodename_' . $prtname . '_' . $nodekey,
-                        stack_string('newnameforx', $nodekey + 1), array('size' => 20));
+                        stack_string('newnameforx', $nodekey + 1), ['size' => 20]);
                 $mform->setDefault('nodename_' . $prtname . '_' . $nodekey, $newnames[$nodekey + 1]);
                 $mform->setType('nodename_' . $prtname . '_' . $nodekey, PARAM_INT);
             }
@@ -100,8 +102,8 @@ class qtype_stack_tidy_question_form extends moodleform {
                 $right = $summary->falsenextnode + 1;
             }
             $graph->add_node($nodekey + 1, $summary->description, $left, $right,
-                    $summary->truescoremode . round($summary->truescore, 2),
-                    $summary->falsescoremode . round($summary->falsescore, 2));
+                    $summary->truescoremode . stack_utils::fix_trailing_zeros($summary->truescore),
+                    $summary->falsescoremode . stack_utils::fix_trailing_zeros($summary->falsescore));
         }
         $graph->layout();
         return $graph;
@@ -112,7 +114,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         $question = $this->_customdata;
 
         // Inputs.
-        $inputnames = array();
+        $inputnames = [];
         foreach ($question->inputs as $inputname => $notused) {
             $field = 'inputname_' . $inputname;
             $proposedname = $data[$field];
@@ -129,7 +131,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         }
 
         // PRTs.
-        $prtnames = array();
+        $prtnames = [];
         foreach ($question->prts as $prtname => $notused) {
             $field = 'prtname_' . $prtname;
             $proposedname = $data[$field];
@@ -146,7 +148,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         }
 
         foreach ($question->prts as $prtname => $prt) {
-            $nodenames = array();
+            $nodenames = [];
             $nodes = $prt->get_nodes_summary();
             foreach ($nodes as $nodekey => $notused) {
                 $field = 'nodename_' . $prtname . '_' . $nodekey;

@@ -22,7 +22,9 @@ require_once(__DIR__ . '/blocks/stack_translate.specialblock.php');
 require_once(__DIR__ . '/blocks/ioblock.specialblock.php');
 require_once(__DIR__ . '/blocks/smlt.specialblock.php');
 require_once(__DIR__ . '/blocks/pfs.specialblock.php');
+require_once(__DIR__ . '/blocks/placeholder.specialblock.php');
 require_once(__DIR__ . '/block.factory.php');
+require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
 
 /**
  * In certain cases one may wish to collect a specialised processor to
@@ -37,11 +39,13 @@ interface castext2_processor {
     // The override helps when you want to chain things. Basically, use it to
     // give the top most processor to the lower ones so that they can pass things
     // back when processing nested things.
-    public function process(string $blocktype, array $arguments, castext2_processor $override = null): string;
+    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
+            castext2_processor $override = null): string;
 }
 
 class castext2_default_processor implements castext2_processor {
-    public function process(string $blocktype, array $arguments, castext2_processor $override = null): string {
+    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
+            castext2_processor $override = null): string {
         $proc = $this;
         $block = null;
         if ($override !== null) {
@@ -59,10 +63,12 @@ class castext2_default_processor implements castext2_processor {
             $block = new stack_cas_castext2_special_stack_maxima_latex_tidy([]);
         } else if ($blocktype === '%pfs') {
             $block = new stack_cas_castext2_special_rewrite_pluginfile_urls([]);
+        } else if ($blocktype === 'p h') { // The space here ensures that this block is not possible to use by the author.
+            $block = new stack_cas_castext2_special_placeholder([]);
         } else {
             $block = castext2_block_factory::make($blocktype);
         }
-        return $block->postprocess($arguments, $proc);
+        return $block->postprocess($arguments, $proc, $holder);
     }
 }
 

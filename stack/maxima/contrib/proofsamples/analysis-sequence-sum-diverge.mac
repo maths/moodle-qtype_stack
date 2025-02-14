@@ -1,0 +1,23 @@
+/****************************************************************/
+thm:"Proposition: If \\((a_n)\\) diverges to infinity and \\((b_n)\\) converges to \\(b\\in\\mathbb{R}\\), then the sequence \\((a_n+b_n)\\) diverges to infinity.";
+
+/****************************************************************/
+proof_steps: [
+    ["ass1",     "Let \\((a_n)\\) be a sequence that diverges to infinity."],
+    ["ass2",     "Let \\((b_n)\\) be a sequence that converges to a limit \\(b\\)."],
+    ["ass3",     "Let \\(M>0\\)."],
+    ["defc1",    "Let \\(N_1\\) be such that if \\(n>N_1\\) then \\(a_n\\geq M-b+1\\), which exists because \\((a_n)\\) diverges to infinity."],
+    ["defc2",    "Let \\(N_2\\) be such that if \\(n>N_2\\), then \\(|b_n-b|<1\\), which exists from the definition of \\((b_n)\\) converges to \\(b\\) with \\(\\epsilon=1\\). "],
+    ["s1",       "Let \\(N\\) be the maximum of \\(N_1\\) and \\(N_2\\). "],
+    ["s2",       "If \\(n>N\\), then \\(a_n+b_n>(M-b+1)+(b-1)\\)."],
+    ["s3",       "If \\(n>N\\), then \\(a_n+b_n>M\\)."],
+    ["conc",     "\\((a_n+b_n)\\) diverges to infinity."]
+];
+
+wrong_steps: [];
+
+proof_steps:append(proof_steps,wrong_steps);
+
+ta:proof(proof_c("ass1","ass2","ass3"),proof_c("defc1","defc2"),"s1","s2","s3","conc");
+ta2:proof(proof_c(proof(proof_c("ass1","ass3"),"defc1"),proof("ass2","defc2")), "s1","s2","s3","conc");
+proof_ans:append(proof_alternatives(ta),proof_alternatives(ta2));

@@ -74,7 +74,8 @@ class stack_cas_connection_server extends stack_cas_connection_base {
             $zip = new ZipArchive();
             $zip->open($ziptemp);
             for ($i = 0; $i < $zip->numFiles; $i++) {
-                $filenameinzip = $zip->getNameIndex($i);
+                // In some PHP versions, zip::getNameIndex returns filename with leading '/', hence trim.
+                $filenameinzip = trim($zip->getNameIndex($i), '/');
 
                 if ($filenameinzip === 'OUTPUT') {
                     // This one contains the output from maxima.

@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with STACK.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -75,13 +76,15 @@ class stack_cas_castext2_reveal extends stack_cas_castext2_block {
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true,
-                'title' => 'Logic container for a revealing portion ///REVEAL_COUNT///.'])),
+            new MP_String(json_encode([
+                'hidden' => true,
+                'title' => 'Logic container for a revealing portion ///REVEAL_COUNT///.',
+            ])),
             new MP_List([
                 new MP_String('script'),
                 new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
-            ])
+                new MP_String($code),
+            ]),
         ]);
 
         return $body;
@@ -92,11 +95,12 @@ class stack_cas_castext2_reveal extends stack_cas_castext2_block {
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor=null): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         return 'Post processing of reveal blocks never happens, this block is handled through [[iframe]].';
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 }

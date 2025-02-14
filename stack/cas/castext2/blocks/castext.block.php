@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -35,8 +36,10 @@ class stack_cas_castext2_castext extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = [stack_ast_container_silent::make_from_teacher_source($this->params['evaluated'],
-            'ct2:castext', new stack_cas_security())];
+        $r = [
+            stack_ast_container_silent::make_from_teacher_source($this->params['evaluated'],
+            'ct2:castext', new stack_cas_security()),
+        ];
         return $r;
     }
 

@@ -1,0 +1,253 @@
+/*  Author Salvatore Mercuri
+    University of Edinburgh
+    Copyright (C) 2024 Salvatore Mercuri
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/******************************************************************/
+/*  Functions for extracting data from matching problems          */
+/*  in STACK to a format that can be assessed by the author.      */
+/*  Should be used when providing model answers and writing       */
+/*  PRTs for matching problems using the `parsons` block.         */
+/*                                                                */
+/*  Salvatore Mercuri, <smercuri@ed.ac.uk>                        */
+/*  V1.0 May 2024                                                 */
+/*                                                                */
+/******************************************************************/
+
+/* To use these functions load the library via one of the following 
+two commands inside `Question variables`.
+
+stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/matchlib.mac");
+stack_include("contribl://matchlib.mac");
+*/
+
+/******************************************************************/
+/*                                                                */
+/*  Assessment helper functions                                   */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Hashes the first element of each sublist in a two-dimensional steps array using Base64 hashing. 
+ *
+ * It will turn `[["a", "b"], ["c", "d"], ["e", "f"]]` into `[["YQ==", "b"], ["Yg==", "d"], ["ZQ==", "f"]]`.
+ */
+hash_keys_array(steps) := block(
+  return(map(lambda([item], join([base64(first(item))], rest(item, 1))), steps))
+);
+
+/*
+ * Hashes all strings in a two-dimensional steps array using Base64 hashing. 
+ *
+ * It will turn `[["a", "b"], ["c", "d"], ["e", "f"]]` into `[["YQ==", "Yg=="], ["Yg==", "ZA=="], ["ZQ==", "Zg=="]]`.
+ */
+hash_2d_array(arr) := block(
+    return(map(lambda([l], map(base64, l)), arr))
+);
+
+/*
+ * Takes the hashed JSON from STACK Parson's block and return a de-hashed array.
+ */
+match_decode(st, [rows]) := block([js, arr],
+    js: first(first(stackjson_parse(st))),
+    arr: stackmap_get(js, "used"),
+    if rows=[] then arr:map(lambda([keys], map(base64_decode, first(keys))), arr) 
+      else arr:map(lambda([keys], map(lambda([k], if k # [] then base64_decode(first(k)) else []), keys)), arr),
+    return(arr)
+);
+
+/*
+ * Turns a two-dimensional proof steps array into a JSON string with Base64-hashed keys.
+ */
+match_encode(steps) := block(
+  return(stackjson_stringify(hash_keys_array(steps)))
+);
+
+/*
+ * Auxiliary function.
+ *
+ * Takes a list of hashed answer keys and the full 2d steps array and returns the the all used hashed keys and unusued hashed keys.
+ * Needed to create a "teacher's answer" in JSON format, including unused text.
+ */
+match_keys_used_unused_hash(ans, steps) := block([tkeys],
+  tkeys:map(first, hash_keys_array(steps)),
+  skeys:hash_2d_array(ans),
+  return([skeys, listdifference(tkeys, ev(unique(flatten(skeys)), simp))])
+);
+
+/*
+ * Use this to transform the teacher's answer into the shape expected by the Parson's block.
+ * Returns an array of `[answer_keys, unused_keys]`, where `unused_keys` is always a flat
+ * list of keys that are in the question but not inside `ans`.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_reshape_hash(ans1)`. This will return `answer_keys` as an 
+ * array of shape `(columns, 1, ?)` if, where `?` represents variable dimension.
+ * 
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_reshape_hash(ans1, true)`. This will 
+ * return `answer_keys` as an array of shape `(columns, rows, 1)`.
+ */
+match_reshape_hash(ans, steps, [rows]) := block([tkeys, akeys],
+  tkeys: match_keys_used_unused_hash(ans, steps),
+  if rows=[] then akeys: map(lambda([keys], [keys]), first(tkeys)) 
+    else akeys:map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
+  return([akeys, second(tkeys)])
+);
+
+/*
+ * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_answer(ans1)`. 
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_answer(ans1, true)`. 
+ */
+match_answer(ans, steps, [rows]) := block([akeys, ukeys],
+  if rows=[] then [akeys, ukeys]: match_reshape_hash(ans, steps)
+    else [akeys, ukeys]: match_reshape_hash(ans, steps, rows),
+  sconcat("[[{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}, 0]]")
+);
+
+/*
+ * Alias for for the column-only usage `match_answer(ans_steps)` of `match_answer`.
+ */
+group_answer(ans, steps) := match_answer(ans, steps);
+
+/*
+ * Use this to turn a row-grouped answer into a column-grouped answer and vice-versa.
+ * 
+ * Note that model answers for matching problems in STACK should always be written by grouping 
+ * the columns, that is they should be a two-dimensional array of shape `(columns, rows)`. Authors 
+ * may prefer to use the row-grouped answer in PRTs. This function will move between them.
+ */
+match_transpose(ans) := block(
+    return(args(transpose(apply(matrix, ans))))
+);
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order within a column.
+ * 
+ * It will turn `[[a, b], [c, d], [e, f]]` into `[{a, b}, {c, d}, {e, f}]`.
+ */
+match_column_set(ans) := block(
+    return(map(lambda([col], apply(set, col)), ans))
+);
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order within a row.
+ * 
+ * It will turn `[[a, b], [c, d], [e, f]]` into `[{a, c, e}, {b, d, f}]`.
+ */
+match_row_set(ans) := block(
+    return(match_column_set(match_transpose(ans)))
+);
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order between columns.
+ * 
+ * It will turn `[[a, b], [c, d], [e, f]]` into `{[a, b], [c, d], [e, f]}`.
+ */
+match_set_column(ans) := block(
+    return(apply(set, ans))
+);
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order between rows.
+ * 
+ * It will turn `[[a, b], [c, d], [e, f]]` into `{[a, c, e], [b, d, f]}`.
+ */
+match_set_row(ans) := block(
+    return(match_set_column(match_transpose(ans)))
+);
+
+/******************************************************************/
+/*                                                                */
+/*  Assessment helper functions (legacy)                          */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Use this to extract an answer from the student's input of desirable format
+ * for assessing.
+ *
+ * Take the JSON from STACK Parson's block when using `columns` and/or 
+ * `rows` header parameter, and returns a two-dimensional array corresponding to 
+ * the answer keys in the JSON. 
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_interpret(ans1)`. This will return an 
+ * array of shape `(columns, ?)` if, where `?` represents variable dimension.
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_interpret(ans1, true)`. This will 
+ * return an array of shape `(columns, rows)`.
+ */
+match_interpret(st, [rows]) := block([js, arr],
+    js: first(first(stackjson_parse(st))),
+    arr: stackmap_get(js, "used"),
+    if rows=[] then arr:map(lambda([keys], first(keys)), arr) 
+      else arr:map(lambda([keys], map(lambda([k], first(k)), keys)), arr),
+    return(arr)
+);
+
+/*
+ * Auxiliary function.
+ *
+ * Takes a list of matched keys and returns the keys not used.
+ * Needed to create a "teacher's answer" in JSON format, including unused text.
+ */
+match_keys_used_unused(ans, steps) := block([tkeys],
+  tkeys:map(first, steps),
+  return([ans, listdifference(tkeys, ev(unique(flatten(ans)), simp))])
+);
+
+/*
+ * Use this to transform the teacher's answer into the shape expected by the Parson's block.
+ * Returns an array of `[answer_keys, unused_keys]`, where `unused_keys` is always a flat
+ * list of keys that are in the question but not inside `ans`.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_reshape(ans1)`. This will return `answer_keys` as an 
+ * array of shape `(columns, 1, ?)` if, where `?` represents variable dimension.
+ * 
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_interpret(ans1, true)`. This will 
+ * return `answer_keys` as an array of shape `(columns, rows, 1)`.
+ */
+match_reshape(ans, steps, [rows]) := block([tkeys, akeys],
+  tkeys: match_keys_used_unused(ans, steps),
+  if rows=[] then akeys: map(lambda([keys], [keys]), first(tkeys)) 
+    else akeys:map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
+  return([akeys, second(tkeys)])
+);
+
+/*
+ * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_correct(ans1)`. 
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_correct(ans1, true)`. 
+ */
+match_correct(ans, steps, [rows]) := block([akeys, ukeys],
+  if rows=[] then [akeys, ukeys]: match_reshape(ans, steps)
+    else [akeys, ukeys]: match_reshape(ans, steps, rows),
+  sconcat("[[{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}, 0]]")
+);

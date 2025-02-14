@@ -31,7 +31,7 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
         $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // First find the boundaries.
-                $splits = array();
+                $splits = [];
                 $alpha = true;
                 $last = 0;
                 for ($i = 1; $i < mb_strlen($node->value); $i++) {
@@ -48,6 +48,9 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
                 if (count($splits) > 1) {
                     if (array_search('missing_stars', $answernotes) === false) {
                         $answernotes[] = 'missing_stars';
+                    }
+                    if (array_search('(403)', $answernotes) === false) {
+                        $answernotes[] = '(403)';
                     }
                     // Initial identifier is turned to multiplication chain.
                     $temp = new MP_Identifier('rhs');

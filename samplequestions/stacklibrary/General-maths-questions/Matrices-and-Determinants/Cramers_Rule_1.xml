@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Cramers_Rule_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Use Cramer's rule to find the y-coordinate of the solution of the system: <br /> <br /> \[{@eqns[1]@}\ =\ {@bmat[1,1]@} , \] <br /> \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \] <br /> \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} . \] <br /> <br /> y= [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Cramer's rule states that y = \(\frac{D_{y}}{D}\) where \(D\) is the determinant of the matrix and \(D_{y}\) is the determinant of the matrix with the y column replaced by the numbers on the right hand side of the equations. Therefore for the system <br /> \[{@eqns[1]@}\ =\ {@bmat[1,1]@} , \] \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \] \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} , \] <br /> \[ D = det{@Amat@}={@D@}\] <br /> \[D_{y} = det{@Amaty@}={@Dy@}\] <br /> and hence, \[y=\frac{D_{y}}{D}=\frac{@Dy@}{@D@} = {@Dy/D@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>Au:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
+ Bu:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
+ Amat:ev(transpose(Au).Bu);
+ bmat:matrix([rand(5)+1],[rand(5)+1],[rand(5)+1]);
+ xyz:matrix([x],[y],[z]);
+ eqns[1]:ev(Amat.xyz)[1,1];
+ eqns[2]:ev(Amat.xyz)[2,1];
+ eqns[3]:ev(Amat.xyz)[3,1];
+ truesolm:ev(invert(Amat) . bmat);
+ correctanswer:truesolm[2,1];
+ D:determinant(Amat);
+ Amaty:copymatrix(Amat);
+ Amaty[1,2]:ev(bmat[1,1]);
+ Amaty[2,2]:ev(bmat[2,1]);
+ Amaty[3,2]:ev(bmat[3,1]);
+ Dy:determinant(Amaty);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@eqns[1]@}\ =\ {@bmat[1,1]@} ,  {@eqns[2]@}\ =\ {@bmat[2,1]@} ,{@eqns[3]@}\ =\ {@bmat[3,1]@} \) gives y= {@correctanswer@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>680910871</deployedseed>
+    <deployedseed>1697968866</deployedseed>
+    <deployedseed>124181137</deployedseed>
+    <deployedseed>937452943</deployedseed>
+    <deployedseed>489522501</deployedseed>
+    <deployedseed>1971296265</deployedseed>
+    <deployedseed>418461213</deployedseed>
+    <deployedseed>2127585667</deployedseed>
+    <deployedseed>92728409</deployedseed>
+    <deployedseed>447693178</deployedseed>
+    <deployedseed>1188855332</deployedseed>
+    <deployedseed>766586024</deployedseed>
+    <deployedseed>388584247</deployedseed>
+    <deployedseed>1550272365</deployedseed>
+    <deployedseed>16974645</deployedseed>
+    <deployedseed>2013621039</deployedseed>
+    <deployedseed>1024472676</deployedseed>
+    <deployedseed>1554471324</deployedseed>
+    <deployedseed>1321704505</deployedseed>
+    <deployedseed>1050007925</deployedseed>
+    <deployedseed>726792158</deployedseed>
+    <deployedseed>2125054945</deployedseed>
+    <deployedseed>2120380584</deployedseed>
+    <deployedseed>221619436</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer-10</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -218,8 +218,42 @@ stackjson_stringify(obj) := block([tmp,r,l],
  if is(obj=und) then r:"null"
  else if is(obj=false) then r:"false"
  else if is(obj=true) then r:"true"
- else if stringp(obj) then (
-  r : sconcat("\"",simplode(map(stackjson_protect_escapes, charlist(obj))),"\"")
+ /* In the string case we do the following.*/
+ /*     1. Create a character list and protect escapes on each character. */
+ /*     2. Split the character list into batches of size 64 (maximum function argument limit in GCL). */
+ /*     3. Loop through each batch. */
+ /*           3a. Pass each batch to `sconcat` to create a batch string of length 64. */
+ /*         3b. Successively `sconcat` each batch on to the result string. */
+ /* Note that this can be achieved in a simpler way by using `simplode`, which was the case in the prior code. */
+ /* Prior code: `r : sconcat("\"",simplode(map(stackjson_protect_escapes, charlist(obj))),"\"")` */
+ /* However, there is evidence showing that this code is quadratic and that the batch optimisation helps to alleviate this. */
+ /* See here: https://docs.stack-assessment.org/en/Developer/Optimising_STACK_for_large_Maxima_variables/ for more details. */
+ else if stringp(obj) then block([char_list, batch_size, i, j],
+  /* Create character list with escapes protected */
+  char_list: map(stackjson_protect_escapes, charlist(obj)),
+  /* Set batch size to 64, which is inferred from the maximum function argument limit in GCL-compiled Lisp. Other compilations (e.g., SBCL) are less limited in this respect. */
+  batch_size: 64,
+  /* Start the return string */
+  r: "\"",
+  /* Calculate the number of batches */
+  l : ev(ceiling(length(char_list)/batch_size), simp),
+  /* Loop through the batches */
+  i : 1,
+  while (ev(i <= l, simp)) do (
+    batch: [],
+    j: 1,
+    /* Create the batch by looping through the character list and push-popping */
+    while (ev(j <= batch_size and not emptyp(char_list), simp)) do (
+      push(pop(char_list), batch),
+      j: ev(j+1, simp)
+    ),
+    /* Pass the batch to sconcat, and then append the resultant batch string to the return string */
+    /* Note that reverse is required due to the push-popping when creating the batch */
+    r: sconcat(r, apply(sconcat, reverse(batch))),
+    i: ev(i + 1, simp)
+  ),
+  /* End the return string */
+  r: sconcat(r, "\"")
  ) else if is_stackmap(obj) then (
   l:[],
   for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 
@@ -394,7 +428,7 @@ stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount
   )
  ),
 
- /* TODO: do we want to do padding and formatting to help reading in text-editors? */
+ /* TO-DO: do we want to do padding and formatting to help reading in text-editors? */
 
  /* Now let's join everything up. */
  _out: maplist(lambda([_row], simplode(_row, _sep)), _out),

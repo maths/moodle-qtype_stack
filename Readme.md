@@ -1,8 +1,8 @@
-# STACK 4.5.0
+# STACK 4.8.3
 
-STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.
+STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.  STACK has an API for stand-alone integration into other 3rd party systems.
 
-The mains STACK project website is [https://stack-assessment.org/](https://stack-assessment.org/).
+The main STACK project website is [https://stack-assessment.org/](https://stack-assessment.org/).
 
 STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of many [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md). 
 STACK is based on continuing research and use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.
@@ -24,3 +24,5 @@ The [documentation is here](https://docs.stack-assessment.org/en/), including th
 The STACK source code is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).
 
 The STACK documentation, contained in the subdirectories of <tt>doc/</tt>, is Licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://github.com/maths/moodle-qtype_stack/blob/master/doc/COPYING.txt).
+
+The STACK sample questions and materials, contained in the subdirectories of <tt>samplequestions/</tt>, is Licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://github.com/maths/moodle-qtype_stack/blob/master/samplequestions/COPYING.txt).

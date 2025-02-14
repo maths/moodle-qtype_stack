@@ -33,6 +33,26 @@ $functions = [
         'type' => 'read',
         'ajax' => true,
         'capabilities' => '',
-        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile']
-    ]
+        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
+    ],
+    'qtype_stack_library_render' => [
+        'classname' => '\qtype_stack\library_render',
+        'methodname' => 'render_execute',
+        'classpath' => '',
+        'description' => 'Returns details of a question in a given file',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => '',
+        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
+    ],
+    'qtype_stack_library_import' => [
+        'classname' => '\qtype_stack\library_import',
+        'methodname' => 'import_execute',
+        'classpath' => '',
+        'description' => 'Import a given file from the library',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => '',
+        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
+    ],
 ];

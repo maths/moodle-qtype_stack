@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -57,9 +58,9 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                         [
                             new MP_FunctionCall(new MP_Identifier('errcatch'),
                                 [
-                                    new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
+                                    new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast),
                                 ]),
-                            new MP_String($epos)
+                            new MP_String($epos),
                         ]);
 
                     if (strpos($key, 'nosimp_raw_') === 0) {
@@ -72,10 +73,10 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                             new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
                             new MP_FunctionCall(new MP_Identifier('string'),
                                 [
-                                    new MP_Identifier('_ct2_tmp')
+                                    new MP_Identifier('_ct2_tmp'),
                                 ])),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
-                            new MP_Identifier('_ct2_tmp')
+                            new MP_Identifier('_ct2_tmp'),
                         ]);
                     } else if (strpos($key, 'nosimp_') === 0) {
                         $r->items[] = new MP_String(mb_substr($key, 7));
@@ -90,10 +91,10 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                                 [
                                     new MP_Identifier('_ct2_tmp'),
                                     new MP_String('i'),
-                                    new MP_Boolean(false)
+                                    new MP_Boolean(false),
                                 ])),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
-                            new MP_Identifier('_ct2_tmp')
+                            new MP_Identifier('_ct2_tmp'),
                         ]);
                     } else if (strpos($key, 'raw_') === 0) {
                         $r->items[] = new MP_String(mb_substr($key, 4));
@@ -101,7 +102,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                         $r->items[] = new MP_FunctionCall(new MP_Identifier('block'), [
                             new MP_List([new MP_Identifier('_ct2_tmp')]),
                             $ev,
-                            new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
+                            new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')]),
                         ]);
                     } else {
                         // By default assume the value is to be handled like {@...@} would handle it.
@@ -116,10 +117,10 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                                 [
                                     new MP_Identifier('_ct2_tmp'),
                                     new MP_String('i'),
-                                    new MP_Identifier('_ct2_simp')
+                                    new MP_Identifier('_ct2_simp'),
                                 ])),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
-                            new MP_Identifier('_ct2_tmp')
+                            new MP_Identifier('_ct2_tmp'),
                         ]);
                     }
                 }
@@ -133,7 +134,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
+        $r = [];
         foreach ($this->params as $key => $value) {
             $r[] = stack_ast_container_silent::make_from_teacher_source(
                 $value, 'ct2:commonstring', new stack_cas_security());
@@ -142,7 +143,8 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
 
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         if (count($params) === 2) {
             return stack_string($params[1]);
         }
@@ -150,7 +152,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
         for ($i = 2; $i < count($params); $i += 2) {
             $val = '';
             if (is_array($params[$i + 1])) {
-                $val = $processor->process($params[$i + 1][0], $params[$i + 1]);
+                $val = $processor->process($params[$i + 1][0], $params[$i + 1], $holder, $processor);
             } else {
                 $val = $params[$i + 1];
             }

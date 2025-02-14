@@ -231,7 +231,8 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
   if (debug) then (print("stackunits_make: (2) reformulated numbers as "), print(exn)),
   if is(first(exn) = UNARY_MINUS) then block(
       exn:rest(exn),
-      exn[1]:ev(-1*exn[1],simp)
+      if is(safe_op(exn[1])="displaydp") then exn[1]:displaydp(ev(-1*part(exn,1,1), simp), part(exn,1,2))
+        else exn[1]:ev(-1*exn[1],simp)
   ),
   if length(exn)=1 then exn:first(exn) else exn:apply("nounmul", exn),
   if length(exu)=1 then exu:first(exu) else exu:apply("nounmul", exu),
@@ -254,9 +255,8 @@ stackunits_to_product(ex) := block(
   apply("*", args(ex))
 )$
 
-/* Predicate function used as a filter in stackunits_make. */
 stackunits_make_p(ex) := block(
-  if simp_numberp(ex) or is_simp(ex=UNARY_MINUS) or is_simp(ex=QMCHAR) then
+  if simp_numberp(ex) or is_simp(ex=UNARY_MINUS) or is_simp(ex=QMCHAR) or is(safe_op(ex)="displaydp" or is(safe_op(ex)="displaysci")) then
     return(true),
   if emptyp(listofvars(ex)) then
     return(true),
@@ -329,7 +329,7 @@ stack_units_errp(ex) := block(
 )$
 
 /* Validate an expression which is expected to have units. */
-stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:false, exs, SAU, SBU],
+stack_validate_units(expr, LowestTerms, TAns, fracdisp) := block( [simp:false, exs, SAU, SBU],
   /* Check the display option. */
   if not(fracdisp = "inline" or fracdisp = "negpow") then block(
     error("stack_validate_units: fracdisp argument must be either inline or negpow only.")
@@ -358,15 +358,6 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
   SAU:stackunits_make(expr),
   SBU:stackunits_make(TAns),
   if (debug) then (print("stack_validate_units working with: "), print(SAU), print(SBU)),
-
-  /* Deal with the display of floats.  */
-  /* Only use the number template when we have exactly 1 float in the expression. */
-  stackfltfmt:"~a",
-  if numberp(stack_units_nums(SAU)) or is(safe_op(stack_units_nums(SAU)) = "-") then
-    stackfltfmt:fltfmt
-  else if is(safe_op(stack_units_nums(SAU)) = "*") then
-    if is(length(sublist(args(stack_units_nums(SAU)), numberp)) <= 1) then
-      stackfltfmt:fltfmt,
 
   /* Check if stackunits_make appears to have done something sensible. */
   /* Student types only units.  This should always be invalid. */
@@ -401,8 +392,10 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
   return(expr)
 )$
 
+texput(multsgnstackunits, "\\, ");
+
 /* Finer control over display of units, separating out the number from the units. */
-stackunitstex(ex) := block ([a, b, c, astr],
+stackunitstex(ex) := block([a, b, c, astr, bstr],
   a:first(args(ex)),
   b:second(args(ex)),
   if scientific_notationp(a) then make_multsgn("cross"),
@@ -411,13 +404,17 @@ stackunitstex(ex) := block ([a, b, c, astr],
   if not(atom(a)) and safe_op(a)="+" and not(is(b=NULLUNITS)) then 
     astr:sconcat("\\left( ", astr, "\\right)"),
   if length(args(ex))=3 then
-    astr:sconcat(astr, "\\pm ", third(args(ex))),
+    astr:sconcat(astr, "\\pm ", tex1(third(args(ex)))),
   /* Fine tune the edge cases. */
   if is(safe_op(b)="/") then
     if (is(first(args(b))=1)) then return(sconcat(astr,"\\times ",tex1(b))),
   /* Otherwise....             */
-  sconcat(astr,"\\, ",tex1(b))
+  bstr:tex1(b),
+  if is(strim(" ", astr)="") then return(bstr),
+  if is(strim(" ", bstr)="") then return(astr),
+  sconcat(astr, tex1(multsgnstackunits), bstr)
 )$
+
 texput(stackunits, stackunitstex);
 texput(NULLUNITS, "");
 texput(NULLNUM, "");

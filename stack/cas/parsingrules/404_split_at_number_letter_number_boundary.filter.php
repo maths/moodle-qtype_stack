@@ -33,7 +33,7 @@ class stack_ast_filter_404_split_at_number_letter_number_boundary implements sta
         $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // First find the boundaries.
-                $splits = array();
+                $splits = [];
                 // Type of previous character.
                 // This will be true if alpha, false if numeric and null otherwise, e.g. an underscore.
                 $alpha = false;
@@ -63,6 +63,9 @@ class stack_ast_filter_404_split_at_number_letter_number_boundary implements sta
                 if (count($splits) > 1) {
                     if (array_search('missing_stars', $answernotes) === false) {
                         $answernotes[] = 'missing_stars';
+                    }
+                    if (array_search('(404)', $answernotes) === false) {
+                        $answernotes[] = '(404)';
                     }
                     // Initial identifier is turned to multiplication chain.
                     $temp = new MP_Identifier('rhs');

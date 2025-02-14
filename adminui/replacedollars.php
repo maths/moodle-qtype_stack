@@ -44,7 +44,7 @@ $preview = optional_param('preview', true, PARAM_BOOL);
 $context = context::instance_by_id($contextid);
 require_login();
 require_capability('moodle/site:config', $context);
-$PAGE->set_url('/question/type/stack/adminui/replacedollars.php', array('contextid' => $context->id));
+$PAGE->set_url('/question/type/stack/adminui/replacedollars.php', ['contextid' => $context->id]);
 $PAGE->set_context($context);
 $title = stack_string('replacedollarstitle', $context->get_context_name());
 $PAGE->set_title($title);
@@ -53,23 +53,19 @@ if ($context->contextlevel == CONTEXT_MODULE) {
     // Calling $PAGE->set_context should be enough, but it seems that it is not.
     // Therefore, we get the right $cm and $course, and set things up ourselves.
     $cm = get_coursemodule_from_id(false, $context->instanceid, 0, false, MUST_EXIST);
-    $PAGE->set_cm($cm, $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST));
+    $PAGE->set_cm($cm, $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST));
 }
 
 // Load the necessary data.
-if (stack_determine_moodle_version() < 400) {
-    $categories = question_category_options(array($context));
-} else {
-    $categories = qbank_managecategories\helper::question_category_options(array($context));
-}
+$categories = qbank_managecategories\helper::question_category_options([$context]);
 $categories = reset($categories);
 
 $bulktester = new stack_bulk_tester();
 $fixer = new qtype_stack_dollar_fixer($preview);
-$questionfields = array('questiontext', 'generalfeedback');
-$qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questionnote');
-$prtnodefields = array('truefeedback', 'falsefeedback');
-$qafields = array('questionsummary', 'rightanswer', 'responsesummary');
+$questionfields = ['questiontext', 'generalfeedback'];
+$qtypestackfields = ['specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questionnote'];
+$prtnodefields = ['truefeedback', 'falsefeedback'];
+$qafields = ['questionsummary', 'rightanswer', 'responsesummary'];
 $anychanges = false;
 
 // Display.
@@ -104,7 +100,7 @@ foreach ($categories as $key => $category) {
         $anychanges = $anychanges || $changes;
 
         // Fields in the qtype_stack_options table.
-        $stackoptions = $DB->get_record('qtype_stack_options', array('questionid' => $question->id), '*', MUST_EXIST);
+        $stackoptions = $DB->get_record('qtype_stack_options', ['questionid' => $question->id], '*', MUST_EXIST);
         $changes = false;
         foreach ($qtypestackfields as $field) {
             $changes = $fixer->fix_question_field($stackoptions, $field) || $changes;
@@ -115,7 +111,7 @@ foreach ($categories as $key => $category) {
         $anychanges = $anychanges || $changes;
 
         // Fields in the qtype_stack_prt_nodes table.
-        $prtnodes = $DB->get_records('qtype_stack_prt_nodes', array('questionid' => $question->id), 'prtname,nodename');
+        $prtnodes = $DB->get_records('qtype_stack_prt_nodes', ['questionid' => $question->id], 'prtname,nodename');
         foreach ($prtnodes as $node) {
             $changes = false;
             foreach ($prtnodefields as $field) {
@@ -128,7 +124,7 @@ foreach ($categories as $key => $category) {
         }
 
         // Fields in the question_hints table.
-        $hints = $DB->get_records('question_hints', array('questionid' => $question->id), 'id');
+        $hints = $DB->get_records('question_hints', ['questionid' => $question->id], 'id');
         foreach ($hints as $hint) {
             $changes = $fixer->fix_question_field($hint, 'hint');
             if ($changes && $confirm) {
@@ -142,7 +138,7 @@ foreach ($categories as $key => $category) {
                     SELECT qa.*
                       FROM {question_attempts} qa
                      WHERE qa.questionid = :questionid
-                ", array('questionid' => $question->id));
+                ", ['questionid' => $question->id]);
         foreach ($attemptdata as $qa) {
             $changes = false;
             foreach ($qafields as $field) {
@@ -164,7 +160,7 @@ if (!$anychanges) {
 
 } else {
     echo $OUTPUT->single_button(new moodle_url('/question/type/stack/adminui/replacedollars.php',
-            array('contextid' => $context->id, 'confirm' => 1, 'preview' => $preview)), get_string('savechanges'));
+            ['contextid' => $context->id, 'confirm' => 1, 'preview' => $preview]), get_string('savechanges'));
 }
 echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/adminui/replacedollarsindex.php'),
         get_string('back')));
@@ -192,12 +188,16 @@ class qtype_stack_dollar_fixer {
      */
     public function __construct($preview) {
         $this->preview = $preview;
-        $this->search = array(s('<ins>\[</ins>'), s('<ins>\]</ins>'),
-                s('<ins>\(</ins>'), s('<ins>\)</ins>'),
-                s('<ins>{@</ins>'), s('<ins>@}</ins>'));
-        $this->replace = array('<del>$$</del><ins>\[</ins>', '<del>$$</del><ins>\]</ins>',
-                '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>',
-                '<del>@</del><ins>{@</ins>', '<del>@</del><ins>@}</ins>');
+        $this->search = [
+            s('<ins>\[</ins>'), s('<ins>\]</ins>'),
+            s('<ins>\(</ins>'), s('<ins>\)</ins>'),
+            s('<ins>{@</ins>'), s('<ins>@}</ins>'),
+        ];
+        $this->replace = [
+            '<del>$$</del><ins>\[</ins>', '<del>$$</del><ins>\]</ins>',
+            '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>',
+            '<del>@</del><ins>{@</ins>', '<del>@</del><ins>@}</ins>',
+        ];
     }
 
     /**
@@ -217,8 +217,8 @@ class qtype_stack_dollar_fixer {
         if ($this->preview) {
             $markedup = stack_maths::replace_dollars($question->{$field}, true);
             echo html_writer::tag('pre', str_replace($this->search, $this->replace,
-                    s($markedup)), array('class' => 'questiontext'));
-            echo html_writer::tag('div', stack_ouput_castext($newtext), array('class' => 'questiontext'));
+                    s($markedup)), ['class' => 'questiontext']);
+            echo html_writer::tag('div', stack_ouput_castext($newtext), ['class' => 'questiontext']);
         }
 
         $question->{$field} = $newtext;

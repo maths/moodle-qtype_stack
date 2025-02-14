@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -23,10 +24,10 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
 
     public $content;
 
-    public function __construct($params, $children=array(), $mathmode=false) {
+    public function __construct($params, $children=[], $mathmode=false) {
         parent::__construct($params, $children, $mathmode);
         $this->content = $children[0]->content; // The child is a different type of RAW.
-        $this->children = array(); // We want to modify the iteration here a bit.
+        $this->children = []; // We want to modify the iteration here a bit.
     }
 
     public function compile($format, $options): ?MP_Node {
@@ -51,9 +52,9 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
         $ec = new MP_FunctionCall(new MP_Identifier('_EC'), [
             new MP_FunctionCall(new MP_Identifier('errcatch'), [
-                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast),
             ]),
-            new MP_String($epos)
+            new MP_String($epos),
         ]);
 
         if ($forcesimp) {
@@ -66,7 +67,7 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'),
                     [new MP_Identifier('_ct2_tmp')])),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
-                new MP_Identifier('_ct2_tmp')
+                new MP_Identifier('_ct2_tmp'),
             ]);
         } else if ($disablesimp) {
             $r = new MP_FunctionCall(new MP_Identifier('block'), [
@@ -77,13 +78,13 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
                     new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
-                new MP_Identifier('_ct2_tmp')
+                new MP_Identifier('_ct2_tmp'),
             ]);
         } else {
             $r = new MP_FunctionCall(new MP_Identifier('block'), [
                 new MP_List([new MP_Identifier('_ct2_tmp')]),
                 $ec,
-                new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
+                new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')]),
             ]);
         }
         return $r;
@@ -94,6 +95,6 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        return array(stack_ast_container::make_from_teacher_source($this->content, 'ct2:raw', new stack_cas_security()));
+        return [stack_ast_container::make_from_teacher_source($this->content, 'ct2:raw', new stack_cas_security())];
     }
 }

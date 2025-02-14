@@ -555,7 +555,7 @@
 ;                    dx             dx     dx
 ;
 ;
-; TODO: higher orders / mixed
+; TO-DO: higher orders / mixed
 ;
 |#
 

@@ -12,19 +12,27 @@ Read more about this in the [languages](../Languages.md) documentation.
 
 ## Comment blocks ##
 
-Comment blocks allow you to put content into CASText which will not be seen by students.
+Comment blocks allow you to put content into a CASText field which will not be seen by students.
 
-    [[ comment ]] Place comments here which will not appear to students. [[/ comment ]]
+    [[comment]] Place comments here which will not appear to students. [[/comment]]
 
 Before 4.4 the contents of the block needed to be syntactically correct CASText. That is no longer the case and you can much more easily use this block to comment our unfinished stuff.
 
 ## Todo blocks ##
 
-"todo" blocks allow you to put items into CASText which indicate future work needed.  This will not be seen by students.
+"todo" blocks allow you to put items into a main question CASText field (not feedback in the PRTs) which indicate future work needed.  This will not be seen by students.
 
-    [[ todo ]] Place requests to collaborators here. This will not appear to students. [[/ todo ]]
+    [[todo]] Place requests to collaborators here. This will not appear to students. [[/todo]]
 
-Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.  These blocks can also be found by the dependency checker.
+Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.
+
+The `[[todo]]` can contain optional `tags` e.g.
+
+    [[todo tags="tag1,tag2,..."]]Please fix ...[[/todo]]
+
+The use of this tag is documented under [workflow](../../STACK_question_admin/Authoring_workflow.md).
+
+You can access a page listing all questions with `[[todo]]` blocks which you can edit, in every course on which you are a teacher, by accessing the STACK question dashboard, or from the page `question/type/stack/adminui/index.php` on your local server.
 
 The todo block is similar to the comments block.  A different block is provided to facilitate searching for questions with specific "todo" items remaining.  The contents must be valid castext (unlike the comments block which can be anything) because in the future we may extend the functionality to display todo items in a teacher preview.  If you need to include invalid content either use the comment block, or escape block inside the todo, e.g.
 
@@ -34,7 +42,8 @@ The contents of this block are replaced by the static
 
     <!--- stack_todo --->
 
-to provide a searchable tag in instantiated text which is not visible in regular html, e.g. in the dependency checker.
+to stop these being read by a user (student), and to provide a searchable tag in instantiated text which is not visible in regular html.
+
 
 ## The debug block ##
 
@@ -53,6 +62,17 @@ STACK can construct a text-file using CASText and provide a link to it for downl
 ## Include block ##
 
 A new feature in 4.4 is the ability to include content from an URL. The include block allows one to do that. However, it is not a recommended tool for novices and all users choosing to use it should consider what it means for the future maintenance and shareability of your questions. See the specific documentation on [include logic](../Inclusions.md).
+
+## QUID (question unique identifier) block ##
+
+When scripting things one often needs to give elements identifiers and those identifiers tend to be hard-coded. This may prove to be problematic when code gets copied from question to question and one ends up with multiple questions using the same identifier on the same page. To avoid this issue we have the `[[quid id="..."/]]` block, which will prepend a question usage level unique prefix to the identifier it has been given and outputs the result, thus allowing one to safely write content like this:
+
+    <div id="[[quid id='target'/]]">...</div>
+    [[javascript]]
+        stack_js.switch_content("[[quid id='target'/]]", "new content");
+    [[/javascript]]
+
+You may think you will always remember to change your identifiers for all questions, but why worry about that when you can use this and keep the identifiers visible to you sensible, at the same time you eliminate the whole issue. Do note that if you write overly sensible identifier and include code from others that do that, you may still see collisions inside your own question, so maybe add your own prefixes as well... Don't just call something "target" and expect that there would not be other "targets" in play.
 
 ## Template block ##
 

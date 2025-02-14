@@ -1,0 +1,60 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+load("stacklocalwin.mac");
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Test STACK
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rand(matrix([5,5],[5,5]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Directory for maxima plot2d (gnuplot file)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+res2d:plot2d(sin(x),[x,0,6]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Call the STACK plot command
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+res:plot(cos(x),[x,0,6]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Add the resulting string the file maxima_userdir/plots/test.html. Since it should be a fresh file, we use fileappend:false.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+add2HTML(res,false);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+To open the file you can call
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+showHTML();
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

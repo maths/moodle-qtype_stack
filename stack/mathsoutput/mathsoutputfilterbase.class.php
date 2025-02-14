@@ -16,9 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/filterlib.php');
-require_once($CFG->dirroot . '/filter/tex/filter.php');
-
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.
  *
@@ -27,7 +24,6 @@ require_once($CFG->dirroot . '/filter/tex/filter.php');
  */
 abstract class stack_maths_output_filter_base extends stack_maths_output {
     protected $filter = null;
-
     protected $displaywrapstart = '<span class="displayequation">';
     protected $displaywrapend = '</span>';
     protected $displaystart;
@@ -50,9 +46,9 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     }
 
     public function post_process_docs_page($html) {
-        $html = str_replace('&#92;', '\\', $html);
-        $html = $this->find_and_render_equations($html);
         $html = parent::post_process_docs_page($html);
+        $html = str_replace('&#92;', '\\', $html);
+        $html = str_replace('&amp;#92;', '\\', $html);
         return $html;
     }
 
@@ -140,7 +136,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
      */
     protected function find_and_process_equations($html, $callback) {
         return preg_replace_callback('~(?<!\\\\)(?<!<code>)\\\\[([](.*?)(?<!\\\\)\\\\([])])(?!</code>)~s',
-                array($this, $callback), $html);
+                [$this, $callback], $html);
     }
 
     /**

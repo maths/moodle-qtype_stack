@@ -4,11 +4,11 @@ The non-strict inequalities \(\geq\) and \(\leq\) are created as infix operators
 
     >=,  <=
 
-Maxima allows single inequalities, such as \(x-1>y\), and also support for inequalities connected by logical operators, e.g. \( x>1 \mbox{ and } x<=5\).
+Maxima allows single inequalities, such as \(x-1>y\), and also support for inequalities connected by logical operators, e.g. \( x>1 \text{ and } x<=5\).
 
 You can test if two inequalities are the same using the algebraic equivalence test, see the comments on this below.  
 
-Chained inequalities, for example \(1\leq x \leq2\mbox{,}\) are not permitted.  They must be joined by logical connectives, e.g. "\(x>1\) and \(x<7\)". 
+Chained inequalities, for example \(1\leq x \leq2\text{,}\) are not permitted.  They must be joined by logical connectives, e.g. "\(x>1\) and \(x<7\)". 
 As `and` and `or` are converted to `nounand` and `nounor` in student answers, you may need to use these forms in the teacher's answer as well.
 For more information, see [Propositional Logic](../Topics/Propositional_Logic.md).
 

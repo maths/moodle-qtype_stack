@@ -15,9 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-
+global $CFG;
 // This file defines question_display_options which the next class extends.
-require_once(__DIR__.'/../../../lib/questionlib.php');
+require_once($CFG->libdir . '/questionlib.php');
 require_once('questiondisplayoptions.php');
 
 /**
@@ -146,6 +146,8 @@ function stack_castext_file_filter(string $castext, array $identifiers): string 
                 $block .= ' filearea="' . $identifiers['field'] . '"';
                 $block .= ' itemid="' . $identifiers['questionid'] . '"';
                 break;
+            case 'questiondescription':
+            case 'questionnote':
             case 'specificfeedback':
             case 'prtcorrect': // These three are not in actual use.
             case 'prtpartiallycorrect':
@@ -181,16 +183,37 @@ function stack_determine_moodle_version() {
  * modifies headers or a direct link.
  */
 function stack_cors_link(string $filename): string {
-    return (new moodle_url(
-            '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+    if (get_config('qtype_stack', 'stackapi')) {
+        return '/cors.php?name=' . $filename;
+    } else {
+        return (new moodle_url(
+                '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+    }
 }
 
 /*
  * Gets the URL used for MathJax, might be VLE local.
  */
 function stack_get_mathjax_url(): string {
-    // TODO: figure out how to support VLE local with CORS.
-    return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    // TO-DO: figure out how to support VLE local with CORS.
+    $mathjaxconfigurl = get_config('filter_mathjaxloader', 'httpsurl');
+    if ($mathjaxconfigurl) {
+        $questionpos = strpos($mathjaxconfigurl, '?');
+        if ($questionpos !== false) {
+            $querystring = substr($mathjaxconfigurl, $questionpos + 1);
+            $urlstring = substr($mathjaxconfigurl, 0, $questionpos);
+            parse_str($querystring, $queryparams);
+            $queryparams = array_merge(['config' => 'TeX-AMS-MML_HTMLorMML'], $queryparams);
+            $querystring = http_build_query($queryparams, '', '&', PHP_QUERY_RFC3986);
+            $url = $urlstring . '?' . $querystring;
+        } else {
+            $url = $mathjaxconfigurl . '?config=TeX-AMS-MML_HTMLorMML';
+        }
+
+        return $url;
+    } else {
+        return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    }
 }
 
 /*
@@ -279,6 +302,11 @@ function stack_fetch_included_content(string $url) {
             $islocalfile = true;
             $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
         }
+    } else if (strpos($lc, 'cors://') === 0) {
+        $good = true;
+        $islocalfile = true;
+        $translated = __DIR__ . '/corsscripts/' . $path;
+
     }
 
     if ($good) {
@@ -302,4 +330,11 @@ function stack_fetch_included_content(string $url) {
     }
     $cache[$translated] = false;
     return false;
+}
+
+/**
+ * Fetches the current VLE UI language. Might not be the one that the question uses.
+ */
+function stack_get_system_language(): string {
+    return current_language();
 }

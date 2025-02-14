@@ -212,7 +212,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\mbox{Hello}\)</span></span>".</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Hello}\)</span></span>".</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
@@ -229,7 +229,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\mbox{Good day}\)</span></span>".</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Good day}\)</span></span>".</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
@@ -272,7 +272,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\mbox{Hello}\)</span></span>".</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Hello}\)</span></span>".</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
@@ -287,7 +287,7 @@ d day&quot;, &quot;Hi&quot;],
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\mbox{Hello}\)</span></span>".</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Hello}\)</span></span>".</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
@@ -317,7 +317,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\mbox{Good day}\)</span></span>".</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Good day}\)</span></span>".</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>

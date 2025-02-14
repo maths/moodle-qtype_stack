@@ -38,10 +38,16 @@ class stack_maths_output_mathjax extends stack_maths_output_filter_base {
 
     protected function make_filter() {
         global $CFG, $PAGE;
-        require_once($CFG->dirroot . '/filter/mathjaxloader/filter.php');
-        $context = context_system::instance();
-        $filter = new filter_mathjaxloader($context, array());
-        $filter->setup($PAGE, $context);
+        if (class_exists('\filter_mathjaxloader\text_filter')) {
+            $filter = new \filter_mathjaxloader\text_filter($PAGE->context, []);
+        } else {
+            // Once Moodle 4.5 is the lowest supported version of Moodle.
+            require_once($CFG->libdir . '/filterlib.php');
+            require_once($CFG->dirroot . '/filter/mathjaxloader/filter.php');
+            return new filter_mathjaxloader($PAGE->context, []);
+        }
+
+        $filter->setup($PAGE, $PAGE->context);
         return $filter;
     }
 }

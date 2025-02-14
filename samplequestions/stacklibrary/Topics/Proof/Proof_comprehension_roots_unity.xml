@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>W5 Q9 PC (Roots of unity)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[The following is designed to go through the proof of the following proposition
+
+<div class="proof">
+
+<p><b>Proposition:</b> Let \(n\) be a positive integer and define \(w = e^{\frac{2 \pi i}{n}}\). Then the \(n^{th}\) roots of unity are precisely the \(n\) complex numbers 
+\[
+1,w,w^2, \dots, w^{n-1},
+\]
+i.e. \(1, e^{\frac{2 \pi i}{n}}, e^{\frac{4 \pi i}{n}}, \dots, e^{\frac{2(n-1) \pi i}{n}}\).
+</p>
+
+<p><b>Proof:</b></p>
+<table width=90%>
+<tr><td>1.</td><td nowrap>Let \(z = re^{i \theta}\) be an \(n^{th}\) root of unity.</td></tr>
+<tr><td>2.</td><td nowrap>Then \(1 = z^n = \) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</td></tr>
+<tr><td>3.</td><td nowrap>Thus it follows that \(r = 1\) and \(n\theta = 2k\pi\), with \(k \in \mathbb{Z}\). </td></tr>
+<tr><td>4.</td><td nowrap>Therefore \(\theta = \frac{2k\pi}{n}\) and so \(z = e^{\frac{2 k \pi i}{n}} = w^k\). </td></tr>
+<tr><td>5.</td><td nowrap>Thus every \(n^{th}\) root of unity is a power of \(w\).</td></tr>
+<tr><td>6.</td><td nowrap>Since \((w^k)^n =  w^{nk} = (e^{\frac{2 \pi i}{n}})^{nk} = (e^{2 \pi i})^k = 1\) it follows that \(w^k\) is an \(n^{th}\) root of unity for any \(k\in\mathbb{N}\).</td></tr>
+<tr><td>7.</td><td nowrap>The complex numbers \(1,w,w^2, \dots, w^{n-1}\) are all the distinct powers of \(w\) (since \(w^n = 1, w^{n+1} =w\)  etc.).</td></tr>
+<tr><td>8.</td><td nowrap>Hence these are the \(n^{th}\) roots of unity. </td></tr>
+
+</table>
+</div>
+</center>
+
+<br />
+
+<p>a. Complete step 2. of the proof by writing \(z^n\) in polar form in terms of \(r, n \mbox{ and } \theta\).</p>
+
+<p>b. In step 3. of the proof we argue that \(r = 1\) and \(n\theta = 2k\pi\), with \(k \in \mathbb{Z}\). What is the reason that step 3. of the proof holds?</p>
+
+[[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
+
+<p>c. In step 1. of the proof we let \(z\) be an \(n^{th}\) root of unity.  What is the definition of an \(n^{th}\) root of unity? </p>
+
+[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]
+
+<p>d. Which proof technique is being used in the proof? </p>
+
+[[input:ans4]] [[validation:ans4]][[feedback:prt4]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>a. Note that \(1 = z^n = r^n e^{n i \theta}\). </p>
+
+<p>b. Step 3. of the proof holds because two complex numbers \(u = re^{i\\theta} \mbox{ and } v = se^{i\phi}\) are equal if \(r = s\) and \(\theta -\phi = 2k\pi\) with \(k \in \mathbb{Z}\).
+Therefore the correct choice is statement A. </p>
+
+<p>c. A root of unity is a complex number which yields \(1\) when raised to some power. In other words, \(z\) is a root of unity if \(z^n - 1 = 0\). Thus the correct statement is statement B.</p>
+
+<p>d. This proof is an if and only if proof. 
+Steps 1. to 5. show the forwards direction and steps 6. to 8. show the backwards direction.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020020300</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[ta1:r^n*exp(n*i*theta);
+
+tal2:[[A, true, "A. It holds because two complex numbers \\(u = re^{i\\theta} \\mbox{ and } v = se^{i\\phi}\\) are equal if \\(r = s\\) and \\(\\theta - \\phi = 2k\\pi\\) with \\(k \\in \\mathbb{Z}\\)."], [B, false, "B. It holds by definition of \\(z\\)."],  [C, false, "C. It holds because we know that each root of unity is distinct."],  [D, false, "D. It holds because \\(1\\) and \\(z\\) have the same modulus."]];
+ta2:mcq_correct(tal2);
+
+tal3: [[A, false, "A. \\(z\\) is an \\(n^{th}\\) root of unity if \\((z^k)^n = (z^n)^k = 1\\)."], [B, true, "B. \\(z\\) is an \\(n^{th}\\) root of unity if it satisfies \\(z^n - 1=0\\)."],  [C, false, "C. \\(z\\) is an \\(n^{th}\\) root of unity if \\(z^n + 1 = 0\\)."],  [D, false, "D. \\(z\\) is an \\(n^{th}\\) root of unity if \\(z = re^{i\\theta}\\)."],  [E, false, "E. \\(z\\) is an \\(n^{th}\\) root of unity if \\(z^{n-1}-1=0\\)."]];
+ta3:mcq_correct(tal3);
+
+tal4: [[A, false, "A. The proof is a proof by contradiction."], [B, false, "B. This is a proof by the principle of mathematical induction."],  [C, false, "C. This proves the contrapositive of the given statement."],  [D, true, "D. This is an if and only if proof."],  [E, false, "E. This proves the converse of the given statement."]];
+ta4:mcq_correct(tal4);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>checkbox</type>
+      <tans>tal2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>checkbox</type>
+      <tans>tal3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>checkbox</type>
+      <tans>tal4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>r^n*e^(n*i*theta)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>[B,C]</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

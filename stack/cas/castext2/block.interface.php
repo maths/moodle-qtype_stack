@@ -13,10 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/CTP_classes.php');
 require_once(__DIR__ . '/processor.class.php');
+require_once(__DIR__ . '/castext2_placeholder_holder.class.php');
 require_once(__DIR__ . '/../../maximaparser/MP_classes.php');
 
 abstract class stack_cas_castext2_block {
@@ -31,8 +33,10 @@ abstract class stack_cas_castext2_block {
     public $mathmode = false;
     // Position data from the parser.
     public $position = null;
-    // Painter detected format. TODO: remove compile-function argument for this.
+    // Painter detected format. TO-DO: remove compile-function argument for this.
     public $paintformat = null;
+    // Store any errors.
+    public $err = [];
 
     public function __construct(
         $params,
@@ -62,7 +66,7 @@ abstract class stack_cas_castext2_block {
      * identifiers to output though it as it cannot extract those from a session
      * like in the old times.
      */
-    abstract public function compile($format, $options):  ? MP_Node;
+    abstract public function compile($format, $options): ?MP_Node;
 
     /**
      * Should this block generate something else than direct string values it needs to
@@ -71,7 +75,7 @@ abstract class stack_cas_castext2_block {
      * Basically, a flat block promises that whatever it compiles to evaluates directly
      * to a string value and does not require any post processing.
      */
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         return true;
     }
 
@@ -79,8 +83,14 @@ abstract class stack_cas_castext2_block {
      * If this is not a flat block this will be called with the response from CAS and
      * should execute whatever additional logic is needed. Register JavaScript and such
      * things it must then return the content that will take this blocks place.
+     *
+     * Should this produce any HTML content sensitive to VLE-filtering or security
+     * features one needs to replace it with the $holder and return a version with
+     * placeholders. Note that if this block does nto need any other postprocessing
+     * you can also use the "p h" block to declare these things during compiling.
      */
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         return '';
     }
 
@@ -92,7 +102,7 @@ abstract class stack_cas_castext2_block {
     abstract public function validate_extract_attributes(): array;
 
     /**
-     * Validates the parameters and potenttially the contents. Whatever matter to this
+     * Validates the parameters and potentially the contents. Whatever matters to this
      * block e.g. some blocks might want all their contents to be flat-blocks.
      *
      * Note that the error array is built of `stack_cas_error` objects the specific class

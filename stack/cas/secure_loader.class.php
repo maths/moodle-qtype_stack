@@ -31,8 +31,9 @@ class stack_secure_loader implements cas_evaluatable {
     private $code;
     private $errors;
     private $context;
+    private $blockexternal;
 
-    public function __construct(string $securedcode, string $fromwhere='') {
+    public function __construct(string $securedcode, string $fromwhere = '', string $blockexternal = '') {
         if ($securedcode === null) {
             throw new stack_exception('secure_loader: the code must not be null.');
         }
@@ -41,7 +42,11 @@ class stack_secure_loader implements cas_evaluatable {
         }
         $this->context = $fromwhere;
         $this->code = $securedcode;
-        $this->errors = array();
+        $this->errors = [];
+        $this->blockexternal = false;
+        if ($blockexternal === 'blockexternal') {
+            $this->blockexternal = true;
+        }
     }
 
     public function get_valid(): bool {
@@ -79,6 +84,10 @@ class stack_secure_loader implements cas_evaluatable {
 
     public function get_key(): string {
         return '';
+    }
+
+    public function get_blockexternal(): bool {
+        return $this->blockexternal;
     }
 }
 

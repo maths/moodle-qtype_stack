@@ -1,0 +1,26 @@
+version: "4.0"
+services:
+  maxima:
+    image: mathinstitut/goemaxima:2025012100-latest
+    tmpfs:
+      - "/tmp"
+    restart: unless-stopped
+    cap_add:
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
+    read_only: true
+  stack:
+    build:
+      context: ./../../
+      dockerfile: ./api/docker/Dockerfile
+      target: development
+#       target: profiling
+    volumes:
+      - ../../:/srv/stack
+      - /srv/stack/api/vendor/
+      - ../profiles:/profiles
+    restart: unless-stopped
+    ports:
+      - '3080:80'

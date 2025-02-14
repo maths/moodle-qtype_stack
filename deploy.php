@@ -31,7 +31,7 @@ require_once(__DIR__ . '/locallib.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
@@ -61,9 +61,7 @@ if (!is_null($deploy)) {
 $undeploy = optional_param('undeploy', null, PARAM_INT);
 if (!is_null($undeploy)) {
     $question->undeploy_variant($undeploy);
-
-    // As we redirect, switch to the undeployed variant, so it easy to re-deploy
-    // if you just made a mistake.
+    // As we redirect, switch to the undeployed variant, so it easy to re-deploy if you just made a mistake.
     $nexturl->param('seed', $undeploy);
     redirect($nexturl);
 }
@@ -81,7 +79,11 @@ if (!is_null($undeploy) && $question->deployedseeds) {
 // Process undeployall if applicable.
 $deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
 $deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
-if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
+$deploysystematicfrom = optional_param('deploysystematicfrom', null, PARAM_INT);
+$deploysystematicto = optional_param('deploysystematicto', null, PARAM_INT);
+$usefromtofeature = false;
+if (!is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deploysystematicfrom) &&
+    !is_null($deploysystematicto))) {
 
     // Check data integrity.
     $dataproblem = false;
@@ -89,10 +91,13 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
     if (!is_null($deployfromlist)) {
         $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
         $baseseeds = explode("\n", trim($deploytxt));
+    } else if (!is_null($deploysystematicfrom) && !is_null($deploysystematicto)) {
+        $baseseeds = range($deploysystematicfrom, $deploysystematicto);
+        $usefromtofeature = true;
     } else {
         $baseseeds = range(1, $deploysystematic);
     }
-    $newseeds = array();
+    $newseeds = [];
     foreach ($baseseeds as $newseed) {
         // Now also explode over commas.
         $newseed = explode(",", trim($newseed));
@@ -116,13 +121,13 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
     }
 
     if (count($newseeds) > 100) {
-        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err' => count($newseeds))));
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', ['err' => count($newseeds)]));
         redirect($nexturl);
     }
 
     // Check the entries are all different.
     if (count($newseeds) !== count(array_flip($newseeds))) {
-        // TODO: specific feedback for each error.
+        // TO-DO: specific feedback for each error.
         $dataproblem = true;
     }
 
@@ -132,9 +137,18 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
     }
 
     // Undeploy all existing variants.
+    // If the deploy-from-to feature is used, only undeploy variants that already exist.
     if ($question->deployedseeds) {
-        foreach ($question->deployedseeds as $seed) {
-            $question->undeploy_variant($seed);
+        if ($usefromtofeature) {
+            foreach ($question->deployedseeds as $seed) {
+                if (in_array($seed, $newseeds)) {
+                    $question->undeploy_variant($seed);
+                }
+            }
+        } else {
+            foreach ($question->deployedseeds as $seed) {
+                $question->undeploy_variant($seed);
+            }
         }
     }
     // Deploy all new variants.
@@ -158,7 +172,7 @@ gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 if (!is_null($deploy)) {
 
     if (0 == $deploy) {
-        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err' => $deploytxt)));
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', ['err' => $deploytxt]));
         redirect($nexturl);
     }
 
@@ -213,13 +227,13 @@ if (!is_null($deploy)) {
             // Load the list of test cases.
             $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
             // Exectue the tests.
-            $testresults = array();
+            $testresults = [];
             $allpassed = true;
             foreach ($testscases as $key => $testcase) {
                 $testresults[$key] = $testcase->test_question($questionid, $seed, $context);
                 if (!$testresults[$key]->passed()) {
                     $nexturl->param('seed', $seed);
-                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no' => $numberdeployed)));
+                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', ['no' => $numberdeployed]));
                     $nexturl->param('deployfeedbackerr', stack_string('stackInstall_testsuite_fail'));
                     redirect($nexturl);
                 }
@@ -244,7 +258,7 @@ if (!is_null($deploy)) {
         $pbar->update($a['total'], $a['total'], get_string('deployedprogress', 'qtype_stack', $a));
     }
 
-    $message = stack_string('deploymanysuccess', array('no' => $numberdeployed));
+    $message = stack_string('deploymanysuccess', ['no' => $numberdeployed]);
     $nexturl->param('deployfeedback', $message);
     $nexturl->param('seed', $seed);
 
@@ -259,7 +273,7 @@ if (!is_null($deploy)) {
     }
     if (time() - $starttime >= $maxtime) {
         $allok = false;
-        $errmessage = stack_string('deployoutoftime', array('time' => time() - $starttime));
+        $errmessage = stack_string('deployoutoftime', ['time' => time() - $starttime]);
         $nexturl->param('deployfeedbackerr', $errmessage);
         if ($deploy < $numforprogressbar) {
             redirect($nexturl);
@@ -267,9 +281,9 @@ if (!is_null($deploy)) {
     }
 
     if ($deploy >= $numforprogressbar) {
-        \core\notification::success(stack_string('deploymanysuccess', array('no' => $numberdeployed)));
+        \core\notification::success(stack_string('deploymanysuccess', ['no' => $numberdeployed]));
         if (!$allok) {
-            echo html_writer::tag('p', $errmessage, array('class' => 'overallresult fail'));
+            echo html_writer::tag('p', $errmessage, ['class' => 'overallresult fail']);
         }
         echo $OUTPUT->continue_button($nexturl);
         echo $OUTPUT->footer();

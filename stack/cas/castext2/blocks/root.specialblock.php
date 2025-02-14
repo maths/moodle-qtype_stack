@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -29,7 +30,7 @@ require_once(__DIR__ . '/demarkdown.block.php');
 require_once(__DIR__ . '/demoodle.block.php');
 
 class stack_cas_castext2_special_root extends stack_cas_castext2_block {
-    public function compile($format, $options):  ? MP_Node {
+    public function compile($format, $options): ?MP_Node {
         $r = null;
 
         $flat = $this->is_flat();
@@ -59,15 +60,19 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
 
         $filteroptions = [
             '601_castext' => $options,
-            '610_castext_static_string_extractor' => $options];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
+            '610_castext_static_string_extractor' => $options,
+        ];
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+            '601_castext',
             '602_castext_simplifier', '610_castext_static_string_extractor',
-            '680_gcl_sconcat'], $filteroptions, false);
+            '680_gcl_sconcat',
+        ], $filteroptions, false);
         // If we are within an include it is necessary to avoid static string-collection.
         if (isset($options['in include'])) {
             $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
                 '601_castext',
-                '602_castext_simplifier', '680_gcl_sconcat'],
+                '602_castext_simplifier', '680_gcl_sconcat',
+            ],
                  $filteroptions, false);
         }
 
@@ -85,12 +90,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $ast = $pipeline->filter($ast, $errors, $answernotes, new stack_cas_security());
 
         if (count($errors) > 0) {
-            foreach ($errors as $key => $err) {
-                if (is_a($err, 'stack_cas_error')) {
-                    $errors[$key] = $err->get_legacy_error();
-                }
-            }
-            throw new stack_exception(implode('; ', $errors));
+            $this->err = $errors;
         }
 
         $varref = maxima_parser_utils::variable_usage_finder($ast);
@@ -101,8 +101,8 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             $r = new MP_FunctionCall(new MP_Identifier('castext_simplify'), [
                 new MP_FunctionCall(new MP_Identifier('block'), [
                     new MP_FunctionCall(new MP_Identifier('local'), []),
-                    $r
-                ])
+                    $r,
+                ]),
             ]);
 
             foreach ($varref['write'] as $key => $duh) {
@@ -113,7 +113,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function is_flat() : bool {
+    public function is_flat(): bool {
         // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
         $flat = true;
@@ -130,7 +130,8 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
      * should execute whatever additional logic is needed. Register JavaScript and such
      * things it must then return the content that will take this blocks place.
      */
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         if (count($params) < 2) {
             // Nothing at all.
             return '';
@@ -138,7 +139,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $r = '';
         for ($i = 1; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $r .= $processor->process($params[$i][0], $params[$i]);
+                $r .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $r .= $params[$i];
             }
@@ -146,7 +147,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
 
         // This should be handled at a higher level, but as the structure that is postprocessed
         // Still comes through so many routes this has not been cleared.
-        // TODO: once everything for this comes through the MaximaParser, make the conversion
+        // TO-DO: once everything for this comes through the MaximaParser, make the conversion
         // from its structure to the array this function eats do this.
         $r = str_replace('QMCHAR', '?', $r);
 
@@ -158,7 +159,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
     }
 
     // Creates a block from a node.
-    // TODO: pick another place for this function.
+    // TO-DO: pick another place for this function.
     public static function make(CTP_Node $node): stack_cas_castext2_block {
         if ($node instanceof CTP_IOBlock) {
             $r = new stack_cas_castext2_special_ioblock([], [], $node->

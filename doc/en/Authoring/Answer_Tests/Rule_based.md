@@ -6,7 +6,7 @@ Rules-based answer tests are a special kind of mathematical [answer test](index.
 
 The `EqualComAss` test establishes that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.
 
-For example \[a+b=b+a\mbox{,}\] but \[x+x\neq 2x\mbox{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. This test seeks to establish whether two expressions are the same when the basic operations of arithmetic addition/multiplication and Boolean and/or are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
+For example \[a+b=b+a\text{,}\] but \[x+x\neq 2x\text{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. This test seeks to establish whether two expressions are the same when the basic operations of arithmetic addition/multiplication and Boolean and/or are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
 
 This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".
 
@@ -98,6 +98,13 @@ Imagine we have asked students to find the prime decomposition of \(1617 = 3^1\c
     ATEqualComAssRules(2^0*3^1*5^0*7^2*11^1, 3^1*7^2*11^1, [oneMul,idPow,zPow]);
 
 Note, this test always assumes commutativity so you can't (currently) enforce the order of writing the prime factors.
+
+### Fractions with one in the numerator ###
+
+Imagine the teacher's answer is \(\frac{\sin(3x)}{2}\) but a student types in \(\frac{1}{2}\sin(3x)\).  In this case `ATEqualComAss` won't establish equivalence because the rule \(1\times\sin(3x)\rightarrow \sin(3x)\) is needed.  This can be done with the following.
+
+    ATEqualComAssRules(1/2*sin(3*x), sin(3*x)/2, [oneMul]);
+
 
 ## Developer notes ##
 

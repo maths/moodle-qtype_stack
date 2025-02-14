@@ -36,7 +36,7 @@ class stack_exception extends moodle_exception {
  */
 function stack_ouput_castext($castext) {
     return format_text(stack_maths::process_display_castext($castext),
-            FORMAT_HTML, array('noclean' => true));
+            FORMAT_HTML, ['noclean' => true, 'allowid' => true]);
 }
 
 /**
@@ -75,27 +75,27 @@ function get_stack_maxima_latex_replacements() {
     $lang = current_language();
     if (!isset($replacements[$lang])) {
         $replacements[$lang] = [
-                'QMCHAR' => '?',
-                '!LEFTSQ!' => '\left[',
-                '!LEFTR!' => '\left(',
-                '!RIGHTSQ!' => '\right]',
-                '!RIGHTR!' => '\right)',
-                '!ANDOR!' => stack_string('equiv_ANDOR'),
-                '!SAMEROOTS!' => stack_string('equiv_SAMEROOTS'),
-                '!MISSINGVAR!' => stack_string('equiv_MISSINGVAR'),
-                '!ASSUMEPOSVARS!' => stack_string('equiv_ASSUMEPOSVARS'),
-                '!ASSUMEPOSREALVARS!' => stack_string('equiv_ASSUMEPOSREALVARS'),
-                '!LET!' => stack_string('equiv_LET'),
-                '!AND!' => stack_string('equiv_AND'),
-                '!OR!' => stack_string('equiv_OR'),
-                '!NOT!' => stack_string('equiv_NOT'),
-                '!NAND!' => stack_string('equiv_NAND'),
-                '!NOR!' => stack_string('equiv_NOR'),
-                '!XOR!' => stack_string('equiv_XOR'),
-                '!XNOR!' => stack_string('equiv_XNOR'),
-                '!IMPLIES!' => stack_string('equiv_IMPLIES'),
-                '!BOOLTRUE!' => stack_string('true'),
-                '!BOOLFALSE!' => stack_string('false'),
+            'QMCHAR' => '?',
+            '!LEFTSQ!' => '\left[',
+            '!LEFTR!' => '\left(',
+            '!RIGHTSQ!' => '\right]',
+            '!RIGHTR!' => '\right)',
+            '!ANDOR!' => stack_string('equiv_ANDOR'),
+            '!SAMEROOTS!' => stack_string('equiv_SAMEROOTS'),
+            '!MISSINGVAR!' => stack_string('equiv_MISSINGVAR'),
+            '!ASSUMEPOSVARS!' => stack_string('equiv_ASSUMEPOSVARS'),
+            '!ASSUMEPOSREALVARS!' => stack_string('equiv_ASSUMEPOSREALVARS'),
+            '!LET!' => stack_string('equiv_LET'),
+            '!AND!' => stack_string('equiv_AND'),
+            '!OR!' => stack_string('equiv_OR'),
+            '!NOT!' => stack_string('equiv_NOT'),
+            '!NAND!' => stack_string('equiv_NAND'),
+            '!NOR!' => stack_string('equiv_NOR'),
+            '!XOR!' => stack_string('equiv_XOR'),
+            '!XNOR!' => stack_string('equiv_XNOR'),
+            '!IMPLIES!' => stack_string('equiv_IMPLIES'),
+            '!BOOLTRUE!' => stack_string('true'),
+            '!BOOLFALSE!' => stack_string('false'),
         ];
     }
     return $replacements[$lang];
@@ -138,7 +138,7 @@ function stack_maxima_translate($rawfeedback) {
         $rawfeedback = str_replace('\n', '', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
-        $translated = array();
+        $translated = [];
         preg_match_all('/stack_trans\(.*?\);/', $rawfeedback, $matches);
         $feedback = $matches[0];
         foreach ($feedback as $fb) {
@@ -152,7 +152,7 @@ function stack_maxima_translate($rawfeedback) {
                 $arg = substr($fb, strpos($fb, "' , \"") + 5, -2);
                 $args = explode('"  , "', $arg);
 
-                $a = array();
+                $a = [];
                 for ($i = 0; $i < count($args); $i++) {
                     $a["m{$i}"] = $args[$i];
                 }
@@ -170,7 +170,7 @@ function stack_maxima_format_casstring($str) {
     $str = str_replace('[[syntaxexamplehighlight]', '<span class="stacksyntaxexamplehighlight">', $str);
     $str = str_replace('[syntaxexamplehighlight]]', '</span>', $str);
 
-    return html_writer::tag('span', $str, array('class' => 'stacksyntaxexample'));
+    return html_writer::tag('span', $str, ['class' => 'stacksyntaxexample']);
 }
 
 function stack_string_sanitise($str) {
@@ -196,8 +196,8 @@ function stack_string_sanitise($str) {
     $str = str_ireplace('<!--', '&lt;!--', $str);
     $str = str_ireplace('-->', '--&gt;', $str);
 
-    $pat = array('/(on)([a-z]+[ ]*)(=)/', '/(href)([ ]*)(=)/', '/(src)([ ]*)(=)/');
-    $rep = array('on&#0;$2&#0;&#61;', 'href&#0;$2&#61;', 'src&#0;$2&#61;');
+    $pat = ['/(on)([a-z]+[ ]*)(=)/i', '/(href)([ ]*)(=)/i', '/(src)([ ]*)(=)/i'];
+    $rep = ['on&#0;$2&#0;&#61;', 'href&#0;$2&#61;', 'src&#0;$2&#61;'];
     $str = preg_replace($pat, $rep, $str);
     return $str;
 }
@@ -209,7 +209,7 @@ function stack_string_sanitise($str) {
  */
 function qtype_stack_setup_question_test_page($question) {
     $seed = optional_param('seed', null, PARAM_INT);
-    $urlparams = array('questionid' => $question->id);
+    $urlparams = ['questionid' => $question->id];
     if (!is_null($seed) && $question->has_random_variants()) {
         $urlparams['seed'] = $seed;
     }
@@ -238,7 +238,7 @@ function qtype_stack_setup_question_test_page($question) {
         }
     }
 
-    return array($context, $seed, $urlparams);
+    return [$context, $seed, $urlparams];
 }
 
 /* This class is needed to ignore requests for pluginfile rewrites in the bulk tester

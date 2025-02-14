@@ -62,7 +62,7 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Process a submit.
-        $this->process_submission(array('-seen' => 1));
+        $this->process_submission(['-seen' => 1]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -143,7 +143,7 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Save a validated response.
-        $this->process_submission(array('ans1' => 'e^(i*pi)=-1', 'ans1_val' => 'e^(i*pi)=-1'));
+        $this->process_submission(['ans1' => 'e^(i*pi)=-1', 'ans1_val' => 'e^(i*pi)=-1']);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);

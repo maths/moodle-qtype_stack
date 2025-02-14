@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -31,7 +32,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
     public $itemid;
     public $component = 'qtype_stack';
 
-    public function __construct($params, $children=array(), $mathmode=false, $value='') {
+    public function __construct($params, $children=[], $mathmode=false, $value='') {
         parent::__construct($params, $children, $mathmode);
         if (count($params) == 0) {
             return; // The processor instantiates without params.
@@ -57,7 +58,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
             new MP_String('%pfs'),
             new MP_String($this->component),
             new MP_String($this->filearea),
-            new MP_String($this->itemid)
+            new MP_String($this->itemid),
         ]);
 
         $flat = true;
@@ -73,7 +74,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
             $body = new MP_FunctionCall(new MP_Identifier('sconcat'), []);
         }
 
-        $items = array();
+        $items = [];
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
             if ($c !== null) {
@@ -94,12 +95,13 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         // First collapse the content.
         $content    = '';
         for ($i = 4; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+                $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $content .= $params[$i];
             }
@@ -112,6 +114,6 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 }

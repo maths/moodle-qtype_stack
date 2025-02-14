@@ -11,7 +11,7 @@ for example
 
     p : (x-1)^3;
 
-Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima.md) language.
+Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima_background.md) language.
 When evaluated, this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
 The keys need not be unique, although only the last value will be available for use later.
 
@@ -41,14 +41,14 @@ STACK uses Maxima's assignment rules.
 
 The question variables are evaluated when a variant of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
 
-* Teacher's answers in [inputs](Inputs.md) are defined in terms of question variables.
-* [Question note](Question_note.md).
+* Teacher's answers in [inputs](../Authoring/Inputs/index.md) are defined in terms of question variables.
+* [Question note](../Authoring/Question_note.md).
 * General feedback (also known as the worked solution).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
-* Question variables are not available to inputs when a student is validating their answer, unless special ``context variables'' are defined.
+* Question variables are not available to inputs when a student is validating their answer, unless special ''context variables'' are defined in a preamble.
 
-### Context variables
+### Question variables preamble and context variables
 
 If the following commands appear within the question variables they will be available in every part of the question, in particular these commands will affect how students' input is validated.  This enables teachers to affect the display of the student's answer validation, and add assumptions to PRTs.
 
@@ -58,15 +58,28 @@ If the following commands appear within the question variables they will be avai
 
 This collection of special variables are called "context variables".
 
-Only single texput commands are gathered into the context variables.  You cannot use other variables or other functions defined in the question variables.  So, `texput(blob, "\\diamond")` is fine, but passing a function to texput to display more complex output is not currently supported.
+STACK has a special constant `%_stack_preamble_end`.  Any variables _before_ this constant will be included within the context variables.  This enables you to define functions, e.g. to use with `texput`.  
 
-For example, to redefine how the logarithm is displayed, use `texput(log, "\\log ", prefix);`.
+Note, that students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble. e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
 
-It is possible to use an unnamed `lambda` function.  E.g. if you have a function `tup` then
+For example, `texput(blob, "\\diamond")` is simple.  You can also define a function and use this function in texput.
+
+```
+tuptex(z):= block([a,b], [a,b]:args(z), sconcat("\\left[",tex1(a),",",tex1(b),"\\right)"));
+texput(tup, tuptex); 
+%_stack_preamble_end;
+```
+
+It is also possible to use an unnamed `lambda` function.  E.g. if you have a function `tup` then
 
     texput(tup,  lambda([z], block([a,b], [a,b]:args(z), sconcat("\\left[",tex1(a),",",tex1(b),"\\right)")))); 
 
 will display `tup(a,b)` as \( \left[a,b\right) \).
+
+To create a function `hat` so that input `hat(x)` is displayed as \(\hat{x}\) you can use:
+
+    /* In question variables. */
+    texput(hat, lambda([ex], sconcat("\\hat{", tex1(first(ex)), "}")));
 
 As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}^{\infty } {A}_{k}}\) you can use the following:
 
@@ -74,6 +87,12 @@ As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}
         sconcat("\\bigcup_{" ,tex1(second(ex)), " = ", tex1(third(ex)), "}^{", tex1(fourth(ex)), "} ", tex1(first(ex)))));
 
 Notice in this example how we check the length of the arguments supplied to the (inert) function `u`.  If there are fewer than the required number of arguments then this texput function returns something sensible.  Without this clause you get errors, which would be unhelpful to a student trying to type this in.
+
+Another example is to have the function `foo` displayed as traditional fractions.
+
+    texput(foo,lambda([e],[a,b]:args(e), sconcat("\\frac{", tex1(a), "}{", tex1(b), "}")));
+
+Note the way the lambda expression for the tex function has _one_ argument which is split later within the function.
 
 ## Feedback variables {#Feedback_variables}
 
@@ -86,7 +105,7 @@ This gives the opportunity to perform sophisticated mathematical operations.
 Before each answer test is applied the following list of variables is assembled and evaluated
 
 1. The values of the question variables.
-2. The values of each [inputs](Inputs.md).
+2. The values of each [inputs](../Authoring/Inputs/index.md).
 3. The feedback variables.
 
 The values of the evaluated feedback variables can be used as expressions in the answer tests and in the feedback.

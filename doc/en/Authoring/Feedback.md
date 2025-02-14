@@ -13,12 +13,12 @@ This document describes the ways STACK provides feedback to students. It will no
   In mathematics, summative feedback is most often _quantitative_,  either a mark or a percentage.
 * _Evaluative assessment_ is to measure the effectiveness of the teaching or the
   assessment of students.  Such assessments could have quality enhancement or quality audit functions.
-  See [reporting](Reporting.md). The ability to automatically generate data about an individual student or
+  See [reporting](../STACK_question_admin/Reporting.md). The ability to automatically generate data about an individual student or
   across a cohort is one particular strength of CAA, potentially enabling regular, detailed evaluative assessment.
 
 In STACK multi-part questions there is a complete separation between two important components.
 
-1. a list of [inputs](Inputs.md)
+1. a list of [inputs](Inputs/index.md)
 2. a list of [potential response trees](Potential_response_trees.md)
 
 Specific feedback is associated with each input and each potential response tree.  Typically, it is placed in the `Specific feedback` section, as that gives Moodle more control over when it is shown. However, the feedback tags can be positioned anywhere within the [question text](CASText.md#question_text).
@@ -37,7 +37,7 @@ it must be validated.  In particular, at each attempt, each input is assigned a 
 
 Normally a student will view a displayed form of their expression and submit it again.  This default behaviour is inappropriate for multiple choice/selection interactions, and can be changed for each input using the option "Student must verify".  Whether the student's answer is echoed back and shown is controlled by a separate option "Show the validation".  Validation errors are always shown.
 
-Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. \(i\) and \(j\) change meaning in different contexts, e.g. \(\sqrt{-1}\) or vector components.  See details about [options](Options.md).
+Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs/Input_options.md) do affect validity, such as _forbid floats_.   Some symbols, e.g. \(i\) and \(j\) change meaning in different contexts, e.g. \(\sqrt{-1}\) or vector components.  See details about [options](Question_options.md).
 
 # Potential response trees
 
@@ -45,7 +45,7 @@ Each [potential response tree](Potential_response_trees.md) returns three outcom
 
 1. a numerical score,
 2. text for the students,
-3. an [answer note](Potential_response_trees.md#Answer_note) for use by the teacher during [reporting](Reporting.md).
+3. an [answer note](Potential_response_trees.md#Answer_note) for use by the teacher during [reporting](../STACK_question_admin/Reporting.md).
 
 These correspond approximately to summative, formative and evaluative functions of assessment respectively.
 The [general feedback](CASText.md#General_feedback) (known as worked solution in previous versions) is fixed and may not depend on the student's answers.
@@ -81,7 +81,7 @@ To be specific
 1. Let \( (s_i,p_i) \) for \(i=1,\cdots n\) be the list of scores and penalties for a particular potential response tree, for each different valid attempt.
 2. The score for attempt \(k\) is defined to be
 
-\[ \mbox{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
+\[ \text{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
 
 Notice that this is purely a function of a list of (score, penalty) pairs.
 
@@ -93,4 +93,4 @@ The text-based feedback for students is a concatenation of the following element
 
 * *Answer test feedback.* Many of the [answer tests](Answer_Tests/index.md) generate feedback of their own. This can be suppressed using the quiet option. While this feedback is often not needed, it would be very difficult for the teacher to re-create this.
 * *Bespoke feedback.* Each branch of the [potential response trees](Potential_response_trees.md) generates some feedback.
-* *Generic feedback.* Once the [potential response trees](Potential_response_trees.md) has been traversed and all feedback assigned, the score is used to generate some generic feedback. If the raw score equals \(0\) then the default feedback is _Incorrect answer_.   If the raw score equals \(1\) then the default feedback is _Correct answer, well done_. Otherwise the generic feedback is _Your answer is partially correct_.  These strings can be modified in the [options](Options.md).
+* *Generic feedback.* Once the [potential response trees](Potential_response_trees.md) has been traversed and all feedback assigned, the score is used to generate some generic feedback. If the raw score equals \(0\) then the default feedback is _Incorrect answer_.   If the raw score equals \(1\) then the default feedback is _Correct answer, well done_. Otherwise the generic feedback is _Your answer is partially correct_.  These strings can be modified in the [options](Question_options.md).

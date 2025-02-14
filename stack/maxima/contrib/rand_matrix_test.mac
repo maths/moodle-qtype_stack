@@ -1,0 +1,120 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra functions for STACK                          */
+/*                                                              */
+/*  Test cases.                                                 */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+s_test_case(matrix_size(rand_matrix(4,2,6)),[4,2]);
+s_test_case(every(lambda([ex], ev(is(ex>=-6) and is(ex<=6),simp)),list_matrix_entries(rand_matrix(4,2,6))),true);
+
+s_test_case(matrix_size(rand_invertible(3,2)),[3,3]);
+s_test_case(not(emptyp(errcatch(invert(rand_invertible(3,2))))),true);
+
+_orthM: rand_orth(3,2)
+s_test_case(matrix_size(_orthM),[3,3]);
+s_test_case(radcan(ev(_orthM. transpose(_orthM),simp)),ident(3));
+s_test_case(radcan(ev(transpose(_orthM) . _orthM,simp)),ident(3));
+
+s_test_case(rand_orthcols(2,3,2),matrix([null]));
+_orthcolsM: rand_orthcols(3,2,2);
+s_test_case(matrix_size(_orthcolsM),[3,2]);
+s_test_case(ev(transpose(_orthcolsM) . _orthcolsM,simp),ident(2));
+
+s_test_case(matrix_size(rand_integer_invertible(3,2)),[3,3]);
+s_test_case(not(emptyp(errcatch(invert(rand_integer_invertible(3,2))))),true);
+s_test_case(every(integerp,list_matrix_entries(ev(invert(rand_integer_invertible(4,2)),simp))),true);
+
+_diagp(M):= block([dia,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  dia: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  for ii: 1 thru imax while dia do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru jmax while dia do block(
+      jj: ev(jj,simp),
+      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
+    )
+  ),
+  return(dia)
+);
+
+s_test_case(_diagp(ev(dispJordan(jordan(rand_diagonalisable(3,2))),simp)),true);
+s_test_case(_diagp(ev(dispJordan(jordan(rand_defective(3,2))),simp)),false);
+s_test_case(_diagp(rand_diag(5,2,4)),true);
+s_test_case(every(lambda([ex], ev(is(ex>=-4) and is(ex<=4),simp)),list_matrix_entries(rand_diag(5,2,4))),true);
+
+_triup(M):= block([tri,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  tri: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  if is(imax=1) then return(true),
+  for ii: 2 thru imax while tri do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru ev(min(ii-1,jmax),simp) while tri do block(
+      jj: ev(jj,simp),
+      if not(is(M[ii,jj]=0)) then tri: false
+    )
+  ),
+  return(tri)
+);
+
+s_test_case(_triup(rand_triu(4,3,4)),true);
+s_test_case(every(lambda([ex], ev(is(ex>=-4) and is(ex<=4),simp)),list_matrix_entries(rand_triu(4,3,4))),true);
+s_test_case(_triup(transpose(rand_tril(4,3,4))),true);
+s_test_case(every(lambda([ex], ev(is(ex>=-4) and is(ex<=4),simp)),list_matrix_entries(rand_tril(4,3,4))),true);
+
+_perm: rand_perm_matrix(5)
+s_test_case(every(lambda([ex],is(ex=1)),ev(apply("+",abs(args(_perm))),simp)) and every(lambda([ex],is(ex=1) or is(ex=0)),list_matrix_entries(_perm)),true)
+
+_L: [1,1,2,2,3,3];
+s_test_case(matrix_size(rand_matrix_list(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L)),rand_matrix_list(2,3,_L)),true);
+
+s_test_case(matrix_size(rand_diag_list(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L) or is(ex=0)),rand_diag_list(2,3,_L)),true);
+s_test_case(_diagp(rand_diag_list(2,3,_L)),true);
+
+s_test_case(matrix_size(rand_triu_list(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L) or is(ex=0)),rand_triu_list(2,3,_L)),true);
+s_test_case(_triup(rand_triu_list(2,3,_L)),true);
+
+s_test_case(matrix_size(rand_tril_list(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L) or is(ex=0)),rand_tril_list(2,3,_L)),true);
+s_test_case(_triup(transpose(rand_tril_list(2,3,_L))),true);
+
+s_test_case(matrix_size(rand_matrix_list_no_replacement(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L)),rand_matrix_list_no_replacement(2,3,_L)),true);
+s_test_case(rand_matrix_list_no_replacement(3,3,_L),matrix([null]));
+
+s_test_case(matrix_size(rand_diag_list_no_replacement(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L) or is(ex=0)),rand_diag_list_no_replacement(2,3,_L)),true);
+s_test_case(_diagp(rand_diag_list_no_replacement(2,3,_L)),true);
+s_test_case(rand_diag_list_no_replacement(7,7,_L),matrix([null]));
+
+s_test_case(matrix_size(rand_triu_list_no_replacement(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L) or is(ex=0)),rand_triu_list_no_replacement(2,3,_L)),true);
+s_test_case(_triup(rand_triu_list_no_replacement(2,3,_L)),true);
+s_test_case(rand_triu_list_no_replacement(2,4,_L),matrix([null]));
+
+s_test_case(matrix_size(rand_tril_list_no_replacement(2,3,_L)),[2,3]);
+s_test_case(every(lambda([ex],member(ex,_L) or is(ex=0)),rand_tril_list_no_replacement(2,3,_L)),true);
+s_test_case(_triup(transpose(rand_tril_list_no_replacement(2,3,_L))),true);
+s_test_case(rand_tril_list_no_replacement(4,2,_L),matrix([null]));

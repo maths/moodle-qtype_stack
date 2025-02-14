@@ -30,6 +30,7 @@ require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/stack/questionreport.class.php');
+require_login();
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
@@ -49,6 +50,7 @@ question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
+$PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/questiontestreport.php', $urlparams);
 $title = stack_string('basicquestionreport');
 $PAGE->set_title($title);

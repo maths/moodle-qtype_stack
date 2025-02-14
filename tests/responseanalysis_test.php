@@ -22,6 +22,7 @@ use test_question_maker;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../stack/questionreport.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+require_once($CFG->dirroot . '/mod/quiz/tests/quiz_question_helper_test_trait.php');
 
 define ('RESPONSETS', '# = 0 | thing1_true | prt1-1-T');
 define ('RESPONSEFS1', '# = 0 | thing1_yuck | prt1-1-F');
@@ -48,6 +49,7 @@ define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: 11 [score]; ans2: vv [valid
  * @covers \stack_question_report
  */
 final class responseanalysis_test extends qtype_stack_testcase {
+    use \quiz_question_helper_test_trait;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $report;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -678,5 +680,85 @@ final class responseanalysis_test extends qtype_stack_testcase {
             "; unique: " . RESPONSETS . "\n\n# 1 (1)\n1 (100.00%); Seed: 123456789; ans1: 11 [score]; ans2: vv [valid]; " .
             "ans3: ii [invalid]; ans4: zz; odd: # = 0 | thing1_true | prt1-1-T; even: !; oddeven: !; unique: !\n";
         $this->assertEquals($expected, $rawdata);
+    }
+
+    public function test_quiz_selection(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $course = $this->getDataGenerator()->create_course();
+        $contextid = \context_course::instance($course->id)->id;
+        $qcategory = $generator->create_question_category(
+            ['contextid' => $contextid]);
+        $user = $this->getDataGenerator()->create_user();
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $user->id, $contextid);
+        $this->setUser($user);
+        $q = $generator->create_question('shortanswer', null,
+                        ['name' => 'QNAME1', 'category' => $qcategory->id]);
+        $q2 = $generator->create_question('shortanswer', null,
+                        ['name' => 'QNAME2', 'category' => $qcategory->id]);
+
+        $quizgenerator = new \testing_data_generator();
+        $quizgenerator = $quizgenerator->get_plugin_generator('mod_quiz');
+
+        $quiz1 = $quizgenerator->create_instance(['course' => $course->id,
+            'name' => 'QUIZNAME1', 'questionsperpage' => 0,
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+        $quiz2 = $quizgenerator->create_instance(['course' => $course->id,
+            'name' => 'QUIZNAME2', 'questionsperpage' => 0,
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+        $quiz3 = $quizgenerator->create_instance(['course' => $course->id,
+            'name' => 'QUIZNAME3', 'questionsperpage' => 0,
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+
+        $quiz1contextid = \context_module::instance($quiz1->cmid)->id;
+        $quiz1qcategory = $generator->create_question_category(
+            ['contextid' => $quiz1contextid]);
+        $q3 = $generator->create_question('shortanswer', null,
+            ['name' => 'QNAME2', 'category' => $quiz1qcategory->id]);
+
+        // No questions added to quizzes.
+        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $contextid);
+        $this->assertEquals(0, count($quizzes));
+        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $contextid);
+        $this->assertEquals(0, count($quizzes));
+        $quizzes = stack_question_report::get_relevant_quizzes($q3->id, $contextid);
+        $this->assertEquals(0, count($quizzes));
+
+        // Quiz 1: Add q1. Add q3 as part of random selection
+        \quiz_add_quiz_question($q->id, $quiz1);
+        $this->add_random_questions($quiz1->id, 0, $quiz1qcategory->id, 1);
+        // Quiz 2: Add q1 and q2.
+        \quiz_add_quiz_question($q->id, $quiz2);
+        \quiz_add_quiz_question($q2->id, $quiz2);
+        // Quiz 3: Add q1 and q2 as part of random selection.
+        $this->add_random_questions($quiz3->id, 0, $qcategory->id, 1);
+
+        if (class_exists('\mod_quiz\quiz_settings')) {
+            $quizobj = \mod_quiz\quiz_settings::create($quiz1->id);
+            $quizobj = \mod_quiz\quiz_settings::create($quiz2->id);
+            $quizobj = \mod_quiz\quiz_settings::create($quiz3->id);
+        } else {
+            $quizobj = \quiz::create($quiz1->id);
+            $quizobj = \quiz::create($quiz2->id);
+            $quizobj = \quiz::create($quiz3->id);
+        }
+        \mod_quiz\structure::create_for_quiz($quizobj);
+        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $contextid);
+        $quiznames = array_column($quizzes, 'name');
+        $this->assertEquals(3, count($quizzes));
+        $this->assertEquals(true, in_array('QUIZNAME1', $quiznames));
+        $this->assertEquals(true, in_array('QUIZNAME2', $quiznames));
+        $this->assertEquals(true, in_array('QUIZNAME3', $quiznames));
+        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $contextid);
+        $quiznames = array_column($quizzes, 'name');
+        $this->assertEquals(2, count($quizzes));
+        $this->assertEquals(true, in_array('QUIZNAME2', $quiznames));
+        $this->assertEquals(true, in_array('QUIZNAME3', $quiznames));
+        $quizzes = stack_question_report::get_relevant_quizzes($q3->id, $quiz1contextid);
+        $this->assertEquals(1, count($quizzes));
+        $quiznames = array_column($quizzes, 'name');
+        $this->assertEquals(true, in_array('QUIZNAME1', $quiznames));
     }
 }

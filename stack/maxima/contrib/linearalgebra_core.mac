@@ -291,3 +291,14 @@ scale_nicely(v):= block([v_op],
   if ev(every(lambda([ex],is(signum(ex)=-1)),v),simp) then v: ev(-v,simp),
   if is(v_op="matrix") then return(transpose(v)) else return(v)
 );
+
+/**
+ * M^+ = V.S^+.U^T 
+ * Moore-penrose pseudoinverse.
+ * An alias for moore_penrose_pseudoinverse(M)
+ * Most commonly used to find minimal least squares solution to Ax = b using A^+ . b
+ *
+ * @param[matrix] M
+ * @return[matrix] The moore-penrose pseudoinverse of M
+ */
+pinv(M):= block([simp:true],moore_penrose_pseudoinverse(M));

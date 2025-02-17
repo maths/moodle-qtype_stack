@@ -734,7 +734,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
         \quiz_add_quiz_question($q->id, $quiz2);
         \quiz_add_quiz_question($q2->id, $quiz2);
         // Quiz 3: Add q1 and q2 as part of random selection.
-        $this->add_random_questions($quiz3->id, 0, $qcategory->id, 1);
+        if (method_exists($this, 'add_random_questions')) {
+            $this->add_random_questions($quiz3->id, 0, $qcategory->id, 1);
+        } else {
+            quiz_add_random_questions($quiz3, 0, $qcategory->id, 1, false);
+        }
 
         if (class_exists('\mod_quiz\quiz_settings')) {
             $quizobj = \mod_quiz\quiz_settings::create($quiz1->id);

@@ -30,6 +30,9 @@ class stack_random_question_loader extends random_question_loader {
     public function get_filtered_question_ids(array $filters):array {
       return parent::get_filtered_question_ids($filters);
     }
+    public function get_question_ids($categoryid, $includesubcategories, $tagids = []):array {
+        return parent::get_question_ids($categoryid, $includesubcategories, $tagids);
+      }
   }
 
 /**
@@ -742,8 +745,15 @@ class stack_question_report {
         foreach ($randomquizzes as $randomquiz) {
             // Don't bother checking if the question is already in the quiz.
             if (!isset($quizzes[$randomquiz->quizcontextid])) {
-                $filter = JSON_decode($randomquiz->filtercondition, true)['filter'];
-                $ids = $randomloader->get_filtered_question_ids($filter);
+                $filter = JSON_decode($randomquiz->filtercondition, true);
+                $ids = [];
+                if (isset($filter['filter'])) {
+                    $filter = $filter['filter'];
+                    $ids = $randomloader->get_filtered_question_ids($filter);
+                } else if ($filter['questioncategoryid']) {
+                    // This is for Moodle 4.0, 4.1.
+                    $ids = $randomloader->get_question_ids($filter['questioncategoryid'], $filter['includingsubcategories'], (isset($filter['tags'])) ? $filter['tags'] : []);
+                }
                 if (in_array($questionid, $ids)) {
                     $quizzes[$randomquiz->quizcontextid] = $randomquiz;
                 }

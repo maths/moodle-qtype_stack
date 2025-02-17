@@ -689,6 +689,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $course = $this->getDataGenerator()->create_course();
         $contextid = \context_course::instance($course->id)->id;
+        // For Moodle 5 this will be in a question bank module.
         $qcategory = $generator->create_question_category(
             ['contextid' => $contextid]);
         $user = $this->getDataGenerator()->create_user();
@@ -720,22 +721,26 @@ final class responseanalysis_test extends qtype_stack_testcase {
             ['name' => 'QNAME2', 'category' => $quiz1qcategory->id]);
 
         // No questions added to quizzes.
-        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $contextid);
+        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $qcategory->contextid);
         $this->assertEquals(0, count($quizzes));
-        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $contextid);
+        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $qcategory->contextid);
         $this->assertEquals(0, count($quizzes));
-        $quizzes = stack_question_report::get_relevant_quizzes($q3->id, $contextid);
+        $quizzes = stack_question_report::get_relevant_quizzes($q3->id, $quiz1contextid);
         $this->assertEquals(0, count($quizzes));
 
         // Quiz 1: Add q1. Add q3 as part of random selection
         \quiz_add_quiz_question($q->id, $quiz1);
-        $this->add_random_questions($quiz1->id, 0, $quiz1qcategory->id, 1);
+        global $CFG;
+        if ($CFG->version > 2023042411) {
+            $this->add_random_questions($quiz1->id, 0, $quiz1qcategory->id, 1);
+        } else {
+            \quiz_add_random_questions($quiz1, 0, $quiz1qcategory->id, 1, false);
+        }
         // Quiz 2: Add q1 and q2.
         \quiz_add_quiz_question($q->id, $quiz2);
         \quiz_add_quiz_question($q2->id, $quiz2);
         // Quiz 3: Add q1 and q2 as part of random selection.
-        global $CFG;
-        if ($CFG->version > 2022041900) {
+        if ($CFG->version > 2023042411) {
             $this->add_random_questions($quiz3->id, 0, $qcategory->id, 1);
         } else {
             \quiz_add_random_questions($quiz3, 0, $qcategory->id, 1, false);
@@ -753,13 +758,13 @@ final class responseanalysis_test extends qtype_stack_testcase {
         \mod_quiz\structure::create_for_quiz($quizobj1);
         \mod_quiz\structure::create_for_quiz($quizobj2);
         \mod_quiz\structure::create_for_quiz($quizobj3);
-        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $contextid);
+        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $qcategory->contextid);
         $quiznames = array_column($quizzes, 'name');
         $this->assertEquals(3, count($quizzes));
         $this->assertEquals(true, in_array('QUIZNAME1', $quiznames));
         $this->assertEquals(true, in_array('QUIZNAME2', $quiznames));
         $this->assertEquals(true, in_array('QUIZNAME3', $quiznames));
-        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $contextid);
+        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $qcategory->contextid);
         $quiznames = array_column($quizzes, 'name');
         $this->assertEquals(2, count($quizzes));
         $this->assertEquals(true, in_array('QUIZNAME2', $quiznames));

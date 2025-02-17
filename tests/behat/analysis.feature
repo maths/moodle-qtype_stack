@@ -34,7 +34,9 @@ Feature: Test analysis response page
 
   @javascript
   Scenario: Analyse a question
-    Given I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
+    Given the site is running Moodle version 4.1 or higher
+    And I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
+    And the site is running Moodle version 4.0 or higher
     And I press "Attempt quiz"
     And I set the input "ans1" to "a*b" in the STACK question
     And I wait until "Your last answer was interpreted as follows" "text" exists
@@ -43,7 +45,28 @@ Feature: Test analysis response page
     And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I follow "Finish review"
     And I wait until "Re-attempt quiz" "text" exists
-    And I wait "5" seconds
+    And I wait "10" seconds
+    When I am on the "C1 > Test question 1" "qtype_stack > analysis" page logged in as "teacher"
+    Then I should see "Type in {@ta@}."
+    And I click on "select option:nth-child(2)" "css_element"
+    And I should see "ATAlgEquiv(ans1,ta)"
+    And I follow "Variants"
+    And I should see "## prt1: 1 (100.00%); # = 1 | prt1-1-T"
+
+  @javascript
+  Scenario: Analyse a question
+    Given the site is running Moodle version 4.0
+    And I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
+    And the site is running Moodle version 4.0 or higher
+    And I press "Attempt quiz"
+    And I set the input "ans1" to "a*b" in the STACK question
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I follow "Finish attempt ..."
+    And I press "Submit all and finish"
+    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
+    And I follow "Finish review"
+    And I wait until "Re-attempt quiz" "text" exists
+    And I wait "10" seconds
     When I am on the "C1 > Test question 1" "qtype_stack > analysis" page logged in as "teacher"
     Then I should see "Type in {@ta@}."
     And I click on "select option:nth-child(2)" "css_element"

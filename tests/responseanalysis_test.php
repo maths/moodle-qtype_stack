@@ -22,6 +22,7 @@ use test_question_maker;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../stack/questionreport.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+global $CFG;
 require_once($CFG->dirroot . '/mod/quiz/tests/quiz_question_helper_test_trait.php');
 
 define ('RESPONSETS', '# = 0 | thing1_true | prt1-1-T');

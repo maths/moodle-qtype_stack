@@ -1,0 +1,171 @@
+/* First draft of dividing linearalgebra up: Eigen */
+
+/**
+ * Predicate to determine whether a given object is a unit vector.
+ * Can handle complex vectors
+ *
+ * @param[matrix] ex A vector (Mx1 or 1xN matrix)
+ * @return[boolean] Does this vector have a 2-norm of 1?
+ */
+unit_vecp(ex):= if vectorp(ex) then is(ev(ex.conjugate(ex),simp)=1) else false;
+
+/**
+ * Given a list of column vectors, determine whether they are linearly independent.
+ * If ex is a matrix, it checks for full column rank, not row rank. To check for full rank generally, use invertiblep.
+ * 
+ * @param[] ex a mxn matrix or list of column vectors, see cols_to_matrix
+ * @return[boolean] Is the collection of column vectors linearly independent?
+ */
+lin_indp(ex):= block(
+  ex: cols_to_matrix(ex),
+  if ex = matrix([null]) then return(false),
+  return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
+);
+
+/**
+ * Is a vector an eigenvector of a matrix? 
+ * Optionally will check if the given vector is an eigenvector corresponding to a given eigenvalue.
+ *
+ * @param[matrix] v A column vector; a mx1 matrix; the vector that is being tested
+ * @param[matrix] M A mxm matrix
+ * @param[number] L Optional: A number; the given eigenvalue.
+ * @return[boolean] Is v an eigenvector of M (optionally: that corresponds to eigenvalue L)?
+ */
+eigenvectorp(v,M,[L]):= block([],
+  if not(squarep(M)) then return(false),
+  v: vec_convert(v),
+  if row_vecp(v) then v: transpose(v)
+  else if listp(v) then v: transpose(v)
+  else if ntuplep(v) then v: transpose(args(v)),
+  if not(col_vecp(v)) then return(false),
+  if is(second(matrix_size(M))#first(matrix_size(v))) then return(false),
+  if not(emptyp(L)) then return(ev(is(M.v=first(L)*v),expand,simp)),
+  return(is(rank(ev(addcol(M.v, v),simp))=1) and is(rank(v)=1))
+);
+
+/**
+ * Is a number an eigenvalue of a matrix? 
+ * Optionally will check if the given number is an eigenvalue corresponding to a given eigenvector.
+ *
+ * @param[matrix] L A number; the value that is being tested
+ * @param[matrix] M A mxm matrix
+ * @param[number] v Optional: A mx1 matrix; the given eigenvector.
+ * @return[boolean] Is L an eigenvalue of M (optionally: that corresponds to eigenvector v)?
+ */
+eigenvaluep(L,M,[v]):= block([],
+  if not(squarep(M)) then return(false),
+  if emptyp(v) then return(is(ev(determinant(M - ident(second(matrix_size(M)))*L)=0,simp)))
+  else return(eigenvectorp(first(v),M,L))
+);
+
+/**
+ * Computes the Rayleigh quotient
+ * Defined as (Ax).x/(x.x)
+ * 
+ * @param[matrix] M a mxn matrix 
+ * @param[matrix] v a nx1 matrix
+ * @return[number] the Rayleigh quotient of M and v
+ */
+Rayleigh(M,v):= ev((conjugate(transpose(v)) . M . v) / (conjugate(transpose(v)) . v),simp);
+
+/**
+ * Given an eigenvector, retrieve the corresponding eigenvalue
+ * First checks that the given vector is an eigenvector, then computes the Rayleigh quotient. 
+ * 
+ * @param[matrix] v The eigenvector, a mx1 matrix
+ * @param[matrix] M The matrix, a mxm matrix
+ * @return[number] The eigenvalue, or false if v was not an eigenvector.
+ */
+get_eigenvalue(v,M):= block([],
+  if not(eigenvectorp(v,M)) then return(false),
+  return(Rayleigh(M,v))
+);
+
+/**
+ * Given an eigenvalue, retrieve a basis for the corresponding eigenspace
+ * Optionally will orthonormalize the eigenspace.
+ * 
+ * @param[number] L The eigenvalue, a number
+ * @param[matrix] M The matrix, a mxm matrix
+ * @param[boolean] orthonormalize Optional: if true then orthonormalize the eigenspace
+ * @return[list] A list of mx1 matrices; a basis for the eigenspace of L. Empty list if L is not an eigenvalue. 
+ */
+get_eigenvector(L,M,[orthonormalize]):= block([evals,evects,ii],
+  if emptyp(orthonormalize) then orthonormalize: false else orthonormalize: first(orthonormalize),
+  if not(squarep(M)) then return([]),
+  [evals, evects]: ev(eigenvectors(M),simp),
+  if not(member(L,first(evals))) then return([]),
+  ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+  vecs: evects[ii],
+  if orthonormalize then vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),gramschmidt(vecs)),simp)
+  else vecs: map(scale_nicely,vecs),
+  return( map(transpose,vecs) )
+);
+
+/**
+ * Compute the algebraic multiplicity of an eigenvalue. 
+ * Returns 0 if L is not an eigenvalue of M.
+ *
+ * @param[matrix] M a square matrix
+ * @param[number] L an eigenvalue of M
+ * @return[non-negative integer] the algebraic multiplicity of L in M. 0 if L is not an eigenvalue of M
+ */
+alg_mult(M,L):= block([evals,ii],
+  if squarep(M) then block(
+    evals: ev(eigenvalues(M),simp),
+    if not(member(L,first(evals))) then return(0),
+    ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+    return(second(evals)[ii])
+  )
+);
+
+/**
+ * Compute the geometric multiplicity of an eigenvalue. 
+ * Returns 0 if L is not an eigenvalue of M.
+ *
+ * @param[matrix] M a square matrix
+ * @param[number] L an eigenvalue of M
+ * @return[non-negative integer] the geometric multiplicity of L in M. 0 if L is not an eigenvalue of M
+ */
+geo_mult(M,L):= block([evals,evects,ii],
+  if squarep(M) then block(
+    [evals, evects]: ev(eigenvectors(M),simp),
+    if not(member(L,first(evals))) then return(0),
+    ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+    return(length(evects[ii]))
+  )
+);
+
+/**
+ * M = P.J.P^^-1
+ * J is in Jordan normal form
+ * P is invertible and made up of generalized eigenvectors of M
+ * This really just calls existing functions in one go and avoids annoying errors.
+ *
+ * @param[matrix] M a square matrix
+ * @return[list] A list of two matrices: [P, J] such that J is in Jordan form and M = P . J . P^^-1. Returns empty list if M is not a square matrix
+ */
+get_Jordan_form(M):= block([jordan_info,J,P],
+  if not(squarep(M)) then return([]),
+  jordan_info: ev(jordan(M),simp),
+  J: ev(dispJordan(jordan_info),simp),
+  P: ev(ModeMatrix(M,jordan_info),simp),
+  return([P,J])
+);
+
+/**
+ * M = P.D.P^^-1
+ * M must be diagonalizable (i.e. all eigenvalues must have matching geometric and algebraic multiplicities)
+ * P is invertible and contains the eigenvectors of M
+ * D is diagonal and contains the eigenvalues of M
+ * If M is symmetric it will automatically orthogonally diagonalize
+ *
+ * @param[matrix] M a diagonalizable matrix
+ * @return[list] A list of two matrices: [P, D] such that D is diagonal and M = P . D . P^^-1. Returns empty list if M is not diagonalizable
+ */
+diagonalize(M):= block([P,D],
+  if not(squarep(M)) then return([]),
+  [P, D]: get_Jordan_form(M),
+  if symp(M) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
+  if diagp(D) then return([P,D]) else return([])
+);

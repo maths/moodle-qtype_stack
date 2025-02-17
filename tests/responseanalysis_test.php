@@ -734,22 +734,25 @@ final class responseanalysis_test extends qtype_stack_testcase {
         \quiz_add_quiz_question($q->id, $quiz2);
         \quiz_add_quiz_question($q2->id, $quiz2);
         // Quiz 3: Add q1 and q2 as part of random selection.
-        if (method_exists($this, 'add_random_questions')) {
+        global $CFG;
+        if ($CFG->version > 2022041900) {
             $this->add_random_questions($quiz3->id, 0, $qcategory->id, 1);
         } else {
-            quiz_add_random_questions($quiz3, 0, $qcategory->id, 1, false);
+            \quiz_add_random_questions($quiz3, 0, $qcategory->id, 1, false);
         }
 
         if (class_exists('\mod_quiz\quiz_settings')) {
-            $quizobj = \mod_quiz\quiz_settings::create($quiz1->id);
-            $quizobj = \mod_quiz\quiz_settings::create($quiz2->id);
-            $quizobj = \mod_quiz\quiz_settings::create($quiz3->id);
+            $quizobj1 = \mod_quiz\quiz_settings::create($quiz1->id);
+            $quizobj2 = \mod_quiz\quiz_settings::create($quiz2->id);
+            $quizobj3 = \mod_quiz\quiz_settings::create($quiz3->id);
         } else {
-            $quizobj = \quiz::create($quiz1->id);
-            $quizobj = \quiz::create($quiz2->id);
-            $quizobj = \quiz::create($quiz3->id);
+            $quizobj1 = \quiz::create($quiz1->id);
+            $quizobj2 = \quiz::create($quiz2->id);
+            $quizobj3 = \quiz::create($quiz3->id);
         }
-        \mod_quiz\structure::create_for_quiz($quizobj);
+        \mod_quiz\structure::create_for_quiz($quizobj1);
+        \mod_quiz\structure::create_for_quiz($quizobj2);
+        \mod_quiz\structure::create_for_quiz($quizobj3);
         $quizzes = stack_question_report::get_relevant_quizzes($q->id, $contextid);
         $quiznames = array_column($quizzes, 'name');
         $this->assertEquals(3, count($quizzes));

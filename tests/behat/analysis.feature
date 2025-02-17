@@ -36,7 +36,6 @@ Feature: Test analysis response page
   Scenario: Analyse a question
     Given the site is running Moodle version 4.1 or higher
     And I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
-    And the site is running Moodle version 4.0 or higher
     And I press "Attempt quiz"
     And I set the input "ans1" to "a*b" in the STACK question
     And I wait until "Your last answer was interpreted as follows" "text" exists
@@ -57,7 +56,6 @@ Feature: Test analysis response page
   Scenario: Analyse a question
     Given the site is running Moodle version 4.0 or lower
     And I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
-    And the site is running Moodle version 4.0 or higher
     And I press "Attempt quiz"
     And I set the input "ans1" to "a*b" in the STACK question
     And I wait until "Your last answer was interpreted as follows" "text" exists

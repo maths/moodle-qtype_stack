@@ -1,0 +1,103 @@
+/**
+ * M = QR
+ * M must have full column rank
+ * Q has orthonormal columns that span the columnspace of M
+ * R is upper triangular
+ *
+ * @param[matrix] M a matrix with full column rank
+ */
+QR(M):= block([cols,Q,R],
+  if is(rank(M)#second(matrix_size(M))) then return([]),
+  cols: ev(gramschmidt(transpose(M)),simp),
+  cols: ev(map(lambda([ex],ex/sqrt(ex.ex)),cols),simp),
+  Q: transpose(apply(matrix,cols)),
+  R: ev(transpose(Q).M,simp),
+  return([Q,R])
+);
+
+/**
+ * M = P.J.P^^-1
+ * J is in Jordan normal form
+ * P is invertible and made up of generalized eigenvectors of M
+ * This really just calls existing functions in one go and avoids annoying errors.
+ *
+ * @param[matrix] M a square matrix
+ * @return[list] A list of two matrices: [P, J] such that J is in Jordan form and M = P . J . P^^-1. Returns empty list if M is not a square matrix
+ */
+get_Jordan_form(M):= block([jordan_info,J,P],
+  if not(squarep(M)) then return([]),
+  jordan_info: ev(jordan(M),simp),
+  J: ev(dispJordan(jordan_info),simp),
+  P: ev(ModeMatrix(M,jordan_info),simp),
+  return([P,J])
+);
+
+/**
+ * M = P.D.P^^-1
+ * M must be diagonalizable (i.e. all eigenvalues must have matching geometric and algebraic multiplicities)
+ * P is invertible and contains the eigenvectors of M
+ * D is diagonal and contains the eigenvalues of M
+ * If M is symmetric it will automatically orthogonally diagonalize
+ *
+ * @param[matrix] M a diagonalizable matrix
+ * @return[list] A list of two matrices: [P, D] such that D is diagonal and M = P . D . P^^-1. Returns empty list if M is not diagonalizable
+ */
+diagonalize(M):= block([P,D],
+  if not(squarep(M)) then return([]),
+  [P, D]: get_Jordan_form(M),
+  if symp(M) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
+  if diagp(D) then return([P,D]) else return([])
+);
+
+/**
+ * Reduced SVD
+ * M = U.S.V^T with M as a rank r mxn matrix
+ * S is an rxr invertible diagonal matrix containing the sorted non-zero singular values of M
+ * V and U have orthonormal columns, with V nxr and U mxr
+ *
+ * @param[matrix] An mxn matrix
+ * @return[list] A list of 3 matrices [U,S,VT] such that U has orthonormal columns, VT has orthonormal rows, S is invertible diagonal, and M = U.S.VT
+ */
+SVD_red(M):= block([MTM,V,S2,components,n,S,U,ii],
+  if ev(zeromatrixp(M),simp) then return([matrix([]),matrix([]),matrix([])]),
+  MTM: ev(transpose(M).M,simp),
+  if atom(MTM) then MTM: matrix([MTM]),
+  [V, S2]: diagonalize(MTM),
+  /* TODO: does this work? */
+  V: first(QR(V)),
+  components: ev(makelist([S2[ii,ii],col(V,ii)],ii,1,second(matrix_size(MTM))),simp),
+  components: ev(reverse(sort(components)),simp),
+  components: ev(sublist(components,lambda([ex],is(first(ex)#0))),simp),
+  n: length(components),
+  S: zeromatrix(n,n),
+  S[1,1]: ev(sqrt(first(first(components))),simp),
+  V: second(first(components)),
+  U: ev(M.V/S[1,1],simp),
+  if atom(U) then U: matrix([U]),
+  if is(n>1) then block(
+    for ii: 2 thru n do block(
+      ii: ev(ii,simp),
+      S[ii,ii]: ev(sqrt(first(components[ii])),simp),
+      V: addcol(V,second(components[ii])),
+      U: addcol(U,ev(M.second(components[ii])/S[ii,ii],simp))
+    )
+  ),
+  return([U,S,transpose(V)])
+);
+
+/**
+ * Full SVD
+ * M = U.S.V^T with M as a rank r mxn matrix
+ * S is an mxn diagonal matrix containing the sorted singular values of M
+ * V and U are orthogonal matrices, with V nxn and U mxm
+ *
+ * @param[matrix] An mxn matrix
+ * @return[list] A list of 3 matrices [U,S,VT] such that U is mxm orthogonal, VT is nxn orthogonal, S is mxn diagonal, and M = U.S.VT
+ */
+SVD(M):= block([U,S,VT],
+  [U, S, VT]: SVD_red(M),
+  if is(U=matrix([])) then U: ident(first(matrix_size(M))) else U: basisify(U,true),
+  if is(VT=matrix([])) then VT: ident(second(matrix_size(M))) else VT: transpose(basisify(transpose(VT),true)),
+  S: diagmatrix_like(diag_entries(S),first(matrix_size(M)),second(matrix_size(M))),
+  return([U,S,VT])
+);

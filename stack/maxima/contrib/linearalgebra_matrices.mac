@@ -212,27 +212,6 @@ trilp(M):= block([tri,imax,jmax,ii,jj],
 );
 
 /** 
- * Predicate to determine whether a matrix is diagonal
- * i.e. Is every off-diagonal entry equal to 0?
- *
- * @param[matrix] M An mxn matrix
- * @return[boolean] Is this matrix diagonal?
- */
-diagp(M):= block([dia,imax,jmax,ii,jj],
-  if not(matrixp(M)) then return(false),
-  dia: true,
-  [imax, jmax]: ev(matrix_size(M),simp),
-  for ii: 1 thru imax while dia do block(
-    ii: ev(ii,simp),
-    for jj: 1 thru jmax while dia do block(
-      jj: ev(jj,simp),
-      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
-    )
-  ),
-  return(dia)
-);
-
-/** 
  * Predicate to determine whether a matrix is in row echelon form
  * i.e. Is every zero-row below all non-zero rows and does the pivot in each row appear to the right of the previous pivot?
  * Optionally checks whether each pivot is equal to 1

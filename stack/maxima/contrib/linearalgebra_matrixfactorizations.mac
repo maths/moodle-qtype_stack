@@ -45,7 +45,7 @@ get_Jordan_form(M):= block([jordan_info,J,P],
 diagonalize(M):= block([P,D],
   if not(squarep(M)) then return([]),
   [P, D]: get_Jordan_form(M),
-  if symp(M) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
+  if ev(zeromatrixp(M - transpose(M)),simp) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
   if diagp(D) then return([P,D]) else return([])
 );
 
@@ -85,6 +85,62 @@ SVD_red(M):= block([MTM,V,S2,components,n,S,U,ii],
   return([U,S,transpose(V)])
 );
 
+_lin_indp(ex):= block(
+  ex: cols_to_matrix(ex),
+  if ex = matrix([null]) then return(false),
+  return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
+);
+
+_remove_dep(ex):= block([ex_op,n_max,jj,ii],
+  ex_op: "list",
+  if matrixp(ex) then block(ex: args(transpose(ex)), ex_op: "matrix"),
+  ex: ev(sublist(ex,lambda([ex2],not(zeromatrixp(matrix(ex2))))),simp),
+  if emptyp(ex) or is(length(ex)=1) then return(ex),
+  n_max: length(ex),
+  jj: 2,
+  for ii: 2 thru n_max do block(
+    ii: ev(ii,simp),
+    if not(_lin_indp(firstn(ex,jj))) then ex: append(firstn(ex,ev(jj-1,simp)),lastn(ex,ev(length(ex)-jj,simp)))
+    else jj: ev(jj+1,simp),
+    if is(jj>length(ex)) then return(ex)
+  ),
+  if is(ex_op="matrix") then ex: transpose(apply(matrix,ex)),
+  return(ex)
+);
+
+_basisify(M,[orth]):= block([ex_op,m,n,vecs,new_vecs,ii],
+  if emptyp(orth) then orth: false else orth: first(orth),
+  ex_op: "matrix",
+  if listp(M) then block(M: cols_to_matrix(M), ex_op: "list"),
+  if not(_lin_indp(M)) then M: _remove_dep(M),
+  [m, n]: matrix_size(M),
+  vecs: args(transpose(M)),
+  new_vecs: args(ident(m)),
+  for ii: 1 thru m do block(
+    ii: ev(ii,simp),
+    if _lin_indp(append(vecs,[new_vecs[ii]])) then vecs: append(vecs,[new_vecs[ii]])
+  ),
+  if orth then block(
+    vecs: ev(gramschmidt(apply(matrix,vecs)),simp),
+    vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),vecs),simp)
+  ),
+  if is(ex_op="matrix") then return(transpose(apply(matrix,vecs))) else return(vecs)
+);
+
+_diagmatrix_like(d, m, n):= block([M,ii],
+  M: zeromatrix(m, n),
+  for ii: 1 thru ev(min(m, n, length(d)),simp) do block(
+    ii: ev(ii,simp),
+    M[ii,ii]: d[ii]
+  ),
+  return(M)
+);
+
+_diag_entries(M):= block([],
+  if not(matrixp(M)) then return([M]),
+  return(map(lambda([ex], M[ex,ex]),ev(makelist(ii,ii,1,lmin(matrix_size(M))),simp)))
+);
+
 /**
  * Full SVD
  * M = U.S.V^T with M as a rank r mxn matrix
@@ -96,8 +152,8 @@ SVD_red(M):= block([MTM,V,S2,components,n,S,U,ii],
  */
 SVD(M):= block([U,S,VT],
   [U, S, VT]: SVD_red(M),
-  if is(U=matrix([])) then U: ident(first(matrix_size(M))) else U: basisify(U,true),
-  if is(VT=matrix([])) then VT: ident(second(matrix_size(M))) else VT: transpose(basisify(transpose(VT),true)),
-  S: diagmatrix_like(diag_entries(S),first(matrix_size(M)),second(matrix_size(M))),
+  if is(U=matrix([])) then U: ident(first(matrix_size(M))) else U: _basisify(U,true),
+  if is(VT=matrix([])) then VT: ident(second(matrix_size(M))) else VT: transpose(_basisify(transpose(VT),true)),
+  S: _diagmatrix_like(_diag_entries(S),first(matrix_size(M)),second(matrix_size(M))),
   return([U,S,VT])
 );

@@ -728,7 +728,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $quizzes = stack_question_report::get_relevant_quizzes($q3->id, $quiz1contextid);
         $this->assertEquals(0, count($quizzes));
 
-        // Quiz 1: Add q1. Add q3 as part of random selection
+        // Quiz 1: Add q1. Add q3 as part of random selection.
         \quiz_add_quiz_question($q->id, $quiz1);
         global $CFG;
         if ($CFG->version > 2023042411) {

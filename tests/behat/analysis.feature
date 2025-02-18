@@ -44,7 +44,7 @@ Feature: Test analysis response page
     And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
     And I follow "Finish review"
     And I wait until "Re-attempt quiz" "text" exists
-    And I wait "10" seconds
+    And I wait "15" seconds
     When I am on the "C1 > Test question 1" "qtype_stack > analysis" page logged in as "teacher"
     Then I should see "Type in {@ta@}."
     And I click on "select option:nth-child(2)" "css_element"

@@ -21,19 +21,36 @@
  * @copyright 2024 University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
+
+defined('MOODLE_INTERNAL') || die();
 use core_question\local\bank\random_question_loader;
+
 /**
- * Allows us access to the protected method for retrieving question ids available to
+ * Allows us access to the protected methods for retrieving question ids available to
  * a random question.
+ * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
  */
 class stack_random_question_loader extends random_question_loader {
-    public function get_filtered_question_ids(array $filters):array {
-      return parent::get_filtered_question_ids($filters);
+    /**
+     * Get question ids in Moodle 4.2+.
+     * @param array $filters
+     * @return array
+     */
+    public function get_filtered_question_ids(array $filters): array {
+        return parent::get_filtered_question_ids($filters);
     }
-    public function get_question_ids($categoryid, $includesubcategories, $tagids = []):array {
+
+    /**
+     * Get question ids in Moodle 4.1 and below.
+     * @param mixed $categoryid
+     * @param mixed $includesubcategories
+     * @param mixed $tagids
+     * @return array
+     */
+    public function get_question_ids($categoryid, $includesubcategories, $tagids = []): array {
         return parent::get_question_ids($categoryid, $includesubcategories, $tagids);
-      }
-  }
+    }
+}
 
 /**
  * Retrieves and formats the response data for a particular question in a particular quiz.
@@ -745,14 +762,18 @@ class stack_question_report {
         foreach ($randomquizzes as $randomquiz) {
             // Don't bother checking if the question is already in the quiz.
             if (!isset($quizzes[$randomquiz->quizcontextid])) {
-                $filter = JSON_decode($randomquiz->filtercondition, true);
+                $filter = json_decode($randomquiz->filtercondition, true);
                 $ids = [];
                 if (isset($filter['filter'])) {
                     $filter = $filter['filter'];
                     $ids = $randomloader->get_filtered_question_ids($filter);
                 } else if ($filter['questioncategoryid']) {
                     // This is for Moodle 4.0, 4.1.
-                    $ids = $randomloader->get_question_ids($filter['questioncategoryid'], $filter['includingsubcategories'], (isset($filter['tags'])) ? $filter['tags'] : []);
+                    $ids = $randomloader->get_question_ids(
+                        $filter['questioncategoryid'],
+                        $filter['includingsubcategories'],
+                        (isset($filter['tags'])) ? $filter['tags'] : []
+                    );
                 }
                 if (in_array($questionid, $ids)) {
                     $quizzes[$randomquiz->quizcontextid] = $randomquiz;

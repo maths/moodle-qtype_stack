@@ -45,6 +45,8 @@ Feature: Test analysis response page
     And I follow "Finish review"
     And I wait until "Re-attempt quiz" "text" exists
     And I wait "15" seconds
+    And I log out
+    And I log in as "teacher"
     When I am on the "C1 > Test question 1" "qtype_stack > analysis" page logged in as "teacher"
     Then I should see "Type in {@ta@}."
     And I click on "select option:nth-child(2)" "css_element"

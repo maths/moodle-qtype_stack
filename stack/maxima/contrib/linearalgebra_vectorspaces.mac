@@ -1,6 +1,15 @@
 /* First draft of the vector space subset of functions */
 
 /**
+ * Predicate to determine whether a given object is a unit vector.
+ * Can handle complex vectors
+ *
+ * @param[matrix] ex A vector (Mx1 or 1xN matrix)
+ * @return[boolean] Does this vector have a 2-norm of 1?
+ */
+unit_vecp(ex):= if vectorp(ex) then is(ev(ex.conjugate(ex),simp)=1) else false;
+
+/**
  * Compute the orthogonal projection of v onto u with respect to scalar product sp.
  *
  * @param[matrix] u a mx1 matrix

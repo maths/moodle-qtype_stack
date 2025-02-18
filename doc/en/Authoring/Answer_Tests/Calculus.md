@@ -1,12 +1,20 @@
 # Calculus answer tests
 
-There are two answer tests for dealing with calculus problems.
+There are four answer tests for dealing with calculus problems. The first is used with differentiation, the other three handle integration questions.
+
+## Differentiation ##
 
 ### Diff ###
 
 This test is a general differentiation test: it is passed if the arguments are algebraically equivalent, but gives feedback if it looks like the student has integrated instead of differentiated. The first argument is the student's answer. The second argument is the model answer. The answer test option must be the variable with respect to which differentiation is assumed to take place.
 
 There are edge cases, particularly with \(e^x\) where differentiation is indistinguishable from integration.  You may need to use the "quiet" option in these cases.
+
+## Integration tests ##
+
+For integration, there are three answer tests.
+Int has been part of STACK for a long time and tries to deal with various edge cases all in one answer test, but this complexity can sometimes lead to unexpected or unwanted behaviour.
+With the aim to reduce these disadvantages at the cost of using several PRT nodes, STACK 4.9.0 introduced the Antidiff and AddConst answer tests.
 
 ### Int ###
 
@@ -29,7 +37,7 @@ In many cases simply differentiating the teacher's answer is fine, in which case
 
     [x, x*exp(5*x+7)]
 
-The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated!
+The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated! If this test does not behave the way you want, consider using Antidiff and/or AddConst, described further below.
 
 This test, in particular, has a lot of test cases which really document what the test does in detail.
 
@@ -50,3 +58,29 @@ Note that STACK sets the value of Maxima's `logabs:true`, which is not the defau
 In the case of partial  fractions where there are more than one term of the form \(\log(x-a)\) then
 we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the
 student must have all or none. 
+
+### Antidiff ###
+
+This test works similarly to Int, but it only checks if the student answer and the model answer have algebraically equivalent derivative in respect to the (mandatory) variable given in the options.
+This test does not check for absolute values in logarithms or for the algebraic form of the student answer, but really only for algebraic equivalence of derivatives.
+If you want to also check the algebraic form, consider using Int or other answer tests.
+Like Int, this tests also checks if the student answer was derived using differentiation instead of integration and provides feedback.
+
+### AddConst ###
+
+This test can be used to detect if the student answer contains an additive constant, which is often used in calculus questions about antiderivatives and indefinite integrals.
+The intended usage is to first check the student answer for being an antiderivative using Antidiff, followed by this answer test to check for an additive constant.
+In combination you can then establish that the student gave a one parameter family of antiderivatives.
+In calculus literature, this family is often defined as *the indefinite integral*.
+
+This answer test requires the author to fill the options field with a list of variables which are to be ignored, i.e. the integration variable and any further variables.
+You can thus check for the additive constant for the indefinite integral of \(x^n\) by passing the options `[x, n]`.
+The answer test will complain if the student answer does not contain *exactly one additional variable* besides the given list in the options.
+
+In its default mode, this test will only accept additive constants of the form `+c`, even though constant multiples of the constant (`+c/3`) and any surjective function on the reals (`+c^3`, `+ln(c)`) result in a mathematically correct parametrization of the family of antiderivatives.
+The constant does not have to be added explicitely:
+Testing `ln(x*exp(c))+k` with the given variables `[x,k]` will identify `c` as an additive constant, passing the answer test since `+c` can be extracted from the answer.
+
+If the word `NONSTRICT` is a list element of the options field, then the answer test will accept any additive term in the different variable.
+For example, the student answers `log(k*x)` or `x + C^3` with the options `[x, NONSTRICT]` (or `[NONSTRICT, x]`; the order does not matter) pass this answer test, whereas they will fail with the options `[x]`.
+The test will still not accept added expressions in mixed variables, however.

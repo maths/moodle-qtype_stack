@@ -1042,6 +1042,8 @@ $string['stackOptions_AnsTest_values_GTE']                 = "Num-GTE";
 $string['stackOptions_AnsTest_values_LowestTerms']         = "LowestTerms";
 $string['stackOptions_AnsTest_values_Diff']                = "Diff";
 $string['stackOptions_AnsTest_values_Int']                 = "Int";
+$string['stackOptions_AnsTest_values_Antidiff']            = "Antidiff";
+$string['stackOptions_AnsTest_values_AddConst']            = "AddConst";
 $string['stackOptions_AnsTest_values_String']              = "String";
 $string['stackOptions_AnsTest_values_StringSloppy']        = "StringSloppy";
 $string['stackOptions_AnsTest_values_Levenshtein']         = "Levenshtein";
@@ -1148,6 +1150,18 @@ $string['ATInt_logabs_inconsistent'] = 'There appear to be strange inconsistenci
 $string['ATInt_diff']                = 'It looks like you have differentiated instead!';
 $string['ATInt_generic']             = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
 $string['ATInt_STACKERROR_OptList']  = 'The answer test failed to execute correctly: please alert your teacher. When the option to ATInt is a list it must have exactly two elements, but does not.';
+
+$string['ATAntidiff_true']          = '';
+$string['ATAntidiff_error_list']    = 'The answer test failed.  Please contact your systems administrator';
+$string['ATAntidiff_diff']          = 'It looks like you have differentiated instead!';
+$string['ATAntidiff_generic']       = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
+$string['ATAntidiff_STACKERROR_Opt']           = 'The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the ATAntidiff answer test.';
+
+$string['ATAddConst_true']          = '';
+$string['ATAddConst_Opt']           = 'The answer test failed to execute correctly: please alert your teacher. There is something wrong with the options given to the AddConst answer test.';;
+$string['ATAddConst_noconst']       = 'You need to add a constant. This should be an arbitrary constant, not a number.';
+$string['ATAddConst_severalconst']  = 'Several additional constants have been found instead of just one constant of integration!';
+$string['ATAddConst_generic']       = 'You included an additional constant, but you didn\'t simply add it!';
 
 $string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';

@@ -4261,6 +4261,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->assertEquals('adaptivemultipart',
             $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
         $this->render();
+        // Castext syntax hint fills the initial matrix with zeros.
+        $this->check_output_contains_text_input('ans1_sub_0_0', '0');
+        $this->check_output_contains_text_input('ans1_sub_0_1', '0');
+        $this->check_output_contains_text_input('ans1_sub_1_0', '0');
+        $this->check_output_contains_text_input('ans1_sub_1_1', '0');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();

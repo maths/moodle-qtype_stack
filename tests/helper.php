@@ -44,7 +44,6 @@ final class qtype_stack_test_helper extends question_test_helper {
             'test3', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test3_penalty0_1', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test4', // One input, one PRT, not randomised, has a plot. What is the equation of this graph? x^2.
-            'test6', // Test of the matrix input type.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
@@ -3810,9 +3809,13 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.35; // Non-zero and not the default.
 
+        // Also test the castext syntax hint for matrix question.
         $q->inputs['ans1'] = stack_input_factory::make(
             'matrix', 'ans1', 'ta', new stack_options(),
-            ['boxWidth' => 5, 'allowWords' => 'blob']);
+            ['boxWidth' => 5,
+             'allowWords' => 'blob',
+             'syntaxHint' => '{#zeromatrix(2,2)#}',
+            ]);
 
         $q->options->set_option('simplify', false);
 

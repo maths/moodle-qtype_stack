@@ -2237,7 +2237,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
             $si[$key][-2] = -2;
             // Add in syntax hints.
-            $ct = castext2_evaluatable::make_from_source($value->get_parameter('syntaxHint', ''), '/sh');
+            $index = array_search($key, $inputs);
+            $ct = castext2_evaluatable::make_from_source($value->get_parameter('syntaxHint', ''), '/i/' . $index . '/sh');
             // Note, we hard-wire the same format as the question text.
             if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {
                 throw new stack_exception('Error(s) in syntax hint for input ' . $key . ': ' . implode('; ',

@@ -275,7 +275,6 @@ class stack_matrix_input extends stack_input {
                 $blank = false;
             }
         }
-
         $attr = ' autocapitalize="none" spellcheck="false"';
         if ($readonly) {
             $attr .= ' readonly="readonly"';

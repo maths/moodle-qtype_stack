@@ -490,7 +490,7 @@ abstract class stack_input {
     }
 
     /**
-     * Add description here
+     * Returns whether a parameter is used in this input type.
      * @param string $param a settings parameter name.
      * @return bool whether this input type uses this parameter.
      */

@@ -4295,6 +4295,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_output_contains_text_input('ans1', 'An expression, e.g. x^2');
         $this->check_current_output(
             new question_pattern_expectation('/Give an example of a function/'),
             $this->get_does_not_contain_feedback_expectation(),
@@ -4738,7 +4739,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(null);
         $this->check_prt_score('ans', null, null);
         $this->render();
-        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans1', '{?,?,...,?}');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();

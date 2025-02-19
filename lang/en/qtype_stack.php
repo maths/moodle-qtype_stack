@@ -364,6 +364,7 @@ $string['strlengtherror'] = 'This string may not exceed 255 characters in length
 $string['syntaxhint'] = 'Syntax hint';
 $string['syntaxhint_help'] = 'The syntax hint will appear in the answer box whenever this is left blank by the student.';
 $string['syntaxhint_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Syntax_Hint';
+$string['syntaxhint_toolong'] = 'The syntax hint field is limited to 255 charactes.  Define a string variable (e.g. <code>sh:"Long hint";</code>) in the question variables, and embed it here using, e.g. <code>{@sh@}</code>.';
 $string['syntaxattribute'] = 'Hint attribute';
 $string['syntaxattribute_help'] = 'The syntax hint will appear as an editable <em>value</em> or a non-editable <em>placeholder</em>.';
 $string['syntaxattribute_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Syntax_Hint';

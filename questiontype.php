@@ -1831,6 +1831,9 @@ class qtype_stack extends question_type {
             if (array_key_exists($inputname . 'syntaxhint', $fromform)) {
                 $errors = $this->validate_cas_text($errors, $fromform[$inputname . 'syntaxhint'],
                     $inputname . 'syntaxhint', $fixingdollars);
+                if (strlen($fromform[$inputname . 'syntaxhint']) > 255) {
+                    $errors[$inputname . 'syntaxhint'][] = stack_string('syntaxhint_toolong');
+                }
             }
             // Create an input with these parameters, in particular the 'options', and validate that.
             $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, $parameters, false);

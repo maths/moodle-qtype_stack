@@ -14,7 +14,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 /****************************************************************/
-/*  Linear algebra functions for STACK                          */
+/*  Vector subspace functions for STACK                         */
 /*                                                              */
 /*  Test cases.                                                 */
 /*                                                              */
@@ -24,6 +24,11 @@
 
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
+
+s_test_case(unit_vecp(matrix([1],[0])),true);
+s_test_case(unit_vecp(matrix([1/sqrt(2),1/sqrt(2)])),true);
+s_test_case(unit_vecp(matrix([1],[1])),false);
+s_test_case(unit_vecp(c(1,0)),false);
 
 _test_eMat: matrix([2, 1], [2, -1]);
 _test_spMat: matrix([2, -1], [-1, 2]);

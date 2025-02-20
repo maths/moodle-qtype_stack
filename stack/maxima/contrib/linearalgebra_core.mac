@@ -1,4 +1,29 @@
-/* Temporary file; suggested functions for core STACK */
+/* This file will be obsolete soon, as these functions will be implemented in core STACK */
+
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra core functions for STACK                     */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
 
 /*******************************************************************************/
 /* Provides convenience functions for column and row vectors for student input */
@@ -141,8 +166,6 @@ squarep(M):= block([isSquare],
   return(isSquare)
 );
 
-/* TODO We should allow symmetricp() function */
-
 /*********************************************************************************/
 /* Functions to convert objects into standard forms                              */
 /*********************************************************************************/
@@ -249,8 +272,6 @@ cols_to_cols(L):=block([op1],
     if is(cardinality(setify(map(length,L))) # 1) then return([]),
     return(L)
 );
-
-/* TODO amend significantfigures to work on matrices. */
 
 /** 
  * Solve the matrix equation Ax = b given matrix A and column vector (or list) b.

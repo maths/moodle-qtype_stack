@@ -1,6 +1,9 @@
-/*  Author Luke Longworth
-    University of Canterbury
-    Copyright (C) 2025 Luke Longworth
+/* This may not work without 
+   stack_include_contrib("linearalgebra_core.mac") */
+
+/*  Authors Luke Longworth, Georg Osang
+    University of Canterbury, IDEMS International
+    Copyright (C) 2025 Luke Longworth and Georg Osang
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -14,16 +17,11 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 /****************************************************************/
-/*  Linear algebra functions for STACK                          */
-/*                                                              */
-/*  Test cases.                                                 */
+/*  Vector geometry functions for STACK                         */
 /*                                                              */
 /*  V1.0 February 2025                                          */
 /*                                                              */
 /****************************************************************/
-
-/* Thank you to Georg Osang of IDEMS International    */
-/* for significant contributions to this work in 2024 */
 
 s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),true);
 s_test_case(linear_combinationp(matrix([1+t+s],[2+t],[3+t+s])),true);

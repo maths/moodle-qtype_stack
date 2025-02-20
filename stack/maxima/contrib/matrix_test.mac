@@ -1,3 +1,6 @@
+/* This may not work without 
+   stack_include_contrib("linearalgebra_core.mac") */
+
 /*  Author Luke Longworth
     University of Canterbury
     Copyright (C) 2025 Luke Longworth
@@ -14,7 +17,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 /****************************************************************/
-/*  Linear algebra functions for STACK                          */
+/*  Matrix manipulation and predicate functions for STACK       */
 /*                                                              */
 /*  Test cases.                                                 */
 /*                                                              */

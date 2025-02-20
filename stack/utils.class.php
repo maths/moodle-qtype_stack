@@ -1028,6 +1028,10 @@ class stack_utils {
         return $arr;
     }
 
+    public static function is_array_string($str) {
+        return preg_match('/^\[\s*(.*\S)?\s*\]$/', $str);
+    }
+
     /**
      * Takes a string that contains a list where each element has the format
      * [<JSON>, <int>]
@@ -1051,6 +1055,9 @@ class stack_utils {
      */
     public static function unhash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
+        if (!is_array($decodedlist)) {
+            return stack_string('invalid_json');;
+        }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
                 foreach ($row as $j => $item) {
@@ -1091,6 +1098,9 @@ class stack_utils {
      */
     public static function hash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
+        if (!is_array($decodedlist)) {
+            return stack_string('invalid_json');;
+        }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
                 foreach ($row as $j => $item) {
@@ -1108,5 +1118,124 @@ class stack_utils {
     public static function hash_parsons_string_maxima($listofjsons) {
         $phplistofjsons = self::maxima_string_to_php_string($listofjsons);
         return self::php_string_to_maxima_string(self::hash_parsons_string($phplistofjsons));
+    }
+
+        /**
+     * Takes a PHP array and validates it's structure to check whether it represents a single Parson's state.
+     * In particular the PHP should be of the following format:
+     * array(2) {
+     *  [0]=>
+     *  array(2) {
+     *      ["used"]=>
+     *      array(1) {
+     *          [0]=>
+     *          array(1) {
+     *              [0]=>
+     *              array(_) {
+     *                  [0]=>
+     *                  string(_) <str>
+     *                  ...
+     *                  [n]=>
+     *                  string(_) <str>
+     *              }
+     *          }
+     *      }
+     *      ["available"]=>
+     *          array(_) {
+     *              [0]=>
+     *              string(_) <str>
+     *              ...
+     *              [m]=>
+     *              string(_) <str>
+     *          }
+     *      }
+     *      [1]=>
+     *      int(_)
+     *  }
+     *
+     * @param array $input
+     * @return bool whether $input represents a single Parson's state or not
+     */
+    public static function validate_parsons_state($state) {
+        // Check if $state is an array.
+        if (!is_array($state)) {
+            return false;
+        }
+
+        // Check if it's an array with exactly two elements.
+        if (count($state) !== 2) {
+            return false;
+        }
+
+        // Check if the first element is an associative array with keys "used" and "available".
+        $dict = $state[0];
+        if (!isset($dict['used']) || !isset($dict['available']) || !is_array($dict['used'])) {
+            return false;
+        }
+
+        // Validate that "used" is an array of at least two dimensions.
+        if (!is_array($dict['used'][0]) || !is_array($dict['used'][0][0])) {
+            return false;
+        }
+
+        // Check if "available" is an array of at least one dimension.
+        if (!is_array($dict['available'])) {
+            return false;
+        }
+
+        // Validate that the second element is an integer.
+        if (!is_int($state[1])) {
+            return false;
+        }
+
+        // If all checks pass, the string is valid.
+        return true;
+    }
+
+    /**
+     * Takes a string and checks whether it is a string containing a list of Parson's states.
+     * In particular, it checks whether each item in the list is of the following format:
+     * "[{"used": [[[<str>, ..., <str>]]], "available": [<str>, ..., <str>]}, <int>]"
+     *
+     * @param string $input
+     * @return bool whether $input represents a list of Parson's state or not
+     */
+    public static function validate_parsons_string($input) {
+        $data = json_decode($input, true);
+        // When used in the input class $input is a string of a string, so we need to decode twice
+        // But in later usage (e.g., for filters) $input is just a string
+        if (is_string($data)) { 
+            $data = json_decode($data, true);
+        }
+        //print_r($data);
+        // Check if the JSON decoding was successful and the resulting structure is an array.
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+            return false;
+        }
+
+        // Check whether each item is a valid PHP array corresponding to a single Parson's state.
+        foreach ($data as $state) {
+            if (!self::validate_parsons_state($state)) {
+                // If one of them fails, then the string is invalid.
+                return false;
+            }
+        }
+
+        // If all items pass, then the string is valid.
+        return true;
+    }
+
+    public static function validate_parsons_contents($contents) {
+        $strings = function($node) use (&$answernotes, &$errors) {
+            // We validate the node to check that it is a string that represents a Parson's state.
+            // This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an additional safety
+            // measure to ensure we do not dehash other strings.
+            if ($node instanceof MP_String && self::validate_parsons_string($node->value)) {
+                $node->value = stack_utils::unhash_parsons_string($node->value);
+            }
+            
+            return true;
+        };
+        return $strings($contents);
     }
 }

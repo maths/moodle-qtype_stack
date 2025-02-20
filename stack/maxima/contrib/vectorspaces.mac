@@ -1,4 +1,30 @@
-/* First draft of the vector space subset of functions */
+/* This may not work without 
+   stack_include_contrib("linearalgebra_core.mac") */
+
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Vector subspace functions for STACK                         */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
 
 /**
  * Predicate to determine whether a given object is a unit vector.

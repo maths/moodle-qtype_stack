@@ -1,4 +1,27 @@
-## Vectors ## {#vectors}
+## Vectors and vector spaces ##
+
+STACK has a contributed library for vector spaces.  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorspaces.mac)
+
+To use this library you must load it into the question variables.
+
+* To use the local copy on your server: `stack_include("vectorspaces.mac");`
+* To use the latest code from github: `stack_include_contrib("vectorspaces.mac");`
+
+## Student input ##
+
+Students do find typing in matrices very tedious.  The convenient notation
+
+    c(1,2,3)
+
+for column vectors and
+
+    v(1,2,3,4)
+
+for row vectors is provided by the vector space library in the contrib directory.
+
+Once converted into Matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.
+
+## Inline i,j,k notation
 
 If you are trying to use the vector notation such as \(3i+4j\) you will probably want to redefine \(i\) to be an abstract symbol, not a complex number.
 More information on this is given under [Numbers](../../CAS/Numbers.md).  In particular, use the question level option "Meaning and display of sqrt(-1)" value `symi` to stop interpreting `i` with `i^2=-1` and return it to being an abstract symbol.
@@ -49,23 +72,5 @@ The wedge product operator is denoted by the tilde `~`.  This is the `itensor` p
 
 Another advantage of this function is the ability to return an un-simplified version with `simp:false`.
 
-## Student input ##
 
-Students do find typing in matrices very tedious.  Some teachers have asked for a convenient notation such as
-
-    c(1,2,3)
-
-for column vectors and
-
-    v(1,2,3,4)
-
-For row vectors.  This is not a core part of STACK currently, but in individual questions you can convert such notation easily into mainstream Maxima using code such as the following.
-
-    ta1:c(1,2,3);
-    ta2:v(1,2,3);
-    vec_convert(sa) := if op(sa)=c then transpose(matrix(args(sa))) elseif op(sa)=v then matrix(args(sa));
-    vec_convert(ta1);
-    vec_convert(ta2);
-
-Once converted into Matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.  If there is sufficient demand for this contact the developers.
 

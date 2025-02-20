@@ -1,6 +1,3 @@
-/* This may not work without 
-   stack_include_contrib("linearalgebra_core.mac") */
-
 /*  Authors Luke Longworth, Georg Osang
     University of Canterbury, IDEMS International
     Copyright (C) 2025 Luke Longworth and Georg Osang

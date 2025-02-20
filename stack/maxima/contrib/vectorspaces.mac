@@ -1,6 +1,3 @@
-/* This may not work without 
-   stack_include_contrib("linearalgebra_core.mac") */
-
 /*  Author Luke Longworth
     University of Canterbury
     Copyright (C) 2025 Luke Longworth
@@ -25,6 +22,32 @@
 
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
+
+/*******************************************************************************/
+/* Provides convenience functions for column and row vectors for student input */
+/*******************************************************************************/
+texput(c,
+  lambda([ex], block([ns,str,ii],
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+texput(r,
+  lambda([ex], block([ns,str,ii],
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+/* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
+declare([c,r],nonscalar);
 
 /**
  * Predicate to determine whether a given object is a unit vector.

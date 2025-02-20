@@ -3050,7 +3050,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
                 (rawmk:true, ansnote:StackAddNote("", "ATInt_const_int_condone"))
         else if freeof(log, SA) or freeof(log, SB) then
             if ATIntWeirdConstp(ex, var) then
-                (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
+                (rawmk:false, fb:StackAddFeedback(StackAddFeedback("", "ATInt_weirdconst"), "seekhelp"), ansnote:StackAddNote("", "ATInt_weirdconst"))
             else if constint and listofvars(ex)=[var] then
                      (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
                  else
@@ -3063,7 +3063,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
         else if freeof(var, ex) and not(ATIntWeirdConstp(ex, var)) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true_differentconst"))
         else
-            (rawmk:acceptformal, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
+            (rawmk:acceptformal, fb:StackAddFeedback(StackAddFeedback("", "ATInt_EqFormalDiff"), "seekhelp"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
     ) else /* Check for the special cases where the buggy rule is true. */
        if ev(algebraic_equivalence(SAa, ev(diff(SBd, var), simp)), simp) and ev(algebraic_equivalence(exp(x), SBd), simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
@@ -3074,7 +3074,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
             (rawmk:false, fb:StackAddFeedback(fb, "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
+            (rawmk:false, fb:StackAddFeedback(StackAddFeedback("", "ATInt_logabs_inconsistent"), "seekhelp"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
     lSAv:listofvars(SA),
     lSAv:listofvars(SA),
     lSBv:listofvars(SB),

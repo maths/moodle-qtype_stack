@@ -540,7 +540,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // For example, if one of the question variables is 1/0.
             // This should not be a show stopper.
             // Something has gone wrong here, and the student will be shown nothing.
-            $s = html_writer::tag('span', stack_string('runtimeerror'), ['class' => 'stackruntimeerrror']);
+            $s = html_writer::tag('span', stack_string('runtimeerror') . ' ' . stack_string('seekhelp'),
+                ['class' => 'stackruntimeerrror']);
             $errmsg = '';
             foreach ($this->runtimeerrors as $key => $val) {
                 $errmsg .= html_writer::tag('li', $key);

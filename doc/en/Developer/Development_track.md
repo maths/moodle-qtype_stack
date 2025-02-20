@@ -12,6 +12,8 @@ Done.
 2. Support `allowrmpty` for dropdown, radio and checkbox inputs.
 3. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../CAS/Random.md) documentation for details.
 4. Convert input "syntax hint" to castext.
+5. Add in the `space` option, i.e. `make_multsgn("space")` in the [options](../Authoring/Question_options.md).
+
 
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 

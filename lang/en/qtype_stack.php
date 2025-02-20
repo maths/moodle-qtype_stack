@@ -240,6 +240,7 @@ $string['scientificnotation_E'] = 'n E m';
 $string['multcross'] = 'Cross';
 $string['multdot'] = 'Dot';
 $string['multonlynumbers'] = 'Only numbers';
+$string['multspace'] = 'Space';
 $string['multiplicationsign'] = 'Multiplication sign';
 $string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
 $string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#multiplication';

@@ -44,7 +44,6 @@ final class qtype_stack_test_helper extends question_test_helper {
             'test3', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test3_penalty0_1', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test4', // One input, one PRT, not randomised, has a plot. What is the equation of this graph? x^2.
-            'test6', // Test of the matrix input type.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
@@ -3810,9 +3809,13 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.35; // Non-zero and not the default.
 
+        // Also test the castext syntax hint for matrix question.
         $q->inputs['ans1'] = stack_input_factory::make(
             'matrix', 'ans1', 'ta', new stack_options(),
-            ['boxWidth' => 5, 'allowWords' => 'blob']);
+            ['boxWidth' => 5,
+             'allowWords' => 'blob',
+             'syntaxHint' => '{#zeromatrix(2,2)#}',
+            ]);
 
         $q->options->set_option('simplify', false);
 
@@ -3889,7 +3892,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2020112300';
         $q->name = 'langblocks';
-        $q->questionvariables = "pt:5;ta2:(x-pt)^2";
+        $q->questionvariables = "ex1:x^2;pt:5;ta2:(x-pt)^2";
 
         $q->questiontext = '[[lang code="en,other"]] Give an example of a function \(f(x)\) with a stationary point ' .
             'at \(x={@pt@}\).[[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
@@ -3900,7 +3903,11 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta2', new stack_options(),
-            ['boxWidth' => 5, 'allowWords' => '']);
+            ['boxWidth' => 5,
+             'allowWords' => '',
+             'syntaxHint' => "[[lang code='en']]An expression, e.g. {#ex1#}[[/lang]]" .
+                             "[[lang code='da']]Et udtryk, f.eks. {#ex1#[[/lang]]",
+            ]);
 
         $q->options->set_option('simplify', true);
 
@@ -4160,6 +4167,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         // We need to check that local variable names within the block are not invalid for student's input.
         // We need to chack mathematics within the castext is correctly displayed.
         $q->questionvariables = 'feedback_fn(ex) := "Remember to enter sets!"' .
+            "sh:castext(\"{?,?,...,?}\");" .
             "n : rand(2)+3; " .
             "p : rand(3)+2; " .
             "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))" .
@@ -4175,7 +4183,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
             [
-                'boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
+                'boxWidth' => 20, 'syntaxHint' => '{@sh@}',
                 'options' => 'feedback:feedback_fn',
             ]
             );

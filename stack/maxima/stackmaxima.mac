@@ -224,7 +224,8 @@ make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
     if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
     if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),
-    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary)
+    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary),
+    if OPT_MULTSGN = "space" then texput("*", " ", nary)
 );
 
 /* This only prints a multiplication sign for numbers. */

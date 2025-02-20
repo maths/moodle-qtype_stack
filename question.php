@@ -144,6 +144,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     private $tas;
 
     /**
+     * @var castext2_evaluatable[] STACK specific: instantiated version of syntax hints for each input.
+     */
+    private $tashint;
+
+    /**
      * @var stack_cas_security the question level common security
      * settings, i.e. forbidden keys and wether units are in play.
      * Note that the security-object is used to enforce read-only
@@ -410,21 +415,27 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // The session to keep. Note we do not need to reinstantiate the teachers answers.
             $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
 
-            // 2. correct answer for all inputs.
-            foreach ($this->inputs as $name => $input) {
-                $cs = stack_ast_container::make_from_teacher_source($input->get_teacher_answer(),
-                        '', $this->security);
-                $this->tas[$name] = $cs;
-                $session->add_statement($cs);
-            }
-
             // Check for signs of errors.
             if ($this->get_cached('static-castext-strings') === null) {
                 throw new stack_exception(implode('; ', array_keys($this->runtimeerrors)));
             }
-
-            // 3.0 setup common CASText2 staticreplacer.
+            // Setup common CASText2 staticreplacer.
             $static = new castext2_static_replacer($this->get_cached('static-castext-strings'));
+
+            // 2. Inputs.
+            foreach ($this->inputs as $name => $input) {
+                // 2.1. Correct answer for all inputs.
+                $cs = stack_ast_container::make_from_teacher_source($input->get_teacher_answer(),
+                        '', $this->security);
+                $this->tas[$name] = $cs;
+                $session->add_statement($cs);
+                // 2.2. Syntax hints for all inputs.
+                $sh = castext2_evaluatable::make_from_compiled($this->get_cached('castext-sh-' . $name), '/sh', $static);
+                $this->tashint[$name] = $sh;
+                if ($sh->requires_evaluation()) {
+                    $session->add_statement($sh);
+                }
+            }
 
             // 3. CAS bits inside the question text.
             $questiontext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qt'), '/qt', $static);
@@ -445,7 +456,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $this->security->set_context($this->get_cached('security-context'));
             }
 
-            // The session to keep. Note we do not need to reinstantiate the teachers answers.
+            // The session to keep.
             $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
 
             // 5. CAS bits inside the question note.
@@ -511,6 +522,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $this->runtimeerrors[$s] = true;
             }
 
+            foreach ($this->inputs as $name => $input) {
+                $sh = $this->tashint[$name];
+                if ($sh->get_errors()) {
+                    $s = stack_string('runtimefielderr',
+                        ['field' => stack_string('syntaxhint') . ': ' . $name, 'err' => $sh->get_errors()]);
+                    $this->runtimeerrors[$s] = true;
+                }
+            }
+
             // Allow inputs to update themselves based on the model answers.
             $this->adapt_inputs();
         }
@@ -562,6 +582,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
             if ($this->get_cached('contextvariables-qv') !== null) {
                 $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
+            }
+            if ($input->is_parameter_used('syntaxHint')) {
+                $sh = $this->tashint[$name];
+                $input->set_parameter('syntaxHint', $sh->get_rendered());
             }
             $input->adapt_to_model_answer($teacheranswer);
         }
@@ -2202,21 +2226,31 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $cc['castext-prt-ic'] = $ct->get_evaluationform();
         }
 
-        // Remember to collect the extracted strings once all has been done.
-        $cc['static-castext-strings'] = $map->get_map();
-
         // The time of the security context as it were during 2021 was short, now only
         // the input variables remain.
         $si = [];
 
-        // Mark all inputs. To let us know that they have special types.
         foreach ($inputs as $key => $value) {
+            // Mark all inputs. To let us know that they have special types.
             if (!isset($si[$key])) {
                 $si[$key] = [];
             }
             $si[$key][-2] = -2;
+            // Add in syntax hints.
+            $index = array_search($key, $inputs);
+            $ct = castext2_evaluatable::make_from_source($value->get_parameter('syntaxHint', ''), '/i/' . $index . '/sh');
+            // Note, we hard-wire the same format as the question text.
+            if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {
+                throw new stack_exception('Error(s) in syntax hint for input ' . $key . ': ' . implode('; ',
+                    $ct->get_errors(false)));
+            } else {
+                $cc['castext-sh-' . $key] = $ct->get_evaluationform();
+            }
         }
         $cc['security-context'] = $si;
+
+        // Remember to collect the extracted strings once all has been done.
+        $cc['static-castext-strings'] = $map->get_map();
 
         return $cc;
     }

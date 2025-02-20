@@ -2,6 +2,7 @@
 
 Two input types allow students to enter multipule lines.  Each line must be a valid algebraic expression.  The result in Maxima is a list of expressions, one for each line.
 
+The syntax hint is initially processed as castext.  This is then assumed to be a Maxima list and re-processed as a Maxima expression. If valid, STACK removes "noun" operators, e.g. `nounand` will be converted to `and` before the syntax hint is displayed.  Therefore, you can add in a syntax hint of the form `[2x+x=?]`.  This is unchanged by castext processing.  It is a list, but the contents are not valid Maxima and so are just displayed.
 
 #### Text area ####
 

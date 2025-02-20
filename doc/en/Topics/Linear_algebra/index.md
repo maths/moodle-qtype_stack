@@ -4,6 +4,8 @@ Linear algebra, next to calculus, is one of the pillars of modern mathematics an
 
 1. General [matrix manipulations](../../CAS/Matrix.md) in Maxima.
 2. Creating [random matrices](Random_Matrices.md).
+3. Assessment of matrices with [answer tests](Answer_tests.md).
+4. Using [vectors](Vectors.md).
 
 ## Lines and planes
 

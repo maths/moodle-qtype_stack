@@ -1054,16 +1054,26 @@
         "description":"This page provides advice for writing STACK questions in vector calculus."
         },
         {
-        "LinearAlgebra":[
+        "Linear_algebra":[
              {
              "file":"index.md",
              "title":"Linear Algebra - STACK Documentation",
              "description":"Information on working with linear algebra in a STACK question."
              },
              {
+            "file":"Answer_tests.md",
+            "title":"Answer tests for matrices - STACK Documentation",
+            "description":"Information assessment of matrices with answer tests."
+            },
+            {
             "file":"Random_Matrices.md",
             "title":"Random Matrices - STACK Documentation",
             "description":"Information on creating structured random matrices."
+            },
+            {
+            "file":"Vectors.md",
+            "title":"Vectors - STACK Documentation",
+            "description":"Information on using vectors in STACK."
             }
         ]
         },

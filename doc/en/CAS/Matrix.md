@@ -1,6 +1,6 @@
 # Matrices and vectors in STACK
 
-This page documents the use of matrices in STACK.  There is a topics page for setting [linear algebra](../Topics/Linear_algebra.md) STACK questions.
+This page documents the use of matrices in STACK.  There is a topics page for setting [linear algebra](../Topics/LinearAlgebra/index.md) STACK questions.
 
 ## Matrices ##
 

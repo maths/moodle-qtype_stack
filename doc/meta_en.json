@@ -1034,11 +1034,6 @@
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
         },
         {
-        "file":"Linear_algebra.md",
-        "title":"Linear Algebra - STACK Documentation",
-        "description":"Information on working with linear algebra in a STACK question."
-        },
-        {
         "file":"Propositional_Logic.md",
         "title":"Propositional Logic - STACK Documentation",
         "description":"Support for propositional logic, using Maxima's logic package."
@@ -1057,6 +1052,20 @@
         "file":"Vector_Calculus.md",
         "title":"Vector Calculus - STACK Documentation",
         "description":"This page provides advice for writing STACK questions in vector calculus."
+        },
+        {
+        "LinearAlgebra":[
+             {
+             "file":"index.md",
+             "title":"Linear Algebra - STACK Documentation",
+             "description":"Information on working with linear algebra in a STACK question."
+             },
+             {
+            "file":"Random_Matrices.md",
+            "title":"Random Matrices - STACK Documentation",
+            "description":"Information on creating structured random matrices."
+            }
+        ]
         },
         {
        "Proof":[

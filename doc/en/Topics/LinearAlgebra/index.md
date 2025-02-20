@@ -2,15 +2,8 @@
 
 Linear algebra, next to calculus, is one of the pillars of modern mathematics and an important application in STACK is testing linear algebra questions.
 
-Often there will be many equivalent answers, especially when asking for students to find the basis for a subspace, etc.
-
-This document provides some tips and hints for writing STACK questions.
-
-Please see also the file on [matrix manipulations](../CAS/Matrix.md).
-
-## Random questions
-
-The paper [Setting linear algebra problems](https://www.researchgate.net/publication/228855146_Setting_linear_algebra_problems) by John Steele (2003) is very useful.
+1. General [matrix manipulations](../../CAS/Matrix.md) in Maxima.
+2. Creating [random matrices](Random_Matrices.md).
 
 ## Lines and planes
 

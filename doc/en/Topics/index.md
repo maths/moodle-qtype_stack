@@ -6,7 +6,7 @@ This section of the STACK documentation contains information on how to author qu
 * [Differential equations](Differential_equations.md)
 * [Discrete mathematics](Discrete_mathematics.md)
 * String similarity via the [Levenshtein distance](Levenshtein_distance.md)
-* [Linear algebra](Linear_algebra.md)
+* [Linear algebra](../Topics/LinearAlgebra/index.md)
 * [Propositional Logic](Propositional_Logic.md)
 * [Scientific Units](Units.md)
 * [Vector Calculus](Vector_Calculus.md)

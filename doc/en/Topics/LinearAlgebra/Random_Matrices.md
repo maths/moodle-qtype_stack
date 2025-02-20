@@ -1,5 +1,7 @@
 # Random Matrices
 
+The paper [Setting linear algebra problems](https://www.researchgate.net/publication/228855146_Setting_linear_algebra_problems) by John Steele (2003) is very useful.
+
 STACK has a contributed library for creating structured random matrices.  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/rand_matrix.mac)
 
 To use this library you must load it into the question variables.

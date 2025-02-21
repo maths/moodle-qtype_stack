@@ -41,6 +41,38 @@ use PHPUnit\Framework\Assert;
 class behat_qtype_stack extends behat_base {
 
     /**
+     * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
+     *
+     * Recognised page names are:
+     * | pagetype            | name meaning | description                  |
+     * | Course competencies | Course name  | The course competencies page |
+     *
+     * @param string $page identifies which type of page this is, e.g. 'Course competencies'.
+     * @param string $identifier identifies the particular page, e.g. 'C1'.
+     * @return moodle_url the corresponding URL.
+     * @throws Exception with a meaningful error message if the specified page cannot be found.
+     */
+    protected function resolve_page_instance_url(string $page, string $identifier): moodle_url {
+        switch (strtolower($page)) {
+            case 'analysis':
+                $identifiers = explode('>', $identifier);
+                $identifiers = array_map('trim', $identifiers);
+                if (count($identifiers) < 2) {
+                    throw new Exception("The specified section $identifier is not valid and should be coursename > question.");
+                }
+                [$courseidentifier, $questionidentifier] = $identifiers;
+                $questionid = $this->get_question_id($questionidentifier);
+                $courseid = $this->get_course_id($courseidentifier);
+                return new moodle_url('/question/type/stack/questiontestreport.php', [
+                    'questionid' => $questionid,
+                    'courseid' => $courseid,
+                ]);
+            default:
+                throw new Exception("Unrecognised page type '{$page}'");
+        }
+    }
+
+    /**
      * This step looks to see if there is information about a Maxima configuration
      * for testing in the config.php file. If there is, it sets STACK up to use
      * that. If not, it skips this scenario.
@@ -176,6 +208,21 @@ class behat_qtype_stack extends behat_base {
             $this->execute('behat_general::i_visit', [$url]);
         }
         Assert::assertEquals(true, count($urls) === (int) $number);
+    }
+
+    /**
+     * Look up the id of a question from its name.
+     *
+     * @param string $questionname the question name, for example 'Question 1'.
+     * @return int corresponding id.
+     */
+    protected function get_question_id(string $questionname): int {
+        global $DB;
+
+        if (!$id = $DB->get_field('question', 'id', ['name' => $questionname])) {
+            throw new Exception('There is no question with name "' . $questionname . '".');
+        }
+        return $id;
     }
 
 }

@@ -83,8 +83,8 @@ s_test_case(every(lambda([ex], ev(is(ex>=-4) and is(ex<=4),simp)),list_matrix_en
 s_test_case(_triup(transpose(rand_tril(4,3,4))),true);
 s_test_case(every(lambda([ex], ev(is(ex>=-4) and is(ex<=4),simp)),list_matrix_entries(rand_tril(4,3,4))),true);
 
-_perm: rand_perm_matrix(5)
-s_test_case(every(lambda([ex],is(ex=1)),ev(apply("+",abs(args(_perm))),simp)) and every(lambda([ex],is(ex=1) or is(ex=0)),list_matrix_entries(_perm)),true)
+_perm: rand_perm_matrix(5);
+s_test_case(every(lambda([ex],is(ex=1)),ev(apply("+",abs(args(_perm))),simp)) and every(lambda([ex],is(ex=1) or is(ex=0)),list_matrix_entries(_perm)),true);
 
 _L: [1,1,2,2,3,3];
 s_test_case(matrix_size(rand_matrix_list(2,3,_L)),[2,3]);

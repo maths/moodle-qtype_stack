@@ -1,6 +1,3 @@
-/* This may not work without 
-   stack_include_contrib("linearalgebra_core.mac") */
-
 /*  Author Luke Longworth
     University of Canterbury
     Copyright (C) 2025 Luke Longworth
@@ -24,6 +21,8 @@
 /*  V1.0 February 2025                                          */
 /*                                                              */
 /****************************************************************/
+
+load("eigenlib.mac");
 
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */

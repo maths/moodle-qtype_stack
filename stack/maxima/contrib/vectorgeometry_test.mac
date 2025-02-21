@@ -23,6 +23,8 @@
 /*                                                              */
 /****************************************************************/
 
+load("vectorgeometry.mac");
+
 s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),true);
 s_test_case(linear_combinationp(matrix([1+t+s],[2+t],[3+t+s])),true);
 s_test_case(linear_combinationp(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),true);

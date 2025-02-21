@@ -510,4 +510,52 @@ i*%pi/6)))</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6">ATCASEqual_true.</td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Associativity</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a+(b+c)</pre></td>
+  <td class="cell c3"><pre>(a+b)+c</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a+(b+c)</pre></td>
+  <td class="cell c3"><pre>&quot;+&quot;(a,b,c)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(a+b)+c</pre></td>
+  <td class="cell c3"><pre>&quot;+&quot;(a,b,c)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(a+b)+c</pre></td>
+  <td class="cell c3"><pre>a+b+c</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a+(b+c)</pre></td>
+  <td class="cell c3"><pre>a+b+c</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
 </tr></tbody></table></div>

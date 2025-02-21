@@ -730,4 +730,10 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
+
+    public function test_is_true_at_antidiff(): void {
+        $at = $this->stack_answertest_general_cas_builder('x^3/3+c', 'x^3/3', 'Antidiff', 'x');
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
 }

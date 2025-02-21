@@ -105,8 +105,9 @@ You will use the `"<ID>"` string to write solutions and assess student inputs; t
 This should be column grouped.
 
 For our example, the _Question variables_ field looks as follows.
+
 ```
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 
 steps : [
     ["sq", "\\(f(x) = x^2\\)"],

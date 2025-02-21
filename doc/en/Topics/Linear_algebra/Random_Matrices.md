@@ -1,12 +1,9 @@
 # Random Matrices
 
-The paper [Setting linear algebra problems](https://www.researchgate.net/publication/228855146_Setting_linear_algebra_problems) by John Steele (2003) is very useful.
+The paper [Setting linear algebra problems](https://www.researchgate.net/publication/228855146_Setting_linear_algebra_problems) by John Steele (2003) provides interesting mathematical background.
 
-STACK has a contributed library for creating structured random matrices.  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/rand_matrix.mac)
+STACK has a contributed library for creating structured random matrices.  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/rand_matrix.mac).  To use this library you must load it into the question variables.
 
-To use this library you must load it into the question variables.
-
-* To use the local copy on your server: `stack_include("rand_matrix.mac");`
 * To use the latest code from github: `stack_include_contrib("rand_matrix.mac");`
 
 ## Structured Random Matrices
@@ -18,11 +15,13 @@ To use this library you must load it into the question variables.
 * `rand_triu(m, n, k)` will generate an \(m \times n\) upper triangular matrix with entries chosen from \(-k\) to \(k\) (inclusive). All entries below the diagonal are set to zero.
 * `rand_tril(m, n, k)` will generate an \(m \times n\) lower triangular matrix with entries chosen from \(-k\) to \(k\) (inclusive). All entries above the diagonal are set to zero.
 
-In each of the above cases, you may omit the third argument, `k`, and STACK will assume \(k = 1\).
+Notes.
 
-Note: \(0\) is an allowed value in all of the above cases, so you cannot guarantee properties like invertibility even with `rand_diag`. 
+1. You may omit the third argument, `k`, and STACK will assume \(k = 1\).
+2. \(0\) is an allowed value in all of the above cases, so you cannot guarantee properties like invertibility even with `rand_diag`. 
+3. For non-negative entries apply `abs`, e.g. use `abs(rand_matrix(m, n, k))`.
 
-All of the above functions have `_list` and `_list_no_replacement` varieties. 
+The above functions have `_list` and `_list_no_replacement` varieties. 
 
 * `rand_matrix_list(m, n, L)` will generate an \(m \times n\) matrix with entries selected from provided list `L`. Items in `L` may appear more than once in the resulting matrix.
 * `rand_matrix_list_no_replacement(m, n, L)` will generate an \(m \times n\) matrix with entries selected from provided list `L`. Items in `L` will not appear more than once. If `L` is too short to fill the resulting matrix, `matrix([null])` is returned instead.
@@ -47,6 +46,8 @@ Under the hood, all of these functions with optional `k` are produced by first m
 
 ## Some advice on the use of these functions
 
-Careful use of deployed variants are key to success here. The "level of complexity" `k` is quite volatile, and unexpectedly complicated or simple matrices can appear with some regularity. In general, the author believes it is better to err on the side of higher `k` and then aggressively trim the variants. 
+Careful use of [deployed variants](../../STACK_question_admin/Deploying.md) are key to success here. The "level of complexity" `k` is quite volatile, and unexpectedly complicated or simple matrices can appear with some regularity. In general, the author believes it is better to err on the side of higher `k` and then aggressively trim the variants. 
 
-Don't forget to check that intermediate steps of working are appopriate too! It's quite common in linear algebra to generate a problem that has "nice" numbers at the beginning and "nice" numbers in the final answer, but with some horrid working in the middle. 
+Don't forget to check that intermediate steps of working are appopriate too! It's quite common in linear algebra to generate a problem that has "nice" numbers at the beginning and "nice" numbers in the final answer, but with some horrid working in the middle.
+
+A good general principle is to work backwards from a solution.  E.g. if you want to randomly generate a linear system with "nice" row-reduction steps, consider randomly generating elementary matrices and multiplying the answer by these. This ensures an answer with the desired properties (e..g unique integer solutions), finely controls the steps needed, and the intermediate working complexity.

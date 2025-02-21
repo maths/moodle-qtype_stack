@@ -7,13 +7,12 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.9.0
 
-Done.
 1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.  Allow addition of multiple nodes in a PRT with one click.
-2. Support `allowrmpty` for dropdown, radio and checkbox inputs.
-3. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../CAS/Random.md) documentation for details.
+2. Support `allowempty` for dropdown, radio and checkbox inputs.
+3. Add in the `space` option, i.e. `make_multsgn("space")` in the [options](../Authoring/Question_options.md).
 4. Convert input "syntax hint" to castext.
-5. Add in the `space` option, i.e. `make_multsgn("space")` in the [options](../Authoring/Question_options.md).
-6. Add in a substantial library for dealing with linear algebra problems.
+5. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../Topics/Linear_algebra/Random_Matrices.md) documentation for details.
+6. Add in a substantial library for dealing with [linear algebra problems](../Topics/Linear_algebra/index.md).
 
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 

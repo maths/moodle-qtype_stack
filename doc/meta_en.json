@@ -1066,6 +1066,41 @@
             "description":"Information assessment of matrices with answer tests."
             },
             {
+            "file":"Linear_algebra_core.md",
+            "title":"Vector/matrix functions defined by STACK in the core code - STACK Documentation",
+            "description":"Reference documentation for vector/matrix functions defined by STACK in the core code."
+            },
+            {
+            "file":"Random_Matrices.md",
+            "title":"Random Matrices - STACK Documentation",
+            "description":"Information on creating structured random matrices."
+            },
+            {
+            "file":"Matrix_factorisation.md",
+            "title":"Matrix factorisation functions - STACK Documentation",
+            "description":"Reference documentation for contributed library for matrix factorisation functions."
+            },
+            {
+            "file":"Matrix_library.md",
+            "title":"Matrix manipulation and matrix predicate functions for STACK - STACK Documentation",
+            "description":"Reference documentation for contributed library library for matrix manipulation and matrix predicate functions for STACK."
+            },
+            {
+            "file":"Vector_geometry.md",
+            "title":"Vector geometry functions for STACK - STACK Documentation",
+            "description":"Reference documentation for contributed library for vector geometry functions."
+            },
+            {
+            "file":"Vector_space.md",
+            "title":"Vector space functions for STACK - STACK Documentation",
+            "description":"Reference documentation for contributed library for vector space functions."
+            },
+            {
+            "file":"Eigen.md",
+            "title":"Eigenvalue/vector functions - STACK Documentation",
+            "description":"Reference documentation for contributed library for eigenvector/value functions.."
+            },
+            {
             "file":"Random_Matrices.md",
             "title":"Random Matrices - STACK Documentation",
             "description":"Information on creating structured random matrices."

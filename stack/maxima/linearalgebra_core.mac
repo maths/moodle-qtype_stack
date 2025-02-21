@@ -28,7 +28,7 @@
  * Works on entire expressions.
  * Returns expression unchanged if simp:true and matrices do not conform.
  * 
- * @param[expression] ex An expression that may contain c or r 
+ * @param[expression] ex An expression that may contain c or r.
  * @return[scalar expression] The expression with c and r replaced with matrices, or the original expression if matrices do not conform
  */
 vec_convert(ex):= block([ex2],
@@ -100,11 +100,8 @@ row_vecp(ex):= block(
  */
 vectorp(ex):= col_vecp(ex) or row_vecp(ex);
 
-/* TODO write function to convert row/col vectors in matrix form to c or r form */
-/* Should be useful for creating teacher answers */
-
 /** 
- * Predicate to determine whether a matrix is diagonal
+ * Predicate to determine whether a matrix is diagonal.
  * i.e. Is every off-diagonal entry equal to 0?
  *
  * @param[matrix] M An mxn matrix
@@ -143,14 +140,15 @@ squarep(M):= block([isSquare],
 /* Functions to convert objects into standard forms                              */
 /*********************************************************************************/
 
-/* It is feasible that different institutions will prefer students to enter their answers in different ways */
-/* linearalgebra.mac prefers to work with either lists of lists (not distinguishing between column and row
-   vectors) or matrices whose columns are vectors of interest. */
+/* It is feasible that different institutions will prefer students to enter their answers in different ways.
+   linearalgebra.mac prefers to work with either lists of lists (not distinguishing between column and row
+   vectors) or matrices whose columns are vectors of interest.
+*/
 
 /**
  * Takes collections of vectors and returns a list of lists.
  * The vectors themselves may be different objects. Supported objects include:
- * * 1xN or Mx1 matrices
+ * * \(1\times N\) or \(M\times 1\) matrices
  * * Lists
  * * Vectors using c or r notation
  * * Sets, ntuples
@@ -174,15 +172,15 @@ make_list_of_lists(ex):= block([op1],
 );
 
 /**
- * Try to convert object to a column vector.
+ * Try to convert object to a column vector, as a maxima matrix.
  * Supported objects include:
- * * Mx1 matrices
- * * Vectors using c notation
+ * * \(M\times 1\) matrices.
+ * * Vectors using `c` notation
  * * Flat lists, ntuples (with entries interpreted as a column vector entries)
- * If conversion is not possible, return matrix([null])
+ * If conversion is not possible, return matrix([null]).
  *
- * @param[ex] ex Input object
- * @return[matrix] A Mx1 matrix representing the column vector, or matrix([null]) if input was invalid
+ * @param[ex] ex Input object.
+ * @return[matrix] A \(M\times 1\) matrix representing the column vector, or `matrix([null])` if input was invalid.
  */
 convert_to_colvec(ex):= block([op1],
   ex: vec_convert(ex),
@@ -233,8 +231,8 @@ matrix_to_cols(M):= ev(makelist(col(M, i), i, 1, second(matrix_size(M))), simp);
  * * Lists, ntuples (representing a column vector)
  * The collection may be a list, set, ntuple, span, or matrix
  *
- * @param[] L A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
- * @return[list] List of Mx1 matrices (column vectors), or [] in case of invalid input
+ * @param[] L A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix.
+ * @return[list] List of Mx1 matrices (column vectors), or [] in case of invalid input.
  */
 cols_to_cols(L):=block([op1],
     if matrixp(L) then return(matrix_to_cols(L)),
@@ -289,13 +287,13 @@ scale_nicely(v):= block([v_op],
 /**
  * M^+ = V.S^+.U^T 
  * Moore-penrose pseudoinverse.
- * An alias for moore_penrose_pseudoinverse(M)
+ * Applies `moore_penrose_pseudoinverse(M)` with simplification.
  * Most commonly used to find minimal least squares solution to Ax = b using A^+ . b
  *
  * @param[matrix] M
  * @return[matrix] The moore-penrose pseudoinverse of M
  */
-pinv(M):= block([simp:true],moore_penrose_pseudoinverse(M));
+pinv(M):= block([simp:true], moore_penrose_pseudoinverse(M));
 
 
 /****************************/
@@ -406,6 +404,13 @@ rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
   p
 )$
 
+/**
+ * Calculate the vector cross product of two \(3\times 1\) vectors.
+ *
+ * @param[matrix] a \(3\times 1\) vector.
+ * @param[matrix] b \(3\times 1\) vector.
+ * @return[matrix] vector cross product.
+ */
 crossproduct(a,b) := block(
     if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("cossproduct requires matrices as arguments."),
     if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("cossproduct requires 3*1 matrices."),

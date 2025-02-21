@@ -2,59 +2,20 @@
 
 Linear algebra, next to calculus, is one of the pillars of modern mathematics and an important application in STACK is testing linear algebra questions.
 
+Core functionality.
+
 1. General [matrix manipulations](../../CAS/Matrix.md) in Maxima.
-2. Creating [random matrices](Random_Matrices.md).
-3. Assessment of matrices with [answer tests](Answer_tests.md).
-4. Using [vectors](Vectors.md).
+2. Core [vector/matrix functions](Linear_algebra_core.md) defined by STACK in the core code.
+3. Using [vectors](Vectors.md).
+4. Assessment of matrices with [answer tests](Answer_tests.md).
 
-## Lines and planes
+Reference documentation for contributed libraries.
 
-Problem: the student has been asked to represent a subspace in parametric form; we want to decide if these spaces are equivalent.
-
-## Converting from parametric form to vector form
-
-Let us start with an answer such as
-
-    ta:transpose(matrix([s+2*t,3+t,w]));
-    ta:expand(ta);
-    lv:listofvars(ta);
-
-    /* Sanity check: make sure the student's answer is linear in its parameters. */
-    deg:apply(max, maplist(lambda([ex], hipow(ta, ex)), lv));
-
-The first thing is to note Maxima's 
-
-    cm:coefmatrix(flatten(args(ta)), lv);
-    am:augcoefmatrix(flatten(args(ta)), lv);
-
-We will turn this into vector form explicitly as follows.
-
-    /* Remove any constant vectors (setting all parameters to zero). */
-     cv:ev(ta, maplist(lambda([ex], ex=0), lv), simp);
-
-    /* Calculate the direction vectors. */
-    dvs:maplist(lambda([ex], col(cm,ex)), makelist(k,k,1,length(lv)));
-
-    /* Create vector form. */
-    simp:false;
-    vf:apply("+", zip_with("*", lv, dvs))+cv;
-
-Note, this last line assumes `simp:false` (otherwise we simplify back to the original `ta`!), and uses STACK's `zip_with` function which is not a core part of Maxima.
-
-Now we have the direction vectors we can answer a number of questions.
-
-Turn the direction vectors into a single matrix.
-
-    simp:true;
-    cm:transpose(apply(matrix, maplist(lambda([ex], first(transpose(ex))), dvs)));
-    /* Takes us back to ta.... */
-    cm.transpose(matrix(lv))+cv;
-
-Does `ta` pass through the origin?  This amounts to solving 
-
-    solve(flatten(args(ta)), lv);
-
-But, solve can throw errors when we have dependent equations (as we might well do...).
+1. Creating [random matrices](Random_Matrices.md) in contributed `rand_matric.mac`.
+2. [Matrix functions](Matrix_library.md) in contributed `matrix.mac`.
+3. [Vector and vector space functions](Vector_space.md) in contributed `vectorspaces.mac`.
+4. [Vector geometry functions](Vector_geometry.md) in contributed `vectorgeometry.mac`.
+5. [Eigenvalue/vector functions](Eigen.md) in contributed `eigen.mac`.
 
 ## Solving systems of linear equations
 

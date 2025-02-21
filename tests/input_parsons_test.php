@@ -74,6 +74,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => 'Hello world'], $options, $ta,
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">&quot;Hello world&quot;</span>', $state->contentsdisplayed);
         $this->assertEquals('',
@@ -137,6 +138,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '\'[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},0]]\''],
             $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"\'[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]\'"', $state->contentsmodified);
         // This will fail internal evaluation in the Parson's decode filter due to the extra quotes, so will remain unhashed.
         $this->assertEquals(
@@ -154,6 +156,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '[\"aGVsbG8=\",\"d29ybGQ=\"]'],
             $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"[\\\\\"aGVsbG8=\\\\\",\\\\\"d29ybGQ=\\\\\"]"', $state->contentsmodified);
         // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed.
         $this->assertEquals('<span class="stacksyntaxexample">&quot;[\\\\\&quot;aGVsbG8=\\\\\&quot;,' .
@@ -170,6 +173,7 @@ final class input_parsons_test extends qtype_stack_testcase {
             ['sans1' => '[[{"used":[[[]]],"available":["aGVsbG8=","d29ybGQ="]},"I am invalid timestamp"]]'],
             $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},\"I am invalid timestamp\"]]"',
             $state->contentsmodified);
         $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
@@ -215,6 +219,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'allowempty');
         $state = $el->validate_student_response(['sans1' => '""'], $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"\"\""', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">&quot;\&quot;\&quot;&quot;</span>', $state->contentsdisplayed);
     }
@@ -228,6 +233,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => ''], $options, $ta, new stack_cas_security());
         // We do not allow empty in Parson's block
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('""', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">&quot;&quot;</span>', $state->contentsdisplayed);
     }

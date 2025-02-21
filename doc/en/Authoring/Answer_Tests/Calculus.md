@@ -59,6 +59,8 @@ In the case of partial  fractions where there are more than one term of the form
 we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the
 student must have all or none. 
 
+The phrase _"Please ask your teacher about this."_ occurs in some of the automatically generated feedback.  For example, when formal derivative of the student's answer does equal the expression they were asked to integrate but the answer differs from the correct answer in a significant way, not just, e.g., a constant of integration.  See examples with the note `ATInt_EqFormalDiff`.  If you don't want to use this phrase, alter the string tagged `seekhelp` in the language pack using, e.g., the moodle [language customisation](https://docs.moodle.org/405/en/Language_customisation)
+
 ### Antidiff ###
 
 This test works similarly to Int, but it only checks if the student answer and the model answer have algebraically equivalent derivative in respect to the (mandatory) variable given in the options.

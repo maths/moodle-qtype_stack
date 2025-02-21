@@ -315,7 +315,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -350,7 +350,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -457,7 +457,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -504,7 +504,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -535,7 +535,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -704,7 +704,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -771,7 +771,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -843,31 +843,23 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">1</td>
   <td class="cell c6">ATAddConst_true.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x^3+c)/3</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[x, NONSTRICT]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst((x^3+c)/3, x^3/3, [x,NONSTRICT]);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATAddConst_true.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x^3+c)/3</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[NONSTRICT, x]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst((x^3+c)/3, x^3/3, [NONSTRICT,x]);</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATAddConst_true.</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -952,31 +944,23 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[x, NONSTRICT]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(k*abs(x)), ln(abs(x))+c, [x,NONSTRICT]);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATAddConst_true.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(abs(k*x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[x, NONSTRICT]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(abs(k*x)), ln(abs(x))+c, [x,NONSTRICT]);</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATAddConst_true.</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -987,31 +971,23 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">1</td>
   <td class="cell c6">ATAddConst_true.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[NONSTRICT, x]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(k*abs(x)), ln(abs(x))+c, [NONSTRICT,x]);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATAddConst_true.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AddConst</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(abs(k*x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[NONSTRICT, x]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAddConst_generic.<pre>ATAddConst(ln(abs(k*x)), ln(abs(x))+c, [NONSTRICT,x]);</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You included an additional constant, but you didn't simply add it!</td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATAddConst_true.</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>
@@ -1202,7 +1178,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You used several additional constants have been found instead of just one!</td></td>
+  <td class="cell c1"><td colspan="4">Several additional constants have been found instead of just one constant of integration!</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AddConst</td>

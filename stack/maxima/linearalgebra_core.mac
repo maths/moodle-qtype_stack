@@ -24,7 +24,8 @@
 /* for significant contributions to this work in 2024 */
 
 /**
- * Converts c and r into matrices.
+ * Converts inert functions c and r into matrices.
+ * c and r can be found in certain contrib libraries (such as vectorspaces.mac) to enable students to input vectors simply.
  * Works on entire expressions.
  * Returns expression unchanged if simp:true and matrices do not conform.
  * 
@@ -141,8 +142,8 @@ squarep(M):= block([isSquare],
 /*********************************************************************************/
 
 /* It is feasible that different institutions will prefer students to enter their answers in different ways.
-   linearalgebra.mac prefers to work with either lists of lists (not distinguishing between column and row
-   vectors) or matrices whose columns are vectors of interest.
+   linearalgebra_core.mac and related contrib files prefers to work with either lists of lists
+   (not distinguishing between column and row vectors) or matrices whose columns are vectors of interest.
 */
 
 /**
@@ -272,7 +273,7 @@ mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
  * Also multiplies by -1 if all entries are negative
  * Very nice for eigenvector problems.
  * 
- * @param[matrix or list] v a list or a Mx1 or 1xN matrix
+ * @param[matrix or list] v a list or a Mx1 or matrix. Row vectors also accepted but will return transposed
  * @return[matrix or list] v, but scaled by a constant such that all entries are the smallest possible integers
  */
 scale_nicely(v):= block([v_op],
@@ -412,7 +413,7 @@ rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
  * @return[matrix] vector cross product.
  */
 crossproduct(a,b) := block(
-    if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("cossproduct requires matrices as arguments."),
-    if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("cossproduct requires 3*1 matrices."),
+    if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("crossproduct requires matrices as arguments."),
+    if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("crossproduct requires 3 by 1 matrices."),
     transpose(matrix([a[2,1]*b[3,1]-a[3,1]*b[2,1],a[3,1]*b[1,1]-a[1,1]*b[3,1],a[1,1]*b[2,1]-a[2,1]*b[1,1]]))
 )$

@@ -415,11 +415,10 @@ columnscale(M,i,alpha):= block([MT],
  * Format expressions so that they can be printed as coefficients by wrapping sums
  * and expressions with unary minus into brackets.
  */
-format_as_coeff(expr):= block([ops, repr],
+format_as_coeff(expr):= block(
   if stringp(expr) then return(expr),
-  ops: errcatch(op(expr)),
-  repr: if emptyp(ops) or not elementp(first(ops), {"+", "-"}) then tex1(expr) else simplode(["\\left(", tex1(expr), "\\right)"]),
-  return(repr)
+  if atom(expr) then return(tex1(expr)),
+  if not elementp(safe_op(expr), {"+", "-"}) then tex1(expr) else simplode(["\\left(", tex1(expr), "\\right)"])
 );
 
 /** 

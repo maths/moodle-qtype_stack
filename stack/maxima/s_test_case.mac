@@ -26,6 +26,7 @@ print("************ s_test_case results.");
 load("s_test_case.lisp")$
 s_test_case_eval(ex1, ex2):= if(ev(is(ex1=ex2))) then true else sconcat("Expected '", string(ex2), "' but got '", string(ex1), "'.");
 s_test_case_eval_simp(ex1, ex2):= if(ev(is(ex1=ex2), simp)) then true else sconcat("Expected '", string(ex2), "' but got '", string(ex1), "'.");
+s_test_case_eval_error(ex1, ex2):= (print("Expect an error message!"), if(ev(is(ex1=ex2))) then true else sconcat("Expect an error message!  Expected '", string(ex2), "' but got '", string(ex1), "'."));
 
 read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, cnt, s_failing],
      /* Load the file to define any functions etc. it contains. */

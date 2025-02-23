@@ -23,8 +23,11 @@
 /****************************************************************/
 
 load("rand_matrix.mac");
+/* Fix the random seed here. */
+stack_randseed(42);
 
 s_test_case(matrix_size(rand_matrix(4,2,6)),[4,2]);
+s_test_case_simp(rand_matrix(2,4,6),matrix([6,4,0,2],[0,-1,-5,3]));
 s_test_case(every(lambda([ex], ev(is(ex>=-6) and is(ex<=6),simp)),list_matrix_entries(rand_matrix(4,2,6))),true);
 
 s_test_case(matrix_size(rand_invertible(3,2)),[3,3]);

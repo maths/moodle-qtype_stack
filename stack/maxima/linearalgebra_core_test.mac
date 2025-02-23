@@ -22,6 +22,9 @@
 /*                                                              */
 /****************************************************************/
 
+/* Reset the counter for auto-generated numbers in linsolve. */
+%rnum:0;
+
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
 
@@ -29,7 +32,7 @@ s_test_case(vec_convert(c(1,2,3)),matrix([1],[2],[3]));
 s_test_case(vec_convert(r(1,2,3)),matrix([1,2,3]));
 s_test_case(vec_convert(c(1,2,3) + matrix([1],[1],[1])),matrix([1],[2],[3])+matrix([1],[1],[1]));
 s_test_case(vec_convert(c(1,2) + r(3,4)),matrix([1],[2])+matrix([3,4]) );
-s_test_case(ev(vec_convert(c(1,2) + r(3,4)),simp),c(1,2) + r(3,4) );
+s_test_case_eval_error(ev(vec_convert(c(1,2) + r(3,4)),simp),c(1,2) + r(3,4) );
 
 s_test_case(un_vec_convert(matrix([1],[2],[3])),c(1,2,3));
 s_test_case(un_vec_convert(matrix([1,2,3])),r(1,2,3));
@@ -38,7 +41,7 @@ s_test_case(un_vec_convert(matrix([1])),c(1));
 s_test_case(vec_convertedp(c(1,2)),false);
 s_test_case(vec_convertedp(r(1,2)),false);
 s_test_case(vec_convertedp(vec_convert(c(1,2))),true);
-s_test_case(vec_convertedp(ev(vec_convert(c(1,2)+r(3,4)),simp)),false);
+s_test_case_eval_error(vec_convertedp(ev(vec_convert(c(1,2)+r(3,4)),simp)),false);
 
 s_test_case(col_vecp(matrix([1],[2])),true);
 s_test_case(col_vecp(matrix([1,2])),false);
@@ -115,11 +118,13 @@ s_test_case(cols_to_matrix([[1,2,3],[4,5,6]]),matrix([1,4],[2,5],[3,6]));
 s_test_case(cols_to_matrix([[1,2,3]]),matrix([1],[2],[3]));
 s_test_case(cols_to_matrix([1,2,3]),matrix([null]));
 
+/* Reset the counter for auto-generated numbers in linsolve. */
+%rnum:0;
 s_test_case(mat_solve(matrix([1,2],[3,4]),[3,7]),matrix([1],[1]));
-s_test_case(mat_solve(matrix([1,-1],[1,-1]),[0,0]),matrix([%r1],[%r1]));
+s_test_case(mat_solve(matrix([1,-1],[1,-1]),[0,0]),matrix([%r4],[%r4]));
 s_test_case(mat_solve(matrix([1,-1],[1,-1]),[1,0]),matrix([]));
 s_test_case_simp(ev(stack_strip_percent(mat_solve(matrix([1,-1],[1,-1]),[1,0],true),[r]),simp),matrix([(2*r+1)/2],[r]));
-s_test_case_simp(mat_solve(matrix([0,0],[1,1]),[1,0],true),matrix([-%r3],[%r3]));
+s_test_case_simp(mat_solve(matrix([0,0],[1,1]),[1,0],true),matrix([-%r6],[%r6]));
 
 s_test_case(scale_nicely([9,12,27]),[3,4,9]);
 s_test_case(scale_nicely(matrix([-9],[-12],[-27])),matrix([3],[4],[9]));

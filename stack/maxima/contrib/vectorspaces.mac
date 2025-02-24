@@ -26,6 +26,10 @@
 /*******************************************************************************/
 /* Provides convenience functions for column and row vectors for student input */
 /*******************************************************************************/
+
+/* NOTE: Identical funcitions appear in eigenlib.mac and vectorgeometry.mac */
+/* If you edit these, please also edit those. */
+
 texput(c,
   lambda([ex], block([ns,str,ii],
     ns: args(ex),

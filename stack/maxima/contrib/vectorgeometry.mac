@@ -20,6 +20,36 @@
 /*                                                              */
 /****************************************************************/
 
+/*******************************************************************************/
+/* Provides convenience functions for column and row vectors for student input */
+/*******************************************************************************/
+
+/* NOTE: Identical funcitions appear in eigenlib.mac and vectorspaces.mac */
+/* If you edit these, please also edit those. */
+
+texput(c,
+  lambda([ex], block([ns,str,ii],
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+texput(r,
+  lambda([ex], block([ns,str,ii],
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+/* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
+declare([c,r],nonscalar);
+
 /*********************************************************************************/
 /* Processing vector parametric equations for lines, planes, etc.                */
 /*********************************************************************************/

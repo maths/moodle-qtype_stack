@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<quiz><question type="description">
+    <name>
+      <text>Style check: HELM</text>
+    </name>
+    <questiontext format="html">
+      <text>&lt;h1&gt;HELM style check&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;HELM_keypoint&lt;/code&gt; div class.&lt;/p&gt;
+&lt;div class="HELM_keypoint"&gt;
+&lt;h4&gt;Key Point&lt;/h4&gt;
+&lt;p&gt;This should be in a box.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;HELM_example&lt;/code&gt; h4 class.&lt;/p&gt;
+&lt;h4 class="HELM_example"&gt;Example&lt;/h4&gt;
+&lt;p&gt;Just the h4 heading above is in a different style.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;HELM_solution&lt;/code&gt; h4 class.&lt;/p&gt;
+&lt;h4 class="HELM_solution"&gt;Solution&lt;/h4&gt;
+&lt;p&gt;Just the h4 heading above is in a different style.&lt;/p&gt;
+
+&lt;hr&gt;
+&lt;h4 class="HELM_example"&gt;Example&lt;/h4&gt;
+&lt;p&gt;Identify the index and base in the following expressions. &lt;/p&gt;
+&lt;ol class="HELM_parts_inline"&gt;
+&lt;li&gt; Ex 1. &lt;/li&gt;
+&lt;li&gt; Ex 2. &lt;/li&gt;
+&lt;li&gt; Ex 3. &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 class="HELM_solution"&gt;Solution&lt;/h4&gt;
+&lt;ol class="HELM_parts"&gt;
+  &lt;li&gt;In the expression ..., 8 is the base and 11 is the index.&lt;/li&gt;
+  &lt;li&gt;In the expression ..., -2 is the base and 5 is the index.&lt;/li&gt;
+  &lt;li&gt;In the expression ..., p is the base and -q is the index.&lt;p&gt;
+  &lt;/p&gt;&lt;p&gt;The interpretation of a negative index will be given
+  in sub-section 4 which starts on page 31.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p class="HELM_exercise"&gt;Exercise&lt;/p&gt;
+&lt;p&gt;Just the paragraph above is in a different style.&lt;/p&gt;</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text />
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <idnumber />
+  </question>
+
+
+  </quiz>

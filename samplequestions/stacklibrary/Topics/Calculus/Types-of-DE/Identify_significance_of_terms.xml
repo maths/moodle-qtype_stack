@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<quiz><question type="matching">
+    <name>
+      <text>Identify significance of terms</text>
+    </name>
+    <questiontext format="html">
+      <text>&lt;p&gt;The following differential equation models the behaviour of a damped-driven oscillator, where \(x\) is position and \(t\) is time.  &lt;br /&gt;\[ \frac{\mathrm{d}^2 x}{\mathrm{d} t^2} + k \frac{\mathrm{d} x}{\mathrm{d} t} +\omega^2 x = p(t). \]&lt;br /&gt;What is the physical significance of each term?&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text />
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html">
+      <text>&lt;p&gt;Your answer is correct.&lt;/p&gt;</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>&lt;p&gt;Your answer is partially correct.&lt;/p&gt;</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>&lt;p&gt;Your answer is incorrect.&lt;/p&gt;</text>
+    </incorrectfeedback>
+    <shownumcorrect />
+    <subquestion format="html">
+      <text>&lt;p&gt;\(\frac{\mathrm{d}^2 x}{\mathrm{d} t^2} \)&lt;/p&gt;</text>
+      <answer>
+        <text>Accelleration</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>&lt;p&gt;\(k \frac{\mathrm{d} x}{\mathrm{d} t}\)&lt;/p&gt;</text>
+      <answer>
+        <text>Friction/damping</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>&lt;p&gt;\(\omega^2 x\) &lt;/p&gt;</text>
+      <answer>
+        <text>Force</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>&lt;p&gt;\(p(t)\)&lt;/p&gt;</text>
+      <answer>
+        <text>External forcing</text>
+      </answer>
+    </subquestion>
+  </question>
+
+
+  </quiz>

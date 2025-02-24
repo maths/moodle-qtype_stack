@@ -1,6 +1,6 @@
 # Setting linear algebra questions in STACK
 
-Linear algebra, next to calculus, is one of the pillars of modern mathematics and an important application in STACK is testing linear algebra questions.
+Linear algebra, next to calculus, is one of the pillars of modern mathematics and an important application in STACK is supporting questions which test understanding of linear algebra.
 
 Core functionality.
 

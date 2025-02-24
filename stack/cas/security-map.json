@@ -7358,6 +7358,10 @@
       "function": "s",
       "contextvariable": "true"
   },
+  "stack_linear_algebra_declare": {
+      "function": "s",
+      "contextvariable": "true"
+  },
   "stackmap_set": {
       "function": "t",
       "built-in": true

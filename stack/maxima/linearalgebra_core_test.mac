@@ -22,6 +22,7 @@
 /*                                                              */
 /****************************************************************/
 
+stack_linear_algebra_declare(true)$
 /* Reset the counter for auto-generated numbers in linsolve. */
 %rnum:0;
 

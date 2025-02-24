@@ -1,7 +1,11 @@
 # Vector/matrix functions defined by STACK in the core code
 
-STACK extends Maxima's functionality with a number of very useful functions for manipulating matrices.  These are loaded by default and are available in every question. Some contributed libraries ([vectorspaces.mac](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorspaces.mac), [vectorgeometry.mac](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorgeometry.mac) and [eigenlib.mac](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/eigenlib.mac)) contain code that will format the inert functions `c` and `r` as column or row vectors. See the page on [vectors](Vectors.md) for more details.
+STACK extends Maxima's functionality with a number of very useful functions for manipulating matrices.
+The functions documented here are loaded by default and are available in every question. 
 
+A key feature are convenience functions `c` and `r` which convert their arguments into column and row matrices respectively.
+
+* `stack_linear_algebra_declare(true)` Provides a linear algebra context, including TeX support for `c` and `r`.
 * `vec_convert(ex)` Converts `c` and `r` convenience functions into matrices.
 * `un_vec_convert(ex)` Given a row or column vector, convert it to `c()` or `r()` form.
 

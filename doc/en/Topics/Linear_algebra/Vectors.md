@@ -16,7 +16,7 @@ for column vectors and
 
     r(1,2,3,4)
 
-for row vectors is provided.  TeX support (e.g. for student input) is provided by the vector space, vector geometry, and eigenlib libraries in the contrib directory.
+for row vectors is provided.  TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function.
 
 Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.
 

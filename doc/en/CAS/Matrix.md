@@ -23,6 +23,8 @@ And a function to compute reduced row echelon form
 
 (Note the Maxima functions `addrow` and `addcol` appends rows/columns onto the matrix.)
 
+STACK has a library for creating [structured random matrices](Random.md).
+
 ## Assigning individual elements ##
 
 To assign values to individual elements, use the simple syntax such as the following.

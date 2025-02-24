@@ -25,7 +25,7 @@ and most of those are not trivial and have interactions with certain other
 features we have in our validation chain.
 
 The CAS-statement processing pipeline also includes some amount of syntactic
-candy in the form logarithms of various bases being representted in 
+candy in the form logarithms of various bases being represented in 
 complex ways from the statements, for example `log_x+y(z) => lg(z, x+y)`.
 In addition to that kind of syntax expansions there also exists various 
 rules that check for typical errors like `sin^2(x)` which will need to be
@@ -34,7 +34,7 @@ input level insert stars rules get applied. That latter example will break
 down quite badly if someone applies a rule that splits all multiletter 
 variable names to multiplications of single letter names, before we identify 
 that `sin` in this case is actually a badly written function-call that needs
-to be specially pointted out to the student.
+to be specially pointed out to the student.
 
 The current pre 4.3 situation is complex because most of such rules are mixed
 in various processing steps and much of the logic that the inputs themselves
@@ -47,7 +47,7 @@ For teacher/code sourced casstrings the logic is relatively simple:
 
  1. Direct parsing of the statement without any corrective pre-processing. 
     Generates an AST style representation of the statement.
- 2. That AST will be piped through syntactic candy filtters to allow use
+ 2. That AST will be piped through syntactic candy filters to allow use
     of various features like the logarithm logic.
  3. In the end that AST will be explored for security issues.
 
@@ -76,11 +76,11 @@ For the pipeline of student sourced things is more complex:
      - splitting by number/letter boundaries `x1y => x1*y`
      - float splitting `0.2e-3 => 0.2*e*-3` if wished
  5. Syntactic validity check, if the input requires that all the stars are 
-    correct this step will check that the are no tagged added stars in the AST
-    nor any invalid subtrees for that matter. Is such exist error messages will 
+    correct this step will check that there are no tagged added stars in the AST
+    nor any invalid subtrees for that matter. If such exist error messages will 
     be generated and they will mark those stars.
  6. Security check. If fails things stop here. Note that part of the security
-    check rules are based on options to the input and part to the the whole 
+    check rules are based on options to the input and part to the whole 
     question.
  7. Simple feature checks, things that the input may require and that can be 
     easily checked from the AST:
@@ -91,7 +91,7 @@ For the pipeline of student sourced things is more complex:
  8. Complex feature checks, things like lowest terms need to be sent to CAS to
     be checked only after these (if they exist) have been checked can we say
     wether the input is valid. These checks should not be tied to the AST they
-    should happen using it but through separate CAS-statements
+    should happen using it but through separate CAS-statements.
 
 One way to look at this is that inputs should have means of doing much of
 the low level parsing themselves, and there must be ways of them to select ready
@@ -106,7 +106,7 @@ contain the most important bit of all i.e. the security checking. It also makes
 sense to use the casstring object as a wrapper of the AST and the store of
 the error messages, which leads to the conclusion that casstrings get created
 from the results of step 2 in those processes and need to have interfaces into
-which various AST filtters get pushed into to update the AST before the final
+which various AST filters get pushed into to update the AST before the final
 validation.
 
 It also makes sense to collect step 8 related statements from multiple inputs 

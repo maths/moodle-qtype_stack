@@ -478,7 +478,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
-        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 30]);
         $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
@@ -504,7 +504,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in',
             ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons'] );
 
-        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 30]);
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->setDefault($inputname . 'syntaxhint', '');
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
@@ -565,7 +565,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
         $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
-        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 30]);
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
@@ -634,6 +634,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('submit', $prtname . 'nodeadd', stack_string('addanothernode'));
         $mform->registerNoSubmitButton($prtname . 'nodeadd');
+        $mform->addElement('text', $prtname . 'nodeaddnum', stack_string('nodeaddnum'), ['size' => 3]);
+        $mform->setType($prtname . 'nodeaddnum', PARAM_INT);
+        $mform->setDefault($prtname . 'nodeaddnum', 1);
     }
 
     /**

@@ -1621,6 +1621,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
             ['pat' => 'proof_parsons_key_json', 'ver' => 2024092500, 'alt' => 'parsons_answer'],
             ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
+            ['pat' => 'linearalgebra_contrib', 'ver' => 2025022400, 'alt' => 'stack_linear_algebra_declare(true)'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver'] || !array_key_exists('dataspecific', $checkpat)) {

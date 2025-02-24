@@ -44,11 +44,11 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
     /** @var string the default variables for a new question. */
-    const DEFAULT_QUESTION_VARIABLES = 'ta:?;';
+    const DEFAULT_QUESTION_VARIABLES = 'ta1:?;';
     /** @var string the default note for a new question. */
-    const DEFAULT_QUESTION_NOTE = '{@ta@}';
+    const DEFAULT_QUESTION_NOTE = '{@ta1@}';
     /** @var string the default variable name for the teacher's answer. */
-    const DEFAULT_TEACHER_ANSWER = 'ta';
+    const DEFAULT_TEACHER_ANSWER = 'ta1';
     /** @var string the default input name. */
     const DEFAULT_INPUT = 'ans1';
 

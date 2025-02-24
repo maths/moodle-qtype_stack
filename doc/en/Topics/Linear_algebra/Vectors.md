@@ -1,13 +1,10 @@
 ## Vectors and vector spaces ##
 
-STACK has a contributed library for vector spaces.  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorspaces.mac)
+STACK has a contributed library for [vector spaces](Vector_space.md).  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorspaces.mac)
 
 To use this library you must load it into the question variables.
 
 * To use the latest code from github: `stack_include_contrib("vectorspaces.mac");`
-
-TODO: document `vectorspaces.mac`.
-
 
 ## Student input
 
@@ -17,13 +14,14 @@ Students do find typing in matrices very tedious.  The convenient notation
 
 for column vectors and
 
-    v(1,2,3,4)
+    r(1,2,3,4)
 
-for row vectors is provided.  TeX support (e.g. for student input) is provided by the vector space library in the contrib directory.
+for row vectors is provided.  TeX support (e.g. for student input) is provided by the vector space, vector geometry, and eigenlib libraries in the contrib directory.
 
-Once converted into Matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.
+Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.
 
-* `vec_convert(ex)` Converts `c` and `r` convenience functions into matrices.
+* `vec_convert(ex)` Attempts to convert `c` and `r` convenience functions into matrices. If the expression contains multiple `c` and `r` terms that do not conform, the original expression is returned.
+* `vec_convertedp(ex)` A predicate function that checks whether `c` or `r` is present. This is useful in a PRT to ensure that an earlier conversion was successful (i.e. everything conforms) before continuing.
 * `un_vec_convert(ex)` Given a row or column vector, convert it to `c()` or `r()` form.
 
 ## Vectors as single entities

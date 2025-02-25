@@ -19,7 +19,7 @@ The [`rand_matrix.mac` library](Random_Matrices.md) has some functions that migh
 
 ## Diagonalisation
 
-The Maxima package `diag` (included in STACK by default) provides some useful functions for diagonalisation of matrices and functions of matrices. `eigenlib.mac` utilises these to create some easy-to-use factorisation functions. Note: these functions are duplicated in `matrixfactorizations.mac`.
+The Maxima package `diag` (included in STACK by default) provides some useful functions for diagonalisation of matrices and functions of matrices. `eigenlib.mac` utilises these to create some easy-to-use factorisation functions.
 
 * `[P, D]: diagonalize(M)` will construct an invertible matrix `P` and diagonal matrix `D` such that `M` is equal to `P . D . P^^-1`.
   * `diagonalize(M)` explicitly returns a list containing these two matrices.

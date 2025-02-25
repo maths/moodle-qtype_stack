@@ -9,6 +9,8 @@ A key feature are convenience functions `c` and `r` which convert their argument
 * `vec_convert(ex)` Converts `c` and `r` convenience functions into matrices.
 * `un_vec_convert(ex)` Given a row or column vector, convert it to `c()` or `r()` form.
 
+For more detail, see the page on [Vectors](Vectors.md).
+
 In STACK 4.9.0 this functionality was moved into the core of STACK.  For earlier versions of STACK
 you can use the latest code from github: `stack_include_contrib("linearalgebra_contrib.mac");`
 

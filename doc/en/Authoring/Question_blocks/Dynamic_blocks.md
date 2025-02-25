@@ -16,7 +16,7 @@ The block will only do singular direct string match, and so use of this block is
 
 There is currently no "else" clause available with this block.
 
-An example question is available by importing `Doc-Examples\Reveal_block_example.xml`.
+An example question is available by importing `Doc-Examples\Dynamic-Blocks\Reveal_block_example.xml`.
 
 ### Interaction with MCQ input types
 

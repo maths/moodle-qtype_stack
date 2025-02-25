@@ -10,6 +10,8 @@ This is useful in randomly generated contexts, especially within model solutions
 For maximum flexibility, blocks can be nested and conditionally evaluated. A body of CASText is then repeatedly processed until all
 blocks have been interpreted into CASText. This is a core part of CASText and so applied to all appropriate parts of the question.
 
+Information on some blocks are contained in a question available from the [STACK question library](..\..\STACK_question_admin\Library\index.md) in the `doc-examples\authoring` directory.  
+
 Note:  The parameters to blocks in the question body may **NOT** depend on the student's answers. This means that you cannot reveal
 an input block based on student input, well not just by using an `[[if/]]`-block. But you may still adapt PRT feedback as much as you
 want. Such adaptation requires persistent modifiable question state and is not currently possible in STACK; however, there is work being done to create systems that would allow it.

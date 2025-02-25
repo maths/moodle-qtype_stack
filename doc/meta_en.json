@@ -767,6 +767,15 @@
         "file":"Authoring_workflow.md",
         "title":"Workflow - STACK Documentation",
         "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
+        },
+       {
+       "Library":[
+        {
+        "file":"index.md",
+        "title":"STACK question library - STACK Documentation",
+        "description":"Information on STACK for developers, including how to get involved, future releases and development history."
+        }
+        ]
         }
       ]
       },
@@ -1091,7 +1100,31 @@
             "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
             }
           ]
-      }
+          },
+          {
+          "Differential_equations":[
+            {
+            "file":"index.md",
+            "title":"Differential equations - STACK Documentation",
+            "description":"General discussion of assessment of Differential equations with STACK."
+            },
+            {
+            "file":"Assessing-Responses.md",
+            "title":"Assessment of ordinary differential equations problems",
+            "description":"Rxamples of how to assess the solutions to ordinary differential equations."
+            },
+            {
+            "file":"Notation.md",
+            "title":"CAS libraries for representing ordinary differential equations",
+            "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+            },
+            {
+            "file":"Question-Variables.md",
+            "title":"How to manipulate ordinary differential equations (ODEs)",
+            "description":"Reference documentation on how to manipulate ordinary differential equations in Maxima"
+            }
+            ]
+          }
       ]
       },
       {

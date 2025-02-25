@@ -3,7 +3,7 @@
 This section of the STACK documentation contains information on how to author questions in particular mathematical topics.  Many topics have different requirements, e.g. physics needs support for scientific units.  These pages contain know-how on linking together features such as [inputs](../Authoring/Inputs/index.md), [answer tests](../Authoring/Answer_Tests/index.md) and [options](../Authoring/Question_options.md) to write questions in particular subject areas.
 
 * [Curve sketching](Curve_sketching.md)
-* [Differential equations](Differential_equations.md)
+* [Differential equations](Differential_equations/index.md)
 * [Discrete mathematics](Discrete_mathematics.md)
 * String similarity via the [Levenshtein distance](Levenshtein_distance.md)
 * [Linear algebra](Linear_algebra.md)

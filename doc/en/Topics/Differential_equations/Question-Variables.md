@@ -1,7 +1,8 @@
 # Differential Equations
 
 ## Question Variables
-This page provides examples of how to manipulate ordinary differential equations (ODEs) in [Maxima](../CAS/Maxima_background.md) when writing STACK questions.
+
+This page provides examples of how to manipulate ordinary differential equations (ODEs) in [Maxima](../../CAS/Maxima_background.md) when writing STACK questions.
 
 ### Manipulating ODEs in Maxima
 
@@ -98,7 +99,7 @@ If you need to create a list of numbered variables use
 
 ## Next
 
-- [Assessing solutions to differeniial equations](..\Differential_equations\Assessing-Responses.md)
+- [Assessing solutions to differeniial equations](../../Topics/Differential_equations/Assessing-Responses.md)
 
 ### See also
 

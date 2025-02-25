@@ -1,6 +1,6 @@
 # Differential Equations
 
-This page provides examples of how to assess the solutions to ordinary differential equations (ODEs) using the [potential response tree](..\..\Authoring\Potential_response_trees.md) when writing STACK questions.
+This page provides examples of how to assess the solutions to ordinary differential equations (ODEs) using the [potential response tree](../../Authoring/Potential_response_trees.md) when writing STACK questions.
 
 ## Assessing answers ##
 
@@ -44,7 +44,7 @@ These values can be compared with answer tests in the usual way.
 
 Further tests are needed to ensure the student's solution is non-trivial, satisfies any initial conditions, or is suitably general.
 
-To find which constants are present in an expression use Maxima's [`listofvars`](http://maxima.sourceforge.net/docs/manual/en/maxima_6.html#IDX163|) command.
+To find which constants are present in an expression use Maxima's `listofvars` command.
 In particular, to find if `c` appears in an expression `ans` we can use the predicate `member`
 
     member(c,listofvars(ans))
@@ -59,7 +59,7 @@ Mostly when dealing with expressions you need to remove the \(\pm\) operator.  T
 \[ \pm a \rightarrow a \vee -a \]
 (actually using STACK's `nounor` operator to prevent evaluation).
 
-If you simply want to implement the re-write rule \( a\pm b \rightarrow a+b, \) i.e. ignore the \(\pm\) operator, then you can use `subst( "+","#pm#", ex)`.  For example, this substitution can be done in the feedback variables on a student's answer.  If you would like to test code offline with `#pm#` then you will need to make use of the [Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
+If you simply want to implement the re-write rule \( a\pm b \rightarrow a+b, \) i.e. ignore the \(\pm\) operator, then you can use `subst( "+","#pm#", ex)`.  For example, this substitution can be done in the feedback variables on a student's answer.  If you would like to test code offline with `#pm#` then you will need to make use of the [Maxima sandbox](../../CAS/STACK-Maxima_sandbox.md).
 
 ## Second order linear differential equations with constant coefficients ##
 
@@ -132,7 +132,7 @@ Notice to calculate \(y_p(t)\) we set the constants \(c_1=c_2=0\), but using the
 
 An important class of differential equations are the so-called first order exact differential equations of the form
 
-\[ p(x,y)\cdot \dot{y}(x) + q(x,y) =0.\]
+\[ p(x,y)\cdot \dot{y}(x) + q(x,y) = 0.\]
 
 Assume that \(h(x,y)=c\) gives an implicit function, which satisfies this equation.  Then
 
@@ -240,6 +240,3 @@ Further examples are
     ODE:(3*x^2*cos(3*y)+2*y)*'diff(y,x)=-2*x*sin(3*y)$
     ODE:x*'diff(y,x)+y+4$
 
-## See also
-
-[Maxima reference topics](index.md#reference) 

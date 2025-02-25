@@ -1,6 +1,8 @@
 # Differential Equations
+
 ## Notation
-This page provides examples of how to represent ordinary differential equations (ODEs) in [Maxima](../CAS/Maxima_background.md) when writing STACK questions.
+
+This page provides examples of how to represent ordinary differential equations (ODEs) in [Maxima](../../CAS/Maxima_background.md) when writing STACK questions.
 
 ### Representing ODEs
 
@@ -16,7 +18,7 @@ The syntax to enter a derivative in Maxima is `diff(y,x,n)`.  Teachers need to u
 
 Students' answers always have noun forms added. If a student types in `diff(y,x)` then this is protected by a special function `noundiff(y,x)` (etc), and ends up being sent to answer test as `'diff(y,x,1)`. If a student types in (literally) `diff(y,x)+1 = 0` this will end up being sent to answer test as `'diff(y,x,1)+1 = 0`.
 
-The answer test `AlgEquiv` evaluates all nouns.   This has a (perhaps) unexpected side-effect that `noundiff(y,x)` will be equivalent to `0`, and `noundiff(y(x),x)` is not.  For this reason we have an alternative [answer test](../Authoring/Answer_Tests/index.md) `AlgEquivNouns` which does not evaluate all the nouns.
+The answer test `AlgEquiv` evaluates all nouns.   This has a (perhaps) unexpected side-effect that `noundiff(y,x)` will be equivalent to `0`, and `noundiff(y(x),x)` is not.  For this reason we have an alternative [answer test](../../Authoring/Answer_Tests/index.md) `AlgEquivNouns` which does not evaluate all the nouns.
 The `ATEqualComAss` also evaluates its arguments but does not "simplify" them.  So, counter-intuitively perhaps, we currently do have `ATEqualComAss(diff(x^2,x), 2*x);` as true.
 
 Students might expect to enter expressions like \( y' \), \( \dot{y} \) or \( y_x \) (especially if you are using `derivabbrev:true`, see below).   The use by Maxima of the apostrophe which affects evaluation also has a side-effect that we can't accept `y'` as valid student input.  Input `y_x` is an atom.  Individual questions could interpret this as `'diff(y,x)` but there is no systematic mechanism for interpreting subscripts as derivatives.  Input `dy/dx` is the division of one atom `dy` by another `dx` and so will commute with other multiplication and division in the expression as normal.  There is no way to protect input `dy/dx` as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).  The only input which is interpreted by STACK as a derivative is Maxima's `diff` function, and students must type this as input.
@@ -46,7 +48,7 @@ If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y
 
 ## Next
 
-- [Using and maniplulating differential equations in STACK](..\Differential_equations\Question-Variables.md)
+- [Using and maniplulating differential equations in STACK](../../Topics/Differential_equations/Question-Variables.md)
  
 ## See also
 

@@ -9,12 +9,12 @@ This page contains reference documentation on functions in this library.
 
 ## Student vector input
 
-STACK suggests that `c()` and `r()` are convenient ways for students to input column and row vectors respectively without needing to use the slightly cumbersome `matrix` notation. Core STACK provides some convenience functions to convert between `c` or `r` form and `matrix` form, but by default the student will still see `c(1,2,3)` display as \(c(1,2,3)\). `vectorspaces.mac` (as well as `vectorgeometry.mac` and `eigenlib.mac`) provide some TeX formatting to make students' inputs clearer. By loading `vectorspaces.mac`: 
+STACK suggests that `c()` and `r()` are convenient ways for students to input column and row vectors respectively without needing to use the slightly cumbersome `matrix` notation. Core STACK provides some convenience functions to convert between `c` or `r` form and `matrix` form, but by default the student will still see `c(1,2,3)` display as \(c(1,2,3)\). Loading `vectorspaces.mac` will cause the following: 
 
 * `c(1,2,3)` will display as \({\begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}}\)
 * `r(1,2,3)` will display as \({\begin{bmatrix} 1 & 2 & 3 \end{bmatrix}}\)
 
-Beyond the display here, STACK knows nothing about these `c` and `r` functions, so you should use `vec_convert` to convert vector expressions back into matrix form before using any other functions. For more information, see the documentation on [vectors](Vectors.md).
+Including `stack_linear_algebra_declare(true)` in the question variables will have the same effect. Beyond the display here, STACK knows nothing about these `c` and `r` functions, so you should use `vec_convert` to convert vector expressions back into matrix form before using any other functions. For more information, see the documentation on [vectors](Vectors.md).
 
 ## Unit vectors and scalar products
 

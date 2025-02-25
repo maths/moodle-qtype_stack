@@ -1,10 +1,4 @@
-## Vectors and vector spaces ##
-
-STACK has a contributed library for [vector spaces](Vector_space.md).  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorspaces.mac)
-
-To use this library you must load it into the question variables.
-
-* To use the latest code from github: `stack_include_contrib("vectorspaces.mac");`
+# Vectors
 
 ## Student input
 
@@ -16,9 +10,9 @@ for column vectors and
 
     r(1,2,3,4)
 
-for row vectors is provided.  TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function.
+for row vectors is provided.  By default, these will display as \(c(1,2,3)\) and \(r(1,2,3,4)\), but TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function. If this function is included in the question variables, either by a teacher including it directly or by including one of the linear algebra contributed libraries, they will instead display as column or row vectors as expected. 
 
-Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.
+Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.  Of course, this will not be reflected in the valuation.
 
 * `vec_convert(ex)` Attempts to convert `c` and `r` convenience functions into matrices. If the expression contains multiple `c` and `r` terms that do not conform, the original expression is returned.
 * `vec_convertedp(ex)` A predicate function that checks whether `c` or `r` is present. This is useful in a PRT to ensure that an earlier conversion was successful (i.e. everything conforms) before continuing.

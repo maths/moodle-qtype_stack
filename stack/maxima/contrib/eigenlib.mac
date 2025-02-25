@@ -26,28 +26,6 @@ stack_linear_algebra_declare(true)$
 /* for significant contributions to this work in 2024 */
 
 /**
- * Predicate to determine whether a given object is a unit vector.
- * Can handle complex vectors
- *
- * @param[matrix] ex A vector (Mx1 or 1xN matrix)
- * @return[boolean] Does this vector have a 2-norm of 1?
- */
-unit_vecp(ex):= if vectorp(ex) then is(ev(ex.conjugate(ex),simp)=1) else false;
-
-/**
- * Given a list of column vectors, determine whether they are linearly independent.
- * If ex is a matrix, it checks for full column rank, not row rank. To check for full rank generally, use invertiblep.
- * 
- * @param[] ex a mxn matrix or list of column vectors, see cols_to_matrix
- * @return[boolean] Is the collection of column vectors linearly independent?
- */
-lin_indp(ex):= block(
-  ex: cols_to_matrix(ex),
-  if ex = matrix([null]) then return(false),
-  return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
-);
-
-/**
  * Is a vector an eigenvector of a matrix? 
  * Optionally will check if the given vector is an eigenvector corresponding to a given eigenvalue.
  *
@@ -63,6 +41,7 @@ eigenvectorp(v,M,[L]):= block([],
   else if listp(v) then v: transpose(v)
   else if ntuplep(v) then v: transpose(args(v)),
   if not(col_vecp(v)) then return(false),
+  if ev(zeromatrixp(v),simp) then return(false),
   if is(second(matrix_size(M))#first(matrix_size(v))) then return(false),
   if not(emptyp(L)) then return(ev(is(M.v=first(L)*v),expand,simp)),
   return(is(rank(ev(addcol(M.v, v),simp))=1) and is(rank(v)=1))
@@ -159,38 +138,4 @@ geo_mult(M,L):= block([evals,evects,ii],
     ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
     return(length(evects[ii]))
   )
-);
-
-/**
- * M = P.J.P^^-1
- * J is in Jordan normal form
- * P is invertible and made up of generalized eigenvectors of M
- * This really just calls existing functions in one go and avoids annoying errors.
- *
- * @param[matrix] M a square matrix
- * @return[list] A list of two matrices: [P, J] such that J is in Jordan form and M = P . J . P^^-1. Returns empty list if M is not a square matrix
- */
-get_Jordan_form(M):= block([jordan_info,J,P],
-  if not(squarep(M)) then return([]),
-  jordan_info: ev(jordan(M),simp),
-  J: ev(dispJordan(jordan_info),simp),
-  P: ev(ModeMatrix(M,jordan_info),simp),
-  return([P,J])
-);
-
-/**
- * M = P.D.P^^-1
- * M must be diagonalizable (i.e. all eigenvalues must have matching geometric and algebraic multiplicities)
- * P is invertible and contains the eigenvectors of M
- * D is diagonal and contains the eigenvalues of M
- * If M is symmetric it will automatically orthogonally diagonalize
- *
- * @param[matrix] M a diagonalizable matrix
- * @return[list] A list of two matrices: [P, D] such that D is diagonal and M = P . D . P^^-1. Returns empty list if M is not diagonalizable
- */
-diagonalize(M):= block([P,D],
-  if not(squarep(M)) then return([]),
-  [P, D]: get_Jordan_form(M),
-  if ev(zeromatrixp(M - transpose(M)),simp) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
-  if diagp(D) then return([P,D]) else return([])
 );

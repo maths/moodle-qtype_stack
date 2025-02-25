@@ -1109,7 +1109,7 @@
             "description":"General discussion of assessment of Differential equations with STACK."
             },
             {
-            "file":"Assessing-Responses.md",
+            "file":"Assessing_Responses.md",
             "title":"Assessment of ordinary differential equations problems",
             "description":"Rxamples of how to assess the solutions to ordinary differential equations."
             },
@@ -1119,7 +1119,7 @@
             "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
             },
             {
-            "file":"Question-Variables.md",
+            "file":"Question_Variables.md",
             "title":"How to manipulate ordinary differential equations (ODEs)",
             "description":"Reference documentation on how to manipulate ordinary differential equations in Maxima"
             }

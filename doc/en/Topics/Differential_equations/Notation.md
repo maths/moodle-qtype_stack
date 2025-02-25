@@ -48,7 +48,7 @@ If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y
 
 ## Next
 
-- [Using and maniplulating differential equations in STACK](../../Topics/Differential_equations/Question-Variables.md)
+- [Using and maniplulating differential equations in STACK](../../Topics/Differential_equations/Question_Variables.md)
  
 ## See also
 

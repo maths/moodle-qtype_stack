@@ -7,8 +7,6 @@ STACK has a contributed library for matrix factorisation functions.  To use this
 
 This page contains reference documentation on functions in this library.
 
-TODO: document `matrixfactorization.mac`.
-
 ## Some comments on question design
 
 This package provides functions that find factorisations of arbitrary matrices. In practical applications, these sorts of computations are performed with floating point operations and utilise highly optimised algorithms. Firstly, `matrixfactorization.mac` makes no claims to optimisation or efficiency. On matrices much bigger than 4×4, you might notice significant slowdowns when using some of these functions. Secondly, if you are using STACK to assess numerical linear algebra techniques, then this author suggests you might look elsewhere, such as to [CodeRunner](https://coderunner.org.nz/).

@@ -328,7 +328,7 @@ orthogonal_columnsp(L, [sp]):= block([dim],
     M: cols_to_matrix(L),
     if M = matrix([null]) then return(false),
     checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
-    return(diagp(checkmat))
+    return(diagp(radcan(checkmat)))
 );
 
 /** 
@@ -345,7 +345,7 @@ orthonormal_columnsp(L, [sp]):= block([dim],
     M: cols_to_matrix(L),
     if M = matrix([null]) then return(false),
     checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
-    return(is(checkmat = ident(second(matrix_size(M)))))
+    return(is(radcan(checkmat) = ident(second(matrix_size(M)))))
 );
 
 /** 

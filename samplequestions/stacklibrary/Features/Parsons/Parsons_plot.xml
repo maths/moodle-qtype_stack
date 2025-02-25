@@ -1,65 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<quiz>
-<!-- question: 12237  -->
-  <question type="stack">
+<?xml version='1.0' encoding='utf-8'?>
+<quiz><question type="stack">
     <name>
-      <text>Parsons proofs 1- Minimal</text>
+      <text>Parsons plot</text>
     </name>
-    <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>Show that \(\log_2(3)\) is irrational. </p>
-[[parsons input="ans1"]]
+    <questiontext format="html">
+      <text>Arrange the plots in order of increasing algebraic degree.
+[[ parsons input="ans1" height="1000px"]]
 {# parsons_encode(proof_steps) #}
-[[/parsons ]]
-<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+[[/parsons]]
+&lt;p style="display:none"&gt;[[input:ans1]] [[validation:ans1]]&lt;/p&gt;</text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text />
     </generalfeedback>
-    <defaultgrade>1</defaultgrade>
-    <penalty>0.1</penalty>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber />
     <stackversion>
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("contribl://prooflib.mac");
-
-proof_steps: [
-    ["assume", "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
-    ["defn_rat", "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where "],
-    ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers."],
-    ["defn_log", "Using the definition of logarithm:"],
-    ["defn_log2", "\\[ 3 = 2^{\\frac{p}{q}}\\]"],
-    ["alg", "\\[ 3^q = 2^p\\]"],
-    ["alg_int", "The left hand side is always odd and the right hand side is always even."],
-    ["contra", "This is a contradiction."],
-    ["conc", "Hence \\(\\log_2(3)\\) is irrational."]
+      <text>stack_include("contribl://prooflib.mac");
+ta:proof("A","B","C","D");
+proof_steps:[
+  [ "A", plot(sqrt(x),[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
+  [ "B", plot(x,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
+  [ "C", plot(x^2,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
+  [ "D", plot(x^3,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])]
 ];
-proof_steps: random_permutation(proof_steps);
-
-ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "alg_int", "contra", "conc");]]></text>
+proof_steps:random_permutation(proof_steps);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="html">
-      <text>{@ map(first, proof_steps) @}</text>
+      <text>{@map(first, proof_steps)@}</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text />
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+      <text>&lt;span style="font-size: 1.5em; color:green;"&gt;&lt;i class="fa fa-check"&gt;&lt;/i&gt;&lt;/span&gt; Correct answer, well done.</text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+      <text>&lt;span style="font-size: 1.5em; color:orange;"&gt;&lt;i class="fa fa-adjust"&gt;&lt;/i&gt;&lt;/span&gt; Your answer is partially correct.</text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+      <text>&lt;span style="font-size: 1.5em; color:red;"&gt;&lt;i class="fa fa-times"&gt;&lt;/i&gt;&lt;/span&gt; Incorrect answer.</text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -69,7 +60,7 @@ ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "al
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed />
     <input>
       <name>ans1</name>
       <type>parsons</type>
@@ -77,16 +68,16 @@ ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "al
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint />
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords />
+      <allowwords />
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options />
     </input>
     <prt>
       <name>prt1</name>
@@ -94,39 +85,40 @@ ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "al
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>sa: parsons_decode(ans1);</text>
+        <text>sa:parsons_decode(ans1);
+[pd,saa]:proof_assessment(sa, proof_alternatives(ta));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description />
         <answertest>AlgEquiv</answertest>
-        <sans>sa</sans>
-        <tans>ta</tans>
-        <testoptions></testoptions>
+        <sans>pd</sans>
+        <tans>0</tans>
+        <testoptions />
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty />
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text />
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty />
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text>{@proof_assessment_display(saa, proof_steps)@}</text>
         </falsefeedback>
       </node>
     </prt>
-    <deployedseed>927793447</deployedseed>
-    <deployedseed>241245299</deployedseed>
-    <deployedseed>652900190</deployedseed>
-    <deployedseed>1939981977</deployedseed>
-    <deployedseed>1718433118</deployedseed>
+    <deployedseed>1733122457</deployedseed>
+    <deployedseed>1657629229</deployedseed>
+    <deployedseed>2099022223</deployedseed>
+    <deployedseed>1441581320</deployedseed>
+    <deployedseed>1603372470</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description>Test case assuming the teacher's input gets full marks.</description>

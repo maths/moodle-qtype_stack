@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='utf-8'?>
+<quiz><question type="stack">
+    <name>
+      <text>text_7_solve_quadratic</text>
+    </name>
+    <questiontext format="html">
+      <text>&lt;p&gt;&lt;/p&gt;&lt;p&gt;Solve {@first(ta)@}, by factoring and working line by line. &amp;nbsp;Leave your answer in the form \({@v@}=\cdots \text{ or } {@v@}=\cdots\) in fully simplified form.&lt;/p&gt;&lt;p&gt;[[input:ans1]] [[validation:ans1]]&lt;/p&gt;</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>&lt;p&gt;\[ {@stack_disp_arg(ta, true)@} \]&lt;/p&gt;</text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <stackversion>
+      <text />
+    </stackversion>
+    <questionvariables>
+      <text>n1:2
+n2:n1+3
+v:x
+p:expand((v-n1)*(v-n2))
+simp:false
+ta:[p=0,(v-n1)*(v-n2)=0,v-n1=0 nounor v-n2=0,v=n1 nounor v=n2]</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@ta@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>&lt;span style="font-size: 1.5em; color:green;"&gt;&lt;i class="fa fa-check"&gt;&lt;/i&gt;&lt;/span&gt; Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>&lt;span style="font-size: 1.5em; color:orange;"&gt;&lt;i class="fa fa-adjust"&gt;&lt;/i&gt;&lt;/span&gt; Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>&lt;span style="font-size: 1.5em; color:red;"&gt;&lt;i class="fa fa-times"&gt;&lt;/i&gt;&lt;/span&gt; Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed />
+    <input>
+      <name>ans1</name>
+      <type>equiv</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>5</insertstars>
+      <syntaxhint>firstline</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords />
+      <allowwords />
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>firstline</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackvariables>
+        <text>foundfac1:ev(sublist(ans1,lambda([ex], equationp(ex) and is(rhs(ex)=0))),simp);
+foundfac2:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundfac1),simp);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>EquivFirst</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty />
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text />
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text />
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>EqualComAss</answertest>
+        <sans>last(ans1)</sans>
+        <tans>last(ta)</tans>
+        <testoptions />
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty />
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text />
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer is not in the correct form, which is \({@v@}=\cdots \text{ or } {@v@}=\cdots\) where numbers are fully simplified.&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>foundfac2</sans>
+        <tans>true</tans>
+        <testoptions />
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty />
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text />
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;The question asked you to solve the equation by factoring the equation. &amp;nbsp;The factored form should appear as one line in your working.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>[p=0, (x-n1)*(x-n1) = 0, x=n1 nounor n2]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore />
+        <expectedpenalty />
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value> [p=0,x-n1 = 0 nounor x-n2 = 0,x = n1 nounor x = n2]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>[p=0,(x-(n1+n2)/2)^2-ev((n1+n2)^2/4-n1*n2,simp)=0,(x-(n1+n2)/2)^2=ev((n1+n2)^2/4-n1*n2,simp),(x-(n1+n2)/2)=#pm#ev(sqrt((n1+n2)^2/4-n1*n2),simp),x=ev((n1+n2)/2+sqrt((n1+n2)^2/4-n1*n2),simp) nounor x=ev((n1+n2)/2-sqrt((n1+n2)^2/4-n1*n2),simp)]  </value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

@@ -31,37 +31,7 @@ Mostly, it is simple to figure out the format of the maxima equivalent, however 
 
 <style>
 table, th, td {
-  border:1px solid black;
-}
-.divTable{
-	display: table;
-	width: 100%;
-}
-.divTableRow {
-	display: table-row;
-}
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
-}
-.divTableCell, .divTableHead {
-	border: 1px solid #999999;
-	display: table-cell;
-	padding: 3px 10px;
-}
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
-	font-weight: bold;
-}
-.divTableFoot {
-	background-color: #EEE;
-	display: table-footer-group;
-	font-weight: bold;
-}
-.divTableBody {
-	display: table-row-group;
-}
+  border:1px solid black;}
 </style>
 
  We denote with a *, where there would be the distribition e.g. normal. 

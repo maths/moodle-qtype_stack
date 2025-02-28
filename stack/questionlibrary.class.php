@@ -167,7 +167,9 @@ class stack_question_library {
                 }
             }
         }
-
+        usort($results->children, function ($a, $b) {
+            return strnatcmp($a->label, $b->label);
+        });
         return $results;
     }
 }

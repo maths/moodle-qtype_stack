@@ -275,19 +275,23 @@ class stack_matrix_input extends stack_input {
                 $blank = false;
             }
         }
-        $attr = ' autocapitalize="none" spellcheck="false"';
+        $attr = [
+            'size'  => $this->parameters['boxWidth'],
+            'autocapitalize' => 'none',
+            'spellcheck'     => 'false',
+        ];
         if ($readonly) {
-            $attr .= ' readonly="readonly"';
+            $attr['readonly'] = 'readonly';
         }
 
         // Metadata for JS users.
-        $attr .= ' data-stack-input-type="matrix"';
+        $attr['data-stack-input-type'] = 'matrix';
         if ($this->options->get_option('decimals') === ',') {
-            $attr .= ' data-stack-input-decimal-separator=","';
-            $attr .= ' data-stack-input-list-separator=";"';
+            $attr['data-stack-input-decimal-separator'] = ",";
+            $attr['data-stack-input-list-separator'] = ";";
         } else {
-            $attr .= ' data-stack-input-decimal-separator="."';
-            $attr .= ' data-stack-input-list-separator=","';
+            $attr['data-stack-input-decimal-separator'] = ".";
+            $attr['data-stack-input-list-separator'] = ",";
         }
 
         // Read matrix bracket style from options.
@@ -327,8 +331,9 @@ class stack_matrix_input extends stack_input {
                     $field = 'placeholder';
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
-                        $this->parameters['boxWidth'].'"'.$attr.'></td>';
+                $html   = html_writer::empty_tag('input',
+                    array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr));
+                $xhtml .= html_writer::tag('td', $html);
             }
 
             if ($i == 0) {

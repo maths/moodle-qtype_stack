@@ -3,7 +3,6 @@
 
 This is a markdown copy of a summary of *a pocket map of algebreic manipulation* by Tony Barnard. The original PDF summary is available as a [PDF](..\..\..\content\Barnard.pdf) and the [TeX source code](..\..\..\content\Barnard.tex).
 
-## Tony Barnard
 
 At the heart of the secondary school algebra curriculum lies the development of skills in algebraic manipulation. This little booklet collects together for reference some of the stepping stones of experiences in the development of these basic algebraic skills.
 
@@ -98,7 +97,7 @@ h4:before {
 \((+)+(+)\), \((+)+(-)\), \((-)+(+)\), \((-)+(-)\)
 </div>
 <div class="CellR">
-\(7+(-6)\), \(5-(-9)\), \(-6-(+4)\), \((-3) \times (-1)\),</div>
+\(7+(-6)\), \(5-(-9)\), \(-6-(+4)\), \((-3) \times (-1)\),
 </div>
 </div>
 
@@ -1980,17 +1979,33 @@ Prior rearrangement involved
 
 ### The three kinds of behaviour and corresponding graphical interpretation
 
+<div class="Row">
+<div class="CellL">
 \(b^2 > 4ac\) - two roots
-
+</div>
+<div class="CellR">
 ![graph of y=x^2+5x+3](..\..\..\content\y=x2+5x+3.svg)
+</div>
+</div>
+
+<div class="Row">
+<div class="CellL">
 
 \(b^2 = 4ac\) - one root
-
+</div>
+<div class="CellR">
 ![graph of y=-x^2+4x-4](..\..\..\content\y=-x2+4x-4.svg)
+</div>
+</div>
 
+<div class="Row">
+<div class="CellL">
 \(b^2 < 4ac\) - no (real) roots
-
+</div>
+<div class="CellR">
 ![graph of y=x^2-2x+2](..\..\..\content\y=x2-2x+2.svg)
+</div>
+</div>
 
 ### Simultaneous equations, one linear and one quadratic
 

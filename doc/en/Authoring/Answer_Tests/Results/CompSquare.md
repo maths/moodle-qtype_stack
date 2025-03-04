@@ -38,371 +38,595 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATCompSquare_STACKERROR_TAns.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(0, 1/0, x);</pre></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATCompSquare_STACKERROR_Opt.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(0, 0, 1/0);</pre></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Category errors.</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_SA_not_depend_var.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(1, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer should depend on the variable <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> but it does not!</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(t-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_SA_not_depend_var.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((t-1)^2+1, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer should depend on the variable <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> but it does not!</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1=0</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_STACKERROR_LIST.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x-1)^2+1 = 0, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer should be an expression, not an equation, inequality, list, set or matrix.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>sin(x-1)+a-1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_false_not_AlgEquiv.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(sin(x-1)+a-1, (x-1)^2+1, x);</pre></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Trivial cases</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true_trivial.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(1, 1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>x-a</pre></td>
   <td class="cell c3"><pre>x-a</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true_trivial.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(x-a, x-a, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(x^2, x^2, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>x^2-1</pre></td>
   <td class="cell c3"><pre>(x-1)*(x+1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(x^2-1, (x-1)*(x+1), x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2*k</pre></td>
   <td class="cell c3"><pre>(x-1)^2*k</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x-1)^2*k, (x-1)^2*k, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2/k</pre></td>
   <td class="cell c3"><pre>(x-1)^2/k</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x-1)^2/k, (x-1)^2/k, x);</pre></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Normal cases</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x-1)^2+1, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(1-x)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((1-x)^2+1, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(X-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_SA_not_depend_var.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((X-1)^2+1, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer should depend on the variable <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> but it does not!</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>9*(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(3*x-3)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(9*(x-1)^2+1, (3*x-3)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>-(x-1)^2</pre></td>
   <td class="cell c3"><pre>-(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(-(x-1)^2, -(x-1)^2, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>-(1-x)^2</pre></td>
   <td class="cell c3"><pre>-(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(-(1-x)^2, -(x-1)^2, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>-(x-1)^2+3</pre></td>
   <td class="cell c3"><pre>-(x-1)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(-(x-1)^2+3, -(x-1)^2+3, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>-(1-x)^2+3</pre></td>
   <td class="cell c3"><pre>-(x-1)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(-(1-x)^2+3, -(x-1)^2+3, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>-4*(x-1)^2+3</pre></td>
   <td class="cell c3"><pre>-4*(x-1)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(-4*(x-1)^2+3, -4*(x-1)^2+3, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>-4*(x-1)^2+3</pre></td>
   <td class="cell c3"><pre>-(2*x-2)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(-4*(x-1)^2+3, -(2*x-2)^2+3, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>3-4*(x-1)^2</pre></td>
   <td class="cell c3"><pre>-(2*x-2)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(3-4*(x-1)^2, -(2*x-2)^2+3, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x+1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_true_not_AlgEquiv.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x-1)^2+1, (x+1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer appears to be in the correct form, but is not equivalent to the correct answer.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x-a^2)^2+1+b</pre></td>
   <td class="cell c3"><pre>(x-a^2)^2+1+b</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x-a^2)^2+1+b, (x-a^2)^2+1+b, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>x^2-2*x+2</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_false_no_summands.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(x^2-2*x+2, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The completed square is of the form <span class="filter_mathjaxloader_equation"><span class="nolink">\( a(\cdots\cdots)^2 + b\)</span></span> where <span class="filter_mathjaxloader_equation"><span class="nolink">\(a\)</span></span> and <span class="filter_mathjaxloader_equation"><span class="nolink">\(b\)</span></span> do not depend on your variable. More than one of your summands appears to depend on the variable in your answer.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>x+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_false_not_AlgEquiv.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(x+1, (x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>a*(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>a*(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(a*(x-1)^2+1, a*(x-1)^2+1, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>-a*(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>1-a*(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare(-a*(x-1)^2+1, 1-a*(x-1)^2, x);</pre></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Not simple variable</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(sin(x)-1)^2+1</pre></td>
   <td class="cell c3"><pre>(sin(x)-1)^2+1</pre></td>
   <td class="cell c4"><pre>sin(x)</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((sin(x)-1)^2+1, (sin(x)-1)^2+1, sin(x));</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x^2-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x^2-1)^2+1</pre></td>
   <td class="cell c4"><pre>x^2</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x^2-1)^2+1, (x^2-1)^2+1, x^2);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(y-1)^2+1</pre></td>
   <td class="cell c3"><pre>(y-1)^2+1</pre></td>
   <td class="cell c4"><pre>y</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATCompSquare_true.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((y-1)^2+1, (y-1)^2+1, y);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(y+1)^2+1</pre></td>
   <td class="cell c3"><pre>(y-1)^2+1</pre></td>
   <td class="cell c4"><pre>y</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_true_not_AlgEquiv.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((y+1)^2+1, (y-1)^2+1, y);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer appears to be in the correct form, but is not equivalent to the correct answer.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(sin(x)-1)^2+1</pre></td>
   <td class="cell c4"><pre>sin(x)</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATCompSquare_SA_not_depend_var.</td>
+  <td class="cell c6">ATCompSquare_STACKERROR_SAns.<pre>ATCompSquare((x-1)^2+1, (sin(x)-1)^2+1, sin(x));</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer should depend on the variable <span class="filter_mathjaxloader_equation"><span class="nolink">\({\it facdum}\)</span></span> but it does not!</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr></tbody></table></div>

@@ -21,182 +21,212 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{0}</pre></td>
   <td class="cell c3"><pre>{1/0}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATSets_STACKERROR_TAns.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({0}, {1/0});</pre></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_SA_not_set.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets(x, {1,2,3});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your answer should be a set, but is not. Note that the syntax to enter a set is to enclose the comma separated values with curly brackets.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{1,2}</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_SB_not_set.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({1,2}, x);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The "Sets" answer test expects its second argument to be a set. This is an error. Please contact your teacher.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{1,2}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_missingentries.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({1,2}, {1,2,3});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{3 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{1,2,4}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_wrongentries.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({1,2,4}, {1,2});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{4 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{1,2,2+2}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_wrongentries.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({1,2,2+2}, {1,2});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{4 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{5,1,2,4}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_wrongentries. ATSets_missingentries.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({5,1,2,4}, {1,2,3});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{4 , 5 \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{3 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{2/4, 1/3}</pre></td>
   <td class="cell c3"><pre>{1/2, 1/3}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6"></td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({2/4,1/3}, {1/2,1/3});</pre></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Duplicate entries</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{1,2,1}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATSets_duplicates.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({1,2,1}, {1,2});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{1,2,1+1}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">ATSets_duplicates.</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({1,2,1+1}, {1,2});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{1,2,1+1}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_duplicates. ATSets_missingentries.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({1,2,1+1}, {1,2,3});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries! The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{3 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>{(x-a)^6000}</pre></td>
   <td class="cell c3"><pre>{(a-x)^6000}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATSets_wrongentries. ATSets_missingentries.</td>
+  <td class="cell c6">ATSets_STACKERROR_SAns.<pre>ATSets({(x-a)^6000}, {(a-x)^6000});</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\left(x-a\right)}^{6000} \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\left(a-x\right)}^{6000} \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr></tbody></table></div>

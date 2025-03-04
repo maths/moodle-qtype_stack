@@ -6,31 +6,39 @@ This page exposes the results of running answer tests on STACK test cases.  This
 
 <h2>EquivFirst</h2><div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
 </tr></thead><tbody>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATEquivFirst_SA_not_list.</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst(x, [x^2 = 4,x = 2 nounor x = -2], null);</pre></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The first argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATEquivFirst_SB_not_list.</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 4,x = 2 nounor x = -2], x, null);</pre></td>
 </tr>
-<tr class="expectedfail">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The second argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EquivFirst</td>
@@ -42,193 +50,147 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">ATEquivFirst_STACKERROR_SAns.</td>
 </tr>
 <tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[1/0]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATEquivFirst_STACKERROR_TAns.</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 4,x = 2 nounor x = -2], [1/0], null);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+</tr>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 4,x = 2 nounor x = -2], [x^2 = 4,x = 2 nounor x = -2], null);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x=2\,{\text{ or }}\, x=-2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=9,x=3 or x=-3]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATEquivFirst_SA_wrong_start</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 9,x = 3 nounor x = -3], [x^2 = 4,x = 2 nounor x = -2], null);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The first line in your argument must be "<span class="filter_mathjaxloader_equation"><span class="nolink">\(x^2=4\)</span></span>".</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 4,x = 2], [x^2 = 4,x = 2 nounor x = -2], null);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{red}{\Leftarrow}&x=2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x
 =2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 4,x^2-4 = 0,(x-2)*(x+2) = 0,x = 2 nounor x = -2], [x^2 = 4,x = 2 nounor x = -2], null);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x^2-4=0& \cr \color{green}{\Leftrightarrow}&\left(x-2\right)\cdot \left(x+2\right)=0& \cr \color{green}{\Leftrightarrow}&x=2\,{\text{ or }}\, x=-2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x= #pm#2, x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 4,x = #pm#2,x = 2 nounor x = -2], [x^2 = 4,x = 2 nounor x = -2], null);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x= \pm 2& \cr \color{green}{\Leftrightarrow}&x=2\,{\text{ or }}\, x=-2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c3"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS)</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2-6*x+9 = 0,x = 3], [x^2-6*x+9 = 0,x = 3], null);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2-6\cdot x+9=0& \cr \color{green}{\text{(Same roots)}}&x=3& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</tr>
+<tr class="fail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c5">0 <> 1</td>
+  <td class="cell c6">ATEquivFirst_STACKERROR_SAns.<pre>ATEquivFirst([x^2 = 4,x = 2], [x^2 = 4,x = 2], [assumepos]);</pre></td>
 </tr>
-<tr class="pass">
+<tr class="fail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{\text{Assume +ve vars}}&x^2=4& \cr \color{green}{\Leftrightarrow}&x=2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
+<tr class="fail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
 </tr></tbody></table></div>

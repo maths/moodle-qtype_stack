@@ -8,7 +8,7 @@ At the heart of the secondary school algebra curriculum lies the development of 
 
 A guiding factor in the categorisation of the contents has been the splitting of an item into a range of separate cases where it was felt that these cases constituted significantly different experiences for a learner whose development in that item was at an early stage. Manipulation with numerical fractions has been dealt with fairly extensively in this sense, as it was considered that experience with a wide range of possibilities was essential in order for later progress in algebra. Similarly situations in which a sum or difference of two terms in an algebraic expression has to be mentally perceived as a single item, have been noted explicitly. On the other hand, there has been an attempt to balance the conflicting aims of comprehensiveness and conciseness. So, for example, in listing the three kinds of behaviour for the roots of a quadratic equation, it was considered unnecessary to split this further and give two different graphs for each case, relating to whether the turning point was a maximum or minimum, as this was felt to be a less significant distinction at this stage in the development. Generally speaking things have been broken down in the hope that they will be put together, and if a learner is unable to see why an item comes in so many 'different' cases, having developed to a stage where the distinctions seem insignificant, this is to be regarded as a success!
 
-This booklet is intended for use by teachers rather than by pupils. However, as well as listing the items from the pupil's viewpoint in getting to grips with what you actually do in a particular situation, the language has also been chosen with an eye on teacher-pupil dialogue. Thus practical descriptions such as ''two-term expression\", ''no number in front of the \(x^2\)\" and ''no factor in common with\" have been used instead of technical expressions such as ''binomial\", ''monic\" and ''relatively prime\". As an aid to describing the items, each is accompanied by at least one illustrative example. Sometimes only the 'question' has been given, sometimes the 'answer' has also been given and sometimes the 'working' has been included as well. In each case, the aim of keeping the booklet as concise as possible has been at the forefront, and the 'answer' or 'working' have been included only if it was felt that doing so would give a clearer picture of the experiences in algebraic manipulation encompassed by the item.
+This booklet is intended for use by teachers rather than by pupils. However, as well as listing the items from the pupil's viewpoint in getting to grips with what you actually do in a particular situation, the language has also been chosen with an eye on teacher-pupil dialogue. Thus practical descriptions such as ''two-term expression", ''no number in front of the \(x^2\)" and ''no factor in common with" have been used instead of technical expressions such as ''binomial", ''monic" and ''relatively prime". As an aid to describing the items, each is accompanied by at least one illustrative example. Sometimes only the 'question' has been given, sometimes the 'answer' has also been given and sometimes the 'working' has been included as well. In each case, the aim of keeping the booklet as concise as possible has been at the forefront, and the 'answer' or 'working' have been included only if it was felt that doing so would give a clearer picture of the experiences in algebraic manipulation encompassed by the item.
 
 Finally it should be emphasised that, in summarising this collection of pupil oriented steps in algebraic manipulation, there is no desire to lay out a prescribed route that everyone must follow. On the contrary it is hoped that the booklet might be thought of simply as a pocket map of the landscape.
 
@@ -548,11 +548,9 @@ Two (or more) letters
 
 <div class="Row">
 <div class="CellL">
-
-Numbers and two (or more) letters 
+Numbers and two (or more) letters
 </div>
 <div class="CellR">
-
 \(5s + 3t - 1 - 2s + t - 6\)
 </div>
 </div>

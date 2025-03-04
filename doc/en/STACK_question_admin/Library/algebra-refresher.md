@@ -1,12 +1,8 @@
-
----
-author:
-- Tony Barnard
-date: 1999
-title: A pocket map of algebraic manipulation
----
-
 # A pocket map of algebraic manipulation
+
+
+This is a markdown copy of a summary of *a pocket map of algebreic manipulation* by Tony Barnard. The original PDF summary is available as a [PDF](..\..\..\content\Barnard.pdf) and the [TeX source code](..\..\..\content\Barnard.tex).
+
 ## Tony Barnard
 
 At the heart of the secondary school algebra curriculum lies the development of skills in algebraic manipulation. This little booklet collects together for reference some of the stepping stones of experiences in the development of these basic algebraic skills.
@@ -1986,15 +1982,15 @@ Prior rearrangement involved
 
 \(b^2 > 4ac\) - two roots
 
-![graph of y=x^2+5x+3](doc\content\y=x2+5x+3.svg)
+![graph of y=x^2+5x+3](..\..\..\content\y=x2+5x+3.svg)
 
 \(b^2 = 4ac\) - one root
 
-![graph of y=-x^2+4x-4](doc\content\y=-x2+4x-4.svg)
+![graph of y=-x^2+4x-4](..\..\..\content\y=-x2+4x-4.svg)
 
 \(b^2 < 4ac\) - no (real) roots
 
-![graph of y=x^2-2x+2](doc\content\y=x2-2x+2.svg)
+![graph of y=x^2-2x+2](..\..\..\content\y=x2-2x+2.svg)
 
 ### Simultaneous equations, one linear and one quadratic
 

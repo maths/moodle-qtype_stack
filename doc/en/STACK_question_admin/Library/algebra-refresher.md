@@ -801,10 +801,10 @@ More than two different letters involved
 <div class="Row">
 <div class="CellR">
 
-\((x+1)^2 = x^2+2x+1\),\
-\((x-1)^2 = x^2 - 2x +1\),\
-\((2x+3)^2 = 4x^2 + 12x + 9\),\
-\((pq-r)^2 = p^2q^2 - 2pq + r^2\),\
+\((x+1)^2 = x^2+2x+1\),
+\((x-1)^2 = x^2 - 2x +1\),
+\((2x+3)^2 = 4x^2 + 12x + 9\),
+\((pq-r)^2 = p^2q^2 - 2pq + r^2\),
 \((a+b)^2 = a^2 + 2ab + b^2\).
 </div>
 </div>
@@ -814,9 +814,9 @@ More than two different letters involved
 <div class="Row">
 <div class="CellR">
 
-\((x+2)(x-2) = x^2 - 4\),\
-\((2x+5)(2x-5) = 4x^2 - 25\),\
-\((xy+zt)(xy - zt) = x^2y^2 - z^2t^2\),\
+\((x+2)(x-2) = x^2 - 4\),
+\((2x+5)(2x-5) = 4x^2 - 25\),
+\((xy+zt)(xy - zt) = x^2y^2 - z^2t^2\),
 \((a+b)(a-b) = a^2 - b^2\).
 </div>
 </div>
@@ -825,7 +825,7 @@ More than two different letters involved
 
 <div class="Row">
 <div class="CellL">
-Three or more factors 
+Three or more factors
 </div>
 <div class="CellR">
 
@@ -1175,7 +1175,7 @@ No cancelling involved
 
 Including fractions in which the numerator and denominator are themselves a sum or difference of two fractions.
 
-\[\frac{a}{b}\div c = \frac{a}{bc},\ \frac{a}{b \div c} = \frac{ac}{b}, \ \frac{\frac{b+1}{a}+1}{b} = \frac{a+b+1}{ab},\ \left(  \left(  x - \frac{1}{x} \right)  ^2 + 2 \right)  \div \frac{1}{x^2} = x^4 + 1.\]
+\[\frac{a}{b}\div c = \frac{a}{bc},\ \frac{a}{b \div c} = \frac{ac}{b}, \ \frac{\frac{b+1}{a}+1}{b} = \frac{a+b+1}{ab},\] \[\left(  \left(  x - \frac{1}{x} \right)  ^2 + 2 \right)  \div \frac{1}{x^2} = x^4 + 1.\]
 
 ## Linear equations
 
@@ -1418,8 +1418,7 @@ Elimination of a letter from two formulae
 
 ## Simultaneous linear equations
 
-Coefficients of one unknown the same in both equations\
-(*Subtract one equation from the other*)
+Coefficients of one unknown the same in both equations (*Subtract one equation from the other*)
 
 <div class="Row">
 <div class="CellL">
@@ -1482,7 +1481,7 @@ of its coefficient in the other (*Multiply and subtract*)
 </div>
 <div class="CellR">
 
-\(2x + 5y = 24\)\
+\(2x + 5y = 24\)
 \(4x + 3y = 20\)
 </div>
 </div>
@@ -1496,7 +1495,7 @@ of its coefficient in the other (*Multiply and add*)
 </div>
 <div class="CellR">
 
-\(3x - 2y = 7\)\
+\(3x - 2y = 7\)
 \(4x + y = 13\)
 </div>
 </div>
@@ -1508,7 +1507,7 @@ Multiplication of both equations before adding or subtracting
 </div>
 <div class="CellR">
 
-\(4x - 3y = 11\)\
+\(4x - 3y = 11\)
 \(5x + 2y = 9\)
 </div>
 </div>
@@ -1521,13 +1520,13 @@ Prior rearrangement of equations involved
 </div>
 <div class="CellR">
 
-\(2x = 5y + 1\)\
+\(2x = 5y + 1\)
 \(5x + 3(y-6) = 0\)
 </div>
 </div>
 
 
-*Substitution method:* \(\)\left.
+*Substitution method:* \[\left.
 \begin{array}{l}
 x - 2y = 1 \\
 3x + 5y = 14
@@ -1537,7 +1536,7 @@ x - 2y = 1 \\
 y = 1 \\
 x = 3
 \end{array}
-\right\}\(\)
+\right\}\]
 
 ## Factorising algebraic expressions
 
@@ -1896,7 +1895,7 @@ Combinations of arithmetic operations
 </div>
 <div class="CellR">
 
-\(\frac{\frac{a+b+1}{ab} + 1}{\frac{b+1}{a}} = \frac{ab + a + b + 1}{b(b+1)} = \frac{(a+1)(b+1)}{b(b+1)} = \frac{a+1}{b}\),\
+\(\frac{\frac{a+b+1}{ab} + 1}{\frac{b+1}{a}} = \frac{ab + a + b + 1}{b(b+1)} = \frac{(a+1)(b+1)}{b(b+1)} = \frac{a+1}{b}\),
 \(\frac{\frac{a+1}{b} + 1}{\frac{a+b+1}{ab}} = \frac{a(a+1) + ab}{a+b + 1} = \frac{a(a+b + 1)}{a+b+1} = a\)
 </div>
 </div>
@@ -2014,7 +2013,7 @@ Direct substitution from linear equation into quadratic equation
 </div>
 <div class="CellR">
 
-\(x^2 + y^2 = 10\)\
+\(x^2 + y^2 = 10\)
 \(y = 2 - x\)
 </div>
 </div>
@@ -2026,7 +2025,7 @@ Prior rearrangement involved
 </div>
 <div class="CellR">
 
-\(x^2 - xy + y^2 = 13\)\
+\(x^2 - xy + y^2 = 13\)
 \(2x - 3y = 5\)
 </div>
 </div>

@@ -21,24 +21,24 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(1, 1/0);</pre></td>
+  <td class="cell c6">ATAlgEquivNouns_STACKERROR_TAns.</td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
@@ -79,247 +79,135 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Attempted to execute an answer test with an empty student answer, probably a CAS validation problem when authoring the question.</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>2*x</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(diff(x^2,x), 2*x);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(x^2,x)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(diff(x^2,x), 'diff(x^2,x));</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(x^2,x)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(diff(x^2,x), 'diff(x^2,x));</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c3"><pre>noundiff(y,x)</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns('diff(y,x), noundiff(y,x));</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(diff(y,x), 0);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns('diff(y,x), 0);</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(noundiff(y,x), 0);</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y(x),x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(diff(y(x),x), 0);</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y,x,1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x,2)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns('diff(y,x,1), 'diff(y,x,2));</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y(x),x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns('diff(y(x),x), 'diff(y,x));</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y,y(x),&#039;diff(y,x)+y
 =1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)+y=1</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(%_E(subst(y,y(x),'diff(y,x)+y = 1)), 'diff(y,x)+y = 1);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y,y(x),&#039;diff(y(x),x
 )+y(x)=1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)+y=1</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(%_E(subst(y,y(x),'diff(y(x),x)+y(x) = 1)), 'diff(y,x)+y = 1);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y(x),y,&#039;diff(y,x)+y
 =1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y(x),x)+y(x)=1</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(%_E(subst(y(x),y,'diff(y,x)+y = 1)), 'diff(y(x),x)+y(x) = 1);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y(x),y,&#039;diff(y,x)+y
 =1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)+y=1</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(%_E(subst(y(x),y,'diff(y,x)+y = 1)), 'diff(y,x)+y = 1);</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c6">ATEquation_default</td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
@@ -338,184 +226,104 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. subst: cannot substitute y(x) for operator y in expression y(x)
- <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y_x</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(y_x, 'diff(y,x));</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Partials</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(f,x,1,y,1)</pre></td>
   <td class="cell c3"><pre>noundiff(noundiff(f,x),y)</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(noundiff(f,x,1,y,1), noundiff(noundiff(f,x),y));</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(noundiff(f,y),x)</pre></td>
   <td class="cell c3"><pre>noundiff(noundiff(f,x),y)</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(noundiff(noundiff(f,y),x), noundiff(noundiff(f,x),y));</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(noundiff(f,x),x)</pre></td>
   <td class="cell c3"><pre>noundiff(f,x,2)</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(noundiff(noundiff(f,x),x), noundiff(f,x,2));</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Differential equations</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(H,x,2) = -R/T</pre></td>
   <td class="cell c3"><pre>noundiff(H,x,2) + R/T = 0</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(noundiff(H,x,2) = -R/T, noundiff(H,x,2)+R/T = 0);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_ratio</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(H,x,2) = -R/T</pre></td>
   <td class="cell c3"><pre>noundiff(H,x,2) + R/T = 0</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns('diff(H,x,2) = -R/T, noundiff(H,x,2)+R/T = 0);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_ratio</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y(t)=int(s^2,s,0,t)</pre></td>
   <td class="cell c3"><pre>y(t)=t^3/3</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(y(t) = int(s^2,s,0,t), y(t) = t^3/3);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y(t)=&#039;int(s^2,s,0,t)</pre></td>
   <td class="cell c3"><pre>y(t)=t^3/3</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(y(t) = 'int(s^2,s,0,t), y(t) = t^3/3);</pre></td>
+  <td class="cell c6">ATEquation_lhs_notrhs</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y(t)=&#039;int(s^2,s,0,t)</pre></td>
   <td class="cell c3"><pre>y(t)=nounint(s^2,s,0,t)</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(y(t) = 'int(s^2,s,0,t), y(t) = nounint(s^2,s,0,t));</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Logic nouns are still evaluated</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true nounand false</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATAlgEquivNouns_STACKERROR_SAns.<pre>ATAlgEquivNouns(true nounand false, false);</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLogic_True.</td>
 </tr></tbody></table></div>

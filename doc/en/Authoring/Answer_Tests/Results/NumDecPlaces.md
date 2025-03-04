@@ -19,97 +19,61 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.</td>
 </tr>
 <tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(0.1, 1/0, 2, "0.1");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_STACKERROR_TAns.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(0.1, 0, 1/0, "0.1");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_STACKERROR_Opt.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(0.1, 1, x, "0.1");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_OptNotInt.</td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">For ATNumDecPlaces the test option must be a positive integer, in fact "<span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span>" was received.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>-1</pre></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(0.1, 1, -1, "0.1");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_OptNotInt.</td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">For ATNumDecPlaces the test option must be a positive integer, in fact "<span class="filter_mathjaxloader_equation"><span class="nolink">\(-1\)</span></span>" was received.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>0</pre></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(0.1, 1, 0, "0.1");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_OptNotInt.</td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">For ATNumDecPlaces the test option must be a positive integer, in fact "<span class="filter_mathjaxloader_equation"><span class="nolink">\(0\)</span></span>" was received.</td></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
@@ -144,307 +108,199 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Student's answer not a floating point number</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>2</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(x, 3.143, 2, "x");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_SA_Not_num.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">Your answer must be a floating point number, but is not.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi</pre></td>
   <td class="cell c3"><pre>3.000</pre></td>
   <td class="cell c4"><pre>3</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(%pi, 3.000, 3, "pi");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_SA_Not_num.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">Your answer must be a floating point number, but is not.</td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Right number of places</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>2</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3.14, 3.143, 2, "3.14");</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.14</pre></td>
   <td class="cell c4"><pre>2</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3.14, 3.14, 2, "3.14");</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.140</pre></td>
   <td class="cell c3"><pre>3.140</pre></td>
   <td class="cell c4"><pre>3</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3.140, 3.140, 3, "3.140");</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3141.5972</pre></td>
   <td class="cell c3"><pre>3141.5972</pre></td>
   <td class="cell c4"><pre>4</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3141.5972, 3141.5972, 4, "3141.5972");</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4.14</pre></td>
   <td class="cell c3"><pre>3.14</pre></td>
   <td class="cell c4"><pre>2</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(4.14, 3.14, 2, "4.14");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Not_equiv.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.1416</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>4</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3.1416, %pi, 4, "3.1416");</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-7.3</pre></td>
   <td class="cell c3"><pre>-7.3</pre></td>
   <td class="cell c4"><pre>1</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(-7.3, -7.3, 1, "-7.3");</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Wrong number of places</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>1</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3.14, 3.143, 1, "3.14");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">Your answer has been given to the wrong number of decimal places.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>1</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3.14, 3.143, 1, "3.14");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">Your answer has been given to the wrong number of decimal places.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.140</pre></td>
   <td class="cell c4"><pre>3</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(3.14, 3.140, 3, "3.14");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">Your answer has been given to the wrong number of decimal places.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.000</pre></td>
   <td class="cell c3"><pre>7</pre></td>
   <td class="cell c4"><pre>4</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(7.000, 7, 4, "7.000");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">Your answer has been given to the wrong number of decimal places.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.0000</pre></td>
   <td class="cell c3"><pre>7</pre></td>
   <td class="cell c4"><pre>4</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(7.0000, 7, 4, "7.0000");</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Both wrong DPs and inaccurate.</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.0000</pre></td>
   <td class="cell c3"><pre>7</pre></td>
   <td class="cell c4"><pre>3</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(8.0000, 7, 3, "8.0000");</pre></td>
+  <td class="cell c6">ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">Your answer has been given to the wrong number of decimal places.</td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Teacher needs to round their answer.</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4.000</pre></td>
   <td class="cell c3"><pre>3.99999</pre></td>
   <td class="cell c4"><pre>3</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(4.000, 3.99999, 3, "4.000");</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Teacher uses displaydp</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.10</pre></td>
   <td class="cell c3"><pre>displaydp(0.1,2)</pre></td>
   <td class="cell c4"><pre>2</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATNumDecPlaces_STACKERROR_SAns.<pre>ATNumDecPlaces(0.10, displaydp(0.1,2), 2, "0.10");</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.</td>
 </tr></tbody></table></div>

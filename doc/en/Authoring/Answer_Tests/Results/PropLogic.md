@@ -21,93 +21,133 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">-1</td>
-  <td class="cell c6">ATPropLogic_STACKERROR_SAns.<pre>ATPropLogic(0, 1/0);</pre></td>
+  <td class="cell c6">ATPropLogic_STACKERROR_TAns.</td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
 </tr>
-<tr class="fail">
+<tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATPropLogic_STACKERROR_SAns.<pre>ATPropLogic(true, true);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATPropLogic_STACKERROR_SAns.<pre>ATPropLogic(true, false);</pre></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A implies B</pre></td>
   <td class="cell c3"><pre>not(A) or B</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATPropLogic_STACKERROR_SAns.<pre>ATPropLogic(A implies B, nounnot(A) nounor B);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a and b and c) xor (a and b) 
 xor (a and c) xor a xor true</pre></td>
   <td class="cell c3"><pre>(a implies b) or c</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATPropLogic_STACKERROR_SAns.<pre>ATPropLogic((a nounand b nounand c) xor (a nounand b) xor (a nounand c) xor a xor true, (a implies b) nounor c);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="emptyrow">
+  <td class="cell c0"></td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="emptyrow">
   <td class="cell c0"></td>

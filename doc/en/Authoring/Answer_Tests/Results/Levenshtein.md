@@ -38,224 +38,168 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Division by zero.</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein(x^2, "Hello", 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SA_not_string.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The first argument to the Levenshtein answer test must be a string. The test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", "Hello", 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SB_malformed.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings. This argument is malformed and so the test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[&quot;Hello&quot;]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", ["Hello"], 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SB_malformed.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings. This argument is malformed and so the test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [["Hello"]], 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SB_malformed.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings. This argument is malformed and so the test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], x^2]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [["Hello"],x^2], 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SB_malformed.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings. This argument is malformed and so the test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [x^2]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [["Hello"],[x^2]], 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SB_malformed.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings. This argument is malformed and so the test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;], [&quot;Excess&q
 uot;]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [["Hello"],["Goodbye"],["Excess"]], 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SB_malformed.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings. This argument is malformed and so the test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[], [&quot;Goodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [[],["Goodbye"]], 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_SB_malformed.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings. This argument is malformed and so the test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>z</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [["Hello"],["Goodbye"]], z);</pre></td>
+  <td class="cell c6">ATLevenshtein_tol_not_number.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The tolerance in the Levenshtein answer test must be a number, but is not. The test failed. Please contact your teacher.</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>[z]</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [["Hello"],["Goodbye"]], [z]);</pre></td>
+  <td class="cell c6">ATLevenshtein_tol_not_number.</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c1"><td colspan="4">The tolerance in the Levenshtein answer test must be a number, but is not. The test failed. Please contact your teacher.</td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Usage tests</td></td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Hello", [["Hello"],["Goodbye"]], 0.9);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>[0.9]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("hello", [["Hello"],["Goodbye"]], [0.9]);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -263,20 +207,16 @@ d day&quot;, &quot;Hi&quot;],
 e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>[0.8, CASE]</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("hello", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], [0.8,CASE]);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_match: [[0.8,"Hello"],[0.25,"Fairwell"]].</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Hello}\)</span></span>".</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;goodday&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -284,20 +224,16 @@ d day&quot;, &quot;Hi&quot;],
 e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.8</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("goodday", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], 0.8);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_match: [[0.875,"Good day"],[0.57143,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Good day}\)</span></span>".</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;goodday&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -306,19 +242,11 @@ e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>[0.8, CASE]</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("goodday", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], [0.8,CASE]);</pre></td>
+  <td class="cell c6">ATLevenshtein_far: [[0.75,"Good day"],[0.42857,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Jello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -327,19 +255,11 @@ e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Jello", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], 0.9);</pre></td>
+  <td class="cell c6">ATLevenshtein_far: [[0.8,"Hello"],[0.25,"Fairwell"]].</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Jello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -347,39 +267,31 @@ d day&quot;, &quot;Hi&quot;],
 e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Jello", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], 0.75);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_match: [[0.8,"Hello"],[0.25,"Fairwell"]].</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Hello}\)</span></span>".</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Jello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
 []]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Jello", [["Hello","Good day","Hi"],[]], 0.75);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_match: [[0.8,"Hello"],[0,[]]].</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Hello}\)</span></span>".</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Good bye&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -388,19 +300,11 @@ e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Good bye", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], 0.75);</pre></td>
+  <td class="cell c6">ATLevenshtein_deny: [[0.625,"Good day"],[0.875,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Good, day!&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -408,20 +312,16 @@ d day&quot;, &quot;Hi&quot;],
 e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("Good, day!", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], 0.75);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_match: [[0.8,"Good day"],[0.5,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
+  <td class="cell c1"><td colspan="4">The closest match was "<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{Good day}\)</span></span>".</td></td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sremove_chars(&quot;.,!?&quot;
 , &quot;Good, day!&quot;)</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
@@ -430,20 +330,12 @@ d day&quot;, &quot;Hi&quot;],
 e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein(sremove_chars(".,!?","Good, day!"), [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], 0.75);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;   good     day  &quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -451,20 +343,12 @@ d day&quot;, &quot;Hi&quot;],
 e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
-  <td class="cell c5">0 <> 1</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("   good     day  ", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], 0.75);</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].</td>
 </tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
-</tr>
-<tr class="fail">
+<tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="color:red;"><i class="fa fa-times"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;   good     day  &quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -474,13 +358,5 @@ e&quot;, &quot;Fairwell&quot;]
   <td class="cell c4"><pre>[0.75, WHITESPA
 CE]</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">ATLevenshtein_STACKERROR_SAns.<pre>ATLevenshtein("   good     day  ", [["Hello","Good day","Hi"],["Goodbye","Bye","Fairwell"]], [0.75,WHITESPACE]);</pre></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">TEST_FAILED</td></td>
-</tr>
-<tr class="fail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. <i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. " aria-label="The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. "></i>The version of the STACK-Maxima libraries being used (2025012200) does not match what is expected (2025012100) by this version of the STACK question type. </td></td>
+  <td class="cell c6">ATLevenshtein_far: [[0.47059,"Good day"],[0.29412,"Goodbye"]].</td>
 </tr></tbody></table></div>

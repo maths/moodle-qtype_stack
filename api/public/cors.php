@@ -39,7 +39,10 @@ if (isset($_GET['question'])) {
 if (strpos($scriptname, '..') !== false
     || strpos($scriptname, '/') !== false
     || strpos($scriptname, '\\') !== false) {
-        die("No such script here.");
+        // Give a special exception for sample questions.
+        if (!($is_question && file_exists('../../samplequestions/' . $scriptname))) {
+            die("No such script here.");
+        }
 }
 
 if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.css'

@@ -70,7 +70,7 @@ class StackQuestionLoader {
 
         // Based on moodles base question type.
         $question->name = (string) $xmldata->question->name->text ? (string) $xmldata->question->name->text : 'Question';
-        $question->questiontext = '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
+        $question->questiontext = '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>';
         if (isset($xmldata->question->questiontext->text) && (string) $xmldata->question->questiontext->text) {
                 $question->questiontext = (string) $xmldata->question->questiontext->text;
         } else if (isset($xmldata->question->questiontext) && (string) $xmldata->question->questiontext) {

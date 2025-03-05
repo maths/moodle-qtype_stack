@@ -49,9 +49,11 @@ class StackQuestionLoader {
             throw new \stack_exception("The provided XML file does not contain exactly one question element");
         }
 
-        if (((string) $xmldata->question->attributes()->type) !== "stack") {
+        if (!in_array((string) $xmldata->question->attributes()->type, ["stack", "stack-fragment"])) {
             throw new \stack_exception("The provided question is not of type STACK");
         }
+
+        $isfragment = (string) $xmldata->question->attributes()->type === 'stack-fragment' ? true : false;
 
         // Collect included files.
         $files = [];
@@ -68,20 +70,39 @@ class StackQuestionLoader {
 
         // Based on moodles base question type.
         $question->name = (string) $xmldata->question->name->text ? (string) $xmldata->question->name->text : 'Question';
-        $question->questiontext = (string) $xmldata->question->questiontext->text ?
-            (string) $xmldata->question->questiontext->text : '<p></p><p>[[input:ans]] [[validation:ans]]</p>';
+        $question->questiontext = '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
+        if (isset($xmldata->question->questiontext->text) && (string) $xmldata->question->questiontext->text) {
+                $question->questiontext = (string) $xmldata->question->questiontext->text;
+        } else if (isset($xmldata->question->questiontext) && (string) $xmldata->question->questiontext) {
+            $question->questiontext = (string) $xmldata->question->questiontext;
+        }
         $question->questiontextformat = (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] : 'html';
-        $question->generalfeedback = (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text : '';
+        $question->generalfeedback = '';
+        if (isset($xmldata->question->generalfeedback->text) && (string) $xmldata->question->generalfeedback->text) {
+                $question->generalfeedback = (string) $xmldata->question->generalfeedback->text;
+        } else if (isset($xmldata->question->generalfeedback) && (string) $xmldata->question->generalfeedback) {
+            $question->generalfeedback = (string) $xmldata->question->generalfeedback;
+        }
         $question->generalfeedbackformat = (string) $xmldata->question->generalfeedback['format'];
         $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade : 1.0;
         $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty : 0.1;
 
         // Based on initialise_question_instance from questiontype.php.
         $question->stackversion              = (string) $xmldata->question->stackversion->text ? (string) $xmldata->question->stackversion->text : '';
-        $question->questionvariables         = (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text : 'ta:1;';
-        $question->questionnote              = (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text : '{@ta@}';
+        $question->questionvariables = 'ta1:1;';
+        if (isset($xmldata->question->questionvariables->text) && (string) $xmldata->question->questionvariables->text) {
+                $question->questionvariables = (string) $xmldata->question->questionvariables->text;
+        } else if (isset($xmldata->question->questionvariables) && (string) $xmldata->question->questionvariables) {
+            $question->questionvariables = (string) $xmldata->question->questionvariables;
+        }
+        $question->questionnote              = (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text : '{@ta1@}';
         $question->questionnoteformat        = (string) $xmldata->question->questionnote['format'] ? (string) $xmldata->question->questionnote['format'] : 'html';
-        $question->specificfeedback          = (string) $xmldata->question->specificfeedback->text ? (string) $xmldata->question->specificfeedback->text : '[[feedback:prt1]]';
+        $question->specificfeedback = '';
+        if (isset($xmldata->question->specificfeedback->text) && (string) $xmldata->question->specificfeedback->text) {
+                $question->specificfeedback = (string) $xmldata->question->specificfeedback->text;
+        } else if (isset($xmldata->question->specificfeedback) && (string) $xmldata->question->specificfeedback) {
+            $question->specificfeedback = (string) $xmldata->question->specificfeedback;
+        }
         $question->specificfeedbackformat    = (string) $xmldata->question->specificfeedback['format'] ? (string) $xmldata->question->specificfeedback['format'] : 'html';
         $question->questiondescription       = (string) $xmldata->question->questiondescription->text ? (string) $xmldata->question->questiondescription->text : '';
         $question->questiondescriptionformat = (string) $xmldata->question->questiondescription['format'] ? (string) $xmldata->question->questiondescription['format'] : 'html';
@@ -108,6 +129,18 @@ class StackQuestionLoader {
         }
         $question->variantsselectionseed     = (string) $xmldata->question->variantsselectionseed ? (string) $xmldata->question->variantsselectionseed : '';
         $question->compiledcache             = [];
+
+        $fraginputs = [];
+        if ($isfragment) {
+            for ($i = 1; $i < 10; $i++) {
+                if (!strpos($question->questionvariables, 'ta' . $i) === false) {
+                    $fraginputs[] = $i;
+                }
+            }
+            foreach ($fraginputs as $ansindex) {
+                $question->questiontext = str_replace("[[ans{$ansindex}]]", "<br>[[input:ans{$ansindex}]] [[validation:ans{$ansindex}]]<br>[[feedback:prt{$ansindex}]]", $question->questiontext);
+            }
+        }
 
         $question->options = new \stack_options();
         $question->options->set_option(
@@ -171,12 +204,26 @@ class StackQuestionLoader {
             $inputmap[(string) $input->name] = $input;
         }
 
+        if ($isfragment) {
+            foreach ($fraginputs as $ci) {
+                if (!isset($inputmap["ans{$ci}"])) {
+                    $defaultinput = new \SimpleXMLElement('<input></input>');
+                    $defaultinput->addChild('name', "ans{$ci}");
+                    $defaultinput->addChild('tans', "ta{$ci}");
+                    $inputmap["ans{$ci}"] = $defaultinput;
+                } else {
+                    if (!isset($inputmap["ans{$ci}"]->tans)) {
+                        $inputmap["ans{$ci}"]->addChild('tans', "ta{$ci}");
+                    }
+                }
+            }
+        }
+
         if (empty($inputmap)) {
-            $defaultinput = new \StdClass();
-            $defaultinput->name = 'ans';
-            $defaultinput->type = 'algebraic';
-            $defaultinput->tans = 'ta';
-            $inputmap['ans'] = $defaultinput;
+            $defaultinput = new \SimpleXMLElement('<input></input>');
+            $defaultinput->addChild('name', 'ans1');
+            $defaultinput->addChild('tans', 'ta1');
+            $inputmap['ans1'] = $defaultinput;
         }
 
         $requiredparams = \stack_input_factory::get_parameters_used();
@@ -218,36 +265,83 @@ class StackQuestionLoader {
 
         $totalvalue = 0;
         $allformative = true;
-        $questionprt = $xmldata->question->prt;
-        if (empty($questionprt)) {
-            $defaultprt = new \StdClass();
-            $defaultprt->name = 'prt1';
-            $defaultnode = new \StdClass();
-            $defaultnode->name = '0';
-            $defaultnode->sans = 'ans';
-            $defaultnode->tans = 'ta';
-            $defaultnode->trueanswernote = 'prt1-1-T';
-            $defaultnode->falseanswernote = 'prt1-1-F';
-            $defaultprt->node = [$defaultnode];
-            $questionprt = [$defaultprt];
+        $prtmap = [];
+        foreach ($xmldata->question->prt as $prt) {
+            $prtmap[(string) $prt->name] = $prt;
         }
-        foreach ($questionprt as $prtdata) {
+
+        if ($isfragment) {
+            foreach ($fraginputs as $ci) {
+                $defaultnode = null;
+                if (!$prtmap["prt{$ci}"]) {
+                    $defaultprt = new \SimpleXMLElement('<prt></prt>');
+                    $defaultprt->addChild('name', "prt{$ci}");
+                    $defaultnode = $defaultprt->addChild('node');
+                    $defaultnode->addChild('name', '0');
+                    $defaultnode->addChild('sans', "ans{$ci}");
+                    $defaultnode->addChild('tans', "ta{$ci}");
+                    $defaultnode->addChild('trueanswernote', "prt{$ci}-1-T");
+                    $defaultnode->addChild('falseanswernote', "prt{$ci}-1-F");
+                    $prtmap["prt{$ci}"] = $defaultprt;
+                } else {
+                    if (isset($prtmap["prt{$ci}"]->node)) {
+                        if (!isset($prtmap["prt{$ci}"]->node->name)) {
+                            $prtmap["prt{$ci}"]->node->addChild('name', '0');
+                        }
+                        if (!isset($prtmap["prt{$ci}"]->node->sans)) {
+                            $prtmap["prt{$ci}"]->node->addChild('sans', "ans{$ci}");
+                        }
+                        if (!isset($prtmap["prt{$ci}"]->node->tans)) {
+                            $prtmap["prt{$ci}"]->node->addChild('tans', "ta{$ci}");
+                        }
+                        if (!isset($prtmap["prt{$ci}"]->node->trueanswernote)) {
+                            $prtmap["prt{$ci}"]->node->addChild('trueanswernote', "prt{$ci}-1-T");
+                        }
+                        if (!isset($prtmap["prt{$ci}"]->node->falseanswernote)) {
+                            $prtmap["prt{$ci}"]->node->addChild('falseanswernote', "prt{$ci}-1-F");
+                        }
+                    } else {
+                        $defaultnode = $prtmap["prt{$ci}"]->addChild('node');
+                        $defaultnode->addChild('name', '0');
+                        $defaultnode->addChild('sans', "ans{$ci}");
+                        $defaultnode->addChild('tans', "ta{$ci}");
+                        $defaultnode->addChild('trueanswernote', "prt{$ci}-1-T");
+                        $defaultnode->addChild('falseanswernote', "prt{$ci}-1-F");
+                    }
+                }
+            }
+        }
+
+        if (empty($prtmap)) {
+            $defaultprt = new \SimpleXMLElement('<prt></prt>');
+            $defaultprt->addChild('name', 'prt1');
+            $defaultnode = $defaultprt->addChild('node');
+            $defaultnode->addChild('name', '0');
+            $defaultnode->addChild('sans', 'ans1');
+            $defaultnode->addChild('tans', 'ta1');
+            $defaultnode->addChild('trueanswernote', 'prt1-1-T');
+            $defaultnode->addChild('falseanswernote', 'prt1-1-F');
+            $prtmap['prt1'] = $defaultprt;
+        }
+
+        foreach ($prtmap as $prtdata) {
             // At this point we do not have the PRT method is_formative() available to us.
             if (!isset($prtdata->feedbackstyle) || ((int) $prtdata->feedbackstyle) > 0) {
                 $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : 1;
                 $allformative = false;
             }
         }
-        if (count($questionprt) > 0 && !$allformative && $totalvalue < 0.0000001) {
+        if (count($prtmap) > 0 && !$allformative && $totalvalue < 0.0000001) {
             throw new \stack_exception('There is an error authoring your question. ' .
                 'The $totalvalue, the marks available for the question, must be positive in question ' .
                 $question->name);
         }
 
-        foreach ($questionprt as $prtdata) {
+        foreach ($prtmap as $prtdata) {
             $prtvalue = 0;
             if (!$allformative) {
-                $prtvalue = ((float)$prtdata->value) / $totalvalue;
+                $value = $prtdata->value ? (float) $prtdata->value : 1;
+                $prtvalue = $value / $totalvalue;
             }
 
             $data = new \stdClass();

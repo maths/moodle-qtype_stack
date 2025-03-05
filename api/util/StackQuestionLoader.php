@@ -69,7 +69,7 @@ class StackQuestionLoader {
         // Based on moodles base question type.
         $question->name = (string) $xmldata->question->name->text ? (string) $xmldata->question->name->text : 'Question';
         $question->questiontext = (string) $xmldata->question->questiontext->text ?
-            (string) $xmldata->question->questiontext->text : '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
+            (string) $xmldata->question->questiontext->text : '<p></p><p>[[input:ans]] [[validation:ans]]</p>';
         $question->questiontextformat = (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] : 'html';
         $question->generalfeedback = (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text : '';
         $question->generalfeedbackformat = (string) $xmldata->question->generalfeedback['format'];
@@ -78,8 +78,8 @@ class StackQuestionLoader {
 
         // Based on initialise_question_instance from questiontype.php.
         $question->stackversion              = (string) $xmldata->question->stackversion->text ? (string) $xmldata->question->stackversion->text : '';
-        $question->questionvariables         = (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text : 'ta1:?;';
-        $question->questionnote              = (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text : '{@ta1@}';
+        $question->questionvariables         = (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text : 'ta:1;';
+        $question->questionnote              = (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text : '{@ta@}';
         $question->questionnoteformat        = (string) $xmldata->question->questionnote['format'] ? (string) $xmldata->question->questionnote['format'] : 'html';
         $question->specificfeedback          = (string) $xmldata->question->specificfeedback->text ? (string) $xmldata->question->specificfeedback->text : '[[feedback:prt1]]';
         $question->specificfeedbackformat    = (string) $xmldata->question->specificfeedback['format'] ? (string) $xmldata->question->specificfeedback['format'] : 'html';
@@ -173,10 +173,10 @@ class StackQuestionLoader {
 
         if (empty($inputmap)) {
             $defaultinput = new \StdClass();
-            $defaultinput->name = 'ans1';
+            $defaultinput->name = 'ans';
             $defaultinput->type = 'algebraic';
-            $defaultinput->tans = 'ta1';
-            $inputmap[] = $defaultinput;
+            $defaultinput->tans = 'ta';
+            $inputmap['ans'] = $defaultinput;
         }
 
         $requiredparams = \stack_input_factory::get_parameters_used();
@@ -205,14 +205,15 @@ class StackQuestionLoader {
                 'options'         => isset($inputdata->options) ? (string) $inputdata->options : '',
             ];
             $parameters = [];
-            foreach ($requiredparams[(string) $inputdata->type] as $paramname) {
+            $inputtype = (string) $inputdata->type ? (string) $inputdata->type : 'algebraic';
+            foreach ($requiredparams[$inputtype] as $paramname) {
                 if ($paramname == 'inputType') {
                     continue;
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
             $question->inputs[$name] = \stack_input_factory::make(
-                (string) $inputdata->type, (string) $inputdata->name, (string) $inputdata->tans, $question->options, $parameters);
+                $inputtype, (string) $inputdata->name, (string) $inputdata->tans, $question->options, $parameters);
         }
 
         $totalvalue = 0;
@@ -221,21 +222,19 @@ class StackQuestionLoader {
         if (empty($questionprt)) {
             $defaultprt = new \StdClass();
             $defaultprt->name = 'prt1';
-            $defaultprt->value = 1;
-            $defaultprt->feedbackstyle = 1;
             $defaultnode = new \StdClass();
-            $defaultnode->name = 0;
-            $defaultnode->sans = 'ans1';
-            $defaultnode->tans = 'ta1';
+            $defaultnode->name = '0';
+            $defaultnode->sans = 'ans';
+            $defaultnode->tans = 'ta';
             $defaultnode->trueanswernote = 'prt1-1-T';
             $defaultnode->falseanswernote = 'prt1-1-F';
-            $defaultprt->node = $defaultnode;
-            $questionprt[] = $defaultprt;
+            $defaultprt->node = [$defaultnode];
+            $questionprt = [$defaultprt];
         }
         foreach ($questionprt as $prtdata) {
             // At this point we do not have the PRT method is_formative() available to us.
-            if (((int) $prtdata->feedbackstyle) > 0) {
-                $totalvalue += (float) $prtdata->value;
+            if (!isset($prtdata->feedbackstyle) || ((int) $prtdata->feedbackstyle) > 0) {
+                $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : 1;
                 $allformative = false;
             }
         }
@@ -270,21 +269,21 @@ class StackQuestionLoader {
                 $newnode->sans = (string) $node->sans;
                 $newnode->tans = (string) $node->tans;
                 $newnode->testoptions = (string) $node->testoptions ? (string) $node->testoptions : '';
-                $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) : 0;
+                $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) : false;
 
                 $newnode->truescoremode = (array) $node->truescoremode ? (string) $node->truescoremode : '=';
-                $newnode->truescore = (array) $node->truescore ? (string) $node->truescore : 1.0;
+                $newnode->truescore = (array) $node->truescore ? (string) $node->truescore : '1.0';
                 $newnode->truepenalty = (array) $node->truepenalty ? (string) $node->truepenalty : null;
                 $newnode->truenextnode = (array) $node->truenextnode ? (string) $node->truenextnode : '-1';
-                $newnode->trueanswernote = (string) $node->trueanswernote;
+                $newnode->trueanswernote = (string) $node->trueanswernote ? (string) $node->trueanswernote : '';
                 $newnode->truefeedback = (string) $node->truefeedback->text ? (string) $node->truefeedback->text : '';
                 $newnode->truefeedbackformat = (string) $node->truefeedback['format'] ? (string) $node->truefeedback['format'] : 'html';
 
                 $newnode->falsescoremode = (array) $node->falsescoremode ? (string) $node->falsescoremode : '=';
-                $newnode->falsescore = (array) $node->falsescore ? (string) $node->falsescore : 0.0;
+                $newnode->falsescore = (array) $node->falsescore ? (string) $node->falsescore : '0.0';
                 $newnode->falsepenalty = (array) $node->falsepenalty ? (string) $node->falsepenalty : null;
                 $newnode->falsenextnode = (array) $node->falsenextnode ? (string) $node->falsenextnode : '-1';
-                $newnode->falseanswernote = (string) $node->falseanswernote;
+                $newnode->falseanswernote = (string) $node->falseanswernote ? (string) $node->falseanswernote : '';
                 $newnode->falsefeedback = (string) $node->falsefeedback->text ? (string) $node->falsefeedback->text : '';
                 $newnode->falsefeedbackformat = (string) $node->falsefeedback['format'] ? (string) $node->falsefeedback['format'] : 'html';
 

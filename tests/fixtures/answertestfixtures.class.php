@@ -2605,7 +2605,7 @@ class stack_answertest_test_data {
             'NumSigFigs', '2', 'matrix([0.33,1],[1,1])', 'matrix([0.333,1],[1,1])', -1, 'ATNumSigFigs_NotDecimal.',
             'No support for matrices!',
         ],
-        ['NumSigFigs', '2', '3.1415', 'matrix([0.333,1],[1,1])', -1, 'TEST_FAILED', ''],
+        ['NumSigFigs', '2', '3.1415', 'matrix([0.333,1],[1,1])', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_WrongSign.', ''],
         ['NumSigFigs', '3', '1.50', 'dispsf(1.500,3)', 1, '', 'Teacher uses dispsf'],
         ['NumSigFigs', '3', '1.50', 'dispdp(1.500,3)', 1, '', ''],
 

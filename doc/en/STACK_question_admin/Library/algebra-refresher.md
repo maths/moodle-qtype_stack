@@ -71,7 +71,7 @@ h4 {
     counter-reset: h5
 }
 
-h2:not(#yui_3_18_1_1_1741252192507_44):before{
+h2:before{
     counter-increment: h2;
     content: counter(h2) " "
 }

@@ -53,7 +53,7 @@ require_login();
     function processNodes(res, nodes) {
         for (let i = 0; i < nodes.length; i++) {
             const element = nodes[i];
-            if (element.name.indexOf(inputPrefix) === 0 && element.name.indexOf('_val') === -1) {
+            if (element.name.indexOf(inputPrefix) === 0) {
                 if (element.type === 'checkbox' || element.type === 'radio') {
                     if (element.checked) {
                         res[element.name.slice(inputPrefix.length)] = element.value;
@@ -61,6 +61,9 @@ require_login();
                 } else {
                     res[element.name.slice(inputPrefix.length)] = element.value;
                 }
+            }
+            if (element.name.endsWith('_val')) {
+                res[element.name] = element.value;
             }
         }
         return res;

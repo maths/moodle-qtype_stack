@@ -10,7 +10,7 @@ Direct connection to Maxima on windows/MS is not supported.  On windows/MS pleas
 
 ## 0. Set up PHP with mbstring
 
-STACK v4.3 and later require the PHP `mbstring` library.   While this is included in many distros, it is not yet included by default in all.
+STACK v4.3 and later require the PHP `mbstring` library.
 
 On an existing Moodle site navigate to
 

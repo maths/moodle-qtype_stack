@@ -2,7 +2,7 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## Version 4.8.4
+## Version 4.8.5
 
 Released March 2025.
 

@@ -158,136 +158,82 @@ Two, three, ...  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2}{5} \times 
 
 Fraction divided by itself; e.g. \(\frac{2}{3} \div \frac{2}{3}\). \(x \div x = 1\) (or \(\frac{x}{x} = 1\)), rather than \(\frac{2}{3} \times \frac{3}{2} = \frac{1}{1} = 1\).
 
-## Combinations of arithmetic operations on fractions
+## 5 Combinations of arithmetic operations on fractions
 
 Including fractions in which the numerator and denominator are themselves a sum or difference of two fractions.
 
 \[5\frac{1}{4} - \left(1\frac{1}{5} \times \frac{15}{16} \right),\ \left( \frac{3}{10} \div \frac{1}{4} \right)  + 2 \frac{1}{5},\ 3\frac{3}{8} \left(  4 \frac{2}{3} + 1\frac{3}{7}\right),\] \[\left( \frac{1}{3} + \frac{1}{2}\right)  \left(  2\frac{1}{2} + 1 \frac{1}{4} \right),\ \frac{2+\frac{3}{8}}{1\frac{1}{3}+\frac{1}{4}},\ \frac{1\frac{1}{2}+\frac{2}{3}}{\frac{5}{6}},\ \frac{\frac{4}{9} + \frac{5}{6}}{\frac{5}{8} - \frac{7}{12}}.\]
 
 
+Substituting numbers for letters \(\quad\rightarrow\quad\)   **Example:**  \(\frac{s^2 + 2t^2}{3 - 2t}\) when \(s = \frac{3}{8}\) and \(t = \frac{2}{5}\)
+
+## 6 Simplifying algebraic expressions
+
+### 6.1 Collecting like terms
+
+#### 6.1.1 Linear
 
 
-Substituting numbers for letters
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{s^2 + 2t^2}{3 - 2t}\) when \(s = \frac{3}{8}\) and \(t = \frac{2}{5}\)
- 
+Numbers and one letter \(\quad\rightarrow\quad\)   **Example:**  \(6-2x-4 + 3x\)
 
-## Simplifying algebraic expressions
+Two (or more) letters \(\quad\rightarrow\quad\)   **Example:**  \(2a + b - c + 3a - 2b\)
 
-### Collecting like terms
+Numbers and two (or more) letters \(\quad\rightarrow\quad\)   **Example:**  \(5s + 3t - 1 - 2s + t - 6\)
 
-#### Linear
+#### 6.1.2 Higher orders
 
+Numbers and terms in one letter \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - 2x^3 + 1 - 3x^2 - 4 + x + 5x^3\)
 
-Numbers and one letter
-  \(\quad\rightarrow\quad\)   **Example:**  \(6-2x-4 + 3x\)
- 
+Numbers and terms in two (or more) letters \(\quad\rightarrow\quad\)   **Example:**  \(xy^2 - y - xy + 2 + x^2 + 3xy^2 + 4y\)
 
-
-Two (or more) letters
-  \(\quad\rightarrow\quad\)   **Example:**  \(2a + b - c + 3a - 2b\)
- 
-
-
-
-Numbers and two (or more) letters
-  \(\quad\rightarrow\quad\)   **Example:**  \(5s + 3t - 1 - 2s + t - 6\)
- 
-
-#### Higher orders
-
-
-Numbers and terms in one letter
-  \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - 2x^3 + 1 - 3x^2 - 4 + x + 5x^3\)
- 
-
-
-Numbers and terms in two (or more) letters
-  \(\quad\rightarrow\quad\)   **Example:**  \(xy^2 - y - xy + 2 + x^2 + 3xy^2 + 4y\)
- 
-
-#### 'Compound terms' (non-removal of brackets)
-
-<div class="Row">
-<div class="CellR">
+#### 6.1.3 'Compound terms' (non-removal of brackets)
 
 \(2(4x+1)+3(4x+1) = 5(4x+1)\),
 \(7(a+b) - 4(a+b) = 3(a+b)\).
- 
 
-### Powers of single-term expressions
+### 6.2 Powers of single-term expressions
 
-Rules of indices, mainly for particular integer values of \(m\) and \(n\)  \(\quad\rightarrow\quad\)    **Example:**  
-\(a^ma^n = a^{m+n}\), \(a^m \div a^n = a^{m-n}\), \((a^m)^n = a^{mn}\),
-\(a^0 = 1\), \(a^{-1} = \frac{1}{a}\), \(a^{-n} = \frac{1}{a^n}\),\((ab)^n = a^nb^n\).  \(\quad\rightarrow\quad\)   **Example:**  \(\left(  \frac{1}{a} \right)  ^{-2} = a^2\),\((3a)^2 = 9a^2\), \((2a^2b)^3 = 8a^6b^3\).
-\((a^2)^3 = a^6\), \((ab)^3 = a^3b^3\),
- 
+Rules of indices, mainly for particular integer values of \(m\) and \(n\):
 
-Fractional indices and surds  \(\quad\rightarrow\quad\)    **Example:**  
-\(a^{\frac{1}{n}} = \sqrt[n]{a}\), \(a^{\frac{m}{n}} = \sqrt[n]{a^m} = \left(  \sqrt[n]{a} \right) ^m\).  \(\quad\rightarrow\quad\)   **Example:**  \(\left(  2 \sqrt{a}\right)  ^4 = 16a^2\), \((4a)^{\frac{1}{2}} \div a^\frac{3}{2} = \frac{2}{a}\).
- 
+\(a^ma^n = a^{m+n}\), \(a^m \div a^n = a^{m-n}\), \((a^m)^n = a^{mn}\), \(\quad\rightarrow\quad\)   **Example:** \((a^2)^3 = a^6\), \((ab)^3 = a^3b^3\),
+\(a^0 = 1\), \(a^{-1} = \frac{1}{a}\), \(a^{-n} = \frac{1}{a^n}\),\((ab)^n = a^nb^n\) \(\quad\rightarrow\quad\)   **Example:**    \(\left(  \frac{1}{a} \right)  ^{-2} = a^2\),\((3a)^2 = 9a^2\), \((2a^2b)^3 = 8a^6b^3\).
 
 
-Substituting numbers for letters
-  \(\quad\rightarrow\quad\)   **Example:**  \(a^\frac{3}{4} + b^\frac{2}{3}\) when \(a = 16\) and \(b = 27\),
+Fractional indices and surds  \(\quad\rightarrow\quad\)    **Example:**  \(a^{\frac{1}{n}} = \sqrt[n]{a}\), 
+\(a^{\frac{m}{n}} = \sqrt[n]{a^m} = \left(  \sqrt[n]{a} \right) ^m\).  \(\quad\rightarrow\quad\)   **Example:**  \(\left(  2 \sqrt{a}\right)  ^4 = 16a^2\), \((4a)^{\frac{1}{2}} \div a^\frac{3}{2} = \frac{2}{a}\).
+
+Substituting numbers for letters \(\quad\rightarrow\quad\)   **Example:**  \(a^\frac{3}{4} + b^\frac{2}{3}\) when \(a = 16\) and \(b = 27\),
 \(\sqrt{(y^2 + z^2)x^{-1}}\) when \(x = 4\), \(y = 6\) and \(z = 8\).
- 
 
-
-### Multiplying and dividing single-term expressions
-
+### 6.3 Multiplying and dividing single-term expressions
 
 Terms in a single letter   \(\quad\rightarrow\quad\)   **Example:**  \(a \times a \times a = a^3\), \(b^4 \div b^2 = b^2\), \(c^2 \div c^3 = \frac{1}{c}\).
- 
-
 
 Terms in a single letter with numbers   \(\quad\rightarrow\quad\)   **Example:**  \(5a \times 2a^2 = 10a^3\), \(6b^2 \div 2b = 3b\).
- 
 
+Terms involving more than one letter \(\quad\rightarrow\quad\)   **Example:**  \(4a \times 3b = 12ab\), \(8a \div 2b = \frac{4a}{b}\), \(9a^3 \div 6ab = \frac{3a^2}{b}\).
 
-Terms involving more than one letter
-  \(\quad\rightarrow\quad\)   **Example:**  \(4a \times 3b = 12ab\), \(8a \div 2b = \frac{4a}{b}\), \(9a^3 \div 6ab = \frac{3a^2}{b}\).
- 
+## 7 Removing brackets
 
-## Removing brackets
+### 7.1 Multiplying single-term expression and bracket
 
-### Multiplying single-term expression and bracket
+Number times linear expression in one letter \(\quad\rightarrow\quad\)   **Example:**  \(2(3x +4)\), \(-3(x+2)\).
 
+Number times linear expression in two (or more) letters   \(\quad\rightarrow\quad\)   **Example:**  \(3(a-2b)\), \(-2(x+4y)\).
 
-Number times linear expression in one letter
-  \(\quad\rightarrow\quad\)   **Example:**  \(2(3x +4)\), \(-3(x+2)\).
- 
-
-
-Number times linear expression in two (or more) letters   \(\quad\rightarrow\quad\)   **Example:**  \(3(a-2b)\),
-\(-2(x+4y)\).
- 
-
-
-Minus sign on its own outside bracket
-  \(\quad\rightarrow\quad\)   **Example:**  \(-(x+3)\), \(-(a-b)\), \(-(-2x-1)\).
- 
-
+Minus sign on its own outside bracket \(\quad\rightarrow\quad\)   **Example:**  \(-(x+3)\), \(-(a-b)\), \(-(-2x-1)\).
 
 Letter times linear expression in same letter   \(\quad\rightarrow\quad\)   **Example:**  \(x(x+2)\)
- 
-
 
 Letter times linear expression in two (or more) letters   \(\quad\rightarrow\quad\)   **Example:**  \(a(b-c)\)
- 
 
+Higher order terms \(\quad\rightarrow\quad\)   **Example:**  \(x^2(1-x)\), \(x(x^3+x)\).
 
-Higher order terms
-  \(\quad\rightarrow\quad\)   **Example:**  \(x^2(1-x)\), \(x(x^3+x)\).
- 
+More than two terms inside bracket \(\quad\rightarrow\quad\)   **Example:**  \(a(a^2-ab+b^2)\), \(xy(x+y-1)\).
 
+### 7.2 Multiplying two brackets, each with two terms
 
-More than two terms inside bracket
-  \(\quad\rightarrow\quad\)   **Example:**  \(a(a^2-ab+b^2)\), \(xy(x+y-1)\).
- 
-
-### Multiplying two brackets, each with two terms
-
-#### Linear terms in a single letter
+#### 7.2.1 Linear terms in a single letter
 
 Various types, illustrated by the following examples 
 \[
@@ -297,31 +243,20 @@ Various types, illustrated by the following examples
 (1+x)(2+x),\ (1+x)(2-x),\ (1-x)(2+x),\ (1-x)(2-x).\\
 \]
 
-
-
 As above, but with one of the \(x\)s replaced by a number times \(x\)  \(\quad\rightarrow\quad\)   **Example:**  \((5x + 1)(x - 2)\)
- 
-
-
-
 
 As above, but with both of the \(x\)s replaced by a number times \(x\)  \(\quad\rightarrow\quad\)   **Example:**  \((4x - 1)(2+ 3x)\)
- 
 
-#### Linear terms involving more than one letter
+#### 7.2.2 Linear terms involving more than one letter
 
 
 The same two letters in each bracket   \(\quad\rightarrow\quad\)   **Example:**  \((a+3b)(2a-b)\)
- 
-
 
 More than two different letters involved   \(\quad\rightarrow\quad\)   **Example:**  \((x+4y)(2x+3z)\), \((a-b)(c - d)\).
  
 
-#### 'Square, twice product, square'
+#### 7.2.3 'Square, twice product, square'
 
-<div class="Row">
-<div class="CellR">
 
 \((x+1)^2 = x^2+2x+1\),
 \((x-1)^2 = x^2 - 2x +1\),
@@ -330,384 +265,200 @@ More than two different letters involved   \(\quad\rightarrow\quad\)   **Example
 \((a+b)^2 = a^2 + 2ab + b^2\).
  
 
-#### 'Difference of two squares'
+#### 7.2.4 'Difference of two squares'
 
-<div class="Row">
-<div class="CellR">
 
 \((x+2)(x-2) = x^2 - 4\),
 \((2x+5)(2x-5) = 4x^2 - 25\),
 \((xy+zt)(xy - zt) = x^2y^2 - z^2t^2\),
 \((a+b)(a-b) = a^2 - b^2\).
- 
 
-### Additional features
+### 7.3 Additional features
 
+Three or more factors \(\quad\rightarrow\quad\)   **Example:**  \(x(y+2z)(y - z)\)
 
-Three or more factors
-  \(\quad\rightarrow\quad\)   **Example:**  \(x(y+2z)(y - z)\)
- 
+Three or more terms inside one (or more) of the brackets \(\quad\rightarrow\quad\)   **Example:**  \((x+2y+1)(x-y)\), \((a+b+c)^2\).
 
-
-Three or more terms inside one (or more) of the brackets
-  \(\quad\rightarrow\quad\)   **Example:**  \((x+2y+1)(x-y)\), \((a+b+c)^2\).
-\(x^3(x+1) - x^2(x-1)\), \(a(b-c)-b(a-c)\),
- 
-
-
-Removing brackets and collecting like terms
-  \(\quad\rightarrow\quad\)   **Example:**  \(5b(a+2) - a(3b+4)\), \((2x+1)^2 + (x-3)^2\).
+Removing brackets and collecting like terms \(\quad\rightarrow\quad\)   **Example:** \(x^3(x+1) - x^2(x-1)\), \(a(b-c)-b(a-c)\),
+\(5b(a+2) - a(3b+4)\), \((2x+1)^2 + (x-3)^2\).
  
 
 
 
-Involvement of surds
-  \(\quad\rightarrow\quad\)   **Example:**  \(\left(  \sqrt{2} - 1 \right)  \left(  \sqrt{2} + 3 \right)\), \(\left(  1 + 2 \sqrt{2} \right)  ^2\),\
+Involvement of surds \(\quad\rightarrow\quad\)   **Example:**  \(\left(  \sqrt{2} - 1 \right)  \left(  \sqrt{2} + 3 \right)\), \(\left(  1 + 2 \sqrt{2} \right)  ^2\),
 \(\left(  \sqrt{a} - 6 \right)  \left(  \sqrt{a} + 6 \right)\), \(\sqrt{25xy^3(x - 2y)^2}\).
- 
 
-## Algebraic fractions
+## 8 Algebraic fractions
 
-### Cancelling
-
-
-Cancelling a number only
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2a}{4b}\)
- 
+### 8.1 Cancelling
 
 
-Cancelling a letter only
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3a}{2a}\)
- 
+Cancelling a number only \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2a}{4b}\)
 
-
+Cancelling a letter only \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3a}{2a}\)
 
 Leaving \(1\) or \(-1\) after cancelling   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{x}{2x} = \frac{1}{2}\)
- 
-
 
 Cancelling both letters and numbers   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{8ab^2}{12ab}\)
- 
-
 
 Cancelling a bracketed term   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{(y+1)^2}{y+1}\),
 \(\frac{20(x-2)}{5(x-2)^3}\).
  
 
-#### Minus 1
+#### 8.1.1 Minus 1
 
-
-
-Minus \(1\) in denominator   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{a}{-1} = -a\), \(\frac{a-b}{-1} = b - a\),
-\(\frac{x^2+x-2}{-1}= 2 - x - x^2\).
+Minus \(1\) in denominator   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{a}{-1} = -a\), \(\frac{a-b}{-1} = b - a\), \(\frac{x^2+x-2}{-1}= 2 - x - x^2\).
  
+Expressions of opposite sign in numerator and denominator \(\quad\rightarrow\quad\)   **Example:**  \(\frac{b-a}{a-b} = -1\)
 
-
-Expressions of opposite sign in numerator and denominator
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{b-a}{a-b} = -1\)
- 
-
-### Adding and subtracting algebraic fractions
+### 8.2 Adding and subtracting algebraic fractions
 
 *Denominators numbers and numerators multiples of the same letter or
 bracketed expression*
 
-
-Same denominator
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{5x}{8} + \frac{x}{8}\), \(\frac{4(x+2)}{7} - \frac{3(x+2)}{7}\).
- 
-
+Same denominator \(\quad\rightarrow\quad\)   **Example:**  \(\frac{5x}{8} + \frac{x}{8}\), \(\frac{4(x+2)}{7} - \frac{3(x+2)}{7}\).
 
 One denominator a multiple of the other   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3x}{4} + \frac{x}{12}\)
- 
-
 
 Denominators having no common factor   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3a}{4}-\frac{2a}{5}\), \(\frac{2(x+y)}{3}+\frac{3(x+y)}{4}\).
- 
-
 
 Denominators having a common factor   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{5x}{6}+\frac{2x}{9}\)
- 
 
-
-#### Single-term numerators and denominators
-
-
+#### 8.2.1 Single-term numerators and denominators
 
 Same denominator   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1}{9x}+\frac{2}{9x}\), \(\frac{a}{5}+\frac{2b}{5}\).
- 
-
 
 One denominator a multiple of the other   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3}{4x} + \frac{5}{8x}\)
- 
 
+Denominators having no common factor \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1}{a} + \frac{1}{b}\), \(\frac{a}{b}+\frac{c}{d}\).
 
-
-Denominators having no common factor
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1}{a} + \frac{1}{b}\), \(\frac{a}{b}+\frac{c}{d}\).
- 
-
-
-Denominators having a common factor
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2}{ab} + \frac{5}{bc}\), \(\frac{7}{4x} - \frac{2}{5x}\), \(\frac{3a}{10b}+\frac{4c}{5d}\).
- 
-
+Denominators having a common factor \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2}{ab} + \frac{5}{bc}\), \(\frac{7}{4x} - \frac{2}{5x}\), \(\frac{3a}{10b}+\frac{4c}{5d}\).
 
 Numerical and literal fractions mixed   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1}{2}+\frac{1}{x}\), \(\frac{a}{b} - \frac{5}{8}\).
- 
 
+Adding or subtracting \(1\) \(\quad\rightarrow\quad\)   **Example:**  \(\frac{x}{y} - 1 = \frac{x-y}{y}\), \(1+\frac{a}{b} = \frac{b+a}{b}\).
 
+#### 8.2.2 Linear expression in numerator or denominator
 
-Adding or subtracting \(1\)   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{x}{y} - 1 = \frac{x-y}{y}\), \(1+\frac{a}{b} = \frac{b+a}{b}\).
- 
-
-
-#### Linear expression in numerator or denominator
-
-
-
-In numerators only
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2x-1}{5}+\frac{x+3}{2}\)
- 
-
-
+In numerators only \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2x-1}{5}+\frac{x+3}{2}\)
 
 In denominators only   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3}{x-2} - \frac{4}{x+1}\)
- 
-
 
 In both numerator and denominator   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2x+1}{x-3} + \frac{3x-1}{x+4}\)
- 
 
-#### Higher powers or/and several different letters
+#### 8.2.3 Higher powers or/and several different letters
 
-<div class="Row">
-<div class="CellR">
+\[\frac{a-c}{a+b} - \frac{a-b}{a+c},\ \frac{2}{3xy} + \frac{5}{4x^2y}.\]
 
-\(\frac{a-c}{a+b} - \frac{a-b}{a+c}\), \(\frac{2}{3xy} + \frac{5}{4x^2y}\).
- 
+#### 8.2.4 Combinations of operations
 
-#### Combinations of operations
+\[\frac{2}{x} - \frac{3}{x^2} + \frac{4}{x^3},\ \frac{a-3}{3} + \frac{a+5}{4} - \frac{2a-1}{6}.\]
 
-<div class="Row">
-<div class="CellR">
-
-\(\frac{2}{x} - \frac{3}{x^2} + \frac{4}{x^3}\), \(\frac{a-3}{3} + \frac{a+5}{4} - \frac{2a-1}{6}\).
- 
-
-### Multiplying and dividing algebraic fractions
-
-
+### 8.3 Multiplying and dividing algebraic fractions
 
 No cancelling involved   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{x^2}{y} \times \frac{x^3}{2}\), \(\frac{x-1}{2} \div \frac{5}{x}\).
- 
-
-
 
 (Multiplication) single-term common factor in numerator of one fraction and denominator of the other (cancelling involved)  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{4y}{3} \times \frac{15z}{8y}\)
- 
-
-
 
 (Multiplication) bracketed common factor in numerator of one fraction and denominator of the other (cancelling involved)  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{x+y}{5} \times \frac{7}{2(x+y)}\), \(\frac{4a^2}{a-b} \times \frac{a-b}{8a}\).
- 
-
-
 
 (Division) single-term common factor in numerators or in denominators (cancelling involved)   \(\quad\rightarrow\quad\)   **Example:**  \(xy \div \frac{x}{y+1}\)
- 
-
-
 
 (Division) bracketed common factor in numerators or in denominators (cancelling involved)  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{a(a+b)}{2b^2} \div \frac{a+b}{6b^3}\)
- 
 
-
-### Combinations of arithmetic operations on algebraic fractions
+### 8.4 Combinations of arithmetic operations on algebraic fractions
 
 Including fractions in which the numerator and denominator are themselves a sum or difference of two fractions.
 
 \[\frac{a}{b}\div c = \frac{a}{bc},\ \frac{a}{b \div c} = \frac{ac}{b}, \ \frac{\frac{b+1}{a}+1}{b} = \frac{a+b+1}{ab},\] \[\left(  \left(  x - \frac{1}{x} \right)  ^2 + 2 \right)  \div \frac{1}{x^2} = x^4 + 1.\]
 
-## Linear equations
-
-
+## 9 Linear equations
 
 Unknown on one side of equation   \(\quad\rightarrow\quad\)   **Example:**  \(3x+2 = 11\), \(7-2x = 3\).
- 
-
 
 Unknown on both sides of equation   \(\quad\rightarrow\quad\)   **Example:**  \(2x+6=3-x\), \(3x-5 = 7+9x\).
- 
-
 
 Removal of brackets involved   \(\quad\rightarrow\quad\)   **Example:**  \(3(2x-1)-2(x-1)=0\)
- 
-
 
 Fractions involved   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3-x}{5} + 3 = \frac{2x+1}{10}\)
- 
 
-
-## Single-term common factors
-
-
+## 10 Single-term common factors
 
 Common factor a number   \(\quad\rightarrow\quad\)   **Example:**  \(8 - 2x\), \(6x+9y\).
- 
-
-
 
 Common factor a letter   \(\quad\rightarrow\quad\)   **Example:**  \(3x^2 + 2x\), \(x^2 - 4xy\).
- 
-
 
 More than one common factor   \(\quad\rightarrow\quad\)   **Example:**  \(5xy + 10x^2z\), \(6abc - 8bcd\).
- 
-
 
 More than two terms   \(\quad\rightarrow\quad\)   **Example:**  \(3xy + 6y^2 - 9y\)
- 
 
-
-
-Leaving \(1\) or \(-1\) after taking out common factor   \(\quad\rightarrow\quad\)   **Example:**  \(x^3+x^2\),
-\(6s^2 - s\).
- 
-
+Leaving \(1\) or \(-1\) after taking out common factor   \(\quad\rightarrow\quad\)   **Example:**  \(x^3+x^2\), \(6s^2 - s\).
 
 Some, but not all, terms fractions   \(\quad\rightarrow\quad\)   **Example:**  \(P + \frac{PRT}{100}\)
- 
-
 
 Common given bracketed expression   \(\quad\rightarrow\quad\)   **Example:**  \((a-b)c + (a-b)d\), \(x(y+1) - 2(y+1)\).
- 
 
+## 11 Rearranging algebraic formulae
 
-## Rearranging algebraic formulae
-
-### Fundamental multiplicative equivalences
+### 11.1 Fundamental multiplicative equivalences
 
 Equivalence of \(ab=c\), \(b = \frac{c}{a}\) and \(a = \frac{c}{b}\).
 
-Equivalence of \(\frac{a}{b} = \frac{c}{d}\) and \(ad = bc\) (*cross
-multiplication*).
+Equivalence of \(\frac{a}{b} = \frac{c}{d}\) and \(ad = bc\) (*cross multiplication*).
 
-### Making a specified letter the subject of a formula
+### 11.2 Making a specified letter the subject of a formula
 
-
-
-Specified letter in one term
-  \(\quad\rightarrow\quad\)   **Example:**  \(s = 2t - d\ (t)\)
- 
-
+Specified letter in one term \(\quad\rightarrow\quad\)   **Example:**  \(s = 2t - d\ (t)\)
 
 Specified letter in two (or more) terms   \(\quad\rightarrow\quad\)   **Example:**  \(a-bx = c+dx\ (x)\)
- 
-
 
 Specified letter with mixed coefficients (numbers and letters)  \(\quad\rightarrow\quad\)   **Example:**  \(T= 2p+ph\ (p)\)
- 
-
 
 Removal of brackets involved   \(\quad\rightarrow\quad\)   **Example:**  \(r^2=V(h-a)\ (a)\)
- 
-
 
 Fractions involved   \(\quad\rightarrow\quad\)   **Example:**  \(a=b+\frac{x}{c}\), \(\frac{x}{a}+\frac{x}{b} = 2\ (x)\)
- 
-
 
 Removal of surds involved   \(\quad\rightarrow\quad\)   **Example:**  \(a=b\sqrt{x}\), \(a= \sqrt{b+x}\ (x)\)
- 
-
 
 Taking square roots involved   \(\quad\rightarrow\quad\)   **Example:**  \(z^2 = y^2 - x^2\), \(y = \sqrt{x^2 + 4}\), \(y = \sqrt{\frac{x^2-1}{x^2+1}}\ (x)\)
- 
-
-### Substituting from one formula into another
 
 
-Direct substitution of one letter
-  \(\quad\rightarrow\quad\)   **Example:**  \(m = \frac{r}{s}\), \(k = mr \rightarrow k\) in terms of \(r\) and \(s\)
- 
+### 11.3 Substituting from one formula into another
 
 
+Direct substitution of one letter \(\quad\rightarrow\quad\)   **Example:**  \(m = \frac{r}{s}\), \(k = mr \rightarrow k\) in terms of \(r\) and \(s\)
 
-Direct substitution of two (or more) letters
-  \(\quad\rightarrow\quad\)   **Example:**  \(c=2ab\), \(a=x+5\), \(b = x-1 \rightarrow c\) in terms of \(x\);\
+Direct substitution of two (or more) letters \(\quad\rightarrow\quad\)   **Example:**  \(c=2ab\), \(a=x+5\), \(b = x-1 \rightarrow c\) in terms of \(x\);
 \(r = 4p - q\), \(p = x - 2y\), \(q = x-5y \rightarrow r\) in terms of \(x\) and \(y\).
- 
 
-
-
-Elimination of a letter from two formulae
-  \(\quad\rightarrow\quad\)   **Example:**  \(k = \frac{A}{u}\), \(L = \frac{u^2}{m} \rightarrow L\) in terms of \(A\), \(k\) and \(m\);\
+Elimination of a letter from two formulae \(\quad\rightarrow\quad\)   **Example:**  \(k = \frac{A}{u}\), \(L = \frac{u^2}{m} \rightarrow L\) in terms of \(A\), \(k\) and \(m\);\
 \(v = at\), \(s = \frac{1}{2}at^2 \rightarrow s\) in terms of \(v\) and \(t\).
- 
 
-## Simultaneous linear equations
+## 12 Simultaneous linear equations
 
 Coefficients of one unknown the same in both equations (*Subtract one equation from the other*)
 
+- Coefficient positive \(\quad\rightarrow\quad\)   **Example:**  \(3x + 2y = 9\), \(x+2y = 7\)
 
+- Coefficient negative \(\quad\rightarrow\quad\)   **Example:**  \(5x-y = 14\), \(2x - y = 5\)
 
-- Coefficient positive
-  \(\quad\rightarrow\quad\)   **Example:**  \(3x + 2y = 9\)
-\(x+2y = 7\)
- 
+- Equations given in least convenient order (*Subtract first from second*)  \(\quad\rightarrow\quad\)   **Example:**  \(x+2y = 7\), \(3x + 2y = 9\)
 
+Coefficient of an unknown in one equation minus its coefficient in the other (*Add equations*)  
+\(\quad\rightarrow\quad\)   **Example:**  \(3x+2y = 12\), \(5x - 2y = 4\)
 
+Coefficient of an unknown in one equation a positive multiple of its coefficient in the other (*Multiply and subtract*)  
+\(\quad\rightarrow\quad\)   **Example:**  \(2x + 5y = 24\), \(4x + 3y = 20\)
 
--   Coefficient negative
-  \(\quad\rightarrow\quad\)   **Example:**  \(5x-y = 14\)
-\(2x - y = 5\)
- 
+Coefficient of an unknown in one equation a negative multiple of its coefficient in the other (*Multiply and add*)  
+\(\quad\rightarrow\quad\)   **Example:**  \(3x - 2y = 7\), \(4x + y = 13\)
 
+Multiplication of both equations before adding or subtracting 
+\(\quad\rightarrow\quad\)   **Example:**  \(4x - 3y = 11\), \(5x + 2y = 9\)
 
+Prior rearrangement of equations involved \(\quad\rightarrow\quad\)   **Example:**  \(2x = 5y + 1\), \(5x + 3(y-6) = 0\)
 
--   Equations given in least convenient order (*Subtract first from second*)  \(\quad\rightarrow\quad\)   **Example:**  \(x+2y = 7\)
-\(3x + 2y = 9\)
- 
-
-
-
-
-Coefficient of an unknown in one equation minus its coefficient\
-in the other (*Add equations*)  \(\quad\rightarrow\quad\)   **Example:**  \(3x+2y = 12\)\
-\(5x - 2y = 4\)
- 
-
-
-
-
-Coefficient of an unknown in one equation a positive multiple\
-of its coefficient in the other (*Multiply and subtract*)  \(\quad\rightarrow\quad\)   **Example:**  \(2x + 5y = 24\)
-\(4x + 3y = 20\)
- 
-
-
-
-Coefficient of an unknown in one equation a negative multiple\
-of its coefficient in the other (*Multiply and add*)  \(\quad\rightarrow\quad\)   **Example:**  \(3x - 2y = 7\)
-\(4x + y = 13\)
- 
-
-
-Multiplication of both equations before adding or subtracting
-  \(\quad\rightarrow\quad\)   **Example:**  \(4x - 3y = 11\)
-\(5x + 2y = 9\)
- 
-
-
-
-Prior rearrangement of equations involved
-  \(\quad\rightarrow\quad\)   **Example:**  \(2x = 5y + 1\)
-\(5x + 3(y-6) = 0\)
- 
-
-
-*Substitution method  \(\quad\rightarrow\quad\)  **Example:**  * \[\left.
+*Substitution method*  \(\quad\rightarrow\quad\)  **Example:**  \[\left.
 \begin{array}{l}
 x - 2y = 1 \\
 3x + 5y = 14
@@ -719,258 +470,124 @@ x = 3
 \end{array}
 \right\}\]
 
-## Factorising algebraic expressions
+## 13 Factorising algebraic expressions
 
-### Quadratic expressions
+### 13.1 Quadratic expressions
 
-#### No number in front of the \(x^2\)
-
-
-
+#### 13.1.1 No number in front of the \(x^2\)
 
 Constant term \(+\), \(x\)-term \(+\)   \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + 5x +4\)
- 
-
-
 
 Constant term \(+\), \(x\)-term \(-\)   \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - 7x +12\)
- 
-
-
 
 Constant term \(-\), \(x\)-term \(+\)   \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + 3x - 10\)
- 
-
-
 
 Constant term \(-\), \(x\)-term \(-\)   \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - 2x - 15\)
- 
-
-
 
 'Square, twice product, square'   \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + 6x + 9\)
- 
-
-
 
 'Difference of two squares'   \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - 16\)
- 
 
-
-#### Number in front of the \(x^2\)
-
-
-
+#### 13.1.2 Number in front of the \(x^2\)
 
 Constant term \(+\), \(x\)-term \(+\)  \(\quad\rightarrow\quad\)   **Example:**  \(2x^2 + 11x +12\)
- 
-
-
 
 Constant term \(+\), \(x\)-term \(-\)   \(\quad\rightarrow\quad\)   **Example:**  \(15x^2 - 13x + 2\)
- 
-
-
-
 
 Constant term \(-\), \(x\)-term \(+\)   \(\quad\rightarrow\quad\)   **Example:**  \(3x^2 + x - 4\)
- 
-
-
 
 Constant term \(-\), \(x\)-term \(-\)   \(\quad\rightarrow\quad\)   **Example:**  \(6x^2 - 7x - 10\)
- 
-
-
 
 'Square, twice product, square'   \(\quad\rightarrow\quad\)   **Example:**  \(9x^2 - 12x + 4\)
- 
-
-
 
 'Difference of two squares'   \(\quad\rightarrow\quad\)   **Example:**  \(25x^2 - 4\)
- 
 
-
-#### Modifications of the above
-
-
+#### 13.1.3 Modifications of the above
 
 Terms not in usual order   \(\quad\rightarrow\quad\)   **Example:**  \(3x+4-x^2\), \(11x - x^2 - 30\), \(4 - 8x + 4x^2\).
- 
-
 
 Homogeneous in two variables   \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + xy - 6y^2\), \(36x^2 - 49y^2\), \(x^2 + 8xy + 16y^2\).
- 
-
 
 Single-term factor leaving quadratic   \(\quad\rightarrow\quad\)   **Example:**  \(3x^3 - 6x^2 - 24x\), \(50a^3 - 18ab^2\).
- 
-
-
 
 Expression in place of a single letter   \(\quad\rightarrow\quad\)   **Example:**  \(x^2y^2 - 2xy + 1\), \((a+b)^2 - (a+c)^2\).
- 
 
+Fractions involved \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - \frac{y^2}{4} = \left(  x - \frac{y}{2} \right)  \left(  x + \frac{y}{2} \right)\), \(x^2 + 2 + \frac{1}{x^2} = \left(  x + \frac{1}{x} \right)  ^2\).
 
+### 13.2 Other two (or more)-term factors
 
-Fractions involved
-  \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - \frac{y^2}{4} = \left(  x - \frac{y}{2} \right)  \left(  x + \frac{y}{2} \right)\), 
-\(x^2 + 2 + \frac{1}{x^2} = \left(  x + \frac{1}{x} \right)  ^2\).
- 
-
-### Other two (or more)-term factors
-
-
-
-Grouping   \(\quad\rightarrow\quad\)   **Example:**  \(ab + a + b + 1 = (a+1)(b+1)\),
-\(ax + ay - bx - by = (a-b)(x+y)\).
- 
-
-
-
+Grouping   \(\quad\rightarrow\quad\)   **Example:**  \(ab + a + b + 1 = (a+1)(b+1)\), \(ax + ay - bx - by = (a-b)(x+y)\).
 
 Sum of two cubes   \(\quad\rightarrow\quad\)   **Example:**  \(x^3 + y^3 = (x+y)(x^2 - xy + y^2)\)
- 
-
-
 
 Difference of two cubes   \(\quad\rightarrow\quad\)   **Example:**  \(x^3 - y^3 = (x-y)(x^2 + xy + y^2)\)
- 
 
-
-
-Just for fun
-  \(\quad\rightarrow\quad\)   **Example:**  \(a^3 + b^3 + c^3 - 3abc = (a+b+c)(a^2 + b^2 + c^2 - bc - ca - ab)\)\
+Just for fun \(\quad\rightarrow\quad\)   **Example:**  \(a^3 + b^3 + c^3 - 3abc = (a+b+c)(a^2 + b^2 + c^2 - bc - ca - ab)\)
 \(= \frac{1}{2}\left(  a+b+c \right)  \left( (b-c)^2 + (c-a)^2 + (a-b)^2 \right)\)
- 
 
-## Algebraic fractions involving factorising
+## 14 Algebraic fractions involving factorising
 
-### Cancelling
-
-
-
+### 14.1 Cancelling
 
 Cancelling a number only   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{9x+3}{3x}\), \(\frac{4x^2 + 2x}{6x^2 - 10}\).
- 
-
-
 
 Cancelling a letter only   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3x}{4x+5x^2}\), \(\frac{a^2 - 2ab}{a^3 + 3a^2b + ab^2}\).
- 
-
-
 
 Cancelling both letters and numbers   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{4a}{(2a)^2 - 8a}\), \(\frac{5x^3 - 15x^2y + 10xy^2}{5x^2 + 10xy}\).
- 
 
+Cancelling a two (or more)-term expression \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3a-6b}{a^2-2ab} = \frac{3(a-2b)}{a(a-2b)} = \frac{3}{a}\), \(\frac{x^2 - 5x + 6}{3y - xy} = \frac{(x-2)(x-3)}{y(3-x)} = \frac{2-x}{y}\).
 
-
-Cancelling a two (or more)-term expression
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3a-6b}{a^2-2ab} = \frac{3(a-2b)}{a(a-2b)} = \frac{3}{a}\),
-\(\frac{x^2 - 5x + 6}{3y - xy} = \frac{(x-2)(x-3)}{y(3-x)} = \frac{2-x}{y}\).
- 
-
-### Arithmetic operations
-
-
+### 14.2 Arithmetic operations
 
 Adding and subtracting where there is a common factor in the denominators   \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1}{x^2 + 5x +6} - \frac{2}{x^2 - 4}\)
- 
-
-
 
 Multiplying where there is a common factor in the numerator of one fraction and the denominator of the other (cancelling involved)  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{6}{x^2 - 2x - 8} \times \frac{x+2}{3}\)
- 
-
-
 
 Dividing where there is a common factor in the numerators or in the denominators (cancelling involved)  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3x}{x^2 - 1} \div \frac{5}{x+1}\)
- 
 
-
-Combinations of arithmetic operations
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{\frac{a+b+1}{ab} + 1}{\frac{b+1}{a}} = \frac{ab + a + b + 1}{b(b+1)} = \frac{(a+1)(b+1)}{b(b+1)} = \frac{a+1}{b}\),
+Combinations of arithmetic operations \(\quad\rightarrow\quad\)   **Example:**  \(\frac{\frac{a+b+1}{ab} + 1}{\frac{b+1}{a}} = \frac{ab + a + b + 1}{b(b+1)} = \frac{(a+1)(b+1)}{b(b+1)} = \frac{a+1}{b}\),
 \(\frac{\frac{a+1}{b} + 1}{\frac{a+b+1}{ab}} = \frac{a(a+1) + ab}{a+b + 1} = \frac{a(a+b + 1)}{a+b+1} = a\)
- 
 
 <ins>Aside  \(\quad\rightarrow\quad\)  **Example:**  </ins> The sequence \((u_n)\), given by \(u_1 = a\), \(u_2 = b\), \(u_n = \frac{u_{n-1} + 1}{u_{n-2}}\) \((n \geq 3)\), therefore repeats itself after \(5\) terms  \(\quad\rightarrow\quad\)  **Example:**   \(a\), \(b\), \(\frac{b+1}{a}\), \(\frac{a+b+1}{ab}\), \(\frac{a+1}{b}\), \(a\), \(b\), \(\cdots\). It is an interesting exercise, beyond the scope of school algebra, to 'explain' this phenomenon!
 
-## Quadratic equations
+## 15 Quadratic equations
 
-### Solution by factorising
+### 15.1 Solution by factorising
 
-<div class="Row">
-<div class="CellR">
 
 \(6x^2 - 11x - 2 = 0 \rightarrow (x-2)(6x+1) = 0 \rightarrow x = 2\) or \(-\frac{1}{6}\)
  
 
-### Completing the square of a quadratic expression
-
+### 15.2 Completing the square of a quadratic expression
 
 No number in front of the \(x^2\)  \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + 5x + 3 = \left(  x + \frac{5}{2} \right)  ^2 - \frac{13}{4}\)
 
- 
-
-
-
 Number in front of the \(x^2\)  \(\quad\rightarrow\quad\)   **Example:**  \(2x^2 - 3x + 5 = 2 \left(  x - \frac{3}{4} \right)  ^2 + \frac{31}{8}\)
 
- 
 
-### Solution by completing the square
-
-<div class="Row">
-<div class="CellR">
+### 15.3 Solution by completing the square
 
 \(x^2 + 5x + 3 = 0 \rightarrow x + \frac{5}{2} = \pm \frac{\sqrt{13}}{2} \rightarrow x = -\frac{5}{2} \pm \frac{\sqrt{13}}{2}\)
- 
-
-
-
 
 General case ('the formula')   \(\quad\rightarrow\quad\)   **Example:**  \(ax^2 + bx + c = 0\) 
 \((a \neq 0) \rightarrow x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\)
- 
+
+Prior rearrangement involved \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1}{x-2} - \frac{1}{x+5} = \frac{7}{18}\)
+
+### 15.4 The three kinds of behaviour and corresponding graphical interpretation
 
 
+\(b^2 > 4ac\) - two roots 
+![graph of y=x^2+5x+3](..\..\..\content\y=x2+5x+3.svg)
 
-Prior rearrangement involved
-  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1}{x-2} - \frac{1}{x+5} = \frac{7}{18}\)
- 
-
-### The three kinds of behaviour and corresponding graphical interpretation
-
-
-\(b^2 > 4ac\) - two roots
-  \(\quad\rightarrow\quad\)   **Example:**  ![graph of y=x^2+5x+3](..\..\..\content\y=x2+5x+3.svg)
- 
-
-
-
-\(b^2 = 4ac\) - one root
-  \(\quad\rightarrow\quad\)   **Example:**  ![graph of y=-x^2+4x-4](..\..\..\content\y=-x2+4x-4.svg)
- 
-
+\(b^2 = 4ac\) - one root 
+![graph of y=-x^2+4x-4](..\..\..\content\y=-x2+4x-4.svg)
 
 \(b^2 < 4ac\) - no (real) roots
-  \(\quad\rightarrow\quad\)   **Example:**  ![graph of y=x^2-2x+2](..\..\..\content\y=x2-2x+2.svg)
- 
+![graph of y=x^2-2x+2](..\..\..\content\y=x2-2x+2.svg)
 
-### Simultaneous equations, one linear and one quadratic
+### 15.5 Simultaneous equations, one linear and one quadratic
 
+Direct substitution from linear equation into quadratic equation \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + y^2 = 10\), \(y = 2 - x\)
 
-
-Direct substitution from linear equation into quadratic equation
-  \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + y^2 = 10\)
-\(y = 2 - x\)
- 
-
-
-
-Prior rearrangement involved
-  \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - xy + y^2 = 13\)
-\(2x - 3y = 5\)
- 
+Prior rearrangement involved \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - xy + y^2 = 13\), \(2x - 3y = 5\)

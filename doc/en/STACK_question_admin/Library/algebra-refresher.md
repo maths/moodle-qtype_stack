@@ -578,13 +578,13 @@ Prior rearrangement involved \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1
 
 
 \(b^2 > 4ac\) - two roots 
-![graph of y=x^2+5x+3](..\..\..\content\y=x2+5x+3.svg)
+![graph of y=x^2+5x+3](..\..\..\content\yx25x3.svg)
 
 \(b^2 = 4ac\) - one root 
-![graph of y=-x^2+4x-4](..\..\..\content\y=-x2+4x-4.svg)
+![graph of y=-x^2+4x-4](..\..\..\content\yx24x4.svg)
 
 \(b^2 < 4ac\) - no (real) roots
-![graph of y=x^2-2x+2](..\..\..\content\y=x2-2x+2.svg)
+![graph of y=x^2-2x+2](..\..\..\content\yx22x2.svg)
 
 ### 15.5 Simultaneous equations, one linear and one quadratic
 

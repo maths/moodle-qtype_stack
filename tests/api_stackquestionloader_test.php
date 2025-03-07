@@ -125,4 +125,12 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), 'test');
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), 30);
     }
+
+    public function test_question_loader_base_question(): void {
+        global $CFG;
+        $xml = stack_api_test_data::get_question_string('empty');
+        $ql = new StackQuestionLoader();
+        $question = $ql->loadXML($xml)['question'];
+        $this->assertEquals('Question', $question->name);
+    }
 }

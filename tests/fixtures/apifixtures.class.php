@@ -26,6 +26,11 @@
 class stack_api_test_data {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $questiondata = [
+        'empty' =>
+           '<quiz>
+              <question type="stack">	
+              </question>
+            </quiz>',
         'matrices' =>
            '<quiz>
                 <question type="stack">

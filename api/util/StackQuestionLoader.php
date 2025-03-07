@@ -36,7 +36,6 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
 class StackQuestionLoader {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
-        // TO-DO: Detect if we don't have <quiz><question type="stack"> wrapper and add?
         try {
             $xmldata = new SimpleXMLElement($xml);
         } catch (\Exception $e) {
@@ -172,10 +171,9 @@ class StackQuestionLoader {
         }
 
         if (empty($inputmap)) {
-            $defaultinput = new \StdClass();
-            $defaultinput->name = 'ans1';
-            $defaultinput->type = 'algebraic';
-            $defaultinput->tans = 'ta1';
+            $defaultinput = new \SimpleXMLElement('<input></input>');
+            $defaultinput->addChild('name', 'ans1');
+            $defaultinput->addChild('tans', 'ta1');
             $inputmap['ans1'] = $defaultinput;
         }
 
@@ -218,36 +216,40 @@ class StackQuestionLoader {
 
         $totalvalue = 0;
         $allformative = true;
-        $questionprt = $xmldata->question->prt;
-        if (empty($questionprt)) {
-            $defaultprt = new \StdClass();
-            $defaultprt->name = 'prt1';
-            $defaultnode = new \StdClass();
-            $defaultnode->name = '0';
-            $defaultnode->sans = 'ans1';
-            $defaultnode->tans = 'ta1';
-            $defaultnode->trueanswernote = 'prt1-1-T';
-            $defaultnode->falseanswernote = 'prt1-1-F';
-            $defaultprt->node = [$defaultnode];
-            $questionprt = [$defaultprt];
+        $prtmap = [];
+        foreach ($xmldata->question->prt as $prt) {
+            $prtmap[(string) $prt->name] = $prt;
         }
-        foreach ($questionprt as $prtdata) {
+        if (empty($prtmap)) {
+            $defaultprt = new \SimpleXMLElement('<prt></prt>');
+            $defaultprt->addChild('name', 'prt1');
+            $defaultnode = $defaultprt->addChild('node');
+            $defaultnode->addChild('name', '0');
+            $defaultnode->addChild('sans', 'ans1');
+            $defaultnode->addChild('tans', 'ta1');
+            $defaultnode->addChild('trueanswernote', 'prt1-1-T');
+            $defaultnode->addChild('falseanswernote', 'prt1-1-F');
+            $prtmap['prt1'] = $defaultprt;
+        }
+
+        foreach ($prtmap as $prtdata) {
             // At this point we do not have the PRT method is_formative() available to us.
             if (!isset($prtdata->feedbackstyle) || ((int) $prtdata->feedbackstyle) > 0) {
                 $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : 1;
                 $allformative = false;
             }
         }
-        if (count($questionprt) > 0 && !$allformative && $totalvalue < 0.0000001) {
+        if (count($prtmap) > 0 && !$allformative && $totalvalue < 0.0000001) {
             throw new \stack_exception('There is an error authoring your question. ' .
                 'The $totalvalue, the marks available for the question, must be positive in question ' .
                 $question->name);
         }
 
-        foreach ($questionprt as $prtdata) {
+        foreach ($prtmap as $prtdata) {
             $prtvalue = 0;
             if (!$allformative) {
-                $prtvalue = ((float)$prtdata->value) / $totalvalue;
+                $value = $prtdata->value ? (float) $prtdata->value : 1;
+                $prtvalue = $value / $totalvalue;
             }
 
             $data = new \stdClass();

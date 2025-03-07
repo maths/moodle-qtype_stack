@@ -636,6 +636,7 @@ $string['equivfirstline'] = 'You have used the wrong first line in your argument
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';
 $string['savechat'] = 'Save back to question';
+$string['savechatnew'] = 'Save as new version';
 $string['savechatmsg'] = 'Question variables and general feedback saved back to the question.';
 $string['pslash'] = 'Protect slashes within Maxima string variables: ';
 $string['castext'] = 'CAS text';

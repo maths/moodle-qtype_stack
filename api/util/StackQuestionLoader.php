@@ -69,43 +69,57 @@ class StackQuestionLoader {
         $question->name = (string) $xmldata->question->name->text ? (string) $xmldata->question->name->text : 'Question';
         $question->questiontext = (string) $xmldata->question->questiontext->text ?
             (string) $xmldata->question->questiontext->text : '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>';
-        $question->questiontextformat = (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] : 'html';
-        $question->generalfeedback = (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text : '';
+        $question->questiontextformat =
+            (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] : 'html';
+        $question->generalfeedback =
+            (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text : '';
         $question->generalfeedbackformat = (string) $xmldata->question->generalfeedback['format'];
         $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade : 1.0;
         $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty : 0.1;
 
         // Based on initialise_question_instance from questiontype.php.
-        $question->stackversion              = (string) $xmldata->question->stackversion->text ? (string) $xmldata->question->stackversion->text : '';
-        $question->questionvariables         = (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text : 'ta1:1;';
-        $question->questionnote              = (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text : '{@ta1@}';
-        $question->questionnoteformat        = (string) $xmldata->question->questionnote['format'] ? (string) $xmldata->question->questionnote['format'] : 'html';
-        $question->specificfeedback          = (string) $xmldata->question->specificfeedback->text ? (string) $xmldata->question->specificfeedback->text : '[[feedback:prt1]]';
-        $question->specificfeedbackformat    = (string) $xmldata->question->specificfeedback['format'] ? (string) $xmldata->question->specificfeedback['format'] : 'html';
-        $question->questiondescription       = (string) $xmldata->question->questiondescription->text ? (string) $xmldata->question->questiondescription->text : '';
-        $question->questiondescriptionformat = (string) $xmldata->question->questiondescription['format'] ? (string) $xmldata->question->questiondescription['format'] : 'html';
+        $question->stackversion              =
+            (string) $xmldata->question->stackversion->text ? (string) $xmldata->question->stackversion->text : '';
+        $question->questionvariables         =
+            (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text : 'ta1:1;';
+        $question->questionnote              =
+            (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text : '{@ta1@}';
+        $question->questionnoteformat        =
+            (string) $xmldata->question->questionnote['format'] ? (string) $xmldata->question->questionnote['format'] : 'html';
+        $question->specificfeedback          =
+                (string) $xmldata->question->specificfeedback->text ?
+                (string) $xmldata->question->specificfeedback->text : '[[feedback:prt1]]';
+        $question->specificfeedbackformat    =
+                (string) $xmldata->question->specificfeedback['format'] ?
+                (string) $xmldata->question->specificfeedback['format'] : 'html';
+        $question->questiondescription       =
+            (string) $xmldata->question->questiondescription->text ? (string) $xmldata->question->questiondescription->text : '';
+        $question->questiondescriptionformat =
+                (string) $xmldata->question->questiondescription['format'] ?
+                (string) $xmldata->question->questiondescription['format'] : 'html';
         if (isset($xmldata->question->prtcorrect->text)) {
             $question->prtcorrect                = (string) $xmldata->question->prtcorrect->text;
             $question->prtcorrectformat          = (string) $xmldata->question->prtcorrect['format'];
         } else {
-            $question->prtcorrect = get_string('defaultprtcorrectfeedback', null, null);
+            $question->prtcorrect = get_string('defaultprtcorrectfeedback', 'qtype_stack', null);
             $question->prtcorrectformat = 'html';
         }
         if (isset($xmldata->question->prtpartiallycorrect->text)) {
             $question->prtpartiallycorrect = (string)$xmldata->question->prtpartiallycorrect->text;
             $question->prtpartiallycorrectformat = (string)$xmldata->question->prtpartiallycorrect['format'];
         } else {
-            $question->prtpartiallycorrect = get_string('defaultprtpartiallycorrectfeedback', null, null);
+            $question->prtpartiallycorrect = get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null);
             $question->prtpartiallycorrectformat = 'html';
         }
         if (isset($xmldata->question->prtincorrect->text)) {
             $question->prtincorrect = (string)$xmldata->question->prtincorrect->text;
             $question->prtincorrectformat = (string)$xmldata->question->prtincorrect['format'];
         } else {
-            $question->prtincorrect = get_string('defaultprtincorrectfeedback', null, null);
+            $question->prtincorrect = get_string('defaultprtincorrectfeedback', 'qtype_stack', null);
             $question->prtincorrectformat = 'html';
         }
-        $question->variantsselectionseed     = (string) $xmldata->question->variantsselectionseed ? (string) $xmldata->question->variantsselectionseed : '';
+        $question->variantsselectionseed     =
+            (string) $xmldata->question->variantsselectionseed ? (string) $xmldata->question->variantsselectionseed : '';
         $question->compiledcache             = [];
 
         $question->options = new \stack_options();
@@ -279,7 +293,8 @@ class StackQuestionLoader {
                 $newnode->truenextnode = (array) $node->truenextnode ? (string) $node->truenextnode : '-1';
                 $newnode->trueanswernote = (string) $node->trueanswernote ? (string) $node->trueanswernote : '';
                 $newnode->truefeedback = (string) $node->truefeedback->text ? (string) $node->truefeedback->text : '';
-                $newnode->truefeedbackformat = (string) $node->truefeedback['format'] ? (string) $node->truefeedback['format'] : 'html';
+                $newnode->truefeedbackformat =
+                    (string) $node->truefeedback['format'] ? (string) $node->truefeedback['format'] : 'html';
 
                 $newnode->falsescoremode = (array) $node->falsescoremode ? (string) $node->falsescoremode : '=';
                 $newnode->falsescore = (array) $node->falsescore ? (string) $node->falsescore : '0.0';
@@ -287,7 +302,8 @@ class StackQuestionLoader {
                 $newnode->falsenextnode = (array) $node->falsenextnode ? (string) $node->falsenextnode : '-1';
                 $newnode->falseanswernote = (string) $node->falseanswernote ? (string) $node->falseanswernote : '';
                 $newnode->falsefeedback = (string) $node->falsefeedback->text ? (string) $node->falsefeedback->text : '';
-                $newnode->falsefeedbackformat = (string) $node->falsefeedback['format'] ? (string) $node->falsefeedback['format'] : 'html';
+                $newnode->falsefeedbackformat =
+                    (string) $node->falsefeedback['format'] ? (string) $node->falsefeedback['format'] : 'html';
 
                 $data->nodes[(int) $node->name] = $newnode;
             }

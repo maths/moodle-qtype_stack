@@ -50,7 +50,7 @@
     </stackversion>
     <questionvariables>
       <text><![CDATA[/* If you are not using STACK 4.9.0 or later, this inclusion is required: */
-stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/refs/heads/iss1403/stack/maxima/contrib/linearalgebra_contrib.mac");
+stack_include_contrib("linearalgebra_contrib.mac");
 
 stack_include_contrib("matrix.mac");
 stack_include_contrib("rand_matrix.mac");

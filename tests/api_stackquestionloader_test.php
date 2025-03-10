@@ -125,4 +125,36 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), 'test');
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), 30);
     }
+
+    public function test_question_loader_base_question(): void {
+        global $CFG;
+        $xml = stack_api_test_data::get_question_string('empty');
+        $ql = new StackQuestionLoader();
+        $question = $ql->loadXML($xml)['question'];
+        $this->assertEquals('Question', $question->name);
+        $this->assertEquals('Correct answer, well done.', $question->prtcorrect);
+        $this->assertEquals('html', $question->prtcorrectformat);
+        $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->truenextnode);
+        $this->assertEquals('prt1-1-T', $question->prts['prt1']->get_nodes_summary()[0]->trueanswernote);
+        $this->assertEquals(1, $question->prts['prt1']->get_nodes_summary()[0]->truescore);
+        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->truescoremode);
+        $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->falsenextnode);
+        $this->assertEquals('prt1-1-F', $question->prts['prt1']->get_nodes_summary()[0]->falseanswernote);
+        $this->assertEquals(0, $question->prts['prt1']->get_nodes_summary()[0]->falsescore);
+        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->falsescoremode);
+        $this->assertEquals(false, $question->prts['prt1']->get_nodes_summary()[0]->quiet);
+        $this->assertEquals('ATAlgEquiv(ans1,ta1)', $question->prts['prt1']->get_nodes_summary()[0]->answertest);
+        $this->assertEquals($question->inputs['ans1']->get_parameter('mustVerify'), get_config('qtype_stack', 'inputmustverify'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('showValidation'),
+                get_config('qtype_stack', 'inputshowvalidation'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('insertStars'), get_config('qtype_stack', 'inputinsertstars'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidFloats'),
+                get_config('qtype_stack', 'inputforbidfloat'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('lowestTerms'),
+                get_config('qtype_stack', 'inputrequirelowestterms'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('sameType'),
+                get_config('qtype_stack', 'inputcheckanswertype'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
+    }
 }

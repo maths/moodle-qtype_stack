@@ -240,6 +240,29 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, count($this->output->iframes));
     }
 
+    public function test_default(): void {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('empty');
+        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('empty'));
+        $this->requestdata['inputName'] = 'ans1';
+        $rc = new RenderController();
+        $rc->__invoke($this->request, $this->response, []);
+        $this->assertEquals('<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>', $this->output->questionrender);
+        $vc = new ValidationController();
+        $vc->__invoke($this->request, $this->response, []);
+        $this->assertStringContainsString('Your last answer was interpreted as follows:', $this->output->validation);
+        $this->assertStringContainsString('\[ 1 \]', $this->output->validation);
+        $gc = new GradingController();
+        $gc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(true, $this->output->isgradable);
+        $this->assertEquals(1, $this->output->score);
+        $this->assertEquals(1, $this->output->scores->prt1);
+        $this->assertEquals(1, $this->output->scores->total);
+        $this->assertEquals(1, $this->output->scoreweights->prt1);
+        $this->assertEquals(1, $this->output->scoreweights->total);
+        $this->assertEquals('[[feedback:prt1]]', $this->output->specificfeedback);
+        $this->assertStringContainsString('correct', $this->output->prts->prt1);
+    }
+
     public function test_grade_scores(): void {
 
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('multipleanswers');

@@ -56,7 +56,7 @@
     </stackversion>
     <questionvariables>
       <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/refs/heads/iss1403/stack/maxima/contrib/linearalgebra_contrib.mac");
+stack_include_contrib("linearalgebra_contrib.mac");
 %_stack_preamble_end;
 
 stack_include_contrib("vectorspaces.mac");

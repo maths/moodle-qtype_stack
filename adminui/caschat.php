@@ -256,7 +256,8 @@ if ($questionid && !$varerrs) {
 }
 if ($questionid && !$varerrs) {
     $fout .= html_writer::empty_tag('input',
-        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechatnew'), 'formaction' => $questionediturl]);
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechatnew'),
+        'formaction' => $questionediturl, 'title' => stack_string('savechatexp')]);
 }
 $fout .= html_writer::end_tag('p');
 

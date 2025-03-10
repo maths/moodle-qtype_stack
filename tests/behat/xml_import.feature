@@ -46,7 +46,7 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I press "id_submitbutton"
     Then I should see "Parsing questions from import file."
     And I should see "Importing 1 questions from file"
-    And I should see "Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]"
+    And I should see "please [[input:ans1]] [[validation:ans1]]"
     And I press "Continue"
     And I should see "Question without format fields"
 

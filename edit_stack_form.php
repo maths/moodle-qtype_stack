@@ -98,6 +98,11 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
+        $feedbackstring = optional_param('cas', '', PARAM_RAW);
+        if ($feedbackstring) {
+            $question->generalfeedback = $feedbackstring;
+        }
+
         parent::set_data($question);
     }
 
@@ -768,6 +773,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $opt = $question->options;
 
         $question->questionvariables     = $opt->questionvariables;
+        $vars   = optional_param('maximavars', '', PARAM_RAW);
+        if ($vars) {
+            $question->questionvariables = $vars;
+        }
         $question->variantsselectionseed = $opt->variantsselectionseed;
         $question->questionnote          = $this->prepare_text_field('questionnote',
                                             $opt->questionnote, $opt->questionnoteformat, $question->id);

@@ -199,6 +199,10 @@ $string['inputtypestring'] = 'String';
 $string['inputtypenumerical'] = 'Numerical';
 $string['inputtypegeogebra'] = 'GeoGebra';
 $string['inputtypeparsons'] = 'Parsons';
+$string['inputtypeparsons_incorrect_model_ans'] = 'The model answer field to the Parsons input is malformed. It should be one of the following: 
+        <ul> <li> <strong>Proof questions</strong>: a list of the form <code>[ta, proof_steps]</code> where <code>ta</code> is the correct answer variable and <code>proof_steps</code> is the variable containing all available proof steps.</li> 
+        <li><strong>Grouping questions</strong> If the columns variable is set in the Parson\'s block, then an array of the form <code>[ta, steps, n]</code>, where <code>ta</code> is the correct answer variable, <code>steps</code> is the variable containing all available steps and <code>n</code> is the number of columns.</li> 
+        <li><strong>Grid questions</strong> If both the columns and row variables are set in the Parson\'s block, then an array of the form <code>[ta, steps, n, m]</code>, where <code>ta</code> is the correct answer variable, <code>steps</code> is the variable containing all available steps, <code>n</code> is the number of columns and <code>m</code> is the number of rows.</li>'; 
 $string['numericalinputmustnumber'] = 'This input expects a number.';
 $string['numericalinputvarsforbidden'] = 'This input expects a number, and so may not contain variables.';
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';
@@ -415,6 +419,8 @@ $string['dropdowngotunrecognisedvalue'] = 'Invalid input.';
 $string['pleaseananswerallparts'] = 'Please answer all parts of the question.';
 $string['pleasecheckyourinputs'] = 'Please verify that what you entered was interpreted as expected.';
 $string['singlechargotmorethanone'] = 'You can only enter a single character here.';
+$string['parsons_got_unrecognised_value'] = 'Invalid state for Parson\'s input.';
+$string['invalid_json'] = 'Invalid JSON passed';
 
 $string['true'] = 'True';
 $string['false'] = 'False';

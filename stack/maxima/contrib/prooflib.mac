@@ -124,7 +124,7 @@ proof_remove_nullproof(ex):= block(
  * Take the JSON from STACK Parson's block and return a proof function.
  */
 proof_parsons_interpret(st) := block([pf],
-  pf:first(first(stackjson_parse(st))),
+  pf:first(stackjson_parse(st)),
   pf:apply(proof, first(first(stackmap_get(pf, "used"))))
 );
 

@@ -28,7 +28,7 @@ Feature: STACK script for interacting with the CAS.
     When the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
-   And the following "question categories" exist:
+    And the following "question categories" exist:
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
     And the following "questions" exist:

@@ -100,7 +100,7 @@ Notes.
 1. We will try to keep files in the contrib folder small, and stable.
 2. We intend to move commonly used contributed code into the core in due course.  At that point we will localise language strings for automatic translation.
 3. Please contact the developers about naming conventions.  For example, external validators should start the function name with `validator_`.
-4. If you wish to use the libraries locally, on your server, prepend the file name with `contribl://`, e.g. `stack_include_contrib("matchlib.mac");` will load the local file, not the file on github.  This is mostly for local development, before code is pushed to the master branch.  We advise against this for live questions.
+4. If you wish to use the libraries locally, on your server, prepend the file name with `contribl://`, e.g. `stack_include("contribl://matchlib.mac");` will load the local file, not the file on github.  This is mostly for local development, before code is pushed to the master branch.  We advise against this for live questions.
 
 ### Sandbox testing
 

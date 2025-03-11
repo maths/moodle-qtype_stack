@@ -161,7 +161,7 @@ parsons_encode(steps) := block(
  * Take the hashed JSON from STACK Parson's block and return a proof function.
  */
 parsons_decode(st) := block([pf],
-  pf:first(first(stackjson_parse(st))),
+  pf:first(stackjson_parse(st)),
   pf:ev(apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used"))))),simp)
 );
 

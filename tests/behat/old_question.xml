@@ -6,7 +6,7 @@
       <text>Question without format fields</text>
     </name>
     <questiontext>
-      <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] please [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback>
       <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>

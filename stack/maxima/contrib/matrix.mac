@@ -1,6 +1,3 @@
-/* This may not work without 
-   stack_include_contrib("linearalgebra_core.mac") */
-
 /*  Author Luke Longworth
     University of Canterbury
     Copyright (C) 2025 Luke Longworth
@@ -16,12 +13,14 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-/****************************************************************/
-/*  Matrix manipulation and predicate functions for STACK       */
-/*                                                              */
-/*  V1.0 February 2025                                          */
-/*                                                              */
-/****************************************************************/
+/*****************************************************************/
+/*  Matrix manipulation and matrix predicate functions for STACK */
+/*                                                               */
+/*  V1.0 February 2025                                           */
+/*                                                               */
+/*****************************************************************/
+
+stack_linear_algebra_declare(true)$
 
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
@@ -134,7 +133,7 @@ diag_entries(M):= block([],
 setrowmx(r,i,M):= block([rows],
   rows: args(copymatrix(M)),
   if matrixp(r) then r: list_matrix_entries(r),
-  if numberp(r) then r: ev(makelist(r,ii,1,second(matrix_size(M))),simp),
+  if atom(r) then r: ev(makelist(r,ii,1,second(matrix_size(M))),simp),
   if listp(r) then rows[i]: r,
   errcatch(M: apply(matrix,rows)),
   return(M)
@@ -154,7 +153,7 @@ setrowmx(r,i,M):= block([rows],
 setcolmx(c,i,M):= block([cols],
   cols: args(copymatrix(transpose(M))),
   if matrixp(c) then c: list_matrix_entries(c),
-  if numberp(c) then c: ev(makelist(c,ii,1,first(matrix_size(M))),simp),
+  if atom(c) then c: ev(makelist(c,ii,1,first(matrix_size(M))),simp),
   if listp(c) then cols[i]: c,
   errcatch(M: transpose(apply(matrix,cols))),
   return(M)
@@ -329,7 +328,7 @@ orthogonal_columnsp(L, [sp]):= block([dim],
     M: cols_to_matrix(L),
     if M = matrix([null]) then return(false),
     checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
-    return(diagp(checkmat))
+    return(diagp(radcan(checkmat)))
 );
 
 /** 
@@ -346,7 +345,7 @@ orthonormal_columnsp(L, [sp]):= block([dim],
     M: cols_to_matrix(L),
     if M = matrix([null]) then return(false),
     checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
-    return(is(checkmat = ident(second(matrix_size(M)))))
+    return(is(radcan(checkmat) = ident(second(matrix_size(M)))))
 );
 
 /** 
@@ -418,11 +417,10 @@ columnscale(M,i,alpha):= block([MT],
  * Format expressions so that they can be printed as coefficients by wrapping sums
  * and expressions with unary minus into brackets.
  */
-format_as_coeff(expr):= block([ops, repr],
+format_as_coeff(expr):= block(
   if stringp(expr) then return(expr),
-  ops: errcatch(op(expr)),
-  repr: if emptyp(ops) or not elementp(first(ops), {"+", "-"}) then tex1(expr) else simplode(["\\left(", tex1(expr), "\\right)"]),
-  return(repr)
+  if atom(expr) then return(tex1(expr)),
+  if not elementp(safe_op(expr), {"+", "-"}) then tex1(expr) else simplode(["\\left(", tex1(expr), "\\right)"])
 );
 
 /** 

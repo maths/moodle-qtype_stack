@@ -162,6 +162,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("geometry.mac");
 load("proof.mac");
+load("linearalgebra_core.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
@@ -177,6 +178,7 @@ if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 load("trigrat.lisp");
 load("trigtools");
 load("diag");
+load("eigen");
 
 load("sregex");
 load("numericaltest.mac");
@@ -3506,4 +3508,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025012200$
+stackmaximaversion:2025030700$

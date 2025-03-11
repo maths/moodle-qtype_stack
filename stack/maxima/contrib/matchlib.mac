@@ -59,7 +59,7 @@ hash_2d_array(arr) := block(
  * Takes the hashed JSON from STACK Parson's block and return a de-hashed array.
  */
 match_decode(st, [rows]) := block([js, arr],
-    js: first(first(stackjson_parse(st))),
+    js: first(stackjson_parse(st)),
     arr: stackmap_get(js, "used"),
     if rows=[] then arr:map(lambda([keys], map(base64_decode, first(keys))), arr) 
       else arr:map(lambda([keys], map(lambda([k], if k # [] then base64_decode(first(k)) else []), keys)), arr),

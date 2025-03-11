@@ -1,0 +1,1188 @@
+{
+    "en": [
+      {
+      "file":"index.md",
+      "title":"Overview - STACK Documentation",
+      "description":"Comprehensive documentation for the STACK question type."
+      },
+      {
+      "file":"Site_map.md",
+      "title":"Site Map - STACK Documentation",
+      "description":"A directory listing of all STACK documentation."
+      },
+      {
+      "About":[
+        {
+        "file":"Credits.md",
+        "title":"Contributors and users",
+        "description":"Information on contributers and users of the STACK project."
+        },
+        {
+        "file":"License.md",
+        "title":"STACK license information",
+        "description":"Information on the STACK project license."
+        },
+        {
+        "file":"Publications.md",
+        "title":"Publications about STACK",
+        "description":"STACK has been the subject of research, including published books and articles."
+        },
+        {
+        "file":"The_philosophy_of_STACK.md",
+        "title":"The Philosophy of STACK",
+        "description":"Comprehensive documentation for the STACK question type."
+        },
+        {
+        "file":"Logo.md",
+        "title":"About the STACK logo",
+        "description":"Read about the mathematics behind the STACK logo."
+        },
+        {
+        "file":"index.md",
+        "title":"About the STACK Project",
+        "description":"STACK is an assessment system for mathematics, science and related disciplines designed to enable students to answer questions with a mathematical expression."
+        }
+      ]
+      },
+      {
+      "AbInitio":[
+        {
+        "file":"index.md",
+        "title":"Quick start for new users - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start deals with multipart questions."
+        },
+        {
+        "file":"Authoring_quick_start_1.md",
+        "title":"Authoring Quick Start - STACK Documentation",
+        "description":"The authoring quick start is a great place to start learning about using STACK. This step-by-step guide will teach you to create a basic question in STACK."
+        },
+        {
+        "file":"Authoring_quick_start_2.md",
+        "title":"Authoring Quick Start 2 - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start deals with question variables, including a simple integration problem."
+        },
+        {
+        "file":"Authoring_quick_start_3.md",
+        "title":"Authoring Quick Start 3 - STACK Documentation",
+        "description":"The third part of the STACK authoring quick start deals with improving feedback, including the Int and FacForm answer tests."
+        },
+        {
+        "file":"Authoring_quick_start_4.md",
+        "title":"Authoring Quick Start 4 - STACK Documentation",
+        "description":"The forth part of the STACK authoring quick start deals with randomisation and deploying variants."
+        },
+        {
+        "file":"Authoring_quick_start_5.md",
+        "title":"Authoring Quick Start 5 - STACK Documentation",
+        "description":"The fifth part of the STACK authoring quick start deals with question tests."
+        },
+        {
+        "file":"Authoring_quick_start_6.md",
+        "title":"Authoring Quick Start 6 - STACK Documentation",
+        "description":"The sixth part of the STACK authoring quick start deals with importing question from libraries."
+        },
+        {
+        "file":"Authoring_quick_start_7.md",
+        "title":"Authoring Quick Start 7 - STACK Documentation",
+        "description":"The seventh part of the STACK authoring quick start deals with multipart questions."
+        },
+        {
+        "file":"Authoring_quick_start_8.md",
+        "title":"Authoring Quick Start 8 - STACK Documentation",
+        "description":"The eightth part of the STACK authoring quick start deals with turning simplification off."
+        },
+        {
+        "file":"Authoring_quick_start_9.md",
+        "title":"Authoring Quick Start 9 - STACK Documentation",
+        "description":"The ninth part of the STACK authoring quick start shows you how to create a Moodle quiz."
+        }
+      ]
+      },
+      {
+      "Authoring":[
+        {
+        "file":"index.md",
+        "title":"Authoring - STACK Documentation",
+        "description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
+        },
+        {
+        "Answer_Tests":[
+            {
+            "file":"index.md",
+            "title":"Answer tests - STACK Documentation",
+            "description":"Documentation for STACK answer tests"
+            },
+            {
+            "file":"Calculus.md",
+            "title":"Calculus answer tests - STACK Documentation",
+            "description":"STACK can test properties of a students' answers to calculus question."
+            },
+            {
+            "file":"Equivalence.md",
+            "title":"Equivalence answer tests - STACK Documentation",
+            "description":"Algebraic equivalence is the prototype test"
+            },
+            {
+            "file":"Form.md",
+            "title":"Answer tests to establish algebraic form - STACK Documentation",
+            "description":"STACK can confirm an expression is written in a particular form."
+            },
+            {
+            "file":"Numerical.md",
+            "title":"Numerical answer tests - STACK Documentation",
+            "description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
+            },
+            {
+            "file":"Other.md",
+            "title":"Other answer tests - STACK Documentation",
+            "description":"Answer tests for specific subject situations."
+            },
+            {
+            "file":"Rule_based.md",
+            "title":"Rules based tests - STACK Documentation",
+            "description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
+            },
+            {
+            "file":"String.md",
+            "title":"String-related answer tests - STACK Documentation",
+            "description":"Answer tests for string match."
+            },
+            {
+            "Results":[
+                {
+                "file":"AlgEquiv.md",
+                "title":"Test cases for ATAlgEquiv - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"AlgEquivNouns.md",
+                "title":"Test cases for ATAlgEquivNouns - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"SubstEquiv.md",
+                "title":"Test cases for ATSubstEquiv - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"EqualComAss.md",
+                "title":"Test cases for ATEqualComAss - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"EqualComAssRules.md",
+                "title":"Test cases for ATEqualComAssRules - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"CasEqual.md",
+                "title":"Test cases for ATCasEqual - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"SameType.md",
+                "title":"Test cases for ATSameType - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"SysEquiv.md",
+                "title":"Test cases for ATSysEquiv - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"Sets.md",
+                "title":"Test cases for ATSets - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"Expanded.md",
+                "title":"Test cases for ATExpanded - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"FacForm.md",
+                "title":"Test cases for ATFacForm - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"CompSquare.md",
+                "title":"Test cases for ATCompSquare - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"PropLogic.md",
+                "title":"Test cases for ATPropLogic - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"Equiv.md",
+                "title":"Test cases for ATEquiv - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"EquivFirst.md",
+                "title":"Test cases for ATEquivFirst - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"SingleFrac.md",
+                "title":"Test cases for ATSingleFrac - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"PartFrac.md",
+                "title":"Test cases for ATPartFrac - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"Diff.md",
+                "title":"Test cases for ATDiff - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"Int.md",
+                "title":"Test cases for ATInt - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"GT.md",
+                "title":"Test cases for ATGT - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"GTE.md",
+                "title":"Test cases for ATGTE - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"NumRelative.md",
+                "title":"Test cases for ATNumRelative - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"NumAbsolute.md",
+                "title":"Test cases for ATNumAbsolute - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"NumSigFigs.md",
+                "title":"Test cases for ATNumSigFigs - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"NumDecPlaces.md",
+                "title":"Test cases for ATNumDecPlaces - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"NumDecPlacesWrong.md",
+                "title":"Test cases for ATNumDecPlacesWrong - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"SigFigsStrict.md",
+                "title":"Test cases for ATSigFigsStrict - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"UnitsStrict.md",
+                "title":"Test cases for ATUnitsStrict - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"UnitsRelative.md",
+                "title":"Test cases for ATUnitsRelative - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"Units.md",
+                "title":"Test cases for ATUnits - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"UnitsStrictRelative.md",
+                "title":"Test cases for ATUnitsStrictRelative - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"UnitsAbsolute.md",
+                "title":"Test cases for ATUnitsAbsolute - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"UnitsStrictAbsolute.md",
+                "title":"Test cases for ATUnitsStrictAbsolute - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"String.md",
+                "title":"Test cases for ATString - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"StringSloppy.md",
+                "title":"Test cases for ATStringSloppy - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"Levenshtein.md",
+                "title":"Test cases for ATLevenshtein - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"SRegExp.md",
+                "title":"Test cases for ATSRegExp - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"LowestTerms.md",
+                "title":"Test cases for ATLowestTerms - STACK Documentation",
+                "description":"Automatically generated test cases for the ??? answer test."
+                },
+                {
+                "file":"index.md",
+                "title":"Answer test results - STACK Documentation",
+                "description":"Automatically generated answer test results"
+                }
+            ]
+            }
+        ]
+        },
+        {
+        "file":"Author_FAQ.md",
+        "title":"Author's FAQ - STACK Documentation",
+        "description":"Answers to questions frequently asked by question authors using STACK."
+        },
+        {
+        "file":"CASText.md",
+        "title":"CAS Text - STACK Documentation",
+        "description":"Information on writing CAS Text in STACK, including useful LaTex and html code."
+        },
+        {
+        "file":"Answer_Tests/index.md",
+        "title":"Answer Tests - STACK Documentation",
+        "description":"Information about the different answer tests supported in the STACK online assessment system."
+        },
+        {
+        "file":"Feedback.md",
+        "title":"Feedback - STACK Documentation",
+        "description":"Information about creating feedback for students in the STACK online assessment system."
+        },
+        {
+        "file":"Error_trapping.md",
+        "title":"Runtime errors and error trapping in STACK questions",
+        "description":"How STACK deals with runtime errors and how to trap errors and create guard clauses."
+        },
+        {
+        "file":"Errors.md",
+        "title":"Errors when question authoring",
+        "description":"What errors that may appear during validation/saving of a question mean and what you can do about it."
+        },
+        {
+        "file":"Inclusions.md",
+        "title":"Including external content in questions",
+        "description":"Advice on including external content in questions."
+        },
+        {
+            "Inputs":[
+                {
+                "file":"index.md",
+                "title":"Question Inputs - STACK Documentation",
+                "description":"Information on using question blocks in STACK."
+                },
+                {
+                "file":"Input_options.md",
+                "title":"Question Input Options` - STACK Documentation",
+                "description":"Reference documentation on the input options in STACK."
+                },
+                {
+                "file":"Input_syntax.md",
+                "title":"Question Input Syntax` - STACK Documentation",
+                "description":"Reference documentation on the options for input syntax in STACK."
+                },
+                {
+                "file":"Matrix_input.md",
+                "title":"Matrix inputs - STACK Documentation",
+                "description":"Reference documentation on matrix input types in STACK."
+                },
+                {
+                "file":"Multiple_choice_input.md",
+                "title":"Multiple choice inputs - STACK Documentation",
+                "description":"Information on creating and manipulating multiple choice questions in STACK."
+                },
+                {
+                "file":"Multiline_input.md",
+                "title":"Multiline inputs - STACK Documentation",
+                "description":"Reference documentation on input types allowing multiline input STACK."
+                },
+                {
+               "file":"Numerical_input.md",
+               "title":"Numerical Input - STACK Documentation",
+               "description":"Information on STACK's numerical input type."
+               },
+               {
+               "file":"Text_input.md",
+               "title":"Text-based inputs - STACK Documentation",
+               "description":"Reference documentation on text-based inputs in STACK."
+               }
+        ]
+        },
+        {
+        "file":"Variables.md",
+        "title":"Question and Answer Variables - STACK Documentation",
+        "description":"Information on defining and manipulating CAS variables in STACK."
+        },
+        {
+        "file":"Languages.md",
+        "title":"Multilingual Content - STACK Documentation",
+        "description":"Information on writing STACK questions for several languages."
+        },
+        {
+        "file":"Question_options.md",
+        "title":"Options - STACK Documentation",
+        "description":"Documentation for the Option section in a STACK question."
+        },
+        {
+        "file":"Potential_response_trees.md",
+        "title":"Potential Response Trees - STACK Documentation",
+        "description":"Information on using potential response trees in the STACK online assessment system."
+        },
+        {
+            "Question_blocks":[
+                {
+                "file":"index.md",
+                "title":"Question Blocks - STACK Documentation",
+                "description":"Information on using question blocks in STACK."
+                },
+                {
+                "file":"Conditional_blocks.md",
+                "title":"Conditional Blocks - STACK Documentation",
+                "description":"Information on using conditional question blocks in STACK."
+                },
+                {
+                "file":"Dynamic_blocks.md",
+                "title":"Dynamic Blocks - STACK Documentation",
+                "description":"Information on using dynamic question blocks in STACK."
+                },
+                {
+                "file":"Fact_sheets.md",
+                "title":"Fact Sheets - STACK Documentation",
+                "description":"STACK lets question authors easily embed standard facts into their questions."
+                },
+                {
+                "file":"Static_blocks.md",
+                "title":"Static Blocks - STACK Documentation",
+                "description":"Information on using static question blocks in STACK."
+                },
+                {
+                "file":"System_blocks.md",
+                "title":"System Blocks - STACK Documentation",
+                "description":"Information on using system question blocks in STACK."
+                }
+            ]
+        },
+        {
+        "file":"Question_note.md",
+        "title":"Question Notes - STACK Documentation",
+        "description":"Information on creating effective question notes for random questions in STACK."
+        },
+        {
+        "file":"Serving_out_data.md",
+        "title":"Serving out data",
+        "description":"How data sets can be served and downloaded by students, e.g. in statistics questions."
+        },
+        {
+        "file":"Tables.md",
+        "title":"Tables - STACK Documentation",
+        "description":"Functions for typesetting mathematical tables, such a truth tables."
+        },
+        {
+        "file":"Expression_tree_display.md",
+        "title":"Trees - STACK Documentation",
+        "description":"Functions for displaying the tree representation of a mathematical expression."
+        }
+      ]
+      },
+      {
+      "CAS":[
+        {
+        "file":"index.md",
+        "title":"CAS - STACK Documentation",
+        "description":"STACK uses the computer algebra system (CAS) Maxima. This documentation deals with Maxima syntax for many topics commonly used in STACK."
+        },
+        {
+        "file":"Buggy_rules.md",
+        "title":"Buggy Rules - STACK Documentation",
+        "description":"In order to establish that the student has done something particular but wrong, it is useful for us to be able to apply wrong or buggy rules to expressions."
+        },
+        {
+        "file":"Complex_numbers.md",
+        "title":"Complex Numbers in STACK - STACK Documentation",
+        "description":"Complex Numbers and how to deal with them in STACK."
+        },
+        {
+        "file":"Equations.md",
+        "title":"Asking Students to Solve Equations - STACK Documentation",
+        "description":"It is quite common to ask students to solve an algebraic equation. This document contains information on doing so effectively in STACK."
+        },
+        {
+        "file":"Greek_letters.md",
+        "title":"The Greek Alphabet - STACK Documentation",
+        "description":"Information on displaying greek letters in STACK."
+        },
+        {
+        "file":"Geometry.md",
+        "title":"Geometry related function - STACK Documentation",
+        "description":"Information on geometry related functions in STACK, particulary related to the GeoGebra input type."
+        },
+        {
+        "file":"Inequalities.md",
+        "title":"Inequalities - STACK Documentation",
+        "description":"Information on displaying inequalities, as well as functions that support inequalities."
+        },
+        {
+        "file":"Matrix.md",
+        "title":"Matrices - STACK Documentation",
+        "description":"Information on using matrices and vectors in the STACK online assessment system."
+        },
+        {
+        "file":"Maxima_background.md",
+        "title":"Introduction to Maxima - STACK Documentation",
+        "description":"An introduction to STACK's CAS system, Maxima."
+        },
+        {
+        "file":"Maxima_plot.md",
+        "title":"Embedding Maxima-generated plots via the plot() command",
+        "description":"Embedding Maxima generated plots via the plot() command"
+        },
+        {
+        "file":"Numbers.md",
+        "title":"Numbers in STACK - STACK Documentation",
+        "description":"Information on displaying numbers in STACK using the CAS Maxima."
+        },
+        {
+        "file":"Numerical_rounding.md",
+        "title":"Rounding of floating point numbers in STACK - STACK Documentation",
+        "description":"Information on floating point numbers in STACK using the CAS Maxima."
+        },
+        {
+        "file":"Permutations.md",
+        "title":"Writing a permutation as a product of disjoint cycles",
+        "description":"Information on authoring questions involving permutation as a product of disjoint cycles."
+        },
+        {
+        "file":"Predicate_functions.md",
+        "title":"Predicate Functions - STACK Documentation",
+        "description":"Predicate functions are those that return Boolean values true or false. These are often useful when authoring STACK questions."
+        },
+        {
+        "file":"Random.md",
+        "title":"Random Objects - STACK Documentation",
+        "description":"Information on using different functions in STACK to generate random values."
+        },
+        {
+        "file":"Rules.md",
+        "title":"Rules and patterns - STACK Documentation",
+        "description":"How to use Maxima's rule system (e.g. let) in STACK to generate custom simplification."
+        },
+        {
+        "file":"Real_Intervals.md",
+        "title":"Real intervals - STACK Documentation",
+        "description":"Information on representing, displaying and manipulating intervals in the real line."
+        },
+        {
+        "file":"Simplification.md",
+        "title":"Simplification - STACK Documentation",
+        "description":"Information on using simplification in STACK. "
+        },
+        {
+        "file":"Strings.md",
+        "title":"Strings in STACK questions",
+        "description":"How to use strings in STACK questions."
+        },
+        {
+        "file":"STACK-Maxima_sandbox.md",
+        "title":"STACK-Maxima Sandbox - STACK Documentation",
+        "description":"It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses Maxima."
+        },
+        {
+        "file":"Statistics.md",
+        "title":"Statistics - STACK Documentation",
+        "description":"Information on support for statistics in STACK. "
+        },
+        {
+        "file":"Subscripts.md",
+        "title":"Atoms, subscripts and fine tuning the LaTeX display",
+        "description":"How to display subscripts, and fine tune the LaTeX display."
+        },
+        {
+        "file":"Validator.md",
+        "title":"Creating bespoke validation - STACK Documentation",
+        "description":"How to create bespoke validation of student's input."
+        }
+      ]
+      },
+      {
+      "Installation":[
+        {
+        "file":"index.md",
+        "title":"Installation Instructions - STACK Documentation",
+        "description":"Information on installing STACK on your server."
+        },
+        {
+        "file":"API.md",
+        "title":"API - STACK Documentation",
+        "description":"Information on using the stand-alone API to provide STACK questions as a web service."
+        },
+        {
+        "file":"LTI.md",
+        "title":"LTI - STACK Documentation",
+        "description":"Information on using LTI to provide STACK quizzes to learning systems where STACK is not installed."
+        },
+        {
+        "file":"Mathjax.md",
+        "title":"Installing Mathjax - STACK Documentation",
+        "description":"Information on installing MathJax, the filter STACK uses to convert LaTeX code into display."
+        },
+        {
+        "file":"Maxima_installation.md",
+        "title":"Installing Maxima - STACK Documentation",
+        "description":"Instructions on downloading and compiling Maxima, the CAS used for STACK."
+        },
+        {
+        "file":"Migration.md",
+        "title":"Migrating from STACK 3.x or 2.x to the current version - STACK Documentation",
+        "description":"Instructions on migrating from STACK 3.x or 2.x to the current version."
+        },
+        {
+        "file":"Optimising_Maxima.md",
+        "title":"Optimising Maxima - STACK Documentation",
+        "description":"Maxima is a slow interpreted language.  This file details several ways to reduce time needed by Maxima."
+        },
+        {
+        "file":"Release_notes_4_4_x.md",
+        "title":"Release notes for STACK versions prior to 4.4.0 to 4.4.0 onwards",
+        "description":"Common problems with migrating questions to STACK 4.4.0 and later."
+        },
+        {
+        "file":"STACK_versions.md",
+        "title":"STACK versions",
+        "description":"Records a mapping between the Moodle plugin version number and STACK release."
+        },
+        {
+        "file":"Testing_installation.md",
+        "title":"Testing Installation - STACK Documentation",
+        "description":"It is important to confirm that STACK has been installed correctly. This page provides instructions for confirming this."
+        }
+      ]
+      },
+      {
+      "STACK_question_admin":[
+        {
+        "file":"index.md",
+        "title":"Maintaining questions and question banks - STACK Documentation",
+        "description":"Information on maintaining questions and question banks for the longer term."
+        },
+        {
+        "file":"Deploying.md",
+        "title":"Deploying - STACK Documentation",
+        "description":"Information about deploying random variants in the STACK online assessment system."
+        },
+        {
+        "file":"Deploying_systematically.md",
+        "title":"Systematic deployment - STACK Documentation",
+        "description":"Information on how to systematically deploy all variants of a question."
+        },
+        {
+        "file":"Deploying_matched_variants.md",
+        "title":"Variant matching - STACK Documentation",
+        "description":"This is a relatively advanced feature which links together random variables between questions."
+        },
+        {
+        "file":"Fixing_broken_questions.md",
+        "title":"I have a misbehaving STACK question in a live Moodle quiz.  What should I do?",
+        "description":"Advice on dealing with errors in STACK questions during a live quiz."
+        },
+        {
+        "file":"Reporting.md",
+        "title":"Reporting - STACK Documentation",
+        "description":"You can generate detailed reports for quizzes using STACK to assess how successful they are."
+        },
+        {
+        "file":"Advanced_reporting.md",
+        "title":"Advanced reporting - STACK Documentation",
+        "description":"Records direct database queries useful in Moodle to deal with establishing local use of STACK questions."
+        },
+        {
+        "file":"Notes_about_performance.md",
+        "title":"Notes about question performance",
+        "description":"Notes about question performance, and how to write questions which are efficient."
+        },
+        {
+        "file":"Future_proof.md",
+        "title":"Ensuring a Question Works in the Future - STACK Documentation",
+        "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
+        },
+        {
+        "file":"Sample_questions.md",
+        "title":"STACK Sample Questions",
+        "description":"Sample questions for the STACK question type."
+        },
+        {
+        "file":"Testing.md",
+        "title":"Testing - STACK Documentation",
+        "description":"Information on testing a STACK question."
+        },
+        {
+        "file":"Testing_questions_on_other_sites.md",
+        "title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
+        "description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
+        },
+        {
+        "file":"Tidy_Tool.md",
+        "title":"Tidy Tool - STACK Documentation",
+        "description":"How to tidy up PRT node names with STACK's tidy tool."
+        },
+        {
+        "file":"UpgradeDefaults.md",
+        "title":"Upgrading Question Details - STACK Documentation",
+        "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
+        },
+        {
+        "file":"Authoring_workflow.md",
+        "title":"Workflow - STACK Documentation",
+        "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
+        }
+      ]
+      },
+      {
+      "Developer":[
+        {
+        "file":"index.md",
+        "title":"Developer Information - STACK Documentation",
+        "description":"Information on STACK for developers, including how to get involved, future releases and development history."
+        },
+        {
+        "file":"CAS_evaluatable.md",
+        "title":"The family tree of cas_evaluatables.",
+        "description":"This page documents the design of cas_evaluatables."
+        },
+        {
+        "file":"CASText2_lifecycle.md",
+        "title":"Evaluating CASText2",
+        "description":"This document describes the life-cycle of CASText2 evaluation. "
+        },
+        {
+        "file":"Census.md",
+        "title":"Maxima identifier census",
+        "description":"Explains how to conduct the maxima identifier census."
+        },
+        {
+        "file":"Development_history.md",
+        "title":"STACK Development History",
+        "description":"A history of changes and additions to STACK."
+        },
+        {
+        "file":"Creating_an_input_type.md",
+        "title":"Creating an Input Type - STACK Documentation",
+        "description":"Information on creating a new input type in the STACK online assessment system."
+        },
+        {
+        "file":"Development_track.md",
+        "title":"STACK Development Track",
+        "description":"Progress on feature additions for STACK."
+        },
+        {
+        "file":"Documentation.md",
+        "title":"Adding to Documentation - STACK Documentation",
+        "description":"Information on STACK's documentation system and how to contribute to the STACK documentation."
+        },
+        {
+        "file":"Extracting_test_questions.md",
+        "title":"Extracting questions to make into PHP/BEHAT unit test questions",
+        "description":"Notes on how to create a question within Moodle and export XML to create a question within a unit test."
+        },
+        {
+        "file":"Future_input_processing.md",
+        "title":"Description of one possible future input processing pipeline",
+        "description":"Suggestions for re-designing the input processing."
+        },
+        {
+        "file":"Future_plans.md",
+        "title":"STACK Future Plans",
+        "description":"A list of features planned to be implemented to STACK in the future."
+        },
+        {
+        "file":"Language_packs.md",
+        "title":"Translations of STACK - STACK Documentation",
+        "description":"A list of languages STACK is translated to, as well as information on translating the STACK project."
+        },
+        {
+        "file":"Maxima_packages.md",
+        "title":"Adding Support for Maxima Packages - STACK Documentation",
+        "description":"Maxima has a very wide range of optional packages. Read about options for adding more Maxima packages to your installation of STACK."
+        },
+        {
+        "file":"Moodle_app.md",
+        "title":"Maintaining Moodle App compatibility - STACK Documentation",
+        "description":"A rundown of the files which allow STACK to operate in the Moodle App."
+        },
+        {
+        "file":"Parser.md",
+        "title":"Building the parser",
+        "description":"This document describes the design of the parser for dealing with students' answers and Maxima statements."
+        },
+        {
+        "file":"PHP-CAS.md",
+        "title":"PHP Interface with the CAS - STACK Documentation",
+        "description":"This document describes the design of the PHP interface to the CAS."
+        },
+        {
+        "file":"Question_state_caching.md",
+        "title":"Question State Caching - STACK Documentation",
+        "description":"Instructions on clearing the Moodle cache."
+        },
+        {
+        "file":"Releasing.md",
+        "title":"Releasing - STACK Documentation",
+        "description":"Notes documenting the process for releasing a new version of STACK."
+        },
+        {
+        "file":"Releasing_ILIAS.md",
+        "title":"Releasing STACK for ILIAS - STACK Documentation",
+        "description":"Notes documenting the process for releasing a new version of STACK for ILIAS."
+        },
+        {
+        "file":"Security_map.md",
+        "title":"Security-map",
+        "description":"This document explains how the Maxima statement parser infrastruture works."
+        },
+        {
+        "file":"STACK-JS.md",
+        "title":"Including Javascript in STACK questions.",
+        "description":"This page documents how to include Javascript into STACK questions."
+        },
+        {
+        "file":"Syntax_Future.md",
+        "title":"Future plans for syntax of answers and STACK.",
+        "description":"Discussion of future plans for dealing with syntax of answers and STACK."
+        },
+        {
+        "file":"Syntax_numbers.md",
+        "title":"Discussion of support for using comma as the decimal separator",
+        "description":"Discussion of support for using comma as the decimal separator."
+        },
+        {
+        "file":"Unit_tests.md",
+        "title":"Unit Tests - STACK Documentation",
+        "description":"Information on the three types of unit tests supported by STACK; PHP Unit tests, Maxima unit tests and tests scripts exposed to the question author."
+        },
+        {
+        "file":"Updating_JSXGraph.md",
+        "title":"Updating JSXGraph - STACK Documentation",
+        "description":"How to obtain, edit and minify the JSXGraph javascript."
+        },
+        {
+        "file":"Optimising_STACK_for_large_Maxima_variables.md",
+        "title":"Optimising STACK for large Maxima variables",
+        "description":"Records design efforts to optimise STACK for processing large Maxima variables."
+        },
+        {
+        "file":"Website.md",
+        "title":"Updating the Online Docs",
+        "description":"How to manage the online docs at docs.stack-assessment.org"
+        }
+      ]
+      },
+      {
+      "Moodle":[
+        {
+        "file":"index.md",
+        "title":"STACK in Moodle - STACK Documentation",
+        "description":"Useful information about using STACK within the Moodle VLE"
+        },
+        {
+        "file":"Question_bank.md",
+        "title":"Moodle Question Bank - STACK Documentation",
+        "description":"Information on finding the Moodle question bank."
+        },
+        {
+        "file":"Import_Export.md",
+        "title":"Importing and Exporting - STACK Documentation",
+        "description":"Information on importing and exporting questions in STACK."
+        },
+        {
+        "file":"Semi-automatic_Marking.md",
+        "title":"Semi-automatic marking",
+        "description":"Practical advice for combining STACK automatic marking with human-marked items."
+        }
+      ]
+      },
+      {
+      "Reference":[
+        {
+        "file":"index.md",
+        "title":"Reference materials - STACK Documentation",
+        "description":"This section contains reference materials, especially those not dealing with non-STACK related issues."
+        },
+        {
+        "file":"Actuarial.md",
+        "title":"Actuarial Notation - STACK Documentation",
+        "description":"An overview of using actuarial notation in STACK."
+        },
+        {
+        "file":"HTML.md",
+        "title":"HTML - STACK Documentation",
+        "description":"Basic HTML examples."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM materials in STACK",
+        "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."
+        },
+        {
+        "file":"Latex.md",
+        "title":"LaTeX - STACK Documentation",
+        "description":"Basic LaTeX examples."
+        }
+      ]
+      },
+      {
+      "Students":[
+        {
+        "file":"index.md",
+        "title":"Information for Students - STACK Documentation",
+        "description":"Information regarding STACK for students, including information on input, assessment and frequently asked questions."
+        },
+        {
+        "file":"FAQ.md",
+        "title":"Students' FAQ - STACK Documentation",
+        "description":"Answers to frequently asked questions aimed at students using STACK."
+        },
+        {
+        "file":"Answer_input.md",
+        "title":"Answer Input for Students- STACK Documentation",
+        "description":"Information about answer input for students using STACK."
+        },
+        {
+        "file":"Answer_assessment.md",
+        "title":"Answer Assessment for Students- STACK Documentation",
+        "description":"Information on how answers are assessed for students using STACK."
+        },
+        {
+        "file":"Equivalence_reasoning.md",
+        "title":"Equivalence Reasoning for Students - STACK Documentation",
+        "description":"Information on using equivalence reasoning in STACK as a student."
+        },
+        {
+        "file":"Accessibility.md",
+        "title":"Accessibility - STACK Documentation",
+        "description":"Accessibility information for students using STACK."
+        }
+      ]
+      },
+      {
+      "Topics":[
+        {
+        "file":"index.md",
+        "title":"Mathematics topics - STACK Documentation",
+        "description":"Information on how to author questions in particular mathematics topics. "
+        },
+        {
+        "file":"Curve_sketching.md",
+        "title":"Curve Sketching - STACK Documentation",
+        "description":"This document discusses curve sketching in STACK, including attempts to assess this skill and alternatives."
+        },
+        {
+        "file":"Differential_equations.md",
+        "title":"Differential Equations - STACK Documentation",
+        "description":"Information on representing, displaying and manipulating ODEs in STACK."
+        },
+        {
+        "file":"Discrete_mathematics.md",
+        "title":"Discrete mathematics and graph theory - STACK Documentation",
+        "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
+        },
+        {
+        "file":"Equivalence_reasoning.md",
+        "title":"Reasoning by Equivalence - STACK Documentation",
+        "description":"Comprehensive information on the equivalence reasoning answer type in STACK."
+        },
+        {
+        "file":"Levenshtein_distance.md",
+        "title":"Levenshtein distance and strings",
+        "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
+        },
+        {
+        "file":"Linear_algebra.md",
+        "title":"Linear Algebra - STACK Documentation",
+        "description":"Information on working with linear algebra in a STACK question."
+        },
+        {
+        "file":"Propositional_Logic.md",
+        "title":"Propositional Logic - STACK Documentation",
+        "description":"Support for propositional logic, using Maxima's logic package."
+        },
+        {
+        "file":"Units.md",
+        "title":"Scientific Units - STACK Documentation",
+        "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
+        },
+        {
+        "file":"Vector_Calculus.md",
+        "title":"Vector Calculus - STACK Documentation",
+        "description":"This page provides advice for writing STACK questions in vector calculus."
+        },
+        {
+       "Proof":[
+            {
+            "file":"index.md",
+            "title":"Proof - STACK Documentation",
+            "description":"General discussion of assessment of proof with STACK."
+            },
+            {
+            "file":"Proof_assessment.md",
+            "title":"CAS libraries for assessing Parsons problems and proofs",
+            "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
+            },
+            {
+            "file":"Proof_CAS_library.md",
+            "title":"CAS libraries for representing text-based proofs",
+            "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
+            },
+            {
+            "file":"Proof_samples.md",
+            "title":"Sample mathematical proofs",
+            "description":"A catalogue of common proofs, and how to use them."
+            },
+            {
+            "file":"Proof_Parsons_workflow.md",
+            "title":"Workflow for authoring Parsons Problems",
+            "description":"A suggested workflow for authoring Parsons Problems, adding slashes to strings within Maxima variables."
+            },
+            {
+            "file":"Proof_styles.md",
+            "title":"CSS Styles for displaying proof",
+            "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
+            }
+          ]
+      }
+      ]
+      },
+      {
+      "Specialist_tools":[
+        {
+        "file":"index.md",
+        "title":"Specialist tools - STACK Documentation",
+        "description":"Information on how to author questions using specialist tools. "
+        },
+        {
+        "file":"Graphics.md",
+        "title":" Plots and graphics in STACK - STACK Documentation",
+        "description":"Documentation for including plots and graphics in STACK in a STACK question."
+        },
+        {
+        "file":"Unsorted_multi_input.md",
+        "title":"Partial credit for multiple inputs - STACK Documentation",
+        "description":"This page describes how to give partial credit when you have muliple inputs, but don't know the order in which they are typed in."
+        },
+        {
+        "Drag_and_drop":[
+            {
+            "file":"index.md",
+            "title":"Drag and Drop questions - STACK Documentation",
+            "description":"How to include Drag and Drop questions into STACK."
+            },
+            {
+            "file":"Parsons.md",
+            "title":"Authoring your first Parsons question in STACK - STACK Documentation",
+            "description":"Authoring your first Parsons question in STACK ."
+            },
+            {
+            "file":"Grouping.md",
+            "title":"Authoring your first grouping question in STACK - STACK Documentation",
+            "description":"Authoring your first grouping question in STACK ."
+            },
+            {
+            "file":"Grid.md",
+            "title":"Authoring your first grid question in STACK - STACK Documentation",
+            "description":"Authoring your first grid question in STACK ."
+            },
+            {
+            "file":"Question_block.md",
+            "title":"Parsons question block- STACK Documentation",
+            "description":"Reference documentation for the Parsons question block."
+            },
+            {
+            "file":"Troubleshooting.md",
+            "title":"Parsons question block- STACK Documentation",
+            "description":"Documentation with advice on troubleshooting/fixing Parsons question block questions."
+            }
+            ]
+        },
+        {
+        "Equivalence_reasoning":[
+            {
+            "file":"index.md",
+            "title":"Equivalence reasoning questions - STACK Documentation",
+            "description":"How to allow students to work line by line in STACK questions."
+            },
+            {
+            "file":"Equivalence_input.md",
+            "title":"Equivalence reasoning input - STACK Documentation",
+            "description":"Reference documentation for the equivalence reasoning input."
+            },
+            {
+            "file":"Equivalence_assessment.md",
+            "title":"Equivalence reasoning assessment - STACK Documentation",
+            "description":"Reference documentation for the equivalence reasoning answer tests."
+            }
+            ]
+        },
+        {
+       "GeoGebra":[
+            {
+            "file":"index.md",
+            "title":"GeoGebra - STACK Documentation",
+            "description":"How to include GeoGebra into STACK."
+            },
+            {
+            "file":"GeoGebra.md",
+            "title":"Authoring your first GeoGebra question in STACK - STACK Documentation",
+            "description":"More advanced use of GeoGebra in STACK."
+            },
+            {
+            "file":"Question_block.md",
+            "title":"GeoGebra question block- STACK Documentation",
+            "description":"Reference documentation for the GeoGebra question block."
+            }
+            ]
+        },
+        {
+       "JSXGraph":[
+            {
+            "file":"index.md",
+            "title":"JSXGraph - STACK Documentation",
+            "description":"How to include JSXGraph into STACK."
+            },
+            {
+            "file":"Example_plots.md",
+            "title":"JSXGraph Example plots- STACK Documentation",
+            "description":"A catalogue of example JSXGraph plots for STACK."
+            },
+            {
+            "file":"Advanced_JSXGraph.md",
+            "title":"More advanced use of JSXGraph in STACK - STACK Documentation",
+            "description":"More advanced use of JSXGraph in STACK ."
+            },
+            {
+            "file":"Question_block.md",
+            "title":"JSXGraph question block- STACK Documentation",
+            "description":"Reference documentation for the JSXGraph question block."
+            }
+            ]
+        }
+      ]
+      }
+    ]
+}

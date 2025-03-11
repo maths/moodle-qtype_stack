@@ -25,6 +25,8 @@
 /*                                                              */
 /****************************************************************/
 
+load(matrixfactorizations);
+
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
 

@@ -1,6 +1,3 @@
-/* This may not work without 
-   stack_include_contrib("linearalgebra_core.mac") */
-
 /*  Authors Luke Longworth, Georg Osang
     University of Canterbury, IDEMS International
     Copyright (C) 2025 Luke Longworth and Georg Osang
@@ -23,6 +20,8 @@
 /*                                                              */
 /****************************************************************/
 
+stack_linear_algebra_declare(true)$
+
 /*********************************************************************************/
 /* Processing vector parametric equations for lines, planes, etc.                */
 /*********************************************************************************/
@@ -42,7 +41,7 @@ linear_combinationp(ex):= block([vars,cm,dir_vecs,cons_vecs],
   cm: coefmatrix(flatten(args(ex)), vars),
   dir_vecs: maplist(lambda([ex2], col(cm,ex2)), ev(makelist(ii,ii,1,length(vars)),simp)),
   cons_vec: ev(ex - apply("+", zip_with("*", vars, dir_vecs)),simp),
-  return(every(constantp,list_matrix_entries(cons_vec)))
+  return(every(constantp, list_matrix_entries(cons_vec)))
 );
 
 /**
@@ -129,12 +128,13 @@ vector_parametric_display(parts):= block([simp:false,cons_vec,dir_vecs,vars],
  * @param[list] parts The output of vector_parametric_parts. This is a three-element list of the form [constant_vector, [list of direction vectors], [list of parameters]]. All vectors should be mx1 matrices. The third element can be omitted if building the list manually.
  * @return[boolean] Is p in the affine subspace?
  */
-point_in_affine_spacep(p,parts):= block([simp:true,cons_vec,dir_vecs,vars,eqns,soln],
+point_in_affine_spacep(p,parts):= block([simp:true,cons_vec,dir_vecs,vars,eqns,soln,tmp],
   cons_vec: first(parts),
   dir_vecs: second(parts),
   if is(length(parts)>2) then vars: third(parts) else vars: rest(stack_var_makelist(tmp,length(dir_vecs))),
   errcatch(
-    eqns: list_matrix_entries(cons_vec - p + apply("+", zip_with("*", vars, dir_vecs))),
+    cons_vec:ev(cons_vec - p + apply("+", zip_with("*", vars, dir_vecs)),simp),
+    eqns: list_matrix_entries(cons_vec),
     soln: linsolve(eqns,vars)
   ), 
   if listp(soln) then if is(length(soln)>0) then return(true) else return(false)

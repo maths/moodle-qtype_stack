@@ -26,7 +26,7 @@
     </stackversion>
     <questionvariables>
       <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 
 /*example of a wrong response for tests, edit if changing question*/
 wa: [

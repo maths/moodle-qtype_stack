@@ -23,6 +23,8 @@
 /*                                                              */
 /****************************************************************/
 
+load("vectorgeometry.mac");
+
 s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),true);
 s_test_case(linear_combinationp(matrix([1+t+s],[2+t],[3+t+s])),true);
 s_test_case(linear_combinationp(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),true);
@@ -54,6 +56,7 @@ s_test_case(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s])),[matrix([1],[
 s_test_case(vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
 s_test_case(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),[matrix([null]),[],[s,t]]);
 
+make_multsgn("dot");
 s_test_case(vector_parametric_display([matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
 s_test_case(vector_parametric_display(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s]))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
 
@@ -65,6 +68,6 @@ s_test_case(point_in_affine_spacep(matrix([1],[102],[3]),[matrix([0],[100],[0]),
 
 s_test_case(vector_in_spacep(matrix([1],[2],[3]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),true);
 s_test_case(vector_in_spacep(matrix([1],[2],[3]),[matrix([4],[5],[6]),matrix([7],[8],[10])]),false);
-s_test_case(vector_in_spacep(matrix([1],[2]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
+s_test_case_error(vector_in_spacep(matrix([1],[2]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
 s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
 s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])],true),true);

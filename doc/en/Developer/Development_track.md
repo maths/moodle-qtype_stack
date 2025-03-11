@@ -14,6 +14,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 5. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../Topics/Linear_algebra/Random_Matrices.md) documentation for details.
 6. Add in a substantial library for dealing with [linear algebra problems](../Topics/Linear_algebra/index.md).
 7. Load Maxima's `eigen` library.
+8. The API now accepts moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
 
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 

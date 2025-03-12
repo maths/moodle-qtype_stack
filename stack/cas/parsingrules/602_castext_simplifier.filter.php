@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
@@ -30,6 +37,7 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
 
 
     // Is a node of the form ["%root",...].
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function is_castext($node) {
         if ($node instanceof MP_List && count($node->items) > 0 && $node->items[0] instanceof MP_String) {
             return $node->items[0]->value === "%root";
@@ -38,6 +46,7 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function($node) use (&$answernotes, &$errors) {
             if (isset($node->position['castext']) && $node->position['castext']) {
@@ -291,7 +300,8 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             $node->items[1] instanceof MP_String && count($node->items) === 2) {
                         $params = [$node->items[0]->value, $node->items[1]->value];
                         $proc = new stack_cas_castext2_demoodle([]);
-                        $n = new MP_String($proc->postprocess($params));
+                        $n = new MP_String($proc->postprocess($params, new castext2_default_processor(),
+                                    new castext2_placeholder_holder()));
                         $n->position['castext'] = true;
                         $node->parentnode->replace($node, $n);
                         return false;
@@ -305,7 +315,8 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             instanceof MP_String && count($node->items) === 2) {
                         $params = [$node->items[0]->value, $node->items[1]->value];
                         $proc = new stack_cas_castext2_demarkdown([]);
-                        $n = new MP_String($proc->postprocess($params));
+                        $n = new MP_String($proc->postprocess($params, new castext2_default_processor(),
+                                    new castext2_placeholder_holder()));
                         $n->position['castext'] = true;
                         $node->parentnode->replace($node, $n);
                         return false;

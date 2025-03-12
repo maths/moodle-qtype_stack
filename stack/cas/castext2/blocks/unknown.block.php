@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -27,20 +35,23 @@ require_once(__DIR__ . '/../block.interface.php');
  */
 class stack_cas_castext2_unknown extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ? MP_Node {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function compile($format, $options): ?MP_Node {
         // Unknown blocks do not get anywhere ever.
         return null;
     }
 
-    public function is_flat() : bool {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
-    /*
+    /**
      * Unknown blocks are always invalid.
      */
     public function validate(&$errors = [], $options = []): bool {

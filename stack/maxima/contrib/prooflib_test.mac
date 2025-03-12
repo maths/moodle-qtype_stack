@@ -24,32 +24,6 @@
 /*                                                                */
 /******************************************************************/
 
-s_test_case(proofp(proof(1,2,3)), true);
-s_test_case(proofp(proof_iff(1,2)), true);
-s_test_case(proofp(sin(x)), false);
-
-s_test_case(proof_validatep(proof(1,2,3)), true);
-s_test_case(proof_validatep(proof(1,2,proof(4,5,6))), true);
-s_test_case(proof_validatep(proof(1,2,proof_iff(4,5))), true);
-/* proof_opt must have exactly one sub-proof. */
-s_test_case(proof_validatep(proof(1,2,proof_opt(4,5))), false);
-/* proof_iff must have exactly two sub-proofs. */
-s_test_case(proof_validatep(proof(1,2,proof_iff(4))), false);
-s_test_case(proof_validatep(proof(1,2,proof_iff(4,5,6))), false);
-/* proof_ind must have exactly four sub-proofs. */
-s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5),6)), true);
-s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5))), false);
-s_test_case(proof_validatep(proof(1,proof_opt(2),proof_iff(4,5))), true);
-
-s_test_case(proof_flatten(proof_iff(proof(A,B),proof(C))), proof(A,B,C));
-s_test_case(proof_flatten(proof_c(proof(A,proof(B,C)),proof(D))), proof(A,B,C,D));
-
-s_test_case(proof_normal(proof_c(B,A,D,C)), proof_c(A,B,C,D));
-s_test_case(proof_normal(proof_iff(B,A)), proof_iff(A,B));
-s_test_case(proof_normal(proof_ind(D,C,B,A)), proof_ind(D,B,C,A));
-s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
-s_test_case(proof_normal(proof_goal(D,C,B,A)), proof_goal(B,C,D,A));
-s_test_case(proof_normal(proof_iff(proof_c(proof_opt(C),A), B)), proof_iff(proof_c(A,C),B));
 
 s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
 s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
@@ -58,8 +32,6 @@ s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_in
 s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_cases(A,B,C),proof_cases(A,C,B)]);
 s_test_case(proof_alternatives(proof_goal(A,B,C)), [proof_goal(A,B,C),proof_goal(B,A,C)]);
 s_test_case(proof_alternatives(proof_iff(proof(proof_opt(A), B),C)), [proof_iff(proof(A,B),C),proof_iff(proof(B),C),proof_iff(C,proof(A,B)),proof_iff(C,proof(B))]);
-
-s_test_case(proof_parsons_interpret("{\"used\":[\"0\",\"3\",\"5\"],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
 
 s_test_case(proof_inline_maths("\\[ 3 = 2^{\\frac{p}{q}}\\]"), "\\( 3 = 2^{\\frac{p}{q}}\\)");
 

@@ -25,6 +25,7 @@ require_once(__DIR__ . '/../utils.class.php');
 /**
  * Class to parse user-entered data into CAS sessions.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -46,10 +47,16 @@ class stack_cas_keyval {
     private $security;
 
     // For those using keyvals as a generator for sessions.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $options;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $seed;
 
+    /** @var bool to hold when we add slashes to Maxima strings. */
+    private $pslash;
+
     // For error mapping keyvals do need a context.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $context;
 
     /**
@@ -58,7 +65,8 @@ class stack_cas_keyval {
      */
     public $errclass = 'stack_cas_error';
 
-    public function __construct($raw, $options = null, $seed=null, $ctx='') {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function __construct($raw, $options = null, $seed=null, $ctx='', $pslash=false) {
         $this->raw          = $raw;
         $this->statements   = [];
         $this->errors       = [];
@@ -66,6 +74,7 @@ class stack_cas_keyval {
         $this->seed         = $seed;
         $this->context      = $ctx;
         $this->security     = new stack_cas_security();
+        $this->pslash       = $pslash;
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
@@ -81,6 +90,7 @@ class stack_cas_keyval {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function validate($inputs) {
 
         if (empty($this->raw) || '' == trim($this->raw) || null == $this->raw) {
@@ -104,9 +114,8 @@ class stack_cas_keyval {
 
         $str = str_replace('?', 'QMCHAR', $str);
 
-        // CAS keyval may not contain @ or $ outside strings.
-        // We should certainly prevent the $ to make sure statements are separated by ;, although Maxima does allow $.
-        if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
+        // CAS keyval may not contain @ outside strings.
+        if (strpos($str, '@') !== false) {
             $this->errors[] = new $this->errclass(stack_string('illegalcaschars'), $this->context);
             $this->valid = false;
             return false;
@@ -188,20 +197,25 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
-    /** Specify non default security, do this before validation. */
+    /**
+     * Specify non default security, do this before validation.
+     */
     public function set_security(stack_cas_security $security) {
         $this->security = clone $security;
     }
 
-    /** Extract a security object with type related context information, do this after validation. */
+    /**
+     * Extract a security object with type related context information, do this after validation.
+     */
     public function get_security(): stack_cas_security {
         return $this->security;
     }
 
 
-    /*
-     * @array $inputs Holds an array of the input names which are forbidden as keys.
-     * @bool $inputstrict Decides if we should forbid any reference to the inputs in the values of variables.
+    /**
+     * Add description
+     * @param array $inputs Holds an array of the input names which are forbidden as keys.
+     * @param bool $inputstrict Decides if we should forbid any reference to the inputs in the values of variables.
      */
     public function get_valid($inputs = null) {
         if (null === $this->valid || is_array($inputs)) {
@@ -210,6 +224,7 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($casdebug = false, $raw = 'strings') {
         if (null === $this->valid) {
             $this->validate(null);
@@ -238,6 +253,7 @@ class stack_cas_keyval {
         return $errors;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function instantiate() {
         if (null === $this->valid) {
             $this->validate(null);
@@ -250,6 +266,7 @@ class stack_cas_keyval {
         return $cs->get_errors(true);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_session() {
         if (null === $this->valid) {
             $this->validate(null);
@@ -257,6 +274,12 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_raw() {
+        return $this->raw;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
             $updatearray['read'] = [];
@@ -282,7 +305,7 @@ class stack_cas_keyval {
      *
      * Note that one must have done validation in advance.
      */
-    public function compile(string $contextname, castext2_static_replacer $map = null): array {
+    public function compile(string $contextname, ?castext2_static_replacer $map = null): array {
         $bestatements = [];
         $statements = [];
         $contextvariables = [];
@@ -313,6 +336,7 @@ class stack_cas_keyval {
         $str = $this->raw;
         // Similar QMCHAR protection as previously.
         $strings = stack_utils::all_substring_strings($str);
+
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }
@@ -320,7 +344,14 @@ class stack_cas_keyval {
         $str = str_replace('?', 'QMCHAR', $str);
 
         foreach ($strings as $key => $string) {
+            if ($this->pslash) {
+                $string = stack_utils::protect_backslash_latex($string);
+            }
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
+        }
+
+        if ($this->pslash) {
+            $this->raw = str_replace('QMCHAR', '?', $str);
         }
 
         // And then the parsing.
@@ -387,12 +418,22 @@ class stack_cas_keyval {
                 if ($item->statement instanceof MP_FunctionCall) {
                     $op = $item->statement->name->value;
                 }
-                if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
-                    $bestatements[] = $statement;
-                }
-                // Note that stack_reet_vars needs to be both blockexternal and a contextvariable.
+                // Notes on ordergreat and stack_reset_vars.
+                // We must have ordergreat/orderless outside the main block, so we need blockexternals.
+                // If we use stack_reset_vars after an ordergreat it "kills" the effects of the order change.
+                // Hence, we can't have stack_reset_vars in both the context variables and the blockexternals.
+                // This is the edge case where we re-order i,j,k to be i+j+k, not the Maxima default k+j+i.
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $contextvariables[] = $statement;
+                }
+                // Test for end of context variables.
+                if ($item->statement instanceof MP_Identifier) {
+                    if ($item->statement->value == '%_stack_preamble_end') {
+                        $contextvariables = array_merge($contextvariables, $statements);
+                        $statements = [];
+                    }
+                } else if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
+                    $bestatements[] = $statement;
                 } else {
                     $statements[] = $statement;
                 }
@@ -412,7 +453,6 @@ class stack_cas_keyval {
         if (count($bestatements) == 0) {
             $bestatements = null;
         } else {
-            // These statement groups always end with a 'true' to ensure minimal output.
             $bestatements = '(' . implode(',', $bestatements) . ',true)';
         }
         if (count($statements) == 0) {

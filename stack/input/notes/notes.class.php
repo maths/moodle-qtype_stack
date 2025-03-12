@@ -22,17 +22,19 @@ require_once(__DIR__ . '/../../utils.class.php');
  * Input that is a text area.
  * However, the purpose is to allow a student to write language (English) notes.
  * These are not passed into the CAS
+ * @package    qtype_stack
  * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_notes_input extends stack_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'manualgraded' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -65,10 +67,14 @@ class stack_notes_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'notes';
+
         return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes) .
             html_writer::tag('div', "", ['class' => 'clearfix']);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -102,6 +108,7 @@ class stack_notes_input extends stack_input {
         return [$valid, $errors, $notes, $answer, $caslines, $answer, []];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -159,6 +166,7 @@ class stack_notes_input extends stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, an example of what could be typed into
      * this input as part of a correct response to the question.
      * For the notes class this is always the boolean "true".
@@ -211,6 +219,7 @@ class stack_notes_input extends stack_input {
         return format_text(stack_maths::process_display_castext($render));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function summarise_response($name, $state, $response) {
         // Output the value for reporting.
         $val = '';
@@ -220,11 +229,23 @@ class stack_notes_input extends stack_input {
         return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         return new stdClass();
     }
 
-    public function get_api_solution_render($tadisplay) {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_api_solution_render($tadisplay, $ta) {
         return '';
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    protected function ajax_to_response_array($in) {
+        // ISS1317 EJMF - Notes are treated the same as textareas on the front end so
+        // we need to add this to match the textarea input and avoid
+        // <br> appearing in the validation display.
+        $in = explode('<br>', $in);
+        $in = implode("\n", $in);
+        return [$this->name => $in];
     }
 }

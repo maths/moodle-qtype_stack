@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\controller;
 defined('MOODLE_INTERNAL') || die();
@@ -35,16 +38,14 @@ use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class GradingController {
-    /**
-     * @throws \stack_exception
-     * @throws \Exception
-     */
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
 
-        $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
+        $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
 
@@ -96,7 +97,7 @@ class GradingController {
 
             $feedbackstyle = $prt->get_feedbackstyle();
 
-            $feedback = $result->get_feedback();
+            $feedback = $result->apply_placeholder_holder($result->get_feedback());
             $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackstyle);
 
             switch ($feedbackstyle) {
@@ -141,7 +142,9 @@ class GradingController {
         $gradingresponse->scores = $scores;
         $gradingresponse->scoreweights = $weights;
         $gradingresponse->specificfeedback = $translate->filter(
-            $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),
+            $question->specificfeedbackinstantiated->apply_placeholder_holder(
+                $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor)
+            ),
             $language
         );
         StackPlotReplacer::replace_plots($plots, $gradingresponse->specificfeedback, "specificfeedback", $storeprefix);
@@ -154,6 +157,7 @@ class GradingController {
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function standard_prt_feedback(\qtype_stack_question $question, \prt_evaluatable $result, $feedbackstyle) {
         $class = '';
         if ($result->get_score() < 0.000001) {
@@ -174,7 +178,9 @@ class GradingController {
 
         if ($question->$field) {
             return \html_writer::tag('div',
-                \stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor)),
+                \stack_maths::process_display_castext(
+                    $question->$field->apply_placeholder_holder($question->$field->get_rendered($question->castextprocessor))
+                ),
                 ['class' => $class]
             );
         }

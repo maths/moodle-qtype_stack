@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace api\controller;
 defined('MOODLE_INTERNAL') || die();
@@ -36,16 +39,14 @@ use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class RenderController {
-    /**
-     * @throws \stack_exception
-     * @throws \Exception
-     */
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
 
-        $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
+        $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
 
@@ -75,9 +76,11 @@ class RenderController {
         $plots = [];
 
         $renderresponse->questionrender = $translate->filter(
-            \stack_maths::process_display_castext(
-                $question->questiontextinstantiated->get_rendered(
-                    $question->castextprocessor
+            $question->questiontextinstantiated->apply_placeholder_holder(
+                \stack_maths::process_display_castext(
+                    $question->questiontextinstantiated->get_rendered(
+                        $question->castextprocessor
+                    )
                 )
             ),
             $language
@@ -86,7 +89,9 @@ class RenderController {
         StackPlotReplacer::replace_plots($plots, $renderresponse->questionrender, "render", $storeprefix);
 
         $renderresponse->questionsamplesolutiontext = $translate->filter(
-            $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor),
+            $question->get_generalfeedback_castext()->apply_placeholder_holder(
+                $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor)
+            ),
             $language
         );
 
@@ -97,7 +102,8 @@ class RenderController {
             $apiinput = new StackRenderInput();
 
             $apiinput->samplesolution = $input->get_api_solution($question->get_ta_for_input($name));
-            $apiinput->samplesolutionrender = $input->get_api_solution_render($question->get_ta_render_for_input($name));
+            $apiinput->samplesolutionrender = $input->get_api_solution_render(
+                $question->get_ta_render_for_input($name), $question->get_ta_for_input($name));
 
             $apiinput->validationtype = $input->get_parameter('showValidation', 1);
             $apiinput->configuration = $input->render_api_data($question->get_ta_for_input($name));

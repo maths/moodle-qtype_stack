@@ -4,7 +4,7 @@ Separate pages document
 
 1. [numerical answer tests](../Authoring/Answer_Tests/Numerical.md),
 2. [complex numbers](Complex_numbers.md).
-
+3. [numerical rounding](Numerical_rounding.md).
 
 ## Precise Constants ##
 
@@ -22,7 +22,7 @@ Optionally, depending on the question settings, you have
     i: %i
     j: %i
 
-Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.  (On Maxima 5.42.1 (and possibly others) `stack_reset_vars(true)` also resets `ordergreat`, so if you need to use `stack_reset_vars(true)` it must be the first command the question variables.  Since this has been fixed in Maxima 5.44.0, it was probably a bug in Maxima.)
+Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.  (On Maxima 5.42.1 (and possibly others) `stack_reset_vars(true)` also resets `ordergreat`, so if you need to use `stack_reset_vars(true)` it must be the first command in the question variables.  Since this has been fixed in Maxima 5.44.0, it was probably a bug in Maxima.)
 
 If you want to change the display of the constant \(e\) you need to refer to the `%e%` value, e.g. `texput(%e, "\mathrm{e}");`.
 
@@ -33,11 +33,11 @@ The function `recursemod(ex, n)` recurses over an expression tree, and applies t
 ## Internal representation of numbers ##
 
 Maxima has two data types to represent numbers: integers and floats.  Rational numbers are expressed as a division of two integers not with a dedicated data type, and surds with fractional powers or the `sqrt` function.
-The option [Surd for Square Root](../Authoring/Options.md#surd) enables the question author to alter the way surds are displayed in STACK.
+The option [Surd for Square Root](../Authoring/Question_options.md#surd) enables the question author to alter the way surds are displayed in STACK.
 
 Similarly, complex numbers are not represented as a single object, but as a sum of real and imaginary parts, or via the exponential function.
 The input and display of complex numbers is difficult, since differences exist between mathematics, physics and engineering about which symbols to use.
-The option [sqrt(-1)](../Authoring/Options.md#sqrt_minus_one) is set in each question to sort out meaning and display.
+The option [sqrt(-1)](../Authoring/Question_options.md#sqrt_minus_one) is set in each question to sort out meaning and display.
 
 ## Floating point numbers ## {#Floats}
 
@@ -46,23 +46,9 @@ The option [sqrt(-1)](../Authoring/Options.md#sqrt_minus_one) is set in each que
 
 The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.
 
-If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you may want to use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).
+If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you may want to use the [option for strict syntax](../Authoring/Inputs/index.md#Strict_Syntax).
 
-Internally Maxima represents floats in binary, and so even simple calculations which would be exact in base ten (e.g. adding 0.16 to 0.12) might end up in a recurring decimal float which is not exactly equal to the result you would type in directly.
-
-Try `452-4.52*10^2` in desktop Maxima, which is not zero, therefore `ATAlgEquiv(452,4.52*10^2)` fails. (Maxima 5.44.0, November 2022).  \(4.52\times 10^2\) ends up with recurring 9s when represented as a binary float, so it is not algebraically equivalent to the integer \(452\).
-
-Rounding like this can also occur in calculations, for example
-
-    p1:0.29;
-    p2:0.18;
-    p3:0.35;
-    v0:1-(p1+p2+p3);
-    v1:0.18;
-
-Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783\times 10^{-17}\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
-
-As another example, try `100.4-80.0;` in a desktop Maxima session.
+Please read the separate documentation on [numerical rounding](Numerical_rounding.md).
 
 ## Maxima and floats with trailing zeros ##
 
@@ -101,18 +87,19 @@ To force all floating point numbers to decimal floating point numbers use
 
 You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.  This function calls the LISP `format` function, which is complex and more example are available [online](http://www.gigamonkeys.com/book/a-few-format-recipes.html) elsewhere.
 
-| Template    | Input       |  TeX Output      |  Description/notes
+| Template       | Input       |  TeX Output      |  Description/notes
 | ----------- | ----------- | ---------------- | ----------------------------------------------------------------------------------------------
-| `"~,4f"`    | `0.12349`   | \(0.1235\)       |  Output four decimal places: floating point.
-|             | `0.12345`   | \(0.1234\)       |  Note the rounding.
-|             | `0.12`      | \(0.1200\)       |
-| `"~,5e"`    | `100.34`    | \(1.00340e+2\)   |  Output five decimal places: scientific notation.
-| `"~:d"`     | `10000000`  | \(10,000,000\)   |  Separate decimal groups of three digits with commas.
-| `~r`        | `9`         | \(\text{nine}\)  |  Rhetoric.
-| `~:r`       | `9`         | \(\text{ninth}\) |  Ordinal rhetoric.
-| `~7r`       | `9`         | \(12\)           |  Base 7.
-| `~@r`       | `9`         | \(IX\)           |  Roman numerals.
-| `~:@r`      | `9`         | \(VIIII\)        |  Old style Roman numerals.
+| `"~,4f"`       | `0.12349`   | \(0.1235\)       |  Output four decimal places: floating point.
+|                | `0.12345`   | \(0.1234\)       |  Note the rounding.
+|                | `0.12`      | \(0.1200\)       |
+| `"~,5e"`       | `100.34`    | \(1.00340e+2\)   |  Output five decimal places: scientific notation.
+| `"~:d"`        | `10000000`  | \(10,000,000\)   |  Separate decimal groups of three digits with commas.
+| `"~,,\' ,:d"` | `10000000`  | \(10\ 000\ 000\)   |  Separate decimal groups of three digits with spaces.
+| `~r`           | `9`         | \(\text{nine}\)  |  Rhetoric.
+| `~:r`          | `9`         | \(\text{ninth}\) |  Ordinal rhetoric.
+| `~7r`          | `9`         | \(12\)           |  Base 7.
+| `~@r`          | `9`         | \(IX\)           |  Roman numerals.
+| `~:@r`         | `9`         | \(VIIII\)        |  Old style Roman numerals.
 
 There are many other options within the LISP format command. Please note with the rhetoric and Roman numerals that the numbers will be in LaTeX mathematics environments.
 
@@ -134,19 +121,6 @@ The global variables `stackfltfmt` and `stackfltsep` should have independent eff
 If you use the option for a comma then items in sets, lists and as arguments to functions will no longer be separated by a comma.  To avoid conflicting notation, items will be separated by a semicolon (`;`).
 
 If you separate decimal groups of digits with commas, e.g. if `stackfltfmt:"~:d"`, then these commas are replaced by spaces to avoid ambiguity.  The replacement of commas occurs in integers as well as floats to make sure commas in integers cause no confusion.
-
-
-## Notes about numerical rounding ##
-
-There are two ways to round numbers ending in a digit \(5\).
-
-* Always round up, so that \(0.5\rightarrow 1\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 3\) etc.
-* Another common system is to use ``Bankers' Rounding". Bankers Rounding is an algorithm for rounding quantities to integers, in which numbers which are equidistant from the two nearest integers are rounded to the nearest even integer. \(0.5\rightarrow 0\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 2\) etc.  The supposed advantage to bankers rounding is that in the limit it is unbiased, and so produces better results with some statistical processes that involve rounding.
-* In experimental work, the number of significant figures requires sometimes depends on the first digits of the number.  For example, if the first digit is a \(1\) or \(2\) then we need to take an extra significant figure to ensure the relative error is suitably small.  The maxima string functions can be used to check the first digit of a number until we have bespoke internal functions to make this check.
-
-Maxima's `round(ex)` command rounds multiples of 1/2 to the nearest even integer, i.e. Maxima implements Bankers' Rounding.  We do not currently have an option to always round up.
-
-STACK has defined the function `significantfigures(x,n)` to conform to convention of rounding up.
 
 ## STACK numerical functions and predicates ##
 
@@ -182,6 +156,4 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `anyfloatex(ex)`            | Decides if any floats are in the expression.
 | `scientific_notationp(ex)` | Determines if \(ex\) is written in the form \(a10^n\) where \(a\) is an integer or float, and \(n\) is an integer.
 
-## See also
-
-[Maxima reference topics](index.md#reference)
+Please note that these predicate functions need to be used with `simp:false`.  Some answer tests, including the default algebraic equivalence (`ATAlgEquiv`) always simplify their arguments.  Instead use a non-simplifying answer test such as `EqualComAss`.

@@ -1,16 +1,18 @@
 # Authoring quick start 1: a minimal working question
 
-1 - First question | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+1 - First question | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - question library](Authoring_quick_start_6.md) | [7 - Multipart questions](Authoring_quick_start_7.md) | [8 - Simplification](Authoring_quick_start_8.md) | [9 - Quizzes](Authoring_quick_start_9.md)
 
 The authoring quick start guide shows you how to write STACK questions.  Part 1 gets a minimal question working. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" frameborder="0" allowfullscreen></iframe>
+
 ## Before you begin
 
 We assume the following:
 
 1. You have access to a course with STACK installed.
 2. You are familiar with simple \(\LaTeX\) formatting for mathematics.  Some basic examples are provided in the [CASText](../Authoring/CASText.md) documentation.
+3. __We strongly recommend you do not use an HTML-aware editor when editing STACK questions.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following: `User Dashboard > Preferences > Editor preferences > Manage editors`.
 
 ## Creating a minimal STACK question
 
@@ -20,10 +22,10 @@ There are lots of fields, but only a few are compulsory:
 
 1. The "question name",
 2. The "question text", which is shown to the student,
-3. The teacher's "model answer" (inside "Input: ans1" on a default question),
-4. A test of "correctness".
+3. The teacher's "model answer" `ta` using a variable in the "question variables",
+4. A test of "correctness" (defaults to Algebraic equivalence).
 
-By default a new question automatically has one [input](../Authoring/Inputs.md), and one algorithm to test correctness of the answer.
+By default a new question automatically has one [input](../Authoring/Inputs/index.md), and one algorithm to test correctness of the answer.
 
 ### Question name ###
 
@@ -47,17 +49,17 @@ Notes:
 
 ## Input: ans1
 
-Scroll down:  there will be an [inputs](../Authoring/Inputs.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
+For a minimal question, we must specify the _model answer_. Change the question variables so this is
 
-For a minimal question, we must specify the _model answer_. Let this be
+    ta:3*(x-1)^2;
 
-    3*(x-1)^2
+Scroll down:  there will be an [inputs](../Authoring/Inputs/index.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
 
 Notes
 
-1. The student's response is stored in the answer variable `ans1`.
+1. The student's response is stored in the answer variable `ans1`.  By default this uses the value of the variable `ta`.
 2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX. This means multiplication must be explicitly specified, using `*`.
-3. [Inputs](../Authoring/Inputs.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
+3. [Inputs](../Authoring/Inputs/index.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
 4. A question can have many inputs for multiple parts.  These are discussed later in a later part.
 
 ## Assessing correctness of a response - the Potential Response Tree (PRT)
@@ -80,14 +82,14 @@ Each branch can then
 
 * Assign/update the score,
 * Assign formative [feedback](../Authoring/Feedback.md) to the student,
-* Leave an [answer note](../Authoring/Potential_response_trees.md#Answer_note) for statistical [reporting](../Authoring/Reporting.md) purposes,
+* Leave an [answer note](../Authoring/Potential_response_trees.md#Answer_note) for statistical [reporting](../Authoring/../STACK_question_admin/Reporting.md) purposes,
 * Continue to the next potential response node, or end the process with `[stop]`.
 
 Let us configure the first node to determine if the student has differentiated correctly.
 
-1. Specify the variable `ans1` in the `SAns` setting.
-2. Specify the correct answer in the `TAns` setting: `3*(x-1)^2`.
-3. Confirm we have `AlgEquiv` in the _Answer test_ drop-down menu (this is the default).
+1. By default we already have the variable `ans1` in the `SAns` setting.
+2. By default we already have the variable `ta` in the `TAns` setting.  The variable `ta` has been assigned a value in the "question variables".
+3. By default we have `AlgEquiv` in the _Answer test_ drop-down menu.
 
 ## Saving the question
 
@@ -99,8 +101,8 @@ To recap, we have
 
 1. The "question name",
 2. The "question text",
-3. The teacher's "model answer",
-4. A test of "correctness".
+3. The teacher's "model answer", (`ta` in the question variables).
+4. A test of "correctness" (set to Algebraic equivalence by default).
 
 Next we should try out our question by pressing the `Preview` link at the bottom of the page.
 
@@ -128,7 +130,7 @@ First is "validation", and normally servers have "instant validation" enabled.  
 
 The second stage executes when a valid expression is entered, and this evaluates the potential response tree to assess the student's answer.
 
-This two-stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above, all example expressions have strict syntax.  Here we used expressions like `3*(x-1)^2`, with `*` symbols to denote multiplication.  You could choose to let students type in expressions like `3(x-1)^2` and accept implied multiplication. Note, however, that teacher input will always have to be strict to avoid ambiguity. Documentation on these options is given in the [inputs](../Authoring/Inputs.md) section.
+This two-stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above, all example expressions have strict syntax.  Here we used expressions like `3*(x-1)^2`, with `*` symbols to denote multiplication.  You could choose to let students type in expressions like `3(x-1)^2` and accept implied multiplication. Note, however, that teacher input will always have to be strict to avoid ambiguity. Documentation on these options is given in the [inputs](../Authoring/Inputs/index.md) section.
 
 # Next step #
 

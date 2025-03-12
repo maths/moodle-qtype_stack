@@ -17,14 +17,18 @@
 /**
  * This script serves plot files that have been saved in the moodledata folder.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// @codingStandardsIgnoreStart
+// ISS1211 - Removed login requirement for App compatibility.
 require_once(__DIR__ . '/../../../config.php');
+// @codingStandardsIgnoreEnd
+
 require_once($CFG->libdir . '/filelib.php');
 
-require_login();
 
 $filename = clean_filename(get_file_argument());
 $filenamesplit = explode('.', $filename);

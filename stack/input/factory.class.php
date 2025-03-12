@@ -14,17 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Input factory.
+ * Provides a convenient way to create an input of any type,
+ * and to get metadata about the input types.
+ * @package    qtype_stack
+ * @copyright  2012 University of Birmingham.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/inputbase.class.php');
 
-// Input factory. Provides a convenient way to create an input of any type,
-// and to get metadata about the input types.
-//
-// @copyright  2012 University of Birmingham.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
+/**
+ * Input factory.
+ * Provides a convenient way to create an input of any type,
+ * and to get metadata about the input types.
+ */
 class stack_input_factory {
     /**
      * @var array type name => array of parameter names used. Used to cache the
@@ -78,6 +86,7 @@ class stack_input_factory {
     }
 
     /**
+     * Add description here.
      * @return array of available type names.
      */
     public static function get_available_types() {
@@ -127,6 +136,7 @@ class stack_input_factory {
     }
 
     /**
+     * Add description here.
      * @return array input type internal name => display name.
      */
     public static function get_available_type_choices() {
@@ -235,6 +245,11 @@ class stack_input_factory {
             4 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SPACES,
             // Insert stars assuming single-character variables, implied and for spaces.
             5 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SINGLE_CHAR | stack_input::GRAMMAR_FIX_SPACES,
+            // Insert stars for implied multiplication, spaces, and no user-functions.
+            6 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SPACES | stack_input::GRAMMAR_FIX_FUNCTIONS,
+            // Insert stars for implied multiplication, spaces, no user-functions and assuming single-character var.
+            7 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SPACES |
+                stack_input::GRAMMAR_FIX_FUNCTIONS | stack_input::GRAMMAR_FIX_SINGLE_CHAR,
         ];
         return $map[$value];
     }

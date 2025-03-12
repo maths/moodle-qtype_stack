@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Unit tests for stack_potentialresponse_tree_lite, including the prt_evaluatable.
+ *
+ * @package    qtype_stack
+ * @copyright 2022 The University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use castext2_static_replacer;
@@ -35,19 +43,17 @@ require_once(__DIR__ . '/../stack/prt.evaluatable.class.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for stack_potentialresponse_tree_lite, including the prt_evaluatable.
-//
-// @copyright 2022 The University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_potentialresponse_tree_lite, including the prt_evaluatable.
+ *
  * @group qtype_stack
  * @covers \stack_potentialresponse_tree_lite
  */
+final class prt_test extends qtype_stack_testcase {
 
-class prt_test extends qtype_stack_testcase {
-
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     private function create_default_node() {
+
         $node = new stdClass();
         $node->id                  = '';
         $node->nodename            = '';
@@ -76,7 +82,7 @@ class prt_test extends qtype_stack_testcase {
         return $node;
     }
 
-    public function test_single_node_prt() {
+    public function test_single_node_prt(): void {
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';
@@ -104,7 +110,9 @@ class prt_test extends qtype_stack_testcase {
 
         $this->assertFalse($prt->is_formative());
         $this->assertEquals(['Int' => true], $prt->get_answertests());
-        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'];
+        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            'testprt-bail' => 'testprt-bail',
+        ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.
@@ -192,7 +200,7 @@ class prt_test extends qtype_stack_testcase {
 
         $this->assertEquals(0, $prtev->get_score());
         $expected = 'You need to add a constant of integration, otherwise this appears to be correct. ' .
-            'Well done. Boo!';
+            'Boo!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['ATInt_const.', '1-0-0'], $prtev->get_answernotes());
         $expected = [
@@ -202,7 +210,7 @@ class prt_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
-    public function test_multi_node_prt() {
+    public function test_multi_node_prt(): void {
 
         $newprt = new stdClass;
         $newprt->name = 'multiprt';
@@ -248,6 +256,7 @@ class prt_test extends qtype_stack_testcase {
         $expected = [
             'NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
             '1-1-1' => '1-1-1', '1-1-0' => '1-1-0',
+            'multiprt-bail' => 'multiprt-bail',
         ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
@@ -303,7 +312,7 @@ class prt_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
-    public function test_runtime_score_error() {
+    public function test_runtime_score_error(): void {
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';
@@ -333,7 +342,9 @@ class prt_test extends qtype_stack_testcase {
 
         $this->assertFalse($prt->is_formative());
         $this->assertEquals(['Int' => true], $prt->get_answertests());
-        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'];
+        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            'testprt-bail' => 'testprt-bail',
+        ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.

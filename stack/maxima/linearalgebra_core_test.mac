@@ -1,0 +1,140 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra functions for STACK                          */
+/*                                                              */
+/*  Test cases.                                                 */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+stack_linear_algebra_declare(true)$
+/* Reset the counter for auto-generated numbers in linsolve. */
+%rnum:0;
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
+
+s_test_case(vec_convert(c(1,2,3)),matrix([1],[2],[3]));
+s_test_case(vec_convert(r(1,2,3)),matrix([1,2,3]));
+s_test_case(vec_convert(c(1,2,3) + matrix([1],[1],[1])),matrix([1],[2],[3])+matrix([1],[1],[1]));
+s_test_case(vec_convert(c(1,2) + r(3,4)),matrix([1],[2])+matrix([3,4]) );
+s_test_case_eval_error(ev(vec_convert(c(1,2) + r(3,4)),simp),c(1,2) + r(3,4) );
+
+s_test_case(un_vec_convert(matrix([1],[2],[3])),c(1,2,3));
+s_test_case(un_vec_convert(matrix([1,2,3])),r(1,2,3));
+s_test_case(un_vec_convert(matrix([1])),c(1));
+
+s_test_case(vec_convertedp(c(1,2)),false);
+s_test_case(vec_convertedp(r(1,2)),false);
+s_test_case(vec_convertedp(vec_convert(c(1,2))),true);
+s_test_case_eval_error(vec_convertedp(ev(vec_convert(c(1,2)+r(3,4)),simp)),false);
+
+s_test_case(col_vecp(matrix([1],[2])),true);
+s_test_case(col_vecp(matrix([1,2])),false);
+s_test_case(row_vecp(matrix([1],[2])),false);
+s_test_case(row_vecp(matrix([1,2])),true);
+s_test_case(col_vecp(c(1,2)),false);
+s_test_case(row_vecp(r(1,2)),false);
+
+s_test_case(vectorp(matrix([1],[2])),true);
+s_test_case(vectorp(matrix([1,2])),true);
+s_test_case(vectorp(c(1,2)),false);
+
+s_test_case(diagp(ident(5)),true);
+s_test_case(diagp(zeromatrix(5,4)),true);
+
+s_test_case(diagp(matrix([1,0],[1-1,1])),false);
+s_test_case(diagp(matrix([1,1],[0,1])),false);
+s_test_case(diagp(matrix([1,0],[1,1])),false);
+s_test_case(diagp(matrix([1])),true);
+s_test_case(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,0])),true);
+s_test_case(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,4])),false);
+s_test_case(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0])),true);
+s_test_case(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,4])),false);
+
+s_test_case(squarep(ident(4)),true);
+s_test_case(squarep(matrix([1],[2])),false);
+s_test_case(squarep(matrix([1,2],[2,3])),true);
+s_test_case(squarep(1),false);
+
+s_test_case(convert_to_colvec([1,2,3]), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec(c(1,2,3)), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec(ntuple(1,2,3)), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec(matrix([1],[2],[3])), matrix([1],[2],[3]));
+s_test_case(convert_to_colvec({1,2,3}), matrix([null]));
+s_test_case(convert_to_colvec(f(1,2,3)), matrix([null]));
+s_test_case(convert_to_colvec(r(1,2,3)), matrix([null]));
+s_test_case(convert_to_colvec(matrix([1,2,3])), matrix([null]));
+s_test_case(convert_to_colvec([1,2,[3]]), matrix([null]));
+s_test_case(convert_to_colvec(1), matrix([null]));
+
+s_test_case(matrix_to_cols(matrix([1,2],[3,4])), [matrix([1],[3]),matrix([2],[4])]);
+
+s_test_case(cols_to_matrix(matrix([1,2],[3,4])), matrix([1,2],[3,4]));
+s_test_case(cols_to_matrix([[1,2],[3,4]]), matrix([1,3],[2,4]));
+s_test_case(cols_to_matrix([[1,2,3], c(2,2,3), matrix([3],[2],[3])]), matrix([1,2,3],[2,2,2],[3,3,3]));
+s_test_case(cols_to_matrix([c(2,2,3), c(2,2)]), matrix([null]));
+s_test_case(cols_to_matrix([c(2,2,4), c(2,2,4)]), matrix([2,2],[2,2],[4,4]));
+s_test_case(cols_to_matrix(1), matrix([null]));
+s_test_case(cols_to_matrix([[1,2],[3,4,5]]), matrix([null]));
+s_test_case(cols_to_matrix([[1,2],[3,[4]]]), matrix([null]));
+s_test_case(cols_to_matrix([[1],[[4]]]), matrix([null]));
+
+s_test_case(cols_to_cols(matrix([1,2],[3,4])), [matrix([1],[3]),matrix([2],[4])]);
+s_test_case(cols_to_cols([[1,2],[3,4]]), [matrix([1],[2]),matrix([3],[4])]);
+s_test_case(cols_to_cols([[1,2,3], c(2,2,3), matrix([3],[2],[3])]), [matrix([1],[2],[3]),matrix([2],[2],[3]),matrix([3],[2],[3])]);
+s_test_case(cols_to_cols([c(2,2,3), c(2,2)]), []);
+s_test_case(cols_to_cols([c(2,2,4), c(2,2,4)]), [matrix([2],[2],[4]),matrix([2],[2],[4])]);
+s_test_case(cols_to_cols(1), []);
+s_test_case(cols_to_cols([[1,2],[3,4,5]]), []);
+s_test_case(cols_to_cols([[1,2],[3,[4]]]), []);
+s_test_case(cols_to_cols([[1],[[4]]]), []);
+s_test_case(sort(cols_to_cols({[-1/2,sin(%pi*x)],[x+y,f(x)]})), [matrix([-1/2],[sin(%pi*x)]),matrix([x+y],[f(x)])]);
+
+s_test_case(make_list_of_lists(1),1);
+s_test_case(make_list_of_lists(matrix([1,3,5])),[[1,3,5]]);
+s_test_case(make_list_of_lists(matrix([1,2],[3,4],[5,6])),[[1,3,5],[2,4,6]]);
+s_test_case(make_list_of_lists({c(1,2,3),[2,3,4],ntuple(3,4,5),{4,5,6}}),[[1,2,3],[2,3,4],[3,4,5],[4,5,6]]);
+s_test_case(make_list_of_lists([1,2,3,4]),[[1,2,3,4]]);
+s_test_case(make_list_of_lists([1,a,b,4]),[[1,a,b,4]]);
+s_test_case(make_list_of_lists([[1,2,3],[2,3,4],[3,4,5]]),[[1,2,3],[2,3,4],[3,4,5]]);
+s_test_case(make_list_of_lists([matrix([1],[2]),matrix([3],[4])]),[[1,2],[3,4]]);
+
+s_test_case(cols_to_matrix([[1,2,3],[4,5,6]]),matrix([1,4],[2,5],[3,6]));
+s_test_case(cols_to_matrix([[1,2,3]]),matrix([1],[2],[3]));
+s_test_case(cols_to_matrix([1,2,3]),matrix([null]));
+
+/* Reset the counter for auto-generated numbers in linsolve. */
+%rnum:0;
+s_test_case(mat_solve(matrix([1,2],[3,4]),[3,7]),matrix([1],[1]));
+s_test_case(mat_solve(matrix([1,-1],[1,-1]),[0,0]),matrix([%r4],[%r4]));
+s_test_case(mat_solve(matrix([1,-1],[1,-1]),[1,0]),matrix([]));
+s_test_case_simp(ev(stack_strip_percent(mat_solve(matrix([1,-1],[1,-1]),[1,0],true),[r]),simp),matrix([(2*r+1)/2],[r]));
+s_test_case_simp(mat_solve(matrix([0,0],[1,1]),[1,0],true),matrix([-%r6],[%r6]));
+
+s_test_case(scale_nicely([9,12,27]),[3,4,9]);
+s_test_case(scale_nicely(matrix([-9],[-12],[-27])),matrix([3],[4],[9]));
+s_test_case_simp(scale_nicely([1/2,1/4,-5/6]),[6,3,-10]);
+s_test_case(scale_nicely([0,0,0]),[0,0,0]);
+
+s_test_case(pinv(matrix([0,0],[0,0])),matrix([0,0],[0,0]));
+s_test_case_simp(pinv(matrix([1,1],[1,1])),matrix([1/4,1/4],[1/4,1/4]));
+s_test_case_simp(pinv(matrix([1,0],[0,1],[1,1])),matrix([2/3,-(1/3),1/3],[-(1/3),2/3,1/3]));
+s_test_case_simp(pinv(matrix([1,0,1],[0,1,1])),matrix([2/3,-(1/3)],[-(1/3),2/3],[1/3,1/3]));
+
+s_test_case(crossproduct(matrix([1],[2],[3]),matrix([a],[b],[c])),matrix([2*c-3*b],[3*a-1*c],[1*b-2*a]));

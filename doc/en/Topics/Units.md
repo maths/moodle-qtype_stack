@@ -28,6 +28,8 @@ where `num` is the part interpreted to be the numerical portion, and `units` is 
 
 ## Examples  ##
 
+An example question is given in the stacklibrary `Topics\Topics_units_basic.xml`
+
 ### Example 1  ###
 
 Let us assume that the correct answer is `12.1*m/s^2`.
@@ -55,7 +57,7 @@ The goal of this input is to validate against the pattern `number * units`.
 7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` or space between the numbers and units for implied multiplication.
 8. You may want the single letter variable names options here.  Note that since `km` literally means `k*m=1000*m` this is not a problem with most units.
 9. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
-10. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Numerical_input.md).
+10. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Inputs/Numerical_input.md).
 
 There are surprisingly few ambiguities in the units set up, but there will be some that the developers have missed (correctly dealing with ambiguous input is by definition an impossible problem!).  Please contact us with suggestions for improvements.
 
@@ -65,7 +67,9 @@ Note, the input does not currently support a situation where you want to accept 
 
 The extra options to the input should be a comma separated list of tags.  This input type makes use of the additional options in two ways:
 
-1. Units can be displayed using inline fractions \(m/s\) or negative powers \(m\,s^{-1}\).  Add `negpow` to the Extra Options field to use negative powers.
+1. Units can be displayed using inline fractions \(\frac{m}{s}\) (by default fractions are displayed, not inline) or negative powers \(m\,s^{-1}\).  Add `negpow` to the Extra Options field to use negative powers.
+
+See the question options entry on [inline and displayed fractions](../Authoring/Question_options.md).
 
 ## Answer tests  ##
 
@@ -130,7 +134,7 @@ The function `stack_unit_si_declare(true)` declares variables as units.  (Note t
 * If you do not declare `stack_unit_si_declare(true)` in the question variables you may need to do so in the feedback text itself.
 * If you are manipulating two expressions and you want to ensure they both use the same units use `stack_unit_si_to_si_base(ex)` on each.  This ensures only the base units of SI are used.  E.g. `stack_unit_si_to_si_base(stackunits(12.1,km))` gives `stackunits(12100.0,m)`.
 
-This function declares all units in one go, and there is no way to declare only a subset. Indeed, using only a subset would disrupt the conversion logic.  Defining all the units restricts the number of variable names available in a particular question, e.g. \(F\) is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). If you need to fine-tune the display how do to so if explained in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.
+This function declares all units in one go, and there is no way to declare only a subset. Indeed, using only a subset would disrupt the conversion logic.  Defining all the units restricts the number of variable names available in a particular question, e.g. \(F\) is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). If you need to fine-tune the display how do to so if explained in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima_background.md) documentation.
 
 The function `stackunits_make(ex)` takes the expression `ex` and, if this is a product of numbers and units, it returns an inert function `stackunits` with arguments `stackunits(numbers, symbols)`.  Note, symbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
 
@@ -157,7 +161,17 @@ The functions
 
 try to split the expression into units and numbers, and the return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULLNUM`. If there are no numbers, `stack_units_units(ex)` returns `NULLUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.  (You could also use `first(args(ans1))` or `second(args(ans1))` respectively to access the numerical and units parts.)
 
+The reason for having `NULLNUM` is so that we can tell the difference between `m/s` and `1m/s`.  If you want to use the value in an answer test and don't care about the difference (or want `NULLNUM=1`) then use `ev(stack_units_nums(ex),NULLNUM=1)`.
+
 The function `stack_units_split` is deprecated.  DO NOT USE.
+
+## Fine-tuning the display ##
+
+By default STACK's TeX function prints out `stackunits(10,m/s)` as \( 10\, m/s\).  That is, without any multiplication sign between the numerical part and the units.  In some edge cases you might want to add this multiplication sign in.  To do this, use
+
+    texput(multsgnstackunits, "\\cdot");
+
+in the question variables.  In castext you can use, e.g. `{@(texput(multsgnstackunits, "\\cdot "), stackunits(1, s^-1))@}` to create output \({1\cdot s^ {- 1 }}\).
 
 ## Custom units ##
 

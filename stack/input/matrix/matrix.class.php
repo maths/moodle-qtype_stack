@@ -17,12 +17,14 @@
 /**
  * A basic text-field input.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_matrix_input extends stack_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $width;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $height;
 
     protected function get_size(){
@@ -33,18 +35,20 @@ class stack_matrix_input extends stack_input {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'nounits' => false,
         'simp' => false,
-        'rationalized' => false,
+        'rationalized' => false, //nicht in dropdown 
         'consolidatesubscripts' => false,
         'checkvars' => 0,
         'validator' => false,
         'feedback' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function adapt_to_model_answer($teacheranswer) {
         if ($this->get_size()=='fix'){
             // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
@@ -65,6 +69,7 @@ class stack_matrix_input extends stack_input {
         // By default, do nothing.
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_expected_data() {
         $expected = [];
 
@@ -95,7 +100,7 @@ class stack_matrix_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function is_blank_response($contents) {
-        if ($contents == ['EMPTYANSWER']) {
+        if ($contents == ['EMPTYANSWER']) { // nicht in fix
             return true;
         }
         $allblank = true;
@@ -117,7 +122,6 @@ class stack_matrix_input extends stack_input {
      * 
      * @param array|string $in
      * @return string
-     * @access public
      */
     public function response_to_contents($response) {
         $allblank = true;
@@ -189,8 +193,9 @@ class stack_matrix_input extends stack_input {
         return $matrix;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function contents_to_maxima($contents) {
-        if ($contents == ['EMPTYANSWER']) {
+        if ($contents == ['EMPTYANSWER']) { // nicht in fix
             return 'matrix(EMPTYCHAR)';
         }
         $matrix = [];
@@ -207,8 +212,8 @@ class stack_matrix_input extends stack_input {
     private function maxima_to_array($in) {
 
         // Build an empty array.
-        $firstrow = array_fill(0, $this->width, '');
-        $tc       = array_fill(0, $this->height, $firstrow);
+        $firstrow = array_fill(0, $this->width ?? 0, '');
+        $tc       = array_fill(0, $this->height ?? 0, $firstrow);
 
         // Turn the student's answer, syntax hint, etc., into a PHP array.
         $t = trim($in);
@@ -249,31 +254,34 @@ class stack_matrix_input extends stack_input {
 
         // Now validate the input as CAS code.
         $modifiedcontents = [];
-        if ($contents == ['EMPTYANSWER']) {
-            $modifiedcontents = $contents;
-        } else {
-            foreach ($contents as $row) {
-                $modifiedrow = [];
-                $inertrow = [];
-                foreach ($row as $val) {
-                    $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                        [], 'Root', $this->options->get_option('decimals'));
-                    if ($answer->get_valid()) {
-                        $modifiedrow[] = $answer->get_inputform();
-                    } else {
-                        $modifiedrow[] = 'EMPTYCHAR';
-                    }
-                    $valid = $valid && $answer->get_valid();
-                    $errors[] = $answer->get_errors();
-                    $note = $answer->get_answernote(true);
-                    if ($note) {
-                        foreach ($note as $n) {
-                            $notes[$n] = true;
-                        }
+        foreach ($contents as $row) {
+            $modifiedrow = [];
+            foreach ($row as $val) {
+                // Any student input which is too long is not even parsed.
+                if (strlen($val) > $this->maxinputlength) {
+                    $valid = false;
+                    $errors[] = stack_string('studentinputtoolong');
+                    $notes['too_long'] = true;
+                    $val = '';
+                }
+
+                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                    [], 'Root', $this->options->get_option('decimals'));
+                if ($answer->get_valid()) {
+                    $modifiedrow[] = $answer->get_inputform();
+                } else {
+                    $modifiedrow[] = 'EMPTYANSWER';
+                }
+                $valid = $valid && $answer->get_valid();
+                $errors[] = $answer->get_errors();
+                $note = $answer->get_answernote(true);
+                if ($note) {
+                    foreach ($note as $n) {
+                        $notes[$n] = true;
                     }
                 }
-                $modifiedcontents[] = $modifiedrow;
             }
+            $modifiedcontents[] = $modifiedrow;
         }
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
@@ -286,7 +294,7 @@ class stack_matrix_input extends stack_input {
             unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
             $modifiedforbid = implode(',', $modifiedforbid);
             $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
-            $secrules->set_forbiddenwords($modifiedforbid);
+            $secrules->set_forbiddenwords(trim($modifiedforbid));
             // Cumbersome, and cannot deal with matrix being within an alias...
             // But first iteration and so on.
         }
@@ -295,8 +303,7 @@ class stack_matrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        // We don't use the decimals option below, because we've already used it above.
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
             [], 'Root', '.');
         $inertform->get_valid();
@@ -305,12 +312,13 @@ class stack_matrix_input extends stack_input {
         return [$valid, $errors, $notes, $answer, $caslines, $inertform, $caslines];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
-
+        // nicht in fix
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
@@ -329,7 +337,7 @@ class stack_matrix_input extends stack_input {
             $attributes['readonly'] = 'readonly';
             $attr = ' readonly';
         }
-
+        // bis hier
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
         $useplaceholder = false;
@@ -359,6 +367,26 @@ class stack_matrix_input extends stack_input {
             $current = implode("\n", $current);
         }
 
+        // nach blank in fix 
+        // $attr = [
+        //     'size'  => $this->parameters['boxWidth'],
+        //     'autocapitalize' => 'none',
+        //     'spellcheck'     => 'false',
+        // ];
+        // if ($readonly) {
+        //     $attr['readonly'] = 'readonly';
+        // }
+
+        // // Metadata for JS users.
+        // $attr['data-stack-input-type'] = 'matrix';
+        // if ($this->options->get_option('decimals') === ',') {
+        //     $attr['data-stack-input-decimal-separator'] = ",";
+        //     $attr['data-stack-input-list-separator'] = ";";
+        // } else {
+        //     $attr['data-stack-input-decimal-separator'] = ".";
+        //     $attr['data-stack-input-list-separator'] = ",";
+        // }
+
         // Read matrix bracket style from options.
         $matrixbrackets = 'matrixsquarebrackets';
         $matrixparens = $this->options->get_option('matrixparens');
@@ -384,23 +412,23 @@ class stack_matrix_input extends stack_input {
                     $xhtml .= '<td>&nbsp;</td>';
                 }
 
-                for ($j = 0; $j < $this->width; $j++) {
-                    $val = '';
-                    if (!$blank) {
-                        $val = trim($tc[$i][$j]);
-                    }
-                    if ($val === 'null' || $val === 'EMPTYANSWER') {
-                        $val = '';
-                    }
-                    $field = 'value';
-                    if ($useplaceholder) {
-                        $field = 'placeholder';
-                    }
-                    $name = $fieldname.'_sub_'.$i.'_'.$j;
-                    $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
-                            $this->parameters['boxWidth'].'" autocapitalize="none" spellcheck="false" '.$attr.'></td>';
-    
+            for ($j = 0; $j < $this->width; $j++) {
+                $val = '';
+                if (!$blank) {
+                    $val = trim($tc[$i][$j]);
                 }
+                if ($val === 'null' || $val === 'EMPTYANSWER') {
+                    $val = '';
+                }
+                $field = 'value';
+                if ($useplaceholder) {
+                    $field = 'placeholder';
+                }
+                $name = $fieldname.'_sub_'.$i.'_'.$j;
+                $html   = html_writer::empty_tag('input',
+                    array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr));
+                $xhtml .= html_writer::tag('td', $html);
+            }
 
                 if ($i == 0) {
                     $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
@@ -413,7 +441,7 @@ class stack_matrix_input extends stack_input {
             }
             $xhtml .= '</tbody></table></div>';
             return $xhtml;
-        }
+        } 
 
         if ($this->get_size()=='var') {
             // Sort out size of text area.
@@ -429,9 +457,10 @@ class stack_matrix_input extends stack_input {
 
             $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
             return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
-        }
+        } 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -501,6 +530,7 @@ class stack_matrix_input extends stack_input {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -544,6 +574,7 @@ class stack_matrix_input extends stack_input {
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_correct_response($value) {
 
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
@@ -641,7 +672,6 @@ class stack_matrix_input extends stack_input {
      * @author Matti Harjula
      *
      * @param string $in
-     * @access private
      * @return array with the parsed elements, if no elements then array
      *         contains only the input string
      */

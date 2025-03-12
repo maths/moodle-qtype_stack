@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/filter.interface.php');
@@ -29,14 +36,20 @@ require_once(__DIR__ . '/../cassecurity.class.php');
  */
 class stack_ast_filter_402_split_prefix_from_common_function_name implements stack_cas_astfilter {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
-        $process = function($node) use (&$answernotes, $known) {
+        $process = function($node) use (&$answernotes, $known, $identifierrules) {
             if ($node instanceof MP_Functioncall && $node->name instanceof MP_Identifier &&
                 mb_strlen($node->name->value) > 1) {
                 // Is it known?
                 if (array_key_exists($node->name->value, $known)) {
+                    return true;
+                }
+                // Is the whole name in the allowed words for an input?
+                // OK to fix source as 's' below because this filer is only used by student input.
+                if ($identifierrules->is_allowed_to_call('s', $node->name->value)) {
                     return true;
                 }
 
@@ -59,6 +72,9 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
                     $nop->position['insertstars'] = true;
                     if (array_search('missing_stars', $answernotes) === false) {
                         $answernotes[] = 'missing_stars';
+                    }
+                    if (array_search('(402)', $answernotes) === false) {
+                        $answernotes[] = '(402)';
                     }
                     $node->parentnode->replace($node, $nop);
                     return false;

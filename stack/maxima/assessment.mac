@@ -233,6 +233,13 @@ zip_with(zf, a, b) := block(
   cons(zf(first(a), first(b)),  zip_with(zf, rest(a), rest(b)))
 )$
 
+/* Enable use of zipwith on matrices, not just lists. */
+zip_with_matrix(zfm, A, B) := block(
+    if not(matrixp(A)) then error("zip_with_matrix expects its second argument to be a matrix"),
+    if not(matrixp(B)) then error("zip_with_matrix expects its third argument to be a matrix"),
+    apply(matrix, zip_with(lambda([ex1, ex2], zip_with(zfm, ex1, ex2)), args(A), args(B)))
+)$
+
 /* This function makes a substitution of all variables for their lower case equivalents.
    Useful when wanting to do a specific case sensitivity
    check, e.g. that X^2=1 is x^2=1, without using subst_equiv.
@@ -475,45 +482,53 @@ imag_numberp(ex) := block(
 )$
 
 /* Decide if a number is written in complex exponential form, r*%e^(%i*theta).
+   Positive real numbers are fine.
+   Negative real numbers must be like -1=%e^(%i*%pi).
+   This insists on -pi<theta<=pi.
    Needs simp:false.                                                           */
-complex_exponentialp(ex):=block([ex2],
+complex_exponentialp(ex):=block([ex2,atres],
     /* Edge case of a real number! */
-    if ev(real_numberp(ex), simp) then return(true),
-    ex2:ex,
-    if safe_op(ex)="-" then return(complex_exponentialp(first(args(ex)))),
-    if safe_op(ex)="*" then
-        if not(is(real_numberp(first(args(ex))))) then
-            return(false)
-        else
-            ex2:second(args(ex)),
-    if safe_op(ex)="/" then
-        if not(is(real_numberp(second(args(ex))))) then
-            return(false)
-        else
-            ex2:first(args(ex)),
-    /* Case of r=1, which is not written, or stripped off by the above code. */
-    if safe_op(ex2)="^" then
-        if is(equal(first(args(ex2)),%e)) and is(imag_numberp(second(args(ex2)))) then
-            return(true),
-    if safe_op(ex2)="exp" and is(imag_numberp(first(args(ex2)))) then return(true),
+    /* Negative numbers must be in the form r*e^(%i*t) as well. */
+    ex2:ev(polarform(ev(ex,simp)), simp),
+    ex2:polarform_simp(ex2),
+    atres:ATEqualComAssRules(ex2,ex,[oneMul,oneDiv,idPow]),
+    if second(atres) then return(true),
     return(false)
 )$
 
-polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
+/*
+complex_exponentialp(1);
+complex_exponentialp(1*%e^(%i*%pi));
+complex_exponentialp(7/4*%e^(i*%pi/2));
+complex_exponentialp(7*%e^(i*%pi/2)/4);
+complex_exponentialp(%e^(i*%pi/2));
+complex_exponentialp(1*%e^(i*%pi/2));
+complex_exponentialp(%e^%i);
+
+complex_exponentialp(-1);
+complex_exponentialp(2+0*%i);
+complex_exponentialp(1*%e^(-%i*%pi));
+complex_exponentialp(1*%e^(0*%i));
+complex_exponentialp(-3*%e^(-3*%i*%pi));
+complex_exponentialp(-1+%i);
+complex_exponentialp(3*%e^(-7*%i*%pi/3));
+*/
+
+polarform_simp(ex) := block([%_r, %_theta, %_pf,simp],
     /* We can't return a meaningful value for arg(ex) so we just return 0. */
     if is(ev(ex, simp)=0) then return(0),
     /* It is a design choice to return a positive real number, rather than r*%e^0, or r*%e^(%i*0). */
     if ev(real_numberp(ex) and ex>0, simp) then return(ex),
     simp:false,
     %_pf:ev(polarform(ex), simp),
-    /* Purely imaginary numbers somtimes return just %e^{...} */
-    if is(part(%_pf,1)=%e) then return(%_pf),
     /* We really do have something in the form r*%e^theta to pick apart. */
-    %_pf:args(%_pf),
-    %_r:first(%_pf),
-    %_theta:part(second(%_pf),2),
-    ev(%_r, simp) * %e^(ev(%i*imagpart(%_theta), simp))
+    %_r:ev(cabs(%_pf),simp),
+    %_theta:ev(carg(%_pf),simp),
+    %_theta:ev(trigreduce(%_theta),simp),
+    if (is(%_r=1)) then return(%e^(ev(%i*%_theta, simp))),
+    %_r * %e^(ev(%i*%_theta, simp))
 )$
+
 /* 
   polarform_simp(1+%i);
   polarform_simp(0);
@@ -523,12 +538,18 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
   polarform_simp(2*%i);
   polarform_simp(-%i);
   polarform_simp(-2*%i);
+  polarform_simp(%i/2);
   polarform_simp(sqrt(3)+%i*sqrt(3));
   polarform_simp(1/sqrt(2)*(-1+%i));
+  polarform_simp((7*%e^((%i*%pi)/6))/3);
+  polarform_simp(5*sqrt(3)/8+5/8*%i);
+  polarform_simp(%e^%i);
+  polarform_simp(1/2*%e^(%i*%pi));
+  polarform_simp(1/(2*%pi)*%e^(%i*%pi));
 */
 
 
-/* Decides if an expression is precicely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
+/* Decides if an expression is precisely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
 scientific_notationp(ex) := block([tn],
   if not(safe_op(ex)="*") then return(false),
   if not(length(args(ex))=2) then return(false),
@@ -558,11 +579,14 @@ commonfaclist(l) := block([i, a, ret],
  return(ret) )$
 
 /*
- * Returns a list of factors of ex without multiplicities. 
+ * Returns a list of factors of ex with or without multiplicities. 
  * @param[scalar expression] ex, expression to be factored.
- * @return[list] the list of factors, without multiplicities.
+ * @param[boolean] multiples, if true the list can contain multiplicities.
+ * @return[list] the list of factors.
  */
-factorlist(ex) := block([simp:false, ret:"", ex2],
+factorlist([param]) := block([simp:false, ret:"", ex, ex2, multiples],
+  ex:first(param),
+  if length(param)>1 and second(param) then multiples:true else multiples:false, 
   ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),
   if safe_op(ex)="-" then ex:first(args(ex)),
@@ -570,8 +594,8 @@ factorlist(ex) := block([simp:false, ret:"", ex2],
      ret:[ex]
   else
      ret:args(ex),
-  /* Strip off powers. */
-  ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
+  /* Strip off powers? */
+  if multiples#true then ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
   return(ret)
 )$
 
@@ -743,8 +767,14 @@ decimalplacesfun(ex, n, dispdps) := block([ex2],
     ex2:ev(float(round(10^n*float(ex))/(10^n)), lg=logbasesimp, simp),
     if dispdps then ex2:displaydp(ex2, n),
     return(ex2)
-    )$
-decimalplaces(ex, n) := decimalplacesfun(ex, n, false)$
+)$
+
+decimalplaces(ex, n):= block(
+    if n=0 then return(round(ex)), 
+    if integerp(ex) then return(ex),
+    decimalplacesfun(ex, n, false)
+)$
+
 dispdp(ex, n) := block(
     if not(real_numberp(ex)) then error("dispdp requires a real number argument."),
     if not(integerp(n)) then error("dispdp cannot create a non-integer number of decimal places."),
@@ -754,6 +784,7 @@ dispdp(ex, n) := block(
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
 sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2, dps],
+  if matrixp(x) then return(apply(matrix,maplist(lambda([ex], sigfigsfun(ex, n, dispsigfigs)), args(x)))),
   if listp(x) then return(maplist(lambda([ex], sigfigsfun(ex, n, dispsigfigs)), x)),
   if not(real_numberp(x)) then error("sigfigsfun(x,n,d) requires a real number, or a list of real numbers, as a first argument.  Received: ", string(x)),
   if not(integerp(n)) then error("sigfigsfun(x,n,d) requires an integer as a second argument. Received: ", string(n)),
@@ -801,8 +832,7 @@ dispsf(x, n) := sigfigsfun(x, n, true);
 
   If x is not a real number, then return x without a warning.
 */
-scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
-  oldsimp:simp,
+scientific_notation([a]) := block([simp, x, ex, ex2, ex3, exn],
   simp:false,
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
@@ -821,10 +851,8 @@ scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
       ex3:ex2*10^ex,
       /* The use of significantfigures here means we don't use banker's rounding but round up. */
       if not(is(exn=false)) then ex3:displaysci(significantfigures(ex2, exn+1), exn, ex),
-      simp:oldsimp,
       return(ex3)
   ),
-  simp:oldsimp,
   return(first(a))
 )$
 
@@ -1279,13 +1307,14 @@ logical_normal(ex):=block(
     /* Change the noun logical operators into associative indenpotent ones. */
     ex:abs_replace_eq(ex),
     ex:boolean_form(ex),
-    ex:subst("%and", "nounand", ex),
-    ex:subst("%or", "nounor", ex),
-    /* %not is not an infix operator... */
-    ex:subst(%not, "not", ex),
-    ex:subst(%not, "nounnot", ex),
+    ex:subst("and", "nounand", ex),
+    ex:subst("or", "nounor", ex),
+    ex:subst("not", "nounnot", ex),
+    ex:if not ev(numberp(ex), simp) then logic_simplify(ex) else ex,    
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
+    /* %not is not an infix operator... */
+    ex:subst(%not, "not", ex),
     ex:de_morgan(ex),
     ex:trigsimp(ex),
     ex:exponentialize(ex),
@@ -1553,120 +1582,6 @@ poly_about_a(ex, v, a) := block(
    return((ev(ex, ev(v)=''v-a)))
 )$
 
-/****************************/
-/* Matrix/vector operations */
-/****************************/
-
-
-/* Create an "ephemeral form" for vectors, much like stackunits. */
-texboldatoms(ex) := block(
-  if numberp(ex) then return(ex),
-  if atom(ex) then return(stackvector(ex)),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
-  apply(op(ex), maplist(texboldatoms, args(ex)))
-)$
-
-stackvectortex(ex):= block(
-  sconcat("{\\bf ", tex1(first(args(ex))), "}")
-);
-texput(stackvector, stackvectortex);
-
-/* Remove stackvectors.  Needed for dispvalue. */
-destackvector(ex):= block([argsex],
-  if mapatom(ex) then return(ex),
-  argsex:args(ex),
-  if op(ex) = stackvector then return(destackvector(argsex[1])),
-  if op(ex) = "/" then return(destackvector(argsex[1])/destackvector(argsex[2])),
-  map(destackvector, ex)
-)$
-
-/*
-  Description : forme echelonne par lignes d'une matrice rectangulaire
-    (a  coefficients dans un corps commutatif).
-  Taken from http://www.math.utexas.edu/pipermail/maxima/2007/008246.html
-*/
-
-request_rational_matrix(m, pos, fn) :=
-  if every('identity, map(lambda([s], every('ratnump,s)), args(m))) then true else
-    print("Some entries in the matrix are not rational numbers. The result might be wrong.")$
-
-rowswap(m,i,j) := block([n, p, r],
-    require_matrix(m, "first", "rowswap"),
-    require_integer(i, "second", "rowswap"),
-    require_integer(j, "third", "rowswap"),
-    n : length(m),
-    if (i < 1) or (i > n) or (j < 1) or (j > n)
-       then error("Array index out of bounds"),
-    p : copymatrix(m),
-    r : p[i],
-    p[i] : p[j],
-    p[j] : r,
-    p
-)$
-
-rowadd(m,i,j,k) := block([n,p],
-    require_matrix(m, "first", "rowadd"),
-    require_integer(i, "second", "rowadd"),
-    require_integer(j, "third", "rowadd"),
-    require_rational(k, "fourth", "rowadd"),
-    n : length(m),
-    if (i < 1) or (i > n) or (j < 1) or (j > n)
-        then error("Array index out of bounds"),
-    p : copymatrix(m),
-    p [i] : p[i] + k * p[j],
-    p
-)$
-
-rowmul(m,i,k) := block([n,p],
-    require_matrix(m, "first", "rowmul"),
-    require_integer(i, "second", "rowmul"),
-    require_rational(k, "fourth", "rowmul"),
-    n : length(m),
-    if (i < 1) or (i > n) then error("Array index out of bounds"),
-    p : copymatrix(m),
-    p [i] : k * p[i],
-    p
-)$
-
-
-rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
-  debug : 0,
-  request_rational_matrix(m," ","rref"),
-  nc: length(first(m)),
-  nr: length(m),
-  if nc = 0 or nr = 0 then
-    error ("The argument to 'rref' must be a matrix with one or more rows and columns"),
-  p:copymatrix(m),
-  ci : 1, cj : 1,
-  while (ci<=nr) and (cj<=nc) do
-  (
-    if (debug = 1) then (
-        disp(p),
-        print("curseur en ligne ",ci," et colonne ",cj)),
-    pivot_row : 0, pivot : 0,
-    for k : ci thru nr do (
-       if ( abs(p[k,cj]) > pivot ) then (
-         pivot_row : k,
-         pivot : abs(p[k,cj]))),
-         if (debug = 1) then
-       print("colonne ",cj," : pivot trouve ligne ", pivot_row,", valeur : ",pivot),
-    if (pivot = 0) then (cj : cj +1)
-    else (
-      p : rowswap(p,ci,pivot_row),
-    if (debug = 1) then      print (".. Echange : ",p),
-      p : rowmul(p,ci,1/p[ci,cj]),
-    if (debug = 1) then     print (".. Normalisation : ",p),
-      for k : 1 thru nr do (
-         if not (k=ci) then (p : rowadd(p,k,ci,-p[k,cj]))),
-      ci : ci+1, cj : cj+1)),
-  p
-)$
-
-crossproduct(a,b) := block(
-    if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("cossproduct requires matrices as arguments."),
-    if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("cossproduct requires 3*1 matrices."),
-    transpose(matrix([a[2,1]*b[3,1]-a[3,1]*b[2,1],a[3,1]*b[1,1]-a[1,1]*b[3,1],a[1,1]*b[2,1]-a[2,1]*b[1,1]]))
-)$
 
 /* ********************************** */
 /* Analysis tests                     */
@@ -1829,7 +1744,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(SA=true) then SA:all,
 
       SA:abs_replace_eq(SA),
-      SA:ev(SA, lg=logbasesimp),
+      SA:ev(SA, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
       exmod[ev(id, simp)]:SA,
       exmodsolve[ev(id, simp)]:stack_eval_arg_solver(SA),
 

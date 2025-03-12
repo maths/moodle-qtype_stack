@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use maxima_parser_utils;
@@ -33,8 +40,9 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
  * @group qtype_stack_ast_filters
  * @covers \ast_filter_801_singleton_numeric_auto_generated_test
  */
-class parser_rule_801_test extends qtype_stack_testcase {
+final class parser_rule_801_test extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function filter(string $input, bool $floats = true, bool $ints = true, bool $power = true,
             string $convert = 'none'): array {
         $ast = maxima_parser_utils::parse($input);
@@ -70,7 +78,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         return $r;
     }
 
-    public function test_normal_no_convert() {
+    public function test_normal_no_convert(): void {
+
         $test = '1+2';
         $result = $this->filter($test);
         $this->assertFalse($result['valid']);
@@ -140,7 +149,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertTrue($result['valid']);
     }
 
-    public function test_no_floats() {
+    public function test_no_floats(): void {
+
         $test = '1+2';
         $result = $this->filter($test, false);
         $this->assertFalse($result['valid']);
@@ -206,7 +216,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertTrue($result['valid']);
     }
 
-    public function test_no_integers() {
+    public function test_no_integers(): void {
+
         $test = '1+2';
         $result = $this->filter($test, true, false);
         $this->assertFalse($result['valid']);
@@ -272,7 +283,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertFalse($result['valid']);
     }
 
-    public function test_no_powers() {
+    public function test_no_powers(): void {
+
         $test = '1+2';
         $result = $this->filter($test, true, true, false);
         $this->assertFalse($result['valid']);
@@ -338,7 +350,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertFalse($result['valid']);
     }
 
-    public function test_no_convert() {
+    public function test_no_convert(): void {
+
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'none');
         $this->assertEquals($test[1], $result['output']);
@@ -381,7 +394,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertEquals($test[1], $result['output']);
     }
 
-    public function test_convert_to_float() {
+    public function test_convert_to_float(): void {
+
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'to float');
         $this->assert_equals_ignore_spaces_and_e($test[1], $result['output']);
@@ -425,7 +439,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
         $this->assertEquals($test[1], $result['output']);
     }
 
-    public function test_convert_to_power() {
+    public function test_convert_to_power(): void {
+
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'to power');
         $this->assertEquals($test[1], $result['output']);

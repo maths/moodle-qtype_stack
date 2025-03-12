@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Auto-generated unit tests for AST-filter DO NOT EDIT!
+ *
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_ast_testcase;
@@ -24,88 +32,98 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
-// Auto-generated unit tests for AST-filter DO NOT EDIT!
 /**
+ * Auto-generated unit tests for AST-filter DO NOT EDIT!
+ *
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  * @covers \ast_filter_402_split_prefix_from_common_function_name
  */
+final class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test extends qtype_stack_ast_testcase {
 
-class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test extends qtype_stack_ast_testcase {
-
-    public function test_affected_no_units() {
+    public function test_affected_no_units(): void {
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('402_split_prefix_from_common_function_name');
 
         $this->expect('Bgcd(3,2)',
                       'B*gcd(3,2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_*erf(x)',
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('arcsin(x)',
                       'arc*sin(x)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('bsin(t)',
                       'b*sin(t)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('partialdiff(x,y,1)',
                       'partial*diff(x,y,1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('xsin(1)',
                       'x*sin(1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('ycos(2)',
                       'y*cos(2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
     }
 
-    public function test_affected_units() {
+    public function test_affected_units(): void {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('402_split_prefix_from_common_function_name');
 
         $this->expect('Bgcd(3,2)',
                       'B*gcd(3,2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_*erf(x)',
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('arcsin(x)',
                       'arc*sin(x)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('bsin(t)',
                       'b*sin(t)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('partialdiff(x,y,1)',
                       'partial*diff(x,y,1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('xsin(1)',
                       'x*sin(1)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
         $this->expect('ycos(2)',
                       'y*cos(2)',
-                      ['missing_stars'],
+                      ['missing_stars', '(402)'],
                       true, false);
 
     }
 
-    public function test_non_affected_units() {
+    public function test_non_affected_units(): void {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('402_split_prefix_from_common_function_name');
 
@@ -146,6 +164,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 
@@ -651,6 +674,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
                       [],
                       true, false);
 
@@ -1856,7 +1884,7 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
     }
 
-    public function test_non_affected_no_units() {
+    public function test_non_affected_no_units(): void {
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('402_split_prefix_from_common_function_name');
 
@@ -1897,6 +1925,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 
@@ -2402,6 +2435,11 @@ class ast_filter_402_split_prefix_from_common_function_name_auto_generated_test 
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
                       [],
                       true, false);
 

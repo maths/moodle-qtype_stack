@@ -26,6 +26,7 @@ print("************ s_test_case results.");
 load("s_test_case.lisp")$
 s_test_case_eval(ex1, ex2):= if(ev(is(ex1=ex2))) then true else sconcat("Expected '", string(ex2), "' but got '", string(ex1), "'.");
 s_test_case_eval_simp(ex1, ex2):= if(ev(is(ex1=ex2), simp)) then true else sconcat("Expected '", string(ex2), "' but got '", string(ex1), "'.");
+s_test_case_eval_error(ex1, ex2):= (print("Expect an error message!"), if(ev(is(ex1=ex2))) then true else sconcat("Expect an error message!  Expected '", string(ex2), "' but got '", string(ex1), "'."));
 
 read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, cnt, s_failing],
      /* Load the file to define any functions etc. it contains. */
@@ -55,7 +56,7 @@ read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, 
 contrib_files:directory(sconcat(stacklocation, "/stack/maxima/contrib/*.mac"))$
 if emptyp(contrib_files) then print("WARNING: you need to redefine the stacklocation variable correctly to run the tests!");
 
-local_files:["geometry.mac"]$
+local_files:["geometry.mac", "validator.mac", "linearalgebra_core_test.mac"]$
 local_files:map(lambda([ex], sconcat(stacklocation, "/stack/maxima/", ex)), local_files)$
 
 all_files:append(local_files, contrib_files)$

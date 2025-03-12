@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Auto-generated unit tests for AST-filter DO NOT EDIT!
+ *
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_ast_testcase;
@@ -24,16 +32,16 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
-// Auto-generated unit tests for AST-filter DO NOT EDIT!
 /**
+ * Auto-generated unit tests for AST-filter DO NOT EDIT!
+ *
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  * @covers \ast_filter_802_singleton_units
  */
+final class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast_testcase {
 
-class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast_testcase {
-
-    public function test_affected_no_units() {
+    public function test_affected_no_units(): void {
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('802_singleton_units');
 
@@ -77,6 +85,11 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
                       [],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -584,6 +597,16 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       false, true);
 
@@ -1799,7 +1822,7 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
 
     }
 
-    public function test_affected_units() {
+    public function test_affected_units(): void {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('802_singleton_units');
 
@@ -1843,6 +1866,11 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
                       [],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -2350,6 +2378,16 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       false, true);
 
@@ -3565,7 +3603,7 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
 
     }
 
-    public function test_non_affected_units() {
+    public function test_non_affected_units(): void {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('802_singleton_units');
 
@@ -3586,7 +3624,7 @@ class ast_filter_802_singleton_units_auto_generated_test extends qtype_stack_ast
 
     }
 
-    public function test_non_affected_no_units() {
+    public function test_non_affected_no_units(): void {
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('802_singleton_units');
 

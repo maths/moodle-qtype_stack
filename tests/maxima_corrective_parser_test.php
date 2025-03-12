@@ -21,10 +21,13 @@ use qtype_stack_testcase;
 
 defined('MOODLE_INTERNAL') || die();
 
-// Unit tests for verious AST filters.
-//
-// @copyright  2019 Aalto University
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for verious AST filters.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
 require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
@@ -33,18 +36,20 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \maxima_corrective_parser
  */
-class maxima_corrective_parser_test extends qtype_stack_testcase {
+final class maxima_corrective_parser_test extends qtype_stack_testcase {
 
     /**
+     * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider maxima_corrective_parser_test_data::get_raw_test_data
      * @codingStandardsIgnoreEnd
      */
-    public function test_maxima_corrective_parser() {
+    public function test_maxima_corrective_parser(): void {
 
         $test = maxima_corrective_parser_test_data::test_from_raw(func_get_args());
         $result = maxima_corrective_parser_test_data::run_test($test);

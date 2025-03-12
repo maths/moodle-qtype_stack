@@ -53,61 +53,9 @@ tap:proof_display(proof_ans, proof_steps);
 /******************************************************************/
 
 /* General proof functions                                        */
-/* Please update Proof/Proof_CAS_library.md with new types.       */
+/* Please update Proof/Proof_CAS_library.md and                   */
+/* stack/maxima/proof.mac with new types.                         */
 
-/* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
-proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_goal, proof_ind];
-
-proofp(ex) := block(
-  if atom(ex) then true,
-  if elementp(op(ex), setify(proof_types)) then return(true),
-  return(false)
-);
-
-proof_validatep(ex) := block(
-  if atom(ex) then return(true),
-  if op(ex) = proof_opt then
-      if not(is(length(args(ex)) = 1)) then return(false)
-                                       else return(all_listp(proof_validatep, args(ex))),
-  if op(ex) = proof_iff then
-      if not(is(length(args(ex)) = 2)) then return(false)
-                                       else return(all_listp(proof_validatep, args(ex))),
-  if op(ex) = proof_ind then
-      if not(is(length(args(ex)) = 4)) then return(false)
-                                       else return(all_listp(proof_validatep, args(ex))),
-  /* Validate all remaning proof types. */
-  if proofp(ex) then return(all_listp(proof_validatep, args(ex))),
-  return(false)
-);
-
-/* Is this a type of proof which can reorder its arguments? */
-proof_commutep(ex):=block(
-    if atom(ex) then false,
-    if is(op(ex)=proof_c) then return(true),
-    if is(op(ex)=proof_iff) then return(true),
-    return(false)
-);
-
-/* Takes a proof tree and flattens this to a list. */
-proof_flatten(ex) := apply(proof, flatten(ev(ex, map(lambda([ex2], ex2="["), proof_types))));
-
-/*
- * Create a normalised proof tree.
- * To establish equivalence of proof trees we compare the normalised form.
- * This basically sorts and "simplifies" its arguments.
- * We also remove the proof_opt tag.
-*/
-proof_normal(ex) := block(
-  if atom(ex) then return(ex),
-  if op(ex) = proof_opt then return(first(args(ex))),
-  /* Only sort arguments to types of proof which commute. */
-  if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
-  /* Some proof types have subsets of arguments which commute. */
-  if op(ex) = proof_cases then return(apply(proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
-  if op(ex) = proof_goal then return(apply(proof_goal, append(sort(map(proof_normal, reverse(rest(reverse(args(ex)))))), [first(reverse(args(ex)))]))),
-  if op(ex) = proof_ind then return(apply(proof_ind,append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
-  return(apply(op(ex), map(proof_normal, args(ex))))
-);
 
 /******************************************************************/
 /*                                                                */
@@ -168,7 +116,7 @@ proof_remove_nullproof(ex):= block(
 
 /******************************************************************/
 /*                                                                */
-/*  STACK Parson's block functions                                */
+/*  STACK Parson's block functions (legacy)                       */
 /*                                                                */
 /******************************************************************/
 
@@ -176,10 +124,17 @@ proof_remove_nullproof(ex):= block(
  * Take the JSON from STACK Parson's block and return a proof function.
  */
 proof_parsons_interpret(st) := block([pf],
-  pf:stackjson_parse(st),
+  pf:first(stackjson_parse(st)),
   pf:apply(proof, first(first(stackmap_get(pf, "used"))))
 );
-s_test_case(proof_parsons_interpret("{\"used\":[[[\"0\",\"3\",\"5\"]]],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
+
+/* Construct the "used" and "available" keys when the teacher's answer is used. */
+proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
+  /* Ensure all keys are string keys. */
+  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
+  pkeys:proof_parsons_keys_used_unused(proof_ans, proof_steps),
+  sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
+);
 
 /*
  * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
@@ -189,16 +144,8 @@ proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
   tkeys:map(first, proof_steps),
   skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
   /* TO-DO: update this when we deal with trees (and have examples) */
-  skeys:flatten(skeys),
+  skeys:map(lambda([skey], skey), flatten(skeys)),
   return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
-);
-
-/* Construct the "used" and "available" keys when the teacher's answer is used. */
-proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
-  /* Ensure all keys are string keys. */
-  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
-  pkeys:proof_parsons_keys_used_unused(proof_ans, proof_steps),
-  sconcat("{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}")
 );
 
 /******************************************************************/
@@ -300,7 +247,10 @@ proof_disp_replacesteps_html(ex, proof_steps) := block(
 /**
  * Take a proof, and any proof steps and display them using proof CSS.
  */
-proof_display(proof_ans, proof_steps) := ev(proof_disp_replacesteps_html(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
+proof_display(p_ans, p_steps) := block([p1],
+    p1:proof_disp_replacesteps_html(p_ans, p_steps), 
+    ev(p1,map(lambda([ex], ex=dispproof), proof_types))
+);
 
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],
@@ -442,3 +392,70 @@ proof_assessment_display(saa, pf) := block([st, k],
   sconcat("<div class='proof'>", st, "</div>")
 );
 
+/* ********************************** */
+/* Bespoke graph                      */
+/* ********************************** */
+
+/*
+For example, in this proof
+
+proof_steps: [
+    ["H1",     "This step is not needed in the proof."],
+    ["S1",     "Assume that \\(3 \\cdot 2^{172} + 1\\) is a perfect square."],
+    ["S2", "There is a positive integer \\(k\\) such that \\(3 \\cdot 2^{172} + 1 = k^2\\)."],
+    ["S3",   "Since \\(3 \\cdot 2^{172} + 1 > 2^{172} = (2^{86})^2 > 172^2\\), we have \\(k > 172\\)."],
+    ["S4",   "We have \\(k^2 = 3 \\cdot 2^{172} + 1 < 3 \\cdot 2^{172} + 173\\)."],
+    ["S5",   "Also, \\(3 \\cdot 2^{172} + 173 = (3 \\cdot 2^{172} + 1) + 172 < k^2 + k\\). Further, \\(k^2 + k < (k + 1)^2\\)."],
+    ["C6",    "Since \\(k^2 < 3 \\cdot 2^{172} + 173 < (k + 1)^2\\) it is strictly between two successive squares \\(k^2\\) and \\((k + 1)^2\\), it cannot be a perfect square."]
+];
+
+we have two possible "interleaved" answers.
+
+sa1:["S1", "S2", "S3", "S4", "S5", "C6"];
+sa2:["S1", "S2", "S3", "S5", "S4", "C6"];
+
+These can be defined as a directed acyclic graph.
+
+tdag: [
+      ["S1", "S2", "S3", "S5", "C6"],
+      ["S1", "S2", "S4", "C6"]
+     ];
+*/
+
+/*
+This function checks if the student's answer (sa, a list)
+has the dependencies specified in the teachers graph (tdag).
+
+It returns a list of "problems" in the form of 
+ 1. Missing steps.
+ 2. Unnecessary steps.
+ 3. Order problems.
+*/
+proof_assessment_dag(sa, tdag) := block([ttags,stags,proof_problems],
+    ttags:setify(flatten(tdag)),
+    if safe_op(sa)="proof" then sa:args(sa),
+    stags:setify(flatten(sa)),
+    proof_problems:[],
+    /* Each key used in the teacher's proof must occur in the student's list. */
+    if not(subsetp(stags, ttags)) then proof_problems:[proof_step_extra(setdifference(stags, ttags))],
+    /* Only keys used in the teacher's proof should occur in the student's list. */
+    if not(subsetp(ttags, stags)) then proof_problems:append(proof_problems,[proof_step_missing(setdifference(ttags, stags))]),
+    /* For each list, we check that the keys occur in the specified order in the student's proof. */
+    proof_problems:flatten(append(proof_problems, map(lambda([ex], proof_dag_check_list(sa, ex)), tdag))),
+    /* Remove any duplicate problems. */
+    listify(setify(proof_problems))
+)$
+
+/*
+  Takes a list "l1", and makes sure sa respects the order of things in l1.
+*/
+proof_dag_check_list(sa, l1) := block([li1,li2,m1],
+  if is(length(l1) < 2) then return([]),
+  m1:[],
+  /* By design we only check adjacent elements in the list. */
+  li1:sublist_indices(sa, lambda([ex], ex=first(l1))),
+  li2:sublist_indices(sa, lambda([ex], ex=second(l1))),
+  /* Check if both steps appear. */
+  if not(emptyp(li1) or emptyp(li2)) and apply(max, li1) > apply(min,li2) then m1:[proof_step_must(first(l1), second(l1))],
+  append(m1, proof_dag_check_list(sa, rest(l1)))
+)$

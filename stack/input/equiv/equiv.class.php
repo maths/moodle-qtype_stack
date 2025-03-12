@@ -22,6 +22,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * This is an input that allows reasoning by equivalence.
  * Each line input becomes one element of a list.
  *
+ * @package    qtype_stack
  * @copyright  2015 Loughborough University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -56,6 +57,7 @@ class stack_equiv_input extends stack_input {
         'checkvars' => 0,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
@@ -116,11 +118,22 @@ class stack_equiv_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
+        // Metadata for JS users.
+        $attributes['data-stack-input-type'] = 'equiv';
+        if ($this->options->get_option('decimals') === ',') {
+            $attributes['data-stack-input-decimal-separator']  = ',';
+            $attributes['data-stack-input-list-separator'] = ';';
+        } else {
+            $attributes['data-stack-input-decimal-separator']  = '.';
+            $attributes['data-stack-input-list-separator'] = ',';
+        }
+
         $output = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
 
         return $output;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -152,6 +165,7 @@ class stack_equiv_input extends stack_input {
         return $data;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -184,6 +198,7 @@ class stack_equiv_input extends stack_input {
         return $contents;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function caslines_to_answer($caslines, $secrules = false) {
         $vals = [];
         // We don't use full "inputform" here as we need to keep stacklet and stackeq as is.
@@ -278,7 +293,16 @@ class stack_equiv_input extends stack_input {
         $secrulesd->add_allowedwords('dispdp,displaysci');
 
         foreach ($contents as $index => $val) {
-            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+            // Any student input which is too long is not even parsed.
+            if (strlen($val) > $this->maxinputlength) {
+                $valid = false;
+                $errors[] = stack_string('studentinputtoolong');
+                $notes['too_long'] = true;
+                $val = '';
+            }
+
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules,
+                    array_merge($filterstoapply, $this->protectfilters),
                     [], 'Equivline', $this->options->get_option('decimals'));
 
             // Is the student permitted to include comments in their answer?
@@ -301,7 +325,7 @@ class stack_equiv_input extends stack_input {
 
             // Construct inert version of that.
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
-                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array_merge($filterstoapply, $this->protectfilters),
                 [], 'Equivline', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
@@ -347,9 +371,10 @@ class stack_equiv_input extends stack_input {
         }
         $errorfree = true;
         $rows = [];
+
         foreach ($caslines as $index => $cs) {
             $row = [];
-            $fb = $cs->get_feedback();
+            $fb = trim($cs->get_feedback());
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 $row[] = '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)';
                 if ($errors[$index]) {
@@ -390,7 +415,8 @@ class stack_equiv_input extends stack_input {
     }
 
 
-    /** This function creates additional session variables.
+    /**
+     * This function creates additional session variables.
      */
     protected function additional_session_variables($caslines, $teacheranswer) {
         $equivdebug = 'false';
@@ -437,10 +463,12 @@ class stack_equiv_input extends stack_input {
         return ['calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_validation_method() {
         return 'equiv';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function comment_tag($index) {
         return 'EQUIVCOMMENT'.$index;
     }
@@ -486,6 +514,7 @@ class stack_equiv_input extends stack_input {
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
@@ -553,12 +582,14 @@ class stack_equiv_input extends stack_input {
         return $feedback;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function ajax_to_response_array($in) {
         $in = explode('<br>', $in);
         $in = implode("\n", $in);
         return [$this->name => $in];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         return ['' => $this->maxima_to_raw_input($tavalue)];
     }

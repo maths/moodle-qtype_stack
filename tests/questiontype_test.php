@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Unit tests for the STACK question type class.
+ *
+ * @package   qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack;
@@ -37,41 +45,40 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once(__DIR__ . '/../questiontype.php');
 
-// Unit tests for the STACK question type class.
-//
-// @package   qtype_stack.
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the STACK question type class.
+ *
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class questiontype_test extends qtype_stack_walkthrough_test_base {
+final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
     /** @var qtype_stack */
     private $qtype;
 
-    public function setUp() :void {
+    public function setUp(): void {
         parent::setUp();
         $this->qtype = new qtype_stack();
     }
 
-    public function tearDown() :void {
+    public function tearDown(): void {
         $this->qtype = null;
         parent::tearDown();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function assert_same_xml($expectedxml, $xml) {
         $this->assertEquals(str_replace("\r\n", "\n", $expectedxml),
                 str_replace("\r\n", "\n", $xml));
     }
 
-    public function test_name() {
+    public function test_name(): void {
+
         $this->assertEquals($this->qtype->name(), 'stack');
     }
 
-    public function test_get_possible_responses_test0() {
+    public function test_get_possible_responses_test0(): void {
+
         $qdata = test_question_maker::get_question_data('stack', 'test0');
 
         $expected = [
@@ -85,7 +92,8 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
     }
 
-    public function test_get_possible_responses_test3() {
+    public function test_get_possible_responses_test3(): void {
+
         $qdata = test_question_maker::get_question_data('stack', 'test3');
 
         $expected = [
@@ -119,7 +127,8 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
     }
 
-    public function test_get_possible_responses_test4() {
+    public function test_get_possible_responses_test4(): void {
+
         $qdata = test_question_maker::get_question_data('stack', 'variable_grade');
 
         $expected = [
@@ -133,7 +142,8 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
     }
 
-    public function test_initialise_question_instance() {
+    public function test_initialise_question_instance(): void {
+
         $qdata = test_question_maker::get_question_data('stack', 'test3');
         $q = $this->qtype->make_question($qdata);
         $expectedq = test_question_maker::make_question('stack', 'test3');
@@ -145,7 +155,8 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expectedq, $q);
     }
 
-    public function test_question_tests_test3() {
+    public function test_question_tests_test3(): void {
+
         // This unit test runs a question test, really just to verify that
         // there are no errors.
         global $DB;
@@ -182,7 +193,8 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         }
     }
 
-    public function test_xml_export() {
+    public function test_xml_export(): void {
+
         $qdata = test_question_maker::get_question_data('stack', 'test0');
 
         $exporter = new qformat_xml();
@@ -318,7 +330,8 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assert_same_xml($expectedxml, $xml);
     }
 
-    public function test_xml_import() {
+    public function test_xml_import(): void {
+
         $xml = '<!-- question: 0  -->
   <question type="stack">
     <name>
@@ -524,68 +537,78 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assert(new question_check_specified_fields_expectation($expectedq), $q);
     }
 
-    public function test_get_input_names_from_question_text_input_only() {
+    public function test_get_input_names_from_question_text_input_only(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals(['ans123' => [1, 0]],
                 $qtype->get_input_names_from_question_text('[[input:ans123]]'));
     }
 
-    public function test_get_input_names_from_question_text_validation_only() {
+    public function test_get_input_names_from_question_text_validation_only(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals(['ans123' => [0, 1]],
                 $qtype->get_input_names_from_question_text('[Blah] [[validation:ans123]] [Blah]'));
     }
 
-    public function test_get_input_names_from_question_text_invalid() {
+    public function test_get_input_names_from_question_text_invalid(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals([], $qtype->get_input_names_from_question_text('[[input:123]]'));
     }
 
-    public function test_get_input_names_from_question_text_sloppy() {
+    public function test_get_input_names_from_question_text_sloppy(): void {
+
         $qtype = new qtype_stack();
         $text = 'What is \(1+1\)?  [[input: ans1]]';
 
         $this->assertEquals(['[[input: ans1]]'], $qtype->validation_get_sloppy_tags($text));
     }
 
-    public function test_get_prt_names_from_question_text() {
+    public function test_get_prt_names_from_question_text(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals(['prt123' => 1],
                 $qtype->get_prt_names_from_question('[[feedback:prt123]]', ''));
     }
 
-    public function test_get_prt_names_from_question_feedback() {
+    public function test_get_prt_names_from_question_feedback(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals(['prt123' => 1], $qtype->get_prt_names_from_question(
                 'What is $1 + 1$? [[input:ans1]]', '[[feedback:prt123]]'));
     }
 
-    public function test_get_prt_names_from_question_both() {
+    public function test_get_prt_names_from_question_both(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals(['prt1' => 1, 'prt2' => 1], $qtype->get_prt_names_from_question(
                 '[Blah] [[feedback:prt1]] [Blah]', '[Blah] [[feedback:prt2]] [Blah]'));
     }
 
-    public function test_get_prt_names_from_question_invalid() {
+    public function test_get_prt_names_from_question_invalid(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals([], $qtype->get_prt_names_from_question('[[feedback:123]]', ''));
     }
 
-    public function test_get_prt_names_from_question_duplicate() {
+    public function test_get_prt_names_from_question_duplicate(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals(['prt1' => 2],
                 $qtype->get_prt_names_from_question('[[feedback:prt1]] [[feedback:prt1]]', ''));
     }
 
-    public function test_get_prt_names_from_question_duplicate_split() {
+    public function test_get_prt_names_from_question_duplicate_split(): void {
+
         $qtype = new qtype_stack();
 
         $this->assertEquals(['prt1' => 2], $qtype->get_prt_names_from_question('[[feedback:prt1]]',

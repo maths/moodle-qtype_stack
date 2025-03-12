@@ -28,16 +28,16 @@ require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/prt.class.php');
 
-// Useful links.
+// Useful links in the adminui.
 $links = [
     get_string('stackDoc_docs_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/')]),
-    get_string('healthcheck_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')]),
     get_string('chat_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php')]),
     get_string('bulktestindexintro_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php')]),
+    get_string('todo_desc', 'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/todo.php')]),
     get_string('dependenciesintro_desc', 'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/dependencies.php')]),
     get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
@@ -48,9 +48,17 @@ $links = [
         ['link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php')]),
 ];
 
+// These links are only for plugin admins, e.g. the healthcheck.  They are not part of the adminui collection.
+$link = '* ' . implode("\n* ", $links);
+$link .= "\n***\n";
+$links = [
+    get_string('healthcheck_desc', 'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php')]),
+];
+$link .= '* ' . implode("\n* ", $links);
+
 $settings->add(new admin_setting_heading('docs',
-        get_string('settingusefullinks', 'qtype_stack'),
-        '* ' . implode("\n* ", $links)));
+        get_string('settingusefullinks', 'qtype_stack'), $link));
 
 // Options for connection to Maxima.
 // Note that any settings here where we try to set the default
@@ -83,7 +91,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
-        get_string('settingcastimeout_desc', 'qtype_stack'), 20, PARAM_INT, 3));
+        get_string('settingcastimeout_desc', 'qtype_stack'), 30, PARAM_INT, 3));
 
 $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
         get_string('settingcasresultscache', 'qtype_stack'),

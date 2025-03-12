@@ -3,11 +3,11 @@
 STACK is the world-leading open-source (GPL) automatic assessment system for mathematics, science and related disciplines.
 
 * Students type in mathematical expressions, and are not restricted to multiple choice.
-* Separate _validation_ and _assessment_ with an emphasis on formative assessment.
-* Random generation of questions.
-* A wide variety of input types, including line by line working.
-* Support for multipart questions.
-* Support for scientific units and significant figures.
+* STACK separates _validation_ and _assessment_ with an emphasis on formative assessment.
+* Random generation of questions is highly structured with computer algebra support.
+* STACK has a wide variety of input types, including line by line working  and interaction with mathematical diagrams.
+* STACK has support for multipart questions.
+* STACK has support for scientific units and significant figures.
 
 This is the official user documentation for STACK.
 
@@ -19,10 +19,17 @@ This is the official user documentation for STACK.
 
 Documentation for question authors, including:
 
-* An [authoring quick start guide](Authoring/Authoring_quick_start.md), which can be used in conjunction with the "Getting started with STACK" [guide](../content/2019-STACK-Guide.pdf).
-* Information on various [authoring topics](Authoring/index.md), such as [answer tests](Authoring/Answer_Tests/index.md), [inputs](Authoring/Inputs.md), [potential response trees](Authoring/Potential_response_trees.md) and [translations](Authoring/Languages.md).
-* [Frequently asked questions](Authoring/Author_FAQ.md).
-* Information on using the [CAS Maxima](CAS/index.md) for question authoring, including [randomisation](CAS/Random.md), [plotting graphs](Plots/index.md), and expression [simplification](CAS/Simplification.md).
+* An [authoring quick start guide](AbInitio/Authoring_quick_start_1.md), which can be used in conjunction with the "Getting started with STACK" [guide](../content/2019-STACK-Guide.pdf).
+* Reference documentation on [question authoring](Authoring/index.md), such as [answer tests](Authoring/Answer_Tests/index.md), [inputs](Authoring/Inputs/index.md), [potential response trees](Authoring/Potential_response_trees.md) and [translations](Authoring/Languages.md).
+* Detailed guides for using [specialist tools](Specialist_tools/index.md), such as drag and drop questions.
+* Information on using the [CAS Maxima](CAS/index.md) for question authoring, including [randomisation](CAS/Random.md).
+* Guides for writing questions in various [mathematical topics](Topics/index.md).
+
+#### **Installation and development**
+
+* [Installation instructions](Installation/index.md).
+* [Topics for developers](Developer/index.md)
+* [Development history](Developer/Development_history.md).
 
 #### [**Students**](Students/index.md)
 
@@ -32,14 +39,3 @@ Information for students using STACK, including:
 * [How answers are assessed](Students/Answer_assessment.md).
 * [Frequently asked questions](Students/FAQ.md).
 
-#### [**Installation**](Installation/index.md)
-
-* [Installation instructions](Installation/index.md).
-
-#### **[Developers](Developer/index.md)**
-
-Topics for developers, including:
-
-* [A development history](Developer/Development_history.md).
-* [Translating the STACK interface](Developer/Language_packs.md).
-* [Creating an input type](Developer/Creating_an_input_type.md).

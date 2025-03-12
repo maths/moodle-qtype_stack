@@ -17,12 +17,20 @@
 /**
 
  *
+ * @package    qtype_stack
  * @copyright  2024 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_api_test_data {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $questiondata = [
+        'empty' =>
+           '<quiz>
+              <question type="stack">	
+              </question>
+            </quiz>',
         'matrices' =>
            '<quiz>
                 <question type="stack">
@@ -1392,17 +1400,359 @@ class stack_api_test_data {
             </qtest>
           </question>
         </quiz>',
+        'test' => '
+        <quiz>
+          <question type="stack">
+            <name>
+              <text>Algebraic input</text>
+            </name>
+            <questiontext format="html">
+              <text><![CDATA[<p>Type in {@ta@}.</p><p>[[input:ans1]] [[validation:ans1]]</p>
+        <p>(Note, this assumes single variable variable names)</p>]]></text>
+            </questiontext>
+            <generalfeedback format="html">
+              <text></text>
+            </generalfeedback>
+            <defaultgrade>1.0000000</defaultgrade>
+            <penalty>0.1000000</penalty>
+            <hidden>0</hidden>
+            <idnumber></idnumber>
+            <stackversion>
+              <text>2020123000</text>
+            </stackversion>
+            <questionvariables>
+              <text>ta:a*b</text>
+            </questionvariables>
+            <specificfeedback format="html">
+              <text>[[feedback:prt1]]</text>
+            </specificfeedback>
+            <questionnote>
+              <text></text>
+            </questionnote>
+            <questionsimplify>1</questionsimplify>
+            <assumepositive>0</assumepositive>
+            <assumereal>0</assumereal>
+            <prtcorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
+              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+            </prtcorrect>
+            <prtpartiallycorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
+              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+            </prtpartiallycorrect>
+            <prtincorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:red;">
+              <i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+            </prtincorrect>
+            <multiplicationsign>dot</multiplicationsign>
+            <sqrtsign>1</sqrtsign>
+            <complexno>i</complexno>
+            <inversetrig>cos-1</inversetrig>
+            <logicsymbol>lang</logicsymbol>
+            <matrixparens>[</matrixparens>
+            <variantsselectionseed></variantsselectionseed>
+            <input>
+              <name>ans1</name>
+              <type>algebraic</type>
+              <tans>ta</tans>
+              <boxsize>15</boxsize>
+              <strictsyntax>1</strictsyntax>
+              <insertstars>2</insertstars>
+              <syntaxhint></syntaxhint>
+              <syntaxattribute>0</syntaxattribute>
+              <forbidwords>solve</forbidwords>
+              <allowwords></allowwords>
+              <forbidfloat>1</forbidfloat>
+              <requirelowestterms>0</requirelowestterms>
+              <checkanswertype>1</checkanswertype>
+              <mustverify>1</mustverify>
+              <showvalidation>1</showvalidation>
+              <options></options>
+            </input>
+            <prt>
+              <name>prt1</name>
+              <value>1.0000000</value>
+              <autosimplify>1</autosimplify>
+              <feedbackstyle>1</feedbackstyle>
+              <feedbackvariables>
+                <text></text>
+              </feedbackvariables>
+              <node>
+                <name>0</name>
+                <answertest>AlgEquiv</answertest>
+                <sans>ans1</sans>
+                <tans>ta</tans>
+                <testoptions></testoptions>
+                <quiet>0</quiet>
+                <truescoremode>=</truescoremode>
+                <truescore>1.0000000</truescore>
+                <truepenalty></truepenalty>
+                <truenextnode>-1</truenextnode>
+                <trueanswernote>prt1-1-T</trueanswernote>
+                <truefeedback format="html">
+                  <text></text>
+                </truefeedback>
+                <falsescoremode>=</falsescoremode>
+                <falsescore>0.0000000</falsescore>
+                <falsepenalty></falsepenalty>
+                <falsenextnode>-1</falsenextnode>
+                <falseanswernote>prt1-1-F</falseanswernote>
+                <falsefeedback format="html">
+                  <text></text>
+                </falsefeedback>
+              </node>
+            </prt>
+            <qtest>
+              <testcase>1</testcase>
+              <testinput>
+                <name>ans1</name>
+                <value>37</value>
+              </testinput>
+              <expected>
+                <name>prt1</name>
+                <expectedscore>1.0000000</expectedscore>
+                <expectedpenalty>0.0000000</expectedpenalty>
+                <expectedanswernote>prt1-1-T</expectedanswernote>
+              </expected>
+            </qtest>
+            <qtest>
+              <testcase>2</testcase>
+              <testinput>
+                <name>ans1</name>
+                <value></value>
+              </testinput>
+              <expected>
+                <name>prt1</name>
+                <expectedscore>1.0000000</expectedscore>
+                <expectedpenalty>0.0000000</expectedpenalty>
+                <expectedanswernote>NULL</expectedanswernote>
+              </expected>
+            </qtest>
+          </question>
+        </quiz>',
+        'test2' => '
+        <quiz>
+          <question type="stack">
+            <name>
+              <text>Algebraic input</text>
+            </name>
+            <questiontext format="html">
+              <text><![CDATA[<p><img src="test.png"></img>Type in {@ta@}.</p><p>[[input:ans1]] [[validation:ans1]]</p>
+        <p>(Note, this assumes single variable variable names)</p>]]></text>
+            </questiontext>
+            <generalfeedback format="html">
+              <text></text>
+            </generalfeedback>
+            <defaultgrade>1.0000000</defaultgrade>
+            <penalty>0.1000000</penalty>
+            <hidden>0</hidden>
+            <idnumber></idnumber>
+            <stackversion>
+              <text>2020123000</text>
+            </stackversion>
+            <questionvariables>
+              <text>ta:a*b</text>
+            </questionvariables>
+            <specificfeedback format="html">
+              <text>[[feedback:prt1]]</text>
+            </specificfeedback>
+            <questionnote>
+              <text></text>
+            </questionnote>
+            <questionsimplify>1</questionsimplify>
+            <assumepositive>0</assumepositive>
+            <assumereal>0</assumereal>
+            <prtcorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
+              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+            </prtcorrect>
+            <prtpartiallycorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
+              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+            </prtpartiallycorrect>
+            <prtincorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:red;">
+              <i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+            </prtincorrect>
+            <multiplicationsign>dot</multiplicationsign>
+            <sqrtsign>1</sqrtsign>
+            <complexno>i</complexno>
+            <inversetrig>cos-1</inversetrig>
+            <logicsymbol>lang</logicsymbol>
+            <matrixparens>[</matrixparens>
+            <variantsselectionseed></variantsselectionseed>
+            <input>
+              <name>ans1</name>
+              <type>algebraic</type>
+              <tans>ta</tans>
+              <boxsize>15</boxsize>
+              <strictsyntax>1</strictsyntax>
+              <insertstars>2</insertstars>
+              <syntaxhint></syntaxhint>
+              <syntaxattribute>0</syntaxattribute>
+              <forbidwords>solve</forbidwords>
+              <allowwords></allowwords>
+              <forbidfloat>1</forbidfloat>
+              <requirelowestterms>0</requirelowestterms>
+              <checkanswertype>1</checkanswertype>
+              <mustverify>1</mustverify>
+              <showvalidation>1</showvalidation>
+              <options></options>
+            </input>
+            <prt>
+              <name>prt1</name>
+              <value>1.0000000</value>
+              <autosimplify>1</autosimplify>
+              <feedbackstyle>1</feedbackstyle>
+              <feedbackvariables>
+                <text></text>
+              </feedbackvariables>
+              <node>
+                <name>0</name>
+                <answertest>AlgEquiv</answertest>
+                <sans>ans1</sans>
+                <tans>ta</tans>
+                <testoptions></testoptions>
+                <quiet>0</quiet>
+                <truescoremode>=</truescoremode>
+                <truescore>1.0000000</truescore>
+                <truepenalty></truepenalty>
+                <truenextnode>-1</truenextnode>
+                <trueanswernote>prt1-1-T</trueanswernote>
+                <truefeedback format="html">
+                  <text></text>
+                </truefeedback>
+                <falsescoremode>=</falsescoremode>
+                <falsescore>0.0000000</falsescore>
+                <falsepenalty></falsepenalty>
+                <falsenextnode>-1</falsenextnode>
+                <falseanswernote>prt1-1-F</falseanswernote>
+                <falsefeedback format="html">
+                  <text></text>
+                </falsefeedback>
+              </node>
+            </prt>
+          </question>
+        </quiz>',
+        'test3' => '
+        <quiz>
+          <question type="stack">
+            <name>
+              <text>Algebraic input</text>
+            </name>
+            <questiontext format="html">
+              <text><![CDATA[<p>Type in {@ta@}.</p><p>[[input:ans1]] [[validation:ans1]]</p>
+        <p>(Note, this assumes single variable variable names)</p>]]></text>
+            </questiontext>
+            <generalfeedback format="html">
+              <text></text>
+            </generalfeedback>
+            <defaultgrade>1.0000000</defaultgrade>
+            <penalty>0.1000000</penalty>
+            <hidden>0</hidden>
+            <idnumber></idnumber>
+            <stackversion>
+              <text>2020123000</text>
+            </stackversion>
+            <questionvariables>
+              <text>ta:a*b</text>
+            </questionvariables>
+            <specificfeedback format="html">
+              <text>[[feedback:prt1]]</text>
+            </specificfeedback>
+            <questionnote>
+              <text></text>
+            </questionnote>
+            <questionsimplify>1</questionsimplify>
+            <assumepositive>0</assumepositive>
+            <assumereal>0</assumereal>
+            <prtcorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
+              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+            </prtcorrect>
+            <prtpartiallycorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
+              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+            </prtpartiallycorrect>
+            <prtincorrect format="html">
+              <text><![CDATA[<span style="font-size: 1.5em; color:red;">
+              <i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+            </prtincorrect>
+            <multiplicationsign>dot</multiplicationsign>
+            <sqrtsign>1</sqrtsign>
+            <complexno>i</complexno>
+            <inversetrig>cos-1</inversetrig>
+            <logicsymbol>lang</logicsymbol>
+            <matrixparens>[</matrixparens>
+            <variantsselectionseed></variantsselectionseed>
+            <input>
+              <name>ans1</name>
+              <type>algebraic</type>
+              <tans>ta</tans>
+              <boxsize>15</boxsize>
+              <strictsyntax>1</strictsyntax>
+              <insertstars>2</insertstars>
+              <syntaxhint></syntaxhint>
+              <syntaxattribute>0</syntaxattribute>
+              <forbidwords>solve</forbidwords>
+              <allowwords></allowwords>
+              <forbidfloat>1</forbidfloat>
+              <requirelowestterms>0</requirelowestterms>
+              <checkanswertype>1</checkanswertype>
+              <mustverify>1</mustverify>
+              <showvalidation>1</showvalidation>
+              <options></options>
+            </input>
+            <prt>
+              <name>prt1</name>
+              <value>1.0000000</value>
+              <autosimplify>1</autosimplify>
+              <feedbackstyle>1</feedbackstyle>
+              <feedbackvariables>
+                <text></text>
+              </feedbackvariables>
+              <node>
+                <name>0</name>
+                <answertest>AlgEquiv</answertest>
+                <sans>ans1</sans>
+                <tans>wrong</tans>
+                <testoptions></testoptions>
+                <quiet>0</quiet>
+                <truescoremode>=</truescoremode>
+                <truescore>1.0000000</truescore>
+                <truepenalty></truepenalty>
+                <truenextnode>-1</truenextnode>
+                <trueanswernote>prt1-1-T</trueanswernote>
+                <truefeedback format="html">
+                  <text></text>
+                </truefeedback>
+                <falsescoremode>=</falsescoremode>
+                <falsescore>0.0000000</falsescore>
+                <falsepenalty></falsepenalty>
+                <falsenextnode>-1</falsenextnode>
+                <falseanswernote>prt1-1-F</falseanswernote>
+                <falsefeedback format="html">
+                  <text></text>
+                </falsefeedback>
+              </node>
+            </prt>
+          </question>
+        </quiz>',
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $answers = [
         'matrices_correct' => '{"ans1_sub_0_0": "35", "ans1_sub_0_1": "30", "ans1_sub_1_0": "28", "ans1_sub_1_1": "24"}',
         'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0"}',
+        'empty' => '{"ans1": "1"}'
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_question_string(string $name): string {
         return self::$questiondata[$name];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_answer_string(string $name): string {
         return self::$answers[$name];
     }

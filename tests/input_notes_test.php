@@ -23,33 +23,34 @@ use stack_input_factory;
 use stack_input_state;
 use stack_options;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
-// Unit tests for the stack_notes_input class.
-//
-// @copyright 2017 The University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the stack_notes_input class.
+ *
+ * @package    qtype_stack
+ * @copyright 2017 The University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_notes_input
  */
-class input_notes_test extends qtype_stack_testcase {
+final class input_notes_test extends qtype_stack_testcase {
 
-    public function test_render_blank() {
+    public function test_render_blank(): void {
+
         $el = stack_input_factory::make('notes', 'ans1', '');
         $el->adapt_to_model_answer('Hello world');
-        $this->assertEquals('<textarea name="ans1" id="ans1" rows="3" cols="50"></textarea>' .
+        $this->assertEquals('<textarea name="ans1" id="ans1" rows="3" cols="50" data-stack-input-type="notes"></textarea>' .
                 '<div class="clearfix"></div>',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'ans1', false, null));
     }
 
-    public function test_validate_student_response_1() {
+    public function test_validate_student_response_1(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('notes', 'sans1', 'true');
         $ans1 = 'This input gives an instant rendering of LaTeX e.g. \[ \sum_{n=1}^\infty \frac{1}{n^2}=\frac{\pi^2}{6}.\]';
@@ -79,7 +80,8 @@ class input_notes_test extends qtype_stack_testcase {
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
-    public function test_validate_student_response_xss() {
+    public function test_validate_student_response_xss(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('notes', 'sans1', 'Hello');
         $el->set_parameter('sameType', true);
@@ -109,7 +111,8 @@ class input_notes_test extends qtype_stack_testcase {
         $this->assertEquals($ta, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
-    public function test_validate_hideanswer() {
+    public function test_validate_hideanswer(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('notes', 'state', 'Euler');
         $el->set_parameter('options', 'hideanswer');

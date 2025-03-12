@@ -43,6 +43,7 @@ require_once(__DIR__ . '/stack/prt.class.php');
 /**
  * Stack question type class.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -65,6 +66,7 @@ class qtype_stack extends question_type {
      */
     protected $prtgraph = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function save_question($question, $fromform) {
 
         if (!empty($fromform->fixdollars)) {
@@ -118,6 +120,7 @@ class qtype_stack extends question_type {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function save_question_options($fromform) {
         global $DB;
         $context = $fromform->context;
@@ -408,6 +411,7 @@ class qtype_stack extends question_type {
                 'questionid = :questionid AND prtname ' . $nametest, $params);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_question_options($question) {
         global $DB;
 
@@ -442,6 +446,7 @@ class qtype_stack extends question_type {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_question_deployed_seeds($qid) {
         global $DB;
 
@@ -452,6 +457,7 @@ class qtype_stack extends question_type {
               ORDER BY id', [$qid]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
 
@@ -621,6 +627,7 @@ class qtype_stack extends question_type {
         return new moodle_url('/question/type/stack/tidyquestion.php', $linkparams);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_extra_question_bank_actions(stdClass $question): array {
         $actions = parent::get_extra_question_bank_actions($question);
 
@@ -645,6 +652,7 @@ class qtype_stack extends question_type {
         return $actions;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function delete_question($questionid, $contextid) {
         global $DB;
         $this->delete_question_tests($questionid);
@@ -656,6 +664,7 @@ class qtype_stack extends question_type {
         parent::delete_question($questionid, $contextid);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         global $DB;
         $fs = get_file_storage();
@@ -685,6 +694,7 @@ class qtype_stack extends question_type {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function delete_files($questionid, $contextid) {
         global $DB;
         $fs = get_file_storage();
@@ -1171,6 +1181,7 @@ class qtype_stack extends question_type {
         $transaction->allow_commit();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_possible_responses($questiondata) {
         $parts = [];
 
@@ -1217,6 +1228,7 @@ class qtype_stack extends question_type {
         return $output;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function export_to_xml($questiondata, qformat_xml $format, $notused = null) {
         $contextid = $questiondata->contextid;
 
@@ -1358,6 +1370,7 @@ class qtype_stack extends question_type {
         return $output;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function import_from_xml($xml, $fromform, qformat_xml $format, $notused = null) {
         if (!isset($xml['@']['type']) || $xml['@']['type'] != $this->name()) {
             return false;
@@ -1596,7 +1609,7 @@ class qtype_stack extends question_type {
         return [$number, $testcase];
     }
 
-    /*
+    /**
      * This method takes Moodle's "fromform" data type and validates the question.  All question level validation and warnings
      * should be in this method.
      * Much of this code was in edit_stack_form.php (until Jan 2018).
@@ -1828,6 +1841,14 @@ class qtype_stack extends question_type {
                     if (!($validityresult === true)) {
                         $errors[$inputname . $param][] = stack_string('inputinvalidparamater');
                     }
+                }
+            }
+            // Validate the syntaxHint as castext: the castext validation method is here, not in the input class.
+            if (array_key_exists($inputname . 'syntaxhint', $fromform)) {
+                $errors = $this->validate_cas_text($errors, $fromform[$inputname . 'syntaxhint'],
+                    $inputname . 'syntaxhint', $fixingdollars);
+                if (strlen($fromform[$inputname . 'syntaxhint']) > 255) {
+                    $errors[$inputname . 'syntaxhint'][] = stack_string('syntaxhint_toolong');
                 }
             }
             // Create an input with these parameters, in particular the 'options', and validate that.
@@ -2300,6 +2321,7 @@ class qtype_stack extends question_type {
         return($this->get_input_names_from_question_text_lang($ml->filter($questiontext, $lang)));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function get_input_names_from_question_text_lang($questiontext) {
         $inputs = stack_utils::extract_placeholders($questiontext, 'input');
         $validations = stack_utils::extract_placeholders($questiontext, 'validation');
@@ -2348,6 +2370,7 @@ class qtype_stack extends question_type {
         return($this->get_prt_names_from_question_lang($ml->filter($questiontext.$specificfeedback, $lang)));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function get_prt_names_from_question_lang($text) {
         $prts = stack_utils::extract_placeholders($text, 'feedback');
         $prtnames = [];
@@ -2431,8 +2454,17 @@ class qtype_stack extends question_type {
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $graph->add_prt_node($lastkey + 2, '', null, null, '+0', '-0',
+                $numtoadd = optional_param($prtname . 'nodeaddnum', 1, PARAM_INT);
+                if (is_integer($numtoadd) && $numtoadd > 0 && $numtoadd < 10) {
+                    for ($i = 1; $i <= $numtoadd; $i++) {
+                        $graph->add_prt_node($lastkey + $i + 1, '', null, null, '+0', '-0',
+                            '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
+                    }
+                } else {
+                    // Can't add requested number so just add one.
+                    $graph->add_prt_node($lastkey + 2, '', null, null, '+0', '-0',
                         '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
+                }
             }
 
             if (!is_null($deletednode)) {

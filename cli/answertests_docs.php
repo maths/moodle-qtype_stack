@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 define('CLI_SCRIPT', true);
 
 // This file allows developers to update the static docs which illustrate what
@@ -186,4 +193,4 @@ foreach ($availabletests as $anstest) {
 
 $page = get_string('fact_sheet_preamble', 'qtype_stack');
 $page .= stack_fact_sheets::generate_docs();
-file_put_contents('../doc/en/Authoring/Fact_sheets.md', $page);
+file_put_contents('../doc/en/Authoring/Question_blocks/Fact_sheets.md', $page);

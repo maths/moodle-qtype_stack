@@ -13,6 +13,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -27,10 +35,14 @@ require_once($CFG->libdir . '/questionlib.php');
  * filestores.
  */
 class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_castext2_block {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $filearea;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $itemid;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $component = 'qtype_stack';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($params, $children=[], $mathmode=false, $value='') {
         parent::__construct($params, $children, $mathmode);
         if (count($params) == 0) {
@@ -46,6 +58,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Now we might actually do the rewrite before everything else but
         // for now we prefer to leave it as a latter step, just in case someone
@@ -89,17 +102,20 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Not flat as this always requires rewriting.
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         // First collapse the content.
         $content    = '';
         for ($i = 4; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+                $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $content .= $params[$i];
             }
@@ -111,6 +127,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         return $content;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

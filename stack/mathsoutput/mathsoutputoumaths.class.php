@@ -30,15 +30,6 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
  */
 class stack_maths_output_oumaths extends stack_maths_output_filter_base {
 
-    /**
-     * Add description here.
-     * @return boolean is the OU maths filter installed?
-     */
-    public static function filter_is_installed() {
-        global $CFG;
-        return file_exists($CFG->dirroot . '/filter/oumaths/filter.php');
-    }
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaystart = '&lt;tex mode="display"&gt;';
@@ -51,11 +42,14 @@ class stack_maths_output_oumaths extends stack_maths_output_filter_base {
     protected function make_filter() {
         global $CFG;
 
-        if (!self::filter_is_installed()) {
-            throw new coding_exception('The OU maths filter is not installed.');
+        if (class_exists('\filter_oumaths\text_filter')) {
+            return new \filter_oumaths\text_filter(context_system::instance(), []);
+        } else if (file_exists($CFG->dirroot . '/filter/oumaths/filter.php')) {
+            // Once Moodle 4.5 is the lowest supported version of Moodle.
+            require_once($CFG->libdir . '/filterlib.php');
+            require_once($CFG->dirroot . '/filter/oumaths/filter.php');
+            return new filter_oumaths(context_system::instance(), []);
         }
-
-        require_once($CFG->dirroot . '/filter/oumaths/filter.php');
-        return new filter_oumaths(context_system::instance(), []);
+        throw new coding_exception('The OU maths filter is not installed.');
     }
 }

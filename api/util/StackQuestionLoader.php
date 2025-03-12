@@ -184,7 +184,7 @@ class StackQuestionLoader {
             $inputmap[(string) $input->name] = $input;
         }
 
-        if (empty($inputmap)) {
+        if (empty($inputmap) && $question->defaultmark) {
             $defaultinput = new \SimpleXMLElement('<input></input>');
             $defaultinput->addChild('name', 'ans1');
             $defaultinput->addChild('tans', 'ta1');
@@ -234,7 +234,8 @@ class StackQuestionLoader {
         foreach ($xmldata->question->prt as $prt) {
             $prtmap[(string) $prt->name] = $prt;
         }
-        if (empty($prtmap)) {
+
+        if (empty($prtmap) && $question->defaultmark) {
             $defaultprt = new \SimpleXMLElement('<prt></prt>');
             $defaultprt->addChild('name', 'prt1');
             $defaultnode = $defaultprt->addChild('node');

@@ -10,13 +10,13 @@ This list is in approximate order of the size of the equivalence classes from mo
 
 | Test                                              | Description (see below for more details)
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| CasEqual                                          | Are the [parse trees](../Trees.md) of the two expressions equal?
+| CasEqual                                          | Are the [parse trees](../Expression_tree_display.md) of the two expressions equal?
 | [EqualComAss](Rule_based.md)                      | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?
 | [EqualComAssRules](Rule_based.md)                 | Are they equal up to commutativity, associativity and with optional rules such as \(0\times x \rightarrow 0\)?
 | AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?
 | AlgEquiv                                          | Are they _algebraically equivalent_?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?
-| SameType                                          | Are the two expressions of the same [types of object](../../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
+| SameType                                          | Are the two expressions of the same [types of object](../../CAS/Maxima_background.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 
 ### AlgEquiv {#AlgEquiv}
 
@@ -29,12 +29,12 @@ This is the most commonly used test.  The pseudo code
     else
       false.
 
-This test will work with a variety of [types of object](../../CAS/Maxima.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
+This test will work with a variety of [types of object](../../CAS/Maxima_background.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
 
 * This test disregards whether [simplification](../../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
-* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../../CAS/Predicate_functions.md).
+* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../../CAS/Predicate_functions.md), to test the result is true.  But note that many predicate functions only work without simplification!  In particular, testing for "form" such as scientific notation need `simp:false`, in which case use `EqualComAss(predicate(ex),true)` rather than algebraic equivalence.
 
-Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
+Note: exactly what this answer test does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
 
 For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.
 
@@ -55,7 +55,7 @@ There are also some cases which Maxima can't establish as being equivalent.  For
 
 This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot establish these are equivalent.  There are some other examples in the test suite which fail for mathematical reasons.  In cases like this, where you know you have a number, you may need to supplement the AlgEquiv test with another numerical test.
 
-We recommend you do _not_ use algebraic equivalence testing for floating point numbers.  Instead use one of the [numerical tests](Numerical.md).  Examples of why algebraic equivalence fails when you might expect it to pass, e.g. `ATAlgEquiv(452,4.52*10^2)` (Maxima 5.44.0, November 2022), are given in the documentation on [numbers](../../CAS/Numbers.md).
+We recommend you do _not_ use algebraic equivalence testing for floating point numbers.  Instead use one of the [numerical tests](Numerical.md).  Examples of why algebraic equivalence fails when you might expect it to pass, e.g. `ATAlgEquiv(452,4.52*10^2)` (Maxima 5.44.0, November 2022), are given in the documentation on [numerical rounding](../../CAS/Numbers.md).
 
 ### EqualComAss ###
 

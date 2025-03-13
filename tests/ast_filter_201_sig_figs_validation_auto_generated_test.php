@@ -77,6 +77,11 @@ class ast_filter_201_sig_figs_validation_auto_generated_test extends qtype_stack
                       [],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -534,6 +539,16 @@ class ast_filter_201_sig_figs_validation_auto_generated_test extends qtype_stack
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       false, true);
 
@@ -1803,6 +1818,11 @@ class ast_filter_201_sig_figs_validation_auto_generated_test extends qtype_stack
                       [],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -2260,6 +2280,16 @@ class ast_filter_201_sig_figs_validation_auto_generated_test extends qtype_stack
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       false, true);
 

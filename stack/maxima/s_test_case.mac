@@ -55,7 +55,7 @@ read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, 
 contrib_files:directory(sconcat(stacklocation, "/stack/maxima/contrib/*.mac"))$
 if emptyp(contrib_files) then print("WARNING: you need to redefine the stacklocation variable correctly to run the tests!");
 
-local_files:["geometry.mac"]$
+local_files:["geometry.mac", "validator.mac"]$
 local_files:map(lambda([ex], sconcat(stacklocation, "/stack/maxima/", ex)), local_files)$
 
 all_files:append(local_files, contrib_files)$

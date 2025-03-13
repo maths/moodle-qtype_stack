@@ -39,222 +39,232 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
 
         $this->expect('-(1/512) + i(sqrt(3)/512)',
                       '-(1/512)+i*(sqrt(3)/512)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('-3x(1+x)',
                       '-3*x*(1+x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('-b(5-b)',
                       '-b*(5-b)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('-x(1+x)',
                       '-x*(1+x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('1-x(1+x)',
                       '1-x*(1+x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('2+log_x(1/(x+b))*x^2',
                       '2+log_x*(1/(x+b))*x^2',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('3b+5/a(x)',
                       '3*b+5/a*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('7x(2+1)',
                       '7*x*(2+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('Bgcd(3,2)',
                       'Bgcd*(3,2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('In(x)',
                       'In*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('Sin(x)',
                       'Sin*(x)',
-                      [],
+                      ['function_stars'],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b*(x)',
+                      ['function_stars'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf*(x)',
+                      ['function_stars'],
                       true, false);
 
         $this->expect('a(x)',
                       'a*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('a/(a(x+1)+2)',
                       'a/(a*(x+1)+2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('arcsin(x)',
                       'arcsin*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('b(b+1)',
                       'b*(b+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('b/a(x)',
                       'b/a*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('bsin(t)',
                       'bsin*(t)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('comb(x,y)',
                       'comb*(x,y)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('dosomething(x,y,z)',
                       'dosomething*(x,y,z)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('f(x)',
                       'f*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('f(x)(2)',
                       'f*(x)(2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('fact(13)',
                       'fact*(13)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('i(1+i)',
                       'i*(1+i)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('i(4)',
                       'i*(4)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('len(x)',
                       'len*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_10(x)',
                       'log_10*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_2(a)',
                       'log_2*(a)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_a(b)*log_b(c)',
                       'log_a*(b)*log_b*(c)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_x(1/(x+b))',
                       'log_x*(1/(x+b))',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_x:log_x(a)',
                       'log_x:log_x*(a)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('partialdiff(x,y,1)',
                       'partialdiff*(x,y,1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('perm(x,y)',
                       'perm*(x,y)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('plot2d(x^2,[x,-1,1])',
                       'plot2d*(x^2,[x,-1,1])',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('sim(x)',
                       'sim*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('sqr(x)',
                       'sqr*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('switch(x,a,y,b,c)',
                       'switch*(x,a,y,b,c)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x()',
                       'x*()',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(2+1)',
                       'x*(2+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(sin(t)+1)',
                       'x*(sin(t)+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(t+1)',
                       'x*(t+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(x+1)',
                       'x*(x+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x^f(x)',
                       'x^f*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('xsin(1)',
                       'xsin*(1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('ycos(2)',
                       'ycos*(2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
     }
@@ -265,222 +275,232 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
 
         $this->expect('-(1/512) + i(sqrt(3)/512)',
                       '-(1/512)+i*(sqrt(3)/512)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('-3x(1+x)',
                       '-3*x*(1+x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('-b(5-b)',
                       '-b*(5-b)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('-x(1+x)',
                       '-x*(1+x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('1-x(1+x)',
                       '1-x*(1+x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('2+log_x(1/(x+b))*x^2',
                       '2+log_x*(1/(x+b))*x^2',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('3b+5/a(x)',
                       '3*b+5/a*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('7x(2+1)',
                       '7*x*(2+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('Bgcd(3,2)',
                       'Bgcd*(3,2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('In(x)',
                       'In*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('Sin(x)',
                       'Sin*(x)',
-                      [],
+                      ['function_stars'],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b*(x)',
+                      ['function_stars'],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf*(x)',
+                      ['function_stars'],
                       true, false);
 
         $this->expect('a(x)',
                       'a*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('a/(a(x+1)+2)',
                       'a/(a*(x+1)+2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('arcsin(x)',
                       'arcsin*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('b(b+1)',
                       'b*(b+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('b/a(x)',
                       'b/a*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('bsin(t)',
                       'bsin*(t)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('comb(x,y)',
                       'comb*(x,y)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('dosomething(x,y,z)',
                       'dosomething*(x,y,z)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('f(x)',
                       'f*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('f(x)(2)',
                       'f*(x)(2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('fact(13)',
                       'fact*(13)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('i(1+i)',
                       'i*(1+i)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('i(4)',
                       'i*(4)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('len(x)',
                       'len*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_10(x)',
                       'log_10*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_2(a)',
                       'log_2*(a)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_a(b)*log_b(c)',
                       'log_a*(b)*log_b*(c)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_x(1/(x+b))',
                       'log_x*(1/(x+b))',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('log_x:log_x(a)',
                       'log_x:log_x*(a)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('partialdiff(x,y,1)',
                       'partialdiff*(x,y,1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('perm(x,y)',
                       'perm*(x,y)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('plot2d(x^2,[x,-1,1])',
                       'plot2d*(x^2,[x,-1,1])',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('sim(x)',
                       'sim*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('sqr(x)',
                       'sqr*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('switch(x,a,y,b,c)',
                       'switch*(x,a,y,b,c)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x()',
                       'x*()',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(2+1)',
                       'x*(2+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(sin(t)+1)',
                       'x*(sin(t)+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(t+1)',
                       'x*(t+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x(x+1)',
                       'x*(x+1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('x^f(x)',
                       'x^f*(x)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('xsin(1)',
                       'xsin*(1)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
         $this->expect('ycos(2)',
                       'ycos*(2)',
-                      [],
+                      ['function_stars'],
                       true, false);
 
     }
@@ -526,6 +546,11 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 
@@ -2087,6 +2112,11 @@ class ast_filter_441_split_unknown_functions_auto_generated_test extends qtype_s
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 

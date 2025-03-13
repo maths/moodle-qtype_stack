@@ -87,7 +87,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
 
                 // The order of these ifs is critical, we build up the checks
                 // so that no basic check gets lost due to more advanced ones
-                // doing more conplex things. The advanced cases assume that
+                // doing more complex things. The advanced cases assume that
                 // the simpler ones have been done already.
                 if (!($node->parentnode instanceof MP_Group) ||
                     $node->parentnode->items[0]->toString() !== $namecheck->toString()) {

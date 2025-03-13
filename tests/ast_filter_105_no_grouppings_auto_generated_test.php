@@ -509,6 +509,11 @@ class ast_filter_105_no_grouppings_auto_generated_test extends qtype_stack_ast_t
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('()x',
                       '()*x',
                       [],
@@ -901,6 +906,16 @@ class ast_filter_105_no_grouppings_auto_generated_test extends qtype_stack_ast_t
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       true, false);
 
@@ -2080,6 +2095,11 @@ class ast_filter_105_no_grouppings_auto_generated_test extends qtype_stack_ast_t
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('()x',
                       '()*x',
                       [],
@@ -2472,6 +2492,16 @@ class ast_filter_105_no_grouppings_auto_generated_test extends qtype_stack_ast_t
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       true, false);
 

@@ -378,7 +378,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             if ($this->get_cached('preamble-qv') !== null) {
-                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
+                    'blockexternal'));
             }
             // Context variables should be first.
             if ($this->get_cached('contextvariables-qv') !== null) {
@@ -550,6 +551,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if ($this->tas[$name]->is_correctly_evaluated()) {
                 $teacheranswer = $this->tas[$name]->get_value();
             }
+            if ($this->get_cached('preamble-qv') !== null) {
+                $input->add_contextsession(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
+                    'blockexternal'));
+            }
             if ($this->get_cached('contextvariables-qv') !== null) {
                 $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
@@ -622,7 +627,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
         }
         if ($this->get_cached('preamble-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb', 'blockexternal'));
         }
         if ($this->get_cached('contextvariables-qv') !== null) {
             $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
@@ -675,7 +680,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
         }
         if ($this->get_cached('preamble-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb',
+                'blockexternal'));
         }
         if ($this->get_cached('contextvariables-qv') !== null) {
             $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
@@ -726,6 +732,26 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return $this->questionnoteinstantiated->get_rendered($processor);
         }
         return stack_string('questionnote_missing');
+    }
+
+    public function get_question_todos() {
+        $hastodos = false;
+        $tags = [];
+        $fields = [$this->questiontext, $this->questionnote, $this->generalfeedback,
+            $this->specificfeedback, $this->questiondescription, ];
+        $pat = '/\[\[todo/';
+        foreach ($fields as $field) {
+            // We _should_ use castext2_parser_utils::has_todoblocks($field) really, but this
+            // involves parsing the castext which is too slow.
+            if (preg_match($pat, $field ?? '')) {
+                $hastodos = true;
+                $tags = array_merge($tags, castext2_parser_utils::get_todoblocks($field));
+            }
+        }
+        // Unique tags, sorted.
+        $tags = array_unique($tags);
+        sort($tags);
+        return [$hastodos, $tags];
     }
 
     public function summarise_response(array $response) {
@@ -780,6 +806,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
                     $input->get_correct_response($this->tas[$name]->get_dispvalue()));
+        }
+        return $teacheranswer;
+    }
+
+    /*
+     * This function returns an array of values for inputs which could be typed into Maxima.
+     * Used in the caschat function as possible input values.
+     */
+    public function get_correct_response_testcase() {
+        $teacheranswer = [];
+        if ($this->runtimeerrors || $this->get_cached('units') === null) {
+            return [];
+        }
+        foreach ($this->inputs as $name => $input) {
+            $teacheranswer[$name] = $input->get_teacher_answer_testcase($this->tas[$name]->get_dispvalue());
         }
         return $teacheranswer;
     }
@@ -1200,12 +1241,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         if ($this->get_cached('preamble-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), '/pb', 'blockexternal'));
         }
         // Add preamble from PRTs as well.
         foreach ($this->get_cached('prt-preamble') as $name => $stmt) {
             if (isset($prts[$name])) {
-                $session->add_statement(new stack_secure_loader($stmt, 'preamble PRT: ' . $name));
+                $session->add_statement(new stack_secure_loader($stmt, 'preamble PRT: ' . $name, 'blockexternal'));
             }
         }
 
@@ -1514,6 +1555,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
             ['pat' => 'texdecorate', 'ver' => 2018080600],
             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
+            ['pat' => 'proof_parsons_key_json', 'ver' => 2024092500, 'alt' => 'parsons_answer'],
+            ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
@@ -1569,7 +1612,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($stackversion < $checkpat['ver']) {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
-                if (preg_match($pat, $this->$field)) {
+                if (preg_match($pat, $this->$field ?? '')) {
                     $errors[] = stack_string('stackversioncomment', ['qfield' => stack_string($field)]);
                 }
             }
@@ -1598,6 +1641,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             if (!$filesexpected && $filesfound != []) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
+            }
+            // ISS1249 - Check for large file size (> 1MB).
+            foreach ($filesfound as $file) {
+                if ($file->get_filesize() > 1048576) {
+                    $errors[] = stack_string('stackfilesizeerror');
+                    break;
+                }
             }
         }
 
@@ -2136,5 +2186,30 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function has_cap(string $capname): bool {
         return $this->has_question_capability($capname);
+    }
+
+    /**
+     * Apply {@link format_text()} to some content with appropriate settings for
+     * this question.
+     *
+     * Overridden here to turn on `allowid` in the format options.
+     *
+     * @param string $text some content that needs to be output.
+     * @param int $format the FORMAT_... constant.
+     * @param question_attempt $qa the question attempt.
+     * @param string $component used for rewriting file area URLs.
+     * @param string $filearea used for rewriting file area URLs.
+     * @param bool $clean Whether the HTML needs to be cleaned. Generally,
+     *      parts of the question do not need to be cleaned, and student input does.
+     * @return string the text formatted for output by format_text.
+     */
+    public function format_text($text, $format, $qa, $component, $filearea, $itemid,
+            $clean = false) {
+        $formatoptions = new stdClass();
+        $formatoptions->noclean = !$clean;
+        $formatoptions->para = false;
+        $formatoptions->allowid = true;
+        $text = $qa->rewrite_pluginfile_urls($text, $component, $filearea, $itemid);
+        return format_text($text, $format, $formatoptions);
     }
 }

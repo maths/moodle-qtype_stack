@@ -39,17 +39,17 @@ class ast_filter_403_split_at_number_letter_boundary_auto_generated_test extends
 
         $this->expect('a9b',
                       'a9*b',
-                      ['missing_stars'],
+                      ['missing_stars', '(403)'],
                       true, false);
 
         $this->expect('ab98cd',
                       'ab98*c*d',
-                      ['missing_stars'],
+                      ['missing_stars', '(403)'],
                       true, false);
 
         $this->expect('x_12_z',
                       'x_12_*z',
-                      ['missing_stars'],
+                      ['missing_stars', '(403)'],
                       true, false);
 
     }
@@ -60,17 +60,17 @@ class ast_filter_403_split_at_number_letter_boundary_auto_generated_test extends
 
         $this->expect('a9b',
                       'a9*b',
-                      ['missing_stars'],
+                      ['missing_stars', '(403)'],
                       true, false);
 
         $this->expect('ab98cd',
                       'ab98*c*d',
-                      ['missing_stars'],
+                      ['missing_stars', '(403)'],
                       true, false);
 
         $this->expect('x_12_z',
                       'x_12_*z',
-                      ['missing_stars'],
+                      ['missing_stars', '(403)'],
                       true, false);
 
     }
@@ -116,6 +116,11 @@ class ast_filter_403_split_at_number_letter_boundary_auto_generated_test extends
 
         $this->expect("'int(x,y)",
                       "'int(x,y)",
+                      [],
+                      true, false);
+
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
                       [],
                       true, false);
 
@@ -626,6 +631,16 @@ class ast_filter_403_split_at_number_letter_boundary_auto_generated_test extends
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       true, false);
 
@@ -1885,6 +1900,11 @@ class ast_filter_403_split_at_number_letter_boundary_auto_generated_test extends
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -2392,6 +2412,16 @@ class ast_filter_403_split_at_number_letter_boundary_auto_generated_test extends
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       true, false);
 

@@ -36,7 +36,7 @@ class stack_exception extends moodle_exception {
  */
 function stack_ouput_castext($castext) {
     return format_text(stack_maths::process_display_castext($castext),
-            FORMAT_HTML, ['noclean' => true]);
+            FORMAT_HTML, ['noclean' => true, 'allowid' => true]);
 }
 
 /**

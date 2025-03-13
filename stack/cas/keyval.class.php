@@ -49,6 +49,9 @@ class stack_cas_keyval {
     private $options;
     private $seed;
 
+    /** @var bool to hold when we add slashes to Maxima strings. */
+    private $pslash;
+
     // For error mapping keyvals do need a context.
     private $context;
 
@@ -58,7 +61,7 @@ class stack_cas_keyval {
      */
     public $errclass = 'stack_cas_error';
 
-    public function __construct($raw, $options = null, $seed=null, $ctx='') {
+    public function __construct($raw, $options = null, $seed=null, $ctx='', $pslash=false) {
         $this->raw          = $raw;
         $this->statements   = [];
         $this->errors       = [];
@@ -66,6 +69,7 @@ class stack_cas_keyval {
         $this->seed         = $seed;
         $this->context      = $ctx;
         $this->security     = new stack_cas_security();
+        $this->pslash       = $pslash;
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
@@ -104,9 +108,8 @@ class stack_cas_keyval {
 
         $str = str_replace('?', 'QMCHAR', $str);
 
-        // CAS keyval may not contain @ or $ outside strings.
-        // We should certainly prevent the $ to make sure statements are separated by ;, although Maxima does allow $.
-        if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
+        // CAS keyval may not contain @ outside strings.
+        if (strpos($str, '@') !== false) {
             $this->errors[] = new $this->errclass(stack_string('illegalcaschars'), $this->context);
             $this->valid = false;
             return false;
@@ -257,6 +260,10 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
+    public function get_raw() {
+        return $this->raw;
+    }
+
     public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
             $updatearray['read'] = [];
@@ -313,6 +320,7 @@ class stack_cas_keyval {
         $str = $this->raw;
         // Similar QMCHAR protection as previously.
         $strings = stack_utils::all_substring_strings($str);
+
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }
@@ -320,7 +328,14 @@ class stack_cas_keyval {
         $str = str_replace('?', 'QMCHAR', $str);
 
         foreach ($strings as $key => $string) {
+            if ($this->pslash) {
+                $string = stack_utils::protect_backslash_latex($string);
+            }
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
+        }
+
+        if ($this->pslash) {
+            $this->raw = str_replace('QMCHAR', '?', $str);
         }
 
         // And then the parsing.
@@ -387,12 +402,22 @@ class stack_cas_keyval {
                 if ($item->statement instanceof MP_FunctionCall) {
                     $op = $item->statement->name->value;
                 }
-                if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
-                    $bestatements[] = $statement;
-                }
-                // Note that stack_reet_vars needs to be both blockexternal and a contextvariable.
+                // Notes on ordergreat and stack_reset_vars.
+                // We must have ordergreat/orderless outside the main block, so we need blockexternals.
+                // If we use stack_reset_vars after an ordergreat it "kills" the effects of the order change.
+                // Hence, we can't have stack_reset_vars in both the context variables and the blockexternals.
+                // This is the edge case where we re-order i,j,k to be i+j+k, not the Maxima default k+j+i.
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $contextvariables[] = $statement;
+                }
+                // Test for end of context variables.
+                if ($item->statement instanceof MP_Identifier) {
+                    if ($item->statement->value == '%_stack_preamble_end') {
+                        $contextvariables = array_merge($contextvariables, $statements);
+                        $statements = [];
+                    }
+                } else if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
+                    $bestatements[] = $statement;
                 } else {
                     $statements[] = $statement;
                 }
@@ -412,7 +437,6 @@ class stack_cas_keyval {
         if (count($bestatements) == 0) {
             $bestatements = null;
         } else {
-            // These statement groups always end with a 'true' to ensure minimal output.
             $bestatements = '(' . implode(',', $bestatements) . ',true)';
         }
         if (count($statements) == 0) {

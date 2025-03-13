@@ -45,7 +45,8 @@ class input_numerical_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('numerical', 'ans1', '2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -53,7 +54,8 @@ class input_numerical_test extends qtype_stack_testcase {
     public function test_render_zero() {
         $el = stack_input_factory::make('numerical', 'ans1', '0');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="0" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="0" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -646,7 +648,8 @@ class input_numerical_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('numerical', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '?/?');
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="?/?" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical" value="?/?" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
@@ -654,9 +657,10 @@ class input_numerical_test extends qtype_stack_testcase {
     public function test_render_monospace_with_align() {
         $el = stack_input_factory::make('numerical', 'ans1', '2');
         $el->set_parameter('options', 'align:right, monospace:true');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
-                'class="numerical-right input-monospace" value="" />',
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="numerical-right input-monospace" value="" data-stack-input-type="numerical" ' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -665,7 +669,8 @@ class input_numerical_test extends qtype_stack_testcase {
         set_config('inputmonospace', '1', 'qtype_stack');
         $el = stack_input_factory::make('numerical', 'ans1', '2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical input-monospace" value="" />',
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical input-monospace" value="" '
+                . 'data-stack-input-type="numerical" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
@@ -685,7 +690,7 @@ class input_numerical_test extends qtype_stack_testcase {
     public function test_validate_student_response_10x() {
 
         $options = new stack_options();
-        $el = stack_input_factory::make('units', 'sans1', '23.2*10^2');
+        $el = stack_input_factory::make('numerical', 'sans1', '23.2*10^2');
         $el->set_parameter('insertStars', 1);
         $state = $el->validate_student_response(['sans1' => '23.2x10^2'], $options, '23.2*10^2',
                 new stack_cas_security(true));
@@ -693,7 +698,7 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars | Illegal_x10', $state->note);
         $this->assertEquals('23.2*x10^2', $state->contentsmodified);
         $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
-                'Please use <code>*</code> for multiplication.', $state->errors);
+                'Please use <code>*</code> for multiplication. This input expects a number.', $state->errors);
     }
 
     public function test_validate_student_response_with_intnum_1() {
@@ -786,5 +791,41 @@ class input_numerical_test extends qtype_stack_testcase {
         // We could achieve this with another stack_validate_numerical function in Maxima.
         $this->assertEquals('Your answer should be an expression, not an equation, inequality, list, set or matrix.',
             $state->errors);
+    }
+
+    public function test_validate_student_response_power_dispdp() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $state = $el->validate_student_response(['sans1' => "9.000^3+10.00^3"], $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('9.000^3+10.00^3', $state->contentsmodified);
+        $this->assertEquals('\[ {9.000}^3+{10.00}^3 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+    }
+
+    public function test_validate_student_response_simp() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729.0');
+        $el->set_parameter('options', 'simp');
+
+        $state = $el->validate_student_response(['sans1' => '9^3+10^3'], $options,
+            '', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('9^3+10^3', $content);
+        $this->assertEquals('\[ 1729 \]',
+            $state->contentsdisplayed);
+
+        $state = $el->validate_student_response(['sans1' => '9.000^3+10^3'], $options,
+            '', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $content = $state->contentsmodified;
+        $this->assertEquals('9.000^3+10^3', $content);
+        $this->assertEquals('\[ 1729.000 \]',
+            $state->contentsdisplayed);
     }
 }

@@ -128,6 +128,12 @@
   "%s": {
       "function": "?"
   },
+  "%_stack_preamble_end": {
+      "constant": "t"
+  },
+  "%_stack_prt_stop_p": {
+      "variable": "t"
+  },
   "%stmt": {
       "variable": "f"
   },
@@ -252,6 +258,9 @@
   },
   "Delta": {
       "function": "s",
+      "variable": "s"
+  },
+  "EMPTYANSWER": {
       "variable": "s"
   },
   "EMPTYCHAR": {
@@ -2004,6 +2013,12 @@
   },
   "disprule": {
       "function": "f"
+  },
+  "dispdp": {
+      "function": "s"
+  },
+  "dispsf": {
+      "function": "s"
   },
   "dispterms": {
       "function": "f"
@@ -3991,20 +4006,20 @@
       "built-in": true
   },
   "let": {
-      "function": "f"
+      "function": "t"
   },
   "let_rule_packages": {
-      "variable": "f"
+      "variable": "t"
   },
   "letrat": {
-      "evflag": "f",
-      "variable": "f"
+      "evflag": "t",
+      "variable": "t"
   },
   "letrules": {
-      "function": "f"
+      "function": "t"
   },
   "letsimp": {
-      "function": "f"
+      "function": "t"
   },
   "levi_civita": {
       "function": "f"
@@ -4436,7 +4451,7 @@
       "function": "s"
   },
   "matchdeclare": {
-      "function": "?",
+      "function": "t",
       "contextvariable": "true"
   },
   "matchfix": {
@@ -5192,16 +5207,14 @@
   },
   "ordergreat": {
       "function": "s",
-      "blockexternal": "true",
-      "contextvariable": "true"
+      "blockexternal": "true"
   },
   "ordergreatp": {
       "function": "s"
   },
   "orderless": {
       "function": "s",
-      "blockexternal": "true",
-      "contextvariable": "true"
+      "blockexternal": "true"
   },
   "orderlessp": {
       "function": "s"
@@ -7308,13 +7321,15 @@
   },
   "stack_reset_vars": {
       "function": "?",
-      "blockexternal": "true",
-      "contextvariable": "true"
+      "blockexternal": "true"
   },
   "stack_validate": {
       "function": "s"
   },
   "stack_validate_typeless": {
+      "function": "s"
+  },
+  "stack_validate_simpnum": {
       "function": "s"
   },
   "stackeq": {

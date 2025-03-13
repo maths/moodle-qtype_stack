@@ -77,6 +77,11 @@ class ast_filter_202_decimal_places_validation_auto_generated_test extends qtype
                       [],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -584,6 +589,16 @@ class ast_filter_202_decimal_places_validation_auto_generated_test extends qtype
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       false, true);
 
@@ -1858,6 +1873,11 @@ class ast_filter_202_decimal_places_validation_auto_generated_test extends qtype
                       [],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      [],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       [],
@@ -2365,6 +2385,16 @@ class ast_filter_202_decimal_places_validation_auto_generated_test extends qtype
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      [],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      [],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       [],
                       false, true);
 

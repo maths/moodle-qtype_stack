@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Complex_Evaluate_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Given that \(z\) is the complex number \[{@z1@},\] evaluate the modulus and the principal value of the argument of \({@z^n4@}\). Give your answers in the correct order i.e. \([r,\theta]\) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let \(r_1\) be the modulus of \(z\) and \(\theta_1\) be the argument. Then \[r_1=\sqrt{x^2+y^2}=\sqrt{\left({@zr1@}\right)^2+\left({@zi1@}\right)^2}=\sqrt{@zr1^2+zi1^2@}={@r1@},\] and \[\tan(\theta_1)=\frac{@zi1@}{@zr1@}={@zi1/zr1@}, \] giving \[\theta_1={@theta1@}.\] Therefore for \({@z^n4@}\)\[r = r_1^{@n4@}={@r1@}^{@n4@}={@r1^n4@},\ \] and, \[\theta={@n4@}\cdot \theta_1={@n4@}\cdot {@theta1@}={@n4*theta1@},\ \] and the principal argument is \[\theta={@principaltheta@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>zset1:[Pi/6,Pi/4,Pi/3,2*Pi/3,3*Pi/4,5*Pi/6];
+ n1:rand(2)+2;
+ n2:rand(6)+1;
+ n4:rand(3)+3;
+ arg1:((-1)^rand(2)) * zset1[n2];
+ 
+ z1:ev(n1*cos(arg1)+n1*sin(arg1)*i,simp);
+ zr1:ev(realpart(z1),simp);
+ zi1:ev(imagpart(z1),simp);
+ 
+ theta1:carg(z1);
+ r1:sqrt(zr1^2+zi1^2);
+ solmod:n1^n4;
+ principaltheta:%pi - mod (%pi - n4*theta1, 2*%pi);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>For \(z={@z1@}\), find \({@z^n4@}\) gives [{@solmod@},{@principaltheta@}].</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>[solmod,principaltheta]</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>[solmod,principaltheta]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>583017811</deployedseed>
+    <deployedseed>1737347337</deployedseed>
+    <deployedseed>1738271995</deployedseed>
+    <deployedseed>1148393318</deployedseed>
+    <deployedseed>17491065</deployedseed>
+    <deployedseed>152460051</deployedseed>
+    <deployedseed>1810990447</deployedseed>
+    <deployedseed>2090685661</deployedseed>
+    <deployedseed>502270367</deployedseed>
+    <deployedseed>953863449</deployedseed>
+    <deployedseed>1101068216</deployedseed>
+    <deployedseed>107285255</deployedseed>
+    <deployedseed>1751901227</deployedseed>
+    <deployedseed>1335443793</deployedseed>
+    <deployedseed>1300197321</deployedseed>
+    <deployedseed>1117441582</deployedseed>
+    <deployedseed>1861206883</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[solmod,principaltheta]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[solmod+1,principaltheta]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[solmod,principaltheta-pi]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

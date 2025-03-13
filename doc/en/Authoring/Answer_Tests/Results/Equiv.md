@@ -2419,7 +2419,7 @@ stacklet(x+i*y,a),stacklet(r+i
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^\star\cdot b^\star& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&=\left(x+\mathrm{i}\cdot y\right)^\star\cdot \left(r+\mathrm{i}\cdot s\right)^\star& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&=\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)^\star& \cr \color{green}{\checkmark}&=\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)^\star& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&=\left(a\cdot b\right)^\star& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^{\ast}\cdot b^{\ast}& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&={\left(x+\mathrm{i}\cdot y\right)}^{\ast}\cdot {\left(r+\mathrm{i}\cdot s\right)}^{\ast}& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&={\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)}^{\ast}& \cr \color{green}{\checkmark}&={\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)}^{\ast}& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&={\left(a\cdot b\right)}^{\ast}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2454,6 +2454,61 @@ ckeq(2*x)]</pre></td>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{\mathrm{d}}{\mathrm{d} x} x^2& \cr \color{green}{\checkmark}&=\lim_{h\rightarrow 0}{\frac{{\left(x+h\right)}^2-x^2}{h}}& \cr \color{green}{\checkmark}&=\lim_{h\rightarrow 0}{2\cdot x+h}& \cr \color{green}{\checkmark}&=2\cdot x& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[4*x=2,x=0.500,x=1/2]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &4\cdot x=2& \cr \color{green}{\Leftrightarrow}&x=0.5& \cr \color{green}{\Leftrightarrow}&x=\frac{1}{2}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[4*x=6,x=0.33333,x=1/3]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &4\cdot x=6& \cr \color{red}{?}&x=0.33333& \cr \color{red}{?}&x=\frac{1}{3}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[-2.5*t-11.25 = 0,-2.5*t = 11.
+25,t = 11.25/-2.50,t = -4.500]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &-2.5\cdot t-11.25=0& \cr \color{green}{\Leftrightarrow}&-2.5\cdot t=11.25& \cr \color{green}{\Leftrightarrow}&t=\frac{11.25}{-2.5}& \cr \color{green}{\Leftrightarrow}&t=-4.5& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[4*x-6*y=-3 and 3*y+4*x=3, 4*x
+-6*y=-3 and 9*y=6, 4*x=1 and 3
+*y=2, x=0.25 and y=2/3]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left\{\begin{array}{l}4\cdot x-6\cdot y=-3\cr 3\cdot y+4\cdot x=3\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}4\cdot x-6\cdot y=-3\cr 9\cdot y=6\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}4\cdot x=1\cr 3\cdot y=2\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}x=0.25\cr y=\frac{2}{3}\cr \end{array}\right.& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2527,7 +2582,7 @@ sin(x))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\cos \left( x \right)\cdot x^2+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &+\left(\cos \left( x \right)\right)\cdot x^2+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot +\left(\cos \left( x \right)\right)+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

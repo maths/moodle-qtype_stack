@@ -27,8 +27,28 @@ To alter the order in STACK you can use the Maxima commands `orderless` and `ord
 
 See Maxima's documentation for more details.
 
-Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.
-No warnings or errors are issued if more than one is encountered.
+1. Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.
+2. No warnings or errors are issued if more than one is encountered.
+3. The `orderless` or `ordergreat` command is executed _first_ before any other commands.  Therefore the argument names are literal atoms and you _cannot_ use variable names.
+
+As an example of the last point, consider the following in _desktop maxima_
+
+   p:a+b;
+   x:a;
+   ordergreat(x);
+   p:a+b;
+
+The output of the last line, as expected will be \(a+b\).  However, if you put the above in the question variables then effectively you will have the following.
+
+   ordergreat(x);
+   /* Other stuff, including setting up error trapping for the execution of commands below. */
+   p:a+b;
+   x:a;
+   p:a+b;
+
+The output of the last line, as expected will be \(b+a\).  STACK moves `ordergreat` to be executed first, and at that point you have no assigned `x` to be the atom `a`.
+
+This is a limitation, especially in questions where you want to have a randomly generated variable name.
 
 ## Logarithms to an arbitrary base
 
@@ -58,7 +78,7 @@ The level of simplification performed by Maxima can be controlled by changing Ma
 When `simp` is set to `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
 This is most useful for dealing with very elementary expressions, and for [showing working](../CAS/Matrix.md#Showing-working).
 
-This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
+This variable can be set at the question level using the [options](../Authoring/Question_options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
 
 When `simp` is set to `false`, you can evaluate an expression with simplification turned on by using `ev(..., simp)`, for example:
 
@@ -269,7 +289,7 @@ The first of these does not pull out a numerical denominator.  The second does.
 
 ### Trig simplification ###
 
-Maxima does have the ability to make assumptions, e.g. to assume that \(n\) is an integer and then simplify \(3\cos(n\pi/2)^2\) to \( \frac{3}{2}(1+(-1)^n)\).  Assume the student's answer is `ans1` then then define the following feedback variables:
+Maxima does have the ability to make assumptions, e.g. to assume that \(n\) is an integer and then simplify \(3\cos(n\pi/2)^2\) to \( \frac{3}{2}(1+(-1)^n)\).  Assume the student's answer is `ans1` then define the following feedback variables:
 
     declare(n,integer);
     sans1:ev(trigrat(ans1),simp);
@@ -288,4 +308,4 @@ Some further examples are given elsewhere:
 * An example of a question with `simp:false` is discussed in [authoring quick start 7](../AbInitio/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
-Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.
+Note also that [question tests](../STACK_question_admin/Testing.md#Simplification) do not simplify test inputs.

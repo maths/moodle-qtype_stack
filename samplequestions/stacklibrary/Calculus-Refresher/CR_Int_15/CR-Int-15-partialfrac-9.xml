@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>CR-Int-15-partialfrac-9</text>
+    </name>
+    <questiontext format="html">
+      <text>Write \[ {@p@}\] as partial fractions.
+
+[[input:ap]]. 
+[[validation:ap]]
+[[feedback:partfrac]]
+
+Find \[ \int {@p@} d{@v@}. \]
+
+[[input:ans1]] [[validation:ans1]]
+[[feedback:Result]]</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[Since the degree of the numerator equal to the degree of the denominator we need to use long division.
+\[{@p@} = {@factor(simplify(pp1+pp2+pp3))@} + {@pp4@}.\]
+Hence, using partial fractions we have
+\[{@p@} = {@q@}.\]
+
+So,
+\[\begin{array}{rcl}\displaystyle
+ \int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int {@q@} d{@v@} \\
+   &\displaystyle =&\displaystyle  {@rdm2@} \int {@ppp1@} d{@v@} + {@rdm4@} \int {@ppp2@} d{@v@} + {@rdm3@} \int \left({@ppp3@}\right) d{@v@} + \int {@pp4@} d{@v@} \\
+   &\displaystyle =&\displaystyle  {@rdm2*int(ppp1,v)@} + {@rdm4*int(ppp2,v)@} + {@rdm3*int(ppp3,v)@}+ {@int(pp4,v)@} + c \\
+   &\displaystyle =&\displaystyle  {@rdm2*int(ppp1,v)+rdm4*int(ppp2,v)+rdm3*int(ppp3,v)+int(pp4,v)@}+c
+ \end{array}\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>v:x;
+rdm1:rand(5)+1;
+rdm2:-1-rand(3);
+rdm3:7+rand(15);
+rdm4:-4-rand(12);
+rdm5:1+rand(2);
+rdm6:rdm5+rand(2)+1;
+ppp1:1/(v+rdm5);
+ppp2:1/(v+rdm6);
+ppp3:ppp2^2;
+pp1:rdm2*ppp1;
+pp2:rdm4*ppp2;
+pp3:rdm3*ppp3;
+pp4:rdm1;
+q:pp1+pp2+pp3+pp4;
+p:factor(simplify(q));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\int {@p@} d{@v@} = \int {@q@} d{@v@} = {@int(p,v)@}+c.\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>int(p,v)+c</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ap</name>
+      <type>algebraic</type>
+      <tans>q</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>partfrac</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>PartFrac</answertest>
+        <sans>ap</sans>
+        <tans>q</tans>
+        <testoptions>v</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>partfrac-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>partfrac-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans1</sans>
+        <tans>int(p,v)+c</tans>
+        <testoptions>v</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>68623458</deployedseed>
+    <deployedseed>477628154</deployedseed>
+    <deployedseed>1792142425</deployedseed>
+    <deployedseed>1511142662</deployedseed>
+    <deployedseed>1377908211</deployedseed>
+    <deployedseed>352791638</deployedseed>
+    <deployedseed>803529781</deployedseed>
+    <deployedseed>1036013166</deployedseed>
+    <deployedseed>638017134</deployedseed>
+    <deployedseed>781484744</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(int(p,v)+c,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ap</name>
+        <value>q</value>
+      </testinput>
+      <expected>
+        <name>partfrac</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>partfrac-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(int(p,v),simp)</value>
+      </testinput>
+      <testinput>
+        <name>ap</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>partfrac</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ap</name>
+        <value>p</value>
+      </testinput>
+      <expected>
+        <name>partfrac</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>partfrac-0-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Result</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

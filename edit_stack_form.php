@@ -194,6 +194,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
+        if (get_class(editors_get_preferred_editor()) !== 'textarea_texteditor') {
+            $warnings = '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
+        }
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
@@ -220,6 +223,22 @@ class qtype_stack_edit_form extends question_edit_form {
                     $out, ['target' => '_blank']) . ' ' . $OUTPUT->help_icon('runquestiontests', 'qtype_stack');
             $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
+        } else {
+            $out = stack_string('stack_library');
+            $liburlparams = [];
+            if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
+                $liburlparams['cmid'] = $cmid;
+            }
+            if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
+                $liburlparams['courseid'] = $courseid;
+            }
+            if ($cmid = optional_param('returnurl', null, PARAM_LOCALURL)) {
+                $liburlparams['returnurl'] = $cmid;
+            }
+            $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php', $liburlparams),
+                    $out, []) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');
+            $qllink = $mform->createElement('static', 'stack_library', '', $qlibrarylink);
+            $mform->insertElementBefore($qllink, 'questionvariables');
         }
 
         $seed = $mform->createElement('text', 'variantsselectionseed',
@@ -420,14 +439,14 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function definition_input($inputname, MoodleQuickForm $mform, $counts) {
 
-        $mform->addElement('header', $inputname . 'header', stack_string('inputheading', $inputname));
+        $mform->addElement('header', $inputname . 'inputheader', stack_string('inputheading', $inputname));
 
         $qtype = new qtype_stack();
         if ($counts[$qtype::INPUTS] == 0 && $counts[$qtype::VALIDATIONS] == 0) {
             $mform->addElement('static', $inputname . 'warning', '', stack_string('inputwillberemoved', $inputname));
             $mform->addElement('advcheckbox', $inputname . 'deleteconfirm', '', stack_string('inputremovedconfirm'));
             $mform->setDefault($inputname . 'deleteconfirm', 0);
-            $mform->setExpanded($inputname . 'header');
+            $mform->setExpanded($inputname . 'inputheader');
         }
 
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
@@ -453,7 +472,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
         $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes'] );
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons'] );
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 20]);
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
@@ -474,35 +493,35 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
         $mform->hideIf($inputname . 'forbidwords', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
 
         $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), ['size' => 20]);
         $mform->setType($inputname . 'allowwords', PARAM_RAW);
         $mform->setDefault($inputname . 'allowwords', '');
         $mform->addHelpButton($inputname . 'allowwords', 'allowwords', 'qtype_stack');
         $mform->hideIf($inputname . 'allowwords', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
         $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
         $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
         $mform->hideIf($inputname . 'forbidfloat', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 stack_string('requirelowestterms'));
         $mform->setDefault($inputname . 'requirelowestterms', $this->stackconfig->inputrequirelowestterms);
         $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
         $mform->hideIf($inputname . 'requirelowestterms', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 stack_string('checkanswertype'));
         $mform->setDefault($inputname . 'checkanswertype', $this->stackconfig->inputcheckanswertype);
         $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
         $mform->hideIf($inputname . 'checkanswertype', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea', 'equiv', 'string', 'notes']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea', 'equiv', 'string', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'mustverify',
                 stack_string('mustverify'));
@@ -529,13 +548,13 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function definition_prt($prtname, MoodleQuickForm $mform, $count, $graph, $inputnames) {
 
-        $mform->addElement('header', $prtname . 'header', stack_string('prtheading', $prtname));
+        $mform->addElement('header', $prtname . 'prtheader', stack_string('prtheading', $prtname));
 
         if ($count == 0) {
             $mform->addElement('static', $prtname . 'prtwarning', '', stack_string('prtwillberemoved', $prtname));
             $mform->addElement('advcheckbox', $prtname . 'prtdeleteconfirm', '', stack_string('prtremovedconfirm'));
             $mform->setDefault($prtname . 'prtdeleteconfirm', 0);
-            $mform->setExpanded($prtname . 'header');
+            $mform->setExpanded($prtname . 'prtheader');
         }
 
         $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), ['size' => 3]);
@@ -553,7 +572,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
-                stack_string('feedbackvariables'), ['rows' => 3, 'cols' => 80]);
+                stack_string('feedbackvariables'), ['rows' => 4, 'cols' => 80]);
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 
         $inputnames = implode(', ', $inputnames);
@@ -669,7 +688,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
-                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 2], $this->editoroptions);
+                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 4], $this->editoroptions);
             $mform->addHelpButton($prtname . $branch . 'feedback[' . $nodekey . ']', 'branchfeedback', 'qtype_stack');
         }
 

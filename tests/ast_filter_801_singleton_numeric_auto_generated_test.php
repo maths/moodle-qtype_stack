@@ -77,6 +77,11 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
                       ['Illegal_form'],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['Illegal_form'],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       ['Illegal_form'],
@@ -514,6 +519,16 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      ['Illegal_form'],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['Illegal_form'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       ['Illegal_form'],
                       false, true);
 
@@ -1788,6 +1803,11 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
                       ['Illegal_form'],
                       false, true);
 
+        $this->expect("''diff(x,y)",
+                      "''diff(x,y)",
+                      ['Illegal_form'],
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       ['Illegal_form'],
@@ -2225,6 +2245,16 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      ['Illegal_form'],
+                      false, true);
+
+        $this->expect('a_b(x)',
+                      'a_b(x)',
+                      ['Illegal_form'],
+                      false, true);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf(x)',
                       ['Illegal_form'],
                       false, true);
 

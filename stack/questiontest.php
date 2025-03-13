@@ -73,11 +73,6 @@ class stack_question_test {
      * @return stack_question_test_result the test results.
      */
     public function test_question($questionid, $seed, $context) {
-
-        // We don't permit completely empty test cases.
-        // Completely empty test cases always pass, which is spurious in the bulk test.
-        $emptytestcase = true;
-
         // Create a completely clean version of the question usage we will use.
         // Evaluated state is stored in question variables etc.
         $question = question_bank::load_question($questionid);
@@ -98,6 +93,27 @@ class stack_question_test {
         $response = self::compute_response($question, $this->inputs);
         $quba->process_action($slot, $response);
 
+        $results = $this->process_results($question, $response);
+
+        if ($this->testcase) {
+            $this->save_result($question, $results);
+        }
+
+        return $results;
+    }
+
+    /**
+     * Seperate out from Moodle-specific parts of test_question() to allow
+     * use in the API
+     *
+     * @param question_definition $question
+     * @param array $response
+     * @return stack_question_test_result
+     */
+    public function process_results($question, $response) {
+        // We don't permit completely empty test cases.
+        // Completely empty test cases always pass, which is spurious in the bulk test.
+        $emptytestcase = true;
         $results = new stack_question_test_result($this);
         $results->set_questionpenalty($question->penalty);
         foreach ($this->inputs as $inputname => $notused) {
@@ -130,7 +146,7 @@ class stack_question_test {
             // Adapted from renderer.php prt_feedback_display.
             $feedback = $result->get_feedback();
             $feedback = format_text(stack_maths::process_display_castext($feedback),
-                    FORMAT_HTML, ['noclean' => true, 'para' => false]);
+                    FORMAT_HTML, ['noclean' => true, 'para' => false, 'allowid' => true]);
 
             $result->override_feedback($feedback);
             $results->set_prt_result($prtname, $result);
@@ -138,11 +154,6 @@ class stack_question_test {
         }
 
         $results->emptytestcase = $emptytestcase;
-
-        if ($this->testcase) {
-            $this->save_result($question, $results);
-        }
-
         return $results;
     }
 

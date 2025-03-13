@@ -47,6 +47,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff*(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(-b+-sqrt(b^2))/(2*a)',
                       '(-b+-sqrt*(b^2))/(2*a)',
                       [],
@@ -109,6 +114,16 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
 
         $this->expect('Sin(x)',
                       'Sin*(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b*(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf*(x)',
                       [],
                       true, false);
 
@@ -578,6 +593,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''diff*(x,y)",
+                      [],
+                      true, false);
+
         $this->expect('(-b+-sqrt(b^2))/(2*a)',
                       '(-b+-sqrt*(b^2))/(2*a)',
                       [],
@@ -640,6 +660,16 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
 
         $this->expect('Sin(x)',
                       'Sin*(x)',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      'a_b*(x)',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      'inverse_erf*(x)',
                       [],
                       true, false);
 

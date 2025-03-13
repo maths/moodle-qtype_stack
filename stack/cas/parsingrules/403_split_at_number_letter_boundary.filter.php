@@ -49,6 +49,9 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
                     if (array_search('missing_stars', $answernotes) === false) {
                         $answernotes[] = 'missing_stars';
                     }
+                    if (array_search('(403)', $answernotes) === false) {
+                        $answernotes[] = '(403)';
+                    }
                     // Initial identifier is turned to multiplication chain.
                     $temp = new MP_Identifier('rhs');
                     $replacement = new MP_Operation('*', new MP_Identifier($splits[0]), $temp);

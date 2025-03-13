@@ -47,6 +47,7 @@ stack_reset(not_used) := block(
   Pi: %pi,
   PI: %pi,
   pi() := %pi,         /* Why does Excel do this?! */
+  i:%i,
   /* Display of matrixes */
   lmxchar: "[",
   /* Sets up randomization, using Maxima's internal random command. */
@@ -149,9 +150,9 @@ matchfix("|", "|");
 /* Load STACK packages                */
 /* ********************************** */
 
+load("errortostring.lisp");
 /* This must come before stacktex.lisp as the latter relies on compiled functions in utils.mac. */
 load("utils.mac");
-load("errortostring.lisp");
 
 load("assessment.mac");
 load("validator.mac");
@@ -187,6 +188,12 @@ if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
 
+/* Issue #615 suggests we make matrix multiplication much more promenent. 
+   This is possible, but would be confused with notation for Hadamard product.
+
+   texput(".","\\circ ",infix);
+*/
+
 int([ex]) := apply(integrate, ex); /* Allows integrate to be called with int().  Avoid alias to allow nouns to work. */
 alias(cosec,csc);                  /* Corresponds to current student expectations. */
 alias(cosech,csch);                /* Corresponds to current student expectations. */
@@ -199,16 +206,15 @@ declare ("#", commutative);
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex, v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
-
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then
-    (i:%i,texput(%i,"\\mathrm{i}"))
-  else if OPT_COMPLEXJ = "j" then
-    (%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
-  else if OPT_COMPLEXJ = "symi" then
     (texput(%i,"\\mathrm{i}"))
+  else if OPT_COMPLEXJ = "j" then
+    (kill(i),%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
+  else if OPT_COMPLEXJ = "symi" then
+    (kill(i),texput(%i,"\\mathrm{i}"))
   else if OPT_COMPLEXJ = "symj" then
-    (texput(%i,"\\mathrm{j}"))
+    (kill(i),texput(%i,"\\mathrm{j}"))
   else true
 )$
 
@@ -483,9 +489,9 @@ list_remove(ex, n) := block([k, l],
 /* Could be implemented with rand_selection but would require two conversions
  * between sets and lists*/
 random_subset(u):=
-  disjoin(false, map(lambda([x], if rand(2)=0 then x), u)); 
+  disjoin(false, map(lambda([x], if rand(2)=0 then x), u));
 
-random_subset_n(u,n) := 
+random_subset_n(u,n) :=
   setify(rand_selection(listify(u),n));
 
 /* random non-empty subset */
@@ -586,13 +592,13 @@ mcq_incorrect(ta):=block(
 /*  mode(n) returns a list of all the modal elements in the list n */
 mode(n):= block([i,j,count_elements,counts,highest_count,mode_set],
     count_elements: makelist(0,i,1,length(n)),
-    for i: 1 thru length(n) do 
-        (for j: 1 thru length(n) do 
+    for i: 1 thru length(n) do
+        (for j: 1 thru length(n) do
             (if n[i]=n[j] then count_elements[i]: count_elements[i]+1)),
     counts: listify(setify(count_elements)),
     highest_count:counts[length(counts)],
     mode_set:{},
-    for i:1 thru length(n) do 
+    for i:1 thru length(n) do
         (if count_elements[i]=highest_count then mode_set: union(mode_set,{n[i]})),
     mode_list:listify(mode_set),
     return(mode_list)
@@ -784,9 +790,6 @@ stack_disp_sub_script(ex) := block([s],
  if taylorp(ex) then return(ex),
  if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
  if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
- /* The following are not, strictly speaking, a subscript issue, but we don't want another recursive call. */
- /* Strip out empty plus operators, which cause problems in display with simp:false.             */
- if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
  /* Now deal with supscripts. */
  if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
@@ -898,11 +901,11 @@ texput(matrix, stack_matrix_disp)$
 unary_minus_traverse(ex) := block(
   /* We want atom here, not mapatom to catch a[4]. */
   if atom(ex) then return(ex),
+  if op(ex) = "-" and (is(first(args(ex))=0) or is(first(args(ex))=0.0)) then return(ex),
   if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
   if arrayp(ex) then return(arraymake(op(ex), maplist(unary_minus_traverse, args(ex)))),
   apply(op(ex), map(unary_minus_traverse, args(ex)) )
 )$
-
 
 /* Pulls out "-" to the front of any expression in a sum of products which needs it. */
 /* For example,   -(2*y^2) is ok                                                     */
@@ -1728,6 +1731,26 @@ ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     return([true, false, AnswerNote, FeedBack])
 )$
 
+ATValidator(SA, SB, SO) := block([SAsimp, SOsimp, res],
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATValidator_STACKERROR_SAns"),""]),
+    /* SB is ignored. */
+    if (is(_EC(errcatch(SOsimp:ev(SO, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATValidator_STACKERROR_Opt"),""]),
+
+    if (is(_EC(errcatch(res:ev(apply(SO, [SA]))), "") = false)) then
+        return(StackBasicReturn(false, false, "ATValidator_STACKERROR_ev")),
+    if is(safe_op(res)=string(SO)) then
+        (_EC(errcatch(1/0), ""), return(StackBasicReturn(false, false, "ATValidator_not_fun"))),
+    if not(stringp(res)) then
+        (_EC(errcatch(1/0), ""), return(StackBasicReturn(false, false, "ATValidator_res_not_string"))),
+
+    if is(res="") then
+        return([true, true, "", ""]),
+    return([true, false, "", res])
+)$
+
 /* ********************************** */
 /* Levenshtein distance               */
 /* ********************************** */
@@ -1811,7 +1834,7 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
         SOsimp:setify(rest(SOsimp)),
         if elementp(CASE, SOsimp) then levupper:false,
         if elementp(WHITESPACE, SOsimp) then levwhitespace:false
-    ), 
+    ),
 
     if not(numberp(tol)) then
         return(StackBasicReturn(false, false, "ATLevenshtein_tol_not_number")),
@@ -1867,7 +1890,7 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
 sremove_chars(rem, st) := sremove_chars_helper(charlist(rem), st)$
 sremove_chars_helper(remlist, st) := if emptyp(remlist) then st else sremove_chars_helper(rest(remlist), sremove(first(remlist), st))$
 
-/* 
+/*
    (1) Replace all tab and newline characters with spaces.
    (2) Trim spaces from each end.
    (3) Remove all multiple spaces and replace with a single space.
@@ -1875,16 +1898,16 @@ sremove_chars_helper(remlist, st) := if emptyp(remlist) then st else sremove_cha
    (This is called str_squish in the R language, and squish in other languages.).
 */
 ssquish(st) := block(
-    st:ssubst(" ", tab, st), 
+    st:ssubst(" ", tab, st),
     st:ssubst(" ", newline, st),
-    st:strim(" ", st), 
+    st:strim(" ", st),
     /* while is(slength(st)>slength(st:ssubst(" ", "  ", st))) do true,*/
     st:regex_subst(" ", "\\s+", st),
     st
 )$
 
 /* **************************************** */
-/* A wrapper for an all purpose answer test 
+/* A wrapper for an all purpose answer test
    which checks things are of the same "type".
    Based upon the results of AtAlgEquivfun(SA,SB)
 */
@@ -2391,13 +2414,13 @@ FacFormfun(SA, SB, SO) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, 
         else block(
             rawmk: false,
             ansnote:StackAddNote(ansnote, "ATFacForm_int_false")
-            ) 
+            )
     else block(
         /* Check for the correct answer. */
         if (aequiv and factorp(SA)) then
             ansnote:StackAddNote("", "ATFacForm_true")
         else block(
-            if (factorp(SA)) then block( 
+            if (factorp(SA)) then block(
                 /* We need to provide some feedback, if possible. */
                 ansnote:StackAddNote(ansnote, "ATFacForm_isfactored"),
                 fb:StackAddFeedback(fb, "ATFacForm_isfactored")
@@ -2569,10 +2592,10 @@ PartFrac_term_p(ex, v) := block([n1, d1, ret],
  n1:num(ex),
  d1:denom(ex),
  /* Can we divide through? */
- if is((degree(d1, v) < degree(n1, v)) and degree(d1, v) > 0) then return(false),  
+ if is((degree(d1, v) < degree(n1, v)) and degree(d1, v) > 0) then return(false),
  /* Ignore any power here. */
  if safe_op(d1)="^" then d1:first(args(d1)),
- /* Terms of the form n1/(v-a)^m must have a numerical n1! */ 
+ /* Terms of the form n1/(v-a)^m must have a numerical n1! */
  if is(degree(d1, v) = 1) and (degree(n1, v)#0) then return(false),
  ret:irred_Q(d1, v),
  if third(ret) then true else first(ret)
@@ -3252,7 +3275,7 @@ truth_table_allvars(l) := block(
 table_bool_abbreviate:true$
 table_bool_abbreviate_fn(ex):= block(
     if safe_op(ex) = "texcolor" then return(sconcat("\\color{", first(args(ex)), "}{\\underline{", table_bool_abbreviate_fn(second(args(ex))), "}}")),
-    if table_bool_abbreviate=true then 
+    if table_bool_abbreviate=true then
         return(if ex=true then "\\mathbf{T} " else if ex=false then "\\mathbf{F} " else stack_disp(ex, ""))
     else stack_disp(ex, "")
 )$
@@ -3292,22 +3315,22 @@ tree_rec(e) := block([treelist],
   if is(safe_op(e)="binomial") then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
   if is(safe_op(e)="disp_parens") then return(tree_rec(first(ex))),
 
-  treelist:flatten(["<code>", op(noun_logic_remove(e)), "</code><ul>", map(lambda([ex], sconcat("<li>", tree_rec(ex) ,"</li>")), args(e)), "</ul>"]),  
+  treelist:flatten(["<code>", op(noun_logic_remove(e)), "</code><ul>", map(lambda([ex], sconcat("<li>", tree_rec(ex) ,"</li>")), args(e)), "</ul>"]),
 
   /* Lots of opportunities/need for fine-tuning. */
 
-  if is(safe_op(e)="int") then treelist:flatten(["<span class='op'>\\(\\int \\cdots \\mathrm{d}", stack_disp(second(e), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
-  if is(safe_op(e)="diff") then treelist:flatten(["<span class='op'>\\(", stack_disp(apply(noundiff, append([NULLNUM], rest(args(e)))), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
-  if is(safe_op(e)="sum" or safe_op(e)="'sum") then treelist:flatten(["<span class='op'>\\(\\sum_{", stack_disp(second(e), ""), "=", stack_disp(third(e), ""), "}^{", stack_disp(fourth(e), ""), "} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
-  if is(safe_op(e)="limit" or safe_op(e)="'limit") then treelist:flatten(["<span class='op'>\\(\\lim_{", stack_disp(second(e), ""), "\\rightarrow{", stack_disp(third(e), ""), "}} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="int") then treelist:flatten(["<span class='op'>\\(\\int \\cdots \\mathrm{d}", stack_disp(second(e), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
+  if is(safe_op(e)="diff") then treelist:flatten(["<span class='op'>\\(", stack_disp(apply(noundiff, append([NULLNUM], rest(args(e)))), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
+  if is(safe_op(e)="sum" or safe_op(e)="'sum") then treelist:flatten(["<span class='op'>\\(\\sum_{", stack_disp(second(e), ""), "=", stack_disp(third(e), ""), "}^{", stack_disp(fourth(e), ""), "} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
+  if is(safe_op(e)="limit" or safe_op(e)="'limit") then treelist:flatten(["<span class='op'>\\(\\lim_{", stack_disp(second(e), ""), "\\rightarrow{", stack_disp(third(e), ""), "}} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
   /* This example mirrors tex-gamma. */
-  if is(safe_op(e)="gamma") then treelist:flatten(["<span class='op'>\\(\\Gamma\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="gamma") then treelist:flatten(["<span class='op'>\\(\\Gamma\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
   /* This example mirrors tex-sqrt. */
-  if is(safe_op(e)="sqrt") then treelist:flatten(["<span class='op'>\\(\\sqrt{}\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="sqrt") then treelist:flatten(["<span class='op'>\\(\\sqrt{}\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
 
   if elementp(safe_op(e), tree_texlist) or logicp(e) then block(
         /* Apply the operator to as many arguments as we have, none of which print. */
-        treelist:["<span class='op'>\\(", stack_disp(apply(op(e), ev(makelist(NULLNUM,k,1,length(args(e))),simp)), ""), "\\)</span>"], 
+        treelist:["<span class='op'>\\(", stack_disp(apply(op(e), ev(makelist(NULLNUM,k,1,length(args(e))),simp)), ""), "\\)</span>"],
         /* Try to get a symbol from the tex database, to avoid empty brackets round functions. */
         if symbolp(op(e)) then block([%_do],
             if not(stringp(%_do:get_texword(op(e)))) then %_do:get_texsym(op(e)),
@@ -3334,4 +3357,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2024060301$
+stackmaximaversion:2025030600$

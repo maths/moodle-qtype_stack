@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Diagnostic_ALG-SPF_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Express</p>
+<p>\[{@f@}\mbox{,}\]</p>
+<p>as a sum of partial fractions.</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Below are the rules of partial fractions.[[facts:alg_partial_fractions]]</p>
+<p>Applying these rules, we find that: \[ {@f@}=\frac{A}{x}+\frac{B}{@lin@}+\frac{C}{@lin2@}\mbox{.}\]</p>
+<p>Multiplying both sides through by {@denom@}</p>
+<p>\[\begin{array}{rcl}\displaystyle {@numerat@}&amp;\displaystyle =&amp;\displaystyle {@Alinlin2@} + {@Bxlin2@} + {@Cxlin@}\mbox{,}\\ {@numerat@}&amp;\displaystyle =&amp;\displaystyle {@xsquaredterm@} + {@xterm@} + {@const@}\mbox{.} \end{array}\]</p>
+<p>Matching coefficients</p>
+<p>\[\begin{array}{rcl}\displaystyle {@xsquaredcoeff@}&amp;\displaystyle =&amp;\displaystyle 0\mbox{,}\\ {@xcoeff@}&amp;\displaystyle =&amp;\displaystyle 0\mbox{,}\\ {@const@}&amp;\displaystyle =&amp;\displaystyle {@numerat@}\mbox{.} \end{array}\]</p>
+<p>So</p>
+<p>\[A={@Aval@}\mbox{.}\]</p>
+<p>Substituting this value in the other two equations we see that</p>
+<p>\[\begin{array}{rcl}\displaystyle {@xsquaredAval@}&amp;\displaystyle =&amp;\displaystyle 0\mbox{,}\\ {@xAval@}&amp;\displaystyle =&amp;\displaystyle 0\mbox{.} \end{array}\]</p>
+<p>Rearranging</p>
+<p>\[\begin{array}{rcl}\displaystyle {@xsquaredlhs@} &amp;\displaystyle =&amp;\displaystyle {@minusAvalb@}\mbox{,}\\ {@xlhs@} &amp;\displaystyle =&amp;\displaystyle {@xrhs@}\mbox{.} \end{array}\] Multiplying the first of these two equations through by {@a@} we obtain: \[ {@xsquaredlhsa@}={@sconcat(minusAvalab)@}\mbox{,} \]</p>
+<p>and subtracting the second of the pair of equations above from this equation we can eliminate C to give an equation only in B. We find that</p>
+<p>\[\begin{array}{rcl}\displaystyle B&amp;\displaystyle =&amp;\displaystyle {@Bval@}\mbox{,}\\ C&amp;\displaystyle =&amp;\displaystyle {@Cval@}\mbox{.} \end{array}\] Therefore \[{@f@}={@answer@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2018080600</text>
+    </stackversion>
+    <questionvariables>
+      <text>numerat:rand(8) + 2;
+mag_a:rand(4)+2;
+sign_a:2*rand(2) - 1;
+a:mag_a * sign_a;
+b:rand(4)+2;
+ab:a*b;
+mag_c:rand(4)+2;
+sign_c:2*rand(2)-1;
+c:mag_c*sign_c;
+ac:a*c;
+lin:x + a;
+lin2:b*x + c;
+denom:x*lin*lin2;
+f:numerat/denom;
+Aval:numerat/ac;
+Alinlin2:A*lin*lin2;
+Bxlin2:B*x*lin2;
+Cxlin:C*x*lin;
+xsquaredcoeff:b*A + b*B + C;
+xcoeff:A*(c + ab) + c*B + a*C;
+xsquaredAval:b*Aval + b*B + C;
+xsquaredlhs:b*B + C;
+xAval:Aval*(c + ab) + c*B + a*C;
+xlhs:c*B + a*C;
+xrhs:-Aval*(c + ab);
+const:A*ac;
+xsquaredterm:xsquaredcoeff*x^2;
+xterm:xcoeff * x;
+minusAval:-Aval;
+xsquaredlhsa:expand(a * xsquaredlhs);
+minusAvalb:b * minusAval;
+minusAvalab:a * minusAvalb;
+Bval:(minusAvalab - xrhs)/(ab-c);
+Cval:(xrhs -c*Bval)/a;
+answer:partfrac(f,x);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@f@}={@answer@}.\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>answer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>PartFrac</answertest>
+        <sans>ans1</sans>
+        <tans>answer</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ALG-SPG-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ALG-SPG-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1609143755</deployedseed>
+    <deployedseed>2103370876</deployedseed>
+    <deployedseed>1045867286</deployedseed>
+    <deployedseed>1408710427</deployedseed>
+    <deployedseed>1841935173</deployedseed>
+    <deployedseed>1735655366</deployedseed>
+    <deployedseed>618662518</deployedseed>
+    <deployedseed>573709710</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>answer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ALG-SPG-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>f</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ALG-SPG-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

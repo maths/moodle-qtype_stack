@@ -165,6 +165,11 @@ class stack_dropdown_input extends stack_input {
         $correctanswer = [];
         $correctanswerdisplay = [];
         $duplicatevalues = [];
+        // Set up options for displaying decimals.
+        $decimal = '.';
+        if ($this->options && $this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+        }
         foreach ($values as $distractor) {
             $value = stack_utils::list_to_array($distractor, false);
             $ddlvalue = [];
@@ -239,18 +244,21 @@ class stack_dropdown_input extends stack_input {
                     // In case we see CASText2 values we need to postproc them.
                     $tmp = castext2_parser_utils::string_to_list($display, true);
                     $tmp = castext2_parser_utils::unpack_maxima_strings($tmp);
-                    $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_parsed($tmp);
+                    $holder = new castext2_placeholder_holder();
+                    $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_parsed($tmp, null, $holder);
+                    $ddlvalues[$key]['display'] = $holder->replace($ddlvalues[$key]['display']);
                 } else {
                     $cs = stack_ast_container::make_from_teacher_source($display);
                     if ($cs->get_valid()) {
-                        $display = $cs->get_inputform(false, 0);
+                        $display = $cs->get_inputform(false, 0, false, $decimal);
                     }
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
                 if ($ddlvalues[$key]['correct']) {
                     if (substr($display, 0, 9) === '["%root",') {
                         $tmp = castext2_parser_utils::unpack_maxima_strings($display);
-                        $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp);
+                        $holder = new castext2_placeholder_holder();
+                        $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp, null, $holder);
                     } else {
                         $correctanswerdisplay[] = $display;
                     }
@@ -306,7 +314,6 @@ class stack_dropdown_input extends stack_input {
         if ($at1->get_valid()) {
             $at1->instantiate();
         }
-
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
             return;
@@ -319,8 +326,14 @@ class stack_dropdown_input extends stack_input {
             $display = trim($ddlvalues[$key]['display']);
             if (substr($display, 0, 9) === '["%root",') {
                 // In case we saw CASText2 values we need to postproc them.
+                // And now we need to care about holders.
+                $holder = new castext2_placeholder_holder();
                 $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_mp_parsed(
-                    $at1->get_by_key('val'.$key)->get_evaluated());
+                    $at1->get_by_key('val'.$key)->get_evaluated(),
+                    null,
+                    $holder,
+                );
+                $ddlvalues[$key]['display'] = $holder->replace($ddlvalues[$key]['display']);
             } else if (substr($display, 0, 1) == '"') {
                 $ddlvalues[$key]['display'] = stack_utils::maxima_string_to_php_string($display);
             } else {
@@ -391,7 +404,9 @@ class stack_dropdown_input extends stack_input {
         // In the case of dropdown create the object directly here.
         $value = $this->contents_to_maxima($contents);
 
-        $answer = stack_ast_container::make_from_student_source($value, '', $secrules, $filterstoapply);
+        // Teacher source is justitified here because all the expressions come from teachers.
+        // Some of these expressions might contain an apostrophe, e.g. 'diff(f,x) which would be forbidden from students.
+        $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules, $filterstoapply);
         $answer->get_valid();
 
         $note = $answer->get_answernote(true);
@@ -452,6 +467,9 @@ class stack_dropdown_input extends stack_input {
         if ($readonly) {
             $inputattributes['disabled'] = 'disabled';
         }
+
+        // Metadata for JS users.
+        $inputattributes['data-stack-input-type'] = 'dropdown';
 
         $notanswered = '';
         if (array_key_exists('', $values)) {
@@ -517,20 +535,14 @@ class stack_dropdown_input extends stack_input {
     /**
      * This is used by the question to get the teacher's correct response.
      * The dropdown type needs to intercept this to filter the correct answers.
-     * @param unknown_type $in
+     * @param string $value
      */
     public function get_correct_response($value) {
         // TO-DO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
-        $val = '';
 
-        $decimal = '.';
-        $listsep = ',';
-        if ($this->options->get_option('decimals') === ',') {
-            $decimal = ',';
-            $listsep = ';';
-        }
+        // In dropdowns, the whole answer is a Maxima list, so we don't actually respect the decimal option here.
         $params = [
             'checkinggroup' => true,
             'qmchar' => false,
@@ -540,8 +552,8 @@ class stack_dropdown_input extends stack_input {
             'dealias' => false, // This is needed to stop pi->%pi etc.
             'nounify' => 1, // We need to add nouns for checkboxes, e.g. %union.
             'nontuples' => false,
-            'decimal' => $decimal,
-            'listsep' => $listsep,
+            'decimal' => '.',
+            'listsep' => ',',
         ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);

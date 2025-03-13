@@ -42,6 +42,11 @@ class ast_filter_996_call_modification_auto_generated_test extends qtype_stack_a
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''%_E((%_C(diff),%_E(diff(x,y))))",
+                      [],
+                      true, false);
+
         $this->expect('(-b+-sqrt(b^2))/(2*a)',
                       '(-b+-(%_C(sqrt),sqrt(b^2)))/(2*a)',
                       [],
@@ -109,6 +114,16 @@ class ast_filter_996_call_modification_auto_generated_test extends qtype_stack_a
 
         $this->expect('Sin(x)',
                       '(%_C(Sin),Sin(x))',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      '(%_C(a_b),a_b(x))',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      '(%_C(inverse_erf),inverse_erf(x))',
                       [],
                       true, false);
 
@@ -573,6 +588,11 @@ class ast_filter_996_call_modification_auto_generated_test extends qtype_stack_a
                       [],
                       true, false);
 
+        $this->expect("''diff(x,y)",
+                      "''%_E((%_C(diff),%_E(diff(x,y))))",
+                      [],
+                      true, false);
+
         $this->expect('(-b+-sqrt(b^2))/(2*a)',
                       '(-b+-(%_C(sqrt),sqrt(b^2)))/(2*a)',
                       [],
@@ -640,6 +660,16 @@ class ast_filter_996_call_modification_auto_generated_test extends qtype_stack_a
 
         $this->expect('Sin(x)',
                       '(%_C(Sin),Sin(x))',
+                      [],
+                      true, false);
+
+        $this->expect('a_b(x)',
+                      '(%_C(a_b),a_b(x))',
+                      [],
+                      true, false);
+
+        $this->expect('inverse_erf(x)',
+                      '(%_C(inverse_erf),inverse_erf(x))',
                       [],
                       true, false);
 

@@ -50,7 +50,7 @@ class stack_potentialresponse_tree_state {
     public $_trace = [];
 
     /**
-     * @var boolean Is this attempt valid?
+     * @var bool Is this attempt valid?
      */
     public $_valid = true;
 
@@ -85,7 +85,7 @@ class stack_potentialresponse_tree_state {
     protected $seed;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $simplify;
 

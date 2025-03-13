@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Vector Calculus</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the divergence and the curl of the vector field \[ \mathbf{F}(x,y,z) = {@f@}\] and fill in the appropriate option.</p>
+\( \mathbf{\nabla} \cdot \mathbf{F} =\) [[input:ans1]] <strong>or</strong>  [[input:ans2]] [[validation:ans1]] [[validation:ans2]][[feedback:prt1]]
+<br>
+<br>
+[[comment]]Notice the maths/text before the matrix input is not within an HTML paragraph tag.  Use of paragraphs force a newline, which we don't want. [[/comment]]
+\( \mathbf{\nabla} \times \mathbf{F} =\) [[input:ans3]] <strong>or</strong> [[input:ans4]][[validation:ans3]][[validation:ans4]] [[feedback:prt2]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We have the vector field \[ \mathbf{F}(x,y,z) = {@f@} \]<br></p>
+
+<p>The divergence of \(\mathbf{F}\) is found by \begin{align*}\mathbf{\nabla} \cdot \mathbf{F} &= \frac{\partial}{\partial x}({@f1@}) +\frac{\partial}{\partial y}({@f2@}) +\frac{\partial}{\partial z}({@f3@}) \\&= {@ta2@}. \end{align*}</p>
+
+<p>The curl of \(\mathbf{F}\) is found by 
+\begin{align*}
+\mathbf{\nabla} \times \mathbf{F} &= 
+
+\begin{vmatrix}\mathbf{\hat{i}} &amp; \mathbf{\hat{j}} &amp; \mathbf{\hat{k}} \\ 
+\frac{\partial}{\partial x} &amp; \frac{\partial}{\partial y} &amp; \frac{\partial}{\partial z} \\ 
+f &amp; g &amp; h 
+\end{vmatrix}
+
+\\&=
+\left(\frac{\partial}{\partial y} ({@f3@}) - \frac{\partial}{\partial z} ({@f2@}) \right)\mathbf{\hat{i}}\\
+&+\left(\frac{\partial}{\partial z}({@f2@}) - \frac{\partial}{\partial x} ({@f3@}) \right)\mathbf{\hat{j}}\\
+&+\left(\frac{\partial}{\partial x} ({@f2@}) - \frac{\partial}{\partial y} ({@f1@}) \right) \mathbf{\hat{k}}\\
+
+
+\\&={@ta3@}.
+\end{align*}</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024092500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/*Set up partially random vector using the STACK rand() function and maxima matrix() function*/
+a: rand(5)+1; 
+b: rand(3)+2;
+c: rand(5)+3;
+f1:a*x*y;
+f2:b*y*z^2;
+f3:c*z*x;
+f: matrix([f1],[f2],[f3]);
+vars:[x,y,z];
+
+
+/* Empty answers for matrix types are _not_ EMPTYANSWER to make sure they are the same "type" of object as a correctly sized matrix. */
+ta1: matrix([null],[null],[null]);
+
+/* Surprisingly, perhaps, Maxima does not have these basic vector calculus functions, so they are in the contributed library loaded bellow. */
+stack_include_contrib("vectorcalculus.mac");
+
+ta2: div(f, vars);
+ta3: curl(f,vars);
+ta4: EMPTYANSWER;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\[ \mathbf{F}(x,y,z) = {@f@}\] \[ \mathbf{\nabla} \cdot \mathbf{F} = {@ta2@}\] \[ \mathbf{\nabla} \times \mathbf{F} ={@ta3@}\]</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text><![CDATA[This question is to demonstrates how to use the "allowempty" input option, matrix inputs and the vector calculus library.]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>allowempty,hideanswer</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>allowempty</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>matrix</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>allowempty</options>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>allowempty,hideanswer</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Yes, \( \mathbf{\nabla} \cdot \mathbf{F} = {@ans2@}\).</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Check ans1 really is empty!</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>matrix([null],[null],[null])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You should leave the matrix empty as \(\mathbf{\nabla} \cdot \mathbf{F}\) is an expression, not a vector!</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Yes, \( \mathbf{\nabla} \times \mathbf{F} = {@ans3@}\).</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>EMPTYANSWER</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You should leave the expression empty as \(\mathbf{\nabla} \times \mathbf{F}\) is a vector!</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>249447570</deployedseed>
+    <deployedseed>1091261257</deployedseed>
+    <deployedseed>1867567595</deployedseed>
+    <deployedseed>1882824400</deployedseed>
+    <deployedseed>247278639</deployedseed>
+    <deployedseed>718728874</deployedseed>
+    <deployedseed>1588620172</deployedseed>
+    <deployedseed>997904091</deployedseed>
+    <deployedseed>907407895</deployedseed>
+    <deployedseed>820212909</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

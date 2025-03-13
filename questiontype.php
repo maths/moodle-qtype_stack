@@ -432,11 +432,11 @@ class qtype_stack extends question_type {
         $question->options = $DB->get_record('qtype_stack_options',
                 ['questionid' => $question->id], '*', MUST_EXIST);
 
-        $question->inputs = $DB->get_records('qtype_stack_inputs',
+                $question->inputs = $DB->get_records('qtype_stack_inputs',
                 ['questionid' => $question->id], 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
-                'mustverify, showvalidation, options');
+                'checkanswertype, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 ['questionid' => $question->id], 'name',

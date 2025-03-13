@@ -65,7 +65,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor=null): string {
+    public function postprocess(array $params, castext2_processor $processor, castext2_placeholder_holder $holder): string {
         return 'Post processing of reveal adaptauto never happens, this block is handled through [[iframe]].';
     }
 

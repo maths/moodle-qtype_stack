@@ -27,15 +27,6 @@ class stack_matrix_input extends stack_input {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $height;
 
-    protected function get_size(){
-        switch ($this->parameters['matrixSize']){
-            case 0: return 'var'; 
-            case 1: return 'fix';
-            default: echo 'Error: unknown type.'; break;
-        }
-    }
-
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
@@ -46,9 +37,13 @@ class stack_matrix_input extends stack_input {
         'checkvars' => 0,
         'validator' => false,
         'feedback' => false,
+        'matrixsize' => false,
     ];
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    protected function get_size(){
+        return $this->extraoptions['matrixsize'];
+    }
+
     public function adapt_to_model_answer($teacheranswer) {
         if ($this->get_size()=='fix'){
             // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
@@ -100,7 +95,7 @@ class stack_matrix_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function is_blank_response($contents) {
-        if ($contents == ['EMPTYANSWER']) { // nicht in fix
+        if ($contents == ['EMPTYANSWER']) {
             return true;
         }
         $allblank = true;
@@ -195,7 +190,7 @@ class stack_matrix_input extends stack_input {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function contents_to_maxima($contents) {
-        if ($contents == ['EMPTYANSWER']) { // nicht in fix
+        if ($contents == ['EMPTYANSWER']) {
             return 'matrix(EMPTYCHAR)';
         }
         $matrix = [];
@@ -254,34 +249,31 @@ class stack_matrix_input extends stack_input {
 
         // Now validate the input as CAS code.
         $modifiedcontents = [];
-        foreach ($contents as $row) {
-            $modifiedrow = [];
-            foreach ($row as $val) {
-                // Any student input which is too long is not even parsed.
-                if (strlen($val) > $this->maxinputlength) {
-                    $valid = false;
-                    $errors[] = stack_string('studentinputtoolong');
-                    $notes['too_long'] = true;
-                    $val = '';
-                }
-
-                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                    [], 'Root', $this->options->get_option('decimals'));
-                if ($answer->get_valid()) {
-                    $modifiedrow[] = $answer->get_inputform();
-                } else {
-                    $modifiedrow[] = 'EMPTYANSWER';
-                }
-                $valid = $valid && $answer->get_valid();
-                $errors[] = $answer->get_errors();
-                $note = $answer->get_answernote(true);
-                if ($note) {
-                    foreach ($note as $n) {
-                        $notes[$n] = true;
+        if ($contents == ['EMPTYANSWER']) {
+            $modifiedcontents = $contents;
+        } else {
+            foreach ($contents as $row) {
+                $modifiedrow = [];
+                $inertrow = [];
+                foreach ($row as $val) {
+                    $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                        [], 'Root', $this->options->get_option('decimals'));
+                    if ($answer->get_valid()) {
+                        $modifiedrow[] = $answer->get_inputform();
+                    } else {
+                        $modifiedrow[] = 'EMPTYCHAR';
+                    }
+                    $valid = $valid && $answer->get_valid();
+                    $errors[] = $answer->get_errors();
+                    $note = $answer->get_answernote(true);
+                    if ($note) {
+                        foreach ($note as $n) {
+                            $notes[$n] = true;
+                        }
                     }
                 }
+                $modifiedcontents[] = $modifiedrow;
             }
-            $modifiedcontents[] = $modifiedrow;
         }
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
@@ -303,7 +295,8 @@ class stack_matrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
+        // We don't use the decimals option below, because we've already used it above.
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
             [], 'Root', '.');
         $inertform->get_valid();
@@ -318,7 +311,7 @@ class stack_matrix_input extends stack_input {
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
-        // nicht in fix
+
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
@@ -412,23 +405,23 @@ class stack_matrix_input extends stack_input {
                     $xhtml .= '<td>&nbsp;</td>';
                 }
 
-            for ($j = 0; $j < $this->width; $j++) {
-                $val = '';
-                if (!$blank) {
-                    $val = trim($tc[$i][$j]);
-                }
-                if ($val === 'null' || $val === 'EMPTYANSWER') {
+                for ($j = 0; $j < $this->width; $j++) {
                     $val = '';
+                    if (!$blank) {
+                        $val = trim($tc[$i][$j]);
+                    }
+                    if ($val === 'null' || $val === 'EMPTYANSWER') {
+                        $val = '';
+                    }
+                    $field = 'value';
+                    if ($useplaceholder) {
+                        $field = 'placeholder';
+                    }
+                    $name = $fieldname.'_sub_'.$i.'_'.$j;
+                    $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
+                            $this->parameters['boxWidth'].'" autocapitalize="none" spellcheck="false" '.$attr.'></td>';
+    
                 }
-                $field = 'value';
-                if ($useplaceholder) {
-                    $field = 'placeholder';
-                }
-                $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $html   = html_writer::empty_tag('input',
-                    array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr));
-                $xhtml .= html_writer::tag('td', $html);
-            }
 
                 if ($i == 0) {
                     $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
@@ -457,7 +450,7 @@ class stack_matrix_input extends stack_input {
 
             $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
             return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
-        } 
+        }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -556,7 +549,6 @@ class stack_matrix_input extends stack_input {
             // This looks odd, but the teacher's answer is a list and the student's a matrix.
             'sameType'           => false, 
             'options'            => '',
-            'matrixSize'         => 0,
         ];
     }
 

@@ -100,10 +100,6 @@ abstract class stack_input {
         'forbidFloats',
         'lowestTerms',
         'sameType',
-        'choiceType',
-        'displayType',
-        'buttonTitles', 
-        'matrixSize',
     ];
 
     /**
@@ -213,8 +209,15 @@ abstract class stack_input {
         if (trim($options ?? '') != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
-                $option = strtolower(trim($option));
                 list($option, $arg) = stack_utils::parse_option($option);
+    
+                // Only convert to lowercase if the option is not 'buttontitle'
+                if ($option !== 'buttontitle') {
+                    $option = strtolower(trim($option));
+                } else {
+                    $option = trim($option); // Keep the original case for 'buttontitle'
+                }
+                
                 // Only accept those options specified in the array for this input type.
                 if (array_key_exists($option, $this->extraoptions)) {
                     if ($arg === '') {
@@ -424,6 +427,12 @@ abstract class stack_input {
                         $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
+                
+                case 'buttontitle':
+                    if (!($arg === false || is_string($arg))) {
+                        $this->errors[] = stack_string('inputvalidatorerrors', ['opt' => $option, 'val' => $arg]);
+                    }
+                    break;
 
                 case 'validator' || 'feedback':
                     // Perform simple checking of function names: not fully general.
@@ -434,7 +443,7 @@ abstract class stack_input {
                         $good = false;
                     }
                     if (!$good) {
-                        $this->errors[] = stack_string('inputvalidatorerr', ['opt' => $option, 'val' => $arg]);
+                        $this->errors[] = stack_string('inputvalidatorerr', ['opt' => $option, 'val' => $arg]); 
                     }
  
                     break;
@@ -462,7 +471,7 @@ abstract class stack_input {
                     if (!$good) {
                         $this->errors[] = stack_string('inputbuttonerr', array('opt' => $option, 'val' => $arg));
                     }
-                    break;
+                    break; 
 
                 default:
                     $this->errors[] = stack_string('inputoptionunknown', $option);

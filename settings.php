@@ -187,23 +187,23 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputinsertstars',
         get_string('insertstars_help', 'qtype_stack'), '0',
         stack_options::get_insert_star_options()));
 
-$settings->add(new admin_setting_configtext('qtype_stack/inputbuttontitles',
-        get_string('buttontitles', 'qtype_stack'),
-        get_string('buttontitles_help', 'qtype_stack'), '', PARAM_RAW));
+$settings->add(new admin_setting_configtext('qtype_stack/inputbuttontitle',
+        get_string('buttontitle', 'qtype_stack'),
+        get_string('buttontitle_help', 'qtype_stack'), 'Click me', PARAM_RAW));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputdisplaytype',
         get_string('displaytype', 'qtype_stack'), 
-        get_string('displaytype_help', 'qtype_stack'), '0',
+        get_string('displaytype_help', 'qtype_stack'), 'displaytype:dropdown',
         stack_options::get_displaytype_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputchoicetype',
         get_string('choicetype', 'qtype_stack'),
-        get_string('choicetype_help', 'qtype_stack'), '0',
+        get_string('choicetype_help', 'qtype_stack'), 'choicetype:dropdown',
         stack_options::get_choicetype_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputmatrixsize',
         get_string('matrixsize', 'qtype_stack'),
-        get_string('matrixsize_help', 'qtype_stack'), '0',
+        get_string('matrixsize_help', 'qtype_stack'), 'matrixsize:fix',
         stack_options::get_matrixsize_options()));
 
 $settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',

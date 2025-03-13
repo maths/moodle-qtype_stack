@@ -487,10 +487,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'displaytype', $this->stackconfig->inputdisplaytype);
         $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq','boolean');  
 
-        $mform->addElement('text', $inputname . 'buttontitles', stack_string('buttontitles') , ['size' => 20]);
-        $mform->setType($inputname . 'buttontitles', PARAM_RAW);
-        $mform->setDefault($inputname . 'buttontitles', '');
-        $mform->hideIf($inputname . 'buttontitles', $inputname . 'type', 'neq', 'boolean');
+        $mform->addElement('text', $inputname . 'buttontitle', stack_string('buttontitle') , ['size' => 20]);
+        $mform->setDefault($inputname . 'buttontitle', 'Click me!');
+        $mform->setType($inputname . 'buttontitle', PARAM_RAW);
+        $mform->hideIf($inputname . 'buttontitle', $inputname . 'type', 'neq', 'boolean');
 
         $mform->addElement('select', $inputname . 'choicetype', stack_string('choicetype') ,stack_options::get_choicetype_options());
         $mform->setDefault($inputname . 'choicetype', $this->stackconfig->inputchoicetype);
@@ -500,7 +500,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'matrixsize', $this->stackconfig->inputmatrixsize);
         $mform->hideIf($inputname . 'matrixsize', $inputname . 'type', 'neq', 'matrix'); 
 
-        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
         $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
@@ -837,10 +837,6 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
             // TODO: remove this when we delete it from the DB.
-            $question->{$inputname . 'displaytype'}        = $input->displaytype;
-            $question->{$inputname . 'choicetype'}         = $input->choicetype;
-            $question->{$inputname . 'matrixsize'}         = $input->matrixsize;
-            $question->{$inputname . 'buttontitles'}       = $input->buttontitles;
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
@@ -852,11 +848,35 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;
             $question->{$inputname . 'mustverify'}         = $input->mustverify;
             $question->{$inputname . 'showvalidation'}     = $input->showvalidation;
-            $question->{$inputname . 'options'}            = $input->options;
+
+            // Define the mapping between input types and the keywords to save
+            $typeKeywordMap = [
+                'choice' => ['choicetype'],
+                'boolean' => ['displaytype', 'buttontitle'],
+                'matrix' => ['matrixsize']
+            ];
+
+            // Check if the input type has associated keywords
+            if (isset($typeKeywordMap[$input->type])) {
+                foreach ($typeKeywordMap[$input->type] as $keyWord) {
+                    if (preg_match('/' . $keyWord . ':[^,]*/', $input->options, $matches)) {
+                        if($keyWord === 'buttontitle') {
+                            $label = str_replace($keyWord.':', '', $matches[0]);
+                            $question->{$inputname . $keyWord} = str_replace('*comma*', ',' ,$label);
+                        } else {
+                            $question->{$inputname . $keyWord} = $matches[0];
+                        }
+                        $input->options = str_replace($matches[0], '', $input->options);
+                    }
+                }
+            }
+            $input->options = trim($input->options, ',');  
+            $question->{$inputname . 'options'} = $input->options;
         }
 
         return $question;
     }
+
 
     /**
      * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack_prts table.

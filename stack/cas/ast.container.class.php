@@ -16,10 +16,13 @@
 
 defined('MOODLE_INTERNAL')|| die();
 
-// Ast container and related functions, which replace "cas strings".
-//
-// @copyright  2019 University of Aalto.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Ast container and related functions, which replace "cas strings".
+ *
+ * @package    qtype_stack
+ * @copyright  2019 University of Aalto.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/cassecurity.class.php');
@@ -32,6 +35,7 @@ require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container extends stack_ast_container_silent implements cas_latex_extractor,
             cas_value_extractor, cas_display_value_extractor {
 
@@ -52,26 +56,32 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     /**
      * If this is an input about to be validated, then we need to store some information here.
      */
-    private $validationcontext = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+     private $validationcontext = null;
 
     /**
      * AST value coming back from CAS.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated;
 
     /**
      * LaTeX value coming back from CAS.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $latex;
 
     /**
      * CAS rendered displayvalue.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $displayvalue;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function __construct() {
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_errors($err) {
         if ('' !== trim($err)) {
             // Force validation first so that all the errors are in the same form.
@@ -80,6 +90,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         // The common_ast_container provides means of dealing with validation context.
         if ($this->validationcontext === null) {
@@ -128,10 +139,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->validationcontext['vname'] . ':' . $vcmd;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_evaluated_value(MP_Node $ast) {
         $this->evaluated = $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_display_value(string $displayvalue) {
         // Maxima displays floats as sting with these tags.
         // The last of the old mess left?
@@ -141,18 +154,22 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $this->displayvalue = $displayvalue;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_latex_value(string $latex) {
         $this->latex = stack_maxima_latex_tidy($latex);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluated(): MP_Node {
         return $this->evaluated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_latex(): string {
         return $this->latex;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_correctly_evaluated(): bool {
         /*
          * In cases where a statement occurs many times, only the last values will be stored.
@@ -166,6 +183,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp, $checkvars) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
@@ -183,10 +201,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_cas_validation_context() {
         return $this->validationcontext;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_value() {
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
@@ -194,7 +214,8 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->ast_to_string($this->evaluated, ['checkinggroup' => true]);
     }
 
-    /* This function returns something a teacher might claim a student types in.
+    /**
+     * This function returns something a teacher might claim a student types in.
      * This means we have to de-parse a lot of things, listed below.
      */
     public function get_dispvalue() {
@@ -227,6 +248,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $computedinput;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_display() {
         if (!$this->is_correctly_evaluated()) {
             throw new stack_exception('stack_ast_container: ' .
@@ -235,7 +257,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return trim($this->latex);
     }
 
-    /*
+    /**
      * Used to test the ast within the container.
      */
     public function get_ast_test() {
@@ -245,6 +267,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->ast->toString(['flattree' => true]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_ast_clone() {
         if ($this->is_correctly_evaluated()) {
             $ast = clone $this->evaluated;
@@ -276,10 +299,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_answernote($val) {
         $this->answernotes[] = $val;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_answernote($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
@@ -290,7 +315,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->answernotes;
     }
 
-    /*
+    /**
      * We sometimes need to modify the ast to set a particular key.
      */
     public function set_key($key) {

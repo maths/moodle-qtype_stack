@@ -20,7 +20,7 @@
  * @copyright 2009 Tim Hunt, 2010 Petr Skoda
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since Moodle 2.0
- * @package core
+ * @package    qtype_stack
  * @category output
  */
 class html_writer {
@@ -30,10 +30,10 @@ class html_writer {
      *
      * @param string $tagname The name of tag ('a', 'img', 'span' etc.)
      * @param string $contents What goes between the opening and closing tags
-     * @param array $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
+     * @param array|null $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
      * @return string HTML fragment
      */
-    public static function tag($tagname, $contents, array $attributes = null) {
+    public static function tag($tagname, $contents, ?array $attributes = null) {
         return self::start_tag($tagname, $attributes) . $contents . self::end_tag($tagname);
     }
 
@@ -41,10 +41,10 @@ class html_writer {
      * Outputs an opening tag with attributes
      *
      * @param string $tagname The name of tag ('a', 'img', 'span' etc.)
-     * @param array $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
+     * @param array|null $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
      * @return string HTML fragment
      */
-    public static function start_tag($tagname, array $attributes = null) {
+    public static function start_tag($tagname, ?array $attributes = null) {
         return '<' . $tagname . self::attributes($attributes) . '>';
     }
 
@@ -62,10 +62,10 @@ class html_writer {
      * Outputs an empty tag with attributes
      *
      * @param string $tagname The name of tag ('input', 'img', 'br' etc.)
-     * @param array $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
+     * @param array|null $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
      * @return string HTML fragment
      */
-    public static function empty_tag($tagname, array $attributes = null) {
+    public static function empty_tag($tagname, ?array $attributes = null) {
         return '<' . $tagname . self::attributes($attributes) . ' />';
     }
 
@@ -74,10 +74,10 @@ class html_writer {
      *
      * @param string $tagname The name of tag ('a', 'img', 'span' etc.)
      * @param string $contents What goes between the opening and closing tags
-     * @param array $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
+     * @param array|null $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
      * @return string HTML fragment
      */
-    public static function nonempty_tag($tagname, $contents, array $attributes = null) {
+    public static function nonempty_tag($tagname, $contents, ?array $attributes = null) {
         if ($contents === '' || is_null($contents)) {
             return '';
         }
@@ -110,11 +110,11 @@ class html_writer {
     /**
      * Outputs a list of HTML attributes and values
      *
-     * @param array $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
+     * @param array|null $attributes The tag attributes (array('src' => $url, 'class' => 'class1') etc.)
      *       The values will be escaped with {@link s()}
      * @return string HTML fragment
      */
-    public static function attributes(array $attributes = null) {
+    public static function attributes(?array $attributes = null) {
         $attributes = (array)$attributes;
         $output = '';
         foreach ($attributes as $name => $value) {
@@ -127,8 +127,6 @@ class html_writer {
     /**
      * Generates random html element id.
      *
-     * @staticvar int $counter
-     * @staticvar type $uniq
      * @param string $base A string fragment that will be included in the random ID.
      * @return string A unique ID
      */
@@ -150,10 +148,10 @@ class html_writer {
      *
      * @param string|moodle_url $url The URL
      * @param string $text The text
-     * @param array $attributes HTML attributes
+     * @param array|null $attributes HTML attributes
      * @return string HTML fragment
      */
-    public static function link($url, $text, array $attributes = null) {
+    public static function link($url, $text, ?array $attributes = null) {
         $attributes = (array)$attributes;
         $attributes['href'] = $url;
 
@@ -167,10 +165,10 @@ class html_writer {
      * @param string $value The value of the checkbox
      * @param bool $checked Whether the checkbox is checked
      * @param string $label The label for the checkbox
-     * @param array $attributes Any attributes to apply to the checkbox
+     * @param array|null $attributes Any attributes to apply to the checkbox
      * @return string html fragment
      */
-    public static function checkbox($name, $value, $checked = true, $label = '', array $attributes = null) {
+    public static function checkbox($name, $value, $checked = true, $label = '', ?array $attributes = null) {
         $attributes = (array)$attributes;
         $output = '';
 
@@ -198,10 +196,10 @@ class html_writer {
      *
      * @param string $name name of select element
      * @param bool $selected
-     * @param array $attributes - html select element attributes
+     * @param array|null $attributes - html select element attributes
      * @return string HTML fragment
      */
-    public static function select_yes_no($name, $selected = true, array $attributes = null) {
+    public static function select_yes_no($name, $selected = true, ?array $attributes = null) {
         $options = ['1' => get_string('yes'), '0' => get_string('no')];
 
         return self::select($options, $name, $selected, null, $attributes);
@@ -218,11 +216,11 @@ class html_writer {
      * @param string $name name of select element
      * @param string|array $selected value or array of values depending on multiple attribute
      * @param array|bool $nothing add nothing selected option, or false of not added
-     * @param array $attributes html select element attributes
+     * @param array|null $attributes html select element attributes
      * @return string HTML fragment
      */
     public static function select(
-        array $options, $name, $selected = '', $nothing = ['' => 'choosedots'], array $attributes = null) {
+        array $options, $name, $selected = '', $nothing = ['' => 'choosedots'], ?array $attributes = null) {
         $attributes = (array)$attributes;
         if (is_array($nothing)) {
             foreach ($nothing as $k => $v) {
@@ -331,10 +329,10 @@ class html_writer {
      * @param string $name fieldname
      * @param int $currenttime A default timestamp in GMT
      * @param int $step minute spacing
-     * @param array $attributes - html select element attributes
+     * @param array|null $attributes - html select element attributes
      * @return HTML fragment
      */
-    public static function select_time($type, $name, $currenttime = 0, $step = 5, array $attributes = null) {
+    public static function select_time($type, $name, $currenttime = 0, $step = 5, ?array $attributes = null) {
         if (!$currenttime) {
             $currenttime = time();
         }
@@ -396,11 +394,11 @@ class html_writer {
      * Note: 'list' is a reserved keyword ;-)
      *
      * @param array $items
-     * @param array $attributes
+     * @param array|null $attributes
      * @param string $tag ul or ol
      * @return string
      */
-    public static function alist(array $items, array $attributes = null, $tag = 'ul') {
+    public static function alist(array $items, ?array $attributes = null, $tag = 'ul') {
         $output = '';
 
         foreach ($items as $item) {
@@ -416,10 +414,10 @@ class html_writer {
      * Returns hidden input fields created from url parameters.
      *
      * @param moodle_url $url
-     * @param array $exclude list of excluded parameters
+     * @param array|null $exclude list of excluded parameters
      * @return string HTML fragment
      */
-    public static function input_hidden_params(moodle_url $url, array $exclude = null) {
+    public static function input_hidden_params(moodle_url $url, ?array $exclude = null) {
         $exclude = (array) $exclude;
         $params = $url->params();
         foreach ($exclude as $key) {

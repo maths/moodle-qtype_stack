@@ -27,18 +27,19 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
-// Unit tests for stack_utils.
-//
-// @copyright 2012 The Open Unviersity.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_utils.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open Unviersity.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_utils
  */
-class stack_utils_test extends qtype_stack_testcase {
+final class stack_utils_test extends qtype_stack_testcase {
 
-    public function test_check_bookends() {
+    public function test_check_bookends(): void {
+
         $this->assertSame('left', stack_utils::check_bookends('x+1)^2', '(', ')'));
         $this->assertSame('right', stack_utils::check_bookends('(x+1', '(', ')'));
         $this->assertSame('left', stack_utils::check_bookends('(y^2+1))', '(', ')'));
@@ -52,7 +53,8 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertSame(true, stack_utils::check_bookends('[sin(x)+1)', '{', '}'));
     }
 
-    public function test_check_nested_bookends() {
+    public function test_check_nested_bookends(): void {
+
         $this->assertTrue(stack_utils::check_nested_bookends(''));
         $this->assertTrue(stack_utils::check_nested_bookends('x+1'));
         $this->assertTrue(stack_utils::check_nested_bookends('(sin(x)+1)'));
@@ -70,7 +72,8 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertFalse(stack_utils::check_nested_bookends('{[()(()[(){}((){})]))]}'));
     }
 
-    public function test_substring_between() {
+    public function test_substring_between(): void {
+
         $this->assertEquals(['[hello]', 0, 6], stack_utils::substring_between('[hello] world!', '[', ']'));
         $this->assertEquals(['[world]', 6, 12], stack_utils::substring_between('hello [world]!', '[', ']'));
         $this->assertEquals(['[world]', 8, 14], stack_utils::substring_between('[hello] [world]!', '[', ']', 8));
@@ -86,7 +89,8 @@ class stack_utils_test extends qtype_stack_testcase {
                 stack_utils::substring_between('hello [[[]w[o]r[[l]d]]]!', '[', ']'));
     }
 
-    public function test_all_substring_between() {
+    public function test_all_substring_between(): void {
+
         $this->assertEquals([], stack_utils::all_substring_between('hello world!', '[', ']'));
         $this->assertEquals(['hello'], stack_utils::all_substring_between('[hello] world!', '[', ']'));
         $this->assertEquals(['hello', 'world'], stack_utils::all_substring_between('[hello] [world]!', '[', ']'));
@@ -99,7 +103,8 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals(['hello', 'wor'], stack_utils::all_substring_between('[he[llo] [wor]ld]!', '[', ']'));
     }
 
-    public function test_replace_between() {
+    public function test_replace_between(): void {
+
         $this->assertEquals('hello world!', stack_utils::replace_between('hello world!', '[', ']', []));
         $this->assertEquals('[goodbye] world!', stack_utils::replace_between('[hello] world!', '[', ']', ['goodbye']));
         $this->assertEquals('[goodbye] [all]!',
@@ -114,12 +119,14 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals('goodbye all!', stack_utils::replace_between('$hello$ $world$!', '$', '$', ['1', '2', '3']));
     }
 
-    public function test_underscore() {
+    public function test_underscore(): void {
+
         $this->assertEquals('hello_world!', stack_utils::underscore('hello world!'));
         $this->assertEquals('he_he_hello_world_', stack_utils::underscore('he-he-hello world!', ['!']));
     }
 
-    public function test_list_to_array() {
+    public function test_list_to_array(): void {
+
         // Do not recurse over lists.
         $a = [];
         $strin = '';
@@ -163,33 +170,39 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals($a, stack_utils::list_to_array($strin, true));
     }
 
-    public function test_decompose_rename_operation_identity() {
+    public function test_decompose_rename_operation_identity(): void {
+
         $this->assertEquals([], stack_utils::decompose_rename_operation(
                 ['a' => 'a', 'b' => 'b']));
     }
 
-    public function test_decompose_rename_operation_no_overlap() {
+    public function test_decompose_rename_operation_no_overlap(): void {
+
         $this->assertEquals(['a' => 'c', 'b' => 'd'], stack_utils::decompose_rename_operation(
                 ['a' => 'c', 'b' => 'd']));
     }
 
-    public function test_decompose_rename_operation_shift() {
+    public function test_decompose_rename_operation_shift(): void {
+
         $this->assertSame(['x3' => 'x4', 'x2' => 'x3', 'x1' => 'x2'], stack_utils::decompose_rename_operation(
                 ['x1' => 'x2', 'x2' => 'x3', 'x3' => 'x4']));
     }
 
-    public function test_decompose_rename_operation_simple_swap() {
+    public function test_decompose_rename_operation_simple_swap(): void {
+
         $this->assertEquals(['a' => 'temp1', 'b' => 'a', 'temp1' => 'b'], stack_utils::decompose_rename_operation(
                 ['a' => 'b', 'b' => 'a']));
     }
 
-    public function test_decompose_rename_operation_cycle_temp_already_used() {
+    public function test_decompose_rename_operation_cycle_temp_already_used(): void {
+
         $this->assertEquals(['temp1' => 'temp4', 'temp3' => 'temp1', 'temp2' => 'temp3', 'temp4' => 'temp2'],
                 stack_utils::decompose_rename_operation(
                 ['temp1' => 'temp2', 'temp2' => 'temp3', 'temp3' => 'temp1']));
     }
 
-    public function test_decompose_rename_operation_complex() {
+    public function test_decompose_rename_operation_complex(): void {
+
         $this->assertEquals([
             'i' => 'j', 'h' => 'i', 'a' => 'temp1', 'e' => 'a', 'g' => 'e', 'temp1' => 'g',
             'd' => 'temp2', 'f' => 'd', 'temp2' => 'f',
@@ -197,12 +210,14 @@ class stack_utils_test extends qtype_stack_testcase {
                 ['a' => 'g', 'b' => 'b', 'd' => 'f', 'e' => 'a', 'f' => 'd', 'g' => 'e', 'h' => 'i', 'i' => 'j']));
     }
 
-    public function test_all_substring_strings() {
+    public function test_all_substring_strings(): void {
+
         $this->assertEquals(["test", "testb"], stack_utils::all_substring_strings("stringa:\"test\" and stringb:\"testb\""));
         $this->assertEquals(["", "\\\""], stack_utils::all_substring_strings("stringa:\"\" and stringb:\"\\\"\""));
     }
 
-    public function test_eliminate_strings() {
+    public function test_eliminate_strings(): void {
+
         $this->assertEquals('before""after', stack_utils::eliminate_strings('before"inside"after'));
         $this->assertEquals('""after', stack_utils::eliminate_strings('"atstart"after'));
         $this->assertEquals('before""', stack_utils::eliminate_strings('before"atend"'));

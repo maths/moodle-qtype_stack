@@ -1,0 +1,73 @@
+/* This may not work without 
+   stack_include_contrib("linearalgebra_core.mac") */
+
+/*  Authors Luke Longworth, Georg Osang
+    University of Canterbury, IDEMS International
+    Copyright (C) 2025 Luke Longworth and Georg Osang
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Vector geometry functions for STACK                         */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+load("vectorgeometry.mac");
+
+s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),true);
+s_test_case(linear_combinationp(matrix([1+t+s],[2+t],[3+t+s])),true);
+s_test_case(linear_combinationp(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),true);
+s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),false);
+
+_test_paramvec: matrix([t+3*s-4],[2*t+5]);
+s_test_case_simp(constant_term(2*x-3), -3);
+s_test_case(constant_term(matrix([1, 2+a], [b, 4])), matrix([1,2],[0,4]));
+s_test_case_simp(constant_term(2*x-3*y+z-1), -1);
+s_test_case_simp(constant_term(2*x-3*y+z-1, [y]), -(3*y)-1);
+s_test_case_simp(constant_term(a*b*c-1), -1);
+s_test_case_simp(constant_term(c(2*x-3, y)), matrix([-3], [0]));
+s_test_case_simp(constant_term(r(2*x-3, y)), matrix([-3, 0]));
+s_test_case_simp(constant_term(_test_paramvec), matrix([-4],[5]));
+s_test_case_simp(constant_term(_test_paramvec, [s]), matrix([3*s-4],[5]));
+
+s_test_case_simp(vector_parametric_parts(t+2*s-4), [-4,[2,1],[s,t]]);
+s_test_case_simp(vector_parametric_parts(_test_paramvec), [matrix([-4],[5]),[matrix([3],[0]),matrix([1],[2])],[s,t]]);
+s_test_case_simp(vector_parametric_parts(_test_paramvec, [s]), [matrix([3*s-4],[5]),[matrix([1],[2])],[t]]);
+s_test_case_simp(vector_parametric_parts(_test_paramvec, [s, t]), [matrix([t+3*s-4],[2*t+5]),[],[]]);
+s_test_case_simp(vector_parametric_parts(matrix([-4],[5]) + s*matrix([3],[0]) + t*matrix([1],[2])), [matrix([-4],[5]),[matrix([3],[0]),matrix([1],[2])],[s,t]]);
+s_test_case_simp(vector_parametric_parts(matrix([t*s-4],[5])), [matrix([null]),[],[s,t]]);
+s_test_case_simp(vector_parametric_parts(matrix([t*s-4],[5]), [s]), [matrix([-4],[5]),[matrix([s],[0])],[t]]);
+s_test_case_simp(vector_parametric_parts(matrix([t*s-4],[5]), [t]), [matrix([-4],[5]),[matrix([t],[0])],[s]]);
+s_test_case_simp(vector_parametric_parts(matrix([b^2-4],[5])), [matrix([null]),[],[b]]);
+s_test_case_simp(vector_parametric_parts(matrix([b^2-4],[5]), [b]), [matrix([b^2-4],[5]),[],[]]);
+s_test_case_simp(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case(vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),[matrix([null]),[],[s,t]]);
+
+make_multsgn("dot");
+s_test_case(vector_parametric_display([matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
+s_test_case(vector_parametric_display(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s]))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
+
+s_test_case(point_in_affine_spacep(matrix([1],[1]),[matrix([0],[1]),[matrix([1],[-1])]]),false);
+s_test_case(point_in_affine_spacep(matrix([1],[1]),[matrix([0],[1]),[matrix([1],[-1])],[t]]),false);
+s_test_case(point_in_affine_spacep(matrix([1/2],[1/2]),[matrix([0],[1]),[matrix([1],[-1])]]),true);
+s_test_case(point_in_affine_spacep(matrix([1/2],[1/2]),[matrix([0],[1]),[matrix([1],[-1])],[t]]),true);
+s_test_case(point_in_affine_spacep(matrix([1],[102],[3]),[matrix([0],[100],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])]]),true);
+
+s_test_case(vector_in_spacep(matrix([1],[2],[3]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),true);
+s_test_case(vector_in_spacep(matrix([1],[2],[3]),[matrix([4],[5],[6]),matrix([7],[8],[10])]),false);
+s_test_case_error(vector_in_spacep(matrix([1],[2]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
+s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])]),false);
+s_test_case(vector_in_spacep(matrix([0],[0],[0]),[matrix([4],[5],[6]),matrix([7],[8],[9])],true),true);

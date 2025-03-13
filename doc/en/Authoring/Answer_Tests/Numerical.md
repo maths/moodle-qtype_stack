@@ -95,4 +95,4 @@ There is currently no functionality within the numerical answer tests to automat
 * [Answer tests](index.md)
 * [CAS and numbers](../../CAS/Numbers.md)
 * [Scientific units](../../Topics/Units.md)
-* [Maxima](../../CAS/Maxima.md)
+* [Maxima](../../CAS/Maxima_background.md)

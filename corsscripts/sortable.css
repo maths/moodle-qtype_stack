@@ -55,7 +55,6 @@ button {
 }
 
 .usedList > .header {
-    height: 50px; 
      background-color: inherit; text-align: center; border-bottom: thick solid; padding: 10px; 
      display: inline-block;
 }
@@ -66,7 +65,6 @@ button {
 }
 
 #availableList > .header {
-    min-height: 50px;
     height: auto; 
     width: max(100%, 150px);
     background-color: inherit; text-align: center; border-bottom: thick solid rgb(196, 131, 10); 

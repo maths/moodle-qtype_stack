@@ -16,13 +16,16 @@
 
 define('CLI_SCRIPT', true);
 
-// This script fetches Unicode mappings from:
-// https://github.com/numbas/unicode-math-normalization
-//
-// And preprocesses them for use in STACK logic.
-//
-// @copyright  2023 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script fetches Unicode mappings from:
+ * https://github.com/numbas/unicode-math-normalization
+ *
+ * And preprocesses them for use in STACK logic.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');

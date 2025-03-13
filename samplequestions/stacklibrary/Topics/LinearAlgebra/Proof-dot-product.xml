@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Dot product formula proof comprehension</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider each line in the proof below. Select from the following list the corresponding dot product rule number which justifies each step.</p>
+<p><b>Dot product rules</b>: Let \(\mathbf{u}\), \(\mathbf{v}\) and \(\mathbf{w}\) be vectors in \(\mathbb{R}^n\) and let \(c\) be a scalar.
+<ol>
+<li>\(\mathbf{u}\cdot\mathbf{v} = \mathbf{v}\cdot\mathbf{u}\).</li>
+<li>\(\mathbf{u}\cdot(\mathbf{v}+\mathbf{w}) = \mathbf{u}\cdot\mathbf{v} + \mathbf{u}\cdot\mathbf{w}\).</li>
+<li>\((c \mathbf{u}) \cdot \mathbf{v} = c(\mathbf{u} \cdot \mathbf{v})\).</li>
+<li>\(\mathbf{u} \cdot \mathbf{u} \geq 0\) and \(\mathbf{u} \cdot \mathbf{u} = 0\) if and only if \(\mathbf{u} = 0\).</li>
+<li>\(\mathbf{u}\cdot\mathbf{u} = ||\mathbf{u}||^2\).</li>
+</ol>
+</p>
+<hr/>
+<p>
+<b>Theorem</b>:  \( \mathbf{u}\cdot\mathbf{v} = ||\mathbf{u}||\,||\mathbf{v}|| \cos(\theta)\)
+</p>
+<div class="proof">
+<p>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="320" height="120"><defs><clipPath id="XaZgmMrCLvgS"><path fill="none" stroke="none" d=" M 0 0 L 892 0 L 892 604 L 0 604 L 0 0 Z"/></clipPath></defs><g transform="scale(1,1)" clip-path="url(#XaZgmMrCLvgS)"><g><rect fill="rgb(255,255,255)" stroke="none" x="0" y="0" width="892" height="604" fill-opacity="1"/><path fill="rgb(0,100,0)" stroke="none" paint-order="stroke fill markers" d=" M 197.47058823529417 92.8823529411764 C 192.5043381275463 83.57063398914919 183.01069326401688 77.55318357968127 172.47009016947806 77.0360410677493 C 161.92948707493926 76.5188985558173 151.89239847706625 81.57813315244081 146.03849116986476 90.35899411324307 L 171.00000000000006 106.99999999999991 Z" fill-opacity="0.09803921568627451"/><path fill="none" stroke="rgb(0,100,0)" paint-order="fill stroke markers" d=" M 197.47058823529417 92.8823529411764 C 192.5043381275463 83.57063398914919 183.01069326401688 77.55318357968127 172.47009016947806 77.0360410677493 C 161.92948707493926 76.5188985558173 151.89239847706625 81.57813315244081 146.03849116986476 90.35899411324307 L 171.00000000000006 106.99999999999991 Z" stroke-opacity="0.6980392156862745" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.5"/><text fill="rgb(0,100,0)" stroke="none" font-family="geogebra-sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="168" y="94" text-anchor="start" dominant-baseline="alphabetic" fill-opacity="1">θ</text><text fill="none" stroke="rgb(255,255,255)" font-family="geogebra-sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="168" y="94" text-anchor="start" dominant-baseline="alphabetic" stroke-opacity="1" stroke-linejoin="bevel" stroke-miterlimit="10" stroke-width="3">θ</text><text fill="rgb(0,100,0)" stroke="none" font-family="geogebra-sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="168" y="94" text-anchor="start" dominant-baseline="alphabetic" fill-opacity="1">θ</text><path fill="none" stroke="rgb(0,0,0)" paint-order="fill stroke markers" d=" M 171.00000000000006 106.99999999999991 L 35.144855003743345 16.429903335828847" stroke-opacity="0.6980392156862745" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.5"/><path fill="rgb(0,0,0)" stroke="none" paint-order="stroke fill markers" fill-rule="evenodd" d=" M 21 6.999999999999957 L 37.50233083770057 12.89368958489301 L 32.78737916978612 19.966117086764683 Z" fill-opacity="0.6980392156862745"/><text fill="rgb(0,0,0)" stroke="none" font-family="geogebra-sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="77" y="69" text-anchor="start" dominant-baseline="alphabetic" fill-opacity="1">u</text><text fill="none" stroke="rgb(255,255,255)" font-family="geogebra-sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="77" y="69" text-anchor="start" dominant-baseline="alphabetic" stroke-opacity="1" stroke-linejoin="bevel" stroke-miterlimit="10" stroke-width="3">u</text><text fill="rgb(0,0,0)" stroke="none" font-family="sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="77" y="69" text-anchor="start" dominant-baseline="alphabetic" fill-opacity="1">u</text><path fill="none" stroke="rgb(0,0,0)" paint-order="fill stroke markers" d=" M 171.00000000000006 106.99999999999991 L 291.0000000000001 42.999999999999936" stroke-opacity="0.6980392156862745" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.5"/><path fill="rgb(0,0,0)" stroke="none" paint-order="stroke fill markers" fill-rule="evenodd" d=" M 306.0000000000001 34.99999999999994 L 293.0000000000001 46.749999999999936 L 289.0000000000001 39.249999999999936 Z" fill-opacity="0.6980392156862745"/><text fill="rgb(0,0,0)" stroke="none" font-family="sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="250" y="83" text-anchor="start" dominant-baseline="alphabetic" fill-opacity="1">v</text><text fill="none" stroke="rgb(255,255,255)" font-family="sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="250" y="83" text-anchor="start" dominant-baseline="alphabetic" stroke-opacity="1" stroke-linejoin="bevel" stroke-miterlimit="10" stroke-width="3">v</text><text fill="rgb(0,0,0)" stroke="none" font-family="sans-serif, sans-serif" font-size="16px" font-style="normal" font-weight="normal" text-decoration="normal" x="250" y="83" text-anchor="start" dominant-baseline="alphabetic" fill-opacity="1">v</text></g></g></svg>
+</p>
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step">Applying the [[input:ans1]] [[validation:ans1]] to the above triangle we have </div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step">
+ \( ||\mathbf{u}-\mathbf{v}||^2 = ||\mathbf{u}||^2 + ||\mathbf{v}||^2 - 2||\mathbf{u}||\,||\mathbf{v}|| \cos(\theta)  \)
+</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">Expanding the left-hand side we obtain 
+<table>
+<tr>
+ <td>\( ||\mathbf{u}-\mathbf{v}||^2 \)</td>
+ <td> (<i>Using rule number:<i>)</td>
+</tr>
+<tr>
+ <td>\( =(\mathbf{u}-\mathbf{v})\cdot (\mathbf{u}-\mathbf{v})\)</td>
+ <td>[[input:ans31]] [[validation:ans31]]</td>
+</tr>
+<tr>
+ <td>\( =(\mathbf{u}-\mathbf{v})\cdot \mathbf{u}-(\mathbf{u}-\mathbf{v})\cdot\mathbf{v}\)</td>
+ <td>[[input:ans32]] [[validation:ans32]] </td>
+</tr>
+<tr>
+ <td>\( =\mathbf{u}\cdot (\mathbf{u}-\mathbf{v}) -\mathbf{v}\cdot(\mathbf{u}-\mathbf{v})\)</td>
+ <td>[[input:ans33]] [[validation:ans33]] </td>
+</tr>
+<tr>
+ <td>\( =\mathbf{u}\cdot \mathbf{u}-\mathbf{u}\cdot\mathbf{v} -\mathbf{v}\cdot\mathbf{u}+\mathbf{v}\cdot\mathbf{v}\)</td>
+ <td>[[input:ans34]] [[validation:ans34]]</td>
+</tr>
+<tr>
+ <td>\( =\mathbf{u}\cdot \mathbf{u}-\mathbf{u}\cdot\mathbf{v}-\mathbf{u}\cdot\mathbf{v}+\mathbf{v}\cdot\mathbf{v}\)</td>
+ <td>[[input:ans35]] [[validation:ans35]]</td>
+</tr>
+<tr>
+ <td>\( = ||\mathbf{u}||^2 - 2\mathbf{u} \cdot \mathbf{v} + ||\mathbf{v}||^2\)  
+</td>
+ <td>[[input:ans36]] [[validation:ans36]] </td>
+</tr>
+</table></div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">So the equation  in step 2 becomes
+\[ ||\mathbf{u}||^2 - 2\mathbf{u} \cdot \mathbf{v} + ||\mathbf{v}||^2 = ||\mathbf{u}||^2 + ||\mathbf{v}||^2 - 2||\mathbf{u}||\,||\mathbf{v}|| \cos(\theta).  \]</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-step">After simplification this leaves us with \( \mathbf{u}\cdot\mathbf{v} = ||\mathbf{u}||\,||\mathbf{v}|| \cos(\theta)\).
+</div>
+</div>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>In step 1 of the proof we apply the law of cosines.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[tal1:[[a, false, "Pythagorean theorem"], [b, false, "triangle inequality"], [c, false, "law of sines"], [d, true, "law of cosines"], [e, false, "Skew's distance"]];
+ta1:d;
+ta31:5;
+ta32:2;
+ta33:1;
+ta34:2;
+ta35:1;
+ta36:5;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step"> [[feedback:prt1]] </div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step"> \( ||\mathbf{u}-\mathbf{v}||^2 = ||\mathbf{u}||^2 + ||\mathbf{v}||^2 - 2||\mathbf{u}||\,||\mathbf{v}|| \cos(\theta)  \)
+</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">Expanding the left-hand side we obtain 
+<table>
+<tr>
+ <td>\( ||\mathbf{u}-\mathbf{v}||^2 \)</td>
+ <td> (<i>Using rule number:<i>)</td>
+</tr>
+<tr>
+ <td>\( =(\mathbf{u}-\mathbf{v})\cdot (\mathbf{u}-\mathbf{v})\)</td>
+ <td> [[feedback:prt31]]</td>
+</tr>
+<tr>
+ <td>\( =(\mathbf{u}-\mathbf{v})\cdot \mathbf{u}-(\mathbf{u}-\mathbf{v})\cdot\mathbf{v}\)</td>
+ <td> [[feedback:prt32]]</td>
+</tr>
+<tr>
+ <td>\( =\mathbf{u}\cdot (\mathbf{u}-\mathbf{v}) -\mathbf{v}\cdot(\mathbf{u}-\mathbf{v})\)</td>
+ <td>[[feedback:prt33]]</td>
+</tr>
+<tr>
+ <td>\( =\mathbf{u}\cdot \mathbf{u}-\mathbf{u}\cdot\mathbf{v} -\mathbf{v}\cdot\mathbf{u}+\mathbf{v}\cdot\mathbf{v}\)</td>
+ <td>[[feedback:prt34]]</td>
+</tr>
+<tr>
+ <td>\( =\mathbf{u}\cdot \mathbf{u}-\mathbf{u}\cdot\mathbf{v}-\mathbf{u}\cdot\mathbf{v}+\mathbf{v}\cdot\mathbf{v}\)</td>
+ <td>[[feedback:prt35]]</td>
+</tr>
+<tr>
+ <td>\( = ||\mathbf{u}||^2 - 2\mathbf{u} \cdot \mathbf{v} + ||\mathbf{v}||^2\)  
+</td>
+ <td>[[feedback:prt36]]</td>
+</tr>
+</table></div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">So the equation  in step 2 becomes
+\[ ||\mathbf{u}||^2 - 2\mathbf{u} \cdot \mathbf{v} + ||\mathbf{v}||^2 = ||\mathbf{u}||^2 + ||\mathbf{v}||^2 - 2||\mathbf{u}||\,||\mathbf{v}|| \cos(\theta).  \]</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-step">After simplification this leaves us with \( \mathbf{u}\cdot\mathbf{v} = ||\mathbf{u}||\,||\mathbf{v}|| \cos(\theta)\).
+</div>
+</div>
+</div>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>tal1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans31</name>
+      <type>numerical</type>
+      <tans>ta31</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans32</name>
+      <type>numerical</type>
+      <tans>ta32</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans33</name>
+      <type>numerical</type>
+      <tans>ta33</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans34</name>
+      <type>numerical</type>
+      <tans>ta34</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans35</name>
+      <type>numerical</type>
+      <tans>ta35</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans36</name>
+      <type>numerical</type>
+      <tans>ta36</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt31</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans31</sans>
+        <tans>ta31</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt31-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt31-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt32</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans32</sans>
+        <tans>ta32</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt32-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt32-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt33</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans33</sans>
+        <tans>ta33</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt33-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt33-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt34</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans34</sans>
+        <tans>ta34</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt34-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt34-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt35</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans35</sans>
+        <tans>ta35</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt35-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt35-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt36</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans36</sans>
+        <tans>ta36</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt36-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt36-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans31</name>
+        <value>ta31</value>
+      </testinput>
+      <testinput>
+        <name>ans32</name>
+        <value>ta32</value>
+      </testinput>
+      <testinput>
+        <name>ans33</name>
+        <value>ta33</value>
+      </testinput>
+      <testinput>
+        <name>ans34</name>
+        <value>ta34</value>
+      </testinput>
+      <testinput>
+        <name>ans35</name>
+        <value>ta35</value>
+      </testinput>
+      <testinput>
+        <name>ans36</name>
+        <value>ta36</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt31</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt31-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt32</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt32-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt33</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt33-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt34</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt34-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt35</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt35-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt36</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt36-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

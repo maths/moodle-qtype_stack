@@ -1,6 +1,6 @@
 # Dynamic blocks
 
-Dynamic blocks deal with dynamic content such as Javascript and JSXGraph
+Dynamic blocks deal with dynamic content such as Javascript and JSXGraphs.  Many of the dynamic blocks are designed for use with specialist tools.
 
 ## Reveal block ##
 
@@ -16,9 +16,11 @@ The block will only do singular direct string match, and so use of this block is
 
 There is currently no "else" clause available with this block.
 
+An example question is available by importing `Doc-Examples\Reveal_block_example.xml`.
+
 ### Interaction with MCQ input types
 
-The reveal block can be used in conjunction with [MCQ](../Multiple_choice_questions.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
+The reveal block can be used in conjunction with [MCQ](../../Authoring/Inputs/Multiple_choice_input.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
 
     ta1:[[a,false],[b,false],[c,false],[d,false],[X,true,"Other"]];
     ta2:x^2;
@@ -54,25 +56,46 @@ Notes
 This block allows sections of text (defined with adapt block) to be shown or hidden with a press of an button somewhere else (defined with adaptbutton block).
 
 In an adapt block you have to provide a unique id.
-In an adaptbutton block you can refer to this id in the attributes `show_id` and `hide_id`.
+In an adaptbutton block you can refer to this id in the attributes `show_ids` and `hide_ids`.
+It saves the state if the adaptbutton is pressed in the input.
 
-```
-[[adapt id="task1"]] ..content 1.. [[/ adapt]]
+    ```
+    [[adapt id='1']]
+    This text will be shown until the adaptbutton has been clicked. When it is clicked, the value of the input 'ans1' is set to 'true'.
+    [[adaptbutton title=’Click me’ hide_ids='1' save_state='ans1' show_ids='3; 4']][[/adaptbutton]]
+    [[/adapt]]
+    [[adapt id='2' hidden='true']]
+    This text is hidden if you did not press the adaptbutton.
+    [[/adapt]]
+    ```
 
-[[adapt id="task2"]] ..content 2.. [[/ adapt]]
-
-
-[[adaptbutton title="Click me for task 2" show_id="task2" hide_id="task1"]] [[/adaptbutton]]
-```
+The adaptbutton can hide and reveal multiple adapt-blocks. Separation is done using a semicolon, for example: hide_ids='1;2;3'.
 
 To do: 
 1. New block `[[adaptforce show_id="task2" hide_id="task1"]] [[/adaptforce]]` which will execute whenever it appears on the page.  E.g. a PRT could contain this to hide/show the adapt blocks.
 2. New block `[[adaptdelay show_id="task2" hide_id="task1" delay="3s"]] [[/adaptdelay]]` which will execute whenever it appears on the page, with a time delay.
 
 
+## Adaptauto block ##
+
+This block allows sections of text to be shown and hidden when the DOM is fully loaded. 
+
+    ```
+    [[adapt id='1']]
+    The text will be displayed until adaptauto is loaded.
+    [[/adapt]]
+    [[adapt id='2' hidden='true']]
+    This text is hidden until adaptauto is loaded. Can be used as feedback.
+    [[/adapt]]
+    <!-- Should be in node false or true feedback -->
+    [[adaptauto show_ids='2' hide_ids='1']][[/adaptauto]]
+    ```
+
+The adaptauto can hide and reveal multiple adapt-blocks. Separation is done using a semicolon, for example: hide_ids='1;2;3'.
+
 ## JSXGraph block ##
 
-STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../JSXGraph.md) elements.
+STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../../Specialist_tools/JSXGraph/index.md) elements.
 
     [[jsxgraph]]
       // boundingbox:[left, top, right, bottom]
@@ -95,8 +118,8 @@ Note, this block is _not_ designed to output Maxima expressions in JS format. Fo
 
 ## GeoGebra block ##
 
-STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org) both as static visuals and as a STACK input.  This block is documented fully on the [GeoGebra page](../GeoGebra.md).
+STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org) both as static visuals and as a STACK input.  This block is documented fully on the [GeoGebra page](../../Specialist_tools/GeoGebra/index.md).
 
 ## Parsons block ##
 
-The [Parsons block](../Parsons.md) allows users (e.g. students) to assemble pre-written text into a correct order.  This block can be linked with an input to create a Parsons problem.
+[Drag and drop problems](../../Specialist_tools/Drag_and_drop/index.md) can be created using the [Parsons block](../../Specialist_tools/Drag_and_drop/Question_block.md).  For example this allows users (e.g. students) to assemble pre-written text into a correct order.  This block can be linked with an input to create a [Parsons problem](../../Specialist_tools/Drag_and_drop/Parsons.md) or as matching problems, such as [grid](../../Specialist_tools/Drag_and_drop/Grid.md) and [grouping](../../Specialist_tools/Drag_and_drop/Grouping.md).

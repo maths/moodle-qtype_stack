@@ -5,7 +5,7 @@
 let fs = require('fs');
 let pegjs = require('pegjs');
 let phpegjs = require('phpegjs');
-let tspegjs = require('ts-pegjs');
+// let tspegjs = require('ts-pegjs');
 
 
 var parserCode = fs.readFile('./parser-grammar.pegjs','utf8',function
@@ -23,7 +23,7 @@ var parserCode = fs.readFile('./parser-grammar.pegjs','utf8',function
    let TSparser = pegjs.generate(data, {
        output: 'source',
        cache: true,
-       plugins: [tspegjs],
+//       plugins: [tspegjs],
        allowedStartRules: ["Root", "Equivline"],
        tspegjs: {
          customHeader: 'import {MPNode, MPOperation, MPAtom, MPInteger, MPFloat, MPString, MPBoolean, MPIdentifier, MPComment, MPFunctionCall, MPGroup, MPSet, MPList, MPPrefixOp, MPPostfixOp, MPIndexing, MPIf, MPLoop, MPLoopBit, MPEvaluationFlag, MPStatement, MPRoot, MPAnnotation} from \'./MP_classes\';'

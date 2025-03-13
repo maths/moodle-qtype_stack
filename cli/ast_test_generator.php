@@ -16,14 +16,17 @@
 
 define('CLI_SCRIPT', true);
 
-// This script generates unit-tests for AST-filters using a common
-// list of example inputs. The generated tests exist only to document
-// and freeze the behaviour of the filters. When running this
-// script it overwrites the existing tests so do check if you agree
-// with the diffs.
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script generates unit-tests for AST-filters using a common
+ * list of example inputs. The generated tests exist only to document
+ * and freeze the behaviour of the filters. When running this
+ * script it overwrites the existing tests so do check if you agree
+ * with the diffs.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
@@ -160,6 +163,7 @@ $findinvalid = function($node) use(&$hasinvalid) {
     return true;
 };
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function escp(string $string): string {
     // TO-DO: for coding style we should not use double quotes unless necessary.
     $a = addslashes($string);
@@ -192,6 +196,14 @@ foreach ($filters as $key => $filter) {
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Auto-generated unit tests for AST-filter DO NOT EDIT!
+ *
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_ast_testcase;
@@ -202,23 +214,24 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
-// Auto-generated unit tests for AST-filter DO NOT EDIT!
 /**
+ * Auto-generated unit tests for AST-filter DO NOT EDIT!
+ *
  * @group qtype_stack
  * @group qtype_stack_ast_filters
 ESCAPE;
 
-    $code .= "\n * @covers \ast_filter_{$key}\n */\n\n";
+    $code .= "\n * @covers \ast_filter_{$key}\n */\n";
 
-    $code .= "class ast_filter_{$key}_auto_generated_test extends qtype_stack_ast_testcase {" . $nl;
+    $code .= "final class ast_filter_{$key}_auto_generated_test extends qtype_stack_ast_testcase {" . $nl;
 
-    $testactiveunits = $indent . 'public function test_affected_units() {' . $nl;
+    $testactiveunits = $indent . 'public function test_affected_units(): void {' . $nl;
     $testactiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
-    $testpassiveunits = $indent . 'public function test_non_affected_units() {' . $nl;
+    $testpassiveunits = $indent . 'public function test_non_affected_units(): void {' . $nl;
     $testpassiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
-    $testactivenounits = $nl . $indent . 'public function test_affected_no_units() {' . $nl;
+    $testactivenounits = $nl . $indent . 'public function test_affected_no_units(): void {' . $nl;
     $testactivenounits .= $indent2 . '$this->security = new stack_cas_security(false);' . $nl;
-    $testpassivenounits = $indent . 'public function test_non_affected_no_units() {' . $nl;
+    $testpassivenounits = $indent . 'public function test_non_affected_no_units(): void {' . $nl;
     $testpassivenounits .= $indent2 . '$this->security = new stack_cas_security(false);' . $nl;
 
     if (substr($key, 0, 3) !== '000') {

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Ellipse_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The standard equation of an ellipse (after a shift) is of the form:</p>
+<p>\[ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 .\]</p>
+<p>Find the equation in  standard (shifted) form of an ellipse with foci at  \(({@xf1@},{@yf1@})\) and \(({@xf2@},{@yf2@})\), and a semi-major axis \({@sma@}\).</p>
+<p>Give your answer as a list containing (in this order) the coordinates of the centre, \(x_c\) and \(y_c\), the value of \(a\) and the value of \(b\).</p>
+<p>\([ x_c, y_c, a, b] \) =  [[input:ans1]] [[validation:ans1]]</p>
+<p> </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The centre is the midpoint of the foci \(({@xf1@},{@yf1@})\) and \(({@xf2@},{@yf2@})\), hence is given by the coordinates \(({@xc@},{@yc@})\).</p>
+<p><br /> If the foci and centre are on a vertical line, the semi-major axis is \(b\). The distance from the foci to the centre is then \(f = e\cdot b\), which gives us the eccentricity \(e\). The semi-minor axis \(a\) can then be found from \(a^2 = b^2(1-e^2)\).</p>
+<p><br /> If the foci and centre are on an horizontal line, the semi-major axis is \(a\). The distance from the foci to the centre is then \(f = e\cdot a\), which gives us the eccentricity \(e\). The semi-minor axis \(b\) can then be found from \(b^2 = a^2(1 -e^2)\).</p>
+<p><br /> In this case, the centre is given by \(({@xc@},{@yc@})\), \(a = {@a@}\) and \(b = {@b@}\).</p>
+<p> </p>
+<p>The equation of this conic is given by:</p>
+<p>\[ \frac{({@x - xc@})^2}{{@a@}^2} + \frac{({@y - yc@})^2}{{@b@}^2} = 1.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[xc:rand(7)+1;
+ yc:-(rand(7)+1);
+ a:rand(6)+2;
+ b:rand(6)+2;
+ b: if a = b then a+1 else b;
+ c: if b>a then sqrt(b^2-a^2) else  sqrt(a^2-b^2);
+ ecc: if b>a then c/b else c/a;
+ eccd: if b>a then b else a;
+ dir1: if b>a then y=yc else x=xc;
+ dir2: if b>a then b/ecc else a/ecc;
+ xf1: if b>a then xc else xc + c;
+ xf2: if b>a then xc else xc - c;
+ yf1: if b>a then yc+c else yc;
+ yf2: if b>a then yc-c else yc;
+ sma: if b>a then b else a;
+ eq:(x-xc)^2/a^2+(y-yc)^2/b^2=1;
+ correctanswer:[xc,yc,a,b];
+ wrongcentrex:[xc-1,yc,a,b];
+ wrongcentrey:[xc,yc-1,a,b];
+ wronga:[xc,yc,a-1,b];
+ wrongb:[xc,yc,a,b-1];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>foci at  \(({@xf1@},{@yf1@})\) and \(({@xf2@},{@yf2@})\), and a semi-major axis \({@sma@}\), \( {@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1[1]</sans>
+        <tans>correctanswer[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your x coordinate for the centre is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1[2]</sans>
+        <tans>correctanswer[2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>Result-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your y coordinate for the centre is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1[3]</sans>
+        <tans>correctanswer[3]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>Result-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer for \(a\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1[4]</sans>
+        <tans>correctanswer[4]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer for \(b\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1201373199</deployedseed>
+    <deployedseed>1666527997</deployedseed>
+    <deployedseed>1989841618</deployedseed>
+    <deployedseed>1761648939</deployedseed>
+    <deployedseed>1946428559</deployedseed>
+    <deployedseed>845642214</deployedseed>
+    <deployedseed>1185306259</deployedseed>
+    <deployedseed>1461642465</deployedseed>
+    <deployedseed>829012944</deployedseed>
+    <deployedseed>423930934</deployedseed>
+    <deployedseed>872507052</deployedseed>
+    <deployedseed>1802225911</deployedseed>
+    <deployedseed>604383905</deployedseed>
+    <deployedseed>323143986</deployedseed>
+    <deployedseed>60349241</deployedseed>
+    <deployedseed>894116437</deployedseed>
+    <deployedseed>43913849</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wrongcentrex</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wrongcentrey</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronga</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wrongb</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-4-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

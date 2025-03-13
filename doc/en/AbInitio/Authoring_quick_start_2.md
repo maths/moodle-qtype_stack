@@ -1,6 +1,6 @@
 # Authoring quick start 2: question variables
 
-[1 - First question](Authoring_quick_start_1.md) | 2 - Question variables | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+1 - [First question](Authoring_quick_start_1.md) | 2 - Question variables | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - question library](Authoring_quick_start_6.md) | [7 - Multipart questions](Authoring_quick_start_7.md) | [8 - Simplification](Authoring_quick_start_8.md) | [9 - Quizzes](Authoring_quick_start_9.md)
 
 
 
@@ -42,9 +42,9 @@ Notice that we have defined a local variable `exp`, and used the value of this i
 
 Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)
 
-In the input `ans1`, specify the `model answer` as the variable `ta`.
+In the input `ans1`, confirm the default `model answer` is the variable `ta`.
 
-In the potential response tree, set the `Answer test` to  `AlgEquiv`, set  `SAns` to `ans1` and set `TAns` to `ta`. 
+In the potential response tree, confirm the default `Answer test` is  `AlgEquiv`, `SAns` is `ans1` and `TAns` is `ta`.
 
 It is good practice to use question variables often, as they save time and let you change properties of the question easily in the future.
 

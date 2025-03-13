@@ -16,10 +16,13 @@
 
 defined('MOODLE_INTERNAL')|| die();
 
-// Ast container and related functions, which replace "cas strings".
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Ast container and related functions, which replace "cas strings".
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 
 require_once(__DIR__ . '/parsingrules/parsingrule.factory.php');
@@ -31,36 +34,43 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_silent implements cas_evaluatable {
 
     /**
      * The parsetree representing this ast after all modifications.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ast;
 
     /**
      * The source of this ast. As used for security considerations.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $source = 's';
 
     /**
      * Cached result of the validity check.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $valid = null;
 
     /**
      * Errors collected from various sources of validation.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $errors = [];
 
     /**
      * Answernotes collected from various sources of validation.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $answernotes = [];
 
     /**
      * Feedback collected from various sources of validation and processing.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $feedback = [];
 
     /**
@@ -68,11 +78,13 @@ class stack_ast_container_silent implements cas_evaluatable {
      * ast comes from. e.g., '/questionvariables' or '/prt/0/node/2/tans'.
      * more specific location data i.e. character position data is in the AST.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $context;
 
     /**
      * The cassecurity settings applied to this question.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $securitymodel;
 
     /**
@@ -82,6 +94,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      * If 1 we add all nouns.
      * If 2 we only add logic nouns such as nounand.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $nounify = null;
 
     /**
@@ -90,16 +103,19 @@ class stack_ast_container_silent implements cas_evaluatable {
      * cassession only returning the values of last statements with a given
      * key.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $keyless = false;
 
     /**
      * Track the status of correct evaluation at statement level.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $isevaluated = false;
 
     /**
      * These strings might occur as errors or notes and need to be tided up.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $maximastrings = [
         'DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
         'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
@@ -113,7 +129,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
     public $errclass = 'stack_cas_error';
 
-    /*
+    /**
      * NOTES:
      *  1. this does not provide means of storing the results of evaluation.
      *  2. the usage of this class boils down to this:
@@ -123,9 +139,10 @@ class stack_ast_container_silent implements cas_evaluatable {
      *    - ask for inputform or evaluation form representation
      *    - you can also retrieve the AST but it is not secured and you should
      *      never modify it when taking it from an existing casstring, make
-            sure that the AST is ready before you put it in a casstring
+     *      sure that the AST is ready before you put it in a casstring
      */
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_student_source(string $raw, string $context,
             stack_cas_security $securitymodel, array $filterstoapply = [],
             array $filteroptions = [], string $grammar = 'Root', string $decimals = '.') {
@@ -166,22 +183,23 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // It is now ready to be created.
         $astc = new static;
-        $astc->ast = $ast;
         $astc->source = 's';
         $astc->context = $context;
         $astc->securitymodel = $securitymodel;
-        $astc->errors = $errors;
-        $astc->answernotes = $answernotes;
         $astc->valid = null;
         $astc->feedback = [];
+        $astc->ast = $ast;
+        $astc->errors = $errors;
+        $astc->answernotes = $answernotes;
         // Always add nouns to student input.
         $astc->nounify = 1;
 
         return $astc;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_teacher_source(string $raw, string $context='',
-            stack_cas_security $securitymodel=null) {
+            ?stack_cas_security $securitymodel=null) {
         // If you wonder why the security model is in play for teachers it
         // is here to bring in the information on whether units are constants
         // or not and thus affect the teachers ability to write into them.
@@ -233,6 +251,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_teacher_ast(MP_Statement $ast, string $context,
             stack_cas_security $securitymodel) {
         // This function is intended to be used when dealing with keyvals,
@@ -261,19 +280,24 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function __construct() {
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_keyless(bool $key=true) {
         $this->keyless = $key;
     }
 
-    /* TO-DO: a more coherent system for dealing with all options such as keyless, nounify. */
+    /**
+     * TO-DO: a more coherent system for dealing with all options such as keyless, nounify.
+     */
     public function set_nounify(int $key=1) {
         $this->nounify = $key;
     }
 
     // Functions required by cas_evaluatable.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         if ($this->valid === null) {
             if ($this->ast === null) {
@@ -311,7 +335,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->valid;
     }
 
-    /*
+    /**
      * This is the string which actually gets sent to Maxima.
      */
     public function get_evaluationform(): string {
@@ -323,6 +347,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false,
             $decimals = '.'): string {
         if (!($nounify === null || is_int($nounify))) {
@@ -353,10 +378,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->ast_to_string($this->ast, $params);
     }
 
-    /*
+    /**
      * Top-level function for turning AST into a string representation.
      */
-    public function ast_to_string($root = null, $parameters = []) : string {
+    public function ast_to_string($root = null, $parameters = []): string {
 
         if ($root === null) {
             $root = $this->ast;
@@ -429,6 +454,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $ast->debugPrint($ast->toString(['nosemicolon' => true]));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_status(array $errors, array $answernotes, array $feedback) {
         // Here we have a slightly difficult situation, as the new
         // session collects real errors through different means than
@@ -473,26 +499,32 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_evaluated(): bool {
         return $this->isevaluated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_correctly_evaluated(): bool {
         return $this->isevaluated && $this->valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_securitymodel(): stack_cas_security {
         return $this->securitymodel;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_securitymodel(stack_cas_security $sec) {
         $this->securitymodel = $sec;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_source_context(): string {
         return $this->context;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_key(): string {
         if ($this->keyless === true) {
             return '';
@@ -522,6 +554,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     // When asking for errors the default is to implode them into a string.
     // One can also have an array of strings or objects depending on which
     // is more convenient.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
@@ -547,6 +580,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $errors;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_answernote($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
@@ -557,6 +591,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->answernotes;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
             $updatearray['read'] = [];
@@ -575,6 +610,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $updatearray;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_feedback($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
@@ -670,6 +706,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_float(bool $evaluated=false): bool {
         $root = $this->ast;
         if ($evaluated) {
@@ -704,6 +741,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // Exception of the bool value style, we return the length of the list or -1 if not a list.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_list(bool $evaluated=false): int {
         $root = $this->ast;
         if ($evaluated) {
@@ -732,6 +770,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return -1;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_string(bool $evaluated=false): bool {
         $root = $this->ast;
         if ($evaluated) {
@@ -760,6 +799,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_set(bool $evaluated=false): bool {
         $root = $this->ast;
         if ($evaluated) {
@@ -788,6 +828,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_toplevel_property($prop): bool {
         $root = $this->ast;
         if ($root instanceof MP_Root) {
@@ -822,6 +863,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_matrix(bool $evaluated=false): bool {
         $root = $this->ast;
         if ($evaluated) {
@@ -859,6 +901,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     // Do not call this unless you are dealing with a list.
     // TO-DO: ?MP_Node for return type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_list_element(int $index, bool $evaluated=false) {
         $root = $this->ast;
         if ($evaluated) {

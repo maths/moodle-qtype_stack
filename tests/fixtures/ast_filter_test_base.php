@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
@@ -30,6 +37,7 @@ require_once(__DIR__ . '/../../stack/cas/cassecurity.class.php');
  * see what happened when they were created and that things still work
  * the same.
  *
+ * @package    qtype_stack
  * @copyright  2019 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -98,6 +106,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
     }
 
     /**
+     * Add description here
      * @param MP_Node $ast
      */
     public function assert_marked_invalid($ast) {
@@ -115,6 +124,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
     }
 
     /**
+     * Add description here
      * @param MP_Node $ast
      */
     public function assert_not_marked_invalid($ast) {

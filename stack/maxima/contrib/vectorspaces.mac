@@ -1,0 +1,229 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Vector subspace functions for STACK                         */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+stack_linear_algebra_declare(true)$
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
+
+/**
+ * Predicate to determine whether a given object is a unit vector.
+ * Can handle complex vectors
+ *
+ * @param[matrix] ex A vector (Mx1 or 1xN matrix)
+ * @return[boolean] Does this vector have a 2-norm of 1?
+ */
+unit_vecp(ex):= if vectorp(ex) then is(ev(ex.conjugate(ex),simp)=1) else false;
+
+/**
+ * Compute the orthogonal projection of v onto u with respect to scalar product sp.
+ *
+ * @param[matrix] u a mx1 matrix
+ * @param[matrix] v a mx1 matrix
+ * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @return[matrix] Orthogonal projection of v onto u as a mx1 matrix
+ */
+proj(u, v, [sp]) := block(
+    sp: if emptyp(sp) then "." else first(sp),
+    return(ev(sp(v,u)/sp(u,u)*u, simp))
+);
+
+/**
+ * Orthogonalize column vectors  with respect to a scalar product sp
+ * Returns [] if the input is malformed.
+ *
+ * @param[] L a mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @return[] An mxn matrix or list of column vectors with the same
+ *                 column space as L and orthogonal columns with respect to sp
+ */
+orthogonalize(L, [sp]) := block([M, Morth],
+    sp: if emptyp(sp) then "." else first(sp),
+    M: cols_to_matrix(L),
+    if M = matrix([null]) then return([]),
+    Morth: transpose(apply(matrix, ev(gramschmidt(transpose(M), sp), simp))),
+    return(if matrixp(L) then Morth else matrix_to_cols(Morth))
+);
+
+/**
+ * Normalize column vectors with respect to a scalar product sp
+ * Returns [] if the input is malformed.
+ *
+ * @param[] M a mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @return[] An mxn matrix or list of column vectors with the columns
+ *                 of M normalized with respect to sp
+ */
+normalize(M, [sp]) := block([L],
+    sp: if emptyp(sp) then "." else first(sp),
+    L: cols_to_cols(M),
+    if L = [] then return([]),
+    L: map(lambda([v], ev(v/sqrt(sp(v,v)), simp)), L),
+    if matrixp(M) then return(apply(addcol, L)) else return(L)
+);
+
+/**
+ * Given a list of column vectors, determine whether they are linearly independent.
+ * If ex is a matrix, it checks for full column rank, not row rank. To check for full rank generally, use invertiblep.
+ * 
+ * @param[] ex a mxn matrix or list of column vectors, see cols_to_matrix
+ * @return[boolean] Is the collection of column vectors linearly independent?
+ */
+lin_indp(ex):= block(
+  ex: cols_to_matrix(ex),
+  if ex = matrix([null]) then return(false),
+  return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
+);
+
+/**
+ * Given a pair of matrices, check whether they are row equivalent.
+ * i.e. can one matrix be transformed into the other with elementary row operations?
+ *
+ * @param[matrix] ex a mxn matrix
+ * @param[matrix] ta a mxn matrix
+ * @return[boolean] Are ex and ta row equivalent?
+ */
+row_equivp(ex,ta):= block(
+  if matrixp(ex) and matrixp(ta) then (
+    return(is(ev(rref(ex),simp) = ev(rref(ta),simp)))
+  )
+);
+
+/**
+ * Given a pair of matrices, check whether they are column equivalent.
+ * i.e. can one matrix be transformed into the other with elementary column operations?
+ *
+ * @param[matrix] ex a mxn matrix
+ * @param[matrix] ta a mxn matrix
+ * @return[boolean] Are ex and ta column equivalent?
+ */
+col_equivp(ex,ta):= row_equivp(transpose(ex),transpose(ta));
+
+/**
+ * Given two lists of column vectors, determine whether they span the same subspace.
+ * i.e. Is each element of ex linearly dependent on ta and vice versa?
+ * Note: This does not check for redundancies. To check whether two bases are equivalent, use this function in conjunction with lin_indp.
+ * 
+ * @param[] ex A mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[] ta A mxn matrix or list of column vectors, see cols_to_matrix
+ * @return[boolean] Do the two lists of column vectors span the same subspace?
+ */
+subspace_equivp(ex,ta):=block([M_ex, M_ta, combined, rank_combined],
+  M_ex: cols_to_matrix(ex),
+  M_ta: cols_to_matrix(ta),
+  if M_ex = matrix([null]) or M_ta = matrix([null]) then return(false),
+  if length(M_ex) # length(M_ta) then return(false),
+  combined: errcatch(addcol(M_ex,M_ta)),
+  if emptyp(combined) then return(false),
+  rank_combined: rank(first(combined)),
+  is(rank(M_ex)=rank_combined and rank(M_ta)=rank_combined)
+);
+
+/**
+ * Given a list of lists or a matrix, remove linearly dependent entries/columns.
+ * Intended to be used to "trim down" to a basis when redundancies exist.
+ * Works from left to right, so the first instance of redundancy is removed in each case
+ * 
+ * @param[list or matrix] ex A list of lists or a matrix
+ * @return[list or matrix] ex but with dependent entries or columns removed
+ */
+remove_dep(ex):= block([ex_op,n_max,jj,ii],
+  ex_op: "list",
+  if matrixp(ex) then block(ex: args(transpose(ex)), ex_op: "matrix"),
+  ex: ev(sublist(ex,lambda([ex2],not(zeromatrixp(matrix(ex2))))),simp),
+  if emptyp(ex) or is(length(ex)=1) then return(ex),
+  n_max: length(ex),
+  jj: 2,
+  for ii: 2 thru n_max do block(
+    ii: ev(ii,simp),
+    if not(lin_indp(firstn(ex,jj))) then ex: append(firstn(ex,ev(jj-1,simp)),lastn(ex,ev(length(ex)-jj,simp)))
+    else jj: ev(jj+1,simp),
+    if is(jj>length(ex)) then return(ex)
+  ),
+  if is(ex_op="matrix") then ex: transpose(apply(matrix,ex)),
+  return(ex)
+);
+
+/** 
+ * Given a list of lists or a matrix, make a basis for R^m where m = length of each vector. 
+ * If you don't want to expand to R^m, use remove_dep instead (it is called here too)
+ * Optionally will make this basis orthonormal, mostly useful when the existing basis is orthogonal but not R^m
+ * Arguably "basisify" is a poor name - suggestions welcome before published
+ *
+ * @param[matrix or list] M A matrix or list of lists
+ * @param[boolean] orth Optional: if true then returned basis will be orthonormal. Note that this may remove some basis vectors if they are not already orthogonal.
+ * @return[matrix or list] A basis for R^m where m is the length of each vector in M
+ */
+
+basisify(M,[orth]):= block([ex_op,m,n,vecs,new_vecs,ii],
+  if emptyp(orth) then orth: false else orth: first(orth),
+  ex_op: "matrix",
+  if listp(M) then block(M: cols_to_matrix(M), ex_op: "list"),
+  if not(lin_indp(M)) then M: remove_dep(M),
+  [m, n]: matrix_size(M),
+  vecs: args(transpose(M)),
+  new_vecs: args(ident(m)),
+  for ii: 1 thru m do block(
+    ii: ev(ii,simp),
+    if lin_indp(append(vecs,[new_vecs[ii]])) then vecs: append(vecs,[new_vecs[ii]])
+  ),
+  if orth then block(
+    vecs: ev(gramschmidt(apply(matrix,vecs)),simp),
+    vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),vecs),simp)
+  ),
+  if is(ex_op="matrix") then return(transpose(apply(matrix,vecs))) else return(vecs)
+);
+
+/* We have columnspace and nullspace functions already. The author keeps assuming that 
+   rowspace must exist too, but it doesn't. The nullTspace function was added for 
+   completeness' sake, and finds the nullspace of M^T. We could call it the cokernel
+   function, but since maxima uses nullspace rather than kernel this feels inappropriate. */
+/**
+ * Returns the row space of a matrix as a collection of column vectors. 
+ * Output is the inert function span, the same as columnspace gives.
+ *
+ * @param[matrix] M a matrix
+ * @return[span] A span of column vectors
+ */
+rowspace(M):= ev(columnspace(transpose(M)),simp);
+
+/**
+ * Returns the cokernel of a matrix (the null space of its transpose) as a collection of column vectors. 
+ * Output is the inert function span, the same as nullspace gives.
+ *
+ * @param[matrix] M a matrix
+ * @return[span] A span of column vectors
+ */
+nullTspace(M):= ev(nullspace(transpose(M)),simp);
+
+/**
+ * Find the matrix that projects orthogonally onto the column space of M
+ * Computed by removing linearly dependent columns and then using M.(M^T.M)^^-1.M^T
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[matrix] A symmetric, idempotent mxm matrix that projects mx1 vectors into the columnspace of M
+ */
+projection_matrix(M):= block([reduced_M],
+  if ev(zeromatrixp(M),simp) then return(0),
+  reduced_M: mat_unblocker(matrix(args(ev(columnspace(M),simp)))),
+  return(ev(reduced_M . invert(mat_unblocker(matrix([transpose(reduced_M) . reduced_M]))) . transpose(reduced_M),simp))
+);

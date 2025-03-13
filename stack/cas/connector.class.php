@@ -22,6 +22,7 @@ require_once(__DIR__ . '/../cas/connector.interface.php');
 /**
  * The base class for connections to Maxima.
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -59,6 +60,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::compute() */
     // @codingStandardsIgnoreEnd
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compute($command) {
 
         $context = "Platform: ". stack_connection_helper::get_platform() . "\n";
@@ -84,6 +86,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $unpackedresult;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function json_compute($command): array {
         $this->debug->log('Maxima command', $command);
 
@@ -130,11 +133,14 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::get_debuginfo() */
     // @codingStandardsIgnoreEnd
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         return $this->debug->get_log();
     }
 
-    /* On a Linux system list the versions of maxima available for use. */
+    /**
+     *  On a Linux system list the versions of maxima available for use.
+     */
     public function get_maxima_available() {
         if ('linux' != stack_connection_helper::get_platform()) {
             return stack_string('healthunabletolistavail');
@@ -282,6 +288,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function unpack_helper($rawresultfragment) {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;

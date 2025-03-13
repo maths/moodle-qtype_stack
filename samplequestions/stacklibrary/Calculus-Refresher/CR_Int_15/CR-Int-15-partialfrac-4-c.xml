@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>CR-Int-15-partialfrac-4.c</text>
+    </name>
+    <questiontext format="html">
+      <text>By expressing the integrand as the sum of its partial fractions, find the following definite integral:
+\[ \int^{@rdm4@}_{@rdm5@} {@p@} d{@v@}. \]
+
+[[input:ans1]] [[validation:ans1]]</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[In order to calculate \[\int {@p@} d{@v@}\] we need to express \[{@p@}\] as the sum of its partial fractions <hint>alg_partial_fractions</hint>.
+
+Omitting details we have \[{@p@} = {@q@},\]
+hence,
+\[\begin{array}{rcl}\displaystyle 
+ \int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int {@q@} d{@v@} \\
+   &\displaystyle =&\displaystyle  {@rdm2@} \int {@ppp1@} d{@v@} + {@rdm3@} \int {@ppp2@} d{@v@} \\
+   &\displaystyle =&\displaystyle  {@rdm2*int(ppp1,v)@} + {@rdm3*int(ppp2,v)@} +c \\
+   &\displaystyle =&\displaystyle  {@rdm2*int(ppp1,v)+rdm3*int(ppp2,v)@} +c
+ \end{array}\] 
+
+We need \[\int^{@rdm4@}_{@rdm5@} {@p@} d{@v@}\] so, recall that if \[\int f(x) dx = F(x)\] then \[\int^a_b f(x) dx = F(a) - F(b).\]
+
+Thus, define \[F({@v@}) = {@int(q,v)@}\]
+
+Then, 
+
+\[\begin{array}{rcl}\displaystyle 
+  \int^{@rdm4@}_{@rdm5@} {@p@} d{@v@} &\displaystyle =&\displaystyle  F({@rdm4@}) - F({@rdm5@}) \\
+   &\displaystyle =&\displaystyle  {@subst(rdm4,v,pq)@} - \left[{@subst(rdm5,v,pq)@}\right] \\
+   &\displaystyle =&\displaystyle  {@subst(rdm4,v,pq)-subst(rdm5,v,pq)@}
+ \end{array}\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>v:x;
+rdm1:1+rand(3);
+rdm2:-1-rand(4);
+rdm3:-1-rand(4);
+rdm4:2;
+rdm5:0;
+ppp1:1/(v+rdm1);
+ppp2:ppp1^2;
+pp1:rdm2*ppp1;
+pp2:rdm3*ppp2;
+q:pp1+pp2;
+p:simplify(factor(q));
+dumvar7:A;
+dumvar8:B;
+pq:int(q,v);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\int^{@rdm4@}_{@rdm5@} {@p@} d{@v@} = {@int(p,v,rdm5,rdm4)@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>int(p,v,rdm5,rdm4)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>int(p,v,rdm5,rdm4)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>840132706</deployedseed>
+    <deployedseed>1985648333</deployedseed>
+    <deployedseed>854440585</deployedseed>
+    <deployedseed>121119167</deployedseed>
+    <deployedseed>314300278</deployedseed>
+    <deployedseed>1820656831</deployedseed>
+    <deployedseed>159410440</deployedseed>
+    <deployedseed>90376011</deployedseed>
+    <deployedseed>661284094</deployedseed>
+    <deployedseed>783754212</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>int(p,v,rdm5,rdm4)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(int(p,v)+c,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

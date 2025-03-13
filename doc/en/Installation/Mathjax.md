@@ -13,7 +13,9 @@ These are notes on configuring the MathJax filter options for use with STACK.
 
 ## Accessibility ##
 
-The accessibility features supported by MathJax are given detailed [here](http://www.mathjax.org/resources/articles-and-presentations/accessible-pages-with-mathjax/).
+Among other things, MathJax allows screenreaders to read mathematics in a meaningful way which is critical for students who rely on this technology, or simply find it easier to learn with an aural option. For this to work, information must be typed up, not contained in a screenshot.
+
+The accessibility features supported by MathJax are given detailed in the MathJax [documentation](https://docs.mathjax.org/en/latest/basic/accessibility.html) and [YouTube](https://www.youtube.com/watch?v=6GSgTjorewQ). 
 
 ## Adding MathJax to additional HTML
 

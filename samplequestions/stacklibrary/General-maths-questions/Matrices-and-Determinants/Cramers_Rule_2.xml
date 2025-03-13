@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Cramers_Rule_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Use Cramer's rule to find the solution of the system: <br /> <br /> \[ {@eqns[1]@}\ =\ {@bmat[1,1]@} , \] <br /> \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \] <br /> \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} , \] <br /> x= [[input:ans1]] <br /> y= [[input:ans2]] <br /> z= [[input:ans3]] <br /> [[validation:ans1]] [[validation:ans2]] [[validation:ans3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Cramer's rule states that x = \(\frac{D_{x}}{D}\) where \(D\) is the determinant of the matrix and \(D_{x}\) is the determinant of the matrix with the x column replaced by the numbers on the right hand side of the equations and similarly y = \(\frac{D_{y}}{D}\) and z = \(\frac{D_{z}}{D}\). Therefore for the system, <br /> \[{@eqns[1]@}\ =\ {@bmat[1,1]@} , \] \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \] \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} , \] <br /> \[ D = det{@Amat@}={@D@},\] <br /> \[D_{x} = det{@Amatx@}={@Dx@},\] <br /> \[D_{y} = det{@Amaty@}={@Dy@},\] <br /> \[D_{z} = det{@Amatz@}={@Dz@}.\] <br /> Hence, \[x=\frac{@Dx@}{@D@} = {@Dx/D@},\] <br /> \[y=\frac{@Dy@}{@D@} = {@Dy/D@},\] <br /> \[z=\frac{@Dz@}{@D@} = {@Dz/D@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>pos:rand(3)+1;
+ vdet:rand(6)+2;
+ Au:matrix([0,0,0],[0,0,0],[0,0,0]);
+ Au:matrix([rand_with_step(-1,1,2),ev(rand(9)-4),ev(rand(9)-4)],[0,rand_with_step(-1,1,2),ev(rand(9)-4)],[0,0,rand_with_step(-1,1,2)]);
+ Au[pos,pos]:vdet;
+ Bu:matrix([rand_with_step(-1,1,2),ev(rand(9)-4),ev(rand(9)-4)],[0,rand_with_step(-1,1,2),ev(rand(9)-4)],[0,0,rand_with_step(-1,1,2)]);
+ Amat:ev(transpose(Au).Bu);
+ bmat:matrix([rand(5)+1],[rand(5)+1],[rand(5)+1]);
+ xyz:matrix([x],[y],[z]);
+ eqns[1]:ev(Amat.xyz)[1,1];
+ eqns[2]:ev(Amat.xyz)[2,1];
+ eqns[3]:ev(Amat.xyz)[3,1];
+ truesolm:ev(invert(Amat) . bmat);
+ correctanswer:[truesolm[1,1],truesolm[2,1],truesolm[3,1]];
+ D:determinant(Amat);
+ Amatx:copymatrix(Amat);
+ Amatx[1,1]:ev(bmat[1,1]);
+ Amatx[2,1]:ev(bmat[2,1]);
+ Amatx[3,1]:ev(bmat[3,1]);
+ Dx:determinant(Amatx);
+ Amaty:copymatrix(Amat);
+ Amaty[1,2]:ev(bmat[1,1]);
+ Amaty[2,2]:ev(bmat[2,1]);
+ Amaty[3,2]:ev(bmat[3,1]);
+ Dy:determinant(Amaty);
+ Amatz:copymatrix(Amat);
+ Amatz[1,3]:ev(bmat[1,1]);
+ Amatz[2,3]:ev(bmat[2,1]);
+ Amatz[3,3]:ev(bmat[3,1]);
+ Dz:determinant(Amatz);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@eqns[1]@}\ =\ {@bmat[1,1]@} ,  {@eqns[2]@}\ =\ {@bmat[2,1]@} ,{@eqns[3]@}\ =\ {@bmat[3,1]@} \) gives x,y,z = {@correctanswer@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer[1]</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>correctanswer[2]</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>correctanswer[3]</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.3400000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your x-value is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your x-value is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>correctanswer[2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your y-value is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your y-value is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>correctanswer[3]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your z-value is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your z-value is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2013722149</deployedseed>
+    <deployedseed>1292617989</deployedseed>
+    <deployedseed>473259269</deployedseed>
+    <deployedseed>286466211</deployedseed>
+    <deployedseed>2084841872</deployedseed>
+    <deployedseed>1895816115</deployedseed>
+    <deployedseed>1566822647</deployedseed>
+    <deployedseed>964271857</deployedseed>
+    <deployedseed>553259423</deployedseed>
+    <deployedseed>447115170</deployedseed>
+    <deployedseed>1896148154</deployedseed>
+    <deployedseed>1000595445</deployedseed>
+    <deployedseed>2824496</deployedseed>
+    <deployedseed>178818668</deployedseed>
+    <deployedseed>36598114</deployedseed>
+    <deployedseed>486405244</deployedseed>
+    <deployedseed>1895530402</deployedseed>
+    <deployedseed>1445196682</deployedseed>
+    <deployedseed>1634552772</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correctanswer[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>correctanswer[3]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer[1]-10</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correctanswer[2]-10</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>correctanswer[3]-10</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

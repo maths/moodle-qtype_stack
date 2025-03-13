@@ -2,6 +2,8 @@
 
 A graph in discrete mathematics is a set of edges and vertices.  Maxima has a "graphs" package, which we do not currently support (see github issue #572 for a discussion of why).
 
+
+
 ## Generating points for a graph
 
 The following question variables produce the complete graph on `m` vertices.
@@ -110,38 +112,3 @@ And add in the castext
     {@plot(p3,[x,-1,1],[y,-1,1], pstyle3, pcols3, [box,false], [axes,false])@}
 
 In the above code I have tried to separate out all the issues into individual steps.  Clearly there is significant scope here for utility/convenience functions.
-
-## Displaying graphs with JSXGraph
-
-[JSXGraph](../Authoring/JSXGraph.md) can be used to display discrete graphs.
-
-In the question variables define your points and edges.
-
-    /* A list of points, which are lists of coordinates.*/
-    pts:[[1.0,0.0],[0.623,0.782],[-0.223,0.975],[-0.901,0.434],[-0.901,-0.434],[-0.223,-0.975],[0.623,-0.782]];
-
-    /* A list of edge connections. */
-    edges:[[0,1],[0,2],[0,3],[4,5],[4,6],[4,0]];
-
-Then, you can use this JSXGraph block to create your vertices and edges.  Note, this code uses `board.create('arrow', [...])`, but you could as well use `segment` not `arrow` for an un-directed graph.
-
-    [[jsxgraph]]
-        /* boundingbox:[left, top, right, bottom] */
-        var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-1.2, 1.2, 1.2, -1.2], axis: false, showCopyright: false});
-        
-        /* Notice the syntax STACK uses for putting the _value_ of a variable into the text before display. */
-        var pts = {#pts#};
-        var boardpts = new Array();
-        var arrayLength = pts.length;
-        for (var i = 0; i < arrayLength; i++) {
-            boardpts.push(board.create('point', pts[i]));
-        }
-        
-        var edges = {#edges#};
-        var boardedges = new Array();
-        var arrayLength = edges.length;
-        for (var i = 0; i < arrayLength; i++) {
-            boardedges.push(board.create('arrow', [boardpts[edges[i][0]], boardpts[edges[i][1]]]));
-        }
-    [[/jsxgraph]]
-

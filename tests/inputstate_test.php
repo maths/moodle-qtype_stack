@@ -25,18 +25,19 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/input/inputbase.class.php');
 
-// Unit tests for stack_input_state.
-//
-// @copyright  2012 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_input_state.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_input_state
  */
-class inputstate_test extends basic_testcase {
+final class inputstate_test extends basic_testcase {
 
-    public function test_create_and_get() {
+    public function test_create_and_get(): void {
+
         $state = new stack_input_state(stack_input::INVALID, ['frog'],
                 'frog', 'frog', 'Your answer is not an expression.', 'CASError', '');
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -46,13 +47,15 @@ class inputstate_test extends basic_testcase {
         $this->assertEquals('CASError', $state->note);
     }
 
-    public function test_constructor() {
+    public function test_constructor(): void {
+
         $this->expectException(stack_exception::class);
         $state = new stack_input_state(stack_input::INVALID, 'frog',
                 'frog', 'frog', 'Your answer is not an expression.', '', '');
     }
 
-    public function test_unrecognised_property() {
+    public function test_unrecognised_property(): void {
+
         $this->expectException(stack_exception::class);
         $state = new stack_input_state(stack_input::INVALID, ['frog'],
                 'frog', 'frog', 'Your answer is not an expression.', '', '');

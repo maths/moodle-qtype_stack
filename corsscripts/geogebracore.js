@@ -1,4 +1,7 @@
 /*
+
+  The creation of these resources has been (partially) funded by the ERASMUS+ grant program of the European Union under grant No. 2021-1-DE01-KA220-HED-000032031. Neither the European Commission nor the project's national funding agency DAAD are responsible for the content or liable for any losses or damage resulting of the use of these resources. 
+
   @author: GeoGebra - Dynamic Mathematics for Everyone, http://www.geogebra.org
   @license: This file is subject to the GeoGebra Non-Commercial License Agreement, see http://www.geogebra.org/license. For questions please write us at office@geogebra.org.
 */

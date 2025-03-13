@@ -1,105 +1,80 @@
-# Authoring quick start 8: setting up a quiz
+# Authoring quick start 8: turning simplification off
 
-[1 - First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | 8 - Quizzes
+1 - [First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - question library](Authoring_quick_start_6.md) | [7 - Multipart questions](Authoring_quick_start_7.md) | 8 - Simplification | [9 - Quizzes](Authoring_quick_start_9.md)
 
-This part of the authoring quick start guide deals with setting up a Moodle quiz. The following video explains the process:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/P3bDdNVC6g0" frameborder="0" allowfullscreen></iframe>
-### Introduction
+This part of the authoring quick start guide deals with turning simplification off. The following video explains the process:
 
-Once you have authored questions, you will want to include these in a quiz.  Alternatively, you might like to set up a quiz using the sample questions.  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Et1O2dibsDI" frameborder="0" allowfullscreen></iframe>
+### Example question
 
-The purpose of this document is to provide a guide, from a beginner's point of view, to some of the steps that need to be taken when setting up mathematics questions in a Moodle quiz, using the computer aided assessment package STACK. Note, this guide risks duplicating the Moodle quiz documentation, which should also be consulted.
+Given a complex number \(z=ae^{ib}\), determine \(z^{n}\).
 
-*These have been edited from notes created by Dr Maureen McIver, Department of Mathematical Sciences, Loughborough University, UK, July 2016.*
+Where \(a\), \(b\) and \(n\) are randomly generated numbers.
 
-### Finding questions
+## Simplification off
 
-You need to start by identifying questions for the quiz and the easiest way to do this is to start with a question that is already written and modify it to meet your needs.  
+It is tempting when writing questions such as this to operate at the _level of display._  We could randomly generate \(a\), \(b\) and \(n\) and insert them into the question text.  For example:
 
-If you have been following the quick start guide so far, you should also know how to write your own question from scratch.
+```
+ \(({@aa@}e^{{@bb@} i})^{@nn@}\)
+```
 
-### Importing questions from an existing server
+What we are doing here is treating every variable separately instead of creating a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because it mixes CAS and LaTeX.
 
-Let us look at how you import questions from an existing server into your server.
+Hence, we would much rather have everything in one CAS object that is not simplified. The following is a single Maxima expression:
 
-First, you must export the existing questions:
+```
+ {@(aa*%e^(bb*%i))^nn@}
+```
 
-1. log into the module on the Moodle server from which you wish to export questions, and click on `Question bank` in the Administration block. Then click on `Export`,  
-2. Click on `Moodle XML format`, then choose the category you want to export.  Moodle only lets you export individual categories. 
-3. Click on `Export questions to file`. This will download a file with the all the questions that category.
+(Notice that we are using variables names with more than one character. This is good practice, as single-character variables are meant for student input. Notice also that we precede standard mathematical variables with `%` when writing in Maxima. This is not mandatory, but is considered good practice.)
 
-To import these questions into your course:
+Of course, we don't want Maxima to _actually calculate the power_ just to _represent it!_ To see the difference, copy the following a STACK question's question variables:
 
-1. Log into your module on the Moodle server and click on `Question bank` in the Administration block,
-2. Click on `Import`,
-3. Click on `Moodle XML format` then drag and drop the `?.xml` file from your Downloads folder on your desktop, and click `Import` and then `Continue`. A copy of the questions should then appear in the question bank for your module and you can modify them as you want.
+```
+simp:true;
+a1: (3*%e^(%i*%pi/2))^4;
+simp:false;
+a2: (3*%e^(%i*%pi/2))^4;
+```
 
-### Constructing a Moodle quiz
+Then type `Simplified: {@a1@} Not simplified: {@a2@}` somewhere in the question text. Preview to see the difference.
 
-Once you have constructed a question bank (either by importing them or writing them yourselves) you can put them into a Moodle quiz. 
+Solving problems at the level of the CAS instead at the level of the display is often better. To tell STACK to set `simp:false` throughout the question, scroll towards the bottom of the form and under `Options`, set `Question-level simplify` to `No`. Now Maxima will not simplify expressions before displaying them, so `{@2+5@}` will display as `2+5` instead of `7`.
 
-Included within the STACK sample materials is a "Syntax quiz", and it is recommended that you put a copy of this on your own page. This lets students can practice the syntax of how to enter answers into a STACK quiz before they try a specific quiz for your module, and also checks that they can read the mathematics on their machine.
+This does have some drawbacks. Having switched off all simplification, we now need to turn it back on selectively! There are two ways to do this. Firstly, we can use commands of the following type:
 
-### Question behaviours
+```
+aa : ev(2+rand(10),simp);
+```
 
-Question behaviours dictate how many attempts students are given and how penalties are distributed. There are a number of question behaviours available for a Moodle quiz. The most important are:
+In particular, we can define the question variables as follows.
 
-**Immediate feedback**, which only lets students have one try at each question, but gives feedback either immediately after answering a question, or only when all questions are answered and submitted. This is useful for standard formative/summative quizzes.
+```
+aa : ev(2+rand(10),simp);
+bb : ev(2+rand(10),simp);
+nn : ev(2+rand(5),simp);
+qq : (aa*%e^(bb*%i))^nn;
+```
 
-**Deferred feedback**, which only lets students have one try at each question, and does not give feedback until after some given date. This is useful for examinations and coursework quizzes where you don't want students to share worked solutions. 
+An alternative, when many consecutive expressions need to be simplified, is the following:
 
-**Interactive with multiple tries**, which lets students have a finite amount of tries to solve the question, with a hint being displayed after each. It deducts a penalty mark for each incorrect attempt. This is useful for formative quizzes where you want to give hints. Note that the amount of attempts is set as one more than the amount of  `Hints` given in each question. `Hints` are found under the  `Options` section when editing a question.  
+```
+simp : true;
+aa : 2+rand(10);
+bb : 2+rand(10);
+nn : 2+rand(5);
+simp : false;
+qq : (aa*%e^(bb*%i))^nn;
+```
 
-**Adaptive**, which lets the student have as many tries as they want, but deducts a penalty from the total score of the question for each time the student got the answer wrong. This is useful for testing questions and for informal practice quizzes.
+### Unary minus
 
-### Setting up the quiz
+The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  A common problem arises with the unary minus. Consider a question text such as `Find {@aa@}+{@bb@}`. If \(`bb`<0\), the expression will be displayed as \(3+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
 
-1. Go to the Moodle page and click `Turn editing on`.  
-2. Go to the block where you want to put the quiz or add an additional block and click `Add an activity or resource`, click `Quiz` and then `Add`.  
-3. Give the quiz a name and put any description you want in the Description box.  LaTeX can be used here if you want.  
-4. Click on `Timing` and fix the opening and closing times.  
-5. Click on `Grade` and fix the `Attempts allowed`.  E.g. you could use `Unlimited` for a practice quiz and `1` for a coursework quiz.  
-6. Click on  `Question behaviour` and choose your desired question behaviour, as discussed above.
-7. Under `Review options`, you can choose what students are allowed to see during or after the quiz. This includes options such as whether their answer is correct, their mark and feedback. We recommend turning off `Right answer` for both practice and coursework quizzes, and allowing `General feedback` (worked solution) to be on for a practice quiz, but off for coursework quizzes.
-8. Finish by clicking `Save and return to course`.  
+# Next step
 
-You can toggle whether students can see the quiz/topic by clicking `Edit` and `Show`.
+You should now be able to determine when it is sensible to turn off simplification. If you have been following this quick-start guide, you should already know some steps you can take to improve this question. For example, you could add [more specific feedback](Authoring_quick_start_3.md), [randomise your question](Authoring_quick_start_4.md) and add [question tests](Authoring_quick_start_5.md).
 
-Note, the Moodle question bank will automatically create a category for the quiz.  It is sometimes sensible to put all the questions used in the quiz into this category, but note that you will only see the category if you have previously navigated to the quiz.
-
-### Adding questions
-
-Click on the quiz, and then `Edit quiz`.  
-
-2. Click `Add`  then click `from question bank`, select a category then one or more of the STACK questions you have created.
-3. Click `Add selected questions to the quiz` then click `Save` and return to the main module page.  
-
-To preview the quiz, click on it, then click `Preview quiz now`.
-
-### Extra time
-
-If you have students who need extra time you need to set up `Groups` with these students in. Here is an example for a group of students who need 25% extra time.  
-
-1. Under `Course Adminstration`, click on `Users`, then `Groups`, then `Create group`.  
-2. Give the group a name, e.g. "25% extra time".  You can put more details of who the group is for in the `Group description` box.  Click `Save changes`. 
-3. `Add/remove users`, then click on the ID for a particular student for this group and click `Add` to put them in the group.  Repeat for each student who needs to be in this group.  
-4. Go back and click on the Moodle quiz. In the `Quiz Adminstration`, click on `Group overrides`, then click `Add group override`, choose the relevant group, set the appropriate `Time limit` for the quiz for that group and click `Save`. 
-
-### Viewing results
-
-To see the students' results in for a particular quiz, go the the quiz, then under `Quiz adminstration` click on `Results`,  then `Grades`. This will let you see all attempts, with the overall grade and the grade for each question. You can choose to download the results in Excel here as well.
-
-# Next steps
-
-You should now be able to work with quizzes in Moodle.
-
-This concludes the authoring quick start guide. The STACK documentation is comprehensive, and there are many things you might want to look at next. For example, you can
-
-- learn about more [input types](../Authoring/Inputs.md),
-- learn about more [answer tests](../Authoring/Answer_Tests/index.md),
-- add [plots](../Plots/Plots.md) to your [CASText](../Authoring/CASText.md) fields,
-- add support for [multiple languages](../Authoring/Languages.md),
-- learn about using [equivalence reasoning](../Authoring/Equivalence_reasoning.md),
-- read about [Curve sketching](../Topics/Curve_sketching.md).
-- look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
+##### **The next part of the authoring quick start guide looks at [setting up a quiz](Authoring_quick_start_9.md).**

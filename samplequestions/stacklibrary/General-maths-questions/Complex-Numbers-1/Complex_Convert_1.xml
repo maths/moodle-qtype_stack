@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Complex_Convert_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider the complex number \[z={@z1@} \] Evaluate the modulus of \(z\) \((r = |z|)\) and the principal value of the argument of \(z\) (\(\theta = \mathrm{Arg}(z)\)). Enter your results in the correct order, i.e. \([r,\theta]\).</p>
+<p> </p>
+<p>\([r,\theta] = \) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\[r=\sqrt{x^2+y^2}\] \[r=\sqrt{\left({@x@}\right)^2+\left({@y@}\right)^2}=\sqrt{{@x*x@}+{@y*y@}}\] \[r=\sqrt{@x*x+y*y@}={@rval@}\] \[tan(\mathrm{arg}(z))=\frac{y}{x}=\frac{@y@}{@x@}={@y/x@}\] \[\mathrm{arg}(z)={@argsol@} + k\cdot\pi\] Considering the appropriate quadrant of the complex plane to fix \(k\), we find that \[\mathrm{arg}(z)={@principaltheta@}\].</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>argset:[Pi/6,Pi/4,Pi/3];
+ n1:rand(3)+1;
+ modsol:rand(5)+1;
+ argsol:ev(((-1)^rand(2))*(rand(2)*Pi-argset[n1]),simp);
+ z1:ev(modsol*cos(argsol) + modsol*i*sin(argsol),simp);
+ x:modsol*cos(argsol);
+ y:modsol*sin(argsol);
+ rval:sqrt(x*x+y*y);
+ principaltheta:%pi - mod (%pi - argsol, 2*%pi);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(z={@z1@}\)  gives \([{@modsol@},{@principaltheta@}]\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>[modsol,principaltheta]</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>[modsol,principaltheta]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>817828831</deployedseed>
+    <deployedseed>1302743320</deployedseed>
+    <deployedseed>2023109718</deployedseed>
+    <deployedseed>1885837562</deployedseed>
+    <deployedseed>987432883</deployedseed>
+    <deployedseed>1651673644</deployedseed>
+    <deployedseed>927277669</deployedseed>
+    <deployedseed>812708432</deployedseed>
+    <deployedseed>727047184</deployedseed>
+    <deployedseed>1166488693</deployedseed>
+    <deployedseed>1719118035</deployedseed>
+    <deployedseed>1330127074</deployedseed>
+    <deployedseed>1855378840</deployedseed>
+    <deployedseed>710572634</deployedseed>
+    <deployedseed>2071272006</deployedseed>
+    <deployedseed>1565230007</deployedseed>
+    <deployedseed>929362269</deployedseed>
+    <deployedseed>763010241</deployedseed>
+    <deployedseed>572262086</deployedseed>
+    <deployedseed>96601302</deployedseed>
+    <deployedseed>1065357600</deployedseed>
+    <deployedseed>1368599549</deployedseed>
+    <deployedseed>2059212278</deployedseed>
+    <deployedseed>1989353230</deployedseed>
+    <deployedseed>1173992613</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[modsol,principaltheta]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[x,y]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

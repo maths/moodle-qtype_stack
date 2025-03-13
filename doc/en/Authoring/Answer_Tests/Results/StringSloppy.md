@@ -42,13 +42,13 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
+<tr class="pass">
+  <td class="cell c0">StringSloppy</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&quot; hel   lo    &quot;</pre></td>
+  <td class="cell c3"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5"></td>
+  <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="emptyrow">

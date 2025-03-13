@@ -392,8 +392,10 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp) := block( [simp:false, e
   return(expr)
 )$
 
+texput(multsgnstackunits, "\\, ");
+
 /* Finer control over display of units, separating out the number from the units. */
-stackunitstex(ex) := block ([a, b, c, astr, bstr],
+stackunitstex(ex) := block([a, b, c, astr, bstr],
   a:first(args(ex)),
   b:second(args(ex)),
   if scientific_notationp(a) then make_multsgn("cross"),
@@ -410,8 +412,9 @@ stackunitstex(ex) := block ([a, b, c, astr, bstr],
   bstr:tex1(b),
   if is(strim(" ", astr)="") then return(bstr),
   if is(strim(" ", bstr)="") then return(astr),
-  sconcat(astr,"\\, ", bstr)
+  sconcat(astr, tex1(multsgnstackunits), bstr)
 )$
+
 texput(stackunits, stackunitstex);
 texput(NULLUNITS, "");
 texput(NULLNUM, "");

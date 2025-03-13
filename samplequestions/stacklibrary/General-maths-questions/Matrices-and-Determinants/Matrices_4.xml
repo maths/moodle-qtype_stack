@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Matrices_4</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>If a {@n1@} by {@n1@} matrix \({\bf A}\) has \(\det({\bf A}) = {@a1@}\), find \[\det({@a2@}{\bf A}),\det({@a3@}{\bf A}),\det({\bf A}^{@a4@}),\det(({\bf A}^{-1})^{@-a5@})\] <br /> Enter your answers in the right order in the boxes below.</p>
+<p>\(\det({@a2@}{\bf A}) = \) [[input:ans1]][[validation:ans1]] <br /> \(\det({@a3@}{\bf A}) = \) [[input:ans2]][[validation:ans2]] <br /> \(\det({\bf A}^{@a4@}) = \) [[input:ans3]][[validation:ans3]] <br /> \(\det({\bf A}^{-1})^{@-a5@}) = \) [[input:ans4]][[validation:ans4]]</p>
+<p> </p>
+<p> </p>
+<p> </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>If a \({@n1@}\) by \({@n1@}\) matrix \({\bf A}\) has \(\det({\bf A}) = {@a1@}\), then \[\det({@a2@}{\bf A}) = {@a2@}^{@n1@}\cdot{@a1@} = {@a2^(n1)*a1@}\] <br /> \[\det(\{@a3@}{\bf A}) = ({@a3@})^{@n1@}\cdot{@a1@} = {@a3^(n1)*a1@}\] <br /> \[\det({\bf A}^{@a4@})= ({@a1@})^{@a4@} = {@a1^a4@}\] <br /> \[\det(({\bf A}^{-1})^{@-a5@}) ={@a1@}^{@a5@} = {@a1^a5@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>n1:rand(3)+3;
+  a1:rand(2)+2;
+  a2:rand(4)+2;
+  a3:-(rand(4)+2);
+  a4:rand(3)+2;
+  a5:-(rand(4)+2);
+  correctanswer:[a1*(a2)^n1, a1*(a3)^n1, a1^a4, a1^a5];
+  wronganswer1:[-a1*(a2)^n1, a1*(a3)^n1, a1^a4, a1^a5];
+  wronganswer2:[a1*(a2)^n1, -a1*(a3)^n1, a1^a4, a1^a5];
+  wronganswer3:[a1*(a2)^n1, a1*(a3)^n1, -a1^a4, -a1^a5];
+  wronganswer4:[a1*(a2)^n1, a1*(a3)^n1, a1^a4, -a1^a5];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>For a {@n1@} by {@n1@} matrix with \(\det({\bf A}) = {@a1@}, \det({@a2@}{\bf A}),\det({@a3@}{\bf A}),\det({\bf A}^{@a4@}),\det(({\bf A}^{-1})^{@-a5@})\) 
+   gives {@correctanswer@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer[1]</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>correctanswer[2]</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>correctanswer[3]</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>correctanswer[4]</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>\(\det({@a2@}{\bf A})\) is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>\(\det({@a2@}{\bf A})\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>correctanswer[2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>\(\det({@a3@}{\bf A})\) is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>\(\det({@a3@}{\bf A})\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>correctanswer[3]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>\(\det\,({\bf A}^{@a4@})\) is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>\(\det\,({\bf A}^{@a4@})\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>correctanswer[4]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>\(\det\,(({\bf A}^{-1})^{@-a5@})\) is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>\(\det\,(({\bf A}^{-1})^{@-a5@})\) is incorrect.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>49212303</deployedseed>
+    <deployedseed>2114919673</deployedseed>
+    <deployedseed>1203515929</deployedseed>
+    <deployedseed>1174076499</deployedseed>
+    <deployedseed>583977423</deployedseed>
+    <deployedseed>84718047</deployedseed>
+    <deployedseed>1545087114</deployedseed>
+    <deployedseed>1538983524</deployedseed>
+    <deployedseed>1773320207</deployedseed>
+    <deployedseed>584763132</deployedseed>
+    <deployedseed>112293352</deployedseed>
+    <deployedseed>15891215</deployedseed>
+    <deployedseed>864465079</deployedseed>
+    <deployedseed>1858937731</deployedseed>
+    <deployedseed>1880607066</deployedseed>
+    <deployedseed>835577161</deployedseed>
+    <deployedseed>643858804</deployedseed>
+    <deployedseed>644807613</deployedseed>
+    <deployedseed>24225318</deployedseed>
+    <deployedseed>898665866</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correctanswer[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>correctanswer[3]</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>correctanswer[4]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer[1] -10</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correctanswer[2]-10</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>correctanswer[3]-10</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>correctanswer[4]-10</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer1[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>wronganswer1[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>wronganswer1[3]</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>wronganswer1[4]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer2[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>wronganswer2[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>wronganswer2[3]</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>wronganswer2[4]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer3[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>wronganswer3[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>wronganswer3[3]</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>wronganswer3[4]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>6</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer4[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>wronganswer4[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>wronganswer4[3]</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>wronganswer4[4]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

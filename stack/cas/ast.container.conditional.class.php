@@ -16,10 +16,13 @@
 
 defined('MOODLE_INTERNAL')|| die();
 
-// Ast container and related functions, which replace "cas strings".
-//
-// @copyright  2019 University of Aalto.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Ast container and related functions, which replace "cas strings".
+ *
+ * @package    qtype_stack
+ * @copyright  2019 University of Aalto.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/cassecurity.class.php');
@@ -32,14 +35,18 @@ require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional extends stack_ast_container {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $conditions;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_conditions(array $conditions) {
         $this->conditions = $conditions;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         $valid = parent::get_valid();
         foreach ($this->conditions as $cond) {
@@ -48,6 +55,7 @@ class stack_ast_container_conditional extends stack_ast_container {
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         if ($this->conditions === null || count($this->conditions) === 0) {
             return parent::get_evaluationform();
@@ -80,19 +88,25 @@ class stack_ast_container_conditional extends stack_ast_container {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional_value extends stack_ast_container_silent implements cas_value_extractor {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $conditions;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_evaluated_value(MP_Node $ast) {
         $this->evaluated = $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_conditions(array $conditions) {
         $this->conditions = $conditions;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         $valid = parent::get_valid();
         foreach ($this->conditions as $cond) {
@@ -101,6 +115,7 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         if ($this->conditions === null || count($this->conditions) === 0) {
             return parent::get_evaluationform();
@@ -132,10 +147,12 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluated(): MP_Node {
         return $this->evaluated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_value() {
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
@@ -144,21 +161,28 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent
         implements cas_value_extractor, cas_latex_extractor {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $conditions;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $latex;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_evaluated_value(MP_Node $ast) {
         $this->evaluated = $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_conditions(array $conditions) {
         $this->conditions = $conditions;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         $valid = parent::get_valid();
         foreach ($this->conditions as $cond) {
@@ -167,6 +191,7 @@ class stack_ast_container_conditional_latex_and_value extends stack_ast_containe
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         if ($this->conditions === null || count($this->conditions) === 0) {
             return parent::get_evaluationform();
@@ -198,10 +223,12 @@ class stack_ast_container_conditional_latex_and_value extends stack_ast_containe
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluated(): MP_Node {
         return $this->evaluated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_value() {
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
@@ -209,10 +236,12 @@ class stack_ast_container_conditional_latex_and_value extends stack_ast_containe
         return $this->ast_to_string($this->evaluated, ['checkinggroup' => true]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_latex_value(string $latex) {
         $this->latex = stack_maxima_latex_tidy($latex);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_display() {
         if (!$this->is_correctly_evaluated()) {
             throw new stack_exception('stack_ast_container: ' .
@@ -223,14 +252,18 @@ class stack_ast_container_conditional_latex_and_value extends stack_ast_containe
 }
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional_silent extends stack_ast_container_silent {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $conditions;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_conditions(array $conditions) {
         $this->conditions = $conditions;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         $valid = parent::get_valid();
         foreach ($this->conditions as $cond) {
@@ -239,6 +272,7 @@ class stack_ast_container_conditional_silent extends stack_ast_container_silent 
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         if ($this->conditions === null || count($this->conditions) === 0) {
             return parent::get_evaluationform();

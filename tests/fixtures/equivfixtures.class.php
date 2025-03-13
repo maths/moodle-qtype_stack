@@ -15,16 +15,21 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Add description here!
+ * @package    qtype_stack
  * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_equiv_test_data {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $rawdata;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $answertestfixtures;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
 
         $samplearguments = [];
@@ -168,6 +173,26 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[1/(x^2+1)=1/((x+%i)*(x-%i)),true]";
         $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['section'] = 'Boolean logic arguments.';
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(A nounor B) nounand (not A nounor B),B]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(A nounor B) nounand (not A nounor B),stackeq(B)]";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1475,6 +1500,43 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = [];
+        $newarg['section'] = 'Floating point support';
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Basic test";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[4*x=2,x=0.500,x=1/2]';
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Basic test";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[4*x=6,x=0.33333,x=1/3]';
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR,QMCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[-2.5*t-11.25 = 0,-2.5*t = 11.25,t = 11.25/-2.50,t = -4.500]';
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Simultaneous equations";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[4*x-6*y=-3 and 3*y+4*x=3, 4*x-6*y=-3 and 9*y=6, ".
+            "4*x=1 and 3*y=2, x=0.25 and y=2/3]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = [];
         $newarg['section'] = 'Calculus';
         $samplearguments[] = $newarg;
 
@@ -1604,6 +1666,7 @@ class stack_equiv_test_data {
         $this->rawdata = $samplearguments;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_answertestfixtures() {
         // Reformulate the data into answer test fixtures.
         $answertestfixtures = [];

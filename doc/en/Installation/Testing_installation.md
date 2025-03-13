@@ -51,12 +51,12 @@ At any stage you can evaluate a fragment of CASText by using the CASChat script.
 
 ## Testing your questions when you upgrade
 
-We have a whole section of the documentation dedicated to [maintaining questions](../Maintaining/index.md) for the longer term.
+We have a whole section of the documentation dedicated to [maintaining questions](../STACK_question_admin/index.md) for the longer term.
 
 Please check the [release notes](../Developer/Development_history.md) carefully.
 
 Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all
-of the [question tests](../Authoring/Testing.md) to be sure that the behaviour of STACK has not
+of the [question tests](../STACK_question_admin/Testing.md) to be sure that the behaviour of STACK has not
 changed in a way that breaks any of your questions. To do this, go to
 
     Site administration -> Plugins -> Question types -> STACK
@@ -64,7 +64,7 @@ changed in a way that breaks any of your questions. To do this, go to
 and follow the "run the question tests in bulk script" link.
 
 It is even possible, with a bit of hacking, to [execute the question tests from
-one Moodle site on a different Moodle site](../Maintaining/Running_question_tests_other_site.md).
+one Moodle site on a different Moodle site](../STACK_question_admin/Testing_questions_on_other_sites.md).
 For example you may be evaluating the latest release of STACK on a test server, and you would
 like to know if the upgrade will break any of your existing questions.
 (And you don't want to do a lot of exporting and importing.)

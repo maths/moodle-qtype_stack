@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/stack/mathsoutput/mathsoutput.class.php');
@@ -22,6 +29,7 @@ require_once(__DIR__ . '/stack/mathsoutput/mathsoutput.class.php');
  * Base class for all the types of exception we throw.
  */
 class stack_exception extends moodle_exception {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($error) {
         parent::__construct('exceptionmessage', 'qtype_stack', '', $error);
     }
@@ -36,7 +44,7 @@ class stack_exception extends moodle_exception {
  */
 function stack_ouput_castext($castext) {
     return format_text(stack_maths::process_display_castext($castext),
-            FORMAT_HTML, ['noclean' => true]);
+            FORMAT_HTML, ['noclean' => true, 'allowid' => true]);
 }
 
 /**
@@ -164,6 +172,7 @@ function stack_maxima_translate($rawfeedback) {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_maxima_format_casstring($str) {
     // Santise the output, E.g. '>' -> '&gt;'.
     $str = stack_string_sanitise($str);
@@ -173,6 +182,7 @@ function stack_maxima_format_casstring($str) {
     return html_writer::tag('span', $str, ['class' => 'stacksyntaxexample']);
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_string_sanitise($str) {
     // Students may not input strings containing specific LaTeX
     // i.e. no math-modes due to us being unable to decide if
@@ -241,11 +251,13 @@ function qtype_stack_setup_question_test_page($question) {
     return [$context, $seed, $urlparams];
 }
 
-/* This class is needed to ignore requests for pluginfile rewrites in the bulk tester
+/**
+ * This class is needed to ignore requests for pluginfile rewrites in the bulk tester
  * and possibly elsewhere, e.g. API.
  */
 class stack_outofcontext_process {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
     }
 

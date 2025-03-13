@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Set_Intersection_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Let \[A={@setA@}, B={@setB@}\mbox{ and } C={@setC@}. \] Work out, using only the definition of union, intersection and complement, \[(A \cap B) \cup (A \cap C)\] <br />Note: \({@delta@}\) is entered as `delta', \({@beta@}\) is entered as `beta' and \({@gamma@}\) is entered as `gamma'. Sets are entered using {}, e.g. {1,2,3}. <br /><br />\((A \cap B) \cup (A \cap C)\)= [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The intersection of \(A\) and \(B\) is the set of all elements contained in both \(A\) and \(B\), hence \[ A \cap B = {@intersection(setA,setB)@}.\] Similarly, the intersection of \(A\) and \(C\) is the set of all elements contained in both \(A\) and \(C\), hence \[ A \cap C = {@intersection(setA,setC)@}.\] The union of two sets is the set containing all elements that are in either or both of the two sets, hence, \[ (A \cap B) \cup (A \cap C) = {@intersection(setA,setB)@}\cup{@intersection(setA,setC)@}={@correctanswer@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[a:rand_with_step(5, 9, 1);
+ q:{};
+ partsetA:block(for i:1 while i<=a do (q:cons(3*i-2,q)),return(q));
+ setA:union(partsetA,{beta, gamma, delta});
+ b:rand_with_step(4, 8, 1);
+ q1:{};
+ partsetB:block(for i:1 while i<=b do (q1:cons(i+4,q1)),return(q1));
+ setB:union(partsetB,{beta});
+ c:rand_with_step(3, 11, 1);
+ q2:{};
+ partsetC:block(for i:1 while i<=c do (q2:cons(2*i+3,q2)),return(q2));
+ setC:union(partsetC,{delta,beta});
+ correctanswer:union(intersection(setA,setB),intersection(setA,setC));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@setA@}, B = {@setB@},C = {@setC@}, (A \cap B) \cup (A \cap C) = {@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>intersection</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>698731387</deployedseed>
+    <deployedseed>507522015</deployedseed>
+    <deployedseed>624217176</deployedseed>
+    <deployedseed>1099507314</deployedseed>
+    <deployedseed>1156568932</deployedseed>
+    <deployedseed>1287644002</deployedseed>
+    <deployedseed>334569030</deployedseed>
+    <deployedseed>1536239235</deployedseed>
+    <deployedseed>44150411</deployedseed>
+    <deployedseed>759792964</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>setA</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

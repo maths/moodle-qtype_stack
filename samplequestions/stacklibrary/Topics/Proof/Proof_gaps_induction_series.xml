@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Q02 Q8 Proof by induction (general) sum (2k-1)^3  = n^2(2n^2-1)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[Complete the following proof.
+<center>
+<div class="proof">
+<p>Let \(P(n)\) be the statement<p>
+<p>{@p0@}</p>
+<div class="proof-block">
+<p>Since \( {@ev(ak,k=1)@} =\) [[validation:ans1]] [[input:ans1]]</p>
+<p>and \( {@ev(rh0,n=1)@} = \)  [[validation:ans2]] [[input:ans2]] [[feedback:prtbase]]</p>
+<p>it follows that \(P(1)\) is true.</p>
+</div>
+<div class="proof-block">
+<p>Assume that \(P(n)\) is true. </p>
+<p>\({@lh1@} = \)  [[validation:ans3]] [[input:ans3]] [[feedback:prtind]]</p>
+<p>\( = {@rh0@} + {@ev(ak,k=n+1)@}\) [[input:ans4]] [[feedback:prtindjustify]] [[validation:ans4]] </p>
+<p>\( = {@factor(rh0+ev(ak,k=n+1))@}\) </p>
+<p>\( = \) [[validation:ans5]] [[input:ans5]]  [[feedback:prtind2]]</p>
+</div>
+<p>Since \(P(1)\) and \(P(n)\Rightarrow P(n+1)\) it follows that \(P(n)\) is true for all \(n\in\mathbb{N}\) by the principle of mathematical induction.</p>
+</div>
+</center>
+<br />]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[The complete proof is below
+<center>
+<div class="proof">
+<p>Let \(P(n)\) be the statement<p>
+<p>{@p0@}</p>
+<div class="proof-block">
+<p>Since \( {@ev(ak,k=1)@} = {@ta1@}\)</p>
+<p>and \( {@ev(rh0,n=1)@} = {@ta2@}\)</p>
+<p>it follows that \(P(1)\) is true.</p>
+</div>
+<div class="proof-block">
+<p>Assume that \(P(n)\) is true. </p>
+<p>\({@lh1@} = {@ta3@}\)  </p>
+<p>\( = {@rh0@} + {@ev(ak,k=n+1)@}\) (using the induction hypothesis) </p>
+<p>\( = {@factor(rh0+ev(ak,k=n+1))@}\) </p>
+<p>\( = \) {@ta5@}</p>
+</div>
+<p>Since \(P(1)\) and \(P(n)\Rightarrow P(n+1)\) it follows that \(P(n)\) is true for all \(n\in\mathbb{N}\) by the principle of mathematical induction.</p>
+</div>
+</center>
+<p>More generally, consider the following when writing an induction proof to establish the finite sum of a series of the form \[ {@sum(p_k,k,1,n)=S_n@}. \]
+<ul>
+<li>The base case is often very easy to prove, so easy in fact that it looks pointless or trivial.  The base case is just as important as the induction step!</li>
+<li>At the start of the induction step, separate the \(n+1\)th term from the sum, so that you have
+\[ {@sum(p_k,k,1,n+1)=sum(p_k,k,1,n)+p[n+1]@}. \]   You can now apply the induction hypothesis to get
+\[ {@sum(p_k,k,1,n+1)=S_n+p[n+1]@}. \]   
+At this point the goal is to algebraically manipulate your expression so that you <em>clearly</em> have the expression \(P(n+1)\).  That is, you should be able to rewrite \(S_n+p_{n+1}\) as \(S_{n+1}\).  Sometimes the algebra is difficult, but it is often a good idea to identify common factors between \(S_n\) and \(p_{n+1}\) and work from there.  
+</li>
+</ol>
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>5</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[simpsum:false;
+ak:(2*k-1)^3;
+m0:75;
+p0:'sum(ak,k,1,n)=n^2*(2*n^2-1);
+p1:ev(p0,n=n+1);
+rh0:rhs(p0);
+rh1:rhs(p1);
+lh1:lhs(p1);
+lh0:lhs(p0);
+
+ta1:ev(ak,k=1,simp);
+ta2:ev(rh0,n=1,simp);
+ta3:'sum(ak,k,1,n)+ev(ak,k=n+1);
+ta4:[[A, false, "(algebraic simplification)"], [B, true, "(by the induction hypothesis)"], [C, false, "(for a contradiction)"], [D, false, "(letting k=n+1)"], [E, false, "(by Euler's induction theorem)"]]
+ta5:rh1;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@pn@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>4</insertstars>
+      <syntaxhint>sum(?,k,1,n)+?</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>dropdown</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>4</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prtbase</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prtbase-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prtbase-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prtbase-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You need to simplify  \( {@ev(ak,k=1)@} \) to a single number.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prtbase-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prtbase-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prtbase-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prtbase-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You need to simplify  \( {@ev(rh0,n=1)@} \) to a single number.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prtbase-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prtind</name>
+      <value>3.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>A3:if atom(ans3) then {} else setify(args(ans3));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>elementp('sum(ak,k,1,n),A3)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prtind-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prtind-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You need to re-write the left hand side of \(P(n+1)\) in terms of the left hand side of \(P(n)\), so {@sum(ak,k,1,n)@} should appear explicitly here so you can apply the induction hypothesis in the next step.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prtind-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prtind-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prtind-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your answer is algebraically equivalent, so this is ok.  But, it is better to use \(n+1\) as a variable without simplifying too much in one step.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prtind-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prtind2</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prtind2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prtind2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You need to re-write the last expression as a function of \(n+1\) to make it clear you now have the right hand side of \(P(n+1)\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prtindjustify</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>3</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>B</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prtindjustify-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prtindjustify-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>B</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <expected>
+        <name>prtbase</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prtbase-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prtind</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prtind-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prtind2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prtind2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prtindjustify</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prtindjustify-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <hint format="html">
+      <text>Incorrect answer.</text>
+    </hint>
+  </question>
+</quiz>

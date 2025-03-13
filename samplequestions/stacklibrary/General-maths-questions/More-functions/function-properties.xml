@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>function properties</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Tick all properties that the function \(f(x)\),<br />\[f(x) = \cases{x, &amp; when \(x \le -3\);\cr<br />-3, &amp; when \(-3 &lt; x &lt; 4\);\cr<br />x-7,&amp; when \(4 \le x\).\cr}\]<br />satisfies over the interval \([-5,-3]\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text/>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text/>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text/>
+    </incorrectfeedback>
+    <answer fraction="50" format="html">
+      <text><![CDATA[<p>non-decreasing</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="50" format="html">
+      <text><![CDATA[<p>strictly increasing</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>non-increasing</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>strictly decreasing</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>none of these</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

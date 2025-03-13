@@ -61,3 +61,5 @@ Validation does some simple checks, so that mal-formed intervals such as `oo(1)`
 ## Assessment of students' answers
 
 The algebraic equivalence answer test will apply `interval_tidy` as needed and compare the results. Currently the feedback in this situation provided by this answer test is minimal.
+
+If the student input is an interval, it is possible to access the upper and lower boundary through the `first` and `last` Maxima functions. For example, a PRT node checking whether the boundaries of an interval are correct (but not necessarily the interval type, like `co` or `oo`) can be done checking the algebraic equivalence of the student answer `[first(ans1), last(ans1)]` and the teacher answer `[first(ta1), last(ta1)]`.

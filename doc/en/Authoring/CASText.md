@@ -13,7 +13,7 @@ Currently STACK does not process the LaTeX itself.  It is displayed on the user'
 * Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line.
 * We do not support the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [MathJax](../Installation/Mathjax.md#delimiters) for more information.
-* Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
+* Don't use LaTeX text formatting features such as `\\` outside equations, instead use the HTML versions.
 * Anything enclosed between `{@` and `@}` delimiters is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\({@ stuff @}\)`, and that `{@ stuff @}` is sufficient.
  * To get a displayed equation centred on a line of its own, you must use `\[{@ stuff @}\]`, as in LaTeX.
@@ -42,11 +42,11 @@ To control whether or not the CAS expressions are simplified, see the details ab
 
 The question text what the student actually sees.  This was called "question text" in previous versions.
 
-It is a slightly modified form of CAStext.  To allow a student to answer a question you must include an [inputs](Inputs.md) in the question text. For example, students need a box into which their answer will be put.
+It is a slightly modified form of CAStext.  To allow a student to answer a question you must include an [inputs](../Authoring/Inputs/index.md) in the question text. For example, students need a box into which their answer will be put.
 
-To place an [input](Inputs.md) into the question enclose the name of the [Maxima](../CAS/Maxima.md) variable to which the student's answer is assigned between inside the following tag.  If the student's answer is going to be assigned to the variable `ans1` then use the tag `[[input:ans1]]`.  You will also be required to place a corresponding tag to indicate the position of any validation feedback (whether or not this is shown to the student): `[[validation:ans1]]`.  You can use any legitimate variable name.
+To place an [input](../Authoring/Inputs/index.md) into the question enclose the name of the [Maxima](../CAS/Maxima_background.md) variable to which the student's answer is assigned between inside the following tag.  If the student's answer is going to be assigned to the variable `ans1` then use the tag `[[input:ans1]]`.  You will also be required to place a corresponding tag to indicate the position of any validation feedback (whether or not this is shown to the student): `[[validation:ans1]]`.  You can use any legitimate variable name.
 
-* When the question is created this is replaced with the appropriate [input](Inputs.md).
+* When the question is created this is replaced with the appropriate [input](../Authoring/Inputs/index.md).
 * When the student answers, this variable name is available to each [potential response trees](Potential_response_trees.md).
 * Inputs are created and deleted by adding appropriate tags to the question text.  Therefore, beware if you delete the tags as this will also delete the input from the question.
 
@@ -71,9 +71,9 @@ It is common to want to use the dollar sign for currency.  However, this conflic
 
 If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
 
-## Facts ##
+## Facts and hints ##
 
-STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to CASText using the [fact sheet](Fact_sheets.md)
+STACK has an in-built formula sheet which is used for facts and hints".  Standard text can be added using the [fact sheet](../Authoring/Question_blocks/Fact_sheets.md)
 
 ## Reference materials ##
 

@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/../../utils.class.php');
@@ -31,6 +38,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * target some very specific cases separately.
  */
 class stack_ast_filter_912_inert_string_for_display implements stack_cas_astfilter {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $strings = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_String) {

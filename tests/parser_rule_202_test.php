@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use maxima_parser_utils;
@@ -33,8 +40,9 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/202_decimal_places_validation
  * @group qtype_stack_ast_filters
  * @covers \ast_filter_201_sig_figs_validation_auto_generated_test
  */
-class parser_rule_202_test extends qtype_stack_testcase {
+final class parser_rule_202_test extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function filter(string $input, int $min = -1, int $max = -1): array {
         $ast = maxima_parser_utils::parse($input);
         $filter = new stack_ast_filter_202_decimal_places_validation();
@@ -67,7 +75,8 @@ class parser_rule_202_test extends qtype_stack_testcase {
         return $r;
     }
 
-    public function test_normal() {
+    public function test_normal(): void {
+
         $test = '-0.001';
         $result = $this->filter($test, 1);
         $this->assertTrue($result['valid']);

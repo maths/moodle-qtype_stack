@@ -22,7 +22,7 @@ which would be a natural way to express the solution to a quadratic equation.
 To solve this problem STACK has introduced `nounand` and `nounor` which are commutative and associative operators.
 
 Students do *not* need to use `nounand` and `nounor` in answers.
-Any `and` and `or` operators occurring in their answers are always automatically converted into these noun forms.
+Any `and` and `or` operators occurring in students' answers are always automatically converted into these noun forms.
 
 Teachers *always* need to use `nounand` and `nounor` in CAS expressions when they want to write non-simplifying expressions.
 For example, when defining the "teacher's answer" they should use the noun forms as appropriate.
@@ -55,7 +55,11 @@ The function `verb_logic(ex)` will remove the noun forms such as `nounand` and s
 
 The answer tests protect the logical operators.  This behaviour is to prevent evaluation of expressions such as `x=1` as a boolean predicate function.  I.e. the default behaviour is to give priority to the assumption an arbitrary expression is an algebraic expression, or a set of equations, inequalities etc.
 
-The answer test `PropLogic` replaces all noun logical expressions with the Maxima versions, and then tests two expressions using the function `logic_equiv` from Maxima's logic package.  This answer test does not support sets, lists, etc.
+The answer test `AlgEquiv` will establish equivalence of expressions with logical operators.  This re-writes both expressions in a "normal form" (e.g. using `logic_simplify` from Maxima's logic package) and compares the resulting trees.
+
+The answer test `PropLogic` replaces all noun logical expressions with the Maxima versions, re-writes both expressions in a "normal form", and then tests two expressions using the functions `logic_equiv` from Maxima's logic package.  Using `logic_equiv` is stronger than just comparing the resulting trees.
+
+Answer tests do not apply this simplification to sets or lists automatically.  E.g. `{not(A) or B,A and B}` is not considered equivalent to `{A implies B,A and B}`.  Instead, apply the function `logical_normal` to the student's answer and teacher's answer in the feedback variables before applying the answer test.
 
 The value of the student's answer will always have `nounand` etc. inserted.  Before you manipulate the student's answer, e.g. with the logic package functions, you will need to apply `noun_logic_remove(ex)`.
 

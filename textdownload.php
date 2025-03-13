@@ -18,6 +18,7 @@
  * This script serves text files generated on demand by rendering CASText
  * of a given question with a given seed. For generated data transfer needs.
  *
+ * @package    qtype_stack
  * @copyright  2021 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -114,6 +115,8 @@ if (!$ses->get_valid()) {
 // Render it.
 $ses->instantiate();
 $content = $ct->get_rendered();
+// It might in theory use the holder.
+$content = $ct->apply_placeholder_holder($content);
 
 // Now pick some sensible headers.
 header('HTTP/1.0 200 OK');

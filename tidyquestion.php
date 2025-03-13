@@ -18,6 +18,7 @@
  * This script lets rename parts of the question, which is not possible using
  * the standard editing form.
  *
+ * @package    qtype_stack
  * @copyright  2013 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

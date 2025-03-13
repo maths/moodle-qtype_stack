@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
-//
-// @copyright  2023 RWTH Aachen
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once('../config.php');
 require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
@@ -25,6 +28,7 @@ require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
 require_login();
 use api\controller\GradingController;
 use api\controller\RenderController;
+use api\controller\TestController;
 use api\controller\ValidationController;
 use api\controller\DownloadController;
 use api\util\ErrorRenderer;
@@ -43,6 +47,7 @@ $errorhandler = $errormiddleware->getDefaultErrorHandler();
 $errorhandler->forceContentType("application/json");
 $errorhandler->registerErrorRenderer('application/json', ErrorRenderer::class);
 $app->post('/render', RenderController::class);
+$app->post('/test', TestController::class);
 $app->post('/grade', GradingController::class);
 $app->post('/validate', ValidationController::class);
 $app->post('/download', DownloadController::class);

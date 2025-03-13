@@ -13,6 +13,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with STACK.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -26,6 +34,7 @@ require_once(__DIR__ . '/../../../utils.class.php');
  */
 class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Basically we change the value of $format for this subtree.
         // Note that the jsxgraph and geogebra block does this automatically.
@@ -51,6 +60,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
@@ -63,12 +73,14 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $flat;
     }
 
-    public function postprocess(array $params, castext2_processor $processor=null): string {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         $content = '';
         // Just collapse it.
         for ($i = 1; $i < count($params); $i++) {
             if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+                $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else {
                 $content .= $params[$i];
             }
@@ -77,6 +89,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $content;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

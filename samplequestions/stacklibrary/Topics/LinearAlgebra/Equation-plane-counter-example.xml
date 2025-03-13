@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Subspace and planes in R3</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Let \(\mathbf{x} = \mathbf{p} + s\mathbf{u} + t\mathbf{v} \) be the vector equation of a plane in \(\mathbb{R}^3\).  Then the plane passes through the origin if and only if \(\mathbf{p}=\mathbf{0}\)?  If false provide a counter example, otherwise leave the equation of a plane blank.</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
+<br/>
+\(\mathbf{x} = \) [[input:ansp]] \( + s\) [[input:ansu]] \( + t \) [[input:ansv]]
+<br/> [[validation:ansp]] [[validation:ansu]] [[validation:ansv]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>The vector \(\mathbf{p}\) does not have to be zero for the plane to contain zero!</p>
+<p>For example, consider
+\[ \mathbf{x} = \mathbf{p} + s\mathbf{u} + t\mathbf{v}\]
+\[ \mathbf{x} = {@tap@} + s {@tau@} + t {@tav@}\]
+Calculating 
+\[ \mathbf{n} = \mathbf{u} \times \mathbf{v} = {@tan@}\]
+we have the normal form of the plane as 
+\[  \mathbf{n}\cdot \mathbf{x} =  \mathbf{n}\cdot \mathbf{p} = {@tac@}.\]
+Since the right hand side is \(0\) we immediately see that the zero vector belongs to the plane!]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1:false;
+tap:matrix([1],[0],[0]);
+tau:matrix([1],[0],[0]);
+tav:matrix([0],[1],[0]);
+tan:crossproduct(tau,tav);
+tac:transpose(tan).tap;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>.</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>boolean</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ansp</name>
+      <type>matrix</type>
+      <tans>tap</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>allowempty</options>
+    </input>
+    <input>
+      <name>ansu</name>
+      <type>matrix</type>
+      <tans>tau</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>allowempty</options>
+    </input>
+    <input>
+      <name>ansv</name>
+      <type>matrix</type>
+      <tans>tav</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>allowempty</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sanse:elementp(matrix([null],[null],[null]),{ansp,ansu,ansv});
+sansn:crossproduct(ansu,ansv);
+sansc:transpose(sansn).ansp;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.33</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Sorry, this is incorrect.  In fact you can have \(\mathbf{p}\neq \mathbf{0}\) and the plane passing through the origin!</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sansn</sans>
+        <tans>matrix([0],[0],[0])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>-</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>To define the equation of a plane you must provide linearly independent direction vectors.  However, your direction vectors \[ \left\{ {@ansu@}, {@ansv@} \right\} \] form a linearly dependent set, so you must have done something wrong!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ansp</sans>
+        <tans>matrix([0],[0],[0])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>To be a counter-example \(\mathbf{p}\neq\mathbf{0}\) but your point is zero!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sansc</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.67</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your point \(\mathbf{p}\neq \mathbf{0}\) and the origin does lie in the plane, well done!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sanse</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text>For a counter-example you may not leave any vectors as blank.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ansp</name>
+        <value>tap</value>
+      </testinput>
+      <testinput>
+        <name>ansu</name>
+        <value>tau</value>
+      </testinput>
+      <testinput>
+        <name>ansv</name>
+        <value>tav</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>true</value>
+      </testinput>
+      <testinput>
+        <name>ansp</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ansu</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ansv</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ansp</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ansu</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ansv</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.3300000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-5-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ansp</name>
+        <value>matrix([0],[0],[0])</value>
+      </testinput>
+      <testinput>
+        <name>ansu</name>
+        <value>tau</value>
+      </testinput>
+      <testinput>
+        <name>ansv</name>
+        <value>tav</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.3300000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ansp</name>
+        <value>tap</value>
+      </testinput>
+      <testinput>
+        <name>ansu</name>
+        <value>tau</value>
+      </testinput>
+      <testinput>
+        <name>ansv</name>
+        <value>tau</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.3300000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

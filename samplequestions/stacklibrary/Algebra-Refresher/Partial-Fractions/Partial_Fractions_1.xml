@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Partial_Fractions_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Select the appropriate format for expressing the following rational function in partial fractions. \[ f(x) = {@pc@} \] \[ (1) = \frac{A}{x-{@d1@}} + \frac{B}{x-{@d1@}} + \frac{C}{@p2@},\quad (2) = \frac{A}{(x-{@d1@})^2} + \frac{B}{x-{@d1@}} + \frac{C x + D}{@p2@}, \] \[ (3) = \frac{A}{(x-{@d1@})^2} + \frac{B}{x-{@d1@}} + \frac{C}{@p2@},\quad (4) = \frac{A}{x-{@d1@}} + \frac{B}{x-{@d1@}} + \frac{C x + D}{@p2@}. \] Format [[input:af]] [[validation:af]] <br> Calculate the unknown coefficients. Enter these in the correct order as a list, i.e. \([A,B,C,D]\) below, inserting a zero for any unused coefficients. [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Below are the rules of partial fractions.[[facts:alg_partial_fractions]]<br></p><p>\[ f(x) = {@pc@} \] To express as partial fractions let\[ {@pc@}= \frac{A}{@p1@}+\frac{B}{@p0@}+\frac{Cx+D}{@p2@}, \mbox{ which is format 2.}\] Multiplying throughout by {@p1*p2@} gives \[{@p3@}=A({@p2@})+B({@p0@})({@p2@})+(Cx+D){@p1@}\] Let \(x = {@d1@}\), therefore \[{@subst1@}={@subst2*A@}\] \[A=\frac{@subst1@}{@subst2@}={@Aans@}\] Let \(x = 0\), therefore \[{@subst3@}=A({@subst6@})+B({@subst4@})({@subst6@})+D({@subst5@})={@equation1@}\] \[{@subst3-subst6*Aans@} ={@equation2@}\] Equate coefficients of \(x^3\) \[{@coeff1@} = B+C\] Equate coefficients of \(x^2\) \[{@coeff2@} = {@coeff3@}={@substcoeff3@}\] \[{@coeff2-Aans@} = {@substcoeff4@}\] Solving the 4 equations in \(A,B,C\) and \(D\) gives \[{@answers@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2018080600</text>
+    </stackversion>
+    <questionvariables>
+      <text>d1:rand(3)+3;
+ d2:rand(5)+3;
+ p0:(x-d1);
+ p1:(x-d1)^2;
+ p2:(x^2+x+d2);
+ n1:rand(9)+1;
+ n2:-2*x+n1;
+ n3:rand(9)+1;
+ n4:rand(9)+1;
+ p3:expand(n3*p2 + n4*p2*(x-d1) + n2*p1);
+ pc:p3/(p1*p2);
+ subst1:subst(d1,x,p3);
+ subst2:subst(d1,x,p2);
+ Aans:subst1/subst2;
+ subst3:subst(0,x,p3);
+ subst4:subst(0,x,p0);
+ subst5:subst(0,x,p1);
+ subst6:subst(0,x,p2);
+ equation1:ev(subst6*A+(subst4*subst6)*B+subst5*D,simp);
+ equation2:ev((subst4*subst6)*B+subst5*D,simp);
+ coeff1:coeff(p3,x,3);
+ coeff2:coeff(p3,x,2);
+ rhsofequ:expand(A*p2+B*p0*p2+(C*x+D)*p1);
+ coeff3:coeff(rhsofequ,x,2);
+ substcoeff3:ev(coeff3-A+Aans);
+ substcoeff4:ev(coeff3-A);
+ answers:linsolve([Aans=A,coeff2-Aans = substcoeff4,subst3-subst6*Aans =equation2,coeff1=B+C],[A,B,C,D]);
+ correctanswer:[n3,n4,-2,n1];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(f(x) = {@pc@} \) gives {@correctanswer@}.</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>af</name>
+      <type>algebraic</type>
+      <tans>2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>[n3,n4,-2,n1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>af</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have got the right format.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You have the wrong form, so I can't consider your answer to the second part.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>[n3,n4,-2,n1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1369330307</deployedseed>
+    <deployedseed>1049610002</deployedseed>
+    <deployedseed>105587164</deployedseed>
+    <deployedseed>419904542</deployedseed>
+    <deployedseed>1565499314</deployedseed>
+    <deployedseed>2124721286</deployedseed>
+    <deployedseed>153215043</deployedseed>
+    <deployedseed>828049426</deployedseed>
+    <deployedseed>1845226236</deployedseed>
+    <deployedseed>1091326614</deployedseed>
+    <deployedseed>1806861457</deployedseed>
+    <deployedseed>437146133</deployedseed>
+    <deployedseed>157841435</deployedseed>
+    <deployedseed>52673778</deployedseed>
+    <deployedseed>12661103</deployedseed>
+    <deployedseed>1747472408</deployedseed>
+    <deployedseed>2081822289</deployedseed>
+    <deployedseed>1821155205</deployedseed>
+    <deployedseed>1042953884</deployedseed>
+    <deployedseed>1488546662</deployedseed>
+    <deployedseed>1538559154</deployedseed>
+    <deployedseed>1153153237</deployedseed>
+    <deployedseed>882792858</deployedseed>
+    <deployedseed>1337972787</deployedseed>
+    <deployedseed>1668583478</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>af</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans1</name>
+        <value>[n3,n4,-2,n1]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>af</name>
+        <value>2</value>
+      </testinput>
+      <testinput>
+        <name>ans1</name>
+        <value>[n3,n4,-2,n1]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>af</name>
+        <value>2</value>
+      </testinput>
+      <testinput>
+        <name>ans1</name>
+        <value>[n3,n4,-2,n1+1]</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

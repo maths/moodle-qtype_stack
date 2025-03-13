@@ -9,6 +9,33 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">String</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
+  <td class="cell c3"><pre>&quot;hello&quot;</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">String</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&quot;hello&quot;</pre></td>
+  <td class="cell c3"><pre>&quot;hello&quot;</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">String</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&quot;hello&quot;</pre></td>
+  <td class="cell c3"><pre>&quot;heloo&quot;</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">String</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;With spaces&quot;</pre></td>
   <td class="cell c3"><pre>&quot;With spaces&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24,31 +51,28 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
-<tr class="pass">
-  <td class="cell c0">String</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>Hello</pre></td>
-  <td class="cell c3"><pre>hello</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">0</td>
-  <td class="cell c6"></td>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Whitespace not trimmed off inside strings</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">String</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>hello</pre></td>
-  <td class="cell c3"><pre>hello</pre></td>
+  <td class="cell c2"><pre>&quot; Hello &quot;</pre></td>
+  <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Whitespace is trimmed off around atoms</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">String</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre> Hello </pre></td>
+  <td class="cell c3"><pre>Hello</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">String</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>hello</pre></td>
-  <td class="cell c3"><pre>heloo</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">
@@ -63,58 +87,22 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
+<tr class="pass">
+  <td class="cell c0">String</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>pi^2/6</pre></td>
+  <td class="cell c3"><pre>&quot;pi^2/6&quot;</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5"></td>
+  <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
+<tr class="pass">
+  <td class="cell c0">String</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>pi^2/6</pre></td>
+  <td class="cell c3"><pre>&quot;%pi^2/6&quot;</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
+  <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="emptyrow">

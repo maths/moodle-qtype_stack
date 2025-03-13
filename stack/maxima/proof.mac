@@ -18,3 +18,409 @@
 /* These need to be in the STACK core, e.g. error trapping etc     */
 /* *************************************************************** */
 
+
+/******************************************************************/
+/* Types of proof.                                                */
+/*                                                                */
+/* proof()       - general, unspecified proof                     */
+/* proof_c()     - general proof, with commutative arguments      */
+/* proof_opt()   - proof_opt()                                    */
+/*                                                                */
+/* proof_iff()   - if any only if                                 */
+/* proof_cases() - proof by exhaustive cases, the first element   */
+/*                 is assumed to justify the cases.               */
+/* proof_goal()  - proof by establishing a goal, the last element */
+/*                 is assumed to justify by the previous cases.   */
+/* proof_ind()   - proof by induction                             */
+/*                                                                */
+/******************************************************************/
+
+/* General proof functions                                        */
+/* Please update Proof/Proof_CAS_library.md and                   */
+/* stack/maxima/contrib/prooflib.mac with new types.              */
+
+/* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
+proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_goal, proof_ind];
+
+proofp(ex) := block(
+  if atom(ex) then true,
+  if elementp(op(ex), setify(proof_types)) then return(true),
+  return(false)
+);
+
+s_test_case(proofp(proof(1,2,3)), true);
+s_test_case(proofp(proof_iff(1,2)), true);
+s_test_case(proofp(sin(x)), false);
+
+proof_validatep(ex) := block(
+  if atom(ex) then return(true),
+  if op(ex) = proof_opt then
+      if not(is(length(args(ex)) = 1)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  if op(ex) = proof_iff then
+      if not(is(length(args(ex)) = 2)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  if op(ex) = proof_ind then
+      if not(is(length(args(ex)) = 4)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  /* Validate all remaning proof types. */
+  if proofp(ex) then return(all_listp(proof_validatep, args(ex))),
+  return(false)
+);
+
+s_test_case(proof_validatep(proof(1,2,3)), true);
+s_test_case(proof_validatep(proof(1,2,proof(4,5,6))), true);
+s_test_case(proof_validatep(proof(1,2,proof_iff(4,5))), true);
+/* proof_opt must have exactly one sub-proof. */
+s_test_case(proof_validatep(proof(1,2,proof_opt(4,5))), false);
+/* proof_iff must have exactly two sub-proofs. */
+s_test_case(proof_validatep(proof(1,2,proof_iff(4))), false);
+s_test_case(proof_validatep(proof(1,2,proof_iff(4,5,6))), false);
+/* proof_ind must have exactly four sub-proofs. */
+s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5),6)), true);
+s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5))), false);
+s_test_case(proof_validatep(proof(1,proof_opt(2),proof_iff(4,5))), true);
+
+
+/* Is this a type of proof which can reorder its arguments? */
+proof_commutep(ex):=block(
+    if atom(ex) then false,
+    if is(op(ex)=proof_c) then return(true),
+    if is(op(ex)=proof_iff) then return(true),
+    return(false)
+);
+
+/* Takes a proof tree and flattens this to a list. */
+proof_flatten(ex) := apply(proof, flatten(ev(ex, map(lambda([ex2], ex2="["), proof_types))));
+
+s_test_case(proof_flatten(proof_iff(proof(A,B),proof(C))), proof(A,B,C));
+s_test_case(proof_flatten(proof_c(proof(A,proof(B,C)),proof(D))), proof(A,B,C,D));
+
+/*
+ * Create a normalised proof tree.
+ * To establish equivalence of proof trees we compare the normalised form.
+ * This basically sorts and "simplifies" its arguments.
+ * We also remove the proof_opt tag.
+*/
+proof_normal(ex) := block(
+  if atom(ex) then return(ex),
+  if op(ex) = proof_opt then return(first(args(ex))),
+  /* Only sort arguments to types of proof which commute. */
+  if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
+  /* Some proof types have subsets of arguments which commute. */
+  if op(ex) = proof_cases then return(apply(proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
+  if op(ex) = proof_goal then return(apply(proof_goal, append(sort(map(proof_normal, reverse(rest(reverse(args(ex)))))), [first(reverse(args(ex)))]))),
+  if op(ex) = proof_ind then return(apply(proof_ind,append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
+  return(apply(op(ex), map(proof_normal, args(ex))))
+);
+
+s_test_case(proof_normal(proof_c(B,A,D,C)), proof_c(A,B,C,D));
+s_test_case(proof_normal(proof_iff(B,A)), proof_iff(A,B));
+s_test_case(proof_normal(proof_ind(D,C,B,A)), proof_ind(D,B,C,A));
+s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
+s_test_case(proof_normal(proof_goal(D,C,B,A)), proof_goal(B,C,D,A));
+s_test_case(proof_normal(proof_iff(proof_c(proof_opt(C),A), B)), proof_iff(proof_c(A,C),B));
+
+
+/******************************************************************/
+/*                                                                */
+/*  STACK Parson's block functions                                */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Hashes the keys of a two-dimensional steps array using Base64 hashing. We use Base64 due to its
+ * reversibility.
+ */
+hash_keys_array(steps) := block(
+  return(map(lambda([item], join([base64(first(item))], rest(item, 1))), steps))
+);
+
+/*
+ * Turns a list of Base64-hashed keys into a list containing their original strings.
+ */
+unhash_keys_list(hashed_list) := block(
+  return(map(lambda([item], base64_decode(item)), hashed_list))
+);
+
+/*
+ * Takes a two-dimensional steps array and returns a JSON string mapping original keys to their Base64 encodings.
+ */
+parsons_hash_map(steps) := block(
+  return(stackjson_stringify(cons("stack_map", makelist([steps[i][1], base64(steps[i][1])], i, 1, length(steps)))))
+);
+
+/*
+ * Turns a two-dimensional proof steps array into a JSON string with Base64-hashed keys.
+ */
+parsons_encode(steps) := block(
+  return(stackjson_stringify(hash_keys_array(steps)))
+);
+
+/*
+ * Take the hashed JSON from STACK Parson's block and return a proof function.
+ */
+parsons_decode(st) := block([pf],
+  pf:first(stackjson_parse(st)),
+  pf:ev(apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used"))))),simp)
+);
+
+/*
+ * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
+ * Needed to create a "teacher's answer" in JSON block, including unused text.
+*/
+proof_parsons_keys_used_unused_hash(proof_ans, proof_steps) := block([tkeys, skeys],
+  tkeys:map(first, hash_keys_array(proof_steps)),
+  skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
+  /* TO-DO: update this when we deal with trees (and have examples) */
+  skeys:map(lambda([skey], base64(skey)), flatten(skeys)),
+  return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
+);
+
+/* Construct the "used" and "available" keys when the teacher's answer is used. */
+parsons_answer(proof_ans, proof_steps) := block([pkeys],
+  /* Ensure all keys are string keys. */
+  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
+  pkeys:proof_parsons_keys_used_unused_hash(proof_ans, proof_steps),
+  sconcat("[[{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}, 0]]")
+);
+
+/******************************************************************/
+/*                                                                */
+/*  Display functions                                             */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Hashes the first element of each sublist in a two-dimensional steps array using Base64 hashing. 
+ *
+ * It will turn `[["a", "b"], ["c", "d"], ["e", "f"]]` into `[["YQ==", "b"], ["Yg==", "d"], ["ZQ==", "f"]]`.
+ */
+hash_keys_array(steps) := block(
+  return(map(lambda([item], join([base64(first(item))], rest(item, 1))), steps))
+);
+
+/*
+ * Hashes all strings in a two-dimensional steps array using Base64 hashing. 
+ *
+ * It will turn `[["a", "b"], ["c", "d"], ["e", "f"]]` into `[["YQ==", "Yg=="], ["Yg==", "ZA=="], ["ZQ==", "Zg=="]]`.
+ */
+hash_2d_array(arr) := block(
+    return(map(lambda([l], map(base64, l)), arr))
+);
+
+/*
+ *  Return the step "k" from the proof "pf".
+ */
+proof_getstep(k, pf) := block([keylist],
+    if integerp(k) then return(second(pf[k])),
+    keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
+    if not(emptyp(keylist)) then return(second(first(keylist))),
+    /* If the string is not in the pf list, then just return it unchanged.
+       Teachers can use this to adapt proofs which use some of the steps.
+    */
+    k
+);
+
+/*
+ * This function replaces integers and keys with the literal strings from the proof.
+ */
+proof_disp_replacesteps(ex, proof_steps) := block(
+   if integerp(ex) or stringp(ex) then return(proof_getstep(ex, proof_steps)),
+   if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   /* Flatten any optional steps now. */
+   if is(op(ex)=proof_opt) then return(proof_disp_replacesteps(first(args(ex)), proof_steps)),
+   apply(op(ex), map(lambda([ex2], proof_disp_replacesteps(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Take a proof "ex" and a list "pf" of [key, step] pairs and translate this into a proof tree with
+ * the keys replaced by corresponding strings.
+ */
+proof_keys_sub(ex, proof_steps):= block(
+   if integerp(ex) then return(first(proof_steps[ex])),
+   if stringp(ex) then return(ex),
+   apply(op(ex), map(lambda([ex2], proof_keys_sub(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Take a proof "ex" and a list "pf" of [key, step] pairs and translate this into a proof tree with
+ * the keys replaced by corresponding integers.
+ */
+proof_keys_int(ex, proof_steps):= block(
+   if integerp(ex) then return(ex),
+   if stringp(ex) then return(first(sublist_indices(proof_steps, lambda([ex2], is(ex=first(ex2)))))),
+   apply(op(ex), map(lambda([ex2], proof_keys_int(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Replace displayed LaTeX mathematics delimiters with inline.
+ */
+proof_inline_maths(st) := ssubst("\\)", "\\]", ssubst("\\(", "\\[", st));
+
+/*
+ * Prune out any narrative from the proof steps: used to display a proof without narrative.
+*/
+proof_line_prune(pfs) := [first(pfs), second(pfs)];
+proof_steps_prune(proof_steps) := map(proof_line_prune, proof_steps);
+
+/*
+ *  Return the step "k" from the proof "pf" wrapped in html divs, and with any narrative.
+ */
+proof_getstep_html(k, pf) := block([keylist],
+    if integerp(k) then return(proof_line_html(pf[k])),
+    keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
+    if not(emptyp(keylist)) then return(proof_line_html(first(keylist))),
+    /* If the string is not in the pf list, then just return it unchanged.
+       Teachers can use this to adapt proofs which use some of the steps.
+    */
+    k
+);
+
+/*
+  Wrap lines in html <div> tags, and add narrative if it exists. 
+  pfs is a line from the proof_steps array.
+*/
+proof_line_html(pfs) := block([st],
+  st:"",
+  if is(length(pfs)>2) then
+      st:proof_comment_disp(third(pfs)),
+  proof_line_disp(second(pfs), st)
+);
+
+/*
+ * This function replaces integers and keys with the html-wrapped strings from the proof.
+ */
+proof_disp_replacesteps_html(ex, proof_steps) := block(
+   if integerp(ex) or stringp(ex) then return(proof_getstep_html(ex, proof_steps)),
+   if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   /* Flatten any optional steps now. */
+   if is(op(ex)=proof_opt) then return(proof_disp_replacesteps(first(args(ex)), proof_steps)),
+   apply(op(ex), map(lambda([ex2], proof_disp_replacesteps_html(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Take a proof, and any proof steps and display them using proof CSS.
+ */
+proof_display(p_ans, p_steps) := block([p1],
+    p1:proof_disp_replacesteps_html(p_ans, p_steps), 
+    ev(p1,map(lambda([ex], ex=dispproof), proof_types))
+);
+
+/* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
+dispproof([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex)], ["</div>"])))
+);
+
+/**
+ * Take a proof, and any proof steps and display them using paragraphs.
+ */
+proof_display_para(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof_para), proof_types));
+
+/* Flatten to a paragraph. */
+dispproof_para([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
+);
+
+proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</div>");
+proof_comment_disp(ex):=    sconcat("<div class='proof-comment'>", ex,       "</div>");
+proof_column_disp(ex):=     sconcat("<div class='proof-column'>",  ex,       "</div>");
+proof_column_disp2(ex):=    sconcat("<div class='proof-column2'>", ex,       "</div>");
+
+/***************************************************/
+/* Display problems with proofs assesed by graphs. */
+/***************************************************/
+
+/* This function takes a list of problems, and the proof_steps, and displays feedback to the student. */
+proof_dag_problem_display(saprob, poof_steps) := block(
+    if not(listp(saprob)) then error("proof_dag_problem_display: first argument must be a list."),
+    if emptyp(saprob) then return(""),
+    if not(subsetp(setify(map(safe_op, saprob)),{"proof_step_must","proof_step_extra","proof_step_missing"})) then
+        error("proof_dag_problem_display: first argument is not a list of proof_step_X functions."),
+    /* Add in the proof_steps to the arguments of the functions. */
+    saprob:map(lambda([ex], apply(op(ex), append(args(ex),[proof_steps]))), saprob),
+    saprob:ev(saprob, proof_step_must=proof_step_must_disp,
+                                  proof_step_extra=proof_step_extra_disp, 
+                                  proof_step_missing=proof_step_missing_disp),
+    /*
+    saprob:simplode(saprob, "<hr/>"),
+    */
+    dispproof(simplode(saprob, "<hr/>"))
+)$
+
+/* Display functions for proof_step problem functions.
+   One goal in choosing symbols is to avoid translation issues.
+*/
+proof_step_extra_disp(exs, ps):=block(
+  simplode(map(lambda([ex], sconcat(proof_getstep(ex, ps), dl_delete_disp(true))), args(exs)), "<br/>")
+)$
+proof_step_missing_disp(exs, ps):=block(
+  simplode(map(lambda([ex], sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i> ? </span> ",
+                                    proof_getstep(ex, ps))), args(exs)), "<br/>")
+)$
+proof_step_must_disp(ex1, ex2, ps):=block(
+  sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-up'></i></span> ",
+          proof_getstep(ex1, ps),
+          "<br/><span style='font-size: 1.1em; color:red;'>[?...?]</span><br/>",
+          "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-down'></i></span> ",
+          proof_getstep(ex2, ps),
+          "<br/>")
+)$
+
+/******************************************************************/
+/*                                                                */
+/*  Matching functions                                            */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Auxiliary function.
+ *
+ * Takes a list of hashed answer keys and the full 2d steps array and returns the the all used hashed keys and unusued hashed keys.
+ * Needed to create a "teacher's answer" in JSON format, including unused text.
+ */
+match_keys_used_unused_hash(ans, steps) := block([tkeys],
+  tkeys:map(first, hash_keys_array(steps)),
+  skeys:hash_2d_array(ans),
+  return([skeys, listdifference(tkeys, ev(unique(flatten(skeys)), simp))])
+);
+
+/*
+ * Use this to transform the teacher's answer into the shape expected by the Parson's block.
+ * Returns an array of `[answer_keys, unused_keys]`, where `unused_keys` is always a flat
+ * list of keys that are in the question but not inside `ans`.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_reshape_hash(ans1)`. This will return `answer_keys` as an 
+ * array of shape `(columns, 1, ?)` if, where `?` represents variable dimension.
+ * 
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_reshape_hash(ans1, true)`. This will 
+ * return `answer_keys` as an array of shape `(columns, rows, 1)`.
+ */
+match_reshape_hash(ans, steps, [rows]) := block([tkeys, akeys],
+  tkeys: match_keys_used_unused_hash(ans, steps),
+  if rows=[] then akeys: map(lambda([keys], [keys]), first(tkeys)) 
+    else akeys:map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
+  return([akeys, second(tkeys)])
+);
+
+/*
+ * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_answer(ans1)`. 
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_answer(ans1, true)`. 
+ */
+match_answer(ans, steps, [rows]) := block([akeys, ukeys],
+  if rows=[] then [akeys, ukeys]: match_reshape_hash(ans, steps)
+    else [akeys, ukeys]: match_reshape_hash(ans, steps, rows),
+  sconcat("[[{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}, 0]]")
+);
+
+/*
+ * Alias for for the column-only usage `match_answer(ans_steps)` of `match_answer`.
+ */
+group_answer(ans, steps) := match_answer(ans, steps);

@@ -23,6 +23,7 @@ require_once(__DIR__ . '/mathsoutputbase.class.php');
 /**
  * Public API to the maths rendering system.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -46,10 +47,10 @@ class stack_maths {
      * the question text or general feedback. The result of calling this method is
      * then passed to Moodle's {@link format_text()} function.
      * @param string $text the content to process.
-     * @param qtype_stack_renderer $renderer (options) the STACK renderer, if you have one.
+     * @param qtype_stack_renderer|null $renderer (options) the STACK renderer, if you have one.
      * @return string the content ready to pass to format_text.
      */
-    public static function process_display_castext($text, qtype_stack_renderer $renderer = null) {
+    public static function process_display_castext($text, ?qtype_stack_renderer $renderer = null) {
         return self::get_output()->process_display_castext($text,
                 stack_utils::get_config()->replacedollars, $renderer);
     }
@@ -86,6 +87,7 @@ class stack_maths {
     }
 
     /**
+     * Add description here.
      * @return string the name of the currently configured output method.
      */
     public static function configured_output_name() {
@@ -93,6 +95,7 @@ class stack_maths {
     }
 
     /**
+     * Add description here.
      * @return stack_maths_output the output method that has been set in the
      *      configuration options.
      */
@@ -105,6 +108,7 @@ class stack_maths {
     }
 
     /**
+     * Add description here
      * @param string $type the output method name.
      * @return stack_maths_output instance of the output class for this method.
      */

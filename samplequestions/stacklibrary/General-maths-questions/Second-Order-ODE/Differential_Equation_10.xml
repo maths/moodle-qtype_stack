@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Differential_Equation_10</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Solve \[{@n1@} \frac{d^2y}{dx^2} - {@bc@} \frac{dy}{dx} + {@cc@} y = 0,\ y(0) = {@n4@},\ y^\prime(0) = {@n6@}\] where \({}^\prime\) denotes differentiation with respect to \(x\). <br />y(x) = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To solve the differential equation \[{@n1@} \frac{d^2y}{dx^2} - {@bc@} \frac{dy}{dx} + {@cc@} y = 0\] Let \(y = e^{mx}\) and hence \(\frac{dy}{dx}=me^{mx}\) and \(\frac{d^2y}{dx^2} = m^2e^{mx}\) <br />Substituting for \(y\) gives \[{@n1@}m^2e^{mx} - {@bc@}me^{mx} + {@cc@}e^{mx} = 0\] and dividing throughout by \(e^{mx}\) and {@n1@} gives \[m^2 - {@bc/n1@}m + {@cc/n1@} = 0\] which can be solved to give \(m = {@m1@}\) <br />The solution to the differential equation is then of the form \(y = A{@e^(m1*x)@}+Bx{@e^(m2*x)@}\) <br /><br /> Given \(\ y(0) = {@n4@}\) \[ A = {@n4@}\] and \(\ y^\prime(0) = {@n6@}\) \[{@m1*A@} + B = {@n6@}\] Solving for A and B gives\[ {@answers[1]@} \mbox{ and } {@answers[2]@}\] Therefore \[y = {@correctanswer@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>n1:rand(8)+2;
+ n2:rand(11)+1;
+ n4:rand(3)+1;
+ n6:rand(3)+1;
+ bc:n1*2*n2;
+ cc:n1*n2*n2;
+ 
+ msol:solve(n1*m^2 - bc*m + cc = 0,m);
+ m1:rhs(msol[1]);
+ m2:m1;
+ answerform:A*e^(m1*x) + B*x*e^(m2*x);
+ equ1:diff(answerform,x);
+ equ2:subst(0,x,equ1);
+ equ3:subst(0,x,answerform);
+ answers:linsolve([equ2=n6,equ3 = n4],[A,B]);
+ Aans:answers[1];
+ Bans:answers[2];
+ correctanswer:rhs(answers[1])*e^(m1*x) + rhs(answers[2])*x*e^(m2*x);
+ 
+ wronganswer1:rhs(answers[1])*e^(m1*x);
+ wronganswer2:rhs(answers[2])*e^(m2*x);
+ wronganswer3:rhs(answers[1])*exp((n2-1)*x) + rhs(answers[2])*e^(m2*x);
+ ode:n1 * 'diff(y,x,2)- bc * 'diff(y,x) + cc * y;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@n1@} \frac{d^2y}{dx^2} - {@bc@} \frac{dy}{dx} + {@cc@} y = 0,\quad y(0) = {@n4@},\ y^\prime(0) = {@n6@}\) gives \(y = {@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>30</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sa1:ev(subst(y=ans1,ode),simp);
+ sa2:ev(sa1,nouns);
+ sa3:fullratsimp(expand(sa2));
+ sa4:ev(ans1,x=0);
+ sa5:block([ds],ds:diff(ans1,x),ev(ds,x=0));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa3</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3400000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your solution satisfies the ODE.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your solution does not satisfy the ODE.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa4</sans>
+        <tans>n4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your solution satisfies the initial condition \(y(0) = {@n4@}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your solution does not satisfy the initial condition \(y(0) = {@n4@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa5</sans>
+        <tans>n6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your solution satisfies the initial condition \(y^{\prime}(0) = {@n6@}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your solution does not satisfy the initial condition \(y^{\prime}(0) = {@n6@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>423241456</deployedseed>
+    <deployedseed>1715547650</deployedseed>
+    <deployedseed>1824904386</deployedseed>
+    <deployedseed>1985644496</deployedseed>
+    <deployedseed>844134477</deployedseed>
+    <deployedseed>686295286</deployedseed>
+    <deployedseed>1553156112</deployedseed>
+    <deployedseed>221676518</deployedseed>
+    <deployedseed>320331731</deployedseed>
+    <deployedseed>1365285477</deployedseed>
+    <deployedseed>239878302</deployedseed>
+    <deployedseed>1269459738</deployedseed>
+    <deployedseed>1032014768</deployedseed>
+    <deployedseed>789899213</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer-c</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.3300000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.6700000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.3400000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer3</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>6</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>answerform</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.3400000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

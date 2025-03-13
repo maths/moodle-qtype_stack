@@ -24,5 +24,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_question_display_options extends question_display_options {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $suppressruntestslink = false;
 }

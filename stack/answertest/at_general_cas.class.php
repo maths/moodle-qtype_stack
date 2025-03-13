@@ -22,18 +22,20 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
 /**
  * General answer test which connects to the CAS - prevents duplicate code.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_answertest_general_cas extends stack_anstest {
 
     /**
-     * $var bool If this variable is set to true or false we override the
+     * @var bool If this variable is set to true or false we override the
      *      simplification options in the CAS variables.
      */
     protected $simp;
 
     /**
+     * Add description here
      * @param  string $sans
      * @param  string $tans
      * @param  string $casoption
@@ -48,10 +50,9 @@ class stack_answertest_general_cas extends stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
-     * @access public
      */
     public function do_test() {
 
@@ -211,6 +212,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function unpack_result(MP_Node $result): array {
         $r = ['valid' => false, 'result' => 'unknown', 'answernote' => '', 'feedback' => ''];
 
@@ -242,6 +244,7 @@ class stack_answertest_general_cas extends stack_anstest {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         return $this->debuginfo;
     }
@@ -250,7 +253,6 @@ class stack_answertest_general_cas extends stack_anstest {
      * Validates the options, when needed.
      *
      * @return (bool, string)
-     * @access public
      */
     public function validate_atoptions($opt) {
         if (stack_ans_test_controller::process_atoptions($this->atname)) {

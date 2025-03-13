@@ -16,19 +16,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/filterlib.php');
-require_once($CFG->dirroot . '/filter/tex/filter.php');
 require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 
 
 /**
  * STACK maths output methods for using Moodle's TeX filter.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_maths_output_tex extends stack_maths_output_filter_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaystart = '\[\displaystyle ';
         $this->displayend = '\]';
@@ -36,7 +36,16 @@ class stack_maths_output_tex extends stack_maths_output_filter_base {
         $this->inlineend = '\]';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_filter() {
-        return new filter_tex(context_system::instance(), []);
+        global $CFG;
+        if (class_exists('\filter_tex\text_filter')) {
+            return new \filter_tex\text_filter(context_system::instance(), []);
+        } else {
+            // Once Moodle 4.5 is the lowest supported version of Moodle.
+            require_once($CFG->libdir . '/filterlib.php');
+            require_once($CFG->dirroot . '/filter/tex/filter.php');
+            return new filter_tex(context_system::instance(), []);
+        }
     }
 }

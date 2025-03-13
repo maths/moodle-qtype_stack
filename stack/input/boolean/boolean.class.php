@@ -17,14 +17,18 @@
 /**
  * Input for entering true/false using a select dropdown.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_boolean_input extends stack_input {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const F = 'false';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const T = 'true';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NA = '';
-
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_choices() {
         return [
             self::F => stack_string('false'),
@@ -33,6 +37,7 @@ class stack_boolean_input extends stack_input {
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function extra_validation($contents) {
         $validation = $contents[0];
         if ($validation === 'EMPTYANSWER') {
@@ -43,6 +48,11 @@ class stack_boolean_input extends stack_input {
         }
         return '';
     }
+
+    protected $extraoptions = [
+        'displaytype' => false,
+        'buttontitle' => false,
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
@@ -58,10 +68,101 @@ class stack_boolean_input extends stack_input {
         if ($value === 'EMPTYANSWER') {
             $value = '';
         }
-        return html_writer::select(self::get_choices(), $fieldname,
-                $value, '', $attributes);
-    }
+ 
+        $title = $this->extraoptions['buttontitle'];
+        $title = str_replace("*comma*", ",", $title);
 
+        switch ($this->extraoptions['displaytype']) {
+            case 'dropdown':
+                //Default settings
+                $element_complete = html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+                break;
+            case 'click': 
+                // 'Click me'-Button
+                $attributes['hidden'] = 'hidden';
+                $element_select = html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+
+                array_pop($attributes);
+                $element_button_id = $fieldname . "-button";
+                $attributes['id'] = $element_button_id;
+                $attributes['class'] = 'stack-button stack-clickme-button no-answer hovered';
+                $attributes['type'] = 'button';
+                $attributes['onclick'] = '         
+                    var selectElem = document.getElementsByName("' . $fieldname . '")[0];
+                    var buttonElem = document.getElementById("' . $fieldname . '-button");
+
+                    if (buttonElem.classList.contains("no-answer")) {
+                        buttonElem.classList.remove("no-answer");
+                    }
+                    if (selectElem.value=="true") {
+                        selectElem.value = "false";
+                        buttonElem.classList.remove("boolean-pressed");
+                    } else {
+                        selectElem.value = "true";
+                        buttonElem.classList.add("boolean-pressed");
+                    }';
+                $button_script= '
+                    var selectElem = document.getElementsByName("' . $fieldname . '")[0];
+                    var buttonElem = document.getElementById("' . $fieldname . '-button");
+
+                    if (selectElem.value !== "") {
+                        buttonElem.classList.remove("no-answer");
+                    }
+                    if (selectElem.value == "true") {
+                        buttonElem.classList.add("boolean-pressed");
+                    }
+                    if (buttonElem.disabled) {
+                        buttonElem.classList.remove("hovered");
+                    }
+                ';
+                $element_script = html_writer::tag('script',$button_script);
+                $element_button = html_writer::tag('button',$title, $attributes); 
+                
+                $element_complete = html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
+                break;
+            case 'toggle':
+                //Toggle-Button
+                $attributes['hidden']='hidden';
+                $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+
+                array_pop($attributes);
+                $element_button_id = $fieldname . "-button";
+                $attributes['id'] = $element_button_id;
+                $attributes['class'] = 'stack-input-toggle-button';
+                $attributes['type'] = 'checkbox';
+                $attributes['onclick'] = '
+                    if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                    }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "false";
+                    } else {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "true";
+                    };
+                ';
+                $button_script= '
+                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                    }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
+                     document.getElementById("' . $fieldname . '-button").checked=true;
+                    }
+                ';
+                $element_script = html_writer::tag('script',$button_script);
+                $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
+                
+                $attributes = [];
+                $attributes['id'] = 'stack-button-'.$fieldname;
+                $attributes['class'] = 'stack-button stack-toggle-button no-answer';
+                $element_label = html_writer::tag('label',$element_button,$attributes);
+                $element_complete=html_writer::div($element_select . $element_label . $element_script,'stack-parent-toggle-button');
+                break;
+            default:
+                echo "This type is not set."; 
+                break;
+        }
+        return $element_complete ;
+    }
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -74,7 +175,7 @@ class stack_boolean_input extends stack_input {
         return $data;
     }
 
-
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);
         $mform->setType($this->name, PARAM_RAW);
@@ -85,10 +186,11 @@ class stack_boolean_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return [
+        return [ 
             'mustVerify'      => false,
             'showValidation'  => 0,
-            'options'            => '',
+            'options'         => '',
         ];
     }
+
 }

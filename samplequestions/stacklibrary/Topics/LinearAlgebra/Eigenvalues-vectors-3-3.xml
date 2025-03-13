@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Eigenvalues and vectors of 3*3 matrices.</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the eigenvalues and corresponding eigenvectors of \[M={@M@}.\]</p>
+<p>\(\lambda_1 = \) [[input:l1]] [[validation:l1]]<br>This has corresponding eigenvector&nbsp;[[input:sev1]] [[validation:sev1]]</p>
+<p>\(\lambda_2 = \) [[input:l2]] [[validation:l2]]<br>This has corresponding eigenvector&nbsp;[[input:sev2]] [[validation:sev2]]</p>
+<p>\(\lambda_3 = \) [[input:l3]] [[validation:l3]]<br>This has corresponding eigenvector&nbsp;[[input:sev3]] [[validation:sev3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>First we calculate the characteristic polynomial of \(M\) by calculating \(\mbox{det}(\lambda I-M)\)
+\[ \lambda I - M = {@LI-M@}.\]
+\[\mbox{det}(\lambda I-M)={@cp@}={@factor(cp)@}.\]
+Therefore the eigenvalues are \({@{e1,e2,e3}@}\).
+For each eigenvalue we solve \((k I-M)\mathbf{x} = \mathbf{0}\) to find the eigenvectors (which are of course not always unique).
+This gives
+\[ \lambda_1 = {@e1@},\quad \mathbf{x}_1 = {@transpose(matrix(ev1))@}.\]
+\[ \lambda_2 = {@e2@},\quad \mathbf{x}_2 = {@transpose(matrix(ev2))@}.\]
+\[ \lambda_3 = {@e3@},\quad \mathbf{x}_3 = {@transpose(matrix(ev3))@}.\]</text>
+    </generalfeedback>
+    <defaultgrade>6</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* Eigenvalues and Eigenvectors. */
+e1:rand([-1,-2]);
+ev1:[1,0,-1-rand(2)];
+e2:-3-rand(4);
+ev2:[1,2+rand(3),0];
+e3:2;
+ev3:[1,1,0];
+P:transpose(matrix(ev1, ev2, ev3));
+D:matrix([e1,0,0],[0,e2,0],[0,0,e3]);
+PI:invert(P);
+M:P.D.PI;
+LI:lambda*matrix([1,0,0],[0,1,0],[0,0,1]);
+cp:expand(determinant(LI-M));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[Overall: [[feedback:prt1]]
+<p>\(\lambda_1\) [[feedback:ev1]]</p>
+<p>\(\lambda_2\) [[feedback:ev2]]</p>
+<p>\(\lambda_3\) [[feedback:ev3]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( PDP^{-1} = {@P@}{@D@}{@PI@} = {@M@}.\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>l1</name>
+      <type>algebraic</type>
+      <tans>e1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>l2</name>
+      <type>algebraic</type>
+      <tans>e2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>l3</name>
+      <type>algebraic</type>
+      <tans>e3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>sev1</name>
+      <type>matrix</type>
+      <tans>transpose(matrix(ev1))</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>sev2</name>
+      <type>matrix</type>
+      <tans>transpose(matrix(ev2))</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>sev3</name>
+      <type>matrix</type>
+      <tans>transpose(matrix(ev3))</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>ev1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>M.sev1</sans>
+        <tans>l1*sev1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>ev1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ev1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You claimed that \({@l1@}\) is an eigenvalue with eigenvector \({@sev1@}\).  But \[ {@M@}{@sev1@} = {@M.sev1@} \neq {@l1@}{@sev1@}={@l1.sev1@}\] so you must have done something wrong!</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sev1</sans>
+        <tans>matrix([0],[0],[0])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ev1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Eigenvectors must not be the zero vector!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ev1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>ev2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>M.sev2</sans>
+        <tans>l2*sev2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>ev2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ev2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You claimed that \({@l2@}\) is an eigenvalue with eigenvector \({@sev2@}\).  But \[ {@M@}{@sev2@} = {@M.sev2@} \neq {@l2@}{@sev2@}={@l2.sev2@}\] so you must have done something wrong!</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sev2</sans>
+        <tans>matrix([0],[0],[0])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ev2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Eigenvectors must not be the zero vector!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ev2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>ev3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>M.sev3</sans>
+        <tans>l3*sev3</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>ev3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ev3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[You claimed that \({@l3@}\) is an eigenvalue with eigenvector \({@sev3@}\). &nbsp;But \[ {@M@}{@sev3@} = {@M.sev3@} \neq {@l3@}{@sev3@}={@l3.sev3@}\] so you must have done something wrong!]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sev3</sans>
+        <tans>matrix([0],[0],[0])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ev3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Eigenvectors must not be the zero vector!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ev3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>{l1,l2,l3}</sans>
+        <tans>{e1,e2,e3}</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.75</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your eigenvalues are not correct.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>length({l1,l2,l3})</sans>
+        <tans>3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.25</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You should have three different eigenvalues in this question!</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>58</deployedseed>
+    <deployedseed>799865971</deployedseed>
+    <deployedseed>503051374</deployedseed>
+    <deployedseed>368076339</deployedseed>
+    <deployedseed>1223580664</deployedseed>
+    <deployedseed>953921976</deployedseed>
+    <deployedseed>1510782468</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>l1</name>
+        <value>e1</value>
+      </testinput>
+      <testinput>
+        <name>l2</name>
+        <value>e2</value>
+      </testinput>
+      <testinput>
+        <name>l3</name>
+        <value>e3</value>
+      </testinput>
+      <testinput>
+        <name>sev1</name>
+        <value>sev1</value>
+      </testinput>
+      <testinput>
+        <name>sev2</name>
+        <value>sev2</value>
+      </testinput>
+      <testinput>
+        <name>sev3</name>
+        <value>sev3</value>
+      </testinput>
+      <expected>
+        <name>ev1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev3-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-5-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>l1</name>
+        <value>e1</value>
+      </testinput>
+      <testinput>
+        <name>l2</name>
+        <value>e1</value>
+      </testinput>
+      <testinput>
+        <name>l3</name>
+        <value>e2</value>
+      </testinput>
+      <testinput>
+        <name>sev1</name>
+        <value>matrix([0],[0],[0])</value>
+      </testinput>
+      <testinput>
+        <name>sev2</name>
+        <value>sev3</value>
+      </testinput>
+      <testinput>
+        <name>sev3</name>
+        <value>sev2</value>
+      </testinput>
+      <expected>
+        <name>ev1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ev1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ev2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev3-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-5-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>l1</name>
+        <value>e3</value>
+      </testinput>
+      <testinput>
+        <name>l2</name>
+        <value>e1</value>
+      </testinput>
+      <testinput>
+        <name>l3</name>
+        <value>ev(e3+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>sev1</name>
+        <value>sev3</value>
+      </testinput>
+      <testinput>
+        <name>sev2</name>
+        <value>sev1</value>
+      </testinput>
+      <testinput>
+        <name>sev3</name>
+        <value>sev3</value>
+      </testinput>
+      <expected>
+        <name>ev1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ev3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.2500000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-5-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

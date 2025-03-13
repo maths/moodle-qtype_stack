@@ -17,6 +17,7 @@
 /**
  * Class which undertakes process control to connect to Maxima.
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -41,6 +42,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $this->db = $db;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compute($command) {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
@@ -63,10 +65,12 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_maxima_available() {
         return stack_string('healthunabletolistavail');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function json_compute($command): array {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
@@ -91,6 +95,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $parsed;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         return $this->debug->get_log();
     }
@@ -153,6 +158,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     }
 
     /**
+     * Add description here
      * @param string $command Maxima code to execute.
      * @return string the key used to store this command.
      */
@@ -188,6 +194,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     }
 
     /**
+     * Add description here
      * @param moodle_database $db the database connection to use to access the cache.
      * @return int the number of entries in the cache.
      */

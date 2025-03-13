@@ -26,17 +26,16 @@ require_once(__DIR__ . '/../vle_specific.php');
 /**
  * Test Moodle VLE specific functions.
  *
+ * @package    qtype_stack
  * @copyright 2023 The University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
-
-/**
  * @group qtype_stack
  * @covers \vle_specific
  */
-class vle_specific_test extends qtype_stack_testcase {
+final class vle_specific_test extends qtype_stack_testcase {
 
-    public function test_mathjaxurl() {
+    public function test_mathjaxurl(): void {
+
         $this->resetAfterTest();
 
         // Parameters but no config.

@@ -154,7 +154,6 @@
      * @param {HTMLElement} modifiedsubtreerootelement element under which changes may have happened.
      */
     function vle_update_dom(modifiedsubtreerootelement) {
-        CustomEvents.notifyFilterContentUpdated(modifiedsubtreerootelement);
     }
 
     /**

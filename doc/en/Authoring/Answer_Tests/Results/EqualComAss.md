@@ -1147,6 +1147,25 @@ t;x)</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>scientific_notationp(1/3)</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEqualComAss (AlgEquiv-false).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>scientific_notationp(4.1561*10
+^16)</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Bad things in denominators</td></td>
 </tr>

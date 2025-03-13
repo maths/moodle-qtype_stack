@@ -4,7 +4,6 @@ How to I trap errors generated from a student's answer?
 
 Errors are generated for a number of reasons.  Mostly, they are important and should not be ignored!  Normally, students should not be penalised if a question "does not work" because the PRT generated an error.  Any runtime error during traversing a PRT will cause an error.  This error will stop further execution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.
 
-
 A student's answer can generate mathematical errors for a number of reasons, but the most common is evaluating a function outside its mathematical domain.  Common elementary examples are
 
 1. Division by zero.

@@ -28,31 +28,35 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
-// Unit tests for stack_boolean_input_test.
-//
-// @copyright  2012 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_boolean_input_test.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_singlechar_input
  */
-class input_singlechar_validation_test extends qtype_stack_testcase {
-    public function test_validate_student_response_true() {
+final class input_singlechar_validation_test extends qtype_stack_testcase {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function test_validate_student_response_true(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'true');
         $state = $el->validate_student_response(['sans1' => 'x'], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
-    public function test_validate_student_response_false() {
+    public function test_validate_student_response_false(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'true');
         $state = $el->validate_student_response(['sans1' => ''], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
     }
 
-    public function test_validate_student_response_na() {
+    public function test_validate_student_response_na(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('singlechar', 'sans1', 'true');
         $state = $el->validate_student_response(['sans1' => 'xx'], $options, 'true', new stack_cas_security());

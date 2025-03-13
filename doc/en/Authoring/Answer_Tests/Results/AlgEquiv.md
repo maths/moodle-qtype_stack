@@ -184,6 +184,16 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">1</td>
   <td class="cell c6">ATLogic_True.</td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>scientific_notationp(4.1561*10
+^16)</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Case sensitivity</td></td>
 </tr>
@@ -412,6 +422,15 @@ i/15))</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>5/4*%e^(%i*%pi/6)</pre></td>
+  <td class="cell c3"><pre>5*sqrt(3)/8+5/8*%i</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%i/sqrt(x)</pre></td>
   <td class="cell c3"><pre>sqrt(-1/x)</pre></td>
   <td class="cell c4"></td>
@@ -490,6 +509,33 @@ i/15))</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&#039;root(x)</pre></td>
+  <td class="cell c3"><pre>x^(1/2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&#039;root(x,m)</pre></td>
+  <td class="cell c3"><pre>x^(1/m)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x</pre></td>
+  <td class="cell c3"><pre>&#039;root(x^2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)</pre></td>
   <td class="cell c3"><pre>sqrt(x^2)</pre></td>
   <td class="cell c4"></td>
@@ -548,6 +594,33 @@ i/15))</pre></td>
   <td class="cell c3"><pre>2^(0.196078431373*t)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1-root(2)</pre></td>
+  <td class="cell c3"><pre>1-2^(1/2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1-root(2)</pre></td>
+  <td class="cell c3"><pre>1-sqrt(2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>root(2,2)+1</pre></td>
+  <td class="cell c3"><pre>1+sqrt(2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="pass">
@@ -1319,6 +1392,26 @@ i/10)</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>log((x+1)/(1-x))</pre></td>
+  <td class="cell c3"><pre>-log((1-x)/(x+1))</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>ratsimp(logcontract(log((x+1)/
+(1-x))))</pre></td>
+  <td class="cell c3"><pre>ratsimp(logcontract(-log((1-x)
+/(x+1))))</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Hyperbolic trig</td></td>
 </tr>
@@ -1692,6 +1785,38 @@ i,i),i,8)</pre></td>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\left[ -\frac{\sqrt{2}}{\sqrt{3}} , 0 \right] \right \}\]</span></span></td></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c2"><pre>{5/4*%e^(%i*%pi/6)}</pre></td>
+  <td class="cell c3"><pre>{5*sqrt(3)/8+5/8*%i}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">-3</td>
+  <td class="cell c6">ATSet_wrongentries.</td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\frac{5\cdot \mathrm{i}+5\cdot \sqrt{3}}{8} \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>map(expand,{5/4*%e^(%i*%pi/6)}
+)</pre></td>
+  <td class="cell c3"><pre>{5*sqrt(3)/8+5/8*%i}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>ratsimp({5/4*%e^(%i*%pi/6)})</pre></td>
+  <td class="cell c3"><pre>ratsimp({5*sqrt(3)/8+5/8*%i})</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -4195,6 +4320,36 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
   <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>stack_units_nums(stackunits_ma
+ke(m/s))</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>stack_units_nums(stackunits_ma
+ke(m/s))</pre></td>
+  <td class="cell c3"><pre>NULLNUM</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>ev(stack_units_nums(stackunits
+_make(m/s)),NULLNUM=1)</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Maxima does not simplify -inf (I agree!)</td></td>
 </tr>
@@ -4535,6 +4690,25 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(A and B) or (not A and not B)</pre></td>
   <td class="cell c3"><pre>A xnor B</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLogic_True.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>((not A) and (not B)) or ((not
+ A) and B)</pre></td>
+  <td class="cell c3"><pre>not A</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLogic_True.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(A xor B) nounand (A xnor B)</pre></td>
+  <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6">ATLogic_True.</td>

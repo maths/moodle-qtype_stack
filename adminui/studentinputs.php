@@ -17,6 +17,7 @@
 /**
  * This script runs attempts to "validate" a list of potential answer strings from students and verifies the results.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

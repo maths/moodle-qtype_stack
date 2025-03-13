@@ -31,21 +31,22 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for the Stack question type.
-//
-// Note that none of these tests include clicking the 'Check' button that dfexplicitvaldiation provies.
-// That button is simply @author tjh238 way to trigger a save without navigating to a different page of the quiz.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the Stack question type.
+ *
+ * Note that none of these tests include clicking the 'Check' button that dfexplicitvaldiation provies.
+ * That button is simply @author tjh238 way to trigger a save without navigating to a different page of the quiz.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
+final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_test3_save_answers_to_all_parts_and_stubmit() {
+    public function test_test3_save_answers_to_all_parts_and_stubmit(): void {
+
         // Account for the changes in Moodle 2.6.
         if (question_cbm::adjust_fraction(1, question_cbm::HIGH) > 2) {
             // Moodle 2.6+.
@@ -126,7 +127,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit() {
+    public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 12);
@@ -220,7 +222,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit() {
+    public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -289,7 +292,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test3_save_completely_blank_response_then_stubmit() {
+    public function test_test3_save_completely_blank_response_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
@@ -335,7 +339,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_test0_no_validation_required() {
+    public function test_test0_no_validation_required(): void {
+
         // Account for the changes in Moodle 2.6.
         if (question_cbm::adjust_fraction(1, question_cbm::HIGH) > 2) {
             // Moodle 2.6+.

@@ -10,16 +10,13 @@ for somewhat obvious reasons!  Hence, we need to restrict the availability of ce
 2. Teacher.  Teacher's answers cannot contain these, but they are not a security risk.  Usually these have side effects within the Maxima code, e.g. setting a global variable which might cause problems later/elsewhere.
 3. Student.  Student's expressions can only contain these.
 
-Since STACK 4.3 the Maxima statement parser infrastruture uses a JSON file
-describing all identifiers of functions,  variables, constants, and operators
+Since STACK 4.3 the Maxima statement parser infrastructure uses a JSON file
+describing all identifiers of functions,  variables, constants and operators
 and features we attach to them. The catalogue is stored in
 
     stack/cas/security-map.json
 
-This JSON file is being updated manually and through the data collected by 
-the [census](Census.md) and can be extended freely to track new features 
-as things progress. This documentation section describes what is currently 
-being contained in that map.
+This JSON file is being updated manually and through the data collected by  the census (see developer docs `dev/Census.md`) and can be extended freely to track new features as things progress. This documentation section describes what is currently being contained in that map.
 
 If a function from a maxima library is not in the security map then it is most likley
 that we have not reviewed it.  Please contact the developers.

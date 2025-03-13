@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>CR-Int-14-substitution-3.b</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Evaluate the following definite integral: 
+\[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@}\]
+Hint: Use the substitution \(u = {@pp2@}\)
+<br />
+[[input:ans1]] 
+[[validation:ans1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[We need to solve \[\int {@p@} d{@v@}\] using the substitution \(u = {@pp2@}\) <hint>calc_int_methods_substitution</hint>.
+
+So, if \(u = {@pp2@}\), then \({@v@} = {@q@}\) and \(d{@v@} = {@diff(q,u)@}d{@u@}\).
+
+Hence,
+
+\[\begin{array}{rcl}\displaystyle 
+\int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int [{@subst(q,v,p)@}] {@diff(q,u)@}d{@u@} \\
+   &\displaystyle =&\displaystyle  \int [{@expand(subst(q,v,p)*diff(q,u))@} d{@u@} \\
+   &\displaystyle =&\displaystyle  {@int(expand(subst(q,v,p)*diff(q,u)),u)@}+c \\
+   &\displaystyle =&\displaystyle  {@subst(pp2,u,int(expand(subst(q,v,p)*diff(q,u)),u))@}+c
+ \end{array}\] 
+
+We need \[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} \]
+so, recall that if \[\int f(x) dx = F(x)+c\] then \[\int^a_b f(x) dx = F(a) - F(b).\]
+
+So, let \[F({@v@}) = {@subst(pp2,u,int(expand(subst(q,v,p)*diff(q,u)),u))@}\]
+
+Then, 
+
+\[\begin{array}{rcl}\displaystyle  
+\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} &\displaystyle =&\displaystyle  F({@rdm1@}) - F({@rdm2@}) \\
+   &\displaystyle =&\displaystyle  {@subst(rdm1,v,subst(pp2,u,int(expand(subst(q,v,p)*diff(q,u)),u)))@}-{@subst(rdm2,v,subst(pp2,u,int(expand(subst(q,v,p)*diff(q,u)),u)))@} \\
+   &\displaystyle =&\displaystyle  {@subst(rdm1,v,subst(pp2,u,int(expand(subst(q,v,p)*diff(q,u)),u)))-subst(rdm2,v,subst(pp2,u,int(expand(subst(q,v,p)*diff(q,u)),u)))@}
+ \end{array}\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[dumvar0:ASSUME(u>0);
+v:t;
+rdm1:1+rand(3);
+rdm2:rdm1-1;
+rdm3:1+rand(4);
+rdm4:2+rand(2);
+pp2:(v-rdm3);
+pp1:pp2^rdm4;
+pp3:(v+1)^2;
+p:pp3*pp1;
+dumvar7:u;
+q:rhs(solve(u=pp2,v)[1]);
+q1:(int(p,v));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} = {@int(p,v,rdm2,rdm1)@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>int(p,v,rdm2,rdm1)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>int</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>int(p,v,rdm2,rdm1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>diff(ans1,v)</sans>
+        <tans>p</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text>This is a definite integration problem, so your answer should be a number.  This is the correct integral, but you have not evaluated it.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1927095367</deployedseed>
+    <deployedseed>1776130332</deployedseed>
+    <deployedseed>2018848894</deployedseed>
+    <deployedseed>2130379137</deployedseed>
+    <deployedseed>1224398611</deployedseed>
+    <deployedseed>11781516</deployedseed>
+    <deployedseed>1207022596</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>int(p,v,rdm2,rdm1)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>p</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-1-F </expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(int(p,v)+c,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-1-T </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

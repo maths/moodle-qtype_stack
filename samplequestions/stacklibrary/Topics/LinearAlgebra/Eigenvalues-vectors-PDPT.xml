@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Find eigenvalues 3*3 +PDP^-1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><b>(a)</b> Let \[ A = {@ A@} \]</p>
+<p>Find the eigenvalues and corresponding eigenvectors of the symmetric matrix \(A\).&nbsp;</p>
+<p>\(\lambda_1=\) [[input:ans1]] [[validation:ans1]]&nbsp;
+<br>\(\mathbf{v}_1 =\) [[input:ans2]] [[validation:ans2]]</p>
+<p>\(\lambda_2=\) [[input:ans3]] [[validation:ans3]]
+<br>\(\mathbf{v}_2 =\) [[input:ans4]] [[validation:ans4]]</p>
+<p>\(\lambda_3=\) [[input:ans5]] [[validation:ans5]]
+<br>\(\mathbf{v}_3 =\) [[input:ans6]] [[validation:ans6]]</p>
+<p>Hence find an orthogonal matrix \(P\) and a&nbsp; diagonal matrix&nbsp; \(D\)&nbsp; such that \(P^TAP=D\).</p>
+<p>\(P = \)&nbsp;[[input:ans7]] [[validation:ans7]]</p>
+<p>\(D = \)&nbsp;[[input:ans8]] [[validation:ans8]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To find the eignenvalues we solve \( \mbox{det}(A-t I)=0\). &nbsp;In our case that is<br>\[ A-t I = {@A-t*ident(3)@}\]&nbsp;which has determinant \[ {@cply@} ={@factor(cply)@}.\]&nbsp;</p><p>This is equal to zero for \( t_1 =&nbsp;{@lambda1@}, \quad&nbsp; t_2 =&nbsp;{@lambda2@},&nbsp;\quad t_3 =&nbsp;{@lambda3@} \).&nbsp;</p><p>Corresponding to each eigenvalue we have \[ t={@lambda1@},\ \mathbf{v}_1 = {@V1@}.\] \[ t={@lambda2@},\ \mathbf{v}_2 = {@V2@}.\] \[ t={@lambda3@},\ \mathbf{v}_3 = {@V3@}.\]<br></p><p>\(P\) is the matrix of unit eigenvectors and so \( P = {@U_P@}\) and \( D = {@D@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>10</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>lambda1: 0;
+lambda2: 3;
+lambda3: -2;
+v1:[-1,-1,2];
+v2:[1,1,1];
+v3:[1,-1,0]
+V1:transpose(v1);
+V2:transpose(v2);
+V3:transpose(v3);
+D:matrix([lambda1,0,0],[0,lambda2,0],[0,0,lambda3]);
+EV:matrix(v1,v2,v3);
+P:transpose(EV);
+PI:invert(P);
+A:P.D.PI;
+cply:expand(determinant(A-t*ident(3)))
+
+u_v1: v1/sqrt(V1.V1);
+u_v2: v2/sqrt(V2.V2);
+u_v3: v3/sqrt(V3.V3);
+U_P: transpose(matrix(u_v1,u_v2,u_v3));
+
+U_PT: matrix(u_v1,u_v2,u_v3);
+simp:false;
+B: U_P.(D^2012).U_PT</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>
+<p>[[feedback:prt2]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@P@}^T {@A@} {@P@} = {@D@}.\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>lambda1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>V1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>lambda2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>matrix</type>
+      <tans>V2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>lambda3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>matrix</type>
+      <tans>V3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>matrix</type>
+      <tans>U_P</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans8</name>
+      <type>matrix</type>
+      <tans>D</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>6.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>A.ans2</sans>
+        <tans>ans1*ans2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.3400000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>If {@ans1@} is an eigenvalue of {@A@} with eigenvector {@ans2@} then we should have<br>\[ {@A@}{@ans2@} = ({@ans1@}){@ans2@}\] but<br>\[ {@A.ans2@} \neq {@expand(ans1*ans2)@}.\]<br></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>A.ans4</sans>
+        <tans>ans3*ans4</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>If {@ans3@} is an eigenvalue of {@A@} with eigenvector {@ans4@} then we should have<br>\[ {@A@}{@ans4@} = ({@ans3@}){@ans4@}\] but<br>\[ {@A.ans4@} \neq {@expand(ans3*ans4)@}.\]<br></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>A.ans6</sans>
+        <tans>ans5*ans6</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>If {@ans5@} is an eigenvalue of {@A@} with eigenvector {@ans6@} then we should have<br>\[ {@A@}{@ans6@} = ({@ans5@}){@ans6@}\] but \[ {@A.ans6@} \neq {@expand(ans5*ans6)@}.\]<br></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>{ans1,ans3,ans5}</sans>
+        <tans>{lambda1,lambda2,lambda3}</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.5000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You must have distinct eigenvalues!</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>elementp(transpose(matrix([0,0,0])), {ans2,ans4,ans6})</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>-</truescoremode>
+        <truescore>0.4000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You must have non-zero eigenvectors.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>4.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* List all the off diagonal entries. */
+sde:{ans8[1,2],ans8[1,3],ans8[2,1],ans8[2,3],ans8[3,1],ans8[3,1]}</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>transpose(ans7).A.ans7</sans>
+        <tans>ans8</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.8000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your matrices \(P\) and \(D\) should satisfy \(P^TAP=D\).&nbsp; In fact with your matrices<br>\[ {@ans7@}^T {@A@} {@ans7@} = {@transpose(ans7)@}{@A@}{@ans7@} \] \[= {@transpose(ans7).A.ans7@} \neq {@ans8@}.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sde</sans>
+        <tans>{0}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your matrix \(D\) is not diagonal.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>lambda1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>V1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>lambda2</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>V2</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>lambda3</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>V3</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>U_P</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>D</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-5-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>lambda2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>V2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>lambda3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>V3</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>lambda1</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>V2</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>D</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>U_P</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.6700000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-5-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>lambda1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>V1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>lambda1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>V1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>lambda3</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>V3</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-5-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

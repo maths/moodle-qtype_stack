@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
@@ -24,12 +31,15 @@ require_once(__DIR__ . '/filter.interface.php');
 class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_astfilter_parametric {
 
     // A reference to the extractor.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $extractor = false;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         $this->extractor = isset($parameters['static string extractor']) ? $parameters['static string extractor'] : null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // Simply nothing to do if we have nowhere to place those strings.
@@ -46,6 +56,7 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
                 if ($node->parentnode->items[0] instanceof MP_String && (
                     $node->parentnode->items[0]->value === '%root' ||
                     $node->parentnode->items[0]->value === '%cs' ||
+                    $node->parentnode->items[0]->value === 'p h' ||
                     $node->parentnode->items[0]->value === 'demarkdown' ||
                     $node->parentnode->items[0]->value === 'demoodle' ||
                     (($node->parentnode->items[0]->value === 'iframe' ||

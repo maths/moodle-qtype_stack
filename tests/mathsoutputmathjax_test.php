@@ -26,18 +26,18 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 require_once(__DIR__ . '/../doc/docslib.php');
 
-// Unit tests for the MathJax maths output class.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the MathJax maths output class.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_maths_output_mathjax
  */
-class mathsoutputmathjax_test extends qtype_stack_testcase {
+final class mathsoutputmathjax_test extends qtype_stack_testcase {
 
-    public function test_maths_output_mathsjax() {
+    public function test_maths_output_mathsjax(): void {
 
         // MathJax output is the default.
         $this->assert_content_with_maths_equals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',

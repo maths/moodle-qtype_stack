@@ -1,6 +1,6 @@
 # Authoring quick start 3: improving feedback
 
-[1 - First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | 3 - Feedback | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+1 - [First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | 3 - Feedback | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - question library](Authoring_quick_start_6.md) | [7 - Multipart questions](Authoring_quick_start_7.md) | [8 - Simplification](Authoring_quick_start_8.md) | [9 - Quizzes](Authoring_quick_start_9.md)
 
 
 
@@ -36,9 +36,9 @@ Next, a teacher needs to ask _"What might a student do incorrectly, and what wil
 
 For each mistake we think students might make, we can create an answer test. For example, we might expect students to leave their answer in expanded form. This would of course still be a correct answer, but we want to guide students away from unnecessarily expanding their answer. Let us create another node that tests if the student left their final answer in a factored form. We do this by adding another potential response node. 
 
-![Adding a new node](../../content/add_new_node.png)
+![STACK question potential response tree with 'Add node(s)' button below, centre left](../../content/addnewnode.png)
 
-Go to the potential response tree and click `[Add another node]` . Then under Node 1's  `True` branch change `Next` to `Node 2`. If we enter Node 2, we know the student has the correct answer and just need to establish if it is factored or not. To establish this we need to use the [FacForm answer test](../Authoring/Answer_Tests/index.md). This tests both that SAns and TAns are equivalent, and that SAns is factored. In this case we already know that the student's answer is equivalent to the teacher's answer (using *Int*'s better tailored algorithm). Hence we can just test the student's answer against itself.
+Go to the potential response tree and click `[Add node(s)]` . Then under Node 1's  `True` branch change `Next` to `Node 2`. If we enter Node 2, we know the student has the correct answer and just need to establish if it is factored or not. To establish this we need to use the [FacForm answer test](../Authoring/Answer_Tests/index.md). This tests both that SAns and TAns are equivalent, and that SAns is factored. In this case we already know that the student's answer is equivalent to the teacher's answer (using *Int*'s better tailored algorithm). Hence we can just test the student's answer against itself.
 
 Update the form so that Node 2 has
 

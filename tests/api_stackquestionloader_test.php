@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// Unit tests for the Stack question type API.
-//
-// @copyright 2023 University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests for the Stack question type API.
+ *
+ * @package    qtype_stack
+ * @copyright 2023 University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 namespace qtype_stack;
 
@@ -32,15 +35,17 @@ use stack_api_test_data;
 use qtype_stack_testcase;
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class api_stackquestionloader_test extends qtype_stack_testcase {
+final class api_stackquestionloader_test extends qtype_stack_testcase {
 
-    public function test_question_loader() {
+    public function test_question_loader(): void {
+
         $xml = stack_api_test_data::get_question_string('matrices');
         $ql = new StackQuestionLoader();
-        $question = $ql->loadXML($xml);
+        $question = $ql->loadXML($xml)['question'];
 
         // Testing a representative selection of fields.
         $this->assertEquals('test_3_matrix', $question->name);
@@ -62,11 +67,12 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($question->deployedseeds));
     }
 
-    public function test_question_loader_use_defaults() {
+    public function test_question_loader_use_defaults(): void {
+
         global $CFG;
         $xml = stack_api_test_data::get_question_string('usedefaults');
         $ql = new StackQuestionLoader();
-        $question = $ql->loadXML($xml);
+        $question = $ql->loadXML($xml)['question'];
         $this->assertEquals($question->options->get_option('decimals'), get_config('qtype_stack', 'decimals'));
         $this->assertEquals($question->options->get_option('scientificnotation'),
                 get_config('qtype_stack', 'scientificnotation'));
@@ -93,11 +99,12 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
-    public function test_question_loader_do_not_use_defaults() {
+    public function test_question_loader_do_not_use_defaults(): void {
+
         global $CFG;
         $xml = stack_api_test_data::get_question_string('optionset');
         $ql = new StackQuestionLoader();
-        $question = $ql->loadXML($xml);
+        $question = $ql->loadXML($xml)['question'];
         $this->assertEquals($question->options->get_option('decimals'), ',');
         $this->assertEquals($question->options->get_option('scientificnotation'), '*10');
         $this->assertEquals($question->options->get_option('assumepos'), true);
@@ -117,5 +124,37 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('sameType'), true);
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), 'test');
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), 30);
+    }
+
+    public function test_question_loader_base_question(): void {
+        global $CFG;
+        $xml = stack_api_test_data::get_question_string('empty');
+        $ql = new StackQuestionLoader();
+        $question = $ql->loadXML($xml)['question'];
+        $this->assertEquals('Question', $question->name);
+        $this->assertEquals('Correct answer, well done.', $question->prtcorrect);
+        $this->assertEquals('html', $question->prtcorrectformat);
+        $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->truenextnode);
+        $this->assertEquals('prt1-1-T', $question->prts['prt1']->get_nodes_summary()[0]->trueanswernote);
+        $this->assertEquals(1, $question->prts['prt1']->get_nodes_summary()[0]->truescore);
+        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->truescoremode);
+        $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->falsenextnode);
+        $this->assertEquals('prt1-1-F', $question->prts['prt1']->get_nodes_summary()[0]->falseanswernote);
+        $this->assertEquals(0, $question->prts['prt1']->get_nodes_summary()[0]->falsescore);
+        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->falsescoremode);
+        $this->assertEquals(false, $question->prts['prt1']->get_nodes_summary()[0]->quiet);
+        $this->assertEquals('ATAlgEquiv(ans1,ta1)', $question->prts['prt1']->get_nodes_summary()[0]->answertest);
+        $this->assertEquals($question->inputs['ans1']->get_parameter('mustVerify'), get_config('qtype_stack', 'inputmustverify'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('showValidation'),
+                get_config('qtype_stack', 'inputshowvalidation'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('insertStars'), get_config('qtype_stack', 'inputinsertstars'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidFloats'),
+                get_config('qtype_stack', 'inputforbidfloat'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('lowestTerms'),
+                get_config('qtype_stack', 'inputrequirelowestterms'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('sameType'),
+                get_config('qtype_stack', 'inputcheckanswertype'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 }

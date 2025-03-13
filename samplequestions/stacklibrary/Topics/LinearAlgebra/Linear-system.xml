@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Linear systems</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider the following linear system, \(A\mathbf{x} = \mathbf{b}\), which has a parameter \(k\).
+\[ {@QA@} \mathbf{x} = {@Qb@} \]
+</p>
+<p>1. Perform row reduction to find the augmented matrix of an equivalent system in upper triangular form. (Note, row-echelon, or reduced row-echelon form is not needed here.)</p>
+[[input:ans1]] [[validation:ans1]]
+
+<p>2. For what value(s), if any, of the input parameter \(k\), does the system, \(A\mathbf{x} = \mathbf{b}\) have no solutions?  \(k\in \) [[input:ans2]] [[validation:ans2]]
+</p>
+<p>(Your answer above must be a set, possibly empty, of values for \(k\).  Enter a set as coma separated values with curly brackets, e.g. <code>{1, 2, 3}</code>)</p>
+
+<p>3. For what value of the input parameter \(k\), does the system, \(A\mathbf{x} = \mathbf{b}\) have an infinite number of solutions? 
+\(k= \) [[input:ans3]] [[validation:ans3]]</p>
+
+<p>4. Use the value of the parameter \(k\) at which \(A\mathbf{x} = \mathbf{b}\) has an infinite number of solutions and solve to find \(\mathbf{x}\). Include any necessary parameter(s) (e.g. \(t,s\)) in your answer below.</p>
+\(\mathbf{x} = \) [[input:ans4]] [[validation:ans4]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>The first step in solving this problem, is to write the augmented matrix of
+\[ {@QA@} \mathbf{x} = {@Qb@} \]
+which is
+\[ {@QAM@} \]
+Now we perform row operations.</p>
+<p>(a). Clear the first column.
+\[ {@invert(E3).QAM@}\quad \mbox{Add } {@-e3@} \times \mbox{ row 1 to row 2.}\]
+\[ {@invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-k1@} \times \mbox{ row 1 to row 3.}\]
+\[ {@invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-e1@} \times \mbox{ row 1 to row 4.}\]
+</p>
+<p>(b). Clear the second column.
+\[ {@invert(E2).invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-e2@} \times \mbox{ row 2 to row 3.}\]
+\[ {@invert(Ek2).invert(E2).invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-k2@} \times \mbox{ row 2 to row 4.}\]
+</p>
+<p>This is in upper triangular form, and since we do not need <em>row echelon form</em> to solve the problem, so we stop row operations here.  Indeed, we don't want to divide by either {@k-k1@} or {@k-k2@} since these may turn out to be zero.  ("Division is evil!")</p>
+
+<p>2. For what value(s), if any, of the input parameter \(k\), does the system, \(A\mathbf{x} = \mathbf{b}\) no solutions?</p>
+<p>We have no solutions when we have an inconsistent system.  Look at the third row of the augmented matrix
+\[ {@submatrix(1,2,4, TAM1)@}\]
+Certainly the value \(k={@k1@}\) is inconsistent. The only value which gives an inconsistent system is \(k={@k1@}\).
+</p>
+
+<p> 3. For what value(s), if any, of the input parameter \(k\), does the system, \(A\mathbf{x} = \mathbf{b}\) have an infinite number of solutions (and what are they)?
+</p>
+<p>Look at the last row of the augmented matrix
+\[ {@submatrix(1,2,3, TAM1)@}\]
+Certainly with the value \(k={@k2@}\) we have a row of zeros, and hence an infinite number of solutions. The only value which gives an infinite number of solutions is \(k={@k2@}\).
+
+</p>
+<p>Setting \(k={@k2@}\) gives \[ {@TAM2@} \]
+which has a row of zeros at the bottom, indicating we have infinite solutions.
+Notice also, we can put a parameter, \(t\) say, in the last coordinate
+\[ {@submatrix(TAM2,5) @}\begin{bmatrix} ? \\ ? \\ ? \\ t \end{bmatrix} =  {@submatrix(TAM2,1,2,3,4) @}\]
+and start back substitution from there.  Ultimately this gives us \[ \mathbf{x} = {@ta4@}.\]
+We can check this
+\[ {@QA@} \mathbf{x} = {@QA@}{@ta4@} = {@expand(QA.ta4)@} \]
+Evaluating this at \(k={@k2@}\) gives
+\[ \mathbf{x} = {@ at(expand(QA.ta4),k=k2) @}.\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>6</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2023121100</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* Based on ideas in Naiman2022. */
+k1:3+rand(2);
+k2:k1+1+rand(2);
+M:matrix([1, 0, 1, 0],[0, 1, 0, 1],[k1, 0, k, 0],[0, k2, 0, k]);
+Ek1:matrix([1, 0, 0, 0],[0, 1, 0, 0],[k1, 0, 1, 0],[0, 0, 0, 1]);
+Ek2:matrix([1, 0, 0, 0],[0, 1, 0, 0],[0, 0, 1, 0],[0, k2, 0, 1]);
+/* The answer. We must have k1 and k2 in the last entries.*/
+ta:transpose(matrix([-2-rand(2),1,k1,k2]));
+tb:M.ta;
+/* Create an inconsistent system for k=k1, in 3rd row. */
+tb:tb+transpose(matrix([0,0,1,0]));
+
+/* Augmented matrix of base system. */
+MA: transpose(apply(matrix,(append(args(transpose(M)),args(transpose(at(tb,k=k2)))))));
+
+/* Apply to row operations to obscure the question a little (not complicating parameters). */
+e1:2;
+E1:matrix([1, 0, 0, 0],[0, 1, 0, 0],[0, 0, 1, 0],[e1, 0, 0, 1]);
+e2:-1;
+E2:matrix([1, 0, 0, 0],[0, 1, 0, 0],[0, e2, 1, 0],[0, 0, 0, 1]);
+e3:3;
+E3:matrix([1, 0, 0, 0],[e3, 1, 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]);
+
+/* Variables in the question. First obscure MA a little to create the augmented matrix. */
+QAM:E3.E2.E1.MA;
+QA:submatrix(QAM,5);
+Qb:submatrix(QAM,1,2,3,4);
+
+/* Answers. */
+TAM1:invert(Ek2).invert(E2).invert(E1).invert(Ek1).invert(E3).QAM;
+ta2:{k1};
+ta3:k2;
+
+TAM2:at(TAM1,k=k2);
+W1:submatrix(TAM2,5).transpose([x,y,z,w]);
+W2:submatrix(TAM2,1,2,3,4);
+/* Perform back substitution by hand for worked solution. */
+ta44:t;
+ta43:rhs(first((solve(W1[3,1]=W2[3,1]))));
+ta42:rhs(first((solve(at(W1[2,1],[z=ta43,w=ta44])=W2[2,1],y))));
+ta41:rhs(first((solve(at(W1[1,1],[y=ta42,z=ta43,w=ta44])=W2[1,1],x))));
+ta4:transpose(matrix([ta41,ta42,ta43,ta44]));
+
+/* Create a copy for testing follow-through marking. */
+WTAM1:copy(TAM1);
+WTAM1[4,4]:k-k2-1;
+WTAM2:at(WTAM1,k=k2+1);
+
+WS:solve(flatten(args(submatrix(WTAM2,5).transpose([v1,v2,v3,v4])-submatrix(WTAM2,1,2,3,4))));
+WS:stack_strip_percent(first(WS),[t]);
+
+taw1: maplist(lambda([ex2], rhs(first(sublist(WS,lambda([ex],lhs(ex)=ex2))))),[v1,v2,v3,v4]);
+taw1: transpose(apply(matrix,[taw1]));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]
+[[feedback:prt2]]
+[[feedback:prt3]]
+[[feedback:prt4]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@QAM@} \rightarrow {@TAM1@} \) Inconsistent: \(k={@k1@}\). Infinite solutions: \(k={@k2@}\). \(\mathbf{x} = {@ta4@} \).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>TAM1</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>{?,?}</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>matrix</type>
+      <tans>ta4</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* Pick our the entries which need to be zero. */
+sa1:setify(flatten(makelist(makelist(ans1[l1,l2],l2,1,l1-1),l1,2,first(matrix_size(ans1)))));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>sa1</sans>
+        <tans>{0}</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.2</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>In upper triangular form, if every entry below and to the left of the main diagonal is zero.  You have the incorrect entries listed above below and to the left of the main diagonal is zero.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>rref(ans1)</sans>
+        <tans>rref(TAM1)</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your augmented matrix is not equivalent to the original system!</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>SM2:submatrix(ans1,5);
+sd1:determinant(at(SM2,k=ans3))</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sd1</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You probably didn't get part 1. correct, but follow-through marking has been applied and your system {@ans1@} does have an infinite number of solutions when \(k={@ans3@}\).</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You claim that the system {@ans1@} has an infinite number of solutions when \(k={@ans3@}\).  But, evaluating {@SM2@} at \(k={@ans3@}\) gives {@at(SM2,k=ans3)@}.  This has determinant \({@sd1@}\neq 0\), so the augmented matrix {@ans1@} has a unique solution when \(k={@ans3@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>v4:listofvars(ans4);
+SM2:submatrix(ans1,5);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>length(v4)</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.3</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Good, your answer has exactly one parameter.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer should denote an infinite number of solutions.  In this case it should have exactly one parameter.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>at(QA,k=ans3).ans4</sans>
+        <tans>Qb</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.7</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt4-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>When we use \(k={@ans3@}\) in the original question, as a check, your answer should satisfy
+\[ {@at(QA,k=ans3)@}{@ans4@} = {@Qb@} \]
+In fact
+\[ {@at(QA,k=ans3)@}{@ans4@} = {@at(QA,k=ans3).ans4@} \neq {@Qb@} \]</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>at(SM2,k=ans3).ans4</sans>
+        <tans>submatrix(ans1,1,2,3,4)</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.7</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You probably didn't get the first part correct.
+In this case we have checked, using your answer in part 1.  When we use \(k={@ans3@}\) in your answer to part 1 we get 
+\[ {@at(SM2,k=ans3)@}{@ans4@} = {@at(SM2,k=ans3).ans4@} = {@submatrix(ans1,1,2,3,4)@} \]
+So, although your row reductions contain a mistake you have correctly solved the system for \(k={@ans3@}\) as you claim!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You probably didn't get the first part correct.
+In this case we have checked, using your answer in part 1.  When we use \(k={@ans3@}\) in your answer to part 1 we get 
+\[ {@at(SM2,k=ans3)@}{@ans4@} = {@at(SM2,k=ans3).ans4@} \neq {@submatrix(ans1,1,2,3,4)@}. \]
+So, no follow-through marking applies here either.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>249939133</deployedseed>
+    <deployedseed>915230815</deployedseed>
+    <deployedseed>1555243766</deployedseed>
+    <deployedseed>769363471</deployedseed>
+    <deployedseed>675271872</deployedseed>
+    <deployedseed>1814590374</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>TAM1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>WTAM1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>{}</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>k2+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>taw1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -14,11 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_block_factory {
     /**
      * Cache the block types so that we do not need to check from the
      * filesystem every time.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $types = [];
 
     /**
@@ -47,6 +56,7 @@ class castext2_block_factory {
         return null;
     }
     /**
+     * Add description here.
      * @return array of available type names.
      */
     public static function get_available_types() {

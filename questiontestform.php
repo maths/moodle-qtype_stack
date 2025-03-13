@@ -17,6 +17,7 @@
 /**
  * This file defines the editing form for editing question tests.
  *
+ * @package    qtype_stack
  * @copyright 2012 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,10 +31,12 @@ require_once($CFG->libdir . '/formslib.php');
 /**
  * The editing form for editing STACK question tests.
  *
+ * @package    qtype_stack
  * @copyright 2012 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_question_test_form extends moodleform {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
 
         $mform = $this->_form;
@@ -81,6 +84,7 @@ class qtype_stack_question_test_form extends moodleform {
         $this->add_action_buttons(true, $this->_customdata['submitlabel']);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function definition_after_data() {
         if ($this->_form->exportValue('complete')) {
             $this->complete_passing_testcase();
@@ -90,6 +94,7 @@ class qtype_stack_question_test_form extends moodleform {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function complete_passing_testcase() {
 
         $mform = $this->_form;
@@ -119,6 +124,7 @@ class qtype_stack_question_test_form extends moodleform {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function complete_teacher_testcase() {
 
         $mform = $this->_form;
@@ -131,6 +137,7 @@ class qtype_stack_question_test_form extends moodleform {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 

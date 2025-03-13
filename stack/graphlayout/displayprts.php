@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * This script is really a bit of fun. It displays all the tolologically different
  * PRTs that are in your question bank, sorted by frequency.

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Matrices_Solve_Equation_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>If \[{\bf A}={@matrixa@}\]</p>
+<p>find a non-zero 2 by 2 matrix \({\bf X}\) such that</p>
+<p> \[{\bf A}\cdot{\bf X} = {\bf O}_{2x2}\]</p>
+<p> </p>
+<p>\({\bf O}_{2x2}\) is the 2 by 2 zero matrix.</p>
+<p> [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let  \({\bf X}\) = \({@matrixwxyz@}\)</p>
+<p>\[{\bf A}\cdot{\bf X} = {@matrixa@}.{@matrixwxyz@}={@allzeros@}\]</p>
+<p>Therefore<br />\[{@matrixa[1,1]*w+matrixa[1,2]*y@} = 0 \mbox{ ,            } {@matrixa[2,1]*w+matrixa[2,2]*y@} = 0\] \[{@matrixa[1,1]*x+matrixa[1,2]*z@} = 0  \mbox{ ,            }  {@matrixa[2,1]*x+matrixa[2,2]*z@} = 0\]</p>
+<p>The 2 equations in \(w\) and \(y\) are linearly dependent as are the 2 equations in \(x\) and \(z\).</p>
+<p>Therefore there is no unique solution but \[w={@-matrixa[1,2]*y/matrixa[1,1]@} \mbox{     and       } x={@-matrixa[1,2]*z/matrixa[1,1]@} \]</p>
+<p>So \({\bf X}\) could be \({@matrixx@}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>n1:-(rand(9)+1);
+ n3:rand(4)+2;
+ n2:-n1*n3+1;
+ matrixa:matrix([n1,n2],[n1/n3,n2/n3]);
+ matrixx:matrix([n2,-n2/n3],[-n1,n1/n3]);
+ allzeros: zeromatrix(2,2);
+ matrixwxyz:matrix([w,x],[y,z]);
+ wronganswer1:matrixa;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({\bf A} = {@matrixa@}, {\bf A}\cdot{\bf X} = {\bf O}_{2x2}, {\bf X} ={@matrixx@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>matrixx</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant,invert</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sanswer:matrixa.ans1;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>allzeros</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer must be a non-zero 2 by 2 matrix.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sanswer</sans>
+        <tans>allzeros</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wronganswer1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have entered matrix \({\bf A}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>339595702</deployedseed>
+    <deployedseed>2145261473</deployedseed>
+    <deployedseed>847664411</deployedseed>
+    <deployedseed>147416026</deployedseed>
+    <deployedseed>1036750774</deployedseed>
+    <deployedseed>1454914059</deployedseed>
+    <deployedseed>1097113167</deployedseed>
+    <deployedseed>269689151</deployedseed>
+    <deployedseed>362082140</deployedseed>
+    <deployedseed>1143641220</deployedseed>
+    <deployedseed>171825923</deployedseed>
+    <deployedseed>99093707</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>allzeros</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>matrixx</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wronganswer1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

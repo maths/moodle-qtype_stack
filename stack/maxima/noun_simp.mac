@@ -60,8 +60,10 @@ infix("noundiv", 122, 123);
 infix("nounpow", 140, 139);
 prefix("UNARY_RECIP", 100);
 
+/* These are no longer needed.
 declare("nounmul", commutative);
 declare("nounadd", commutative);
+*/
 
 /* (2) */
 load("noun_arith.lisp");
@@ -140,14 +142,6 @@ flatten_recurse_nouns(ex) := block(
     apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
 )$
 
-sort_nouns(ex) := block([exl],
-    if atom(ex) then return(ex),
-    exl:maplist(sort_nouns, args(ex)),
-    if safe_op(ex)="nouneq" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounnot" or safe_op(ex)="nounset" or op(ex)="nounadd" or op(ex)="nounmul" then
-        exl:sort(exl),
-    apply(op(ex), exl)
-)$
-
 /* Rule which takes (a^n)^-1 when n is an integer to a^-n */
 flatten_pow_minus_one(ex):= block(
     if not(safe_op(ex)="nounpow") then return(ex),
@@ -167,15 +161,32 @@ unary_minus_remove(ex):= block([exl],
     apply("nounmul", exl)
 )$
 
-equals_commute_prepare(ex):=block([ex1n],
+/*
+  Prepare an expression for rules based simplifier.
+  ex: expression to be prepared.
+  opcomset: list of operators (as strings) to be considered commutative.
+            e.g. {"nouneq", "nounand", "nounor", "nounset", "nounadd", "nounmul"}
+*/
+equals_commute_prepare([ex]):=block([ex1n, opcomset],
+
     /* We need to strip out any internal simplification. */
-    ex1n:parse_string(string(ex)),
+    ex1n:parse_string(string(first(ex))),
+
+    opcomset:{"nouneq", "nounand", "nounor", "nounset", "nounadd", "nounmul"},
+    if length(ex)>1 then opcomset:second(ex),
 
     ex1n:subst(nounset, set, ex1n),
     ex1n:noun_arith_full(ex1n),
     ex1n:flatten_recurse_nouns(ex1n),
-    ex1n:sort_nouns(ex1n),
+    ex1n:sort_nouns(ex1n, opcomset),
     return(ex1n)
+)$
+
+sort_nouns(ex, opcomset) := block([exl],
+    if atom(ex) then return(ex),
+    exl:maplist(lambda([ex2], sort_nouns(ex2, opcomset)), args(ex)),
+    if ev(elementp(safe_op(ex), opcomset),simp) then exl:sort(exl),
+    apply(op(ex), exl)
 )$
 
 /* Returns true iff ex1 and ex2 are equal up to commutativity and associativity. */
@@ -253,6 +264,15 @@ ATEqualComAssRules(sa, sb, so) :=
         debugtest:true,
         so:delete(testdebug, so)
     ) else debugtest:false,
+    /* Support non-commutative * and +. */
+    if ev(elementp(noncomAdd, setify(so)), simp) then block(
+        so:delete(comAdd, so),
+        so:delete(noncomAdd, so)
+    ),
+    if ev(elementp(noncomMul, setify(so)), simp) then block(
+        so:delete(comMul, so),
+        so:delete(noncomMul, so)
+    ),
 
     if not(all_listp(lambda([ex], ev(elementp(ex, setify(ALL_TRANS)), simp) ), so)) then
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_Wrong"), StackAddFeedback("", "ATEqualComAssRules_Opt_List")]),
@@ -272,9 +292,9 @@ ATEqualComAssRules(sa, sb, so) :=
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAssRules (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
 
-    /* Put the expressions in basic form. */
-    SAA:equals_commute_prepare(SAA),
-    SBB:equals_commute_prepare(SBB),
+    /* Put the expressions in basic form (non-com version). */
+    SAA:equals_commute_prepare(SAA, {"nouneq", "nounand", "nounor", "nounset"}),
+    SBB:equals_commute_prepare(SBB, {"nouneq", "nounand", "nounor", "nounset"}),
 
     if debug then print(["Transforming", SAA]),
     SAA:transl(SAA, so),
@@ -298,7 +318,7 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
@@ -621,12 +641,13 @@ sqrtRem(ex):=first(ex) nounpow (1 nounmul UNARY_RECIP(2))$
 
 
 /**********************************************************/
-/* We either have an integer, or "UNARY_MINUS * integer". */
-noun_simp_integerp(ex) := if atom(ex) then integerp(ex) else
+/* We either have an integer, UNARY_MINUS 
+                     or "UNARY_MINUS * integer".          */
+noun_simp_integerp(ex) := if atom(ex) then (is(ex=UNARY_MINUS) or integerp(ex)) else
                       if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(args(ex))=2 and part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2)) then true else false$
 notnoun_simp_integerp(ex):=not(noun_simp_integerp(ex))$
 
-/* Evaluate integer arithmetic */
+/* Evaluate integer arithmetic. */
 intAddp(ex):= block(
     if not(safe_op(ex)="+" or safe_op(ex)="nounadd") then return(false),
     if length(sublist(args(ex), noun_simp_integerp))>1 then return(true) else return(false)
@@ -641,9 +662,13 @@ intAdd(ex) := block([a1, a2],
     else apply(op(ex),append([a1], a2))
 )$
 
-intMulp(ex):= block(
+intMulp(ex):= block([sl],
     if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
-    if length(sublist(args(ex), integerp))>1 then return(true) else return(false)
+    sl:sublist(args(ex), noun_simp_integerp),
+    if emptyp(sl) then return(false),
+    if length(sl)=1 then return(not(is(first(args(ex))=first(sl)))),
+    if length(sl)=2 then return(not((is(first(sl)=UNARY_MINUS) and integerp(second(sl))))),
+    return(true)
 )$
 intMul(ex) := block([a1, a2], 
     if intMulp(ex)=false then return(ex),

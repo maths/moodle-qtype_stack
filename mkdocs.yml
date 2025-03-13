@@ -25,6 +25,7 @@ plugins:
         glob:
             - de/*
             - en/Site_map.md
+            - dev/*
     - redirects:
         redirect_maps:
             'index.md': 'en/index.md'

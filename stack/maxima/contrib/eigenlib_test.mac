@@ -1,0 +1,70 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra functions for STACK                          */
+/*                                                              */
+/*  Test cases.                                                 */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+load("eigenlib.mac");
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
+
+s_test_case(Rayleigh(matrix([1,1],[1,1]),matrix([1],[1])),2);
+s_test_case_simp(Rayleigh(matrix([1,1],[0,1]),matrix([1],[1])),3/2);
+s_test_case_simp(Rayleigh(matrix([0,-1],[1,0]),matrix([%i],[2])),(4*%i)/5);
+
+s_test_case(alg_mult(matrix([1,1,0],[0,1,0],[0,0,1]),1),3);
+s_test_case(geo_mult(matrix([1,1,0],[0,1,0],[0,0,1]),1),2);
+s_test_case(alg_mult(matrix([1,1,0],[0,1,0],[0,0,2]),2),1);
+s_test_case(geo_mult(matrix([1,1,0],[0,1,0],[0,0,2]),2),1);
+s_test_case(alg_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
+s_test_case(geo_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
+
+s_test_case(eigenvectorp(c(1,0),ident(2)),true);
+s_test_case(eigenvectorp(matrix([0],[1]),matrix([1,1],[0,1])),false);
+s_test_case(eigenvectorp(c(1,0),ident(2),1),true);
+s_test_case(eigenvectorp(c(1,0),ident(2),2),false);
+s_test_case(eigenvectorp(c(2,0),ident(2),1),true);
+s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0])),true);
+s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0]),%i),true);
+s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0]),-%i),false);
+
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2])),true);
+s_test_case(eigenvaluep(2,matrix([1,0],[0,2])),true);
+s_test_case(eigenvaluep(3,matrix([1,0],[0,2])),false);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(1,0)),true);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(2,0)),true);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(0,1)),false);
+s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0])),true);
+s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0]),matrix([%i],[1])),true);
+s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0]),matrix([1],[%i])),false);
+
+s_test_case(get_eigenvalue(matrix([0],[0]),ident(2)),false);
+s_test_case(get_eigenvalue(matrix([0],[1]),matrix([1,1],[0,1])),false);
+s_test_case(get_eigenvalue(matrix([1],[0]),matrix([2,1],[0,1])),2);
+s_test_case(get_eigenvalue(matrix([%i],[1]),matrix([0,-1],[1,0])),%i);
+
+s_test_case(get_eigenvector(2,ident(2)),[]);
+s_test_case(get_eigenvector(2,matrix([2,1],[0,1])),[matrix([1],[0])]);
+s_test_case(get_eigenvector(1,ident(2)),[matrix([1],[0]),matrix([0],[1])]);
+s_test_case_simp(get_eigenvector(2*%i,matrix([0,-2],[2,0])),[matrix([1],[-%i])]);
+s_test_case_simp(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2])),[matrix([1],[0],[-1]),matrix([0],[1],[2])]);
+s_test_case_simp(get_eigenvector(1,matrix([3/2,-1,1/2],[0,1,0],[1/2,-1,3/2]),true),[matrix([1/sqrt(2)],[0],[-(1/sqrt(2))]),matrix([1/sqrt(3)],[1/sqrt(3)],[1/sqrt(3)])]);

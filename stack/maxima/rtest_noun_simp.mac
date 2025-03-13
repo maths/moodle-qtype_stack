@@ -145,9 +145,9 @@ intFac(7);
 intFac(18);
 2 nounmul 3 nounpow 2$
 
-equals_commute_prepare((a/b)/c);
+equals_commute_prepare((a/b)/c, {"nouneq", "nounand", "nounor", "nounnot", "nounset", "nounadd", "nounmul"});
 a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c))$
-equals_commute_prepare(a/(b/c));
+equals_commute_prepare(a/(b/c), {"nouneq", "nounand", "nounor", "nounnot", "nounset", "nounadd", "nounmul"});
 a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c))$
 
 divDivp(a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c)))$

@@ -82,7 +82,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -153,7 +153,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -320,7 +320,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -470,7 +470,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -524,7 +524,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -567,7 +567,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -580,7 +580,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -593,7 +593,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -606,7 +606,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -628,7 +628,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -662,7 +662,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -675,7 +675,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -688,7 +688,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -710,7 +710,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -735,7 +735,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{1}{x+a}\]</span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{1}{x}\]</span></span> so you must have done something wrong! Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{1}{x+a}\]</span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{1}{x}\]</span></span> so you must have done something wrong! Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -905,7 +905,7 @@ RMAL]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -936,7 +936,7 @@ RMAL]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -949,7 +949,7 @@ RMAL]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -964,7 +964,7 @@ og(x^4)+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink">\[20\cdot x^5-x^2-\frac{2}{x}+\frac{15}{x^4}\]</span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink">\[-20\cdot x^5+x^2+\frac{18}{x}\]</span></span> so you must have done something wrong! Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink">\[20\cdot x^5-x^2-\frac{2}{x}+\frac{15}{x^4}\]</span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink">\[-20\cdot x^5+x^2+\frac{18}{x}\]</span></span> so you must have done something wrong! Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -998,7 +998,7 @@ og(x^4)+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1020,7 +1020,7 @@ og(x^4)+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1042,7 +1042,7 @@ og(x^4)+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1064,7 +1064,7 @@ og(x^4)+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1077,7 +1077,7 @@ og(x^4)+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1114,7 +1114,7 @@ og(x^4)+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1233,7 +1233,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1260,7 +1260,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1282,7 +1282,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1319,7 +1319,7 @@ t)^2+cos(4*t)^2+2*cos(4*t)+1)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1437,7 +1437,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1459,7 +1459,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1531,7 +1531,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>. Please ask your teacher about this.</td></td>
+  <td class="cell c1"><td colspan="4">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this. Your teacher may expect you to use the result <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(|x|)+c\)</span></span>, rather than <span class="filter_mathjaxloader_equation"><span class="nolink">\(\int\frac{1}{x} dx = \log(x)+c\)</span></span>.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1563,7 +1563,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1594,7 +1594,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
@@ -1608,6 +1608,24 @@ a))/(2*a)</pre></td>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{2}{{\left(2\cdot x-3\right)}^2+1}\]</span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink">\(x\)</span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink">\[\frac{\frac{1}{x-2}-\frac{x-1}{{\left(x-2\right)}^2}}{\frac{{\left( x-1\right)}^2}{{\left(x-2\right)}^2}+1}\]</span></span> so you must have done something wrong!</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>atan((x-1)/(x+1))+c</pre></td>
+  <td class="cell c3"><pre>atan(x)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATInt_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>atan((a*x+1)/(a-x))</pre></td>
+  <td class="cell c3"><pre>atan(x)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATInt_true.</td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Stoutemyer (currently fails)</td></td>
@@ -1626,5 +1644,5 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct. Well done.</td></td>
+  <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
 </tr></tbody></table></div>

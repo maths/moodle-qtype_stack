@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>MCQ_example_Remainder Theorem T/F</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Which of the following statements are valid deductions using the Remainder Theorem?</p>  
+ [[input:ans1]] [[validation:ans1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024092500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[a:rand([2,3,4,5]);
+b:rand_with_prohib(2,5,[a]);
+
+/* List of: letter, truth, statement. 
+   Note - any maths should be enclosed in \\(\\) - the double slashes are needed.
+   There is a tool for automatically adding these.  Send the worked solution to the CAS, the option
+   is at the bottom of the page.
+ */
+statements:[
+  [true,sconcat("\\(p(",a,")=",b,"\\) so \\(p(x)=(x-",a,")q(x)+",b,"\\) for some polynomial \\(q(x)\\)")],
+  [false,sconcat("\\(p(",b,")=",a,"\\) so \\(p(x)=(x-",a,")q(x)+",b,"\\) for some polynomial \\(q(x)\\)")],
+  [true,sconcat("\\(p(0)=",a,"\\) so \\(p(x)=xq(x)+",a,"\\) for some polynomial \\(q(x)\\)")],
+  [false,sconcat("\\(p(",a,")=0\\) so \\(p(x)=xq(x)+",a,"\\) for some polynomial \\(q(x)\\)")]
+];
+
+/* Shuffle options. */
+statements:random_permutation(statements);
+
+/* Add letters, and append the letters to the text of the statements: */
+statements:makelist([sconcat("(",ascii(96+i),")"),statements[i][1],statements[i][2]], i, 1, length(statements));
+statements:maplist(lambda([ex],[ex[1],ex[2],sconcat("<b>",ex[1],"</b> ",ex[3])]),statements);
+/* Produce lists of correct and incorrect statements: */
+tans:mcq_correct(statements);
+incorr:maplist(first, sublist(statements, lambda([ex], not(second(ex)))));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{#statements#}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This is a basic template for a multiple choice question.
+The marking counts the number correct and the number incorrect.  You are then able to use these in the marks fields of the PRT.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>checkbox</type>
+      <tans>statements</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[/* 
+  The grading awards 1 mark to a completely correct response. 
+  You can use numbers such as "nocorrect" below to calculate marks.
+  PRT score fields can be variables so, should you choose to, and use that value to assign a score.
+*/
+
+nocorrect:cardinality(intersection(setify(tans),setify(ans1)));]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description><![CDATA[Uses the "sets" answer test.]]></description>
+        <answertest>Sets</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(tans)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Of those you chose the number which are correct is {@nocorrect@}.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>780985966</deployedseed>
+    <deployedseed>71776831</deployedseed>
+    <deployedseed>678191933</deployedseed>
+    <deployedseed>1369010273</deployedseed>
+    <deployedseed>550840945</deployedseed>
+    <deployedseed>1185176717</deployedseed>
+    <deployedseed>1911395406</deployedseed>
+    <deployedseed>111870756</deployedseed>
+    <deployedseed>461451426</deployedseed>
+    <deployedseed>608714179</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>mcq_correct(statements)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Only choosing the incorrect ones.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>incorr</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

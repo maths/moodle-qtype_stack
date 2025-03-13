@@ -41,6 +41,38 @@ use PHPUnit\Framework\Assert;
 class behat_qtype_stack extends behat_base {
 
     /**
+     * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
+     *
+     * Recognised page names are:
+     * | pagetype            | name meaning | description                  |
+     * | Course competencies | Course name  | The course competencies page |
+     *
+     * @param string $page identifies which type of page this is, e.g. 'Course competencies'.
+     * @param string $identifier identifies the particular page, e.g. 'C1'.
+     * @return moodle_url the corresponding URL.
+     * @throws Exception with a meaningful error message if the specified page cannot be found.
+     */
+    protected function resolve_page_instance_url(string $page, string $identifier): moodle_url {
+        switch (strtolower($page)) {
+            case 'analysis':
+                $identifiers = explode('>', $identifier);
+                $identifiers = array_map('trim', $identifiers);
+                if (count($identifiers) < 2) {
+                    throw new Exception("The specified section $identifier is not valid and should be coursename > question.");
+                }
+                [$courseidentifier, $questionidentifier] = $identifiers;
+                $questionid = $this->get_question_id($questionidentifier);
+                $courseid = $this->get_course_id($courseidentifier);
+                return new moodle_url('/question/type/stack/questiontestreport.php', [
+                    'questionid' => $questionid,
+                    'courseid' => $courseid,
+                ]);
+            default:
+                throw new Exception("Unrecognised page type '{$page}'");
+        }
+    }
+
+    /**
      * This step looks to see if there is information about a Maxima configuration
      * for testing in the config.php file. If there is, it sets STACK up to use
      * that. If not, it skips this scenario.
@@ -71,6 +103,17 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Get the xpath for a given input element in the Moodle app.
+     * @param string $name the input name, like 'ans1'.
+     * @return string the xpath expression.
+     */
+    protected function input_app_xpath($name) {
+        return "//section[starts-with(@class, 'que stack')]" .
+                "//*[(self::select and contains(@id, '_{$name}') or (self::input and contains(@id, '_{$name}'))" .
+                " or (self::textarea and contains(@id, '_{$name}')))]";
+    }
+
+    /**
      * Set the response for a given input.
      *
      * @param string $identifier the text of the item to drag. E.g. '2:answer'.
@@ -84,6 +127,19 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Set the response for a given input in the Moodle app.
+     *
+     * @param string $identifier the text of the item to drag. E.g. '2:answer'.
+     * @param string $value the response to give.
+     *
+     * @Given /^I set the input "(?P<name>[^"]*)" to "(?P<value>[^"]*)" in the STACK app question$/
+     */
+    public function i_set_the_part_to_in_the_combined_question_in_app($name, $value) {
+        $formscontext = behat_context_helper::get('behat_forms');
+        $formscontext->i_set_the_field_with_xpath_to($this->input_app_xpath($name), $value);
+    }
+
+    /**
      * Set a multiline response for a given input.
      *
      * @param string $name name of the input
@@ -94,6 +150,19 @@ class behat_qtype_stack extends behat_base {
     public function i_set_multiline($name, $value) {
         $formscontext = behat_context_helper::get('behat_forms');
         $formscontext->i_set_the_field_with_xpath_to($this->input_xpath($name), (string)$value);
+    }
+
+    /**
+     * Set a multiline response for a given input in the app.
+     *
+     * @param string $name name of the input
+     * @param PyStringNode $value
+     *
+     * @Given /^I set the STACK input "(?P<name>[^"]*)" to multiline in app:$/
+     */
+    public function i_set_multiline_in_app($name, $value) {
+        $formscontext = behat_context_helper::get('behat_forms');
+        $formscontext->i_set_the_field_with_xpath_to($this->input_app_xpath($name), (string)$value);
     }
 
     /**
@@ -139,6 +208,21 @@ class behat_qtype_stack extends behat_base {
             $this->execute('behat_general::i_visit', [$url]);
         }
         Assert::assertEquals(true, count($urls) === (int) $number);
+    }
+
+    /**
+     * Look up the id of a question from its name.
+     *
+     * @param string $questionname the question name, for example 'Question 1'.
+     * @return int corresponding id.
+     */
+    protected function get_question_id(string $questionname): int {
+        global $DB;
+
+        if (!$id = $DB->get_field('question', 'id', ['name' => $questionname])) {
+            throw new Exception('There is no question with name "' . $questionname . '".');
+        }
+        return $id;
     }
 
 }

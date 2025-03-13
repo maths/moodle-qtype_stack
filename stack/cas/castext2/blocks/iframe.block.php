@@ -14,11 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
+require_once(__DIR__ . '/../../../../api/util/StackIframeHolder.php');
 
 use api\util\StackIframeHolder;
 
@@ -36,15 +45,18 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
     // All frames need unique (at request level) identifiers,
     // we use running numbering.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $counters = ['///IFRAME_COUNT///' => 1];
 
     // Add separate running numbering for different block types to
     // ease debugging, so that one does not need to know which all affect
     // the numbers. This numbering applies only to the titles.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function register_counter(string $name): void {
         self::$counters[$name] = 1;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('iframe'),
@@ -69,17 +81,21 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // These are never flat.
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         // No CAS arguments.
         return [];
     }
 
-    public function postprocess(array $params, castext2_processor $processor): string {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function postprocess(array $params, castext2_processor $processor,
+        castext2_placeholder_holder $holder): string {
         global $PAGE;
 
         if (count($params) < 3) {
@@ -97,11 +113,11 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         for ($i = 2; $i < count($params); $i++) {
             if (is_array($params[$i])) {
                 if ($params[$i][0] === 'style') {
-                    $style .= $processor->process($params[$i][0], $params[$i]);
+                    $style .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
                 } else if ($params[$i][0] === 'script') {
-                    $scripts .= $processor->process($params[$i][0], $params[$i]);
+                    $scripts .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
                 } else {
-                    $content .= $processor->process($params[$i][0], $params[$i]);
+                    $content .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
                 }
             } else {
                 $content .= $params[$i];
@@ -179,6 +195,11 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $code = str_replace('!ploturl!',
             moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $code);
         }
+        // Unpack held things if they happen to exist inside the IFRAME.
+        // That content would never go through the processing that that logic
+        // protects against.
+        $code = $holder->replace($code);
+
         // Escape some JavaScript strings.
         $args = [
             json_encode($frameid),
@@ -190,7 +211,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         ];
 
         // As the content is large we cannot simply use the js_amd_call.
-        if (get_config('qtype_stack', 'stackapi')) {
+        if (get_config('qtype_stack', 'stackapi') || StackIframeHolder::$islibrary) {
             StackIframeHolder::add_iframe($args);
         } else {
             $PAGE->requires->js_amd_inline(
@@ -202,9 +223,10 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         self::$counters['///IFRAME_COUNT///'] = self::$counters['///IFRAME_COUNT///'] + 1;
 
         // Output the placeholder for this frame.
-        return html_writer::tag('div', '', $attributes);
+        return $holder->add_to_map(html_writer::tag('div', '', $attributes));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.

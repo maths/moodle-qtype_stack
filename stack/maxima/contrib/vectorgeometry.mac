@@ -1,0 +1,159 @@
+/*  Authors Luke Longworth, Georg Osang
+    University of Canterbury, IDEMS International
+    Copyright (C) 2025 Luke Longworth and Georg Osang
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Vector geometry functions for STACK                         */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+stack_linear_algebra_declare(true)$
+
+/*********************************************************************************/
+/* Processing vector parametric equations for lines, planes, etc.                */
+/*********************************************************************************/
+
+/**
+ * Is a given algebraic expression a linear combination of column vectors with a linear offset?
+ * The use is somewhat limited; it would be nice to have support for other vector input types like lists or ntuples.
+ * e.g. c(1,2,3) + t*c(2,3,4) + s*c(1,0,1)
+ * 
+ * @param[expression] ex A vector parametric equation using column vectors
+ * @return[boolean] Is the given expression in an expected form?
+ */
+linear_combinationp(ex):= block([vars,cm,dir_vecs,cons_vecs],
+  ex: ev(vec_convert(ex),expand,simp),
+  if not(matrixp(ex)) then return(false),
+  vars: listofvars(ex),
+  cm: coefmatrix(flatten(args(ex)), vars),
+  dir_vecs: maplist(lambda([ex2], col(cm,ex2)), ev(makelist(ii,ii,1,length(vars)),simp)),
+  cons_vec: ev(ex - apply("+", zip_with("*", vars, dir_vecs)),simp),
+  return(every(constantp, list_matrix_entries(cons_vec)))
+);
+
+/**
+ * Get the constant term of the given expression (which may be a matrix)
+ *
+ * @param[expression] expr An parametric expression which may also be a matrix or c/r-vector
+ * @param[list] exclude_params (Optional) List of variable names to consider constant
+ * @return[constant] Constant term (value or matrix) within the expression
+ */
+constant_term(expr, [exclude_params]) := block([],
+  expr: ev(vec_convert(expr),expand,simp),
+  if not emptyp(exclude_params) then exclude_params: first(exclude_params),
+  vars: listify(setdifference(setify(listofvars(expr)), setify(exclude_params))),
+  return(ev(subst(makelist(vars[i]=0, i, length(vars)), expr), simp))
+);
+
+/**
+ * Given a vector parametric equation, extract the linear offset, direction vectors, and parameters
+ * The input may be a matrix.
+ *
+ * In case the input is not linear, returns [matrix([null]), [], vars] where
+ * vars is the list of variables appearing in the expression.
+ *
+ * A particular use case is obtaining basis vectors from a parametric plane or
+ * line equation.
+ *
+ * @param[expression] vec A parametric expression which may also be a matrix or c/r-vector
+ * @param[list] exclude_params (Optional) List of variable names to consider constant
+ * @return[list] A list with three elements:
+ *     The constant term within the expression (linear offset)
+ *     A list of coefficient terms for each variable in the expression (direction vector)
+ *     A list of variables in the expression (parameter for each direction vector)
+ *
+ * Examples. Let 
+ *     vec: matrix([t+3*s-4],[2*t+5]) or, equivalently,
+ *     vec: matrix([-4],[5]) + s*matrix([3],[0]) + t*matrix([1],[2])
+ * Then: 
+ *
+ * >>> vector_parametric_parts(vec)
+ * [
+ *   matrix([-4],[5]),
+ *   [matrix([3],[0]),matrix([1],[2])],
+ *   [s,t]
+ * ]
+ * 
+ * >>> vector_parametric_parts(vec, [s])
+ * [
+ *   matrix([3*s-4],[5]),
+ *   [matrix([1],[2])],
+ *   [t]
+ * ]
+ */
+vector_parametric_parts(vec, [exclude_params]):=block([simp:true, vars, nonlinvarsets, param_vects, base_vect],
+  vec: ev(vec_convert(vec),expand,simp),
+  if not emptyp(exclude_params) then exclude_params: first(exclude_params),
+  vars: listify(setdifference(setify(listofvars(vec)), setify(exclude_params))),
+  nonlinvarsets: makelist(setify(listofvars(diff(vec, var))), var, vars),
+  nonlinvarsets: makelist(setdifference(nl, setify(exclude_params)), nl, nonlinvarsets),
+  /* every(emptyp, nonlinvarsets) indicates that the expression is linear */
+  if not every(emptyp, nonlinvarsets) then return([matrix([null]), [], vars]),
+  param_vects: makelist(coeff(vec, var), var, vars),
+  base_vect: constant_term(vec, exclude_params),
+  return([base_vect, param_vects, vars])
+);
+
+/**
+ * Given the output of vector_parametric_parts, produce a string of TeX output that formats the answer in the following "standard" form:
+ * r0 + t*d1 + s*d2 + ...
+ * where r0 is a vector of constants; t and s (etc) are parameters; d1 and d2 (etc) are direction vectors.
+ *
+ * @param[list] parts A list with three elements (see vector_parametric_parts) [mx1 matrix of constants, a list of mx1 matrices of constants, a list of variable names]
+ * @return[string] TeX output of a vector parametric equation in a "standard" form.
+ */
+vector_parametric_display(parts):= block([simp:false,cons_vec,dir_vecs,vars],
+  [cons_vec,dir_vecs,vars]: parts,
+  return(sconcat(tex1(cons_vec),"+",tex1(apply("+", zip_with("*", vars, dir_vecs)))))
+);
+
+/**
+ * Is a given point in a given affine subspace (e.g. a line, plane, etc)?
+ * Intended for use with vector_parametric_parts function
+ * 
+ * @param[matrix] p The point of interest
+ * @param[list] parts The output of vector_parametric_parts. This is a three-element list of the form [constant_vector, [list of direction vectors], [list of parameters]]. All vectors should be mx1 matrices. The third element can be omitted if building the list manually.
+ * @return[boolean] Is p in the affine subspace?
+ */
+point_in_affine_spacep(p,parts):= block([simp:true,cons_vec,dir_vecs,vars,eqns,soln,tmp],
+  cons_vec: first(parts),
+  dir_vecs: second(parts),
+  if is(length(parts)>2) then vars: third(parts) else vars: rest(stack_var_makelist(tmp,length(dir_vecs))),
+  errcatch(
+    cons_vec:ev(cons_vec - p + apply("+", zip_with("*", vars, dir_vecs)),simp),
+    eqns: list_matrix_entries(cons_vec),
+    soln: linsolve(eqns,vars)
+  ), 
+  if listp(soln) then if is(length(soln)>0) then return(true) else return(false)
+);
+
+/**
+ * Is a given vector in a given subspace?
+ * If v is a zero vector, returns false by default as the intended use case is determining whether a given DIRECTION vector is in a subspace.
+ * 
+ * @param[matrix] v The vector of interest
+ * @param[list] dir_vecs A list of mx1 matrices that span the subspace. Does not need to be a basis.
+ * @param[boolean] allow_zero Optional: If given true, then the zero vector will return true, otherwise zero vectors will return false
+ * @return[boolean] Is v in the subspace?
+ */
+vector_in_spacep(v,dir_vecs,[allow_zero]):= block([simp:true,is_dep:false],
+  if emptyp(allow_zero) then allow_zero: false else allow_zero: first(allow_zero),
+  if zeromatrixp(v) then return(allow_zero),
+  errcatch(
+    is_dep: is(rank(mat_unblocker(matrix(dir_vecs)))=rank(mat_unblocker(matrix(append(dir_vecs,[v])))))
+  ),
+  return(is_dep)
+); 

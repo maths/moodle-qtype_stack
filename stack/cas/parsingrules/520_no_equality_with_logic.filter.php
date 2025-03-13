@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
@@ -21,6 +28,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that spots statements like 'x=1 or 2' and 'x=1 and 2'.
  */
 class stack_ast_filter_520_no_equality_with_logic implements stack_cas_astfilter {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // The logic is that if you have a logic operation and one side has

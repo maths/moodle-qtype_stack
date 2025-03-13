@@ -18,11 +18,14 @@ namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
 
-// Unit tests to check that the requirements of a related software
-// are still present, and that the interface does not change unexpectedly.
-//
-// @copyright  2020 Aalto University
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Unit tests to check that the requirements of a related software
+ * are still present, and that the interface does not change unexpectedly.
+ *
+ * @package    qtype_stack
+ * @copyright  2020 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 // These are all the imports Stateful does, one test is to check that these exist.
 // Even the test_base is one of them.
@@ -47,21 +50,24 @@ require_once(__DIR__ . '/../stack/cas/evaluatable_object.interfaces.php');
 
 
 /**
+ * Add description here.
  * @group qtype_stack
  * @group qtype_stateful
  * @group qtype_stack_compatibility
  * @covers \qtype_stack
  */
-class api_tests_stateful_test extends \qtype_stack_testcase {
+final class api_tests_stateful_test extends \qtype_stack_testcase {
 
-    public function test_security_map_path() {
+    public function test_security_map_path(): void {
+
         $this->assertTrue(file_exists(__DIR__ . '/../stack/cas/security-map.json'));
         $map = file_get_contents(__DIR__ . '/../stack/cas/security-map.json');
         $map = json_decode($map);
         $this->assertEquals(JSON_ERROR_NONE, json_last_error());
     }
 
-    public function test_names_of_interfaces_and_classes() {
+    public function test_names_of_interfaces_and_classes(): void {
+
         $this->assertTrue(class_exists("MP_Root"));
         $this->assertTrue(class_exists("MP_Statement"));
         $this->assertTrue(class_exists("MP_FunctionCall"));
@@ -88,7 +94,8 @@ class api_tests_stateful_test extends \qtype_stack_testcase {
         $this->assertTrue(interface_exists("cas_raw_value_extractor"));
     }
 
-    public function test_stack_utils() {
+    public function test_stack_utils(): void {
+
         $this->assertTrue(method_exists('stack_utils', 'get_config'));
         $this->assertTrue(method_exists('stack_utils', 'php_string_to_maxima_string'));
         $this->assertTrue(method_exists('stack_utils', 'maxima_string_to_php_string'));
@@ -103,7 +110,8 @@ class api_tests_stateful_test extends \qtype_stack_testcase {
         $this->assertEquals(["foo", "bar", "baz"], \stack_utils::all_substring_strings('["foo","bar",1+"baz"]'));
     }
 
-    public function test_maxima_parser_utils() {
+    public function test_maxima_parser_utils(): void {
+
         $this->assertTrue(method_exists('maxima_parser_utils', 'parse'));
         $this->assertTrue(method_exists('maxima_parser_utils', 'variable_usage_finder'));
 
@@ -115,12 +123,14 @@ class api_tests_stateful_test extends \qtype_stack_testcase {
         $this->assertEquals(['sqrt' => true], $usage['calls']);
     }
 
-    public function test_stack_ast_container() {
+    public function test_stack_ast_container(): void {
+
         $this->assertTrue(method_exists('stack_ast_container', 'get_evaluated'));
         $this->assertTrue(method_exists('stack_ast_container', 'get_evaluationform'));
     }
 
-    public function test_stack_ast_container_silent() {
+    public function test_stack_ast_container_silent(): void {
+
         $this->assertTrue(method_exists('stack_ast_container_silent', 'get_evaluationform'));
         $this->assertTrue(method_exists('stack_ast_container_silent', 'get_errors'));
         $this->assertTrue(method_exists('stack_ast_container_silent', 'get_inputform'));
@@ -130,45 +140,53 @@ class api_tests_stateful_test extends \qtype_stack_testcase {
         $this->assertTrue(method_exists('stack_ast_container_silent', 'make_from_teacher_source'));
     }
 
-    public function test_stack_cas_security() {
+    public function test_stack_cas_security(): void {
+
         $this->assertTrue(method_exists('stack_cas_security', 'set_allowedwords'));
         $this->assertTrue(method_exists('stack_cas_security', 'set_forbiddenwords'));
         $this->assertTrue(method_exists('stack_cas_security', 'get_units'));
     }
 
-    public function test_stack_cas_session2() {
+    public function test_stack_cas_session2(): void {
+
         $this->assertTrue(method_exists('stack_cas_session2', 'get_valid'));
         $this->assertTrue(method_exists('stack_cas_session2', 'get_errors'));
         $this->assertTrue(method_exists('stack_cas_session2', 'get_session'));
         $this->assertTrue(method_exists('stack_cas_session2', 'instantiate'));
     }
 
-    public function test_stack_cas_keyval() {
+    public function test_stack_cas_keyval(): void {
+
         $this->assertTrue(method_exists('stack_cas_keyval', 'get_session'));
         $this->assertTrue(method_exists('stack_cas_keyval', 'get_variable_usage'));
     }
 
 
-    public function test_stack_maths() {
+    public function test_stack_maths(): void {
+
         $this->assertTrue(method_exists('stack_maths', 'process_display_castext'));
     }
 
-    public function test_stack_options() {
+    public function test_stack_options(): void {
+
         $this->assertTrue(method_exists('stack_options', 'set_option'));
         $this->assertTrue(method_exists('stack_options', 'get_option'));
         $this->assertTrue(method_exists('stack_options', 'set_site_defaults'));
     }
 
-    public function test_stack_secure_loader() {
+    public function test_stack_secure_loader(): void {
+
         $this->assertTrue(method_exists('stack_secure_loader', 'get_valid'));
         $this->assertTrue(method_exists('stack_secure_loader', 'get_evaluationform'));
     }
 
-    public function test_stack_secure_loader_value() {
+    public function test_stack_secure_loader_value(): void {
+
         $this->assertTrue(method_exists('stack_secure_loader_value', 'get_value'));
     }
 
-    public function test_globals() {
+    public function test_globals(): void {
+
         $this->assertTrue(function_exists('stack_maxima_latex_tidy'));
     }
 }

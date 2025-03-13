@@ -1,0 +1,1023 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Eigenvalues and eigenvectors - give examples</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>A \(2\times2\) matrix \(A\) has eigenvalues \(\lambda_1 = 1\), \(\lambda_2 = {@a2@}\).</p>
+<ol>
+    <li>
+        <p>Find the characteristic polynomial of \(A\).</p>
+        <p>\(c_A(x)=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+    </li>
+    <li>
+        <p>Give an example of matrix \(A\).</p>
+        <p>[[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+    </li>
+    <li>
+        <p>Find the eigenvectors of \(A\) in part (b).</p>
+        <div style="padding: 0.5em">
+            The eigenvector of \(A\) with \(\lambda_1 = 1\) is [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]
+        </div>
+        <div style="padding: 0.5em">
+            The eigenvector of \(A\) with \(\lambda_2 = {@a2@}\) is [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</div>
+
+    </li>
+    <li>
+        <p>Is matrix \(A\) diagonalisable? (True/False) [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</p>
+    </li>
+
+    <li>
+        <p>Find a matrix \(B\) similar to matrix \(A\) where \(B \neq A\) and the entries of \(B\) are not \(0\).</p>
+        <p>[[input:ans6]] [[validation:ans6]] [[feedback:prt6]]</p>
+      <p>Please explain how you found your matrix \(B\). </p><p>[[input:ans7]] [[validation:ans7]]
+        </p>
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4>Worked Solution</h4>
+  <ol>
+  <li><p> The theorem of characteristic polynomial: If \(A\) is an \(n\times n\) matrix, a number \(\lambda\) is an eigenvalue of \(A\) if and only if \(c_A(\lambda) = 0\), that is if and only if \(\lambda\) is a root of the characteristic polynomial \(c_A(x)\).
+In this question, we have eigenvalues \(\lambda_1 = 1\) and \(\lambda_2 = {@a2@}\). By the theorem, the characteristic polynomial is \((x-1)(x-{@a2@})\).</p></li>
+
+<li><p> Using the characteristic polynomial in (a) and the theorem above, we have \(det(xI-A) = (x-1)(x-{@a2@}) = 0\). Therefore, one way to make this is with</p>
+<p>\((xI-A) = \begin{bmatrix} x-1&0 \\ 0&x-{@a2@} \end{bmatrix} = 
+\begin{bmatrix} x&0 \\ 0&x \end{bmatrix} - 
+\begin{bmatrix} 1&0\\ 0&{@a2@} \end{bmatrix}\), and 
+\(A=\begin{bmatrix}1&0\\ 0&{@a2@} \end{bmatrix}\).</p></li>
+
+<li> <p>To find all eigenvectors for \(\lambda_1=1\), compute </p>
+<p>\(\lambda_1I-A = \begin{bmatrix}\lambda_1-1&0 \\ 0&\lambda_1-{@a2@} \end{bmatrix} = \begin{bmatrix}0&0 \\ 0&{@evsol1@}\end{bmatrix}\).</p>
+<p>We want the nonzero solutions to \((\lambda_1I-A)x = 0\). The augmented matrix becomes </p>
+<p>\(\begin{bmatrix}0&0&|&0 \\ 0&{@evsol1@}&|&0\end{bmatrix}
+\rightarrow
+\begin{bmatrix}0&0&|&0 \\ 0&1&|&0\end{bmatrix} \)</p><p>using row operations. Hence the general solution to  \((\lambda_1I-A)x = 0\) is \(x = t\begin{bmatrix}1\\0\end{bmatrix}\) where t is arbitrary, so we can use \(x_1 = \begin{bmatrix}1\\0\end{bmatrix}\) as the basic eigenvector corresponding to \(\lambda_1=1\). Similarly, the eigenvector for \(\lambda_2={@a2@}\) is \(x_2 = \begin{bmatrix}0\\1\end{bmatrix}\).</p></li>
+
+<li><p> True. Diagonalisable theorem: If \(A\) is \(n\times n\) matrix with \(n\) distinct eigenvalues, then \(A\) is diagonalisable. It is obvious that the \(2\times2\) matrix in this question has \(2\) distinct eigenvalues. Or you can also check diagonalisation by \(P^{-1}AP = D\) using the eigenvectors.</p></li>
+
+<li><p> By definition, if \(A\) and \(B\) are \(n\times n\) matrices, we say that \(A\) and \(B\) are similar, if \(B=P^{-1}AP\) for some invertible matrix \(P\). </p>
+<p>Taking \(P=\begin{bmatrix}1&2\\3&4\end{bmatrix}\) gives \(B=P^{-1}AP={@ta6@}\).</p></li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1:1;
+a2:2+rand(5);
+ta1:(x-a1)*(x-a2);
+A:matrix([a1,0],[0,a2]);
+ta2:A;
+vecs:eivects(A);
+ev1:transpose(matrix(vecs[2][1][1]));
+ev2:transpose(matrix(vecs[2][2][1]));
+ta3:ev1;
+ta4:ev2;
+ta5:not a1=a2;
+U:matrix([1,2],[3,4]);
+ta6:(U^^-1 . A) . U;
+
+evsol1:a1-a2;
+
+/*test case*/
+testa1:expand((x-a1)*(x-a2));
+t[1]:rand_with_step(-a2,a2,1);
+t[2]:rand_with_step(-a2,a2,1);
+eq1:(a-a1)*(d-a1)-b*c=0;
+eq2:(a-a2)*(d-a2)-b*c=0;
+sol:solve([eq1,eq2],[a,b,c,d]);
+for i : 1 thru length (%rnum_list) do
+        sol:subst (t[i], %rnum_list[i], sol);
+[a,b,c,d]:map(rhs,sol[1]);
+C:matrix([a,b],[c,d]);
+testa2:C;
+testvecs:eivects(C);
+testev1:transpose(matrix(testvecs[2][1][1]));
+testev2:transpose(matrix(testvecs[2][2][1]));
+testa3:testev1;
+testa4:testev2;
+testa5:not a1=a2;
+P:matrix([0,1],[1,0]);
+P1:P^^-1;
+D1:P . testa2;
+D:D1 . P1;
+testa6:D;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\lambda_1 = 1\) (fixed), \(\lambda_2 = {@a2@}\): {@ta6@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>ta2</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>matrix</type>
+      <tans>ta3</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>matrix</type>
+      <tans>ta4</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>boolean</type>
+      <tans>ta5</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>matrix</type>
+      <tans>ta6</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>notes</type>
+      <tans>Explain</tans>
+      <boxsize>70</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sa2ev:eigenvectors(ans2)[1][1];
+sa2evrank:[lmax(sa2ev),lmin(sa2ev)];
+ta2evrank:[a2,a1];
+node1:is(sa2evrank=ta2evrank)</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>node1</sans>
+        <tans>true</tans>
+        <testoptions>boolean</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Part(a) is a hint to find an example of A.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>matrix([0],[0])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>The zero vector is never an eigenvector!</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2.ans3</sans>
+        <tans>a1*ans3</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer should satisfy \( Ax =\lambda_1 x\), where \(\lambda_1={@a1@}\) but 
+\[ {@A@} {@ans3@} = {@A.ans3@} \neq  {@a1*ans3@}. \]</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>matrix([0],[0])</tans>
+        <testoptions>boolean</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>The zero vector is never an eigenvector!</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2.ans4</sans>
+        <tans>a2*ans4</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer should satisfy \( Ax =\lambda_2 x\), where \(\lambda_2={@a2@}\) but 
+\[ {@A@} {@ans4@} = {@A.ans4@} \neq {@a2*ans4@}.\]</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Hint: you can use eigenvectors to determine whether a matrix is diagonalisable.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/*A not equal to B*/
+node2:not(ans6=ans2);
+/*B entries not 0*/
+node6:not(ans6[1][1]*ans6[1][2]*ans6[2][1]*ans6[2][2]=0)
+/*same determinant*/
+node3:is(determinant(ans6)=determinant(ans2));
+/*same rank*/
+node4:is(rank(ans6)=rank(ans2));
+/*same trace*/
+sa2tr:col(row(ans2,1),1) + col(row(ans2,2),2);
+sa6tr:col(row(ans6,1),1) + col(row(ans6,2),2);
+node5:is(sa2tr=sa6tr);
+/*same eigenvalue*/
+sa6ev:eivals(ans6)[1];
+sa6evrank:[lmax(sa6ev),lmin(sa6ev)];
+node1:is(sa6evrank=[a2,a1]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa6evrank</sans>
+        <tans>[a2,a1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The eigenvalues of \(A\) and \(B\) are different. Go over the theorem of similarity.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>node2</sans>
+        <tans>true</tans>
+        <testoptions>boolean</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>5</truenextnode>
+        <trueanswernote>prt6-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Try giving a matrix other than \(A\).</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>determinant(ans6)</sans>
+        <tans>determinant(ans2)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt6-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The determinants of \(A\) and \(B\) are different. Go over the theorem of similarity.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>node4</sans>
+        <tans>true</tans>
+        <testoptions>boolean</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>prt6-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The ranks of \(A\) and \(B\) are different. Go over the theorem of similarity.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa2tr</sans>
+        <tans>sa6tr</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>0</truenextnode>
+        <trueanswernote>prt6-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The traces of \(A\) and \(B\) are different. Go over the theorem of similarity.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>node6</sans>
+        <tans>true</tans>
+        <testoptions>Boolean</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt6-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The entries of \(B\) should not be 0.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1783626836</deployedseed>
+    <deployedseed>405881131</deployedseed>
+    <deployedseed>873158876</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>testa1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>testa2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>testa3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>testa4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>testa5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>testa6</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>(x-10)*(x-2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>matrix([2],[0])</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>matrix([0],[10])</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>false</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>testa1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>matrix([8,1],[1,1])</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>testa3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>testa4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>testa5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>testa6</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1,x=lambda)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value/>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

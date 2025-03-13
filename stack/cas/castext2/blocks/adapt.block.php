@@ -51,7 +51,7 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
+        $r = [];
         if (!isset($this->params['id'])) {
             return $r;
         }

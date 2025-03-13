@@ -17,6 +17,7 @@
 /**
  * This file defines the editing form used by the tidy question script.
  *
+ * @package    qtype_stack
  * @copyright 2013 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,10 +32,12 @@ require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php')
 /**
  * The editing form used by the tidy question script.
  *
+ * @package    qtype_stack
  * @copyright 2013 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_tidy_question_form extends moodleform {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
 
         $mform = $this->_form;
@@ -109,6 +112,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         return $graph;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
         $question = $this->_customdata;

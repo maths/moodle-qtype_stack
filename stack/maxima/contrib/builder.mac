@@ -1,0 +1,205 @@
+/*  Author Neil P Strickland
+    University of Sheffield
+    Copyright (C) 2024 Neil P Strickland
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/******************************************************************/
+/* For proof-builder questions, the teacher answer field is a list
+ * of lists of the form [key, phrase, pos] where
+ * phrase and key are strings, and pos is a nonnegative
+ * integer.  
+ *
+ * For the original source see
+ * https://github.com/NeilStrickland/moodle-qtype_stack/blob/sheffield/stack/maxima/builder.mac
+ *
+ */
+/******************************************************************/
+
+builder_add_pos(opts) := block([],
+ makelist(endcons(i,opts[i]),i,1,length(opts))
+)$
+
+builder_correct(opts) := block(
+ [oo,o],
+ oo : sublist(opts,lambda([o],o[3] > 0)),
+ oo : sort(oo,lambda([p,q],ev(p[3] < q[3],pred))),
+ return(map(first,oo))
+)$
+
+builder_sol(opts) := block(
+ [oo,o],
+ oo : sublist(opts,lambda([o],o[3] > 0)),
+ oo : sort(oo,lambda([p,q],ev(p[3] < q[3],pred))),
+ return(simplode(map(second,oo)," "))
+)$
+
+builder_say_includes(phrase) := sconcat(
+ "Your answer includes the following phrase: <br/>",newline,
+ "<blockquote class=\"builder_phrase\">",newline,
+ phrase,newline,
+ "</blockquote>",newline
+);
+
+builder_say_excludes(phrase) := sconcat(
+ "Your answer does not include the following phrase: <br/>",newline,
+ "<blockquote class=\"builder_phrase\">",newline,
+ phrase,newline,
+ "</blockquote>",newline
+);
+
+builder_needs_intro(s) := block(
+ [t],
+ t : sconcat("\\(",s,"\\)"),
+ return(sconcat(
+  "This refers to ",t,", but at the point where this phrase appears, ",
+  "we do not know what this means.  Before using the symbol ",t,", ",
+  "you need to introduce it in some way, with a phrase like ",
+  "'Let ",t," be an integer' or 'Consider an element \\(",s,"\\in X\\)' ",
+  "or 'There exists a permutation ",t," such that...'."
+ ))
+);
+
+builder_get_phrase(skey,opts) := block([o,t],
+ t : "",
+ for o in opts do (
+  if first(o) = skey then (
+    t : second(o),
+    return(t)
+  )
+ ),
+ return(t) 
+);
+
+builder_check_present(ans,skey) := member(skey,ans);
+
+builder_check_precedes(ans,key_a,key_b) := block([k,r],
+ if not(member(key_a,ans)) then return(false),
+ if not(member(key_b,ans)) then return(false),
+ r : false,
+ for k in ans do (
+  if k = key_a then (r : true, return(r)),
+  if k = key_b then (r : false, return(r))
+ ),
+ return(r)
+);
+
+builder_check_needs(ans,dict,needers,needed,fb) := block(
+ [seen,needed_set,needed_seen,ret,k,Z],
+ seen : [],
+ ret : false,
+ if setp(needed) then
+  needed_set : needed
+ elseif listp(needed) then 
+  needed_set : apply(set,needed) 
+ else 
+  needed_set : {needed}, 
+ for k in ans do (
+  if member(k,needers) and length(intersect(needed_set,apply(set,seen))) = 0 then (
+   ffb : sconcat(builder_say_includes(dict[k]),fb),
+   ret : ["needs",k,needed,ffb],
+   return(ret)
+  ),
+  seen : endcons(k,seen)
+ ),
+ return(ret)
+);
+
+builder_check_needs_immediate(ans,dict,needers,needed,fb) := block(
+ [ret,k,i],
+ ret : false,
+ for i from 1 thru length(ans) do (
+  k : ans[i],
+  if member(k,needers) and (i = 1 or not(ans[i-1] = needed)) then (
+   ffb : sconcat(builder_say_includes(dict[k]),fb),
+   ret : ["needs_immediate",k,needed,ffb],
+   return(ret)
+  )
+ ),
+ return(ret)
+);
+
+builder_check_exclude(ans,dict,excluded,fb) := block(
+ [p,ret,ffb],
+ ret : false,
+ for p in excluded do (
+  if member(p,ans) then (
+   ffb : sconcat(builder_say_includes(dict[p]),fb),
+   ret : ["exclude",p,ffb],
+   return(ret)
+  )
+ ),
+ return(ret)
+);
+
+builder_check_require(ans,dict,required,fb) := block(
+ [p,ret,ffb],
+ ret : false,
+ for p in required do (
+  if not(member(p,ans)) then (
+   ffb : sconcat(builder_say_excludes(dict[p]),fb),
+   ret : ["require",p,ffb],
+   return(ret)
+  )
+ ),
+ return(ret)
+);
+
+builder_check_rules(ans,opts,prules) := block(
+ [dict,o,r],
+ for o in opts do dict[first(o)] : second(o),
+ ret : false,
+ for r in prules do (
+  if first(r) = "needs" then (
+   c : builder_check_needs(ans,dict,r[2],r[3],r[4]),
+   if not(c = false) then (
+    sc : 0, 
+    an : sconcat("needs/",c[2],"/",r[3]),
+    fb : c[4],
+    ret : [sc,an,fb],
+    return(ret)
+   )
+  ) elseif first(r) = "needs_immediate" then (
+   c : builder_check_needs_immediate(ans,dict,r[2],r[3],r[4]),
+   if not(c = false) then (
+    sc : 0, 
+    an : sconcat("needs_immediate/",c[2],"/",c[3]),
+    fb : c[4],
+    ret : [sc,an,fb],
+    return(ret)
+   )
+  ) elseif first(r) = "exclude" then (
+   c : builder_check_exclude(ans,dict,r[2],r[3]),
+   if not(c = false) then (
+    sc : 0, 
+    an : sconcat("exclude/",c[2]),
+    fb : c[3],
+    ret : [sc,an,fb],
+    return(ret)
+   )
+  ) elseif first(r) = "require" then (
+   c : builder_check_require(ans,dict,r[2],r[3]),
+   if not(c = false) then (
+    sc : 0, 
+    an : sconcat("require/",c[2]),
+    fb : c[3],
+    ret : [sc,an,fb],
+    return(ret)
+   )
+  )
+ ),
+ if (ret = false) then (
+  return([1,"correct",""])
+ ) else (
+  return(ret)
+ ) 
+);

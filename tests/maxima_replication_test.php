@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use qtype_stack_testcase;
@@ -40,7 +47,7 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
  * @group qtype_stack
  * @covers \stack_cas_keyval
  */
-class maxima_replication_test extends qtype_stack_testcase {
+final class maxima_replication_test extends qtype_stack_testcase {
 
     /**
      * All tests in this set of tests share the form of having
@@ -65,7 +72,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->assertEquals($result, $output->get_rendered());
     }
 
-    public function test_matrix_mult() {
+    public function test_matrix_mult(): void {
+
         $code = 'simp:true;';
         $code .= 'a:matrix([1,2],[3,4]);';
         $code .= 'RESULT:a.a;';
@@ -76,7 +84,8 @@ class maxima_replication_test extends qtype_stack_testcase {
     }
 
 
-    public function test_ev_flag_1() {
+    public function test_ev_flag_1(): void {
+
         $code = 'simp:true;';
         $code .= 'a:1+t;';
         $code .= 'RESULT:a,t=1;';
@@ -86,7 +95,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_ev_flag_2() {
+    public function test_ev_flag_2(): void {
+
         $code = 'simp:true;';
         $code .= 'a:sqrt(t);';
         $code .= 'RESULT:a,t=4;';
@@ -96,7 +106,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_ev_flag_3() {
+    public function test_ev_flag_3(): void {
+
         $code = 'simp:false;';
         $code .= 'a:1+1;';
         $code .= 'RESULT:a;';
@@ -114,7 +125,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_ev_flag_4() {
+    public function test_ev_flag_4(): void {
+
         $code = 'simp:true;';
         $code .= 'foo(x):=0+sqrt(x);';
         $code .= 'RESULT:foo(t),t=4;';
@@ -124,7 +136,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_ev_1() {
+    public function test_ev_1(): void {
+
         $code = 'simp:true;';
         $code .= 'a:1+t;';
         $code .= 'RESULT:ev(a,t=1);';
@@ -134,7 +147,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_ev_2() {
+    public function test_ev_2(): void {
+
         $code = 'simp:true;';
         $code .= 'a:sqrt(t);';
         $code .= 'RESULT:ev(a,t=4);';
@@ -144,7 +158,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_ev_3() {
+    public function test_ev_3(): void {
+
         $code = 'simp:false;';
         $code .= 'a:ev(1+1);';
         $code .= 'RESULT:a;';
@@ -162,7 +177,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_ev_4() {
+    public function test_ev_4(): void {
+
         $code = 'simp:true;';
         $code .= 'foo(x):=0+sqrt(x);';
         $code .= 'RESULT:ev(foo(t),t=4);';
@@ -172,7 +188,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_iss824() {
+    public function test_iss824(): void {
+
         $code = 'simp:true;';
         $code .= 'a:2;';
         $code .= 'u:matrix([t,-1,a*t]);';
@@ -185,7 +202,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_diff() {
+    public function test_diff(): void {
+
         $code = 'simp:false;';
         $code .= 'a:x;';
         $code .= 'b:x^2;';
@@ -196,7 +214,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_taylor() {
+    public function test_taylor(): void {
+
         $code = 'simp:false;';
         $code .= 'RESULT:ev(taylor(10*cos(2*x),x,%pi/4,2),simp);';
 
@@ -205,7 +224,8 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
-    public function test_iss844_mapping() {
+    public function test_iss844_mapping(): void {
+
         $code = 'simp:true;';
         $code .= 'ids:[cos,sin,tan,sqrt];';
         $code .= 'foo(x):=ids[x];';

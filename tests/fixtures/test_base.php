@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -26,19 +33,23 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * needs to call maxima will work (providing you have set up the neccessary
  * defines in phpunit.xml.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class qtype_stack_testcase extends advanced_testcase {
 
-    /* Different underlying versions of LISP (behind Maxima) have different results,
+    /**
+     * Different underlying versions of LISP (behind Maxima) have different results,
      * especially with the floating point routines upon which Maxima relies.
      *
      * This must only be CLISP or SBCL.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $lisp = 'SBCL';
 
-    public function setUp() :void {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function setUp(): void {
         parent::setUp();
 
         stack_utils::clear_config_cache();
@@ -209,52 +220,34 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         $this->assertEquals($e, $a);
     }
-
-    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
-    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
-        if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
-            parent::assertMatchesRegularExpression($pattern, $string, $message);
-        } else {
-            parent::assertRegExp($pattern, $string);
-        }
-    }
-    // phpcs:enable
-
-    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
-    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
-        if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
-            parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
-        } else {
-            parent::assertNotRegExp($pattern, $string);
-        }
-    }
-    // phpcs:enable
 }
-
 
 /**
  * Base class for STACK walkthrough tests.
  *
  * Sets up the Maxima connection, and provides some additional asserts.
  *
+ * @package    qtype_stack
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough_test_base {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $currentoutput = null;
 
-    public function setUp() :void {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function setUp(): void {
         parent::setUp();
         qtype_stack_testcase::setup_test_maxima_connection($this);
         $this->resetAfterTest();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function render() {
         $this->currentoutput = $this->quba->render_question($this->slot, $this->displayoptions);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_tag_matcher($tag, $attributes) {
         return [
             'tag' => $tag,
@@ -262,6 +255,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_prt_score($index, $score, $penalty, $finalsubmit = false) {
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
@@ -294,6 +288,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_answer_note($index, $note) {
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
@@ -303,6 +298,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $this->assertEquals($note, implode(' | ', $result->get_answernotes()));
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_response_summary($note) {
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
@@ -310,16 +306,17 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $this->assertEquals($note, $qs->get_new_response_summary());
     }
 
-    /*
+    /**
      * This function is needed because Maxima versions generate different error messages.
      */
     protected function check_response_summary_contains($note) {
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
         $qs = $attempt->get_last_step();
-        $this->assertTrue((strpos($qs->get_new_response_summary(), $note) !== false));
+        $this->assertTrue(strpos($qs->get_new_response_summary(), $note) !== false);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
         $attributes = [
             'type' => 'text',
@@ -344,6 +341,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_textarea_input($name, $content = null, $enabled = true) {
         $attributes = [
             'name' => $this->quba->get_field_prefix($this->slot) . $name,
@@ -368,6 +366,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
         $this->assertMatchesRegularExpression('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' .
@@ -376,6 +375,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_input_validation_compact($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
         $this->assertMatchesRegularExpression('~<span (?=[^>]*\bclass="stackinputfeedback compact")(?=[^>]*\bid="' .
@@ -384,6 +384,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_any_input_validation() {
         $this->assertDoesNotMatchRegularExpression('~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
@@ -391,6 +392,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_input_validation($name = null) {
         if (!$name) {
             $this->check_output_does_not_contain_any_input_validation();
@@ -403,6 +405,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_prt_feedback($name = null) {
         $class = 'stackprtfeedback';
         if ($name) {
@@ -412,6 +415,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'PRT feedback for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_prt_feedback($name = null) {
         $class = 'stackprtfeedback';
         if ($name) {
@@ -421,22 +425,26 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'PRT feedback for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_stray_placeholders() {
         $this->assertDoesNotMatchRegularExpression('~\[\[|\]\]~', $this->currentoutput, 'Not all placehoders were replaced.');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
         $this->assertStringContainsString($string, $this->currentoutput,
                 'Expected string ' . $string . ' not found in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
         $this->assertStringNotContainsString($string, $this->currentoutput,
                 'The string ' . $string . ' should not be present in ' . $this->currentoutput);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_text($str) {
         $this->assertStringNotContainsString($str, $this->currentoutput,
             'The string ' . $str . ' should not be present in ' . $this->currentoutput);
@@ -477,26 +485,4 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $actual = str_replace('class="select custom-select', 'class="select', $actual);
         $this->assertEquals($expected, $actual);
     }
-
-    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
-    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
-        if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
-            parent::assertMatchesRegularExpression($pattern, $string, $message);
-        } else {
-            parent::assertRegExp($pattern, $string);
-        }
-    }
-    // phpcs:enable
-
-    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
-    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
-        if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
-            parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
-        } else {
-            parent::assertNotRegExp($pattern, $string);
-        }
-    }
-    // phpcs:enable
 }

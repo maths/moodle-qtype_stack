@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Vector_Dependent_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find \(\alpha\) such that the set of vectors \[ { {@c1@},\ {@c2@},\ {@c3@} } \] is linearly dependent. <br /> [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>For the vectors to be linearly dependent the determinant of the matrix of vectors must equal zero. So for the vectors \[{@matrixc123@}\] The determinant is \[{@detmatrix@} = 0.\] Hence \[{@detmatrixsimp@} =0,\] and therefore \[\alpha = {@correctanswer@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>s1:rand(9)+1;
+ s2:rand(9)+1;
+ s3:-(rand(9)+1);
+ n1:rand(5)+1;
+ n2:rand_with_step(-5,1,1);
+ n3:rand(3)+1;
+ c1:matrix([1],[s1],[s2]);
+ c2:matrix([2],[11],[s3]);
+ c3:ev(n1*c1+n2*c2);
+ correctanswer:c3[n3,1];
+ c3[n3,1]:alpha;
+ matrixc123:matrix([c1[1,1],c1[2,1],c1[3,1]],[c2[1,1],c2[2,1],c2[3,1]],[c3[1,1],c3[2,1],c3[3,1]]);
+  detmatrix:determinant(matrixc123);
+  detmatrixsimp:expand(detmatrix);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@matrixc123@}\) linearly dependent gives \(\alpha = {@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>773676505</deployedseed>
+    <deployedseed>105749905</deployedseed>
+    <deployedseed>1711187603</deployedseed>
+    <deployedseed>803057932</deployedseed>
+    <deployedseed>361988814</deployedseed>
+    <deployedseed>89180014</deployedseed>
+    <deployedseed>1305919914</deployedseed>
+    <deployedseed>1189020386</deployedseed>
+    <deployedseed>632343148</deployedseed>
+    <deployedseed>1447152166</deployedseed>
+    <deployedseed>1791978376</deployedseed>
+    <deployedseed>1122023735</deployedseed>
+    <deployedseed>627041222</deployedseed>
+    <deployedseed>1712072895</deployedseed>
+    <deployedseed>1467012576</deployedseed>
+    <deployedseed>789457941</deployedseed>
+    <deployedseed>1904040348</deployedseed>
+    <deployedseed>1006961264</deployedseed>
+    <deployedseed>81146575</deployedseed>
+    <deployedseed>943146373</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer-1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

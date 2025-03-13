@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * This is a dirty hack trying to remove the need to configure webservers
+ * to set the correct CORS headers for the few scripts in this directory that need them.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 RWTH Aachen
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 // This is a dirty hack trying to remove the need to configure webservers
 // to set the correct CORS headers for the few scripts in this directory that need them.
 
@@ -27,10 +36,13 @@ if (isset($_GET['question'])) {
     $is_question = false;
 }
 
-if (strpos('..', $scriptname) !== false
-    || strpos('/', $scriptname) !== false
-    || strpos('\\', $scriptname) !== false) {
-    die("No such script here.");
+if (strpos($scriptname, '..') !== false
+    || strpos($scriptname, '/') !== false
+    || strpos($scriptname, '\\') !== false) {
+        // Give a special exception for sample questions.
+        if (!($is_question && file_exists('../../samplequestions/' . $scriptname))) {
+            die("No such script here.");
+        }
 }
 
 if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.css'

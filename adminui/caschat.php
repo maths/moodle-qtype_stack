@@ -19,6 +19,7 @@
  * This can be useful for learning about the CAS syntax, and also for testing
  * that maxima is working correctly.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -64,6 +65,11 @@ if (!$questionid) {
 
     // Check permissions.
     question_require_capability_on($questiondata, 'edit');
+    $editparams = $urlparams;
+    unset($editparams['questionid']);
+    unset($editparams['seed']);
+    $editparams['id'] = $question->id;
+    $questionediturl = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 }
 
 $PAGE->set_url('/question/type/stack/adminui/caschat.php', $urlparams);
@@ -74,6 +80,7 @@ $displaytext = '';
 $debuginfo = '';
 $errs = '';
 $varerrs = [];
+$pslash = false;
 
 if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
     // ISS-1110 Handle calls from questiontestrun.php.
@@ -83,7 +90,7 @@ if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
         $simp = '';
     }
     $questionvarsinputs = '';
-    foreach ($question->get_correct_response() as $key => $val) {
+    foreach ($question->get_correct_response_testcase() as $key => $val) {
         if (substr($key, -4, 4) !== '_val') {
             $questionvarsinputs .= "\n{$key}:{$val};";
         }
@@ -97,6 +104,7 @@ if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
     $inps   = optional_param('inputs', '', PARAM_RAW);
     $string = optional_param('cas', '', PARAM_RAW);
     $simp   = optional_param('simp', '', PARAM_RAW);
+    $pslash = optional_param('pslash', '', PARAM_RAW);
 }
 $savedb = false;
 $savedmsg = '';
@@ -114,6 +122,9 @@ if ('on' == $simp) {
 } else {
     $simp = false;
 }
+if ('on' == $pslash) {
+    $pslash = true;
+}
 // Initially simplification should be on.
 if (!$vars && !$string) {
     $simp = true;
@@ -126,17 +137,23 @@ if ($string) {
 
     $session = new stack_cas_session2([], $options);
     if ($vars || $inps) {
-        $keyvals = new stack_cas_keyval($vars . "\n" . $inps, $options, 0);
+        $keyvals = new stack_cas_keyval($vars . "\n" . $inps, $options, 0, '', $pslash);
         $keyvals->get_valid();
         $varerrs = $keyvals->get_errors();
         if ($keyvals->get_valid()) {
             $kvcode = $keyvals->compile('test');
             $statements = [];
+            if ($kvcode['blockexternal']) {
+                $statements[] = new stack_secure_loader($kvcode['blockexternal'], 'caschat', 'blockexternal');
+            }
             if ($kvcode['contextvariables']) {
                 $statements[] = new stack_secure_loader($kvcode['contextvariables'], 'caschat');
             }
             if ($kvcode['statement']) {
                 $statements[] = new stack_secure_loader($kvcode['statement'], 'caschat');
+            }
+            if ($pslash) {
+                $vars = $keyvals->get_raw();
             }
         }
     }
@@ -148,7 +165,9 @@ if ($string) {
         $session = new stack_cas_session2($statements, $options);
         if ($ct->get_valid()) {
             $session->instantiate();
-            $displaytext  = $ct->get_rendered();
+            // Over here we are not sending it through filters so we can directly
+            // restore the held ones.
+            $displaytext  = $ct->apply_placeholder_holder($ct->get_rendered());
         }
         // Only print each error once.
         $errs = $ct->get_errors(false);
@@ -230,13 +249,23 @@ $fout .= html_writer::tag('p', html_writer::tag('textarea', $string,
             ['cols' => 100, 'rows' => $stringlen, 'name' => 'cas']));
 $fout .= html_writer::start_tag('p');
 $fout .= html_writer::empty_tag('input',
-            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat')]);
+            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat'), 'formaction' => $PAGE->url]);
 if ($questionid && !$varerrs) {
     $fout .= html_writer::empty_tag('input',
-        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat')]);
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat'), 'formaction' => $PAGE->url]);
+}
+if ($questionid && !$varerrs) {
+    $fout .= html_writer::empty_tag('input',
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechatnew'),
+        'formaction' => $questionediturl, 'title' => stack_string('savechatexp')]);
 }
 $fout .= html_writer::end_tag('p');
-echo html_writer::tag('form', $fout, ['action' => $PAGE->url, 'method' => 'post']);
+
+$fout .= html_writer::start_tag('p') . stack_string('pslash');
+$fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash']);
+$fout .= html_writer::end_tag('p');
+
+echo html_writer::tag('form', $fout, ['method' => 'post']);
 
 if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);

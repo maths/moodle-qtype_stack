@@ -26,21 +26,20 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-
-// Tests that walk STACK questions that are special cases.
-// Specifically a question with neither inputs nor PRTs,
-// and a question with inputs but no PRTs.
-//
-// @copyright 2013 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Tests that walk STACK questions that are special cases.
+ * Specifically a question with neither inputs nor PRTs,
+ * and a question with inputs but no PRTs.
+ *
+ * @package    qtype_stack
+ * @copyright 2013 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
+final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_neither_inputs_nor_prts() {
+    public function test_neither_inputs_nor_prts(): void {
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'information');
@@ -91,7 +90,7 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_no_prts_left_blank() {
+    public function test_no_prts_left_blank(): void {
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'survey');
@@ -125,7 +124,7 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    public function test_no_prts_answered() {
+    public function test_no_prts_answered(): void {
 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'survey');

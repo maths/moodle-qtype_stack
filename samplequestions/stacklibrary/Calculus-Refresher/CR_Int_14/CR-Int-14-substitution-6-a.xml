@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>CR-Int-14-substitution-6.a</text>
+    </name>
+    <questiontext format="html">
+      <text>Using the method of integration by substitution, find the following integral:\[ \int {@p@} d{@v@}. \]
+
+[[input:ans1]] [[validation:ans1]]</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[We need to calculate \[\int {@p@} d{@v@}\] by means of the substitution \(u={@pp1@}\) <hint>calc_int_methods_substitution</hint>.
+
+So, if \(u = {@pp1@}\) then \(d{@u@} = {@diff(pp1,v)@} d{@v@}\), so, \(d{@v@} = d{@u@}/{@diff(pp1,v)@}\).
+
+Hence, 
+
+\[\begin{array}{rcl}\displaystyle  
+\int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int {@pp2/u@} \frac{d{@u@}}{@diff(pp1,v)@} \\&\displaystyle =&\displaystyle  \int {@pp2/u/diff(pp1,v)@} d{@u@} \\&\displaystyle =&\displaystyle  {@pp2/diff(pp1,v)@} \int {@1/u@} d{@u@} \\&\displaystyle =&\displaystyle  {@pp2/diff(pp1,v)@}{@int(1/u,u)+c@} \\&\displaystyle =&\displaystyle  {@int(p,v)+c@}
+ \end{array}\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>v:x;
+rdm1:1+rand(12);
+pp1:v^2+rdm1;
+pp2:v;
+p:pp2/pp1;
+dumvar6:u;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\int {@p@}d{@v@} = {@int(p,v)@}+c\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>int(p,v)+c</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>int</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans1</sans>
+        <tans>int(p,v)+c</tans>
+        <testoptions>v</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>997540387</deployedseed>
+    <deployedseed>356726037</deployedseed>
+    <deployedseed>845201060</deployedseed>
+    <deployedseed>800954747</deployedseed>
+    <deployedseed>1341967878</deployedseed>
+    <deployedseed>2108633297</deployedseed>
+    <deployedseed>1899733051</deployedseed>
+    <deployedseed>1227317284</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(int(p,v)+c,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>p</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

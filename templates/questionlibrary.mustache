@@ -1,0 +1,174 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/questionlibrary
+
+    Display STACK question library
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {
+      "returnlink": "http://stack.stack.virtualbox.org/edmundlocal/question/edit.php?cmid=19",
+      "category": "HTML string of category dropdown",
+      "files": [
+        {
+          "label": "Algebra-Refresher",
+          "divid": "stack-library-folder-2",
+          "isdirectory": 1,
+          "children": [
+              {
+                  "label": "10-Expressions-single-term-common-factors",
+                  "divid": "stack-library-folder-3",
+                  "isdirectory": 1,
+                  "children": [
+                      {
+                          "path": "samplequestions\/stacklibrary\/Algebra-Refresher\/10-Expressions-single-term-common-factors\/AlgMap-10-1.xml",
+                          "label": "AlgMap-10-1.xml",
+                          "isdirectory": 0
+                      },
+                      {
+                          "path": "samplequestions\/stacklibrary\/Algebra-Refresher\/10-Expressions-single-term-common-factors\/AlgMap-10-2.xml",
+                          "label": "AlgMap-10-2.xml",
+                          "isdirectory": 0
+                      }
+                  ]
+              }
+          ]
+        }
+      ]
+    }
+}}
+
+<div class="qtype_stack_question_library">
+  <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
+  <p><a href="{{{returnlink}}}">{{#pix}} i/arrow-left, core {{/pix}}{{returntext}}</a></p>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="que stack stack_library_display">
+        <div class="formulation" style="height:250px">
+          <ul>
+            <li>
+              {{#str}} stack_library_instructions_one, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_two, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_three, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_four, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_five, qtype_stack {{/str}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="stack-library-error alert alert-danger" hidden>
+        {{#str}} stack_library_error, qtype_stack {{/str}}
+        <span class="stack-library-error-details"></span>
+      </p>
+      <div class="alert alert-secondary" style="position: relative; color: black;">
+        <div class="stack-library-category-holder">
+          {{#str}} stack_library_destination, qtype_stack {{/str}}
+          <br><br>
+          <div class="stack-library-category">
+            {{{category}}}
+          </div>
+        </div>
+        <div class="stack-library-course" hidden>
+          {{#str}} stack_library_quiz_course, qtype_stack {{/str}} {{coursename}}.
+          <br><br>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-lg-7">
+            <div class="stack-library-import-success" hidden>
+              <span>
+                {{#str}} stack_library_success, qtype_stack {{/str}}
+              </span>
+              <span class="stack-library-import-success-file">
+              </span>
+            </div>
+            <div class="stack-library-import-failure" hidden>
+              <span>
+                {{#str}} stack_library_failure, qtype_stack {{/str}}
+              </span>
+              <span class="stack-library-import-failure-file">
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-5">
+            <div class="btn-group" role="group" style="float:right">
+              <button class="btn btn-primary library-import-link"
+                  type="button" data-filepath="{{path}}" disabled>
+                {{#str}} stack_library_import, qtype_stack {{/str}}
+              </button>
+              <button class="btn btn-primary library-import-link-folder"
+                  type="button" data-filepath="{{path}}" disabled>
+                {{#str}} stack_library_import_folder, qtype_stack {{/str}}
+              </button>
+            </div>
+            <span class="loading-display" style="float:right" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="formulation stack-library-file-list">
+        {{#files}}
+          {{>qtype_stack/questionfolder}}
+        {{/files}}
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="alert alert-secondary library-secondary-info" hidden>
+        <b>{{#str}} stack_library_selected, qtype_stack {{/str}}</b>
+        <div class="stack_library_selected_question"></div>
+      </div>
+      <div class="alert alert-secondary library-secondary-info" hidden>
+        <b>{{#str}} questiondescription, qtype_stack {{/str}}:</b>
+        <div class="stack_library_description_display" style="word-break: break-word"></div>
+      </div>
+      <div class="alert alert-secondary library-secondary-info" hidden>
+        <b>{{#str}} questiontext, qtype_stack {{/str}}:</b>
+        <div class="stack_library_raw_display" style="word-break: break-word"></div>
+      </div>
+      <div class="alert alert-secondary library-secondary-info" hidden>
+        <b>{{#str}} questionvariables, qtype_stack {{/str}}:</b>
+        <div class="stack_library_variables_display" style="word-break: break-word"></div>
+      </div>
+      <div class="stack-library-imported-list alert alert-dismissable">
+        <b>{{#str}} stack_library_importlist, qtype_stack {{/str}}</b>
+      </div>
+      <div id="dashboard-link-holder" hidden>
+        {{{dashboardlink}}}
+      </div>
+      <div id="quiz-link-holder" hidden>
+        {{{quizlink}}}
+      </div>
+    </div>
+  </div>
+  <div data-id="stack_library_course_id" data-value="{{courseid}}" hidden>
+  </div>
+</div>

@@ -17,6 +17,7 @@
 /**
  * Answer test base class.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -86,7 +87,7 @@ class stack_anstest {
     protected $atfeedback;
 
     /**
-     * $var string.  Copies the debug info, e.g. from the CAS session.
+     * @var string.  Copies the debug info, e.g. from the CAS session.
      */
     protected $debuginfo;
 
@@ -127,7 +128,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */
@@ -136,7 +137,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return float
      */
@@ -145,7 +146,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return bool
      */
@@ -154,7 +155,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */
@@ -163,7 +164,7 @@ class stack_anstest {
     }
 
     /**
-     *
+     * Add description here
      *
      * @return string
      */
@@ -175,7 +176,6 @@ class stack_anstest {
      * Returns some sensible debug information for testing questions.
      *
      * @return string
-     * @access public
      */
     public function get_debuginfo() {
         return $this->debuginfo;
@@ -185,7 +185,6 @@ class stack_anstest {
      * Returns some sensible debug information for testing questions.
      *
      * @return string
-     * @access public
      */
     protected function get_casfunction() {
         return $this->casfunction;
@@ -196,7 +195,6 @@ class stack_anstest {
      * This should strip out any internal functions like _C(..).
      *
      * @return string
-     * @access public
      */
     public function get_trace($includeresult) {
 

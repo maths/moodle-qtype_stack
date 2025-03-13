@@ -16,20 +16,25 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Functions related to dealing with scientific units in STACK.
-//
-// @copyright  2015 University of Edinburgh.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Functions related to dealing with scientific units in STACK.
+ *
+ * @package    qtype_stack
+ * @copyright  2015 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_casstring_units {
 
-    /*
+    /**
      * Entries in this array are supported prefix mulipliers.
      * They are in the form of array(label, multiplier, TeX, fullname).
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $supportedprefix = [
         ['y', '10^-24', 'y', 'yocto'],
         ['z', '10^-21', 'z', 'zepto'],
@@ -53,7 +58,7 @@ class stack_cas_casstring_units {
         ['Y', '10^24', 'Y', 'yotta'],
     ];
 
-    /*
+    /**
      * Entries in this array are supported units.
      * For more informatio on SI, see
      * http://www.bipm.org/utils/common/pdf/si_brochure_8_en.pdf
@@ -62,6 +67,7 @@ class stack_cas_casstring_units {
      *
      * Entries below are in the form of array(label, base, TeX, fullname).
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $supportedunits = [
         ['m', 'm', 'm', 'meter'],
         ['l', 'm^3/1000', 'l', 'litre'],
@@ -113,11 +119,12 @@ class stack_cas_casstring_units {
         // @codingStandardsIgnoreEnd
     ];
 
-    /*
+    /**
      * Entries in this array are supported units which are used without any prefix.
      * Entries below are in the form of array(label, base, TeX, fullname).
      * Remember to add any with three or more letters to security-map.json.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $nonprefixunits = [
         ['min', 's*60', 'min', 'minutes'],
         ['amu', 'amu', 'amu', 'Atomic mass units'],
@@ -149,11 +156,14 @@ class stack_cas_casstring_units {
         ['yd', '36*in', 'yd', 'yard'],
         ['mi', '5280*12*in', 'mi', 'mile'],
         ['lb', '4.4482*N', 'lb', 'pound'],
+        ['dpt', '1/m', 'dpt', 'Dioptre'],
     ];
 
-    /* This array keeps a list of synoymns which students are likely to use.
+    /**
+     * This array keeps a list of synoymns which students are likely to use.
      * These arrays are used for generating helpful feedback.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $unitsynonyms = [
         'mol' => ['mols', 'moles', 'mole'],
         'kat' => ['kats', 'katal', 'katals'],
@@ -173,7 +183,9 @@ class stack_cas_casstring_units {
         throw new stack_exception('stack_casstring_units: you cannot create instances of this class.');
     }
 
-    /* This function contributes to the maximalocal.mac file generated in installhelper.class.php. */
+    /**
+     * This function contributes to the maximalocal.mac file generated in installhelper.class.php.
+     */
     public static function maximalocal_units() {
 
         $maximalocal = "    /* Define units available in STACK. */\n";
@@ -219,7 +231,7 @@ class stack_cas_casstring_units {
         return $maximalocal;
     }
 
-    /*
+    /**
      * Sort out the TeX code for this string.
      */
     private static function maximalocal_units_tex($texstr) {
@@ -230,7 +242,8 @@ class stack_cas_casstring_units {
         }
     }
 
-    /* This function builds a list of all permitted prefix.unit combinations as defined above.
+    /**
+     * This function builds a list of all permitted prefix.unit combinations as defined above.
      * @param int len This is the minimum length of string to be needed to be worth considering.
      */
     public static function get_permitted_units($len) {
@@ -260,14 +273,17 @@ class stack_cas_casstring_units {
     }
 
 
-    /* This array keeps a list of substitutions which are made when we deal with units.
+    /**
+     * This array keeps a list of substitutions which are made when we deal with units.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $unitsubstitutions = [
         'Torr' => 'torr',
         'kgm/s' => 'kg*m/s',
     ];
 
-    /* Make substitutions in an expression.
+    /**
+     * Make substitutions in an expression.
      * @param MP_Identifier any identifier in the parse tree.
      */
     public static function make_units_substitutions($identifiernode) {
@@ -290,7 +306,8 @@ class stack_cas_casstring_units {
         }
     }
 
-    /* Check to see if the student looks like they have used a synonym instead of a correct unit.
+    /**
+     * Check to see if the student looks like they have used a synonym instead of a correct unit.
      * @param string $key is just a single atomic key.
      */
     public static function find_units_synonyms($key) {
@@ -322,7 +339,8 @@ class stack_cas_casstring_units {
         return [$fndsynonym, $answernote, $synonymerr];
     }
 
-    /* Check to see if the student looks like they have used units with the wrong case.
+    /**
+     * Check to see if the student looks like they have used units with the wrong case.
      * @param string $key is just a single atomic key.
      */
     public static function check_units_case($key) {

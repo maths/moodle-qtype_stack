@@ -16,10 +16,13 @@
 
 define('CLI_SCRIPT', true);
 
-// This script parses STACKs Maxima libraries and tries to find variables that leak.
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script parses STACKs Maxima libraries and tries to find variables that leak.
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');

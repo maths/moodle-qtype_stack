@@ -33,6 +33,7 @@ require_once(__DIR__ . '/textrenderer.php');
 /**
  * Abstract representation of a graph (e.g. a PRT).
  *
+ * @package    qtype_stack
  * @copyright 2013 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -67,6 +68,7 @@ class stack_abstract_graph {
      */
     protected $stack = [];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $clumps = null;
 
     /**
@@ -101,6 +103,7 @@ class stack_abstract_graph {
             $leftlabel, $rightlabel, $url);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_prt_text($name, $casstatement, $quiet, $truenote, $falsenote) {
         if ($this->nodes[$name] instanceof stack_prt_graph_node) {
             $this->nodes[$name]->add_prt_text($casstatement, $quiet, $truenote, $falsenote);
@@ -109,6 +112,7 @@ class stack_abstract_graph {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function remove_node($nametodelete) {
         foreach ($this->nodes as $name => $node) {
             if ($name == $nametodelete) {
@@ -354,6 +358,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array node name => stack_abstract_graph_node the list of all nodes.
      */
     public function get_nodes() {
@@ -363,6 +368,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array node name => stack_abstract_graph_node nodes that are
      * roots in the graph. (That is, no other node links to them.) Only available
      * once the graph has been laid out.
@@ -372,6 +378,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array with keys like "node name|-1" or "node name|1". If, we
      * find a cycle in the graph we break it at an arbitrary point, and record
      * that fact here, then carry on. Therefore, this is a list of errors.
@@ -382,6 +389,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here
      * @param stack_abstract_graph_node $node the parent node of the edge.
      * @param int $direction self::LEFT or self::RIGHT.
      * @return book whether this edge was broken to break a cycle.
@@ -391,6 +399,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return int the maximum depth of any node. Root nodes have depth 1.
      */
     public function max_depth() {
@@ -399,6 +408,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here.
      * @return array with two elements, the minimum and maximum x-coordinates of any node.
      */
     public function x_range() {
@@ -417,6 +427,7 @@ class stack_abstract_graph {
     }
 
     /**
+     * Add description here
      * @param stack_abstract_graph_node $parent the parent node.
      * @param stack_abstract_graph_node $child one of its children.
      * @return bool whether there is another node on the direct line from parent to child.
@@ -487,6 +498,7 @@ class stack_abstract_graph {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __toString() {
         $string = '';
         foreach ($this->nodesbydepth as $depth => $nodes) {

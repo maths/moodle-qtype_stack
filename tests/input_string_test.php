@@ -32,36 +32,41 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
-// Unit tests for stack_algebra_input.
-//
-// @copyright  2018 The University of Edinburgh.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_algebra_input.
+ *
+ * @package    qtype_stack
+ * @copyright  2018 The University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_string_input
  */
-class input_string_test extends qtype_stack_testcase {
+final class input_string_test extends qtype_stack_testcase {
 
-    public function test_render_blank() {
+    public function test_render_blank(): void {
+
         $el = stack_input_factory::make('string', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" />',
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" ' .
+                'data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
-    public function test_render_hello_world() {
+    public function test_render_hello_world(): void {
+
         $el = stack_input_factory::make('string', 'ans1', '"Hello world"');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" />',
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" ' .
+                'data-stack-input-type="string" />',
                 $el->render(new stack_input_state(stack_input::VALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
         $this->assertEquals('The answer Hello world would be correct.',
                 $el->get_teacher_answer_display('"Hello world"', '\\text{Hello world}'));
     }
 
-    public function test_validate_string_input() {
+    public function test_validate_string_input(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -74,7 +79,8 @@ class input_string_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
-    public function test_validate_string_string_input() {
+    public function test_validate_string_string_input(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -86,7 +92,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{&quot;Hello world&quot;} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_string_singlequotes_input() {
+    public function test_validate_string_singlequotes_input(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -98,7 +105,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{&apos;Hello world&apos;} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_string_within_string() {
+    public function test_validate_string_within_string(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -110,7 +118,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{I said &quot;Hello world&quot; to fred} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_qm_within_string() {
+    public function test_validate_qm_within_string(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -122,7 +131,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{Lots of stuff:!\$\%^&*?@;} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_string_broken_string() {
+    public function test_validate_string_broken_string(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -133,7 +143,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{&quot;.} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_string_whitespace() {
+    public function test_validate_string_whitespace(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
@@ -144,7 +155,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{ Some whitespace } \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_string_hideanswer() {
+    public function test_validate_string_hideanswer(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'state', '"[SOME JSON]"');
         $el->set_parameter('options', 'hideanswer');
@@ -156,7 +168,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \text{[SOME MORE JSON]} \]"));
     }
 
-    public function test_validate_string_string_empty() {
+    public function test_validate_string_string_empty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $state = $el->validate_student_response(['sans1' => ''], $options, '"A random string"',
@@ -166,7 +179,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->contentsdisplayed);
     }
 
-    public function test_validate_string_string_explicitempty() {
+    public function test_validate_string_string_explicitempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('options', 'allowempty');
@@ -178,7 +192,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{&quot;&quot;} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_string_string_allowempty() {
+    public function test_validate_string_string_allowempty(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('options', 'allowempty');
@@ -189,7 +204,8 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \text{ } \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_xss_4() {
+    public function test_validate_student_response_xss_4(): void {
+
         $options = new stack_options();
         $ta = '"Hello world"';
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
@@ -215,5 +231,25 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals($cm, $state->contentsmodified);
         $this->assertEquals($cd, $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_too_long(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('string', 'sans1', '"Hello world"');
+        // Maxima is very slow to parse long strings.
+        $sa = '"Hell' . str_repeat('o', 1000) . ' world"';
+        $state = $el->validate_student_response(['sans1' => $sa], $options, '"Hello world"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+
+        $sa = '"Hell' . str_repeat('o', 262144) . ' world"';
+        $state = $el->validate_student_response(['sans1' => $sa], $options, 'x^2/(1+x^2)',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('too_long', $state->note);
+        $this->assertEquals('Your input is longer than permitted by STACK.', $state->errors);
     }
 }

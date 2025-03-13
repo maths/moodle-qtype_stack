@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Complex roots/unsorted multi-input answers</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+a) Convert the number \(z={@z@}\) to polar coordinates, i.e. write the number as \(z = r\, e^{\mathrm i\, \theta} = r\, \exp(\mathrm i\, \theta)\). The argument \(\theta\) should be given in radians and as the principal value, i.e. \(-\pi &lt; \theta \le \pi\).
+</p>
+<p>
+b) Find the three different roots \(u_1\), \(u_2\) or \(u_3\) of \(z\), where. \(u_1^3 = u_2^3 = u_3^3 = z\), but \(u_1 \neq u_2\), \(u_2 \neq u_3\), \(u_3 \neq u_1\).
+</p>
+<p>
+<strong>Answers:</strong> Give all answers exactly! The answers in b) must also be given in polar form.
+ The easiest way to enter the exponential function is as <code>exp()</code>.
+</p>
+<p>
+Example: \(\dfrac{6}{5}\, \exp\left(\dfrac{\mathrm i\, \pi}{7}\right) = \dfrac{6}{5}\, e^{\frac{\mathrm i\, \pi}{7}}\) is entered as <code>(6/5)*exp(%i*%pi/7)</code>.
+</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td>a)</td>
+            <td>\(z =~\)[[input:SAns1]]\(\, \exp(\)[[input:SAns2]]\(\, \mathrm{i})\)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>[[validation:SAns1]]</td>
+            <td>[[validation:SAns2]]</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <tbody>
+        <tr>
+            <td>b)</td>
+            <td>\(u_1 =~\)[[input:SAns3]]</td>
+            <td>[[validation:SAns3]] [[feedback:prt3]]</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>\(u_2 =~\)[[input:SAns4]]</td>
+            <td>[[validation:SAns4]] [[feedback:prt4]]</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>\(u_3 =~\)[[input:SAns5]]</td>
+            <td>[[validation:SAns5]][[feedback:prt5]]</td>
+        </tr>
+    </tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>a) When a complex number is expressed in polar form, \(r\) is the distance from the origin, which is the same as 
+\[\lvert z \rvert=\sqrt{0^2+\left({@radius@}\right)^2}={@radius@}.\]
+</p>
+
+<p>The argument \(\theta\) is given by the angle between the positive real axis and the vector from the origin to \(z\), with the requirement \(-\pi &lt; \theta \leq \pi\). 
+We can immediately see from the sign of \(z\) that \(\theta = \displaystyle {@arg_z@}\), since the real part is \(0\).</p>
+<p>Now we can write \(z\) in polar form: \[z = {@radius@} \, e^{ {@arg_z@} \, \mathrm i }\]</p>
+
+<p>b) Using the following formula, we can then calculate the complex \(n\):th roots:</p>
+<p>\[\sqrt[n]{z} = \sqrt[n]{r} \,\exp\left( \mathrm i\,\frac{\theta + 2k\pi}{n}\right), \quad k = 0, 1, \dots , n-1.\]</p>
+
+<p>With \(k=0\) we get
+\[\begin{split} u_1 &amp;= \sqrt[3]{{@radius@}} \exp\left( \mathrm i\, \frac{{@arg_z@}}{3} \right) \\ 
+&amp;= {@polarform_simp(u1)@}.
+\end{split}\]</p>
+
+<p>Similarly with \(k=1\) we get
+\[\begin{split} u_2 &amp;= \sqrt[3]{{@radius@}} \exp \left( \mathrm i\, \frac{{@arg_z@} + 2\pi}{3}\right) \\
+&amp;= {@polarform_simp(u2)@},
+\end{split}\]
+</p>
+<p>and with \(k=2\):
+\[\begin{split} u_3 &amp;= \sqrt[3]{{@radius@}}\exp \left( \mathrm i \, \frac{{@arg_z@} + 4\pi}{3}\right) \\
+&amp;= {@polarform_simp(u3)@}.
+\end{split}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024092500</text>
+    </stackversion>
+    <questionvariables>
+      <text>numerator : rand([2,3,5,7,11,13]);
+denominator : rand_with_prohib(2,13, [numerator, numerator*2, numerator*3]);
+radius: ev((numerator/denominator)^3,simp);
+arg_z: rand([-pi/2, pi/2]);
+zPar: radius*exp(arg_z*%i);
+polar_z: polarform(zPar);
+z:ev(zPar,simp);
+
+arg1: arg_z/3;
+arg2: arg1+(1*2*pi/3);
+arg3: arg1+(2*2*pi/3);
+
+u1: ev(radius^(1/3)*exp(arg1*%i),simp);
+u2: ev(radius^(1/3)*exp(arg2*%i),simp);
+u3: ev(radius^(1/3)*exp(arg3*%i),simp);
+
+/* Kuvaa varten muuttujia: */
+xmin: -radius*1.5; 
+ymin: xmin;
+xmax: radius*1.5; 
+ymax: xmax;
+r:radius;
+xangle_startp: ev(r/2,simp);
+yangle_endp: ev(imagpart(z)/2,simp);
+
+startx : if (arg_z = pi/2) then radius/2 else 0;
+starty : if (arg_z = pi/2) then 0 else imagpart(zPar)/2;
+endx : if (arg_z = pi/2) then 0 else radius/2;
+endy : if (arg_z = pi/2) then imagpart(zPar)/2 else 0;
+
+Tans1 : radius;
+Tans2 : arg_z;
+Tans3 : polarform_simp(u1);
+Tans4 : polarform_simp(u2);
+Tans5 : polarform_simp(u3);
+
+Twrong1 : ev(radius/3,simp);
+Twrong2 : ev(arg_z*2,simp);
+/* Not a root. */
+Twrong3 : polarform_simp(Tans3*2);
+/* A root, but not the right form. */
+Twrong4 : ev(ratsimp(Tans4),simp);
+/* Both properties wrong! */
+Twrong5 : Tans5*4;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>a)</p>
+<p>[[feedback:prt1]]</p>
+<p>b)</p>
+<p>[[feedback:prt2]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[Write \(z={@zPar@}={@z@}\) in polar form. Answer: \({@radius@} \, e^{{@arg_z@} \, \mathrm i}\). <br>
+Determine the three roots \(\sqrt[3]{z}\).<br>
+Answer: \(u_1 = {@polarform_simp(u1)@}\), \(u_2 = {@polarform_simp(u2)@}\) and \(u_3 = {@polarform_simp(u3)@}\).]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text><![CDATA[This question has two interesting aspects.
+
+1. It deals with complex numbers in polar form.
+2. The answer is an example of "unsorted multi-input answers".  That is, we end up with a set of solutions at the end, and we want to decide that all are solutions, and all solutions are given!
+
+To deal with this, the last three inputs each have a PRT which checks (1) is the answer a root, and (2) is the root in the correct form.  Note the use of CasEqual in the PRTs which establish the student's answer is really the correct form, using `complex_exponentialp(ex)`.  Complex exponential forms are prone to being automatically simplified by Maxima back into Cartesian form!
+
+We then have one PRT which checks the _set_ of answers is correct.]]></text>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>SAns1</name>
+      <type>numerical</type>
+      <tans>Tans1</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>SAns2</name>
+      <type>numerical</type>
+      <tans>Tans2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>SAns3</name>
+      <type>algebraic</type>
+      <tans>Tans3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>SAns4</name>
+      <type>algebraic</type>
+      <tans>Tans4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>SAns5</name>
+      <type>algebraic</type>
+      <tans>Tans5</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAns1</sans>
+        <tans>Tans1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Yes, \(r\) is correct!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The radius \(r\) is unfortunately wrong.</p>
+<p>If \(z = {@zPar@}\), then what must the distance to the origin be? That distance is the same as the radius! (As usual, use the Pythagorean theorem to calculate the distance.)</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAns2</sans>
+        <tans>Tans2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The argument \(\theta\) is correct!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The argument \(\theta\) is unfortunately wrong.</p>
+<p>Use the figure! You know that the real part of \(z\) is \(0\), so what must the angle be? Remember the requirement \(-\pi &lt; \theta \leq \pi\).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>SAnss: {polarform_simp(SAns3), polarform_simp(SAns4), polarform_simp(SAns5)};
+TAnss: {polarform_simp(Tans3), polarform_simp(Tans4), polarform_simp(Tans5)};
+
+/* Make sure all answers are solutions. */
+SAnssc:map(lambda([ex],ev(ratsimp(ex^3),simp)),SAnss);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Check all the answers are correct.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAnssc</sans>
+        <tans>{z}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Check the set of solutions.  This answer test gives feedback.</description>
+        <answertest>Sets</answertest>
+        <sans>SAnss</sans>
+        <tans>TAnss</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Note, that any sets of numbers shown above might differ in algebraic form from those you typed in.  (We have to simplify them to compare them!)</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Check this is a root of some kind</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAns3^3</sans>
+        <tans>z</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your number satisfies \(u_1^3=\left({@SAns3@}\right)^3 = {@ev(SAns3^3,simp)@} \neq {@z@}\).</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Check the written form</description>
+        <answertest>CasEqual</answertest>
+        <sans>complex_exponentialp(SAns3)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your number does not appear to be in the form \(re^{i\theta}\) as required.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Check this is a root of some kind</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAns4^3</sans>
+        <tans>z</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your number satisfies \(u_1^3=\left({@SAns4@}\right)^3 = {@ev(SAns4^3,simp)@} \neq {@z@}\).</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Check the written form</description>
+        <answertest>CasEqual</answertest>
+        <sans>complex_exponentialp(SAns4)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your number does not appear to be in the form \(re^{i\theta}\) as required.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Check this is a root of some kind</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAns5^3</sans>
+        <tans>z</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your number satisfies \(u_1^3=\left({@SAns5@}\right)^3 = {@ev(SAns5^3,simp)@} \neq {@z@}\).</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Check the written form</description>
+        <answertest>CasEqual</answertest>
+        <sans>complex_exponentialp(SAns5)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your number does not appear to be in the form \(re^{i\theta}\) as required.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>761162051</deployedseed>
+    <deployedseed>526635612</deployedseed>
+    <deployedseed>1196937857</deployedseed>
+    <deployedseed>878955037</deployedseed>
+    <deployedseed>927465400</deployedseed>
+    <deployedseed>363149544</deployedseed>
+    <deployedseed>1940161873</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>SAns1</name>
+        <value>Tans1</value>
+      </testinput>
+      <testinput>
+        <name>SAns2</name>
+        <value>Tans2</value>
+      </testinput>
+      <testinput>
+        <name>SAns3</name>
+        <value>Tans3</value>
+      </testinput>
+      <testinput>
+        <name>SAns4</name>
+        <value>Tans4</value>
+      </testinput>
+      <testinput>
+        <name>SAns5</name>
+        <value>Tans5</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>SAns1</name>
+        <value>Twrong1</value>
+      </testinput>
+      <testinput>
+        <name>SAns2</name>
+        <value>Twrong2</value>
+      </testinput>
+      <testinput>
+        <name>SAns3</name>
+        <value>Twrong3</value>
+      </testinput>
+      <testinput>
+        <name>SAns4</name>
+        <value>Twrong4</value>
+      </testinput>
+      <testinput>
+        <name>SAns5</name>
+        <value>Twrong5</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>SAns1</name>
+        <value>Tans1</value>
+      </testinput>
+      <testinput>
+        <name>SAns2</name>
+        <value>Tans2</value>
+      </testinput>
+      <testinput>
+        <name>SAns3</name>
+        <value>Tans5</value>
+      </testinput>
+      <testinput>
+        <name>SAns4</name>
+        <value>Tans3</value>
+      </testinput>
+      <testinput>
+        <name>SAns5</name>
+        <value>Tans4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>SAns1</name>
+        <value>Tans1</value>
+      </testinput>
+      <testinput>
+        <name>SAns2</name>
+        <value>Tans2</value>
+      </testinput>
+      <testinput>
+        <name>SAns3</name>
+        <value>Tans3</value>
+      </testinput>
+      <testinput>
+        <name>SAns4</name>
+        <value>Tans3</value>
+      </testinput>
+      <testinput>
+        <name>SAns5</name>
+        <value>Tans4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>SAns1</name>
+        <value>Tans1</value>
+      </testinput>
+      <testinput>
+        <name>SAns2</name>
+        <value>Tans2</value>
+      </testinput>
+      <testinput>
+        <name>SAns3</name>
+        <value>Tans3</value>
+      </testinput>
+      <testinput>
+        <name>SAns4</name>
+        <value>1+i</value>
+      </testinput>
+      <testinput>
+        <name>SAns5</name>
+        <value>ev(ratsimp(Tans5),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+      <tag><text>komplexa tal</text>
+</tag>
+      <tag><text>argument</text>
+</tag>
+      <tag><text>complex analysis</text>
+</tag>
+      <tag><text>polära koordinater</text>
+</tag>
+      <tag><text>polär</text>
+</tag>
+      <tag><text>belopp</text>
+</tag>
+      <tag><text>rot</text>
+</tag>
+      <tag><text>rötter</text>
+</tag>
+      <tag><text>figur</text>
+</tag>
+      <tag><text>radie</text>
+</tag>
+      <tag><text>SV</text>
+</tag>
+      <tag><text>Åbo Akademi</text>
+</tag>
+      <tag><text>Kurula</text>
+</tag>
+      <tag><text>Jern</text>
+</tag>
+      <tag><text>TTY</text>
+</tag>
+      <tag><text>Makela</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

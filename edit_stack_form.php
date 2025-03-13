@@ -34,6 +34,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetreest
 /**
  * Stack question editing form definition.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -42,6 +43,17 @@ class qtype_stack_edit_form extends question_edit_form {
     const DEFAULT_QUESTION_TEXT = '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
+    /** @var string the default variables for a new question. */
+    const DEFAULT_QUESTION_VARIABLES = 'ta1:?;';
+    /** @var string the default note for a new question. */
+    const DEFAULT_QUESTION_NOTE = '{@ta1@}';
+    /** @var string the default variable name for the teacher's answer. */
+    const DEFAULT_TEACHER_ANSWER = 'ta1';
+    /** @var string the default input name. */
+    const DEFAULT_INPUT = 'ans1';
+
+    /** @var decide if this is a new question, requiring defaults. */
+    private $newquestion = false;
 
     /** @var options the STACK configuration settings. */
     protected $stackconfig = null;
@@ -61,7 +73,9 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var array the set of choices used for the score mode of all PRT branches. */
     protected $scoremodechoices;
 
-    /** Patch up data from the database before a user edits it in the form. */
+    /**
+     * Patch up data from the database before a user edits it in the form.
+     */
     public function set_data($question) {
         if (!empty($question->questiontext)) {
             $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
@@ -84,6 +98,11 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
+        $feedbackstring = optional_param('cas', '', PARAM_RAW);
+        if ($feedbackstring) {
+            $question->generalfeedback = $feedbackstring;
+        }
+
         parent::set_data($question);
     }
 
@@ -97,6 +116,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Add description here.
      * @return string the current value of the question text, given the state the form is in.
      */
     protected function get_current_question_text() {
@@ -111,6 +131,7 @@ class qtype_stack_edit_form extends question_edit_form {
         } else if (!empty($this->question->questiontext)) {
             $this->questiontext = $this->question->questiontext;
         } else {
+            $this->newquestion = true;
             $this->questiontext = self::DEFAULT_QUESTION_TEXT;
         }
 
@@ -118,6 +139,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Add description here.
      * @return string the current value of the specific feedback, given the state the form is in.
      */
     protected function get_current_specific_feedback() {
@@ -137,6 +159,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $this->specificfeedback;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
         parent::definition();
         $mform = $this->_form;
@@ -154,6 +177,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
         global $OUTPUT;
 
@@ -213,6 +237,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
+        /* Check if we have a new question. */
         if (isset($this->question->id)) {
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
@@ -224,6 +249,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
         } else {
+            // Add in default question variables etc.
+            $this->question->questionvariables = self::DEFAULT_QUESTION_VARIABLES;
+
             $out = stack_string('stack_library');
             $liburlparams = [];
             if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
@@ -270,7 +298,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('editor', 'questionnote',
                 stack_string('questionnote'), ['rows' => 2], $this->editoroptions);
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
-        $mform->getElement('questionnote')->setValue(['text' => '']);
+        $mform->getElement('questionnote')->setValue(['text' => self::DEFAULT_QUESTION_NOTE]);
 
         $qdec = $mform->createElement('editor', 'questiondescription',
             stack_string('questiondescription', 'question'), ['rows' => 10], $this->editoroptions);
@@ -397,7 +425,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('stackBlock_geogebra_heading'));
             $mform->insertElementBefore($geogebraheading, 'questiontext');
 
-            // Add function to get GeoGebra material_ids in STACK questiontext.
+            /**
+             * Add function to get GeoGebra material_ids in STACK questiontext.
+             */
             function get_geogebra_material_ids($str) {
                 $start = "material_id:\"";
                 $end = "\"";
@@ -453,12 +483,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
-        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 30]);
         $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
         // that stops the input sections collapsing by default. Instead, we enforce
         // that it is non-blank in the server-side validation.
+
+        // Set a default for the new question.
+        if ($inputname === self::DEFAULT_INPUT) {
+            $mform->setDefault($inputname . 'modelans', self::DEFAULT_TEACHER_ANSWER);
+        }
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), ['size' => 3]);
         $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
@@ -474,7 +509,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in',
             ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons'] );
 
-        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 30]);
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->setDefault($inputname . 'syntaxhint', '');
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
@@ -535,7 +570,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
         $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
-        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 30]);
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
@@ -604,6 +639,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('submit', $prtname . 'nodeadd', stack_string('addanothernode'));
         $mform->registerNoSubmitButton($prtname . 'nodeadd');
+        $mform->addElement('text', $prtname . 'nodeaddnum', stack_string('nodeaddnum'), ['size' => 3]);
+        $mform->setType($prtname . 'nodeaddnum', PARAM_INT);
+        $mform->setDefault($prtname . 'nodeaddnum', 1);
     }
 
     /**
@@ -650,6 +688,14 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
+
+        // Set a default for the new question.
+        // The "newquestion" approach is a hack because for some reason setDefaults always
+        // sets the field in PRT nodes.  No idea why!
+        if ($this->newquestion) {
+            $mform->setDefault($prtname . 'sans[' . $nodekey . ']', self::DEFAULT_INPUT);
+            $mform->setDefault($prtname . 'tans[' . $nodekey . ']', self::DEFAULT_TEACHER_ANSWER);
+        }
 
         // Create the section of the form for each node - the branches.
         foreach (['true', 'false'] as $branch) {
@@ -698,6 +744,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
         $question = $this->data_preprocessing_options($question);
@@ -726,6 +773,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $opt = $question->options;
 
         $question->questionvariables     = $opt->questionvariables;
+        $vars   = optional_param('maximavars', '', PARAM_RAW);
+        if ($vars) {
+            $question->questionvariables = $vars;
+        }
         $question->variantsselectionseed = $opt->variantsselectionseed;
         $question->questionnote          = $this->prepare_text_field('questionnote',
                                             $opt->questionnote, $opt->questionnoteformat, $question->id);
@@ -891,6 +942,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $data;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
@@ -898,6 +950,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return $qtype->validate_fromform($fromform, $errors);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function qtype() {
         return 'stack';
     }

@@ -82,6 +82,29 @@ Teachers must explicitly use the `nounor` and `nounand` commands, not the `and` 
 
     ta:[p=0,(v-n1)*(v-n2)=0,v-n1=0 nounor v-n2=0,v=n1 nounor v=n2]
 
+## Syntax hints
+
+The result of evaluating the syntax hint castext must be a list.  This will be re-interpreted by Maxima, and if you just pass in an expression strange behaviour may result.
+
+The castext may be used to fine-tune the syntax hint. In particular, if you want to remove `*`s from the first line, then this is one (rare) situation where it's best to work at the _display_ level, not at the Maxima expression level.  Normally, especially with PRTs, it's best to work at the maxima level to establish the mathematical meaning.  However, here we need to fine tune how an expression is displayed.  There are currently two options for creating a clean string representation of an expression.
+
+1. `sh:stack_disp(unary_minus_sort(p), "")` will provide the LaTeX output (fine-tuned by STACK).  The problems with using this format here, outside the LaTeX maths environment, are things like (i) use of `\left(...\right)`, use of `\frac{}{}` for division etc.
+2. `sh:sremove("*", string(unary_minus_sort(p)))` will provide the string output.  The problems with this format are things like (i) too many brackets, (ii) nounforms are not converted (`nounand`).  This Maxima function has not been fine-tuned by STACK.
+
+To solve this problem in general an outstanding developer task is to write an output format function, like Maxima's `tex` command.  However, this is a lot of work.
+
+
+Here is one specific example of question variables, sorting out unary minus problems.
+
+```
+p:-8*a*d-3*b*c+6*a*c+4*b*d;
+make_multsgn("space");
+sh:stack_disp([unary_minus_sort(p)],"");
+ta:[p,ev(p,simp)];
+````
+
+Then use `[{@sh@}]` in the syntax hint.
+
 
 ## Input type options
 
@@ -119,7 +142,7 @@ For example, try the following in the equiv-reasoning input.
     let a=2
     (x-2)*(x+2)=0
 
-Internally there is a special function `stacklet(v,a)` which is used to indicate the variable `v` should have the value `a` within equivalence reasoning.
+Internally there is a special function `stacklet(v,a)` which is used to indicate the variable `v` should have the value `a` within equivalence reasoning.  Note, this only assigns a value to a variable, and by design is not intended for definition of functions (sorry).
 
 To find all assignments in a student's answer, such as `ans1`, you can filter on the `stacklet` function within the feedback variables.  Note, the student's answer will be a list..
 

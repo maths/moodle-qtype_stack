@@ -37,7 +37,7 @@ In this way, the teacher can record, within the question itself, how they expect
 3. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
 4. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.
    * Currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
-   * Scores and penalties are rounded to three decimal places for testing purposes.
+   * Scores and penalties must be floats (not, e.g. 2/3) and are rounded to three decimal places for testing purposes.
 5. Once you have added the test case, STACK will automatically validate and submit these responses and display the outcomes.
 6. You may add as many test cases are you need.  It is sensible to add in the following.
     1. The correct response.  There is a button which will copy the expression used as the "Teacher's answer" in the input as a basis for a test case to help create this test.

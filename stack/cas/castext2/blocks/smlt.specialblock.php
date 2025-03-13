@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -25,23 +32,28 @@ require_once(__DIR__ . '/../../../utils.class.php');
  * stack_maxima_latex_tidy() function.
  */
 class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_castext2_block {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $content;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($params, $children = [], $mathmode = false, $value = '') {
         parent::__construct($params, $children, $mathmode);
         $this->content = $value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Should not even happen. This is not a block that makes sense for
         // end users.
         return new MP_List([new MP_String('smlt'), new MP_String($this->content)]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         if (count($params) < 2) {
@@ -71,6 +83,7 @@ class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_caste
         return stack_maxima_latex_tidy($t);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

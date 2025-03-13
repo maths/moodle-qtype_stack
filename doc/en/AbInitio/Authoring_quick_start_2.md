@@ -42,9 +42,9 @@ Notice that we have defined a local variable `exp`, and used the value of this i
 
 Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)
 
-In the input `ans1`, specify the `model answer` as the variable `ta`.
+In the input `ans1`, confirm the default `model answer` is the variable `ta`.
 
-In the potential response tree, set the `Answer test` to  `AlgEquiv`, set  `SAns` to `ans1` and set `TAns` to `ta`. 
+In the potential response tree, confirm the default `Answer test` is  `AlgEquiv`, `SAns` is `ans1` and `TAns` is `ta`.
 
 It is good practice to use question variables often, as they save time and let you change properties of the question easily in the future.
 

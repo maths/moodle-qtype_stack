@@ -1,0 +1,141 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Eigenvector/Eigenvalue functions for STACK                  */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+stack_linear_algebra_declare(true)$
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
+
+/**
+ * Is a vector an eigenvector of a matrix? 
+ * Optionally will check if the given vector is an eigenvector corresponding to a given eigenvalue.
+ *
+ * @param[matrix] v A column vector; a mx1 matrix; the vector that is being tested
+ * @param[matrix] M A mxm matrix
+ * @param[number] L Optional: A number; the given eigenvalue.
+ * @return[boolean] Is v an eigenvector of M (optionally: that corresponds to eigenvalue L)?
+ */
+eigenvectorp(v,M,[L]):= block([],
+  if not(squarep(M)) then return(false),
+  v: vec_convert(v),
+  if row_vecp(v) then v: transpose(v)
+  else if listp(v) then v: transpose(v)
+  else if ntuplep(v) then v: transpose(args(v)),
+  if not(col_vecp(v)) then return(false),
+  if ev(zeromatrixp(v),simp) then return(false),
+  if is(second(matrix_size(M))#first(matrix_size(v))) then return(false),
+  if not(emptyp(L)) then return(ev(is(M.v=first(L)*v),expand,simp)),
+  return(is(rank(ev(addcol(M.v, v),simp))=1) and is(rank(v)=1))
+);
+
+/**
+ * Is a number an eigenvalue of a matrix? 
+ * Optionally will check if the given number is an eigenvalue corresponding to a given eigenvector.
+ *
+ * @param[matrix] L A number; the value that is being tested
+ * @param[matrix] M A mxm matrix
+ * @param[number] v Optional: A mx1 matrix; the given eigenvector.
+ * @return[boolean] Is L an eigenvalue of M (optionally: that corresponds to eigenvector v)?
+ */
+eigenvaluep(L,M,[v]):= block([],
+  if not(squarep(M)) then return(false),
+  if emptyp(v) then return(is(ev(determinant(M - ident(second(matrix_size(M)))*L)=0,simp)))
+  else return(eigenvectorp(first(v),M,L))
+);
+
+/**
+ * Computes the Rayleigh quotient
+ * Defined as (Ax).x/(x.x)
+ * 
+ * @param[matrix] M a mxn matrix 
+ * @param[matrix] v a nx1 matrix
+ * @return[number] the Rayleigh quotient of M and v
+ */
+Rayleigh(M,v):= ev((conjugate(transpose(v)) . M . v) / (conjugate(transpose(v)) . v),simp);
+
+/**
+ * Given an eigenvector, retrieve the corresponding eigenvalue
+ * First checks that the given vector is an eigenvector, then computes the Rayleigh quotient. 
+ * 
+ * @param[matrix] v The eigenvector, a mx1 matrix
+ * @param[matrix] M The matrix, a mxm matrix
+ * @return[number] The eigenvalue, or false if v was not an eigenvector.
+ */
+get_eigenvalue(v,M):= block([],
+  if not(eigenvectorp(v,M)) then return(false),
+  return(Rayleigh(M,v))
+);
+
+/**
+ * Given an eigenvalue, retrieve a basis for the corresponding eigenspace
+ * Optionally will orthonormalize the eigenspace.
+ * 
+ * @param[number] L The eigenvalue, a number
+ * @param[matrix] M The matrix, a mxm matrix
+ * @param[boolean] orthonormalize Optional: if true then orthonormalize the eigenspace
+ * @return[list] A list of mx1 matrices; a basis for the eigenspace of L. Empty list if L is not an eigenvalue. 
+ */
+get_eigenvector(L,M,[orthonormalize]):= block([evals,evects,ii],
+  if emptyp(orthonormalize) then orthonormalize: false else orthonormalize: first(orthonormalize),
+  if not(squarep(M)) then return([]),
+  [evals, evects]: ev(eigenvectors(M),simp),
+  if not(member(L,first(evals))) then return([]),
+  ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+  vecs: evects[ii],
+  if orthonormalize then vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),gramschmidt(vecs)),simp)
+  else vecs: map(scale_nicely,vecs),
+  return( map(transpose,vecs) )
+);
+
+/**
+ * Compute the algebraic multiplicity of an eigenvalue. 
+ * Returns 0 if L is not an eigenvalue of M.
+ *
+ * @param[matrix] M a square matrix
+ * @param[number] L an eigenvalue of M
+ * @return[non-negative integer] the algebraic multiplicity of L in M. 0 if L is not an eigenvalue of M
+ */
+alg_mult(M,L):= block([evals,ii],
+  if squarep(M) then block(
+    evals: ev(eigenvalues(M),simp),
+    if not(member(L,first(evals))) then return(0),
+    ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+    return(second(evals)[ii])
+  )
+);
+
+/**
+ * Compute the geometric multiplicity of an eigenvalue. 
+ * Returns 0 if L is not an eigenvalue of M.
+ *
+ * @param[matrix] M a square matrix
+ * @param[number] L an eigenvalue of M
+ * @return[non-negative integer] the geometric multiplicity of L in M. 0 if L is not an eigenvalue of M
+ */
+geo_mult(M,L):= block([evals,evects,ii],
+  if squarep(M) then block(
+    [evals, evects]: ev(eigenvectors(M),simp),
+    if not(member(L,first(evals))) then return(0),
+    ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+    return(length(evects[ii]))
+  )
+);

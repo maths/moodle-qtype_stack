@@ -22,8 +22,8 @@ There are lots of fields, but only a few are compulsory:
 
 1. The "question name",
 2. The "question text", which is shown to the student,
-3. The teacher's "model answer" (inside "Input: ans1" on a default question),
-4. A test of "correctness".
+3. The teacher's "model answer" `ta` using a variable in the "question variables",
+4. A test of "correctness" (defaults to Algebraic equivalence).
 
 By default a new question automatically has one [input](../Authoring/Inputs/index.md), and one algorithm to test correctness of the answer.
 
@@ -49,15 +49,15 @@ Notes:
 
 ## Input: ans1
 
+For a minimal question, we must specify the _model answer_. Change the question variables so this is
+
+    ta:3*(x-1)^2;
+
 Scroll down:  there will be an [inputs](../Authoring/Inputs/index.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
-
-For a minimal question, we must specify the _model answer_. Let this be
-
-    3*(x-1)^2
 
 Notes
 
-1. The student's response is stored in the answer variable `ans1`.
+1. The student's response is stored in the answer variable `ans1`.  By default this uses the value of the variable `ta`.
 2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX. This means multiplication must be explicitly specified, using `*`.
 3. [Inputs](../Authoring/Inputs/index.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
 4. A question can have many inputs for multiple parts.  These are discussed later in a later part.
@@ -87,9 +87,9 @@ Each branch can then
 
 Let us configure the first node to determine if the student has differentiated correctly.
 
-1. Specify the variable `ans1` in the `SAns` setting.
-2. Specify the correct answer in the `TAns` setting: `3*(x-1)^2`.
-3. Confirm we have `AlgEquiv` in the _Answer test_ drop-down menu (this is the default).
+1. By default we already have the variable `ans1` in the `SAns` setting.
+2. By default we already have the variable `ta` in the `TAns` setting.  The variable `ta` has been assigned a value in the "question variables".
+3. By default we have `AlgEquiv` in the _Answer test_ drop-down menu.
 
 ## Saving the question
 
@@ -101,8 +101,8 @@ To recap, we have
 
 1. The "question name",
 2. The "question text",
-3. The teacher's "model answer",
-4. A test of "correctness".
+3. The teacher's "model answer", (`ta` in the question variables).
+4. A test of "correctness" (set to Algebraic equivalence by default).
 
 Next we should try out our question by pressing the `Preview` link at the bottom of the page.
 

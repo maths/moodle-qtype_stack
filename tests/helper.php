@@ -14,24 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Test helper code for the Stack question type.
+ *
+ * @package   qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
 
-// Test helper code for the Stack question type.
-//
-// @package   qtype_stack.
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
-/**
- * @group qtype_stack
- */
-class qtype_stack_test_helper extends question_test_helper {
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+final class qtype_stack_test_helper extends question_test_helper {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DEFAULT_CORRECT_FEEDBACK          = '<p>Correct answer, well done.</p>';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DEFAULT_PARTIALLYCORRECT_FEEDBACK = '<p>Your answer is partially correct.</p>';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DEFAULT_INCORRECT_FEEDBACK        = '<p>Incorrect answer.</p>';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_test_questions() {
         return [
             'test0', // One input, one PRT, not randomised. 1 + 1 = 2.
@@ -40,7 +44,6 @@ class qtype_stack_test_helper extends question_test_helper {
             'test3', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test3_penalty0_1', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test4', // One input, one PRT, not randomised, has a plot. What is the equation of this graph? x^2.
-            'test6', // Test of the matrix input type.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
@@ -73,6 +76,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
             'block_locals',       // Make sure local variables within a block are still permitted student input.
             'validator',          // Test teacher-defined input validators and language.
+            'validator_seed',     // Test validators have access to the random seed.
             'feedback',           // Test teacher-defined input feedback and complex numbers.
             'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
             'exdowncase',         // Test the ordergreat function with exdowncase.
@@ -150,6 +154,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a very elementary question.
      */
     public static function make_stack_question_test0() {
@@ -211,6 +216,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test1.xml file.
      */
     public static function make_stack_question_test1() {
@@ -263,6 +269,7 @@ class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_stack_question_form_data_test1() {
         $formform = new stdClass();
 
@@ -368,6 +375,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test2.xml file.
      */
     public static function make_stack_question_test2() {
@@ -408,6 +416,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test3.xml file.
      */
     public static function make_stack_question_test3() {
@@ -627,6 +636,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test3.xml file.
      */
     public static function make_stack_question_test3_penalty0_1() {
@@ -848,6 +858,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test4.xml file.
      */
     public static function make_stack_question_test4() {
@@ -907,6 +918,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question in which the expected answer in the true/false input is generated from the question variables...
      *                              and the question variables define the scores in the PRT.
      */
@@ -965,6 +977,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test8.xml file.
      */
     public static function make_stack_question_test8() {
@@ -1080,6 +1093,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question from the test9.xml file.
      */
     public static function make_stack_question_test9() {
@@ -1169,6 +1183,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_divide() {
@@ -1227,6 +1242,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest.
      */
     public static function make_stack_question_numsigfigs() {
@@ -1285,6 +1301,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest, with trailing zeros.
      */
     public static function make_stack_question_numsigfigszeros() {
@@ -1343,6 +1360,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question the question which uses numerical precision feedback variables.
      */
     public static function make_stack_question_numdpsfeedbackvars() {
@@ -1404,6 +1422,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest.
      */
     public static function make_stack_question_units() {
@@ -1464,6 +1483,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a numerical precision answertest.
      */
     public static function make_stack_question_unitsoptions() {
@@ -1524,6 +1544,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using a units and algebraic input.
      */
     public static function make_stack_question_unitsmulti() {
@@ -1587,6 +1608,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question using equivalence reasoning to solve a quadratic equation.
      */
     public static function make_stack_question_equiv_quad() {
@@ -1647,6 +1669,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question with two PRTs with different values.
      */
     public static function make_stack_question_1input2prts() {
@@ -1739,6 +1762,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a information item, rather than a question.
      */
     public static function make_stack_question_information() {
@@ -1758,6 +1782,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question with variable grades
      */
     public static function get_stack_question_data_variable_grade() {
@@ -1872,6 +1897,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a 'survey' item. Inputs, but no grading.
      */
     public static function make_stack_question_survey() {
@@ -1893,6 +1919,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a very elementary question assuming single letter variables.
      */
     public static function make_stack_question_single_char_vars() {
@@ -1950,6 +1977,7 @@ class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_stack_question_runtime_prt_err() {
         $q = self::make_a_stack_question();
 
@@ -2055,6 +2083,7 @@ class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_stack_question_runtime_ses_err() {
         $q = self::make_a_stack_question();
 
@@ -2108,6 +2137,7 @@ class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_stack_question_runtime_cas_err() {
         $q = self::make_a_stack_question();
 
@@ -2162,6 +2192,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return stdClass the question from the test0.xml file.
      */
     public static function get_stack_question_data_test0() {
@@ -2276,6 +2307,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return stdClass the question from the test3.xml file.
      */
     public static function get_stack_question_data_test3() {
@@ -2614,6 +2646,7 @@ class qtype_stack_test_helper extends question_test_helper {
         return $qdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_stack_question_form_data_test3() {
         $formform = new stdClass();
 
@@ -3069,6 +3102,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a very elementary question.
      */
     public static function make_stack_question_checkbox_all_empty() {
@@ -3132,6 +3166,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a checkbox question using %union, which was problematic
      */
     public static function make_stack_question_checkbox_union() {
@@ -3192,6 +3227,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a checkbox question using %union, which was problematic
      */
     public static function make_stack_question_checkbox_noun_diff() {
@@ -3252,6 +3288,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests checking for addrow in an older question.
      */
     public static function make_stack_question_addrow() {
@@ -3314,6 +3351,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_mul() {
@@ -3373,6 +3411,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which uses ATStringSloppy.
      */
     public static function make_stack_question_stringsloppy() {
@@ -3457,6 +3496,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which uses ATSRegExp.
      */
     public static function make_stack_question_sregexp() {
@@ -3520,6 +3560,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which uses ATSRegExp.
      */
     public static function make_stack_question_feedbackstyle() {
@@ -3658,6 +3699,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests context variables.
      */
     public static function make_stack_question_contextvars() {
@@ -3745,6 +3787,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests mismatched languages.
      */
     public static function make_stack_question_multilang() {
@@ -3766,9 +3809,13 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.35; // Non-zero and not the default.
 
+        // Also test the castext syntax hint for matrix question.
         $q->inputs['ans1'] = stack_input_factory::make(
             'matrix', 'ans1', 'ta', new stack_options(),
-            ['boxWidth' => 5, 'allowWords' => 'blob']);
+            ['boxWidth' => 5,
+             'allowWords' => 'blob',
+             'syntaxHint' => '{#zeromatrix(2,2)#}',
+            ]);
 
         $q->options->set_option('simplify', false);
 
@@ -3837,6 +3884,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question a question which tests language blocks.
      */
     public static function make_stack_question_lang_blocks() {
@@ -3844,7 +3892,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2020112300';
         $q->name = 'langblocks';
-        $q->questionvariables = "pt:5;ta2:(x-pt)^2";
+        $q->questionvariables = "ex1:x^2;pt:5;ta2:(x-pt)^2";
 
         $q->questiontext = '[[lang code="en,other"]] Give an example of a function \(f(x)\) with a stationary point ' .
             'at \(x={@pt@}\).[[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
@@ -3855,7 +3903,11 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta2', new stack_options(),
-            ['boxWidth' => 5, 'allowWords' => '']);
+            ['boxWidth' => 5,
+             'allowWords' => '',
+             'syntaxHint' => "[[lang code='en']]An expression, e.g. {#ex1#}[[/lang]]" .
+                             "[[lang code='da']]Et udtryk, f.eks. {#ex1#[[/lang]]",
+            ]);
 
         $q->options->set_option('simplify', true);
 
@@ -3903,6 +3955,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_block_locals() {
@@ -3964,6 +4017,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_validator() {
@@ -4037,6 +4091,73 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * This question arose in issue #1370, when people neeed validator functions to have access to the random variables.
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_validator_seed() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'validator_seed';
+        $q->questionvariables = 'ta:rand(100);' .
+                'validator_returnta(ex) := castext("The value of ta in the validator is {#ta#}, using seed {#stack_seed#}");';
+        // This question is also used to test the lang blocks at the top level.
+        $q->questiontext = "<p>The value of ta is {@ta@}.</p><p>But is it? [[input:ans1]] [[validation:ans1]]</p>";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
+                'options' => 'validator:validator_returnta',
+            ]);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "Wrong!";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "OK!";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->deployedseeds = ['43', '1729'];
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_feedback() {
@@ -4046,6 +4167,7 @@ class qtype_stack_test_helper extends question_test_helper {
         // We need to check that local variable names within the block are not invalid for student's input.
         // We need to chack mathematics within the castext is correctly displayed.
         $q->questionvariables = 'feedback_fn(ex) := "Remember to enter sets!"' .
+            "sh:castext(\"{?,?,...,?}\");" .
             "n : rand(2)+3; " .
             "p : rand(3)+2; " .
             "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))" .
@@ -4061,7 +4183,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
             [
-                'boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
+                'boxWidth' => 20, 'syntaxHint' => '{@sh@}',
                 'options' => 'feedback:feedback_fn',
             ]
             );
@@ -4159,6 +4281,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_ordergreat() {
@@ -4225,6 +4348,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_exdowncase() {
@@ -4313,6 +4437,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Add description here.
      * @return qtype_stack_question.
      */
     public static function make_stack_question_bailout() {

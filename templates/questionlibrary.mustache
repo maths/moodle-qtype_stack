@@ -63,7 +63,7 @@
 
 <div class="qtype_stack_question_library">
   <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
-  <p><a href="{{returnlink}}">{{#pix}} i/arrow-left, core {{/pix}}{{returntext}}</a></p>
+  <p><a href="{{{returnlink}}}">{{#pix}} i/arrow-left, core {{/pix}}{{returntext}}</a></p>
   <div class="row">
     <div class="col-lg-6">
       <div class="que stack stack_library_display">
@@ -78,20 +78,33 @@
             <li>
               {{#str}} stack_library_instructions_three, qtype_stack {{/str}}
             </li>
+            <li>
+              {{#str}} stack_library_instructions_four, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_five, qtype_stack {{/str}}
+            </li>
           </ul>
         </div>
       </div>
       <p class="stack-library-error alert alert-danger" hidden>
         {{#str}} stack_library_error, qtype_stack {{/str}}
+        <span class="stack-library-error-details"></span>
       </p>
       <div class="alert alert-secondary" style="position: relative; color: black;">
-        {{#str}} stack_library_destination, qtype_stack {{/str}}
-        <br><br>
-        <div>
-          {{{category}}}
+        <div class="stack-library-category-holder">
+          {{#str}} stack_library_destination, qtype_stack {{/str}}
+          <br><br>
+          <div class="stack-library-category">
+            {{{category}}}
+          </div>
+        </div>
+        <div class="stack-library-course" hidden>
+          {{#str}} stack_library_quiz_course, qtype_stack {{/str}} {{coursename}}.
+          <br><br>
         </div>
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-6 col-lg-7">
             <div class="stack-library-import-success" hidden>
               <span>
                 {{#str}} stack_library_success, qtype_stack {{/str}}
@@ -99,13 +112,26 @@
               <span class="stack-library-import-success-file">
               </span>
             </div>
+            <div class="stack-library-import-failure" hidden>
+              <span>
+                {{#str}} stack_library_failure, qtype_stack {{/str}}
+              </span>
+              <span class="stack-library-import-failure-file">
+              </span>
+            </div>
           </div>
-          <div class="col-sm-3">
-            <button class="btn btn-primary library-import-link" style="width:100px; float:right"
-                type="button" data-filepath="{{path}}">
-              {{#str}} stack_library_import, qtype_stack {{/str}}
-              <span class="loading-display" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
-            </button>
+          <div class="col-sm-6 col-lg-5">
+            <div class="btn-group" role="group" style="float:right">
+              <button class="btn btn-primary library-import-link"
+                  type="button" data-filepath="{{path}}" disabled>
+                {{#str}} stack_library_import, qtype_stack {{/str}}
+              </button>
+              <button class="btn btn-primary library-import-link-folder"
+                  type="button" data-filepath="{{path}}" disabled>
+                {{#str}} stack_library_import_folder, qtype_stack {{/str}}
+              </button>
+            </div>
+            <span class="loading-display" style="float:right" hidden>{{#pix}} i/loading_small, core {{/pix}}</span>
           </div>
         </div>
       </div>
@@ -136,8 +162,13 @@
         <b>{{#str}} stack_library_importlist, qtype_stack {{/str}}</b>
       </div>
       <div id="dashboard-link-holder" hidden>
-        {{dashboardlink}}
+        {{{dashboardlink}}}
+      </div>
+      <div id="quiz-link-holder" hidden>
+        {{{quizlink}}}
       </div>
     </div>
+  </div>
+  <div data-id="stack_library_course_id" data-value="{{courseid}}" hidden>
   </div>
 </div>

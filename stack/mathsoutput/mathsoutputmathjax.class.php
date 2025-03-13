@@ -22,11 +22,13 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 /**
  * STACK maths output methods for using MathJax.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_maths_output_mathjax extends stack_maths_output_filter_base {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaywrapstart = '';
         $this->displaywrapend = '';
@@ -36,6 +38,7 @@ class stack_maths_output_mathjax extends stack_maths_output_filter_base {
         $this->inlineend = '\)';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_filter() {
         global $CFG, $PAGE;
         if (class_exists('\filter_mathjaxloader\text_filter')) {

@@ -65,6 +65,7 @@ cli_heading('Processing ' . count($questions) . ' questions');
 
 $c = 1;
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function cat_to_course($catid) {
     global $DB;
     // Why are the contexts so hard, where are the utility functions to map them...

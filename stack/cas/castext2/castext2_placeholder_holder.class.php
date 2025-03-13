@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../maximaparser/utils.php');
@@ -31,8 +38,10 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * exists only over the filtering phase.
  */
 class castext2_placeholder_holder {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $map;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
         $this->map = [];
     }

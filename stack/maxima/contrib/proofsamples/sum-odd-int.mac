@@ -19,5 +19,4 @@ proof_steps: [
 ];
 
 /****************************************************************/
-proof_ans:proof_ind(1,proof(2,3),proof(5,6,7,8),9);
-proof_ans:proof_ind("defn_p",proof("base_hyp","base_conc"),proof("ind_1","ind_2","ind_3","ind_conc"),"concp");
+proof_ans:proof_ind("defn_p",proof("base_hyp","base_conc"),proof("ind_hyp","ind_1","ind_2","ind_3","ind_conc"),"concp");

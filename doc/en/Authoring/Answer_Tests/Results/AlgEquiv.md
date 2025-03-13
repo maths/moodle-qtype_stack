@@ -4697,6 +4697,25 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>((not A) and (not B)) or ((not
+ A) and B)</pre></td>
+  <td class="cell c3"><pre>not A</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLogic_True.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(A xor B) nounand (A xnor B)</pre></td>
+  <td class="cell c3"><pre>false</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLogic_True.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{not(A) or B,A and B}</pre></td>
   <td class="cell c3"><pre>{A implies B,A and B}</pre></td>
   <td class="cell c4"></td>

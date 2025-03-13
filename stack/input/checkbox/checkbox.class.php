@@ -16,24 +16,30 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Input that is a checkbox/multiple choice.
-//
-// @copyright  2015 University of Edinburgh.
-// @author     Chris Sangwin.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Input that is a checkbox/multiple choice.
+ *
+ * @package    qtype_stack
+ * @copyright  2015 University of Edinburgh.
+ * @author     Chris Sangwin.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../dropdown/dropdown.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_checkbox_input extends stack_dropdown_input {
 
-    /*
+    /**
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'checkbox';
 
-    /*
+    /**
      * Default ddldisplay for checkboxes is 'LaTeX'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddldisplay = 'LaTeX';
 
     /**
@@ -47,7 +53,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         foreach ($contents as $key) {
             // ISS1211 - Moodle App returns value of 0 if box not checked but
             // always safe to ignore 0 thanks to stack_dropdown_input->key_order().
-            if ($key !== 0) {
+            if ($key !== 0  && $key != 'EMPTYANSWER') {
                 $vals[] = $this->get_input_ddl_value($key);
             }
         }
@@ -57,6 +63,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return '['.implode(',', $vals).']';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -103,6 +110,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -160,6 +168,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $response;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function ajax_to_response_array($in) {
         if (((string) $in) === '') {
             return [];
@@ -177,12 +186,11 @@ class stack_checkbox_input extends stack_dropdown_input {
      *
      * @param string $in
      * @return string
-     * @access public
      */
     public function response_to_contents($response) {
         // Did the student chose the "Not answered" response?
         if (array_key_exists($this->name.'_', $response)) {
-                return [];
+            return [];
         }
         $contents = [];
         foreach ($this->ddlvalues as $key => $val) {
@@ -190,10 +198,14 @@ class stack_checkbox_input extends stack_dropdown_input {
                 $contents[] = (int) $response[$this->name.'_'.$key];
             }
         }
+        if ($contents === [] && $this->get_extra_option('allowempty')) {
+            $contents[] = 'EMPTYANSWER';
+        }
         return $contents;
     }
 
     /**
+     * Add description here.
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {
@@ -217,6 +229,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $allblank;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         $solution = [];
         foreach ($this->ddlvalues as $key => $value) {

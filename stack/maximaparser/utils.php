@@ -16,10 +16,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
- @copyright  2018 Aalto University.
- @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-*/
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2018 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
@@ -28,6 +30,7 @@ require_once(__DIR__ . '/../../vle_specific.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_parser_utils {
 
     /**
@@ -98,7 +101,8 @@ class maxima_parser_utils {
 
     // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
     // use when you need to have pretty printed position data.
-    public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function position_remap(MP_Node $ast, string $code, ?array $limits = null) {
         if ($limits === null) {
             $limits = [];
             foreach (explode("\n", $code) as $line) {
@@ -145,6 +149,7 @@ class maxima_parser_utils {
 
     // This one removes comments before parsing.
     // For those cases where you just must check for some chars.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function remove_comments(string $src): string {
         $chars = preg_split('//u', $src, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -195,6 +200,7 @@ class maxima_parser_utils {
 
 
     // Takes a raw tree and drops the comments sections from it.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function strip_comments(MP_Root $ast) {
         // For now comments exist only at the top level and there are no "inline"
         // comments within statements, hopefully at some point we can go further.
@@ -214,6 +220,7 @@ class maxima_parser_utils {
 
     // Tries to parse a long string of statements and if not imediately valid
     // tries to fix by adding semicolons.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function parse_and_insert_missing_semicolons($str, $lastfix = -1) {
         try {
             $ast = self::parse($str);
@@ -247,6 +254,7 @@ class maxima_parser_utils {
     // Will generate a singular AST with position remaps and inlined included statements.
     // Generates errors if inclusions within inclusions or inclusions in unexpected places.
     // Returns either the AST or some form of an exception.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function parse_and_insert_missing_semicolons_with_includes($str) {
         $root = self::parse_and_insert_missing_semicolons($str);
         if ($root instanceof MP_Root) {
@@ -373,6 +381,7 @@ class maxima_parser_utils {
 
 
     // Function to find suitable place to inject a semicolon to i.e. place into start of whitespace.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function previous_non_whitespace($code, $pos) {
         $i = $pos;
         if (mb_substr($code, $i - 1, 2) === '/*') {
@@ -385,6 +394,7 @@ class maxima_parser_utils {
     }
 
     // Custom rules on what is an is not whitespace.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function is_whitespace($mbc) {
         // So ctype_space does not handle those fancy unicode spaces...
         // There are more than these but we add things as we meet them.
@@ -402,6 +412,7 @@ class maxima_parser_utils {
     // Tool to extract information about which variables are being used and how.
     // In a given parsed section of code. Updates a given usage list so that use
     // for example in going through a PRT tree is convenient.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function variable_usage_finder($ast, $output=[]) {
         if (!array_key_exists('read', $output)) {
             $output['read'] = [];
@@ -442,6 +453,7 @@ class maxima_parser_utils {
     // Note that this identifies stackmaps by default.
     // Also after this has done its thing you will not be able to separate strings from identifiers.
     // Intended for processing complex return values from CAS using PHP methods.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function mp_to_php(
         MP_Node $in,
         bool $stackmaps = true
@@ -776,6 +788,7 @@ class maxima_parser_utils {
     }
 
     // Does blind replacement with no care about usage context.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function id_replace(MP_Node $ast, array $ids): MP_Node {
         $replace = function($node) use(&$ids) {
             if ($node instanceof MP_Identifier && isset($ids[$node->value])) {
@@ -803,6 +816,7 @@ class maxima_parser_utils {
 
     // Includes a timeout logic that will stop exploring after a time if we time out
     // a special key '% TIMEOUT %' will have a value.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function identify_identifier_values($ast, $expand=[], $timeout=20): array {
         $timelimit = microtime(true) + $timeout;
         $output = array_merge($expand, []);
@@ -2331,7 +2345,9 @@ class maxima_parser_utils {
         return $output;
     }
 
-    /* Common merge actions for type struct fixing. */
+    /**
+     * Common merge actions for type struct fixing.
+     */
     private static function mergeclasses(array $data, array $funcs, stack_cas_security $sec, bool $merge = false): array {
         $output = $data;
 
@@ -2487,7 +2503,9 @@ class maxima_parser_utils {
         return $output;
     }
 
-    /* Turn a subtree to `stack_complex_expression`. */
+    /**
+     * Turn a subtree to `stack_complex_expression`.
+     */
     private static function to_sce(MP_Node $ast, stack_cas_security $sec): MP_Node {
         $terms = [];
         $seek2 = function($n) use (&$terms, &$sec) {

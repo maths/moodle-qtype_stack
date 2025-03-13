@@ -134,6 +134,7 @@ load("functs");
 /* Load the logic package, but remove the "eq" infix operator which conflicts with too many existing things. */
 /* We've edited the logic package which over writes the eq operator as xnor.                                 */
 load("stack_logic.lisp");
+load("Ksimplifier.lisp");
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;
@@ -161,6 +162,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("geometry.mac");
 load("proof.mac");
+load("linearalgebra_core.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
@@ -176,6 +178,7 @@ if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 load("trigrat.lisp");
 load("trigtools");
 load("diag");
+load("eigen");
 
 load("sregex");
 load("numericaltest.mac");
@@ -223,7 +226,8 @@ make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
     if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
     if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),
-    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary)
+    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary),
+    if OPT_MULTSGN = "space" then texput("*", " ", nary)
 );
 
 /* This only prints a multiplication sign for numbers. */
@@ -768,8 +772,11 @@ texput_decimal(ex):= stackfltsep:ex$
     ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
             tx:sconcat("\\text{",ev(printf(false, stackintfmt, x), simp),"}")
-        else
-            tx:ev(printf(false, stackintfmt, x), simp)
+        else (
+            /* Protect spaces in integers so TeX (MathJax) displays them as spaces. */
+            tx:ev(printf(false, stackintfmt, x), simp),
+            tx:ssubst("\\ ", " ", tx)
+            )
     ) else
     tx:string(x),
     /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
@@ -777,7 +784,7 @@ texput_decimal(ex):= stackfltsep:ex$
         tx:ssubst("\\ ", ",", tx),
         tx:ssubst("{,}", ".", tx)
     ),
-    tx
+   tx
 )$
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
@@ -851,6 +858,12 @@ detexcolor(ex) := block([argsex],
 */
 stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{", "\\{", "\\}"], ["", "", ""], [".", "", ""], ["|", "|", "|"]] $
 
+/* This function takes the matrix, and returns the string of characters "c", "l", or "r" to
+   decide how to format the columns in the array.  By default, this is centered with "c".
+   We need a _function_ to count the number of columns.
+*/
+stack_matrix_col(ex):=simplode(maplist(lambda([ex], "c"), first(args(ex))))$
+
 stack_matrix_disp(m):= block([ret, lp, rp, parens],
   if not(matrixp(m)) then error("stack_matrix_disp: argument must be a matrix."),
   if not(stringp(lmxchar)) then error("stack_matrix_disp requires lmxchar to be a string. "),
@@ -862,7 +875,7 @@ stack_matrix_disp(m):= block([ret, lp, rp, parens],
   ret: maplist(lambda([ex], maplist(tex1, args(ex))), args(m)),
   ret: maplist(lambda([ex], simplode(ex, " & ")), ret),
   ret: simplode(ret, " \\\\ "),
-  ret: sconcat("\\begin{array}{", simplode(maplist(lambda([ex], "c"), first(args(m)))), "} ", ret, " \\end{array}"),
+  ret: sconcat("\\begin{array}{", stack_matrix_col(m), "} ", ret, " \\end{array}"),
   if ""#lp then
     ret: sconcat("\\left", lp, ret),
   if ""#rp then
@@ -2040,8 +2053,8 @@ ATPropLogic(SA,SB) := block([simp:true, ret, SAc, SBc],
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATPropLogic_STACKERROR_TAns"), ""]),
     SB:SB[1],
     /* We don't want noun forms getting in the way here. */
-    SA:noun_logic_remove(SA),
-    SB:noun_logic_remove(SB),
+    SA:noun_logic_remove(logical_normal(SA)),
+    SB:noun_logic_remove(logical_normal(SB)),
     /* Can we find a permutation of the variables? */
     if logic_equiv(SA, SB) then
         return([true, true, "", ""]
@@ -3039,7 +3052,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
                 (rawmk:true, ansnote:StackAddNote("", "ATInt_const_int_condone"))
         else if freeof(log, SA) or freeof(log, SB) then
             if ATIntWeirdConstp(ex, var) then
-                (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
+                (rawmk:false, fb:StackAddFeedback(StackAddFeedback("", "ATInt_weirdconst"), "seekhelp"), ansnote:StackAddNote("", "ATInt_weirdconst"))
             else if constint and listofvars(ex)=[var] then
                      (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
                  else
@@ -3052,7 +3065,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
         else if freeof(var, ex) and not(ATIntWeirdConstp(ex, var)) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true_differentconst"))
         else
-            (rawmk:acceptformal, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
+            (rawmk:acceptformal, fb:StackAddFeedback(StackAddFeedback("", "ATInt_EqFormalDiff"), "seekhelp"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
     ) else /* Check for the special cases where the buggy rule is true. */
        if ev(algebraic_equivalence(SAa, ev(diff(SBd, var), simp)), simp) and ev(algebraic_equivalence(exp(x), SBd), simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
@@ -3063,7 +3076,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
             (rawmk:false, fb:StackAddFeedback(fb, "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
+            (rawmk:false, fb:StackAddFeedback(StackAddFeedback("", "ATInt_logabs_inconsistent"), "seekhelp"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
     lSAv:listofvars(SA),
     lSAv:listofvars(SA),
     lSBv:listofvars(SB),
@@ -3144,6 +3157,144 @@ ATIntGetVar(ex):= block(
     if safe_op(ex)="int" then return([second(args(ex))]),
     flatten(map(ATIntGetVar, args(ex)))
 );
+
+/********************************************************************/
+/* An answer test for antiderivative questions.                     */
+/********************************************************************/
+
+ATAntidiff(sa, sb, so) := block([var, sbdisp],
+    simp:false,
+    /* How to display the teacher's answer? */
+    sbdisp:[],
+
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(sb, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_TAns"), ""]),
+    SOO:errcatch(ev(so, simp, nouns)),
+    if (is(SOO=[STACKERROR]) or is(SOO=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_Opt"), ""]),
+
+    /* We always simplify the teacher's answer. */
+    sb:first(SBB),
+
+    var:first(SOO),
+    /* The options field should be exactly a variable and nothing else */
+    if not(is(variablep(var))) then return(StackBasicReturn(false, false, "ATAntidiff_STACKERROR_Opt")),
+
+    /* If we haven't explicitly got a displayed expression for feedback then generate one. */
+    if equal(sbdisp, []) then
+        sbdisp:ev(diff(sb, var), simp),
+
+    /* Calculate derivatives */
+    SAd:ev(diff(sa, var), simp),
+    SBd:ev(diff(sb, var), simp),
+    if debug then print([SAa, SBd]),
+    if debug then print(["Derivatives : ", SAd, SBd]),
+    if ev(algebraic_equivalence(SAd, SBd), simp) then return([true, true, StackAddNote("", "ATAntidiff_true"), ""]),
+
+    /* Did the student differentiate instead of integrating? */
+    SABd : ev(fullratsimp(sa - ev(diff(SBd, var), simp)), simp),
+    if debug then print(["Simplified difference:", SABd]),
+    if ev(diff(SABd,var),simp)=0 and ev(algebraic_equivalence(exp(x), SBd), simp)#true then return(StackBasicReturn(false, false, "ATAntidiff_diff")),
+
+    /* if not, we fail the test generically */
+    return([false, false, StackAddNote("", "ATAntidiff_generic"), StackAddFeedback("", "ATAntidiff_generic",stack_disp(SBd, "d"), stack_disp(var, "i"), stack_disp(SAd, "d") ) ])
+)$
+
+/********************************************************************/
+/* An answer test to check for an additive constant.                */
+/* Given an expression sa and a list of variables so in the options,*/
+/* it checks if exactly one other variable is contained additively, */
+/* like "+C". The main use case for this are Antiderivative tasks.  */
+/* This answer test ignores the teacher answer completely.          */
+/********************************************************************/
+
+ATAddConst(sa, sb, so) := block([oldsimp, SAresult, SAnote, SBresult, SBnote],
+    simp: false,
+
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_SAns"), ""]),
+    /*SBB:errcatch(ev(sb, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_TAns"), ""]),*/
+    SOO:errcatch(ev(so, simp, nouns)),
+    if (is(SOO=[STACKERROR]) or is(SOO=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_Opt"), ""]),
+
+    SA : first(SAA),
+    /*SB : first(SBB),*/
+    SOvars : first(SOO),
+
+    /* did the teacher do this correctly? */
+    /*[SBresult, SBnote] : hasAddConst(SB,SOVars),
+    if not(SBresult) then return([false, false, StackAddNote("", concat("ATAddConst_TAns. ", SBnote)), ""]),*/
+
+    /* did the student do this correctly? */
+    [SAresult, SAnote] : hasAddConst(SA,SOvars),
+    if not(SAresult) then return(StackBasicReturn(false, false, SAnote)),
+
+    return(StackBasicReturn(true, true, SAnote))
+)$
+
+/* This function dows the actual checking described above. */
+/* returns a true/false mark and the name of an answer note. */
+hasAddConst(expr, vars) := block([othervars, const, deriv, allvariables, strict],
+    strict: true,
+    /* is this a list of variables? If just one variable is given, listify. */
+    if debug then print(["Variables: ", vars]),
+
+    if not(is(listp(vars))) then vars : [vars],
+
+    if debug then print(["Listified variables: ", vars]),
+    if member(NONSTRICT, vars) then (
+        if debug then print(["Found NONSTRICT option"]),
+        strict : false,
+        vars : delete(NONSTRICT, vars)
+    ),
+    allvariables : true,
+    for var in vars do block (
+        if debug then print(["Variable: ", var,is(variablep(var))]),
+        if not(is(variablep(var))) then allvariables : false
+    ),
+    if not(allvariables) then return([false, "ATAddConst_Opt"]),
+    if debug then print(["All list entries are variables"]),
+
+	/* build list of candidates for constants: othervars */
+	othervars : listofvars(expr),
+    if debug then print(["Variables in expression: ", othervars]),
+	for var in vars do othervars : delete(var,othervars),
+    if debug then print(["Remaining variables after deletion: ", othervars]),
+    
+
+    /* check number of candidates, should be exactly 1 */
+    if length(othervars) = 0 then
+        return([false, "ATAddConst_noconst"]),
+    if length(othervars) > 1 then
+        return([false, "ATAddConst_severalconst"]),
+    
+    /* if there is one candidate, check if it's exactly additive or something else */
+    const : othervars[1],
+    deriv : ev(diff(expr,const), simp),
+    if debug then print(["Derivative by the constant: ", deriv]),
+    if strict then (
+        if debug then print(["Checking strictly "]),
+        if algebraic_equivalence(deriv,1) then
+            return([true, "ATAddConst_true"])
+        else return([false, "ATAddConst_generic"])
+    )
+    else
+    (
+        if debug then print(["Checking NON-strictly "]),
+        if emptyp(delete(const,listofvars(deriv))) then
+            return([true, "ATAddConst_true"])
+        else return([false, "ATAddConst_generic"])
+    )
+
+)$
 
 /********************************************************************/
 /* An answer test for differentiation questions.                    */
@@ -3357,4 +3508,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025030600$
+stackmaximaversion:2025030700$

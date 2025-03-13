@@ -24,12 +24,14 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 /**
  * STACK maths output methods for using The OU's maths filter.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_maths_output_maths extends stack_maths_output_filter_base {
 
     /**
+     * Add description here.
      * @return boolean is the OU maths filter installed?
      */
     public static function filter_is_installed() {
@@ -37,6 +39,7 @@ class stack_maths_output_maths extends stack_maths_output_filter_base {
         return file_exists($CFG->dirroot . '/filter/maths/filter.php');
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaystart = '&lt;tex mode="display"&gt;';
         $this->displayend = '&lt;/tex&gt;';
@@ -44,6 +47,7 @@ class stack_maths_output_maths extends stack_maths_output_filter_base {
         $this->inlineend = '&lt;/tex&gt;';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function make_filter() {
         global $CFG;
 

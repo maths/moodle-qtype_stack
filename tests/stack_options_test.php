@@ -26,42 +26,47 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 
-// Unit tests for stack_options.
-//
-// @copyright 2012 The University of Birmingham.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_options.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The University of Birmingham.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_options
  */
-class stack_options_test extends qtype_stack_testcase {
+final class stack_options_test extends qtype_stack_testcase {
 
-    public function test_set_exception_1() {
+    public function test_set_exception_1(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('nonoption', false);
     }
 
-    public function test_set_exception_2() {
+    public function test_set_exception_2(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('floats', 0);
     }
 
-    public function test_set_exception_3() {
+    public function test_set_exception_3(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('floats', null);
     }
 
-    public function test_set_exception_4() {
+    public function test_set_exception_4(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('display', false);
     }
 
-    public function test_set_exception_5() {
+    public function test_set_exception_5(): void {
+
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('display', 'latex');

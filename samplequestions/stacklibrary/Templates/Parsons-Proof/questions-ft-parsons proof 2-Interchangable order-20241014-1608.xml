@@ -30,7 +30,7 @@ Can you see the differences between these proofs?]]></text>
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("contribl://prooflib.mac");
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
 
 ta: proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"), proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));
 

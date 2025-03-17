@@ -25,7 +25,7 @@
       <text>2024111900</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("contribl://prooflib.mac");
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
 
 thm:"Let \\(A\\) be a real \\(n\\times n\\) matrix.  Consider the set \\[ S = \\{ A\\mathbf{x} | \\mathbf{x}\\in\\mathbb{R}^n\\}.\\] Show that \\(S\\) is a subspace.";
 

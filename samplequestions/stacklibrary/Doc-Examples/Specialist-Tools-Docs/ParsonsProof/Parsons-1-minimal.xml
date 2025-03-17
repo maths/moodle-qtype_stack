@@ -23,7 +23,7 @@
     </stackversion>
     <questionvariables>
       <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://prooflib.mac");
+stack_include_contrib("prooflib.mac");
 
 /*Steps of proof*/
 proof_steps: [

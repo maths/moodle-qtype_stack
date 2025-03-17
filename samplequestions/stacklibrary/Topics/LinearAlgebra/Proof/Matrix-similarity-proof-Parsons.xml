@@ -34,7 +34,7 @@ we now use <em>associativity</em> (not commutativity) to get
       <text>2024112000</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("contribl://prooflib.mac");
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
 
 thm:"Let \\(A;B\\) be similar square matrices. If \\(A^3 = I\\) then \\(B^3 = I\\).";
 

@@ -26,8 +26,8 @@ Can you see the differences between these proofs?</text>
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text>stack_include("contribl://prooflib.mac");
-stack_include("contribl://proofsamples/irrational-power-irrational.mac");
+      <text>stack_include_contrib("prooflib.mac");
+stack_include_contrib("proofsamples/irrational-power-irrational.mac");
 ta:proof_ans;
 /* Make sure we use string keys. */
 ta:proof_keys_sub(ta, proof_steps);

@@ -24,8 +24,8 @@
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text>stack_include("contribl://prooflib.mac");
-stack_include("contribl://proofsamples/log-two-three-irrational.mac");
+      <text>stack_include_contrib("prooflib.mac");
+stack_include_contrib("proofsamples/log-two-three-irrational.mac");
 ta:proof_ans;
 /* wrong_steps are now part of the .mac file, as is some narrative. */
 proof_steps:append(proof_steps,wrong_steps);

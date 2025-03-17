@@ -25,7 +25,7 @@
       <text>2024112000</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("contribl://prooflib.mac");
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
 
 thm: "If \\(3 \\cdot 2^{172} + 1\\) is a perfect square, then \\(3 \\cdot 2^{172} + 173\\) is not a perfect square.";
 

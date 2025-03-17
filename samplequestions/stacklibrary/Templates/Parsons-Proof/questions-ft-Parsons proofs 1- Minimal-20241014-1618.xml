@@ -23,7 +23,7 @@
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("contribl://prooflib.mac");
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
 
 proof_steps: [
     ["assume", "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],

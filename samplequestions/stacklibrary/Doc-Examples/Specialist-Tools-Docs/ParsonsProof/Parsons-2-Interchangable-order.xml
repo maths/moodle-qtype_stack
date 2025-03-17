@@ -30,7 +30,7 @@ Can you see the differences between these proofs?]]></text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://prooflib.mac");
+stack_include_contrib("prooflib.mac");
 
 /*Steps of proof, can be changed*/
 proof_steps: [

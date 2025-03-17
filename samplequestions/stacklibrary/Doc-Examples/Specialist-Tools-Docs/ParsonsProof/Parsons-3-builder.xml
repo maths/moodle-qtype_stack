@@ -23,8 +23,8 @@
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("contribl://prooflib.mac");
-stack_include("contribl://builder.mac");
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
+stack_include_contrib("builder.mac");
 
 /* The proof-steps are common to all prooflib.mac questions. */
 /* For builder questions, the teacher answer field is a list

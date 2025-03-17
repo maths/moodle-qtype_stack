@@ -21,7 +21,7 @@
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text>stack_include("contribl://prooflib.mac");
+      <text>stack_include_contrib("prooflib.mac");
 ta:proof("A","B","C","D");
 proof_steps:[
   [ "A", plot(sqrt(x),[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],

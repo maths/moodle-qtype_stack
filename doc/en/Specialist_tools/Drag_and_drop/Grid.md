@@ -36,7 +36,7 @@ You will use the `"<ID>"` string to write solutions and assess student inputs; t
 For our example, the _Question variables_ field looks as follows.
 
 ```
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 
 steps : [
   ["f", "\\(y = x^2\\)"],
@@ -128,8 +128,9 @@ This item should appear in the index and not in the header.
 ### Question variables 
 
 The question variables with an index is as follows.
+
 ```
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 
 steps : [
   ["dfdx", "\\(y' = 2x\\)"],

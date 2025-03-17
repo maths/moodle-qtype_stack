@@ -24,6 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../string/string.class.php');
+require_once(__DIR__ . '/../../utils.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_parsons_input extends stack_string_input {
@@ -48,12 +49,19 @@ class stack_parsons_input extends stack_string_input {
     private static function answer_function($in) {
         if (self::is_proof_question($in)) {
             return ["parsons_answer", $in];
-        } else if (count(json_decode($in)) === 3) {
+        }
+        $decode = json_decode($in);
+        if (!is_array($decode)) {
+            return ["error", ""];
+        }
+        if (count($decode) === 3) {
             // In this case input looks like `[ta, steps, 3]` and only the first two are needed for `group_answer`.
             return ["group_answer", json_encode(array_slice(json_decode($in), 0, 2))];
-        } else if (count(json_decode($in)) === 4) {
+        } else if (count($decode) === 4) {
             // In this case input looks like `[ta, steps, 3, 2]` and only the first three are needed for `match_answer`.
             return ["match_answer", json_encode(array_slice(json_decode($in), 0, 3))];
+        } else {
+            return ["error", ""];
         }
     }
 
@@ -69,12 +77,18 @@ class stack_parsons_input extends stack_string_input {
      * @return array
      */
     private static function answer_function_testcase($ta) {
-        if (count(explode(",", $ta)) === 2) {
+        if (!stack_utils::is_array_string($ta)) {
+            return ["error", ""];
+        }
+        $ex = explode(",", $ta);
+        if (count($ex) === 2) {
             return ["parsons_answer", $ta];
-        } else if (count(explode(",", $ta)) === 3) {
+        } else if (count($ex) === 3) {
             return ["group_answer", implode(",", array_slice(explode(",", $ta), 0, 2)) . "]"];
-        } else if (count(explode(",", $ta)) === 4) {
+        } else if (count($ex) === 4) {
             return ["match_answer", implode(",", array_slice(explode(",", $ta), 0, 3)) . "]"];
+        } else {
+            return ["error", ""];
         }
     }
 
@@ -82,8 +96,24 @@ class stack_parsons_input extends stack_string_input {
      * Filters to apply for display in validate_contents
      * @var array
      */
-    protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display',
+    protected $protectfilters = ['908_parsons_decode_state_for_display', '910_inert_float_for_display',
         '912_inert_string_for_display', ];
+
+    /**
+     * Make sure we have a valid JSON object we can really decode.
+     * @see stack_input::extra_validation()
+     */
+    protected function extra_validation($contents) {
+        $validation = $contents[0];
+        if ($validation === 'EMPTYANSWER') {
+            $validation = '';
+        }
+
+        if (!stack_utils::validate_parsons_string($validation)) {
+            return stack_string('parsons_got_unrecognised_value');
+        }
+        return '';
+    }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -139,16 +169,20 @@ class stack_parsons_input extends stack_string_input {
         // Get the relevant Maxima function and arguments.
         [$answerfun, $args] = $this::answer_function($in);
 
+        if ($answerfun === 'error') {
+            $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
+            return [];
+        }
+
         // Extract actual correct answer from the steps.
         $ta = 'apply(' . $answerfun . ',' . $args . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
         $value = json_decode($cs->get_value());
-
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
-            return;
+            return [];
         }
 
         /* We replace the dummy `0` timestamp coming from Maxima with the actual
@@ -165,6 +199,10 @@ class stack_parsons_input extends stack_string_input {
      */
     public function get_teacher_answer_testcase() {
         [$answerfun, $args] = self::answer_function_testcase($this->teacheranswer);
+        if ($answerfun === 'error') {
+            $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
+            return [];
+        }
         $ta = 'apply(' . $answerfun . ',' . $args . ')';
         return $ta;
     }
@@ -174,7 +212,10 @@ class stack_parsons_input extends stack_string_input {
      * We unhash here to provide meaningful information in response history for authors.
      */
     public function summarise_response($name, $state, $response) {
-        $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
+        $display = $state->contents[0];
+        if ($state->status !== 'invalid') {
+            $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
+        }
         return $name . ': ' . $display . ' [' . $state->status . ']';
     }
 
@@ -225,7 +266,7 @@ class stack_parsons_input extends stack_string_input {
      * @return bool
      */
     private static function is_proof_question($in) {
-        return substr($in, 1, 5) === 'proof';
+        return substr(trim($in), 1, 5) === 'proof';
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

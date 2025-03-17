@@ -1,5 +1,3 @@
-/* This file will be obsolete soon, as these functions will be implemented in core STACK */
-
 /*  Author Luke Longworth
     University of Canterbury
     Copyright (C) 2025 Luke Longworth
@@ -22,40 +20,44 @@
 /*                                                              */
 /****************************************************************/
 
-/* Thank you to Georg Osang of IDEMS International    */
-/* for significant contributions to this work in 2024 */
-
 /*******************************************************************************/
 /* Provides convenience functions for column and row vectors for student input */
 /*******************************************************************************/
-texput(c,
-  lambda([ex], block([ns,str,ii],
-    ns: args(ex),
-    str: ["\\begin{bmatrix} "],
-    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
-    str[length(str)]: " \\end{bmatrix}",
-    simplode(str)
-  ))
-);
 
-texput(r,
-  lambda([ex], block([ns,str,ii],
-    ns: args(ex),
-    str: ["\\begin{bmatrix} "],
-    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
-    str[length(str)]: " \\end{bmatrix}",
-    simplode(str)
-  ))
-);
+stack_linear_algebra_declare(mode) := block(
+  texput(c,
+    lambda([ex], block([ns,str,ii],
+      ns: args(ex),
+      str: ["\\begin{bmatrix} "],
+      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
+      str[length(str)]: " \\end{bmatrix}",
+      simplode(str)
+    ))
+  ),
+ texput(r,
+    lambda([ex], block([ns,str,ii],
+      ns: args(ex),
+      str: ["\\begin{bmatrix} "],
+      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
+      str[length(str)]: " \\end{bmatrix}",
+      simplode(str)
+    ))
+  ),
+  /* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
+  declare([c,r],nonscalar),
+  return(true)
+)$
 
-declare([c,r],nonscalar);
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
 
 /**
- * Converts c and r into matrices.
+ * Converts inert functions c and r into matrices.
+ * c and r can be found in certain contrib libraries (such as vectorspaces.mac) to enable students to input vectors simply.
  * Works on entire expressions.
  * Returns expression unchanged if simp:true and matrices do not conform.
  * 
- * @param[expression] ex An expression that may contain c or r 
+ * @param[expression] ex An expression that may contain c or r.
  * @return[scalar expression] The expression with c and r replaced with matrices, or the original expression if matrices do not conform
  */
 vec_convert(ex):= block([ex2],
@@ -127,11 +129,8 @@ row_vecp(ex):= block(
  */
 vectorp(ex):= col_vecp(ex) or row_vecp(ex);
 
-/* TODO write function to convert row/col vectors in matrix form to c or r form */
-/* Should be useful for creating teacher answers */
-
 /** 
- * Predicate to determine whether a matrix is diagonal
+ * Predicate to determine whether a matrix is diagonal.
  * i.e. Is every off-diagonal entry equal to 0?
  *
  * @param[matrix] M An mxn matrix
@@ -170,14 +169,15 @@ squarep(M):= block([isSquare],
 /* Functions to convert objects into standard forms                              */
 /*********************************************************************************/
 
-/* It is feasible that different institutions will prefer students to enter their answers in different ways */
-/* linearalgebra.mac prefers to work with either lists of lists (not distinguishing between column and row
-   vectors) or matrices whose columns are vectors of interest. */
+/* It is feasible that different institutions will prefer students to enter their answers in different ways.
+   linearalgebra_core.mac and related contrib files prefers to work with either lists of lists
+   (not distinguishing between column and row vectors) or matrices whose columns are vectors of interest.
+*/
 
 /**
  * Takes collections of vectors and returns a list of lists.
  * The vectors themselves may be different objects. Supported objects include:
- * * 1xN or Mx1 matrices
+ * * \(1\times N\) or \(M\times 1\) matrices
  * * Lists
  * * Vectors using c or r notation
  * * Sets, ntuples
@@ -201,15 +201,15 @@ make_list_of_lists(ex):= block([op1],
 );
 
 /**
- * Try to convert object to a column vector.
+ * Try to convert object to a column vector, as a maxima matrix.
  * Supported objects include:
- * * Mx1 matrices
- * * Vectors using c notation
+ * * \(M\times 1\) matrices.
+ * * Vectors using `c` notation
  * * Flat lists, ntuples (with entries interpreted as a column vector entries)
- * If conversion is not possible, return matrix([null])
+ * If conversion is not possible, return matrix([null]).
  *
- * @param[ex] ex Input object
- * @return[matrix] A Mx1 matrix representing the column vector, or matrix([null]) if input was invalid
+ * @param[ex] ex Input object.
+ * @return[matrix] A \(M\times 1\) matrix representing the column vector, or `matrix([null])` if input was invalid.
  */
 convert_to_colvec(ex):= block([op1],
   ex: vec_convert(ex),
@@ -260,8 +260,8 @@ matrix_to_cols(M):= ev(makelist(col(M, i), i, 1, second(matrix_size(M))), simp);
  * * Lists, ntuples (representing a column vector)
  * The collection may be a list, set, ntuple, span, or matrix
  *
- * @param[] L A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
- * @return[list] List of Mx1 matrices (column vectors), or [] in case of invalid input
+ * @param[] L A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix.
+ * @return[list] List of Mx1 matrices (column vectors), or [] in case of invalid input.
  */
 cols_to_cols(L):=block([op1],
     if matrixp(L) then return(matrix_to_cols(L)),
@@ -301,7 +301,7 @@ mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
  * Also multiplies by -1 if all entries are negative
  * Very nice for eigenvector problems.
  * 
- * @param[matrix or list] v a list or a Mx1 or 1xN matrix
+ * @param[matrix or list] v a list or a Mx1 or matrix. Row vectors also accepted but will return transposed
  * @return[matrix or list] v, but scaled by a constant such that all entries are the smallest possible integers
  */
 scale_nicely(v):= block([v_op],
@@ -316,10 +316,132 @@ scale_nicely(v):= block([v_op],
 /**
  * M^+ = V.S^+.U^T 
  * Moore-penrose pseudoinverse.
- * An alias for moore_penrose_pseudoinverse(M)
+ * Applies `moore_penrose_pseudoinverse(M)` with simplification.
  * Most commonly used to find minimal least squares solution to Ax = b using A^+ . b
  *
  * @param[matrix] M
  * @return[matrix] The moore-penrose pseudoinverse of M
  */
-pinv(M):= block([simp:true],moore_penrose_pseudoinverse(M));
+pinv(M):= block([simp:true], moore_penrose_pseudoinverse(M));
+
+
+/****************************/
+/* Matrix/vector operations */
+/****************************/
+
+/* Create an "ephemeral form" for vectors, much like stackunits. */
+texboldatoms(ex) := block(
+  if numberp(ex) then return(ex),
+  if atom(ex) then return(stackvector(ex)),
+  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
+  apply(op(ex), maplist(texboldatoms, args(ex)))
+)$
+
+stackvectortex(ex):= block(
+  sconcat("{\\bf ", tex1(first(args(ex))), "}")
+);
+texput(stackvector, stackvectortex);
+
+/* Remove stackvectors.  Needed for dispvalue. */
+destackvector(ex):= block([argsex],
+  if mapatom(ex) then return(ex),
+  argsex:args(ex),
+  if op(ex) = stackvector then return(destackvector(argsex[1])),
+  if op(ex) = "/" then return(destackvector(argsex[1])/destackvector(argsex[2])),
+  map(destackvector, ex)
+)$
+
+/*
+  Description : forme echelonne par lignes d'une matrice rectangulaire
+    (a  coefficients dans un corps commutatif).
+  Taken from http://www.math.utexas.edu/pipermail/maxima/2007/008246.html
+*/
+
+request_rational_matrix(m, pos, fn) :=
+  if every('identity, map(lambda([s], every('ratnump,s)), args(m))) then true else
+    print("Some entries in the matrix are not rational numbers. The result might be wrong.")$
+
+rowswap(m,i,j) := block([n, p, r],
+    require_matrix(m, "first", "rowswap"),
+    require_integer(i, "second", "rowswap"),
+    require_integer(j, "third", "rowswap"),
+    n : length(m),
+    if (i < 1) or (i > n) or (j < 1) or (j > n)
+       then error("Array index out of bounds"),
+    p : copymatrix(m),
+    r : p[i],
+    p[i] : p[j],
+    p[j] : r,
+    p
+)$
+
+rowadd(m,i,j,k) := block([n,p],
+    require_matrix(m, "first", "rowadd"),
+    require_integer(i, "second", "rowadd"),
+    require_integer(j, "third", "rowadd"),
+    require_rational(k, "fourth", "rowadd"),
+    n : length(m),
+    if (i < 1) or (i > n) or (j < 1) or (j > n)
+        then error("Array index out of bounds"),
+    p : copymatrix(m),
+    p [i] : p[i] + k * p[j],
+    p
+)$
+
+rowmul(m,i,k) := block([n,p],
+    require_matrix(m, "first", "rowmul"),
+    require_integer(i, "second", "rowmul"),
+    require_rational(k, "fourth", "rowmul"),
+    n : length(m),
+    if (i < 1) or (i > n) then error("Array index out of bounds"),
+    p : copymatrix(m),
+    p [i] : k * p[i],
+    p
+)$
+
+
+rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
+  debug : 0,
+  request_rational_matrix(m," ","rref"),
+  nc: length(first(m)),
+  nr: length(m),
+  if nc = 0 or nr = 0 then
+    error ("The argument to 'rref' must be a matrix with one or more rows and columns"),
+  p:copymatrix(m),
+  ci : 1, cj : 1,
+  while (ci<=nr) and (cj<=nc) do
+  (
+    if (debug = 1) then (
+        disp(p),
+        print("curseur en ligne ",ci," et colonne ",cj)),
+    pivot_row : 0, pivot : 0,
+    for k : ci thru nr do (
+       if ( abs(p[k,cj]) > pivot ) then (
+         pivot_row : k,
+         pivot : abs(p[k,cj]))),
+         if (debug = 1) then
+       print("colonne ",cj," : pivot trouve ligne ", pivot_row,", valeur : ",pivot),
+    if (pivot = 0) then (cj : cj +1)
+    else (
+      p : rowswap(p,ci,pivot_row),
+    if (debug = 1) then      print (".. Echange : ",p),
+      p : rowmul(p,ci,1/p[ci,cj]),
+    if (debug = 1) then     print (".. Normalisation : ",p),
+      for k : 1 thru nr do (
+         if not (k=ci) then (p : rowadd(p,k,ci,-p[k,cj]))),
+      ci : ci+1, cj : cj+1)),
+  p
+)$
+
+/**
+ * Calculate the vector cross product of two \(3\times 1\) vectors.
+ *
+ * @param[matrix] a \(3\times 1\) vector.
+ * @param[matrix] b \(3\times 1\) vector.
+ * @return[matrix] vector cross product.
+ */
+crossproduct(a,b) := block(
+    if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("crossproduct requires matrices as arguments."),
+    if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("crossproduct requires 3 by 1 matrices."),
+    transpose(matrix([a[2,1]*b[3,1]-a[3,1]*b[2,1],a[3,1]*b[1,1]-a[1,1]*b[3,1],a[1,1]*b[2,1]-a[2,1]*b[1,1]]))
+)$

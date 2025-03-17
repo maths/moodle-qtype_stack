@@ -39,7 +39,7 @@ Feature: Test STACK library
     And I click on "Return to question bank" "link"
     Then I should see "CR-Diff-02-linearity-1.b"
 
-  @javascript @current
+  @javascript
   Scenario: Import a question folder starting from question bank.
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     And I click on "Create a new question" "button"

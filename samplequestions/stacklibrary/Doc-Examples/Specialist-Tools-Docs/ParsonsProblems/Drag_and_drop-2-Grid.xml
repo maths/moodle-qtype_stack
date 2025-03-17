@@ -25,11 +25,11 @@
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://matchlib.mac");
+      <text><![CDATA[/* Import parsons' code library. */
+stack_include_contrib("matchlib.mac");
 
 
-/*options to drag from, can be changed*/
+/* Options to drag from, can be changed. */
 steps : [
   ["f", "\\(y = x^2\\)"],
   ["g", "\\(y = x^3\\)"],
@@ -38,28 +38,28 @@ steps : [
   ["df2d2x", "\\(y'' = 2\\)"],
   ["dg2d2x", "\\(y'' = 6x\\)"]
 ];
-/*create random order*/
+/* Create random order. */
 steps: random_permutation(steps);
-/*Categories to drag to, can be changed*/
+/* Categories to drag to, can be changed. */
 headers: [
   "Function", 
   "\\(d/dx\\)", 
   "\\(d^2/d^2x\\)"
 ];
-/*a correct answer, edit if changing question*/
+/* A correct answer, edit if changing question. */
 ta: [
   ["f", "g"], 
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
 ];
-/*another correct answer for testing, edit if changing question*/
+/* Another correct answer for testing, edit if changing question. */
 ta2: [
   ["g", "f"], 
   ["dgdx", "dfdx"], 
   ["dg2d2x", "df2d2x"]
 ];
 
-/*example of a wrong response for tests, edit if changing question*/
+/* Example of a wrong response for tests, edit if changing question. */
 wa: [
   ["f", "g"], 
   ["dgdx", "dfdx"], 

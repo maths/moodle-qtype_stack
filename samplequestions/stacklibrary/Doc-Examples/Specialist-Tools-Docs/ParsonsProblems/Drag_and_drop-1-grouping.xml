@@ -27,10 +27,10 @@ Drag the functions to their appropriate category. </p>
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://matchlib.mac");
+      <text><![CDATA[/* Import parsons' code library. */
+stack_include_contrib("matchlib.mac");
 
-/*options to drag from, can be changed*/
+/* Options to drag from, can be changed. */
 steps : [
     ["sq", "\\(f(x) = x^2\\)"],
     ["sin", "\\(f(x) = \\sin(x)\\)"],
@@ -40,23 +40,23 @@ steps : [
     ["sgn", "\\(f(x) = \\text{sgn}(x)\\)"]
 ];
 
-/*create random order*/
+/* Create random order. */
 steps: random_permutation(steps);
 
-/*Categories to drag to, can be changed*/
+/* Categories to drag to, can be changed. */
 headers: [
     "Differentiable", 
     "Continuous, not differentiable  ", 
     "Discontinuous"
 ];
 
-/*a correct answer, edit if changing question*/
+/* A correct answer, edit if changing question. */
 ta: [
     ["sq", "sin"], 
     ["abs", "sqrt"], 
     ["rec", "sgn"]
 ];
-/*example of a wrong response for tests, edit if changing question*/
+/* Example of a wrong response for tests, edit if changing question. */
 wa: [
     ["sq", "sqrt"], 
     ["abs", "sin"], 

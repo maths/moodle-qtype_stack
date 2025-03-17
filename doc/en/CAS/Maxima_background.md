@@ -92,7 +92,6 @@ By default, the list does not contain multiplicities. If the list should contain
 | `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed square form.
 | `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
 | `unary_minus_sort(ex)`          | Tidies up the way unary minus is represented within expressions when `simp:false`.  See also [simplification](Simplification.md).
-| `texboldatoms(ex)`              | Displays all non-numeric atoms in bold.  Useful for vector questions.
 
 ## Assignment ## {#assignment}
 

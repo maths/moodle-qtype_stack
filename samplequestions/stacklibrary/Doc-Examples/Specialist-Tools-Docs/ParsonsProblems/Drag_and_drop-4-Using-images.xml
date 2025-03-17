@@ -25,17 +25,17 @@
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://matchlib.mac");
+      <text><![CDATA[/* Import parsons' code library. */
+stack_include_contrib("matchlib.mac");
 
-/*example of a wrong response for tests, edit if changing question*/
+/* Example of a wrong response for tests, edit if changing question. */
 wa: [
   ["g", "f"], 
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
 ];
 
-/*options to drag from, can be changed*/
+/* Options to drag from, can be changed. */
 steps: [
   ["f", plot(x^2,[x,-1,1], [size, 200, 200])],
   ["g", plot(x^3,[x,-1,1], [size, 200, 200])],
@@ -45,13 +45,13 @@ steps: [
   ["dg2d2x", plot(6*x,[x,-1,1], [size, 200, 200])]
 ];
 
-/*create random order*/
+/* Create random order. */
 steps: random_permutation(steps);
 
-/*Categories to drag to, can be changed*/
+/* Categories to drag to, can be changed. */
 headers: ["Function", "\\(d/dx\\)", "\\(d^2/d^2x\\)"];
 
-/*a correct answer, edit if changing question*/
+/* A correct answer, edit if changing question. */
 ta: [
   ["f", "g"], 
   ["dfdx", "dgdx"], 

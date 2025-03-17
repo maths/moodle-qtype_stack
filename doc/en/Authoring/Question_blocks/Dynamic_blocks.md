@@ -51,6 +51,48 @@ Notes
 1. hint blocks can be nested.
 2. the content of the hint is styled within a `stack-hint-content` div tag.
 
+## Adapt block ##
+
+The Adapt Block allows you to show or hide sections of text either by clicking a button (`adaptbutton` block) or automatically (`adaptauto` block). This functionality works anywhere you can use CASText, including in feedback nodes.
+
+Each Adapt Block requires a unique ID. You can reference this ID in an `adaptbutton` or `adaptauto` block using the attributes `show_ids` and `hide_ids`. 
+
+
+### Adaptbutton
+With the `adaptbutton` block you can control the visibility of `adapt` blocks with a press of a button. The button needs a `title` attribute. Note: Using Language blocks is not yet supported.
+When a user clicks the button, the system shows and hides `adapt` blocks corresponding to the `show_ids` and `hide_ids` attributes and saves this action in an input you can set with the `save_state` attribute.
+You can control multiple adapt blocks by separating IDs with semicolons, e.g. `hide_ids='1;2;3'`.
+
+```
+[[adapt id='1']]
+This text will be shown until the adaptbutton has been clicked. When it is clicked, the value of the input 'ans1' is set to 'true'.
+[[adaptbutton title='Click me' hide_ids='1' save_state='ans1' show_ids='3;4']][[/adaptbutton]]
+[[/adapt]]
+[[adapt id='2' hidden='true']]
+This text is hidden if you did not press the adaptbutton.
+[[/adapt]]
+```
+
+### Adaptauto
+The `adaptauto` block automatically shows or hides `adapt` blocks when the `adaptauto` block is reached and the whole page finishes loading.
+
+```
+[[adapt id='1']]
+The text will be displayed until adaptauto is loaded.
+[[/adapt]]
+[[adapt id='2' hidden='true']]
+This text is hidden until adaptauto is loaded. Can be used as feedback.
+[[/adapt]]
+<!-- Should be placed in a true/false feedback node -->
+[[adaptauto show_ids='2' hide_ids='1']][[/adaptauto]]
+```
+
+Like the `adaptbutton` block, the `adaptauto` block can control multiple adapt blocks by separating IDs with semicolons, e.g. `hide_ids='1;2;3'`.
+
+To do: 
+1. New block `[[adaptdelay show_id="task2" hide_id="task1" delay="3s"]] [[/adaptdelay]]` which will execute whenever it appears on the page, with a time delay.
+
+
 ## JSXGraph block ##
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../../Specialist_tools/JSXGraph/index.md) elements.

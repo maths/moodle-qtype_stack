@@ -13,27 +13,33 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
-defined('MOODLE_INTERNAL') || die();
 
+/**
+ * This class adds in the "adapt" blocks to castext.
+ * @package    qtype_stack
+ * @copyright  2025 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 
 class stack_cas_castext2_adapt extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
 
-        $body = new MP_List([new MP_String('%root')]);
-
-        $adapt_id = "stack-adapt-" . $this->params['id'];
-
-        $style = "";
+        $style = '';
         if (isset($this->params['hidden'])) {
-            if ($this->params['hidden']=='true') {
+            if ($this->params['hidden'] == 'true') {
                 $style = 'style="display:none;"';
             }
-        }   
+        }
 
-        $body->items[] = new MP_String('<div id="' . $adapt_id . '" ' . $style . '>');
+        $adaptid = "stack-adapt-" . $this->params['id'];
+        $body = new MP_List([new MP_String('%root')]);
+        $body->items[] = new MP_String('<div id="' . $adaptid . '" ' . $style . '>');
 
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
@@ -46,10 +52,12 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
         return $body;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         $r = [];
         if (!isset($this->params['id'])) {
@@ -58,6 +66,7 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('id', $this->params)) {
             $errors[] = new $options['errclass']('Adapt block requires a id parameter.', $options['context'] . '/' .

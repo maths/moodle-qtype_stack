@@ -53,13 +53,14 @@ Notes
 
 ## Adapt block ##
 
-The Adapt Block allows you to show or hide sections of text either by clicking a button (`adaptbutton` block) or automatically (`adaptauto` block). This functionality works anywhere you can use CASText, including in feedback nodes.
+The Adapt Block allows you to show or hide sections of text either by clicking a button (created with the `adaptbutton` block) or automatically (controlled by the `adaptauto` block). This functionality works anywhere you can use CASText, including in feedback nodes.
 
-Each Adapt Block requires a unique ID. You can reference this ID in an `adaptbutton` or `adaptauto` block using the attributes `show_ids` and `hide_ids`. 
+Each Adapt Block requires a unique ID. You can reference this ID in an `adaptbutton` or `adaptauto` block using the attributes `show_ids` and `hide_ids`.
 
 
 ### Adaptbutton
-With the `adaptbutton` block you can control the visibility of `adapt` blocks with a press of a button. The button needs a `title` attribute. Note: Using Language blocks is not yet supported.
+
+With the `adaptbutton` block you can control the visibility of `adapt` blocks with a press of a button. The button needs a `title` attribute. Note: Using Language blocks within titles is not yet supported.
 When a user clicks the button, the system shows and hides `adapt` blocks corresponding to the `show_ids` and `hide_ids` attributes and saves this action in an input you can set with the `save_state` attribute.
 You can control multiple adapt blocks by separating IDs with semicolons, e.g. `hide_ids='1;2;3'`.
 
@@ -74,6 +75,7 @@ This text is hidden if you did not press the adaptbutton.
 ```
 
 ### Adaptauto
+
 The `adaptauto` block automatically shows or hides `adapt` blocks when the `adaptauto` block is reached and the whole page finishes loading.
 
 ```

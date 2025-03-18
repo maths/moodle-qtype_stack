@@ -13,6 +13,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * This class adds in the "adapt button" blocks to castext.
+ * @package    qtype_stack
+ * @copyright  2025 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -24,11 +31,10 @@ stack_cas_castext2_iframe::register_counter('///ADAPTBUTTON_COUNT///');
 
 class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
-    // All reveals need unique (at request level) identifiers,
-    // we use running numbering.
-
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
 
+        // All reveals need unique (at request level) identifiers, we use running numbering.
         static $count = 0;
 
         $body = new MP_List([new MP_String('%root')]);
@@ -37,12 +43,12 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $uid = '' . rand(100, 999) . time() . '_' . $count;
         $count = $count + 1;
 
-        $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-        $uid . '">' . $this->params['title'] . '</button>');
+        $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' .
+            $uid . '">' . $this->params['title'] . '</button>');
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
 
-        //TODO: Add a counter, amount of button clicks
+        //TODO: Add a counter, amount of button clicks.
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "if (input.value=='true'){ hide_and_show(); }\n";
@@ -51,47 +57,51 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= 'input.dispatchEvent(new Event("change"));';
         $code .= "hide_and_show();";
         $code .= "});\n";
-        $code .= "});\n"; // end of input request
+        $code .= "});\n";
 
         $code .= "function hide_and_show(){";
-            if (isset($this->params['show_ids'])) {
-                $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
-                foreach ($split_show_id as &$id )
-                {
-                    $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
-                }
-            }   
-            if (isset($this->params['hide_ids'])) {
-                $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
-                foreach ($split_hide_id as &$id )
-                {
-                    $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
-                }
+        if (isset($this->params['show_ids'])) {
+            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+            foreach ($splitshowid as &$id) {
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
             }
+        }
+        if (isset($this->params['hide_ids'])) {
+            $splithideid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+            foreach ($splithideid as &$id) {
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+            }
+        }
         $code .= "}";
 
-        //Now add a hidden [[iframe]] with suitable scripts.
+        // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton  ///ADAPTBUTTON_COUNT///.'])),
+            new MP_String(json_encode([
+                'hidden' => true,
+                'title' => 'Logic container for a adaptbutton  ///ADAPTBUTTON_COUNT///.',
+            ])),
             new MP_List([
                 new MP_String('script'),
                 new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
+                new MP_String($code),
             ])
         ]);
 
         return $body;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function postprocess(array $params, castext2_processor $processor, castext2_placeholder_holder $holder): string {
         return 'Post processing of adaptbutton blocks never happens, this block is handled through [[iframe]].';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         $r = [];
         if (!isset($this->params['title'])) {
@@ -106,6 +116,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('title', $this->params)) {
             $errors[] = new $options['errclass']('Adaptbutton block requires a title parameter.', $options['context'] . '/' .
@@ -114,12 +125,14 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         }
 
         if (!array_key_exists('show_ids', $this->params) && !array_key_exists('hide_ids', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a show_ids or a hide_ids parameter.', $options['context'] . '/' .
+            $errors[] = new $options['errclass']('Adaptbutton block requires a show_ids or a hide_ids parameter.',
+                $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
         if (!array_key_exists('save_state', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.', $options['context'] . '/' .
+            $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.',
+                $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }

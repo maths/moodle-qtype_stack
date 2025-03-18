@@ -17,7 +17,7 @@ This directory contains sub-directories with large libraries of questions, some 
 
 * `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](algebra-refresher.md).
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/content/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
-*  `HELM` contains questions from the [HELM workbooks](https://learn.lboro.ac.uk/archive/olmp/olmp_resources/pages/wbooks_fulllist.html).
+* `HELM` contains questions from the [HELM workbooks](https://learn.lboro.ac.uk/archive/olmp/olmp_resources/pages/wbooks_fulllist.html).
 * `Features` contains questions to illustrate the features of STACK such as different input types.
 * `Templates` contains questions which are templates for question authors to use. They should require a small amount of editing to make them into a complete tailored question.
 * `Doc-Examples` contains questions linked to documentation pages.  These are not intended as exemplar questions!  (They may be incomplete, and illustrate a starting point for an exercise for question authors to complete.) This is split by documentation section.

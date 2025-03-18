@@ -16,6 +16,8 @@ The block will only do singular direct string match, and so use of this block is
 
 There is currently no "else" clause available with this block.
 
+***Note** the contents of all reveal blocks are within the page.  Some may be visible and some hidden, controlled by JavaScript.  Therefore, a student can inspect the page and see all blocks.  While this doesn't matter too much in formative settings, be aware of the possibility of revealing useful information in online exam settings.
+
 An example question is available by importing `Doc-Examples\Reveal_block_example.xml`.
 
 ### Interaction with MCQ input types
@@ -57,6 +59,9 @@ The Adapt Block allows you to show or hide sections of text either by clicking a
 
 Each Adapt Block requires a unique ID. You can reference this ID in an `adaptbutton` or `adaptauto` block using the attributes `show_ids` and `hide_ids`.
 
+***Note** the contents of all adapt blocks are within the page.  Some may be visible and some hidden, controlled by JavaScript.  Therefore, a student can inspect the page and see all blocks.  While this doesn't matter too much in formative settings, be aware of the possibility of revealing useful information in online exam settings.
+
+An example question is available by importing `Doc-Examples\Adapt_button_block.xml`.
 
 ### Adaptbutton
 

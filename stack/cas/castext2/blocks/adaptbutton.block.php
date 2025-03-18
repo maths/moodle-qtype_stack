@@ -15,7 +15,6 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This class adds in the "adapt button" blocks to castext.
  * @package    qtype_stack
  * @copyright  2025 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -29,6 +28,9 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/iframe.block.php');
 stack_cas_castext2_iframe::register_counter('///ADAPTBUTTON_COUNT///');
 
+/**
+ * This class adds in the "adapt button" blocks to castext.
+ */
 class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -48,7 +50,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
 
-        //TODO: Add a counter, amount of button clicks.
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "if (input.value=='true'){ hide_and_show(); }\n";
@@ -61,13 +62,13 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $code .= "function hide_and_show(){";
         if (isset($this->params['show_ids'])) {
-            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
                 $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
             }
         }
         if (isset($this->params['hide_ids'])) {
-            $splithideid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+            $splithideid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
             foreach ($splithideid as &$id) {
                 $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
             }
@@ -85,7 +86,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 new MP_String('script'),
                 new MP_String(json_encode(['type' => 'module'])),
                 new MP_String($code),
-            ])
+            ]),
         ]);
 
         return $body;

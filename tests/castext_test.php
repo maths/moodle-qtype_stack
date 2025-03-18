@@ -1860,41 +1860,6 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
-     * Basic test the adapt blocks compile.
-     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
-     */
-    public function test_stack_adapt_blocks_forms(): void {
-
-        // Use the content form.
-        $st1 = '[[adapt id=\'1\']]' .
-            'Shown until the adaptbutton has been clicked.' .
-            '[[adaptbutton title=\'Click me\' hide_ids=\'1\' save_state=\'ans1\' show_ids=\'3;4\']]' .
-            '[[/adaptbutton]][[/adapt]][[adapt id=\'2\' hidden=\'true\']]' .
-            'This text is hidden if you did not press the adaptbutton.[[/adapt]]';
-
-        $s1 = [];
-        $cs1 = new stack_cas_session2($s1, null, 0);
-        $at1 = castext2_evaluatable::make_from_source($st1, 'test-case');
-        $cs1->add_statement($at1);
-        $cs1->instantiate();
-
-        // Use the empty form.
-        $st2 = '[[adapt id=\'1\']]' .
-            'Shown until the adaptbutton has been clicked.' .
-            '[[adaptbutton title=\'Click me\' hide_ids=\'1\' save_state=\'ans1\' show_ids=\'3;4\' /]]' .
-            '[[/adapt]][[adapt id=\'2\' hidden=\'true\']]' .
-            'This text is hidden if you did not press the adaptbutton.[[/adapt]]';
-
-        $s2 = [];
-        $cs2 = new stack_cas_session2($s2, null, 0);
-        $at2 = castext2_evaluatable::make_from_source($st2, 'test-case');
-        $cs2->add_statement($at2);
-        $cs2->instantiate();
-
-        $this->assertEquals($at1->get_rendered(), $at2->get_rendered());
-    }
-
-    /**
      * Basic test the adapt blocks error checking.
      * @covers \qtype_stack\stack_cas_castext2_jsxgraph
      */

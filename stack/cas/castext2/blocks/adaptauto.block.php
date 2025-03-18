@@ -30,6 +30,9 @@ require_once(__DIR__ . '/../../../utils.class.php');
 require_once(__DIR__ . '/iframe.block.php');
 stack_cas_castext2_iframe::register_counter('///ADAPTAUTO_COUNT///');
 
+/**
+ * This class adds in the automatic adapt blocks to castext.
+ */
 class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -63,7 +66,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
                 new MP_String('script'),
                 new MP_String(json_encode(['type' => 'module'])),
                 new MP_String($code),
-            ])
+            ]),
         ]);
 
         return $body;

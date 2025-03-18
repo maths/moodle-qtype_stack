@@ -25,6 +25,9 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 
+/**
+ * This class adds in the adapt blocks to castext.
+ */
 class stack_cas_castext2_adapt extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

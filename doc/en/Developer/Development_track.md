@@ -24,6 +24,11 @@ Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack
 3. Remove all "cte" code from Maxima - mostly install.
 4. Resolve [issue #1363] to download students data in json format.
 
+## Future Adapt block development ideas
+
+1. Add in a "delay" option to the block.  If set to a positive integer this is the number of seconds delay before the block appears.
+2. Add in a "counter" option to the button.  If set to true, then the value of the counter changes from true/false to the number of times the button has been pressed.
+
 ## Future Parson's block development track
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?

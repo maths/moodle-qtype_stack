@@ -113,7 +113,7 @@ STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-
 
 ## JSString block ##
 
-A new feature in 4.4 is the `[[jsstring]]` which makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then escapes it as JavaScript string literal.
+The `[[jsstring]]` block makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then escapes it as JavaScript string literal.
 
 ```
 var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];

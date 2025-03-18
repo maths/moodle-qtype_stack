@@ -36,202 +36,68 @@ table, th, td {
 
  We denote with a *, where there would be the distribition e.g. normal. 
 
-<p>
-<div class="divTable">
-<div class="divTableBody">
-<div class="divTableRow">
-<div class="divTableHead">R-Code</div>
-<div class="divTableHead">Maxima</div>
-<div class="divTableHead">What is calculated</div>
-<div class="divTableHead">Notes</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>d*</code></div>
-<div class="divTableCell"><code>pdf_*</code></div>
-<div class="divTableCell">Probability density function for a distribution. \(P(X=x)\) </div>
-<div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>p*</code></div>
-<div class="divTableCell"><code>cdf_*</code></div>
-<div class="divTableCell">Cumulative distribution function a distribution. \(P(X\leq x) = \int_{-\infty}^x P(X=i)\; \mathrm{di} \)</div>
-<div class="divTableCell"> </div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>q*</code></div>
-<div class="divTableCell"><code>quantile_*</code></div>
-<div class="divTableCell">Inverse of CDF. By inputting \(y\), we calculate the value of \(x\) for which the \(P(X \leq x)=y\). Value at a specified percentile.</div>
-<div class="divTableCell">Useful for confidence intervals.</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>r*</code></div>
-<div class="divTableCell"><code>random_*</code></div>
-<div class="divTableCell">A list of normally numbers with the specified distribution.</div>
-<div class="divTableCell">in R, inputs will be (n,[vars]), in maxima inputs are ([vars], n). See normal for example.</div>
-</div>
-</div>
-</div>
-</p>
+|R-Code|Maxima|What is calculated|Notes|
+|---|---|---|---|
+|`d*`|`pdf_*`|Probability density function for a distribution. \(P(X=x)\)|&nbsp;|
+|`p*`|`cdf_*`|Cumulative distribution function a distribution. \(P(X\leq x) = \int_{-\infty}^x P(X=i)\; \mathrm{di} \)|
+|`q*`|`quantile_*`|Inverse of CDF. By inputting \(y\), we calculate the value of \(x\) for which the \(P(X \leq x)=y\). Value at a specified percentile.|Useful for confidence intervals.|
+|`r*`|`random_*`|A list of normally numbers with the specified distribution.|in R, inputs will be (n,[vars]), in maxima inputs are ([vars], n). See normal for example.|
+
 
     
-<p> Let us now see an example using the normal distribution</p> 
+Let us now see an example; the normal distribution.
 
-<p>
-<div class="divTable">
-<div class="divTableBody">
-<div class="divTableRow">
-<div class="divTableHead">R-Code</div>
-<div class="divTableHead">Maxima</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>dnorm(x,m,s)</code></div>
-<div class="divTableCell"><code>pdf_normal(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>pnorm(x,m,s)</code></div>
-<div class="divTableCell"><code>cdf_normal(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>qnorm(x,m,s)</code></div>
-<div class="divTableCell"><code>quantile_normal(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>rnorm(n,m,s)</code></div>
-<div class="divTableCell"><code>random_normal(m,s,n)</code></div>
-</div>
-</div>
-</div>
-</p>
-<br>
-<br>
+|R-Code|Maxima|
+|---|---|
+|`dnorm(x,m,s)`|`pdf_normal(x,m,s)`|
+|`pnorm(x,m,s)`|`cdf_normal(x,m,s)`|
+|`qnorm(x,m,s)`|`quantile_normal(x,m,s)`|
+|`rnorm(n,m,s)`|`random_normal(m,s,n)`|
 
-From this, we can generally estimate what the translation will be, however let us consider a full list of distributions, including the inputs they take. **The <code>random_</code> version of these will be reversed.** 
 
-<div class="divTable">
-<div class="divTableBody">
-<div class="divTableRow">
-<div class="divTableHead">R-Code</div>
-<div class="divTableHead">Maxima</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*norm(x,m,s)</code></div>
-<div class="divTableCell"><code>*normal(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*t(x,n)</code></div>
-<div class="divTableCell"><code>*student_t(x,n)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*chisq(x,n)</code></div>
-<div class="divTableCell"><code>*chi2(x,n)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*f(x,m,n)</code></div>
-<div class="divTableCell"><code>*f(x,m,n)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*exp(x,m)</code></div>
-<div class="divTableCell"><code>*exp(x,m)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*lnorm(x,m,s)</code></div>
-<div class="divTableCell"><code>*lognormal(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*gamma(x,m,s)</code></div>
-<div class="divTableCell">**<code>*gamma(x,m,1/s)</code>**</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*beta(x,m,n)</code></div>
-<div class="divTableCell"><code>*beta(x,m,n)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*unif(x,m,s)</code></div>
-<div class="divTableCell"><code>*continuous_uniform(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*logis(x,m,s)</code></div>
-<div class="divTableCell"><code>*logistic(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*weibull(x,m,s)</code></div>
-<div class="divTableCell"><code>*weibull(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*cauchy(x,m,s)</code></div>
-<div class="divTableCell"><code>*cauchy(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*geom(x,m)</code></div>
-<div class="divTableCell"><code>*geometric(x,m)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*binom(x,m,s)</code></div>
-<div class="divTableCell"><code>*binomial(x,m,s)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*pois(x,m)</code></div>
-<div class="divTableCell"><code>*poisson(x,m)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*geom(x,m)</code></div>
-<div class="divTableCell"><code>*geometric(x,m)</code></div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>*nbinom(x,m,s)</code></div>
-<div class="divTableCell"><code>*negative_binomial(x,m,s)</code></div>
-</div>
-</div>
-</div>
+From this, we can generally estimate what the translation will be, however let us consider a full list of distributions, including the inputs they take. **The `random_` version of these will be reversed.**
 
-<br>
+|R-Code|Maxima|
+|---|---|
+|`*norm(x,m,s)`|`*normal(x,m,s)`|
+|`*t(x,n)`|`*student_t(x,n)`|
+|`*chisq(x,n)`|`*chi2(x,n)`|
+|`*f(x,m,n)`|`*f(x,m,n)`|
+|`*exp(x,m)`|`*exp(x,m)`|
+|`*lnorm(x,m,s)`|`*lognormal(x,m,s)`|
+|`*gamma(x,m,s)`|**`*gamma(x,m,1/s)`**|
+|`*beta(x,m,n)`|`*beta(x,m,n)`|
+|`*unif(x,m,s)`|`*continuous_uniform(x,m,s)`|
+|`*logis(x,m,s)`|`*logistic(x,m,s)`|
+|`*weibull(x,m,s)`|`*weibull(x,m,s)`|
+|`*cauchy(x,m,s)`|`*cauchy(x,m,s)`|
+|`*geom(x,m)`|`*geometric(x,m)`|
+|`*binom(x,m,s)`|`*binomial(x,m,s)`|
+|`*pois(x,m)`|`*poisson(x,m)`|
+|`*geom(x,m)`|`*geometric(x,m)`|
+|`*nbinom(x,m,s)`|`*negative_binomial(x,m,s)`|
+
 For detailed informaion on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). This also provides information on calculating skewness and kurtosis.
 
 ##### Mean variance and standard deviation
 
-###### Key points 
+###### Key points
 
 - R and maxima have different default settings for Variance (and by extension, standard deviation). `var(x)` in R will calculate the sample variance while maxima calculates the population variance. In maxima, `var1(x)` would be the equivalent to `var(x)` in R.
-- In R, if no mean and standard deviation is provided, mean = 0 and standard deviation = 1. 
-<div class="divTable">
-<div class="divTableBody">
-<div class="divTableRow">
-<div class="divTableHead">R-Code</div>
-<div class="divTableHead">Maxima</div>
-<div class="divTableHead">What is calculated</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>var(x)</code></div>
-<div class="divTableCell"><code>var1(x)</code></div>
-<div class="divTableCell">Sample variance of a dataset \(s^2=\frac{\sum(x_i-\bar{x})^2}{n-1}\)</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>var(x)*(n-1)/n</code></div>
-<div class="divTableCell"><code>var1(x)</code></div>
-<div class="divTableCell">Population variance of dataset \(\sigma^2=\frac{\sum(x_i-\bar{x})^2}{N}\)</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>sd(x)</code></div>
-<div class="divTableCell"><code>std1(x)</code></div>
-<div class="divTableCell">Sample standard deviation \(\sqrt(s^2)\)</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>sd(x)*sqrt((n-1)/n)</code></div>
-<div class="divTableCell"><code>std(x)</code></div>
-<div class="divTableCell">Population standard deviation \(\sqrt(\sigma^2)\)</div>
-</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell"><code>mean(x)</code></div>
-<div class="divTableCell"><code>mean(x)</code></div>
-<div class="divTableCell">Mean of the dataset \(\frac{\sum x_i}{n} \)</div>
-</div>
-</div>
-</div>
+- In R, if no mean and standard deviation is provided, mean = 0 and standard deviation = 1.
+- In Maxima, the default mean is 0 and standard deviation is 1.
+
+|R-Code|Maxima|What is calculated|
+|---|---|---|
+|`var(x)`|`var1(x)`|Sample variance of a dataset \(s^2=\frac{\sum(x_i-\bar{x})^2}{n-1}\)|
+|`var(x)*(n-1)/n`|`var1(x)`|Population variance of dataset \(\sigma^2=\frac{\sum(x_i-\bar{x})^2}{N}\)|
+|`sd(x)`|`std1(x)`|Sample standard deviation \(\sqrt(s^2)\)|
+|`sd(x)*sqrt((n-1)/n)`|`std(x)`|Population standard deviation \(\sqrt(\sigma^2)\)|
+|`mean(x)`|`mean(x)`|Mean of the dataset \(\frac{\sum x_i}{n} \)|
 
 #### Linear regression
 
-Maxima can calculate linear regressions. The function `linear_regression(x)` takes an argument `x`, a two column matrix or a list of pairs, and will return a summary of results. The following is a list of the results that can be extracted. 
+Maxima can calculate linear regressions. The function `linear_regression(x)` takes an argument `x`, a two column matrix or a list of pairs, and will return a summary of results. The following is a list of the results that can be extracted.
 
 - 'b_estimation: regression coefficients estimates.
 - 'b_covariances: covariance matrix of the regression coefficients estimates.

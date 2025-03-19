@@ -21,7 +21,7 @@ This text will be shown until the adaptbutton has been clicked. When it is click
 <li>the value of the input 'ans1' is set to 'true';</li>
 <li>adapt blocks 3 and 4 are shown;</li>
 </ul>
-[[adaptbutton title='Click me' hide_ids='1' save_state='ans1' show_ids='3;4']][[/adaptbutton]]
+[[adaptbutton title='Click me' hide_ids='1' save_state='ans1' show_ids='3;4'/]]
 [[/adapt]]
 [[adapt id='2' hidden='true']]
 <b>Adapt block #2</b><br/>
@@ -124,7 +124,7 @@ This text is shown as soon as you click the adapt button in block 1.
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
           <text>Yes, you clicked the button!
-[[adaptauto show_ids='2' hide_ids='1']][[/adaptauto]]</text>
+[[adaptauto show_ids='2' hide_ids='1'/]]</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>

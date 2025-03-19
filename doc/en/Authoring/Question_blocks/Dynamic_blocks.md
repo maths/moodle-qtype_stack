@@ -72,12 +72,14 @@ You can control multiple adapt blocks by separating IDs with semicolons, e.g. `h
 ```
 [[adapt id='1']]
 This text will be shown until the adaptbutton has been clicked. When it is clicked, the value of the input 'ans1' is set to 'true'.
-[[adaptbutton title='Click me' hide_ids='1' save_state='ans1' show_ids='3;4']][[/adaptbutton]]
+[[adaptbutton title='Click me' hide_ids='1' save_state='ans1' show_ids='3;4'/]]
 [[/adapt]]
 [[adapt id='2' hidden='true']]
 This text is hidden if you did not press the adaptbutton.
 [[/adapt]]
 ```
+
+The Adaptbutton block has no contents within the block, so you may use the form `[[adaptbutton ... /]]` rather than `[[adaptbutton ... ]][/adaptbutton]]`.
 
 ### Adaptauto
 
@@ -91,14 +93,12 @@ The text will be displayed until adaptauto is loaded.
 This text is hidden until adaptauto is loaded. Can be used as feedback.
 [[/adapt]]
 <!-- Should be placed in a true/false feedback node -->
-[[adaptauto show_ids='2' hide_ids='1']][[/adaptauto]]
+[[adaptauto show_ids='2' hide_ids='1'/]]
 ```
 
 Like the `adaptbutton` block, the `adaptauto` block can control multiple adapt blocks by separating IDs with semicolons, e.g. `hide_ids='1;2;3'`.
 
-To do: 
-1. New block `[[adaptdelay show_id="task2" hide_id="task1" delay="3s"]] [[/adaptdelay]]` which will execute whenever it appears on the page, with a time delay.
-
+Like the `adaptbutton` block, the `adaptauto` block has no contents within the block.
 
 ## JSXGraph block ##
 

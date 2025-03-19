@@ -15,6 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This class adds in the "adapt button" blocks to castext.
  * @package    qtype_stack
  * @copyright  2025 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.

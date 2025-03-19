@@ -530,3 +530,83 @@
     x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltsep '",") '" ; " '" , "))))
   (append l x))
 
+
+;; *************************************************************************************************
+;; Added 13 March 2025.
+;; 
+(defun tex1 (mexplabel &optional filename-or-stream) ;; mexplabel, and optional filename or stream
+  (prog (mexp  texport x y itsalabel need-to-close-texport)
+     (reset-ccol)
+     ;; collect the file-name, if any, and open a port if needed
+     (setq filename-or-stream (meval filename-or-stream))
+     (setq texport
+       (cond
+         ((null filename-or-stream) *standard-output*)
+         ((eq filename-or-stream t) *standard-output*)
+         ((streamp filename-or-stream) filename-or-stream)
+         (t
+           (setq need-to-close-texport t)
+           (open (namestring (maxima-string filename-or-stream))
+                 :direction :output
+                 :if-exists :append
+                 :if-does-not-exist :create))))
+     ;; go back and analyze the first arg more thoroughly now.
+     ;; do a normal evaluation of the expression in macsyma
+     (setq mexp (meval mexplabel))
+     (cond ((member mexplabel $labels :test #'eq)	; leave it if it is a label
+	    (setq mexplabel (concatenate 'string "(" (print-invert-case (stripdollar mexplabel))
+					 ")"))
+	    (setq itsalabel t))
+	   (t (setq mexplabel nil)))	;flush it otherwise
+
+     ;; maybe it is a function?
+     (cond((symbolp (setq x mexp)) ;;exclude strings, numbers
+	   (setq x ($verbify x))
+	   (cond ;; Removed in March 2025.  We print function names, not the whole function in TeX.
+	         ;; ((setq y (mget x 'mexpr))
+		 ;;  (setq mexp (list '(mdefine) (cons (list x) (cdadr y)) (caddr y))))
+		 ((setq y (mget x 'mmacro))
+		  (setq mexp (list '(mdefmacro) (cons (list x) (cdadr y)) (caddr y))))
+		 ((setq y (mget x 'aexpr))
+		  (setq mexp (list '(mdefine) (cons (list x 'array) (cdadr y)) (caddr y)))))))
+     (cond ((and (null(atom mexp))
+		 (member (caar mexp) '(mdefine mdefmacro) :test #'eq))
+	    (format texport (car (get-tex-environment (caar mexp))))
+	    (cond (mexplabel (format texport "~a " mexplabel)))
+	    (mgrind mexp texport)	;write expression as string
+	    (format texport (cdr (get-tex-environment (caar mexp)))))
+	   ((and
+	     itsalabel ;; but is it a user-command-label?
+         ;; THE FOLLOWING TESTS SEEM PRETTY STRANGE --
+         ;; WHY CHECK INITIAL SUBSTRING IF SYMBOL IS ON THE $LABELS LIST ??
+         ;; PROBABLY IT IS A HOLDOVER FROM THE DAYS WHEN LABELS WERE C AND D INSTEAD OF %I AND %O
+	     (<= (length (string $inchar)) (length (string mexplabel)))
+	     (string= (subseq (maybe-invert-string-case (string $inchar)) 1 (length (string $inchar)))
+		      (subseq (string mexplabel) 1 (length (string $inchar))))
+	     ;; Check to make sure it isn't an outchar in disguise
+	     (not
+	      (and
+	       (<= (length (string $outchar)) (length (string mexplabel)))
+	       (string= (subseq (maybe-invert-string-case (string $outchar)) 1 (length (string $outchar)))
+			(subseq (string mexplabel) 1 (length (string $outchar)))))))
+	    ;; aha, this is a C-line: do the grinding:
+	    (format texport (car (get-tex-environment 'mlabel)))
+        (format texport "~a" mexplabel)
+	    (mgrind mexp texport)	;write expression as string
+	    (format texport (cdr (get-tex-environment 'mlabel))))
+	   (t 
+	    (if mexplabel (setq mexplabel (quote-% mexplabel)))
+					; display the expression for TeX now:
+        (myprinc (car (get-tex-environment mexp)) texport)
+	    (mapc #'(lambda (x) (myprinc x texport))
+		  ;;initially the left and right contexts are
+		  ;; empty lists, and there are implicit parens
+		  ;; around the whole expression
+		  (tex mexp nil nil 'mparen 'mparen))
+	    (cond (mexplabel
+		   (format texport "\\leqno{\\tt ~a}" mexplabel)))
+	    (format texport (cdr (get-tex-environment mexp)))))
+     (terpri texport)
+     (if need-to-close-texport
+	    (close texport))
+     (return mexplabel)))

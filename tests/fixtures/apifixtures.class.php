@@ -17,12 +17,20 @@
 /**
 
  *
+ * @package    qtype_stack
  * @copyright  2024 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_api_test_data {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $questiondata = [
+        'empty' =>
+           '<quiz>
+              <question type="stack">	
+              </question>
+            </quiz>',
         'matrices' =>
            '<quiz>
                 <question type="stack">
@@ -1732,15 +1740,19 @@ class stack_api_test_data {
         </quiz>',
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $answers = [
         'matrices_correct' => '{"ans1_sub_0_0": "35", "ans1_sub_0_1": "30", "ans1_sub_1_0": "28", "ans1_sub_1_1": "24"}',
         'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0"}',
+        'empty' => '{"ans1": "1"}'
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_question_string(string $name): string {
         return self::$questiondata[$name];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_answer_string(string $name): string {
         return self::$answers[$name];
     }

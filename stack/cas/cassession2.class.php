@@ -16,13 +16,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Note that is a complete rewrite of cassession, in this we generate
-// no "caching" in the form of keyval representations as we do not
-// necessarily return enough information from the CAS to do that, for
-// that matter neither did the old one...
-//
-// @copyright  2019 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Note that is a complete rewrite of cassession, in this we generate
+ * no "caching" in the form of keyval representations as we do not
+ * necessarily return enough information from the CAS to do that, for
+ * that matter neither did the old one...
+ *
+ * @package    qtype_stack
+ * @copyright  2019 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/../options.class.php');
@@ -30,6 +33,7 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 require_once(__DIR__ . '/caserror.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_session2 {
     /**
      * @var string separator used between successive CAS commands inside the block.
@@ -70,6 +74,7 @@ class stack_cas_session2 {
      */
     public $errclass = 'stack_cas_error';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(array $statements, $options = null, $seed = null) {
 
         $this->instantiated = false;
@@ -100,10 +105,12 @@ class stack_cas_session2 {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_session(): array {
         return $this->statements;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_contextvariables(): array {
         $ret = [];
         foreach ($this->statements as $statement) {
@@ -115,10 +122,12 @@ class stack_cas_session2 {
         return $ret;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_options(): stack_options {
         return $this->options;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_statement(cas_evaluatable $statement, bool $append = true) {
         if ($append) {
             $this->statements[] = $statement;
@@ -128,6 +137,7 @@ class stack_cas_session2 {
         $this->instantiated = false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_statements(array $statements, bool $append = true) {
         foreach ($statements as $statement) {
             if (!is_subclass_of($statement, 'cas_evaluatable')) {
@@ -163,6 +173,7 @@ class stack_cas_session2 {
         $target->instantiated = false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_variable_usage(array $updatearray = []): array {
         foreach ($this->statements as $statement) {
             $updatearray = $statement->get_variable_usage($updatearray);
@@ -170,10 +181,12 @@ class stack_cas_session2 {
         return $updatearray;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_instantiated(): bool {
         return $this->instantiated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         $valid = true;
         foreach ($this->statements as $statement) {
@@ -185,7 +198,7 @@ class stack_cas_session2 {
         return $valid;
     }
 
-    /*
+    /**
      * TO-DO: set return value of : ?cas_evaluatable
      */
     public function get_by_key(string $key) {
@@ -410,6 +423,10 @@ class stack_cas_session2 {
                             $asts[$key] = $value;
                         }
                     } catch (Exception $e) {
+                        // TO-DO: issue #1279 would change this exception to add in an error associated
+                        // with the values collected rather than a stack_exception.
+                        // We would then add something like this to allow the process to continue.
+                        // $asts[$key] = maxima_parser_utils::parse('null', 'Root', false); .
                         throw new stack_exception('stack_cas_session: tried to parse the value ' .
                                 $value . ', but got the following exception ' . $e->getMessage());
                     }
@@ -512,7 +529,7 @@ class stack_cas_session2 {
         return $this->instantiated;
     }
 
-    /*
+    /**
      * This representation is only used in debugging questions, and for
      * offline (sandbox) testing.  We need to provide teachers with something
      * they can type back into Maxima.
@@ -552,6 +569,7 @@ class stack_cas_session2 {
         return trim($keyvals);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         if (trim($this->timeoutdebug ?? '') !== '') {
             return $this->timeoutdebug;

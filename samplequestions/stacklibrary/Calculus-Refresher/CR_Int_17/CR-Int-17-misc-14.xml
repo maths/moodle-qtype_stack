@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Since the degree of the numerator is greater than the degree of the denominator we need to use long division to get a simpler form to express \[{@p@}.\] <hint>alg_partial_fractions</hint>
@@ -34,7 +33,7 @@ So,
 
 \[\begin{array}{rcl}\displaystyle  
 \int {@p@} d{@v@} &\displaystyle =&\displaystyle  \int {@q@} d{@v@} \\&\displaystyle =&\displaystyle  {@rdm3@} \int {@ppp1@} d{@v@} + {@rdm4@} \int {@ppp2@} d{@v@} + \int ({@pp3@}) d{@v@} \\&\displaystyle =&\displaystyle  {@rdm3*int(ppp1,v)@} + {@rdm4*int(ppp2,v)@} + {@int(pp3,v)@}+c \\&\displaystyle =&\displaystyle  {@rdm3*int(ppp1,v)+rdm4*int(ppp2,v)+int(pp3,v)@}+c
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

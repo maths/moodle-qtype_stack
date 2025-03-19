@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \[ \int^{@rdm1@}_{@rdm2@} {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[To solve this problem we will have to express {@p@} in a simpler way using some trigonometric identities <hint>trig_standard_identities</hint>
@@ -46,7 +45,7 @@ Then
 \int^{@rdm1@}_{@rdm2@} {@p@} d{@v@} &\displaystyle =&\displaystyle  F({@rdm1@}) - F({@rdm2@}) \\
    &\displaystyle =&\displaystyle  {@subst(rdm1,v,q)@} - \left[{@subst(rdm2,v,q)@}\right] \\
    &\displaystyle =&\displaystyle  {@subst(rdm1,v,q)-subst(rdm2,v,q)@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

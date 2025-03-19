@@ -8,8 +8,7 @@
       <text>Find the following derivative:
 \[ \frac{d}{d{@v@}}\left[{@p@}\right]. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the quotient rule <hint>calc_quotient_rule</hint> as follows:
@@ -19,7 +18,7 @@
    &\displaystyle =&\displaystyle  \frac{[{@diff(pp1,v)@}]\cdot {@pp2@} - {@pp1@}\cdot [{@diff(pp2,v)@}]}{@pp2^2@} \\
    &\displaystyle =&\displaystyle  \frac{{@factor(diff(pp1,v))*pp2@} - {@pp1*factor(diff(pp2,v))@}}{@pp2^2@}\\
    &\displaystyle =&\displaystyle  {@ratsimp(diff(p,v))@}.
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

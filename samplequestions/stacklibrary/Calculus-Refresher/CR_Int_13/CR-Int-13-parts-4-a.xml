@@ -8,8 +8,7 @@
       <text>Evaluate the following definite integral:
 \[ \int^{@rdm2@}_{@rdm3@} {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[If \[\int f(x) dx = F(x)\] then 

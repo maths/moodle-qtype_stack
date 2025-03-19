@@ -21,6 +21,7 @@
  * correctly, and second it serves to document the expected behaviour of answer
  * tests, which is useful for learning how they work.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

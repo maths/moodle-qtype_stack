@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 12693  -->
   <question type="stack">
     <name>
       <text>Scientific units</text>
@@ -10,12 +9,12 @@
 <p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024092500</text>
     </stackversion>
@@ -62,7 +61,7 @@ uw2: stackunits((len*width)/100,m^2);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>units</type>
@@ -70,10 +69,10 @@ uw2: stackunits((len*width)/100,m^2);</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -87,11 +86,11 @@ uw2: stackunits((len*width)/100,m^2);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>UnitsStrictAbsolute</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
@@ -99,24 +98,24 @@ uw2: stackunits((len*width)/100,m^2);</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>UnitsAbsolute</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
@@ -124,7 +123,7 @@ uw2: stackunits((len*width)/100,m^2);</text>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
@@ -132,16 +131,16 @@ uw2: stackunits((len*width)/100,m^2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>UnitsAbsolute</answertest>
         <sans>ans1</sans>
         <tans>uw2</tans>
@@ -149,7 +148,7 @@ uw2: stackunits((len*width)/100,m^2);</text>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-3-T</trueanswernote>
         <truefeedback format="html">
@@ -157,11 +156,11 @@ uw2: stackunits((len*width)/100,m^2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -189,7 +188,7 @@ uw2: stackunits((len*width)/100,m^2);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>uw2</value>
@@ -203,7 +202,7 @@ uw2: stackunits((len*width)/100,m^2);</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>uw1</value>
@@ -216,5 +215,4 @@ uw2: stackunits((len*width)/100,m^2);</text>
       </expected>
     </qtest>
   </question>
-
 </quiz>

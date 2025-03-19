@@ -18,11 +18,12 @@
  * An input which provides a matrix input of variable size.
  * Lots in common with the textarea class.
  *
+ * @package    qtype_stack
  * @copyright  2019 Ruhr University Bochum
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_varmatrix_input extends stack_input {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
@@ -34,6 +35,7 @@ class stack_varmatrix_input extends stack_input {
         'monospace' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function is_blank_response($contents) {
         if ($contents == ['EMPTYANSWER']) {
             return true;
@@ -49,6 +51,7 @@ class stack_varmatrix_input extends stack_input {
         return $allblank;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
@@ -136,6 +139,7 @@ class stack_varmatrix_input extends stack_input {
         return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -163,6 +167,7 @@ class stack_varmatrix_input extends stack_input {
         return $data;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -210,6 +215,7 @@ class stack_varmatrix_input extends stack_input {
         return $contents;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function caslines_to_answer($caslines, $secrules = false) {
         $vals = [];
         foreach ($caslines as $line) {
@@ -245,6 +251,7 @@ class stack_varmatrix_input extends stack_input {
     }
 
     /**
+     * Add description here
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
@@ -271,7 +278,7 @@ class stack_varmatrix_input extends stack_input {
                         $valid = false;
                         $errors[] = stack_string('studentinputtoolong');
                         $notes['too_long'] = true;
-                        $val='';
+                        $val = '';
                     }
                     $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                         [], 'Root', $localoptions->get_option('decimals'));
@@ -281,12 +288,21 @@ class stack_varmatrix_input extends stack_input {
                         $modifiedrow[] = 'EMPTYCHAR';
                     }
                     $valid = $valid && $answer->get_valid();
-                    $errors[] = $answer->get_errors();
                     $note = $answer->get_answernote(true);
                     if ($note) {
                         foreach ($note as $n) {
                             $notes[$n] = true;
                         }
+                    }
+                    // For varmatrix with '.', use of comma needs specific feedback.
+                    if ($localoptions->get_option('decimals') === '.' &&
+                            array_key_exists('unencapsulated_comma', array_flip($note))) {
+                        $errors[] = stack_string('stackCas_unencpsulated_varmatrix');
+                        $errors[] = stack_string('stackCas_varmatrix_eg',
+                            ['bad' => stack_maxima_format_casstring($val),
+                             'good' => stack_maxima_format_casstring(str_replace(',', ' ', $val))]);
+                    } else {
+                        $errors[] = $answer->get_errors();
                     }
                 }
                 $modifiedcontents[] = $modifiedrow;
@@ -313,12 +329,12 @@ class stack_varmatrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        // We don't use the decimals option below, because we've already used it above.
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
             [], 'Root', '.');
         $inertform->get_valid();
 
+        $errors = array_unique($errors);
         $caslines = [];
         return [$valid, $errors, $notes, $answer, $caslines, $inertform, $caslines];
     }
@@ -352,6 +368,7 @@ class stack_varmatrix_input extends stack_input {
         return $cs->ast_to_string(null, $tostringparams);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_correct_response($value) {
 
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
@@ -382,6 +399,7 @@ class stack_varmatrix_input extends stack_input {
         return  $this->maxima_to_response_array($value);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function ajax_to_response_array($in) {
         $in = explode('<br>', $in);
         $in = implode("\n", $in);
@@ -440,6 +458,7 @@ class stack_varmatrix_input extends stack_input {
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution($tavalue) {
         // We clear the name, and then restore its original value,
         // to not include the prefix in the api solution.

@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -26,13 +33,21 @@ require_once(__DIR__ . '/../../../../vle_specific.php');
 require_once(__DIR__ . '/iframe.block.php');
 stack_cas_castext2_iframe::register_counter('///JSXGRAPH_COUNT///');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
-    /* This is not something we want people to edit in general. */
+    /**
+     * This is not something we want people to edit in general.
+     */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $namedversions = [
         'cdn' => [
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
             'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
+        ],
+        'cdn-1.10.1' => [
+            'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraph.min.css',
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraphcore.min.js',
         ],
         'cdn-1.8.0' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraph.min.css',
@@ -48,6 +63,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
 
@@ -194,20 +210,24 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(
         &$errors = [],
         $options = []

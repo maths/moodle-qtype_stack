@@ -19,6 +19,7 @@
  * all the parts are working properly, including the conection to the CAS,
  * graph plotting, and equation rendering.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

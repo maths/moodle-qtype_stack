@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/801_singleton_numeric.filter.php');
@@ -39,20 +46,25 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
     // Do we only accept the default units or do we allow additional
     // variables/constants? Use the forbidden words to limit more accurately.
     // That limitation will happen through the security-filter.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $allowvariables = false;
 
     // Allow the expression to contain constants like `pi`.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $allowconstants = false;
 
     // Convert all floats to powers.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $floattopower = false;
 
     // Invalid if no known unit found. This means that one can allow
     // this to function even if the "unit" is not one of the official ones
     // it will still require an identifier though.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $mandatoryunit = true;
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_filter_parameters(array $parameters) {
         if (isset($parameters['allowvariables'])) {
             $this->allowvariables = $parameters['allowvariables'];
@@ -68,6 +80,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $ops = [];

@@ -161,7 +161,7 @@ parsons_encode(steps) := block(
  * Take the hashed JSON from STACK Parson's block and return a proof function.
  */
 parsons_decode(st) := block([pf],
-  pf:first(first(stackjson_parse(st))),
+  pf:first(stackjson_parse(st)),
   pf:ev(apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used"))))),simp)
 );
 
@@ -359,8 +359,10 @@ proof_step_missing_disp(exs, ps):=block(
                                     proof_getstep(ex, ps))), args(exs)), "<br/>")
 )$
 proof_step_must_disp(ex1, ex2, ps):=block(
-  sconcat(proof_getstep(ex1, ps),
+  sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-up'></i></span> ",
+          proof_getstep(ex1, ps),
           "<br/><span style='font-size: 1.1em; color:red;'>[?...?]</span><br/>",
+          "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-down'></i></span> ",
           proof_getstep(ex2, ps),
           "<br/>")
 )$

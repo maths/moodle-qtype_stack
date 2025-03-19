@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Integrate {@p@} with respect to {@v@} using the method of integration by parts, and taking \({@p@}=1\cdot \ {@p@}\).
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[If \(u\) and \(v\) are both functions of {@v@} then \[\int u dv = uv - \int v du.\]
@@ -24,7 +23,7 @@ Then,
    &\displaystyle =&\displaystyle  {@p@}{@int(1,v)@} - \int {@int(1,v)@}{@diff(p,v)@}d{@v@} \\
    &\displaystyle =&\displaystyle  {@p*int(1,v)@} - \int {@int(1,v)*diff(p,v)@}d{@v@} \\
    &\displaystyle =&\displaystyle  {@p*int(1,v)-int((int(1,v)*diff(p,v)),v)@}+c
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

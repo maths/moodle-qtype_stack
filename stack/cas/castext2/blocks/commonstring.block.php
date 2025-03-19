@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -40,6 +47,7 @@ require_once(__DIR__ . '/../../ast.container.class.php');
  */
 class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // The user should use this block's full name "commonstring" but
         // as this is a common block and chars take room we tend to use a shorter
@@ -129,10 +137,12 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         $r = [];
         foreach ($this->params as $key => $value) {
@@ -143,7 +153,8 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
 
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         if (count($params) === 2) {
             return stack_string($params[1]);
@@ -164,6 +175,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('key', $this->params)) {
             $errors[] = new $options['errclass']('The commonstring block must always have a key for the string template.',

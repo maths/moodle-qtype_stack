@@ -124,10 +124,10 @@
       "variable": "?"
   },
   "%rnum": {
-      "variable": "?"
+      "variable": "t"
   },
   "%rnum_list": {
-      "variable": "?"
+      "variable": "t"
   },
   "%s": {
       "function": "?"
@@ -3811,7 +3811,8 @@
       "variable": "f"
   },
   "km": {
-      "function": "?"
+      "function": "s",
+      "variable": "s"
   },
   "kostka": {
       "function": "f"
@@ -7311,6 +7312,10 @@
       "function": "t",
       "built-in": true
   },
+  "stack_matrix_col": {
+      "function": "?",
+      "contextvariable": "true"
+  },
   "stack_disp": {
       "function": "t",
       "built-in": true
@@ -7354,6 +7359,10 @@
       "constant": "t"
   },
   "stack_unit_si_declare": {
+      "function": "s",
+      "contextvariable": "true"
+  },
+  "stack_linear_algebra_declare": {
       "function": "s",
       "contextvariable": "true"
   },
@@ -7640,7 +7649,7 @@
       "property": "?"
   },
   "symmetricp": {
-      "function": "f"
+      "function": "s"
   },
   "system": {
       "function": "f",

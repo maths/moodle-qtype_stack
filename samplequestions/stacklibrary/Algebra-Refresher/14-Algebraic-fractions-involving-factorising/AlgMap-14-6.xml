@@ -14,8 +14,7 @@
       <text>By factorisng the numerator and the denominator we obtain:
 \[\frac{@factor(n)@}{@factor(d)@}.\]
 Then we can cancel the \({@x@}\)'s and constants from the numerator
-and denominator to obtain: \[ {@ta@}. \]
-</text>
+and denominator to obtain: \[ {@ta@}. \]</text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

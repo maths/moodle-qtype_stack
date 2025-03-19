@@ -22,6 +22,7 @@
  * the whole logic in a fast way. Thus this does not work for questions
  * that have not been compiled.
  *
+ * @package    qtype_stack
  * @copyright  2022 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

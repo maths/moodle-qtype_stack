@@ -8,6 +8,7 @@ A discussion of [_Practical Online Assessment of Mathematical Proof_](https://ww
 
 * faded worked examples,
 * reading comprehension questions.
+* Fill in the blanks.  E.g. in the question library see `Topics/LinearAlgebra/Diagonalizable-proof-comprehension.xml`.
 
 Such questions can be written in STACK.  In addition 
 
@@ -25,7 +26,7 @@ Mathematical writing, especially for students, commonly takes two forms.
 1. A mathematical proof, which is a deductive justification of a claim.  A proof is a "checkable record of reasoning".
 2. A mathematical recipe, which is a set of instructions for carrying out a procedure.
 
-## Presentation of proof
+## Presentation of proof in STACK
 
 STACK supports representation and display of mathematical proof as trees, with string nodes for the individual sentences/clauses in the proof.  The goals of representing proofs as trees of text-based strings are as follows.
 

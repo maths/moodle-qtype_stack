@@ -7,7 +7,7 @@ This can also be one input in a multi-part randomly generated question. E.g. you
 
 If you are new to STACK please note that in STACK MCQs are *not* the place to start learning how to author questions.  Please look at the [authoring quick-start guide](../../AbInitio/Authoring_quick_start_1.md).
 
-Please read the section on [inputs](../../Authoring/Inputs/index.md) first.  
+Please read the section on [inputs](../../Authoring/Inputs/index.md) first.
 
 Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
@@ -15,6 +15,8 @@ Multiple choice input types return a CAS object which is then assessed by the po
 * Dropdown inputs and radio inputs return a single *expression*, which is the CAS object selected.
 
 The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](../../Authoring/CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
+
+Example questions are in the stack library under `Features\MCQ_....`.
 
 ## Model answer ##
 
@@ -310,6 +312,12 @@ The language strings are not CAStext, they are simply raw strings.  It is possib
     [oc(-inf,a), false, sconcat("The half interval: ", stack_disp(oc(-inf,a),"i"))]
 
 The argument `"i"` here displays the expression "inline", other options are `""` (you are responsible for maths environments), `"d"` (displayed), and `"di"` (inline but using displaystyle).  If you construct strings in this way the display of any equations will not respect the display options in the particular input since variables are typically defined in the question variables and the input options are not available at that point in the code base.
+
+For checkbox and radio inputs you could add modest HTML style to your strings.  E.g.
+
+    ta:[[A, false, "(A) This is <b>bold</b>"], [B, true, "(B) this is <em>emphasis</em>"]];
+
+Dropdown lists are created with the HTML `<select>` and `<option>` elements.  There is no support for HTML (or LaTeX) within dropdown lists.  You can use HTML-entities within a string field: see the separate documentation on this. 
 
 ## Inline CASText as MCQ labels ## {#castextlabels}
 

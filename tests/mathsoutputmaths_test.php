@@ -27,18 +27,19 @@ require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutputmaths.class.php');
 require_once(__DIR__ . '/../doc/docslib.php');
 
-// Unit tests for the OU maths filter output class.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the OU maths filter output class.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_maths_output_maths
  */
-class mathsoutputmaths_test extends advanced_testcase {
+final class mathsoutputmaths_test extends advanced_testcase {
 
-    public function test_maths_rendering() {
+    public function test_maths_rendering(): void {
+
         if (!stack_maths_output_maths::filter_is_installed()) {
             $this->markTestSkipped('The OU maths filter is not installed.');
         }

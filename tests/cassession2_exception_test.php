@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 namespace qtype_stack;
 
 use TypeError;
@@ -31,33 +38,39 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 // Unit tests for {@link stack_cas_session} that involve exceptions.
 
 /**
+ * Add description
  * @group qtype_stack
  * @covers \stack_cas_session2
  */
-class cassession2_exception_test extends qtype_stack_testcase {
+final class cassession2_exception_test extends qtype_stack_testcase {
 
-    public function test_exception_1() {
+    public function test_exception_1(): void {
+
         $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2("x=1", false, false);
     }
 
-    public function test_exception_2() {
+    public function test_exception_2(): void {
+
         $this->expectException(stack_exception::class);
         $at1 = new stack_cas_session2([], null, false);
         $at1->get_valid();
     }
 
-    public function test_exception_3() {
+    public function test_exception_3(): void {
+
         $this->expectException(stack_exception::class);
         $at1 = new stack_cas_session2([1, 2, 3], null, false);
     }
 
-    public function test_exception_4() {
+    public function test_exception_4(): void {
+
         $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2(null, 123, false);
     }
 
-    public function test_exception_5() {
+    public function test_exception_5(): void {
+
         $pref = new stack_options();
         $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2(null, $pref, 'abc');

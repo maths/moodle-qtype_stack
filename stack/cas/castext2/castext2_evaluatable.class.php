@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../evaluatable_object.interfaces.php');
@@ -38,19 +45,28 @@ require_once(__DIR__ . '/blocks/include.block.php');
  */
 class castext2_evaluatable implements cas_raw_value_extractor {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $compiled = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $source = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $value = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $valid = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $errors = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $context = null;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
     // and replace them into the result once eberything is complete.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $statics = null;
 
     // Values from blocks that escape the context.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $special = [];
 
     /**
@@ -62,8 +78,10 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     /**
      * The placeholder holder.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $holder;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_compiled(string $compiled, string $context,
             castext2_static_replacer $statics): castext2_evaluatable {
         $r = new castext2_evaluatable();
@@ -75,6 +93,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function make_from_source(string $source, string $context): castext2_evaluatable {
         $r = new castext2_evaluatable();
         $r->source = $source;
@@ -91,6 +110,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function __construct() {
         $this->errors = [];
         $this->holder = new castext2_placeholder_holder();
@@ -101,6 +121,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     // some blocks may need details. Note though that if you give this
     // Markdown or other types of formated stuff it will do the formating
     // and the rendered output will be FORMAT_HTML.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid($format=null, $options=null, $sec=null): bool {
         if ($this->valid !== null) {
             return $this->valid;
@@ -216,6 +237,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $this->valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         if ($this->compiled === null) {
             if (!$this->get_valid()) {
@@ -225,6 +247,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $this->compiled;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_status(array $errors, array $answernotes, array $feedback) {
         $this->errors = $errors;
         if (count($this->errors) > 0) {
@@ -232,18 +255,22 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_source_context(): string {
         return $this->context;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_key(): string {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_evaluated_value(string $stringval) {
         $this->value = $stringval;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function requires_evaluation(): bool {
         if ($this->valid === null) {
             // Compile if not compiled.
@@ -263,7 +290,8 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return true;
     }
 
-    public function get_rendered(castext2_processor $processor = null): string {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_rendered(?castext2_processor $processor = null): string {
         if ($this->evaluated === null) {
             // Do the simpler parse of the value. The full MaximaParser
             // would obviously work but would be more expensive.
@@ -304,6 +332,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return $this->evaluated;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($implode = true) {
         if ($implode === 'objects') {
             return $this->errors;
@@ -330,7 +359,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
 
     /**
      * Replaces the placeholders related to this CASText using the tokens
-     * collected during processing. 
+     * collected during processing.
      */
     public function apply_placeholder_holder(string $filtered): string {
         return $this->holder->replace($filtered);

@@ -7,12 +7,24 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.9.0
 
+1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.  Allow addition of multiple nodes in a PRT with one click.
+2. Support `allowempty` for dropdown, radio and checkbox inputs.
+3. Add in the `space` option, i.e. `make_multsgn("space")` in the [options](../Authoring/Question_options.md).
+4. Convert input "syntax hint" to castext.
+5. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../Topics/Linear_algebra/Random_Matrices.md) documentation for details.
+6. Add in a substantial library for dealing with [linear algebra problems](../Topics/Linear_algebra/index.md).
+7. Load Maxima's `eigen` library.
+8. The API now accepts moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
+
+
+10. Add in the option `OPT_APPLY_COMPOUND` to control when STACK accepts application of compound identifiers as function names.
+
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 
 1. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
 2. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 3. Remove all "cte" code from Maxima - mostly install.
-
+4. Resolve [issue #1363] to download students data in json format.
 
 ## Future Parson's block development track
 

@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the method of integration by parts <hint>calc_int_methods_parts</hint> as follows:

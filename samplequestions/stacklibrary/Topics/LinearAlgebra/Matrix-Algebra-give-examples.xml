@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Matrix Algebra - give an example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<ol>
+ <li>Give an example of matrices \(A\), \(B\) such that \(A\cdot B =\left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \) and both \(A , \, B \neq \left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \)
+
+<div style="padding:0.5em">\(A=\)[[input:a1A]][[validation:a1A]] , \(B=\)[[input:a1B]][[validation:a1B]][[feedback:prt1]]</div></li>
+<li>Give a different pair of nonzero matrices \(C\), \(D\) such that \(C\cdot D =\left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \).
+<div style="padding:0.5em">\(C=\)[[input:a2A]][[validation:a2A]] , \(D=\)[[input:a2B]][[validation:a2B]][[feedback:prt2]]</div></li>
+<li>Consider the following statement:
+<p>There do not exist \(2 \times 2 \) matrices \(E, \, F\) with rank\((E)\)\(=\)rank\((F)\)\(=2\) such that \(E\cdot F = \left( \begin{array}{cc} 0 &amp; 0 \\ 0 &amp; 0 \end{array} \right) \).</p>
+<p>Select whether it is true or false, and give either a proof or counterexample as appropriate.</p>
+        <div>This statement is [[input:a4]][[validation:a4]] [[feedback:prt4]]</div>
+       [[reveal input="a4" value="true"]]
+            <p>Proof:</p>[[input:a4_true]][[validation:a4_true]]
+       [[/reveal]]
+       [[reveal input="a4" value="false"]]
+            <p>Counterexample:</p>
+            <div style="padding:0.5em">\(E=\)[[input:a3A]][[validation:a3A]] , \(F=\)[[input:a3B]] [[validation:a3B]] [[feedback:prt3]]</div>
+       [[/reveal]]
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4>Worked Solution</h4>
+<p>We denote the row of matrix \(A\) by \(A_i\), columns of matrix \(B\) by \(b_j\) and columns of matrix \(AB\) by \((ab)_j\). Then the matrix \(AB={@zmatrix@}\) are made up of two column vectors, namely \((ab)_1={@cvec@}\) and \((ab)_2={@cvec@}\). <p></p>
+Thus, we break this problem down into two parts which are \((ab)_1=A \cdot b_1={@cvec@}\) and \((ab)_2=A \cdot b_2={@cvec@}\).  <p></p>
+Note that this is a linear transformation from \(\mathbb{R}^2\) to \(\mathbb{R}^2\) as \(A\) maps \(b_1\) to \({@cvec@}\) and \(b_2\) to \({@cvec@}\).
+</p>
+<p>By the dimension theorem, \(\text{dim}(\mathbb{R}^2)= \text{nullity}(A)+\text{rank}(A)\).
+As \(A\neq{@zmatrix@}\), \(\text{nullity}(A)&lt;2\). On the other hand, \(b_1\neq{@cvec@}\) and \(b_2\neq{@cvec@}\) is in the null space of \(A\) so, \(\text{nullity}(A)\neq0\) which implies that \(\text{nullity}(A)=1\). This means that the rows or columns of the matrix \(A\) are linearly dependent. 
+</p>
+<p>
+Again, from the dimension theorem, we know that \(\text{rank}(B)\neq2\) since if \(\text{rank}(B)=2\) then \(\text{nullity}(A)=2\) which contradicts our assumption that \(A\) cannot be the zero matrix. From our assumption, we also know that \(\text{rank}(B)\neq0\) as \(B\) cannot be the zero matrix. Hence, similar to \(A\), \(B\) has \(\text{rank}=1\).</p>
+<p>
+To find an example of matrices \(A,B\) which satisfies the condition, we set \(A\) to be any matrix with linearly dependent columns or rows. Then solve for \(B\).
+For example, \(A\) can be of the form \(\left( \begin{array}{cc} a &amp; a \\ ca &amp; ca \end{array} \right)\) for any \(c,a \in \mathbb{R}\).</p><p>
+One such example is \(A={@ta1A@}\). An example for \(B\) which satisfies the condition would be \(B={@ta1B@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024111500</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1A:matrix([1,1],[2,2]);
+ta1B:matrix([2,2],[-2,-2]);
+ta2A:matrix([1,1],[-1,-1]);
+ta2B:matrix([1,1],[-1,-1]);
+ta3A:matrix([null,null],[null,null]);
+ta3B:matrix([null,null],[null,null]);
+ta4:true;
+zmatrix:matrix([0,0],[0,0]);
+cvec:matrix([0],[0]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed/>
+    <input>
+      <name>a1A</name>
+      <type>matrix</type>
+      <tans>ta1A</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>a1B</name>
+      <type>matrix</type>
+      <tans>ta1B</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>a2A</name>
+      <type>matrix</type>
+      <tans>ta2A</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>a2B</name>
+      <type>matrix</type>
+      <tans>ta2B</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>a3A</name>
+      <type>matrix</type>
+      <tans>ta3A</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>allowempty</options>
+    </input>
+    <input>
+      <name>a3B</name>
+      <type>matrix</type>
+      <tans>ta3B</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>allowempty</options>
+    </input>
+    <input>
+      <name>a4</name>
+      <type>boolean</type>
+      <tans>ta4</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>a4_true</name>
+      <type>notes</type>
+      <tans>null</tans>
+      <boxsize>70</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>a: a1A;
+b:a1B;
+if notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elseif rank(a)=0 or rank(b)=0 or (rank(a)=0 and rank(b)=1) then Mark:-1 elseif notequal(rank(a.b),0) then Mark:0;
+/*Mark=1 when correct, Mark=0 when A multiplied by B does not give the zero matrix, Mark=-1 when A or B or both = the zero matrix.*/</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[\(A\cdot B \neq \left( \begin{array}{cc} 0&amp;0 \\ 0&amp;0 \end{array}\right)\) in this case.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>-1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You gave the zero matrix as an answer, we are looking for nonzero matrices.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>a: a2A;
+b:a2B;
+c:a1A;
+d:a1B;
+if (a=d and b=c) then Mark:-2 elseif (a=c and b=d) or a=c or b=d then Mark:-2 elseif notequal(rank(a),0) and notequal(rank(b),0) and rank(a.b)=0 then Mark:1 elseif rank(a)=0 or rank(b)=0 or (rank(a)=0 and rank(b)=1) then Mark:-1 elseif notequal(rank(a.b),0) then Mark:0;
+/*Mark=1 when correct, Mark=0 when A multiplied by B does not give the zero matrix, Mark=-1 when A or B or both = the zero matrix, Mark=-2 if A and B have been given as the answer in part(a) of the question*/</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[\(A\cdot B \neq \left( \begin{array}{cc} 0&amp;0 \\ 0&amp;0 \end{array}\right)\) in this case.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>-1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You gave the zero matrix as an answer, we are looking for nonzero matrices.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt2-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>-2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text>\(A\) or \(B\) or both have been given in part(a) of the question!</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[a:a3A;
+b:a3B;
+if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else Mark:-1;
+
+/*Mark=1 when student inputs NA, Mark=0 when student gives matrices that does not multiply to give the zero maatrix, Mark=-1 for all other cases (rank of A and B <2) */]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[\(A\cdot B \neq \left( \begin{array}{cc} 0&amp;0 \\ 0&amp;0 \end{array}\right)\) in this case.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Mark</sans>
+        <tans>-1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Both of the matrices you have given have rank less than 2.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>a4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>a1A</name>
+        <value>ta1A</value>
+      </testinput>
+      <testinput>
+        <name>a1B</name>
+        <value>ta1B</value>
+      </testinput>
+      <testinput>
+        <name>a2A</name>
+        <value>ta2A</value>
+      </testinput>
+      <testinput>
+        <name>a2B</name>
+        <value>ta2B</value>
+      </testinput>
+      <testinput>
+        <name>a3A</name>
+        <value>ta3A</value>
+      </testinput>
+      <testinput>
+        <name>a3B</name>
+        <value>ta3B</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>a1A</name>
+        <value>ta1A</value>
+      </testinput>
+      <testinput>
+        <name>a1B</name>
+        <value>ta1B</value>
+      </testinput>
+      <testinput>
+        <name>a2A</name>
+        <value>ta1A</value>
+      </testinput>
+      <testinput>
+        <name>a2B</name>
+        <value>ta2B</value>
+      </testinput>
+      <testinput>
+        <name>a3A</name>
+        <value>ta3A</value>
+      </testinput>
+      <testinput>
+        <name>a3B</name>
+        <value>ta3B</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-4-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>a1A</name>
+        <value>ta1A</value>
+      </testinput>
+      <testinput>
+        <name>a1B</name>
+        <value>matrix([0,0],[0,0])</value>
+      </testinput>
+      <testinput>
+        <name>a2A</name>
+        <value>ta2A</value>
+      </testinput>
+      <testinput>
+        <name>a2B</name>
+        <value>matrix([1,0],[0,1])</value>
+      </testinput>
+      <testinput>
+        <name>a3A</name>
+        <value>ta1A</value>
+      </testinput>
+      <testinput>
+        <name>a3B</name>
+        <value>ta1B</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>a1A</name>
+        <value>ta1A</value>
+      </testinput>
+      <testinput>
+        <name>a1B</name>
+        <value>ta1B</value>
+      </testinput>
+      <testinput>
+        <name>a2A</name>
+        <value>ta2A</value>
+      </testinput>
+      <testinput>
+        <name>a2B</name>
+        <value>ta2B</value>
+      </testinput>
+      <testinput>
+        <name>a3A</name>
+        <value>ta3A</value>
+      </testinput>
+      <testinput>
+        <name>a3B</name>
+        <value>ta3B</value>
+      </testinput>
+      <testinput>
+        <name>a4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>a4_true</name>
+        <value>null</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

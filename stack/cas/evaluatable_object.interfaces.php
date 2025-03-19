@@ -25,6 +25,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface cas_evaluatable {
 
     /**
@@ -70,6 +71,7 @@ interface cas_evaluatable {
 // for cases where the full parser is overkill. For example CASText2 where
 // the response is just nested lists of strings which can be parsed much
 // cheaper using traditional means.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface cas_value_extractor extends cas_evaluatable {
 
     /**
@@ -83,6 +85,7 @@ interface cas_value_extractor extends cas_evaluatable {
 
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface cas_raw_value_extractor extends cas_evaluatable {
 
     /**
@@ -97,6 +100,7 @@ interface cas_raw_value_extractor extends cas_evaluatable {
 }
 
 // Things that also come out. In the latex form.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface cas_latex_extractor extends cas_evaluatable {
 
     /**
@@ -111,6 +115,7 @@ interface cas_latex_extractor extends cas_evaluatable {
 }
 
 // Things that also come out. In the old display form.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface cas_display_value_extractor extends cas_evaluatable {
 
     /**

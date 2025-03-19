@@ -56,16 +56,17 @@ Choose the format for display of scientific notation.
 
 ### Multiplication Sign {#multiplication} ###
 
-* (none), e.g. \(x(x+1)\)
+* (none), e.g. \(x\,(x+1)\) (this uses the LaTeX space `\,` within an expression)
 * Dot, e.g. \(x\cdot(x+1)\)
 * Cross, e.g. \(x\times (x+1)\)
 * Numbers only, e.g. \(3\times 5\, x\).
+* Space, e.g. \(x (x+1)\) (this uses single whitespace ` `)
 
 In practice it is very helpful to have some kind of multiplication sign displayed to the student.  The difference between
 \[ xe^x \text{ and } x\,e^x\]
 is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\cdot e^x\) neatly solves this problem.
 
-Internally the display of multiplication signs is controlled by the STACK function `make_multsgn(ex)`, where the argument can be one of the strings `"cross"`, `"dot"` or `"blank"`.  This can be switched part-way through a session. E.g. consider the following castext.
+Internally the display of multiplication signs is controlled by the STACK function `make_multsgn(ex)`, where the argument can be one of the strings `"cross"`, `"dot"`, `"onum"`, `"space"` or `"blank"`.  This can be switched part-way through a session. E.g. consider the following castext.
 
     Default: {@a*b@}.
     Switch to cross: {@(make_multsgn("cross"), a*b)@}.
@@ -91,15 +92,26 @@ This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
     sqrtdispflag
 
-When false the prefix function `sqrt(x)` will be displayed as \(x^{1/2}\).
-Please note that Maxima (by default) does not like to use the \(\sqrt{}\) symbol.
-The internal representation favours fractional powers, for very good reasons.
-In  Maxima 5.19.1 we get:
+When false the prefix function `sqrt(x)` will be displayed as \(x^{1/2}\).  This setting is _global_ to the question, and having both notations co-exist in one question is very tricky.  You need to have `simp:false` throughout the question.
+
+By default Maxima does not like to use the \(\sqrt{}\) symbol. The internal representation favours fractional powers, for very good reasons. In  Maxima we get:
 
     (%i1) 4*sqrt(2);
     (%o1) 2^(5/2)
     (%i2) 6*sqrt(2);
     (%o2) 3*2^(3/2)
+
+Furthermore, if you execute this in a Maxima session
+
+    simp:true;
+    p:1+sqrt(x);
+    ?print(p);
+
+Then the displayed value of `p` is \(\sqrt{x}+1\) whereas the internal representation of `p` is
+
+    ((MPLUS SIMP) 1 ((MEXPT SIMP) $X ((RAT SIMP) 1 2))) 
+
+This means that internally Maxima has converted `sqrt(x)` to `x^(1/2)`, even though it is by default displayed as `sqrt`.  This is an example where the displayed form (text and LaTeX) does not match Maxima's internal representation.
 
 Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elements of Algebra*, L. Euler wrote the following.
 
@@ -157,11 +169,15 @@ See the entry on [matrices](../CAS/Matrix.md#matrixparens).
 
 ### Inline and displayed fractions. ###
 
-The display of fractions can take two forms: inline \( 1/x \) and displayed \( \frac{1}{x} \).
+There are three ways to display fractions.
+
+1. displayed \( \frac{1}{x} \);
+2. inline \( 1/x \);
+3. negative powers \( x^{-1} \).
 
 The default behaviour is displayed, i.e. using LaTeX `\frac{}{}`.
 
-The function `stack_disp_fractions(ex)` can be used to control the display.
+The function `stack_disp_fractions(ex)` can be used to control the display globally within a question.
 
 * `stack_disp_fractions("i")` switches display to inline.
 * `stack_disp_fractions("d")` switches display to display.
@@ -169,3 +185,7 @@ The function `stack_disp_fractions(ex)` can be used to control the display.
 Note, for CASText the display is controlled by the prevailing setting at the moment the text is displayed, not when a variable is defined in the question variables. Hence, if you would like a single inline fraction within a CASText you will need to use
 
     Normally fractions are displayed {@1/x@}. This switches to inline {@(stack_disp_fractions("i"), 1/x)@}, which persists {@1/a@}.  Switch explicitly back to displayed {@(stack_disp_fractions("d"),1/x)@}.  
+
+For scientific units we also have an input "extra option" `negpow` for student's input to be displayed as negative powers, e.g. \(m\,s^{-1}\).
+
+We do not, currently, have support for global display of fractions using negative powers (Dec 2024).  This is because the difference between displayed and inline fractions is purely notational, involving the TeX output from the division operator.  Converting division to negative powers is a mathematical re-write rule and is therefore significantly more complicated.  E.g. we would have to decide how to display \( \frac{1}{x^{-2}} \).

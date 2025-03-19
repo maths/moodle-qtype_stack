@@ -19,6 +19,7 @@
  * This can be useful for learning about the CAS syntax, and also for testing
  * that maxima is working correctly.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -64,6 +65,11 @@ if (!$questionid) {
 
     // Check permissions.
     question_require_capability_on($questiondata, 'edit');
+    $editparams = $urlparams;
+    unset($editparams['questionid']);
+    unset($editparams['seed']);
+    $editparams['id'] = $question->id;
+    $questionediturl = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 }
 
 $PAGE->set_url('/question/type/stack/adminui/caschat.php', $urlparams);
@@ -84,7 +90,7 @@ if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
         $simp = '';
     }
     $questionvarsinputs = '';
-    foreach ($question->get_correct_response() as $key => $val) {
+    foreach ($question->get_correct_response_testcase() as $key => $val) {
         if (substr($key, -4, 4) !== '_val') {
             $questionvarsinputs .= "\n{$key}:{$val};";
         }
@@ -243,10 +249,15 @@ $fout .= html_writer::tag('p', html_writer::tag('textarea', $string,
             ['cols' => 100, 'rows' => $stringlen, 'name' => 'cas']));
 $fout .= html_writer::start_tag('p');
 $fout .= html_writer::empty_tag('input',
-            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat')]);
+            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat'), 'formaction' => $PAGE->url]);
 if ($questionid && !$varerrs) {
     $fout .= html_writer::empty_tag('input',
-        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat')]);
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat'), 'formaction' => $PAGE->url]);
+}
+if ($questionid && !$varerrs) {
+    $fout .= html_writer::empty_tag('input',
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechatnew'),
+        'formaction' => $questionediturl, 'title' => stack_string('savechatexp')]);
 }
 $fout .= html_writer::end_tag('p');
 
@@ -254,7 +265,7 @@ $fout .= html_writer::start_tag('p') . stack_string('pslash');
 $fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash']);
 $fout .= html_writer::end_tag('p');
 
-echo html_writer::tag('form', $fout, ['action' => $PAGE->url, 'method' => 'post']);
+echo html_writer::tag('form', $fout, ['method' => 'post']);
 
 if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);

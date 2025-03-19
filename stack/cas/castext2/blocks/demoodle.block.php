@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2017 Matti Harjula.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -28,6 +35,7 @@ require_once($CFG->libdir . '/weblib.php');
  */
 class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Basically mark the contents for post-processing.
         $r = new MP_List([new MP_String('demoodle')]);
@@ -42,11 +50,13 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
         return false;
     }
 
-    public function postprocess(array $params, castext2_processor $processor, 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function postprocess(array $params, castext2_processor $processor,
         castext2_placeholder_holder $holder): string {
         // First collapse the content.
         $content = [''];
@@ -79,6 +89,7 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         return [];
     }

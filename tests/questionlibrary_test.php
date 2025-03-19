@@ -93,4 +93,41 @@ final class questionlibrary_test extends qtype_stack_testcase {
         $this->assertStringContainsString('stacklibrary/Calculus-Refresher' .
             '/CR_Diff_02/CR-Diff-02-linearity-1-e.xml', $file->path);
     }
+
+    /**
+     * Check certain folders and files don't get displayed.
+     * @return void
+     */
+    public function test_get_file_list_quizzes(): void {
+        global $CFG;
+        $files = stack_question_library::get_file_list($CFG->dirroot . '/question/type/stack/samplequestions/importtest/*');
+        $this->assertEquals(2, count($files->children));
+        $this->assertEquals('Course1', $files->children[0]->label);
+        $this->assertEquals('Course1_quiz_quiz-1', $files->children[1]->label);
+
+        // Ignore top and lone folder.
+        $this->assertEquals(18, count($files->children[0]->children));
+
+        // Seven questions, sub-category and 3 quizzes.
+        $this->assertEquals(11, count($files->children[1]->children));
+        $labels = ['Sub-for-quiz-1', 'Algebraic-input-(with-simplification).xml', 'Checkbox-(no-body-LaTeX).xml',
+            'Dropdown-(shuffle).xml', 'Equiv-input-test-(compact).xml', 'Matrix.xml',
+            'Radio-(compact).xml', 'Single-char.xml', 'quiz-1_quiz.json', 'quiz-no-sections_quiz.json',
+            'quiz-require-prev_quiz.json'];
+        foreach ($labels as $label) {
+            $index = null;
+            foreach ($files->children[1]->children as $childkey => $child) {
+                if ($child->label === $label) {
+                    $index = $childkey;
+                    break;
+                }
+            }
+            $this->assertEquals(true, isset($index), $label);
+            if ($label === 'Sub-for-quiz-1') {
+                $this->assertEquals(1, $files->children[1]->children[$index]->isdirectory, $label);
+            } else {
+                $this->assertEquals(0, $files->children[1]->children[$index]->isdirectory, $label);
+            }
+        }
+    }
 }

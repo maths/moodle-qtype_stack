@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[If \(u\) and \(v\) are both functions of \(x\) then 
@@ -29,8 +28,7 @@ Hence,
 
 And so,
 
-\[\int {@p@} d{@v@} = \frac{@pp1*int(pp2,v)@}{2}+ \frac{c}{2}.\]
-]]></text>
+\[\int {@p@} d{@v@} = \frac{@pp1*int(pp2,v)@}{2}+ \frac{c}{2}.\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

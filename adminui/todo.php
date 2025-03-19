@@ -18,6 +18,7 @@
  * This page lets the user find all questions in a course in which they are a techer
  * which have a [[todo]] block.  The questions are sorted by any tags they might have.
  *
+ * @package    qtype_stack
  * @copyright  2024 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -68,7 +69,7 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
             core_php_time_limit::raise(60); // Prevent PHP timeouts.
 
             $qtodos = [];
-            $questions = $bulktester->stack_questions_in_category($currentcategoryid);
+            $questions = $bulktester->stack_questions_in_category_with_todo($currentcategoryid);
             if (!$questions) {
                 continue;
             }
@@ -81,7 +82,7 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
                     $dashurl = html_writer::link(new moodle_url($questiontestsurl,
                         ['questionid' => $qid]), $qname). ' ' .
                         $OUTPUT->action_icon($preurl, new pix_icon('t/preview', get_string('preview')));
-                    // TODO: add in a direct edit URL.
+                    // TO-DO: add in a direct edit URL.
                     $qtodos[] = ['qid' => $qid,
                                  'qname' => $qname,
                                  'tags' => $tags,

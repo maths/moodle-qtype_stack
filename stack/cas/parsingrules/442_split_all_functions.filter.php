@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
@@ -21,6 +28,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that prevents any function calls, including standard functions.
  */
 class stack_ast_filter_442_split_all_functions implements stack_cas_astfilter_exclusion {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function($node) use (&$hasany, &$errors) {
@@ -42,6 +50,7 @@ class stack_ast_filter_442_split_all_functions implements stack_cas_astfilter_ex
         return $ast;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function conflicts_with(string $otherfiltername): bool {
         if ($otherfiltername === '542_no_functions_at_all' ||
             $otherfiltername === '541_no_unknown_functions' ||

@@ -27,8 +27,28 @@ To alter the order in STACK you can use the Maxima commands `orderless` and `ord
 
 See Maxima's documentation for more details.
 
-Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.
-No warnings or errors are issued if more than one is encountered.
+1. Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.
+2. No warnings or errors are issued if more than one is encountered.
+3. The `orderless` or `ordergreat` command is executed _first_ before any other commands.  Therefore the argument names are literal atoms and you _cannot_ use variable names.
+
+As an example of the last point, consider the following in _desktop maxima_
+
+   p:a+b;
+   x:a;
+   ordergreat(x);
+   p:a+b;
+
+The output of the last line, as expected will be \(a+b\).  However, if you put the above in the question variables then effectively you will have the following.
+
+   ordergreat(x);
+   /* Other stuff, including setting up error trapping for the execution of commands below. */
+   p:a+b;
+   x:a;
+   p:a+b;
+
+The output of the last line, as expected will be \(b+a\).  STACK moves `ordergreat` to be executed first, and at that point you have no assigned `x` to be the atom `a`.
+
+This is a limitation, especially in questions where you want to have a randomly generated variable name.
 
 ## Logarithms to an arbitrary base
 

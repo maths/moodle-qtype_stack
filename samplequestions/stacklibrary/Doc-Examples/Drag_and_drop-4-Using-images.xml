@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 12728  -->
   <question type="stack">
     <name>
       <text>Drag and drop - 4 - Using images</text>
     </name>
     <questiontext format="moodle_auto_format">
       <text><![CDATA[<p>Drag the items to match up the functions with their derivatives. </p>
-[[parsons input="ans1" columns="3" rows="2" item-height="250" item-width="250"]]
+[[parsons input="ans1" columns="3" rows="2"]]
 {
     "steps" : {#match_encode(steps)#},
     "headers" : {#headers#},
@@ -16,18 +15,18 @@
 <p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 
 /*example of a wrong response for tests, edit if changing question*/
 wa: [
@@ -57,9 +56,7 @@ ta: [
   ["f", "g"], 
   ["dfdx", "dgdx"], 
   ["df2d2x", "dg2d2x"]
-];
-
-]]></text>
+];]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -90,7 +87,7 @@ ta: [
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>parsons</type>
@@ -98,10 +95,10 @@ ta: [
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -121,27 +118,27 @@ tans: match_set_row(ta);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>sans</sans>
         <tans>tans</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -166,7 +163,7 @@ tans: match_set_row(ta);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value> 	apply(match_answer,[wa, steps, 3])</value>
@@ -179,5 +176,4 @@ tans: match_set_row(ta);</text>
       </expected>
     </qtest>
   </question>
-
 </quiz>

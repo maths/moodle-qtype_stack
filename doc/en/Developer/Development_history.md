@@ -2,6 +2,24 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.8.5
+
+Released March 2025.
+
+Bring forward bug fixes to include in an official release.
+
+## Version 4.8.3
+
+Released January 2025.
+
+Bring forward bug fixes to include in an official release.  Update JSXGraph.
+
+## Version 4.8.1
+
+Released November 2024.
+
+Rename directories and files in the STACK library to avoid problems with the auto-generated .zip file.
+
 ## Version 4.8.0
 
 Released November 2024.
@@ -15,8 +33,7 @@ Released November 2024.
 7. Allow use of Maxima `let` commands, to generate [rules and patterns](../CAS/Rules.md) for bespoke simplification.
 8. Provisional support for STACK questions in the Moodle App. STACK questions of all input types now function in the Moodle App while online, complete with input validation. Dropdowns and checkboxes use native elements. This feature should be considered as in beta and under trial while we gather feedback on compatability with a wider range of devices, Moodle installations and questions. Existing questions may need work to fit better on a mobile screen. (Be sure to use App version 4.5+ to avoid a Moodle bug with MathJax in non-STACK questions.)
 9. Improve Parsons blocks by (i) hashing for keys, and (ii) Add ability to log history of an attempt (for research).
-10. Add in the option `OPT_APPLY_COMPOUND` to control when STACK accepts application of compound identifiers as function names.
-
+10. Add in a new [answer test based on a validator function](../Authoring/Answer_Tests/Other.md).
 
 ## Version 4.7.0
 

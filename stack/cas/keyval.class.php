@@ -25,6 +25,7 @@ require_once(__DIR__ . '/../utils.class.php');
 /**
  * Class to parse user-entered data into CAS sessions.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -46,13 +47,16 @@ class stack_cas_keyval {
     private $security;
 
     // For those using keyvals as a generator for sessions.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $options;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $seed;
 
     /** @var bool to hold when we add slashes to Maxima strings. */
     private $pslash;
 
     // For error mapping keyvals do need a context.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $context;
 
     /**
@@ -61,6 +65,7 @@ class stack_cas_keyval {
      */
     public $errclass = 'stack_cas_error';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($raw, $options = null, $seed=null, $ctx='', $pslash=false) {
         $this->raw          = $raw;
         $this->statements   = [];
@@ -85,6 +90,7 @@ class stack_cas_keyval {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function validate($inputs) {
 
         if (empty($this->raw) || '' == trim($this->raw) || null == $this->raw) {
@@ -191,20 +197,25 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
-    /** Specify non default security, do this before validation. */
+    /**
+     * Specify non default security, do this before validation.
+     */
     public function set_security(stack_cas_security $security) {
         $this->security = clone $security;
     }
 
-    /** Extract a security object with type related context information, do this after validation. */
+    /**
+     * Extract a security object with type related context information, do this after validation.
+     */
     public function get_security(): stack_cas_security {
         return $this->security;
     }
 
 
-    /*
-     * @array $inputs Holds an array of the input names which are forbidden as keys.
-     * @bool $inputstrict Decides if we should forbid any reference to the inputs in the values of variables.
+    /**
+     * Add description
+     * @param array $inputs Holds an array of the input names which are forbidden as keys.
+     * @param bool $inputstrict Decides if we should forbid any reference to the inputs in the values of variables.
      */
     public function get_valid($inputs = null) {
         if (null === $this->valid || is_array($inputs)) {
@@ -213,6 +224,7 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($casdebug = false, $raw = 'strings') {
         if (null === $this->valid) {
             $this->validate(null);
@@ -241,6 +253,7 @@ class stack_cas_keyval {
         return $errors;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function instantiate() {
         if (null === $this->valid) {
             $this->validate(null);
@@ -253,6 +266,7 @@ class stack_cas_keyval {
         return $cs->get_errors(true);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_session() {
         if (null === $this->valid) {
             $this->validate(null);
@@ -260,10 +274,12 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_raw() {
         return $this->raw;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
             $updatearray['read'] = [];
@@ -289,7 +305,7 @@ class stack_cas_keyval {
      *
      * Note that one must have done validation in advance.
      */
-    public function compile(string $contextname, castext2_static_replacer $map = null): array {
+    public function compile(string $contextname, ?castext2_static_replacer $map = null): array {
         $bestatements = [];
         $statements = [];
         $contextvariables = [];

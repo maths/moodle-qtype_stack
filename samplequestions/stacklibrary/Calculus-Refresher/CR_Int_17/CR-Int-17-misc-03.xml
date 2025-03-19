@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Find \[ \int {@p@} d{@v@}. \]
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[This problem can be solved using integration by parts.
@@ -25,7 +24,7 @@ So,
    &\displaystyle =&\displaystyle  {@pp2@}{@int(pp1,v)@} - \int {@int(pp1,v)@}{@diff(pp2,v)@}d{@v@} \\
    &\displaystyle =&\displaystyle  {@pp2*int(pp1,v)@} - \int {@int(pp1,v)*diff(pp2,v)@}d{@v@} \\
    &\displaystyle =&\displaystyle  {@pp2*int(pp1,v)@} - {@int(int(pp1,v)*diff(pp2,v),v)+c@}
- \end{array}\] ]]></text>
+ \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

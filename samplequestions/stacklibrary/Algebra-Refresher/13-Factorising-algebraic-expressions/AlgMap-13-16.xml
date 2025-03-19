@@ -13,7 +13,7 @@
       <text>The trick to factorising this expression is to carry out a substitution, \(u=xy\). Then we obtain the quadratic:
 \[ u^2-2u+1, \] 
 which is easily solved by normal methods:
-\[ u^2-2u+1 = \left(u-1\right)^2 = \left(xy-1\right)^2. \]  </text>
+\[ u^2-2u+1 = \left(u-1\right)^2 = \left(xy-1\right)^2. \]</text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

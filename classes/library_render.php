@@ -96,19 +96,25 @@ class library_render extends \external_api {
      */
     public static function render_execute($category, $filepath) {
         global $CFG, $DB;
+        $params = self::validate_parameters(self::render_execute_parameters(), [
+            'category' => $category,
+            'filepath' => $filepath,
+        ]);
         StackIframeHolder::$islibrary = true;
         // Check parameters and that user has question add capability in the supplied category.
-        $context = $DB->get_field('question_categories', 'contextid', ['id' => $category]);
+        $context = $DB->get_field('question_categories', 'contextid', ['id' => $params['category']]);
         $thiscontext = context::instance_by_id($context);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
 
         // Check if we've already cached the answer.
         $cache = cache::make('qtype_stack', 'librarycache');
-        $result = $cache->get($filepath);
-        if (!$result) {
+        $result = $cache->get($params['filepath']);
+        $isquiz = (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
+                            && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
+        if (!$result && !$isquiz) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $filepath);
+            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
             try {
                 $question = StackQuestionLoader::loadxml($qcontents)['question'];
                 $render = static::call_question_render($question);
@@ -116,7 +122,7 @@ class library_render extends \external_api {
                 foreach (StackIframeHolder::$iframes as $iframe) {
                     $iframes[] = [
                         'iframeid' => $iframe['0'],
-                        'content' =>$iframe['1'],
+                        'content' => $iframe['1'],
                         'targetdivid' => $iframe['2'],
                         'title' => $iframe['3'],
                         'scrolling' => $iframe['4'],
@@ -132,10 +138,10 @@ class library_render extends \external_api {
                     'questiondescription' => $question->questiondescription,
                     'isstack' => true,
                 ];
-                $cache->set($filepath, $result);
+                $cache->set($params['filepath'], $result);
             } catch (\stack_exception $e) {
                 // If the question is not a STACK question we can't render it
-                // but we staill want users to be able to import it.
+                // but we still want users to be able to import it.
                 if (strpos($e->getMessage(), 'not of type STACK') !== false) {
                     $xmldata = new SimpleXMLElement($qcontents);
                     $questiontext = (string) $xmldata->question->questiontext->text;
@@ -155,6 +161,36 @@ class library_render extends \external_api {
                     throw $e;
                 }
             }
+        }
+        if (!$result && $isquiz) {
+            $quizcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
+            $json = json_decode($quizcontents);
+            $quiz = $json->quiz;
+            $questions = $json->questions;
+            $sections = $json->sections;
+            $quiztext = '<h4>' . $quiz->name . '</h4>';
+            $quiztext .= $quiz->intro;
+            $numquestions = count($questions);
+            $sectionno = 0;
+            for ($questionno = 0; $questionno < $numquestions; $questionno++) {
+                $slot = $questions[$questionno]->slot;
+                if ($sections[$sectionno]->firstslot === $slot) {
+                    $quiztext .= '<h5>' . $sections[$sectionno]->heading . '</h5>';
+                    $sectionno++;
+                }
+                $quiztext .= substr($questions[$questionno]->quizfilepath, 5) . '<br>';
+            }
+            $result = [
+                'questionrender' => '<div class="formulation">' .
+                    get_string('stack_library_quiz', 'qtype_stack') .
+                    '<br><br>' . $quiztext . '</div>',
+                'iframes' => [],
+                'questionname' => stack_string('stack_library_quiz_prefix') . ' ' . $quiz->name,
+                'questiontext' => '',
+                'questionvariables' => '',
+                'questiondescription' => '',
+                'isstack' => false,
+            ];
         }
         return $result;
     }

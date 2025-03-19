@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL')|| die();
 
 require_once(__DIR__ . '/filter.interface.php');
@@ -65,7 +72,8 @@ require_once(__DIR__ . '/680_gcl_sconcat.filter.php');
 require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 require_once(__DIR__ . '/802_singleton_units.filter.php');
 require_once(__DIR__ . '/901_remove_comments.filter.php');
-require_once(__DIR__ . '/909_parsons_decode_state_for_display.filter.php');
+require_once(__DIR__ . '/908_parsons_decode_state_for_display.filter.php');
+require_once(__DIR__ . '/909_parsons_get_final_submission.filter.php');
 require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
 require_once(__DIR__ . '/912_inert_string_for_display.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
@@ -83,8 +91,10 @@ require_once(__DIR__ . '/999_strict.filter.php');
  */
 class stack_parsing_rule_factory {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $singletons = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function build_from_name(string $name): stack_cas_astfilter {
         // Might as well do the require once here, but better limit to
         // vetted and require all by default to catch syntax errors.
@@ -181,8 +191,10 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_802_singleton_units();
             case '901_remove_comments':
                 return new stack_ast_filter_901_remove_comments();
-            case '909_parsons_decode_state_for_display' :
-                return new stack_ast_filter_909_parsons_decode_state_for_display();
+            case '908_parsons_decode_state_for_display' :
+                return new stack_ast_filter_908_parsons_decode_state_for_display();
+            case '909_parsons_get_final_submission':
+                return new stack_ast_filter_909_parsons_get_final_submission();
             case '910_inert_float_for_display':
                 return new stack_ast_filter_910_inert_float_for_display();
             case '912_inert_string_for_display':
@@ -204,6 +216,7 @@ class stack_parsing_rule_factory {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
             // If the static set has not been initialised do so.
@@ -241,8 +254,10 @@ class stack_parsing_rule_factory {
                 '601_castext', '602_castext_simplifier', '680_gcl_sconcat',
                 '610_castext_static_string_extractor',
                 '650_string_protect_slash',
-                '801_singleton_numeric', '802_singleton_units', '901_remove_comments',
-                '909_parsons_decode_state_for_display',
+                '801_singleton_numeric', '802_singleton_units', 
+                '901_remove_comments',
+                '908_parsons_decode_state_for_display',
+                '909_parsons_get_final_submission',
                 '910_inert_float_for_display',
                 '912_inert_string_for_display',
                 '990_no_fixing_spaces', '991_no_fixing_stars',
@@ -256,6 +271,7 @@ class stack_parsing_rule_factory {
         return self::$singletons[$name];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_filter_pipeline(array $activefilters, array $settings, bool $includecore=true): stack_cas_astfilter {
         $tobeincluded = [];
         if ($includecore === true) {
@@ -308,6 +324,7 @@ class stack_parsing_rule_factory {
         return new stack_ast_filter_pipeline($tobeincluded);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function list_filters(): array {
         if (empty(self::$singletons)) {
             self::get_by_common_name('001_fix_call_of_a_group_or_function');

@@ -99,7 +99,7 @@ In this proof has the following dependency structure.
   S3  |
   |   S4
   S5  |
-  |  / 
+  |  /
   C6
 </pre>
 
@@ -127,7 +127,7 @@ tdag: [
 
 1. Each key used in the teacher's proof must occur in the student's list.  Missing keys (i.e. steps) will be flagged.
 2. Only keys used in the teacher's proof should occur in the student's list.  Extra keys (i.e. steps) will be flagged.
-3. For each list, we check that the keys occur in the specified order in the student's proof.  E.g. 
+3. For each list, we check that the keys occur in the specified order in the student's proof.  E.g.
   * in the first list `["S1", "S2"]` we check that `"S1"` comes before `"S2"` in the student's proof.
   * in the second list `["S2", "S3", "S5"]` we check that `"S2"` comes before `"S3"`, and `"S3"` comes before `"S4"`.  Note, by allowing lists with more than two keys we reduce the complexity of expressing long chains of steps.
 4. We do _not_ specify that nothing can be between steps.  That's a separate property which this test does not establish.  (Separate tools are needed to establish, e.g. "No other steps should occur between X and Y".)
@@ -156,6 +156,7 @@ If the result of `proof_assessment_dag` is an empty list, the `sa` matches with 
 If, for any reason, you don't want all three checks, then you can filter the list to retain only the relevant properties from that listed above.  E.g. if you only want `proof_step_must` to be established then use
 
 ````
+sa:parsons_decode(ans1);
 saprob: proof_dag_check(sa, tdag);
 saprob:sublist(saprob, lambda([ex], op(ex)=proof_step_must));
 ````
@@ -168,6 +169,12 @@ To use this in a potential response tree, check if `saprob` is empty.  If not, y
 
 An example question illustrating these features is given in the sample questions library under `Topics/Parsons-DAG.xml`.
 
-## 3. General tools to provide bespoke feedback
+## 3. General tools in `builder.mac` to provide bespoke feedback
 
-The last option is to encode specific dependencies, with feedback for each.
+The last option is to encode specific dependencies, with feedback for each.  The advantage is that teachers can mange meaningful feedback for individual steps, but of course that is more work than using the auto-generated feedback.
+
+You can load the optional library `builder.mac` to use tools to manage bespoke feedback.
+
+An example question is given in the stacklibrary `Doc-Examples\Parsons-3-builder.xml`
+
+This example combines both the automatic feedback in Section 1 where the proof is defined as a tree (a list in our example), with the bespoke feedback for many of the steps.

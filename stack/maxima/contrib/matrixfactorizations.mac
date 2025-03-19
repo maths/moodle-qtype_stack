@@ -1,0 +1,186 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Matrix factorisation functions for STACK                     */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+stack_linear_algebra_declare(true)$
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
+
+/**
+ * M = QR
+ * M must have full column rank
+ * Q has orthonormal columns that span the columnspace of M
+ * R is upper triangular
+ *
+ * @param[matrix] M a matrix with full column rank
+ */
+QR(M):= block([cols,Q,R],
+  if is(rank(M)#second(matrix_size(M))) then return([]),
+  cols: ev(gramschmidt(transpose(M)),simp),
+  cols: ev(map(lambda([ex],ex/sqrt(ex.ex)),cols),simp),
+  Q: transpose(apply(matrix,cols)),
+  R: ev(transpose(Q).M,simp),
+  return([Q,R])
+);
+
+/**
+ * M = P.J.P^^-1
+ * J is in Jordan normal form
+ * P is invertible and made up of generalized eigenvectors of M
+ * This really just calls existing functions in one go and avoids annoying errors.
+ *
+ * @param[matrix] M a square matrix
+ * @return[list] A list of two matrices: [P, J] such that J is in Jordan form and M = P . J . P^^-1. Returns empty list if M is not a square matrix
+ */
+get_Jordan_form(M):= block([jordan_info,J,P],
+  if not(squarep(M)) then return([]),
+  jordan_info: ev(jordan(M),simp),
+  J: ev(dispJordan(jordan_info),simp),
+  P: ev(ModeMatrix(M,jordan_info),simp),
+  return([P,J])
+);
+
+/**
+ * M = P.D.P^^-1
+ * M must be diagonalizable (i.e. all eigenvalues must have matching geometric and algebraic multiplicities)
+ * P is invertible and contains the eigenvectors of M
+ * D is diagonal and contains the eigenvalues of M
+ * If M is symmetric it will automatically orthogonally diagonalize
+ *
+ * @param[matrix] M a diagonalizable matrix
+ * @return[list] A list of two matrices: [P, D] such that D is diagonal and M = P . D . P^^-1. Returns empty list if M is not diagonalizable
+ */
+diagonalize(M):= block([P,D],
+  if not(squarep(M)) then return([]),
+  [P, D]: get_Jordan_form(M),
+  if ev(zeromatrixp(M - transpose(M)),simp) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
+  if diagp(D) then return([P,D]) else return([])
+);
+
+/**
+ * Reduced SVD
+ * M = U.S.V^T with M as a rank r mxn matrix
+ * S is an rxr invertible diagonal matrix containing the sorted non-zero singular values of M
+ * V and U have orthonormal columns, with V nxr and U mxr
+ *
+ * @param[matrix] An mxn matrix
+ * @return[list] A list of 3 matrices [U,S,VT] such that U has orthonormal columns, VT has orthonormal rows, S is invertible diagonal, and M = U.S.VT
+ */
+SVD_red(M):= block([MTM,V,S2,components,n,S,U,ii],
+  if ev(zeromatrixp(M),simp) then return([matrix([]),matrix([]),matrix([])]),
+  MTM: ev(transpose(M).M,simp),
+  if atom(MTM) then MTM: matrix([MTM]),
+  [V, S2]: diagonalize(MTM),
+  /* TODO: does this work? */
+  V: first(QR(V)),
+  components: ev(makelist([S2[ii,ii],col(V,ii)],ii,1,second(matrix_size(MTM))),simp),
+  components: ev(reverse(sort(components)),simp),
+  components: ev(sublist(components,lambda([ex],is(first(ex)#0))),simp),
+  n: length(components),
+  S: zeromatrix(n,n),
+  S[1,1]: ev(sqrt(first(first(components))),simp),
+  V: second(first(components)),
+  U: ev(M.V/S[1,1],simp),
+  if atom(U) then U: matrix([U]),
+  if is(n>1) then block(
+    for ii: 2 thru n do block(
+      ii: ev(ii,simp),
+      S[ii,ii]: ev(sqrt(first(components[ii])),simp),
+      V: addcol(V,second(components[ii])),
+      U: addcol(U,ev(M.second(components[ii])/S[ii,ii],simp))
+    )
+  ),
+  return([U,S,transpose(V)])
+);
+
+_lin_indp(ex):= block(
+  ex: cols_to_matrix(ex),
+  if ex = matrix([null]) then return(false),
+  return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
+);
+
+_remove_dep(ex):= block([ex_op,n_max,jj,ii],
+  ex_op: "list",
+  if matrixp(ex) then block(ex: args(transpose(ex)), ex_op: "matrix"),
+  ex: ev(sublist(ex,lambda([ex2],not(zeromatrixp(matrix(ex2))))),simp),
+  if emptyp(ex) or is(length(ex)=1) then return(ex),
+  n_max: length(ex),
+  jj: 2,
+  for ii: 2 thru n_max do block(
+    ii: ev(ii,simp),
+    if not(_lin_indp(firstn(ex,jj))) then ex: append(firstn(ex,ev(jj-1,simp)),lastn(ex,ev(length(ex)-jj,simp)))
+    else jj: ev(jj+1,simp),
+    if is(jj>length(ex)) then return(ex)
+  ),
+  if is(ex_op="matrix") then ex: transpose(apply(matrix,ex)),
+  return(ex)
+);
+
+_basisify(M,[orth]):= block([ex_op,m,n,vecs,new_vecs,ii],
+  if emptyp(orth) then orth: false else orth: first(orth),
+  ex_op: "matrix",
+  if listp(M) then block(M: cols_to_matrix(M), ex_op: "list"),
+  if not(_lin_indp(M)) then M: _remove_dep(M),
+  [m, n]: matrix_size(M),
+  vecs: args(transpose(M)),
+  new_vecs: args(ident(m)),
+  for ii: 1 thru m do block(
+    ii: ev(ii,simp),
+    if _lin_indp(append(vecs,[new_vecs[ii]])) then vecs: append(vecs,[new_vecs[ii]])
+  ),
+  if orth then block(
+    vecs: ev(gramschmidt(apply(matrix,vecs)),simp),
+    vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),vecs),simp)
+  ),
+  if is(ex_op="matrix") then return(transpose(apply(matrix,vecs))) else return(vecs)
+);
+
+_diagmatrix_like(d, m, n):= block([M,ii],
+  M: zeromatrix(m, n),
+  for ii: 1 thru ev(min(m, n, length(d)),simp) do block(
+    ii: ev(ii,simp),
+    M[ii,ii]: d[ii]
+  ),
+  return(M)
+);
+
+_diag_entries(M):= block([],
+  if not(matrixp(M)) then return([M]),
+  return(map(lambda([ex], M[ex,ex]),ev(makelist(ii,ii,1,lmin(matrix_size(M))),simp)))
+);
+
+/**
+ * Full SVD
+ * M = U.S.V^T with M as a rank r mxn matrix
+ * S is an mxn diagonal matrix containing the sorted singular values of M
+ * V and U are orthogonal matrices, with V nxn and U mxm
+ *
+ * @param[matrix] An mxn matrix
+ * @return[list] A list of 3 matrices [U,S,VT] such that U is mxm orthogonal, VT is nxn orthogonal, S is mxn diagonal, and M = U.S.VT
+ */
+SVD(M):= block([U,S,VT],
+  [U, S, VT]: SVD_red(M),
+  if is(U=matrix([])) then U: ident(first(matrix_size(M))) else U: _basisify(U,true),
+  if is(VT=matrix([])) then VT: ident(second(matrix_size(M))) else VT: transpose(_basisify(transpose(VT),true)),
+  S: _diagmatrix_like(_diag_entries(S),first(matrix_size(M)),second(matrix_size(M))),
+  return([U,S,VT])
+);

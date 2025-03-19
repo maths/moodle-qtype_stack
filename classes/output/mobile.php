@@ -25,13 +25,14 @@ namespace qtype_stack\output;
  */
 class mobile {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function stack_view() {
         global $CFG;
         return [
             'templates' => [[
                 'id' => 'main',
                 'html' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.html'),
-            ]],
+            ], ],
             'javascript' => file_get_contents($CFG->dirroot . '/question/type/stack/mobile/stack.min.js'),
         ];
     }

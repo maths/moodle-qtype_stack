@@ -7,8 +7,7 @@
     <questiontext format="html">
       <text>Integrate {@p@} with respect to \(t\) using the method of integration by parts.
 
-[[input:ans1]] [[validation:ans1]]
-</text>
+[[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[To solve this problem we will have to use the method of integration by parts 
@@ -46,8 +45,7 @@ Hence,
 \[\begin{array}{rcl}\displaystyle
 2\int {@p@} dt &\displaystyle =&\displaystyle  {@pp1*int(pp2,t)-diff(pp1,t)*int(int(pp2,t),t)@} + c \\
 \int {@p@} dt &\displaystyle =&\displaystyle  {@ta@} + k.
-\end{array}\]
-]]></text>
+\end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

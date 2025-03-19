@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 2551  -->
   <question type="stack">
     <name>
       <text>W6 Q6 PC (Infinitely many primes)</text>
@@ -14,7 +13,7 @@
 <tr><td>1.</td><td nowrap>Suppose there are only finitely many primes, label them \(p_1 = 2 < p_2 = 3 < \cdots < p_n\).</td></tr>
 <tr><td>2.</td><td nowrap>Let \(N = p_1p_2\cdots p_n +1\).</td></tr>
 <tr><td>3.</td><td nowrap>Then \(N\) is an integer greater than each of \(p_1, \dots, p_n\), thus \(N\) cannot be prime. </td></tr>
-<tr><td>4.</td><td nowrap>Thus we can write \(N\) as a product of primes. /* say \(N  = q_1q_2 \cdots q_m\) where \(q_1, \dots, q_m\) are prime. */</td></tr>
+<tr><td>4.</td><td nowrap>Thus we can write \(N\) as a product of primes.</td></tr>
 <tr><td>5.</td><td nowrap>Hence there is some prime \(p\) which divides \(N\). </td></tr>
 <tr><td>6.</td><td nowrap>\(p\) can not be any of the \(p_1, \dots p_n\) otherwise \(p\) would divide the difference \(N - p_1 p_2 \cdots p_n = \) [[validation:ans0]] [[input:ans0]]  which cannot happen.</td><td>[[feedback:prt0]]</td></tr>
 <tr><td>7.</td><td nowrap>Thus \(p\) must be a new prime and our initial list \(p_1,p_2,\dots, p_n\) is not an exhaustive list of the primes. </td></tr>
@@ -42,9 +41,9 @@ The aim of the proof is to show a contradiction to line 1, which is accomplished
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
-      <text>2021120900</text>
+      <text>2024111900</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[tacp:[[A, false, "A. Direct proof"],  [B, false, "B. Definition-chasing"], [C, false, "C. If and only if"], [D, false, "D. Exhaustive cases"], [E, false, "E. Induction"], [F, false, "F. Contrapositive"], [G, true, "G. Contradiction"]];
@@ -55,13 +54,13 @@ ta2:1;
 ta3:matrix([1,7]);]]></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text></text>
+      <text/>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -83,7 +82,7 @@ ta3:matrix([1,7]);]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans0</name>
       <type>algebraic</type>
@@ -91,16 +90,16 @@ ta3:matrix([1,7]);]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>5</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans1</name>
@@ -109,16 +108,16 @@ ta3:matrix([1,7]);]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans2</name>
@@ -127,16 +126,16 @@ ta3:matrix([1,7]);]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans3</name>
@@ -145,16 +144,16 @@ ta3:matrix([1,7]);]]></text>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>2</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans4</name>
@@ -163,16 +162,16 @@ ta3:matrix([1,7]);]]></text>
       <boxsize>50</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ansp</name>
@@ -181,16 +180,16 @@ ta3:matrix([1,7]);]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt0</name>
@@ -198,31 +197,31 @@ ta3:matrix([1,7]);]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans0</sans>
         <tans>ta0</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty></truepenalty>
+        <truescore>1</truescore>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt0-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt0-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -232,31 +231,31 @@ ta3:matrix([1,7]);]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty></truepenalty>
+        <truescore>1</truescore>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -266,31 +265,31 @@ ta3:matrix([1,7]);]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans2</sans>
         <tans>ta2</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty></truepenalty>
+        <truescore>1</truescore>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -304,27 +303,27 @@ ta3:matrix([1,7]);]]></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>Sets</answertest>
         <sans>sa</sans>
         <tans>setify(args(ta3))</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty></truepenalty>
+        <truescore>1</truescore>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -334,37 +333,37 @@ ta3:matrix([1,7]);]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ansp</sans>
         <tans>taa</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty></truepenalty>
+        <truescore>1</truescore>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prtp-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prtp-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
         <value>ta0</value>
@@ -383,7 +382,7 @@ ta3:matrix([1,7]);]]></text>
       </testinput>
       <testinput>
         <name>ans4</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansp</name>
@@ -422,7 +421,7 @@ ta3:matrix([1,7]);]]></text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
         <value>ta0-1</value>
@@ -441,7 +440,7 @@ ta3:matrix([1,7]);]]></text>
       </testinput>
       <testinput>
         <name>ans4</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansp</name>
@@ -480,7 +479,7 @@ ta3:matrix([1,7]);]]></text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans0</name>
         <value>ta0</value>
@@ -499,7 +498,7 @@ ta3:matrix([1,7]);]]></text>
       </testinput>
       <testinput>
         <name>ans4</name>
-        <value></value>
+        <value/>
       </testinput>
       <testinput>
         <name>ansp</name>
@@ -537,5 +536,4 @@ ta3:matrix([1,7]);]]></text>
       </expected>
     </qtest>
   </question>
-
 </quiz>

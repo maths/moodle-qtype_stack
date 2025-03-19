@@ -17,13 +17,17 @@
 /**
  * A basic text-field input.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_matrix_input extends stack_input {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $width;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $height;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
@@ -35,6 +39,7 @@ class stack_matrix_input extends stack_input {
         'feedback' => false,
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
@@ -53,6 +58,7 @@ class stack_matrix_input extends stack_input {
         $this->width = $cs->get_list_element(1, true)->value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_expected_data() {
         $expected = [];
 
@@ -95,7 +101,6 @@ class stack_matrix_input extends stack_input {
      *
      * @param string $in
      * @return string
-     * @access public
      */
     public function response_to_contents($response) {
         // At the start of an attempt we will have a completely blank matrix.
@@ -134,6 +139,7 @@ class stack_matrix_input extends stack_input {
         return $matrix;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function contents_to_maxima($contents) {
         $matrix = [];
         foreach ($contents as $row) {
@@ -199,7 +205,7 @@ class stack_matrix_input extends stack_input {
                     $valid = false;
                     $errors[] = stack_string('studentinputtoolong');
                     $notes['too_long'] = true;
-                    $val='';
+                    $val = '';
                 }
 
                 $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
@@ -231,7 +237,7 @@ class stack_matrix_input extends stack_input {
             unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
             $modifiedforbid = implode(',', $modifiedforbid);
             $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
-            $secrules->set_forbiddenwords($modifiedforbid);
+            $secrules->set_forbiddenwords(trim($modifiedforbid));
             // Cumbersome, and cannot deal with matrix being within an alias...
             // But first iteration and so on.
         }
@@ -240,8 +246,7 @@ class stack_matrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        // We don't use the decimals option below, because we've already used it above.
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
             [], 'Root', '.');
         $inertform->get_valid();
@@ -250,6 +255,7 @@ class stack_matrix_input extends stack_input {
         return [$valid, $errors, $notes, $answer, $caslines, $inertform, $caslines];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -269,20 +275,23 @@ class stack_matrix_input extends stack_input {
                 $blank = false;
             }
         }
-
-        $attr = ' autocapitalize="none" spellcheck="false"';
+        $attr = [
+            'size'  => $this->parameters['boxWidth'],
+            'autocapitalize' => 'none',
+            'spellcheck'     => 'false',
+        ];
         if ($readonly) {
-            $attr .= ' readonly="readonly"';
+            $attr['readonly'] = 'readonly';
         }
 
         // Metadata for JS users.
-        $attr .= ' data-stack-input-type="matrix"';
+        $attr['data-stack-input-type'] = 'matrix';
         if ($this->options->get_option('decimals') === ',') {
-            $attr .= ' data-stack-input-decimal-separator=","';
-            $attr .= ' data-stack-input-list-separator=";"';
+            $attr['data-stack-input-decimal-separator'] = ",";
+            $attr['data-stack-input-list-separator'] = ";";
         } else {
-            $attr .= ' data-stack-input-decimal-separator="."';
-            $attr .= ' data-stack-input-list-separator=","';
+            $attr['data-stack-input-decimal-separator'] = ".";
+            $attr['data-stack-input-list-separator'] = ",";
         }
 
         // Read matrix bracket style from options.
@@ -322,8 +331,9 @@ class stack_matrix_input extends stack_input {
                     $field = 'placeholder';
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
-                        $this->parameters['boxWidth'].'"'.$attr.'></td>';
+                $html   = html_writer::empty_tag('input',
+                    array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr));
+                $xhtml .= html_writer::tag('td', $html);
             }
 
             if ($i == 0) {
@@ -340,6 +350,7 @@ class stack_matrix_input extends stack_input {
         return $xhtml;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -402,6 +413,7 @@ class stack_matrix_input extends stack_input {
 
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -443,6 +455,7 @@ class stack_matrix_input extends stack_input {
         return $valid;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_correct_response($value) {
 
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
@@ -545,7 +558,6 @@ class stack_matrix_input extends stack_input {
      * @author Matti Harjula
      *
      * @param string $in
-     * @access private
      * @return array with the parsed elements, if no elements then array
      *         contains only the input string
      */

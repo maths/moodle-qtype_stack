@@ -1,6 +1,7 @@
 /**
  * This is a library for SortableJS functionality used to generate STACK Parsons blocks.
  *
+ * @package    qtype_stack
  * @copyright  2023 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -1006,8 +1007,12 @@ export const stack_sortable = class stack_sortable {
         // CSS resizing of grid-items
         // --------------------------
         // Reset heights and widths of grid items.
-        document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
-        document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+        if (!this.override_item_width) {
+            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
+        }
+        if (!this.override_item_width) {
+            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+        }
         // Then update the CSS accordingly.
         this.resize_grid_items();
     }

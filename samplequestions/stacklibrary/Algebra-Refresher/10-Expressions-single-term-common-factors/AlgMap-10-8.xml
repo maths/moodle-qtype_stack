@@ -12,7 +12,7 @@
     <generalfeedback format="html">
       <text>Simply remove all common factors from the expression. In this example: 
 \[ {@v^p1-v^p2@} = {@ta@}. \]
-The important thing is to remember the 1 after factoring. </text>
+The important thing is to remember the 1 after factoring.</text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

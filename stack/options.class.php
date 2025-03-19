@@ -18,13 +18,16 @@
  * Options enable a context to be set for each question, and information
  * made generally available to other classes.
  *
+ * @package    qtype_stack
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_options {
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $options;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($settings = []) {
 
         // OptionType can be: boolean, string, html, list.
@@ -57,7 +60,7 @@ class stack_options {
                 'type'       => 'list',
                 'value'      => 'dot',
                 'strict'     => true,
-                'values'     => ['dot', 'cross', 'onum', 'none'],
+                'values'     => ['dot', 'cross', 'onum', 'none', 'space'],
                 'caskey'     => 'make_multsgn',
                 'castype'    => 'fun',
             ],
@@ -141,6 +144,7 @@ class stack_options {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_site_defaults() {
         $stackconfig = stack_utils::get_config();
         // Display option does not match up to $stackconfig->mathsdisplay).
@@ -158,7 +162,7 @@ class stack_options {
         return true;
     }
 
-    /*
+    /**
      * This function validates the information.
      */
     private function validate_key($key, $val) {
@@ -182,6 +186,7 @@ class stack_options {
         return true;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_option($key) {
         if (!array_key_exists($key, $this->options)) {
             throw new stack_exception('stack_options get_option: $key '.$key.' is not a valid option name.');
@@ -190,11 +195,13 @@ class stack_options {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_option($key, $val) {
         $this->validate_key($key, $val); // Throws an exception on error.
         $this->options[$key]['value'] = $val;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_cas_commands() {
 
         $names = '';
@@ -230,6 +237,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for a no/yes select menu.
      */
     public static function get_yes_no_options() {
@@ -240,6 +248,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the insert stars select menu.
      */
     public static function get_insert_star_options() {
@@ -256,6 +265,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the input syntax hint display attribute.
      */
     public static function get_syntax_attribute_options() {
@@ -266,6 +276,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the decimal sign select menu.
      */
     public static function get_decimals_sign_options() {
@@ -276,6 +287,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the scientific notation select menu.
      */
     public static function get_scientificnotation_options() {
@@ -286,6 +298,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the multiplication sign select menu.
      */
     public static function get_multiplication_sign_options() {
@@ -293,11 +306,13 @@ class stack_options {
             'dot'   => get_string('multdot', 'qtype_stack'),
             'cross' => get_string('multcross', 'qtype_stack'),
             'onum'  => get_string('multonlynumbers', 'qtype_stack'),
+            'space' => get_string('multspace', 'qtype_stack'),
             'none'  => get_string('none'),
         ];
     }
 
     /**
+     * Add description here.
      * @return array of choices for the complex number select menu.
      */
     public static function get_complex_no_options() {
@@ -310,6 +325,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the inverse trig select menu.
      */
     public static function get_inverse_trig_options() {
@@ -322,6 +338,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the inverse trig select menu.
      */
     public static function get_logic_options() {
@@ -332,6 +349,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the matrix prenthesis select menu.
      */
     public static function get_matrix_parens_options() {
@@ -345,6 +363,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the show validation select menu.
      */
     public static function get_showvalidation_options() {
@@ -357,6 +376,7 @@ class stack_options {
     }
 
     /**
+     * Add description here.
      * @return array of choices for the monospace input select menu.
      */
     public static function get_monospace_options() {

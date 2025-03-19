@@ -185,8 +185,10 @@ require_login();
           <div id="response_summary" class="feedback"></div>
         </div>
         <div id="stackapi_correct" class="col-lg-10" style="display: none">
-          <h2><?php echo stack_string('api_correct')?>:</h2>
-          <div id="formatcorrectresponse" class="feedback"></div>
+          <div class="noninfo"></div>
+            <h2><?php echo stack_string('api_correct')?>:</h2>
+            <div id="formatcorrectresponse" class="feedback"></div>
+          </div>
         </div>
       </div>
     </div>

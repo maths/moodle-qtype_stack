@@ -265,7 +265,7 @@ function question_display_options() {
  *
  *  contrib:// is for CAS side stuff and template:// is for CASText side stuff.
  *
- *  Returns the string content of the URL/file. If failign return false.
+ *  Returns the string content of the URL/file. If failing return false.
  */
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_fetch_included_content(string $url) {

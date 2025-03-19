@@ -54,7 +54,7 @@ It shows the proof that _\(\log_2(3)\) is irrational_.
 Define the following question variables:
 
 ````
-stack_include("contribl://prooflib.mac");
+stack_include_contrib("prooflib.mac");
 
 proof_steps: [
     ["assume", "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
@@ -143,7 +143,7 @@ The following Parson's question is an _if and only if_ proof, containing two blo
 ### Question variables
 
 ````
-stack_include("contribl://prooflib.mac");
+stack_include_contrib("prooflib.mac");
 
 ta: proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"), proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));
 

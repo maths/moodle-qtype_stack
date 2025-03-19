@@ -1827,6 +1827,14 @@ class qtype_stack extends question_type {
                     }
                 }
             }
+            // Validate the syntaxHint as castext: the castext validation method is here, not in the input class.
+            if (array_key_exists($inputname . 'syntaxhint', $fromform)) {
+                $errors = $this->validate_cas_text($errors, $fromform[$inputname . 'syntaxhint'],
+                    $inputname . 'syntaxhint', $fixingdollars);
+                if (strlen($fromform[$inputname . 'syntaxhint']) > 255) {
+                    $errors[$inputname . 'syntaxhint'][] = stack_string('syntaxhint_toolong');
+                }
+            }
             // Create an input with these parameters, in particular the 'options', and validate that.
             $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, $parameters, false);
             $stackinput->validate_extra_options();
@@ -2430,8 +2438,17 @@ class qtype_stack extends question_type {
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $graph->add_prt_node($lastkey + 2, '', null, null, '+0', '-0',
+                $numtoadd = optional_param($prtname . 'nodeaddnum', 1, PARAM_INT);
+                if (is_integer($numtoadd) && $numtoadd > 0 && $numtoadd < 10) {
+                    for ($i = 1; $i <= $numtoadd; $i++) {
+                        $graph->add_prt_node($lastkey + $i + 1, '', null, null, '+0', '-0',
+                            '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
+                    }
+                } else {
+                    // Can't add requested number so just add one.
+                    $graph->add_prt_node($lastkey + 2, '', null, null, '+0', '-0',
                         '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
+                }
             }
 
             if (!is_null($deletednode)) {

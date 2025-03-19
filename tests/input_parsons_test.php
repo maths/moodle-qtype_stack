@@ -95,7 +95,8 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('"[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]"', $state->contentsmodified);
-        $this->assertEquals('\[ \text{[{&quot;used&quot;:[[[]]],&quot;available&quot;:[&quot;hello&quot;,&quot;world&quot;]},0]} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{[{&quot;used&quot;:[[[]]],&quot;available&quot;:' .
+            '[&quot;hello&quot;,&quot;world&quot;]},0]} \]', $state->contentsdisplayed);
         $this->assertEquals('',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $expected = 'sana1: "[[{\\"used\\":[[[]]],\\"available\\":[\\"hello\\",\\"world\\"]},0]]" [valid]';
@@ -142,7 +143,8 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('"\'[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]\'"', $state->contentsmodified);
         // This will fail internal evaluation in the Parson's decode filter due to the extra quotes, so will remain unhashed.
         $this->assertEquals(
-            '<span class="stacksyntaxexample">&quot;\'[[{\&quot;used\&quot;:[[[]]],\&quot;available\&quot;:[\&quot;aGVsbG8=\&quot;,\&quot;d29ybGQ=\&quot;]},0]]\'&quot;</span>',
+            '<span class="stacksyntaxexample">&quot;\'[[{\&quot;used\&quot;:[[[]]],\&quot;available\&quot;:' .
+            '[\&quot;aGVsbG8=\&quot;,\&quot;d29ybGQ=\&quot;]},0]]\'&quot;</span>',
              $state->contentsdisplayed
         );
     }
@@ -231,7 +233,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('parsons', 'sans1', $ta);
         $el->set_parameter('options', 'allowempty');
         $state = $el->validate_student_response(['sans1' => ''], $options, $ta, new stack_cas_security());
-        // We do not allow empty in Parson's block
+        // We do not allow empty in Parson's block.
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('""', $state->contentsmodified);
@@ -246,7 +248,8 @@ final class input_parsons_test extends qtype_stack_testcase {
 
         $sa = '"<div onclick=\'dosuchandsuch\'></div>"';
         $cm = '"\"&lt;&#8203;div on&#0;click&#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
-        $cd = '<span class="stacksyntaxexample">&quot;\&quot;&lt;div on&#0;click&#0;&#61;\'dosuchandsuch\'&gt;&lt;/div&gt;\&quot;&quot;</span>';
+        $cd = '<span class="stacksyntaxexample">&quot;\&quot;&lt;div on&#0;click&#0;&#61;\'dosuchandsuch\'&gt;&lt;/div&gt;' .
+            '\&quot;&quot;</span>';
         $state = $el->validate_student_response(['sans1' => $sa], $options, $ta,
             new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
@@ -257,7 +260,8 @@ final class input_parsons_test extends qtype_stack_testcase {
 
         $sa = '"<div onmousemove     =\'dosuchandsuch\'></div>"';
         $cm = '"\"&lt;&#8203;div on&#0;mousemove     &#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
-        $cd = '<span class="stacksyntaxexample">&quot;\&quot;&lt;div on&#0;mousemove     &#0;&#61;\'dosuchandsuch\'&gt;&lt;/div&gt;\&quot;&quot;</span>';
+        $cd = '<span class="stacksyntaxexample">&quot;\&quot;&lt;div on&#0;mousemove     ' .
+            '&#0;&#61;\'dosuchandsuch\'&gt;&lt;/div&gt;\&quot;&quot;</span>';
         $state = $el->validate_student_response(['sans1' => $sa], $options, $ta,
             new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);

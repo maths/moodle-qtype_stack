@@ -254,7 +254,7 @@ class stack_parsing_rule_factory {
                 '601_castext', '602_castext_simplifier', '680_gcl_sconcat',
                 '610_castext_static_string_extractor',
                 '650_string_protect_slash',
-                '801_singleton_numeric', '802_singleton_units', 
+                '801_singleton_numeric', '802_singleton_units',
                 '901_remove_comments',
                 '908_parsons_decode_state_for_display',
                 '909_parsons_get_final_submission',

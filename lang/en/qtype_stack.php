@@ -478,7 +478,6 @@ $string['settingplatformtype'] = 'Platform type';
 $string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The "Server" option gives better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
 $string['settingplatformtypelinux'] = 'Linux';
 $string['settingplatformtypelinuxoptimised'] = 'Linux (optimised)';
-$string['settingplatformtypewin']  = 'Windows';
 $string['settingplatformtypeserver'] = 'Server';
 $string['settingplatformtypeserverproxy'] = 'Server (via proxy)';
 $string['settingplatformmaximacommand'] = 'Maxima command';

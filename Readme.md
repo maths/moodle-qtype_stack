@@ -1,4 +1,4 @@
-# STACK 4.8.3
+# STACK 4.9.0
 
 STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.  STACK has an API for stand-alone integration into other 3rd party systems.
 

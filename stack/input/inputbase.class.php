@@ -490,7 +490,7 @@ abstract class stack_input {
     }
 
     /**
-     * Add description here
+     * Returns whether a parameter is used in this input type.
      * @param string $param a settings parameter name.
      * @return bool whether this input type uses this parameter.
      */
@@ -994,6 +994,10 @@ abstract class stack_input {
         // Then ban the rest.
         $filterstoapply[] = '505_no_evaluation_groups';
 
+        if (get_class($this) === 'stack_parsons_input') {
+            $filterstoapply[] = '909_parsons_get_final_submission';
+        }
+
         // Remove scripts and other related things from string-values.
         $filterstoapply[] = '997_string_security';
 
@@ -1052,10 +1056,14 @@ abstract class stack_input {
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
-        $errors = $this->extra_validation($contents);
-        $valid = !$errors;
-        $caslines = [];
         $errors = [];
+        $valid = true;
+        $vec = $this->extra_validation($contents);
+        if ($vec !== '') {
+            $valid = false;
+            $errors[] = $vec;
+        }
+        $caslines = [];
         $notes = [];
         $ilines = [];
 
@@ -1077,7 +1085,6 @@ abstract class stack_input {
                 $notes['too_long'] = true;
                 $val = '';
             }
-
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                 [], 'Root', $this->options->get_option('decimals'));
 

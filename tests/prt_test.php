@@ -200,7 +200,7 @@ final class prt_test extends qtype_stack_testcase {
 
         $this->assertEquals(0, $prtev->get_score());
         $expected = 'You need to add a constant of integration, otherwise this appears to be correct. ' .
-            'Well done. Boo!';
+            'Boo!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['ATInt_const.', '1-0-0'], $prtev->get_answernotes());
         $expected = [

@@ -247,7 +247,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x),3],[4,5,6a])</span>',
                 $state->contentsdisplayed);
         $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
-                '<span class="stacksyntaxexample">2*x)</span>.    ' .
+                '<span class="stacksyntaxexample">2*x)</span>. ' .
                 'You seem to be missing * characters. Perhaps you meant to type ' .
                 '<span class="stacksyntaxexample">6<span class="stacksyntaxexamplehighlight">*</span>a</span>.',
                 $state->errors);
@@ -338,7 +338,6 @@ final class input_varmatrix_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_decimals_dot(): void {
-
         $options = new stack_options();
         $options->set_option('decimals', '.');
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
@@ -353,6 +352,28 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left[\begin{array}{cc} x & 2.7 \\\\ \sqrt{2} & 3.14 \end{array}\right] \]',
             $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_decimals_dot_unencapsulated_comma(): void {
+        $options = new stack_options();
+        $options->set_option('decimals', '.');
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $el->set_parameter('forbidFloats', false);
+        $inputvals = [
+            'ans1' => "x,2.7\n sqrt(2),3.14",
+        ];
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([a,b],[c,d])', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unencapsulated_comma', $state->note);
+        $this->assertEquals('In a matrix of variable size <b>use spaces to separate items</b>, not a comma. ' .
+            'E.g. <span class="stacksyntaxexample">x 2.7</span> rather than ' .
+            '<span class="stacksyntaxexample">x,2.7</span>. ' .
+            'E.g. <span class="stacksyntaxexample">sqrt(2) 3.14</span> rather than ' .
+            '<span class="stacksyntaxexample">sqrt(2),3.14</span>.', $state->errors);
+        $this->assertEquals('matrix([EMPTYCHAR],[EMPTYCHAR])', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">matrix([x,2.7],[sqrt(2),3.14])</span>',
+            $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
     }
 
     public function test_validate_student_response_decimals_continental(): void {

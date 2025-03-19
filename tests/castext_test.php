@@ -2887,4 +2887,57 @@ final class castext_test extends qtype_stack_testcase {
                     '-\frac{1}{2} & 2000 \end{array}\right]}\)';
         $this->assertEquals($expected, $at1->get_rendered());
     }
+
+    /**
+     * Tests the interaction of curly brackets with tables.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_curly_table(): void {
+        $a2 = [];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+
+        $raw = '\(\{\)<table><tbody><tr><td>\({@1@}\)</td></tr></tbody></table>';
+        $exp = '\(\{\)<table><tbody><tr><td>\({1}\)</td></tr></tbody></table>';
+
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid(FORMAT_HTML));
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
+
+    /**
+     * Tests the interaction of curly brackets with tables.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_mainvar(): void {
+        $a2 = [];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = '{@expand((x+y)^3)@}, {@(declare(x,mainvar),expand((x+y)^3))@}';
+        $exp = '\({y^3+3\cdot x\cdot y^2+3\cdot x^2\cdot y+x^3}\), ' .
+               '\({x^3+3\cdot y\cdot x^2+3\cdot y^2\cdot x+y^3}\)';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
 }

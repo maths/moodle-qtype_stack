@@ -44,11 +44,11 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
     /** @var string the default variables for a new question. */
-    const DEFAULT_QUESTION_VARIABLES = 'ta:?;';
+    const DEFAULT_QUESTION_VARIABLES = 'ta1:?;';
     /** @var string the default note for a new question. */
-    const DEFAULT_QUESTION_NOTE = '{@ta@}';
+    const DEFAULT_QUESTION_NOTE = '{@ta1@}';
     /** @var string the default variable name for the teacher's answer. */
-    const DEFAULT_TEACHER_ANSWER = 'ta';
+    const DEFAULT_TEACHER_ANSWER = 'ta1';
     /** @var string the default input name. */
     const DEFAULT_INPUT = 'ans1';
 
@@ -96,6 +96,11 @@ class qtype_stack_edit_form extends question_edit_form {
                     }
                 }
             }
+        }
+
+        $feedbackstring = optional_param('cas', '', PARAM_RAW);
+        if ($feedbackstring) {
+            $question->generalfeedback = $feedbackstring;
         }
 
         parent::set_data($question);
@@ -478,7 +483,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
-        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 30]);
         $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
@@ -504,7 +509,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in',
             ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons'] );
 
-        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 30]);
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->setDefault($inputname . 'syntaxhint', '');
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
@@ -565,7 +570,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
         $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
-        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 30]);
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
@@ -634,6 +639,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('submit', $prtname . 'nodeadd', stack_string('addanothernode'));
         $mform->registerNoSubmitButton($prtname . 'nodeadd');
+        $mform->addElement('text', $prtname . 'nodeaddnum', stack_string('nodeaddnum'), ['size' => 3]);
+        $mform->setType($prtname . 'nodeaddnum', PARAM_INT);
+        $mform->setDefault($prtname . 'nodeaddnum', 1);
     }
 
     /**
@@ -765,6 +773,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $opt = $question->options;
 
         $question->questionvariables     = $opt->questionvariables;
+        $vars   = optional_param('maximavars', '', PARAM_RAW);
+        if ($vars) {
+            $question->questionvariables = $vars;
+        }
         $question->variantsselectionseed = $opt->variantsselectionseed;
         $question->questionnote          = $this->prepare_text_field('questionnote',
                                             $opt->questionnote, $opt->questionnoteformat, $question->id);

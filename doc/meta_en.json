@@ -739,11 +739,6 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
-        "file":"Sample_questions.md",
-        "title":"STACK Sample Questions",
-        "description":"Sample questions for the STACK question type."
-        },
-        {
         "file":"Testing.md",
         "title":"Testing - STACK Documentation",
         "description":"Information on testing a STACK question."
@@ -773,7 +768,12 @@
         {
         "file":"index.md",
         "title":"STACK question library - STACK Documentation",
-        "description":"Information on STACK for developers, including how to get involved, future releases and development history."
+        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        },
+        {
+        "file":"Algebra_refresher.md",
+        "title":"Algebra refresher question library - STACK Documentation",
+        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
         }
         ]
         }

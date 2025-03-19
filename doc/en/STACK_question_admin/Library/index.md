@@ -5,17 +5,18 @@ STACK is distributed with sample questions in
      /qtype_stack/samplequestions
 
 The sample questions are in English.
-# STACK library {#STACK_library} # 
+
+# STACK library # 
 
 This is a collection of individual question files which can be imported via the STACK library page. Begin creating a new STACK question in your required question category. On the question edit form, rather than entering question data, click on the 'STACK question library' link. You can then browse and import questions.
 
-The questions are contained in
+The questions are contained in the STACK source code
 
      /qtype_stack/samplequestions/stacklibrary
 
 This directory contains sub-directories with large libraries of questions, some of which arose from specific projects:
 
-* `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](algebra-refresher.md).
+* `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md).
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/content/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 * `HELM` contains questions from the [HELM workbooks](https://learn.lboro.ac.uk/archive/olmp/olmp_resources/pages/wbooks_fulllist.html).
 * `Features` contains questions to illustrate the features of STACK such as different input types.

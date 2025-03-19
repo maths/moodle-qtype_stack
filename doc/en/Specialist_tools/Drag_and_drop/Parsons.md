@@ -42,7 +42,7 @@ Please see the [troubleshooting](Troubleshooting.md) page for known issues and h
 Please follow the examples below to understand how the components work.  Then we provide two tools.
 
 1. Advice on workflow for [authoring Parson's problems](../../Topics/Proof/Proof_Parsons_workflow.md).
-2. Template questions in the [STACK question library](../../STACK_question_admin/Sample_questions.md#STACK_library), under `Topics\Parsons-proof-template.xml` which you can load and use immediately.
+2. Template questions in the [STACK question library](../../STACK_question_admin/Library/index.md), under `Topics\Parsons-proof-template.xml` which you can load and use immediately.
 
 ## Example 1: a minimal Parson's question
 

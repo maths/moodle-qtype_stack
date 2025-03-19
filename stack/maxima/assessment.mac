@@ -59,6 +59,8 @@ safe_op(ex) := block([st],
         st:?subseq(st, 1, ev(?length(st), simp)),
     return(st)
 )$
+/* This function is called a lot, and compiling leads to a noticable performance increase. */
+compile(safe_op);
 
 get_safe_ops(ex) := setify(flatten(get_safe_ops_helper(ex)))$
 get_safe_ops_helper(ex) := if mapatom(ex) then [] else append([safe_op(ex)], maplist(get_safe_ops_helper, args(ex)))$
@@ -137,6 +139,7 @@ op_usedp(ex, opused) := block(
    if op(ex)=opused then return(true),
    apply("or", maplist(lambda([ex2], op_usedp(ex2, opused)), args(ex)))
 )$
+compile(op_usedp)$
 
 /* Count the occurances of v in ex. 
    v can be a string (for safe_op) or atom.
@@ -230,8 +233,9 @@ zip_with(zf, a, b) := block(
   if not(listp(b)) then return(false),
   if emptyp(a) then return([]),
   if emptyp(b) then return([]),
-  cons(zf(first(a), first(b)),  zip_with(zf, rest(a), rest(b)))
+  cons(apply(zf, [first(a), first(b)]),  zip_with(zf, rest(a), rest(b)))
 )$
+compile(zip_with);
 
 /* Enable use of zipwith on matrices, not just lists. */
 zip_with_matrix(zfm, A, B) := block(
@@ -1423,6 +1427,7 @@ count_op(ex, ops):= block([count],
     if op(ex)=ops then return(1+count),
     return(count)
 )$
+compile(count_op)$
 
 /* Replace +- with an explicit "or" version.
    If +- occurs more than once this is fundamentally ambiguous.

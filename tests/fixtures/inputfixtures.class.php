@@ -144,6 +144,8 @@ class stack_inputvalidation_test_data {
         ["a'", 'php_false', '', '', '', 'apostrophe', ""],
         ['X', 'php_true', 'X', 'cas_true', 'X', '', ""],
         ['aXy1', 'php_true', 'aXy1', 'cas_true', '{\it aXy}_{1}', '', ""],
+        // See issue #1331.  The descriptive package defines km as a function.
+        ['km', 'php_true', 'km', 'cas_true', '{\it km}', '', ""],
         // In STACK 4.3, the parser accepts these as functions.
         ['f(x)', 'php_true', 'f(x)', 'cas_true', 'f\left(x\right)', '', "Functions"],
         ['f(x)^2', 'php_true', 'f(x)^2', 'cas_true', 'f^2\left(x\right)', '', ""],

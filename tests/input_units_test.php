@@ -1340,4 +1340,18 @@ final class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 0.520\, \mathrm{dpt} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
+
+    public function test_validate_student_response_student_no_num(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.7*km');
+        $el->set_parameter('insertStars', 1);
+        $state = $el->validate_student_response(['sans1' => 'km'], $options, '3.7*km',
+            new stack_cas_security(true, '', '', ['tans']));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('km', $state->contentsmodified);
+        $this->assertEquals('Units_SA_only_units', $state->note);
+        $this->assertEquals('\[ \mathrm{k}\mathrm{m} \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ \mathrm{k}\mathrm{m} \right]\) ', $state->lvars);
+    }
 }

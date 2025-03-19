@@ -156,11 +156,8 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         }
 
         $questiondata->options->deployedseeds = [];
-        if (isset($backupdata["plugin_qtype_stack_question"]['deployedseeds'])) {
-            $questiondata->options->deployedseeds = (object) array_merge(
-                (array) $questiondata->options->deployedseeds,
-                $backupdata["plugin_qtype_stack_question"]['deployedseeds'][0],
-            );
+        foreach ($backupdata["plugin_qtype_stack_question"]['stackdeployedseeds']['stackdeployedseed'] ?? [] as $seed) {
+            $questiondata->options->deployedseeds[] = $seed['seed'];
         }
 
         return $questiondata;

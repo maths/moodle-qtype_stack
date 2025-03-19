@@ -82,38 +82,9 @@ class stack_cas_healthcheck {
         stack_cas_configuration::create_maximalocal();
 
         // Make sure we are in a position to call maxima.
+        // Support for Windows was removed on 5th Feb 2025.
+        // See commit 59e255ccf13b1baf2c2c52b5bd2d8372bbde1317 for last commit containing 'win' code.
         switch ($config->platform) {
-            case 'win':
-                $maximalocation = stack_cas_configuration::confirm_maxima_win_location();
-                if ('' != $maximalocation) {
-                    $test = [];
-                    $test['tag'] = 'stackmaximalibraries';
-                    $test['result'] = null;
-                    $test['summary'] = null;
-                    $test['details'] = html_writer::tag('p', stack_string('healthcheckconfigintro1').' '.
-                        html_writer::tag('tt', $maximalocation));
-                    $this->tests[] = $test;
-                } else {
-                    $this->ishealthy = false;
-                    $test = [];
-                    $test['result'] = false;
-                    $test['summary'] = "Could not confirm the location of Maxima";
-                    $this->tests[] = $test;
-                }
-
-                stack_cas_configuration::copy_maxima_bat();
-
-                if (!is_readable($CFG->dataroot . '/stack/maxima.bat')) {
-                    $this->ishealthy = false;
-                    $test = [];
-                    $test['tag'] = 'healthcheckmaximabat';
-                    $test['result'] = false;
-                    $test['summary'] = stack_string('healthcheckmaximabatinfo', $CFG->dataroot);
-                    $test['details'] = html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $CFG->dataroot));
-                    $this->tests[] = $test;
-                }
-
-                break;
             case 'linux':
                 // On a raw linux server list the versions of Maxima available.
                 $connection = stack_connection_helper::make();

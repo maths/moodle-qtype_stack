@@ -68,12 +68,12 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                 ]);
 
         $stackprts = new backup_nested_element('stackprts');
-        //ISS1422 - Change firstnode to firstnodename to match DB. Looks like the field was added later and there's
+        // ISS1422 - Change firstnode to firstnodename to match DB. Looks like the field was added later and there's
         // code to fill it in on restore if it isn't in the backup file... which it never has been.
         $stackprt = new backup_nested_element('stackprt', ['id'],
                 ['name', 'value', 'autosimplify', 'feedbackstyle', 'feedbackvariables', 'firstnodename']);
 
-        //ISS1422 - Add description. Presumably should be here.
+        // ISS1422 - Add description. Presumably should be here.
         $stackprtnodes = new backup_nested_element('stackprtnodes');
         $stackprtnode = new backup_nested_element('stackprtnode', ['id'],
                 [

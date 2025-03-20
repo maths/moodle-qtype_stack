@@ -37,6 +37,7 @@ require_once($CFG->dirroot . '/mod/quiz/tests/quiz_question_helper_test_trait.ph
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 final class restore_test extends advanced_testcase {
 

@@ -122,6 +122,16 @@ require_login();
                             }
                         }
                     }
+                    const elementsRequiringInputs = document.getElementsByClassName('noninfo');
+                    if (Object.keys(inputs).length) {
+                        for (let el of elementsRequiringInputs) {
+                            el.style.display = 'inline-block';
+                        }
+                    } else {
+                        for (let el of elementsRequiringInputs) {
+                            el.style.display = 'none';
+                        }
+                    }
                     // Convert Moodle plot filenames to API filenames.
                     for (const [name, file] of Object.entries(json.questionassets)) {
                         question = question.replace(name, `plots/${file}`);
@@ -186,7 +196,9 @@ require_login();
                 }
             }
         };
-        http.send(JSON.stringify(collectData()));
+        const data = collectData();
+        delete data.answers;
+        http.send(JSON.stringify(data));
     }
 
     // Validate an input. Called a set amount of time after an input is last updated.
@@ -407,6 +419,7 @@ require_login();
         const data = collectData();
         data.filename = filename;
         data.fileid = fileid;
+        delete data.answers;
         http.send(JSON.stringify(data));
       }
 </script>

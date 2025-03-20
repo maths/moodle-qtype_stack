@@ -119,12 +119,9 @@ if ('db' == $config->casresultscache) {
         stack_string('clearthecache'));
 }
 
-// Option to auto-create the Maxima image and store the results.
-if ($config->platform != 'win') {
-    echo $OUTPUT->single_button(
-        new moodle_url($PAGE->url, ['createmaximaimage' => 1, 'sesskey' => sesskey()]),
+echo $OUTPUT->single_button(
+    new moodle_url($PAGE->url, ['createmaximaimage' => 1, 'sesskey' => sesskey()]),
         stack_string('healthcheckcreateimage'));
-}
 
 echo '<hr />';
 // LaTeX. This is an install requirement, rather than a CAS healtcheck.

@@ -15,7 +15,7 @@ services:
     read_only: true
   stack:
     # Location of published STACK API image goes here.
-    image: stackmaths/stackapi:2025012100-latest
+    image: stackmaths/stackapi:2025030700-latest
     restart: unless-stopped
     ports:
       - '3080:80'

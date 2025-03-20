@@ -2047,7 +2047,7 @@ class stack_answertest_test_data {
         ['Antidiff', 'x', 'ln(k*abs(x))', 'ln(k*abs(x))', 1, 'ATAntidiff_true.', ''],
         ['Antidiff', 'x', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 0, 'ATAntidiff_generic.', 'Other logs'],
         ['Antidiff', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 1, 'ATAntidiff_true.', ''],
-        // this one currently fails if you don't assume x,c > 0 due to the absolute values in the logarithm.
+        // This one currently fails if you don't assume x,c > 0 due to the absolute values in the logarithm.
         ['Antidiff', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', -3, 'ATAntidiff_generic.', ''],
         ['Antidiff', 'x', 'c-(log(2)-log(x))^2/2', '-1/2*log(2/x)^2', 1, 'ATAntidiff_true.', ''],
         ['Antidiff', 'x', 'ln(abs(x+3))/2+c', 'ln(abs(2*x+6))/2+c', 1, 'ATAntidiff_true.', ''],
@@ -2192,7 +2192,7 @@ class stack_answertest_test_data {
         ['Antidiff', 'x', 'atan((x-2)/(x-1))+c', 'atan(2*x-3)', 1, 'ATAntidiff_true.', ''],
         ['Antidiff', 'x', 'atan((x-2)/(x-1))', 'atan(2*x-3)', 1, 'ATAntidiff_true.', ''],
         ['Antidiff', 'x', 'atan((x-1)/(x-2))', 'atan(2*x-3)', 0, 'ATAntidiff_generic.', ''],
-        // These ones currently fail for mathematical reasons for ATInt
+        // These ones currently fail for mathematical reasons for ATInt.
         [
             'Antidiff', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', 1, 'ATAntidiff_true.',

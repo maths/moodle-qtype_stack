@@ -7,7 +7,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.9.0
 
-1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.  Allow addition of multiple nodes in a PRT with one click.
+1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.
 2. Support `allowempty` for dropdown, radio and checkbox inputs.
 3. Add in the `space` option, i.e. `make_multsgn("space")` in the [options](../Authoring/Question_options.md).
 4. Convert input "syntax hint" to castext.
@@ -15,6 +15,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 6. Add in a substantial library for dealing with [linear algebra problems](../Topics/Linear_algebra/index.md).
 7. Load Maxima's `eigen` library.
 8. The API now accepts moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
+9. Remove support for the `win` platform (which hasn't been tested for many years).  See [issue #1379](https://github.com/maths/moodle-qtype_stack/issues/1379).
 
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 

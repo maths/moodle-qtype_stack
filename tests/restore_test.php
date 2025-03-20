@@ -45,7 +45,10 @@ final class restore_test extends advanced_testcase {
      *
      */
     public function test_restore_quiz_with_duplicate_questions(): void {
-        global $DB, $USER;
+        global $DB, $USER, $CFG;
+        if ($CFG->version < 2024100703) {
+            return;
+        }
         $this->resetAfterTest();
         $this->setAdminUser();
 

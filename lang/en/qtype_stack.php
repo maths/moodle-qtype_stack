@@ -1126,7 +1126,7 @@ $string['ATPartFrac_ret_expression']    = 'Your answer as a single fraction is {
 $string['ATSingleFrac_error_list']      = 'The answer test failed.  Please contact your systems administrator';
 $string['ATSingleFrac_true']            = '';
 $string['ATSingleFrac_part']            = 'Your answer needs to be a single fraction of the form \( {a}\over{b} \). ';
-$string['ATSingleFrac_var']             = 'The variables in your answer are different to the those of the question, please check them. ';
+$string['ATSingleFrac_var']             = 'The variables in your answer are different to those of the question, please check them. ';
 $string['ATSingleFrac_ret_exp']         = 'Your answer is not algebraically equivalent to the correct answer. You must have done something wrong. ';
 $string['ATSingleFrac_div']             = 'Your answer contains fractions within fractions.  You need to clear these and write your answer as a single fraction.';
 

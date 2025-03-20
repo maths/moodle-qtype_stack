@@ -1,0 +1,121 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% A simple bibliography of STACK-related publications.
+%
+% First authored, 3rd August 2016.
+% Chris Sangwin, University of Edinburgh.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{a4wide,times}
+
+\usepackage{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[colorlinks=true,linkcolor=red,urlcolor=blue,citecolor=gray]{hyperref}
+
+\usepackage{bibunits}
+
+\setlength{\parindent}{0in}
+
+\newcommand{\localputbib}{%
+%\putbib[C:/Users/csangwin/Documents/EdWork/Bib/stack]
+\putbib[stack]
+}
+
+\begin{document}
+\bibliographystyle{plain}
+
+\centerline{\Large STACK publications}
+$~$\\[1cm]
+
+This document contains publications relating to the STACK computer aided assessment system.
+
+For more information about STACK please see \href{https://stack-assessment.org/}{https://stack-assessment.org/}
+
+The original BiBTeX entries are available from
+{\scriptsize
+\begin{verbatim}
+https://github.com/maths/moodle-qtype_stack/tree/master/doc/content/stack.bib
+\end{verbatim}
+}
+
+\renewcommand\refname{\normalsize Suggestions of where to start}
+\begin{bibunit}[unsrt]
+\nocite{Kinnear2021,2023-Proof-Assessment,2017MCQ,2013CAA,2022-STACK-Edinburgh}
+\localputbib
+\end{bibunit}
+
+% Books
+\renewcommand\refname{\normalsize Books}
+\begin{bibunit}[unsrt]
+\nocite{2013CAA,Nakamura2010}
+\localputbib
+\end{bibunit}
+
+\newpage 
+
+% Papers on specific issues
+\renewcommand\refname{\normalsize Specific issues}
+\begin{bibunit}[unsrt]
+\nocite{SangwinRamsden2006,Nakamura2016b,2017STACKUnits,2018Sangwin-equivalence-proof,Sangwin2015Inequalities}
+\localputbib
+\end{bibunit}
+
+\renewcommand\refname{\normalsize STACK and Examinations}
+\begin{bibunit}[unsrt]
+\nocite{Sangwin2019CERME,2016AutomationExaminations,Sangwin2019CERME,Sangwin2018CMEEI}
+\localputbib
+\end{bibunit}
+
+% Other books and papers.
+\renewcommand\refname{\normalsize Research and conference papers}
+\begin{bibunit}[unsrt]
+% Listed in order of publication.
+\nocite{Gratwick2020,Akveld2023,2018Mastery,Yoshitomi2018,Barbas2016,Nakamura2016,Sangwin2015KHDM}
+\nocite{Rasila2016,Rasila2016b,Rasila2016c}
+\nocite{Shirai2015a,Shirai2015b,Pavia2015,Nakamura2014,Shirai2014,Nakamura2013}
+\nocite{Sangwin2012ICME,Sangwin2013HEA,Lowe2010,Sangwin2009Equality,Sangwin2010IGI,Nakamura2010b}
+\nocite{Rasila2010,Sangwin2009Calculumus,Sangwin2009ICMI,Rasila2007}
+\nocite{Sangwin2006CASAlgebra,WebALT2006,Sangwin2006UniServe,SangwinTMA03,SangwinHSkills02}
+\nocite{lowe_mestel_2019,erskine_mestel_2018,Paiva2017}
+\localputbib
+\end{bibunit}
+
+\renewcommand\refname{\normalsize Theses}
+\begin{bibunit}[unsrt]
+\nocite{Badger2013,Majander2011,Majander2010,Ruokokoski2009,Harjula2008,CervalPena2008,Tanskanen2017}
+\localputbib
+\end{bibunit}
+
+\newpage
+For copies of the proceedings of the first STACK conference see \href{https://zenodo.org/communities/stack}{https://zenodo.org/communities/stack}
+% Reports about STACK use.
+\renewcommand\refname{\normalsize Proceedings of the first STACK conference, 2018}
+\begin{bibunit}[unsrt]
+\nocite{harterich_jorg_2019_2582874,mai_tobias_2019_2582427,klischat_cosima_2019_2577116,kinnear_george_2019_2565969,zerva_konstantina_2019_2585816}
+\nocite{bird_anja_2019_2563076,fath_julia_2019_2565860,altieri_mike_2019_2564881,bach_stephan_2019_2563803,miriam_weigel_2019_2563656,eckhoff_malte_2019_2561190}
+\localputbib
+\end{bibunit}
+
+\renewcommand\refname{\normalsize Selected publications from the fourth STACK conference, 2022}
+\begin{bibunit}[unsrt]
+\nocite{2023-iJET-STACK-exams,2023-iJET-STACK-GeoGebra,2022-SeparatedConcerns,2022-HELM-Konstantina}
+\localputbib
+\end{bibunit}
+
+
+% Reports about STACK use.
+\renewcommand\refname{\normalsize Legacy Reports}
+\begin{bibunit}[unsrt]
+\nocite{2010STACKReport,2013STACK-Brum,2015STACKReport,2019STACKReport,2022-STACK-Edinburgh}
+\localputbib
+
+\end{bibunit}
+
+
+
+
+
+$~$\hfill{\tiny \today}
+
+\end{document}

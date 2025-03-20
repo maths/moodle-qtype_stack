@@ -170,6 +170,12 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
     protected function define_excluded_identity_hash_fields(): array {
         return [
             '/options/compiledcache',
+            '/prts/questionid',
+            '/prts/id',
+            '/prts/nodes/questionid',
+            '/prts/nodes/id',
+            '/inputs/questionid',
+            '/inputs/id',
         ];
     }
 

@@ -416,17 +416,15 @@ class qtype_stack extends question_type {
         $question->options = $DB->get_record('qtype_stack_options',
                 ['questionid' => $question->id], '*', MUST_EXIST);
 
-        // ISS1422 - Remove id and questionids as dependent on question instance and
-        // causing restore hash not to match.
         $question->inputs = $DB->get_records('qtype_stack_inputs',
                 ['questionid' => $question->id], 'name',
-                'name, type, tans, boxsize, strictsyntax, insertstars, ' .
+                'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
                 'checkanswertype, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 ['questionid' => $question->id], 'name',
-                'name, value, autosimplify, feedbackstyle, feedbackvariables, firstnodename');
+                'name, id, questionid, value, autosimplify, feedbackstyle, feedbackvariables, firstnodename');
 
         $noders = $DB->get_recordset('qtype_stack_prt_nodes',
                 ['questionid' => $question->id],
@@ -436,8 +434,6 @@ class qtype_stack extends question_type {
                 $question->prts[$node->prtname]->nodes = [];
             }
             $question->prts[$node->prtname]->nodes[$node->nodename] = $node;
-            unset($question->prts[$node->prtname]->nodes[$node->nodename]->id);
-            unset($question->prts[$node->prtname]->nodes[$node->nodename]->questionid);
         }
         $noders->close();
 

@@ -39,7 +39,6 @@ use require_login_exception;
 
 /**
  * Test the library_render webservice function.
- * @runTestsInSeparateProcesses
  * @group qtype_stack
  *
  * @covers \stack\library_render::render_execute

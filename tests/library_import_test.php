@@ -38,7 +38,6 @@ use require_login_exception;
 
 /**
  * Test the library_import webservice function.
- * @runTestsInSeparateProcesses
  * @group qtype_stack
  *
  * @covers \stack\library_import::import_execute

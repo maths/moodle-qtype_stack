@@ -117,15 +117,22 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $questiondata->options->prts = [];
         foreach ($backupdata["plugin_qtype_stack_question"]['stackprts']['stackprt'] ?? [] as $prt) {
+            $prt['name'] = (isset($prt['name'])) ? $prt['name'] : '';
             $nodes = [];
             unset($prt['id']);
-            foreach ($prt['stackprtnodes']['stackprtnode'] as $node) {
-                $node['prtname'] = $prt['name'];
-                unset($node['id']);
-                unset($node['questionid']);
-                $nodes[] = $node;
+            if (isset($prt['stackprtnodes']['stackprtnode'])) {
+                foreach ($prt['stackprtnodes']['stackprtnode'] as $node) {
+                    $node['prtname'] = $prt['name'];
+                    unset($node['id']);
+                    unset($node['questionid']);
+                    $node['description'] = (isset($node['description'])) ? $node['description'] : '';
+                    $node['truenextnode'] = (isset($node['truenextnode'])) ? $node['truenextnode'] : null;
+                    $node['falsenextnode'] = (isset($node['falsenextnode'])) ? $node['falsenextnode'] : null;
+                    $node['nodename'] = (isset($node['nodename'])) ? $node['nodename'] : '';
+                    $nodes[] = $node;
+                }
+                unset($prt['stackprtnodes']);
             }
-            unset($prt['stackprtnodes']);
             if (!isset($prt['firstnodename'])) {
                 $graph = new stack_abstract_graph();
                 foreach ($nodes as $node) {
@@ -142,9 +149,12 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
                     $graph->add_node((int) $node['nodename'] + 1, $node['description'], $left, $right);
                 }
                 try {
+                    // If any of this goes wrong, we'll catch it all properly later in after_execute().
+                    // Here we just need to match our later result.
                     $graph->layout();
                 } catch (Exception $e) {
                     $prt['firstnodename'] = -1;
+                    continue;
                 }
 
                 $roots = $graph->get_roots();

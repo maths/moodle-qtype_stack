@@ -1,6 +1,6 @@
 # Statistics in STACK
 
-STACK was originall designed with algebra and calculus in mind, rather than statistics. To assess statistics, we can use the algebraic tools, and standard support for [proofs/derivation](Proof/index.md). However this is not the main concern in statistics education. This is intended as a guide to writing statistics questions in STACK.
+STACK was originally designed with algebra and calculus in mind, rather than statistics. To assess statistics, we can use the algebraic tools, and standard support for [proofs/derivation](Proof/index.md). However this is not the main concern in statistics education. This is intended as a guide to writing statistics questions in STACK.
 
 ## Assessment approaches
 

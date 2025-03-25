@@ -1,8 +1,12 @@
 # A pocket map of algebraic manipulation
 
+## Introduction and use
 
 This is a markdown copy of a summary of *a pocket map of algebreic manipulation* by Tony Barnard. The original PDF summary is available as a [PDF](../../../content/Barnard.pdf) and the [TeX source code](../../../content/Barnard.tex).
 
+The numbering of sections in this document coresponds to the numbering of questions and quizzes in the questions in the library.
+
+## The Map of Algebraic Manipulation
 
 At the heart of the secondary school algebra curriculum lies the development of skills in algebraic manipulation. This little booklet collects together for reference some of the stepping stones of experiences in the development of these basic algebraic skills.
 

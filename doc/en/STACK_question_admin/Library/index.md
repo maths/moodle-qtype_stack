@@ -16,7 +16,7 @@ The questions are contained in the STACK source code
 
 This directory contains sub-directories with large libraries of questions, some of which arose from specific projects:
 
-* `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md).
+* `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md). Question numbers are linked to the map.
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/content/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 * `HELM` contains questions from the [HELM workbooks](https://learn.lboro.ac.uk/archive/olmp/olmp_resources/pages/wbooks_fulllist.html).
 * `Features` contains questions to illustrate the features of STACK such as different input types.
@@ -42,5 +42,5 @@ You can "restore" these into your version of Moodle.  It has a number of quizzes
 
 # Open Educational Resources #
 
-* The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These are now part of the [demonstration course](https://stack2.maths.ed.ac.uk/demo2018/).
+* The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These materials have been redeveloped are now part of the STACK library.
 * Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/)

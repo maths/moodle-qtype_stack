@@ -39,22 +39,33 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
     public function compile($format, $options): ?MP_Node {
         $body = new MP_List([new MP_String('%root')]);
 
+        $list = [];
+        $list[] = new MP_String('script');
+        $list[] = new MP_String(json_encode(['type' => 'module']));
+        
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         $code .= 'document.addEventListener("DOMContentLoaded", function(){';
+        $list[] = new MP_String($code);
+       
         if (isset($this->params['show_ids'])) {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+                $list[] = new MP_String("stack_js.toggle_visibility('");
+                $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
+                $list[] = new MP_String("',true);"); 
             }
         }
         if (isset($this->params['hide_ids'])) {
-            $splithideid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
-            foreach ($splithideid as &$id) {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
+            foreach ($splitshowid as &$id) {
+                $list[] = new MP_String("stack_js.toggle_visibility('");
+                $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
+                $list[] = new MP_String("',false);"); 
             }
         }
-        $code .= '});';
 
+        $list[] = new MP_String('});');
+        
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),
@@ -62,11 +73,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
                 'hidden' => true,
                 'title' => 'Logic container for a revealing portion ///ADAPTAUTO_COUNT///.',
             ])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code),
-            ]),
+            new MP_List($list),
         ]);
 
         return $body;

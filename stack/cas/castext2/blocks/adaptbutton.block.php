@@ -49,8 +49,11 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' .
             $uid . '">' . $this->params['title'] . '</button>');
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $list = [];
+        $list[] = new MP_String('script');
+        $list[] = new MP_String(json_encode(['type' => 'module']));
 
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "if (input.value=='true'){ hide_and_show(); }\n";
@@ -61,20 +64,26 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= "});\n";
         $code .= "});\n";
 
-        $code .= "function hide_and_show(){";
+        $list[] = new MP_String($code);
+
+        $list[] = new MP_String("function hide_and_show(){");
         if (isset($this->params['show_ids'])) {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+                $list[] = new MP_String("stack_js.toggle_visibility('");
+                $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
+                $list[] = new MP_String("',true);"); 
             }
         }
         if (isset($this->params['hide_ids'])) {
-            $splithideid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
-            foreach ($splithideid as &$id) {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
+            foreach ($splitshowid as &$id) {
+                $list[] = new MP_String("stack_js.toggle_visibility('");
+                $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
+                $list[] = new MP_String("',false);"); 
             }
         }
-        $code .= "}";
+        $list[] = new MP_String("}");
 
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
@@ -83,11 +92,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 'hidden' => true,
                 'title' => 'Logic container for a adaptbutton  ///ADAPTBUTTON_COUNT///.',
             ])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code),
-            ]),
+            new MP_List($list),
         ]);
 
         return $body;

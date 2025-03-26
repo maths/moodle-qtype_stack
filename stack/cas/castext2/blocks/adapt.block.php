@@ -40,9 +40,13 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
             }
         }
 
-        $adaptid = "stack-adapt-" . $this->params['id'];
+        $adaptid = $this->params['id'];
         $body = new MP_List([new MP_String('%root')]);
-        $body->items[] = new MP_String('<div id="' . $adaptid . '" ' . $style . '>');
+        $body->items[] = new MP_String('<div id="');
+        // Process the ID like a [[quid/]] by compiling this part as [[quid/]].
+        $body->items[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $adaptid)]);
+        $body->items[] = new MP_String('" ' . $style . '>'); 
+
 
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);

@@ -36,7 +36,7 @@ class stack_ast_filter_908_parsons_decode_state_for_display implements stack_cas
             if ($node instanceof MP_String && stack_utils::validate_parsons_string($node->value)) {
                 $node->value = stack_utils::unhash_parsons_string($node->value);
             }
-            
+
             return true;
         };
 

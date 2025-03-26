@@ -1028,6 +1028,9 @@ class stack_utils {
         return $arr;
     }
 
+    /**
+     * Decides if the string looks like an array.
+     */
     public static function is_array_string($str) {
         return preg_match('/^\[\s*(.*\S)?\s*\]$/', $str);
     }
@@ -1120,7 +1123,7 @@ class stack_utils {
         return self::php_string_to_maxima_string(self::hash_parsons_string($phplistofjsons));
     }
 
-        /**
+    /**
      * Takes a PHP array and validates it's structure to check whether it represents a single Parson's state.
      * In particular the PHP should be of the following format:
      * array(2) {
@@ -1203,11 +1206,10 @@ class stack_utils {
     public static function validate_parsons_string($input) {
         $data = json_decode($input, true);
         // When used in the input class $input is a string of a string, so we need to decode twice
-        // But in later usage (e.g., for filters) $input is just a string
-        if (is_string($data)) { 
+        // But in later usage (e.g., for filters) $input is just a string.
+        if (is_string($data)) {
             $data = json_decode($data, true);
         }
-        //print_r($data);
         // Check if the JSON decoding was successful and the resulting structure is an array.
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
             return false;
@@ -1225,15 +1227,16 @@ class stack_utils {
         return true;
     }
 
+    /**
+     * Validate a node to check that it is a string that represents a Parson's state.
+     * This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an
+     * additional safety measure to ensure we do not dehash other strings.
+     */
     public static function validate_parsons_contents($contents) {
         $strings = function($node) use (&$answernotes, &$errors) {
-            // We validate the node to check that it is a string that represents a Parson's state.
-            // This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an additional safety
-            // measure to ensure we do not dehash other strings.
             if ($node instanceof MP_String && self::validate_parsons_string($node->value)) {
                 $node->value = stack_utils::unhash_parsons_string($node->value);
             }
-            
             return true;
         };
         return $strings($contents);

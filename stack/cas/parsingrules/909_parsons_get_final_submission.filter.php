@@ -37,7 +37,7 @@ class stack_ast_filter_909_parsons_get_final_submission implements stack_cas_ast
                 $decoded = json_decode($node->value);
                 $node->value = json_encode(reset($decoded));
             }
-            
+
             return true;
         };
 

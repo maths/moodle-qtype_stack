@@ -148,7 +148,7 @@ class stack_question_test {
             }
             $result = $question->get_prt_result($prtname, $response, false);
             // Adapted from renderer.php prt_feedback_display.
-            $feedback = $result->get_feedback();
+            $feedback = $result->get_feedback(new \castext2_qa_processor(new \stack_outofcontext_process()));
             $feedback = format_text(stack_maths::process_display_castext($feedback),
                     FORMAT_HTML, ['noclean' => true, 'para' => false, 'allowid' => true]);
 

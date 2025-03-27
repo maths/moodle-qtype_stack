@@ -62,7 +62,7 @@ Each Adapt Block requires a unique ID. You can reference this ID in an `adaptbut
 
 ***Note** the contents of all adapt blocks are within the page.  Some may be visible and some hidden, controlled by JavaScript.  Therefore, a student can inspect the page and see all blocks.  While this doesn't matter too much in formative settings, be aware of the possibility of revealing useful information in online exam settings.
 
-An example question is available by importing `Doc-Examples\Adapt_button_block.xml`.
+An example question is available by importing `Doc-Examples\Dynamic-Blocks\Adapt_button_block.xml`.
 
 ### Adaptbutton
 
@@ -109,7 +109,7 @@ Example with delay:
 ```
 This will show adapt block with ID '2' and hide adapt block with ID '1' after a 3 second delay.
 
-An example question is available by importing `Doc-Examples\Adapt_delay_block.xml`.
+An example question is available by importing `Doc-Examples\Dynamic-Blocks\Adapt_delay_block.xml`.
 
 ## JSXGraph block ##
 

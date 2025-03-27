@@ -100,6 +100,15 @@ Like the `adaptbutton` block, the `adaptauto` block can control multiple adapt b
 
 Like the `adaptbutton` block, the `adaptauto` block has no contents within the block.
 
+The `adaptauto` block also accepts an optional `delay` parameter that specifies a time delay in milliseconds before showing or hiding the adapt blocks. The value must be a whole number (integer). This allows for timed presentation of content.
+
+Example with delay:
+```
+[[adaptauto show_ids='2' hide_ids='1' delay='3000'/]]
+```
+This will show adapt block with ID '2' and hide adapt block with ID '1' after a 3 second delay.
+
+
 ## JSXGraph block ##
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../../Specialist_tools/JSXGraph/index.md) elements.

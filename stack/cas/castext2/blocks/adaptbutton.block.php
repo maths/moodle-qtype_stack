@@ -1,12 +1,12 @@
 <?php
-// This file is part of Stateful
+// This file is part of STACK
 //
-// Stateful is free software: you can redistribute it and/or modify
+// STACK is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Stateful is distributed in the hope that it will be useful,
+// STACK is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -18,6 +18,7 @@
  * This class adds in the "adapt button" blocks to castext.
  * @package    qtype_stack
  * @copyright  2025 University of Edinburgh.
+ * @copyright  2025 Ruhr University Bochum.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 defined('MOODLE_INTERNAL') || die();
@@ -71,6 +72,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
+                // We use the quid block to make the ids unique
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
                 $list[] = new MP_String("',true);"); 
             }
@@ -79,6 +81,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
+                // We use the quid block to make the ids unique
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
                 $list[] = new MP_String("',false);"); 
             }

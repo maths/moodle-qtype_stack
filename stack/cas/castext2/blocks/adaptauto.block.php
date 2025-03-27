@@ -18,6 +18,7 @@
  * This class adds in the "adapt auto" blocks to castext.
  * @package    qtype_stack
  * @copyright  2025 University of Edinburgh.
+ * @copyright  2025 Ruhr University Bochum.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
@@ -46,11 +47,16 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         $code .= 'document.addEventListener("DOMContentLoaded", function(){';
         $list[] = new MP_String($code);
-       
+        
+        if (isset($this->params['delay']) && ctype_digit($this->params['delay'])) {
+            $list[] = new MP_String("setTimeout(() => { ");
+        }
+        
         if (isset($this->params['show_ids'])) {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
+                // We use the quid block to make the ids unique
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
                 $list[] = new MP_String("',true);"); 
             }
@@ -59,12 +65,19 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
+                // We use the quid block to make the ids unique
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
                 $list[] = new MP_String("',false);"); 
             }
         }
 
+        if (isset($this->params['delay']) && ctype_digit($this->params['delay'])) {
+            $list[] = new MP_String("}, ".$this->params['delay'].");");
+        }
+
         $list[] = new MP_String('});');
+
+
         
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([

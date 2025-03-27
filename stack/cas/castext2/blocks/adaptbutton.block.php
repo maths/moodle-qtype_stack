@@ -72,18 +72,18 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
-                // We use the quid block to make the ids unique
+                // We use the quid block to make the ids unique.
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
-                $list[] = new MP_String("',true);"); 
+                $list[] = new MP_String("',true);");
             }
         }
         if (isset($this->params['hide_ids'])) {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
-                // We use the quid block to make the ids unique
+                // We use the quid block to make the ids unique.
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
-                $list[] = new MP_String("',false);"); 
+                $list[] = new MP_String("',false);");
             }
         }
         $list[] = new MP_String("}");

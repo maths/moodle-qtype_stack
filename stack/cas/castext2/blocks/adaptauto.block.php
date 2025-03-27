@@ -43,31 +43,31 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         $list = [];
         $list[] = new MP_String('script');
         $list[] = new MP_String(json_encode(['type' => 'module']));
-        
+
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         $code .= 'document.addEventListener("DOMContentLoaded", function(){';
         $list[] = new MP_String($code);
-        
+
         if (isset($this->params['delay']) && ctype_digit($this->params['delay'])) {
             $list[] = new MP_String("setTimeout(() => { ");
         }
-        
+
         if (isset($this->params['show_ids'])) {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
-                // We use the quid block to make the ids unique
+                // We use the quid block to make the ids unique.
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
-                $list[] = new MP_String("',true);"); 
+                $list[] = new MP_String("',true);");
             }
         }
         if (isset($this->params['hide_ids'])) {
             $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
-                // We use the quid block to make the ids unique
+                // We use the quid block to make the ids unique.
                 $list[] = new MP_List([new MP_String('quid'), new MP_String("adapt_" . $id)]);
-                $list[] = new MP_String("',false);"); 
+                $list[] = new MP_String("',false);");
             }
         }
 
@@ -77,8 +77,6 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
         $list[] = new MP_String('});');
 
-
-        
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),

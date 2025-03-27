@@ -108,6 +108,7 @@ Example with delay:
 ```
 This will show adapt block with ID '2' and hide adapt block with ID '1' after a 3 second delay.
 
+An example question is available by importing `Doc-Examples\Adapt_delay_block.xml`.
 
 ## JSXGraph block ##
 

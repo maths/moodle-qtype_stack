@@ -29,6 +29,8 @@ Feature: Test running Adapt Block question.
     Then I should see "Doc-Examples"
     And I should not see "Question variables"
     And I click on "Doc-Examples" "button"
+    And I click on "Authoring-Docs" "button"
+    And I click on "Question-blocks" "button"
     And I click on "Adapt_button_block.xml" "button"
     And I should see "This text will be shown until the adaptbutton has been clicked."
     And I click on "Import" "button"

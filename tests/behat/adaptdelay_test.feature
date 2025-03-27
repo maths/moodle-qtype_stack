@@ -1,5 +1,5 @@
 @qtype @qtype_stack @_file_upload @javascript
-Feature: Test running Adapt Block question.
+Feature: Test running Adapt block delay question.
   As a teacher
   In order to check my Adaptblock delay feature STACK questions will work for students
   I need to preview them
@@ -94,4 +94,3 @@ Feature: Test running Adapt Block question.
     And I should not see "Adapt block #1"
     And I should see "Adapt block #2"
     And I should see "Adapt block #3"
-

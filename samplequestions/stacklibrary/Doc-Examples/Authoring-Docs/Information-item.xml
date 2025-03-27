@@ -9,7 +9,7 @@
       <text><![CDATA[<div class="stack-comment">
 The purpose of this question is to illustrate an edge case where there are no inputs and no PRTs.
 <ul>
-<li>Questions with inputs, but no PRTs, can be used for surveys</li>
+<li>Questions with inputs, but no PRTs, can be used for surveys.</li>
 <li>Questions without inputs or PRTs can be used as information items, containing computations and (potentially) randomly generated items.</li>
 </ul>
 </div>

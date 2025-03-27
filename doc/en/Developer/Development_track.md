@@ -16,6 +16,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 7. Load Maxima's `eigen` library.
 8. The API now accepts moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
 9. Remove support for the `win` platform (which hasn't been tested for many years).  See [issue #1379](https://github.com/maths/moodle-qtype_stack/issues/1379).
+10. Add in the adapt block, and associated dynamic blocks.
 
 Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.9.0) include
 
@@ -23,6 +24,11 @@ Issues with [github milestone 4.9.0](https://github.com/maths/moodle-qtype_stack
 2. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 3. Remove all "cte" code from Maxima - mostly install.
 4. Resolve [issue #1363] to download students data in json format.
+
+## Future Adapt block development ideas
+
+1. Add in a "delay" option to the block.  If set to a positive integer this is the number of seconds delay before the block appears.
+2. Add in a "counter" option to the button.  If set to true, then the value of the counter changes from true/false to the number of times the button has been pressed.
 
 ## Future Parson's block development track
 

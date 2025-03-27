@@ -18,6 +18,9 @@ There is currently no "else" clause available with this block.
 
 An example question is available by importing `Doc-Examples\Dynamic-Blocks\Reveal_block_example.xml`.
 
+***Note** the contents of all reveal blocks are within the page.  Some may be visible and some hidden, controlled by JavaScript.  Therefore, a student can inspect the page and see all blocks.  While this doesn't matter too much in formative settings, be aware of the possibility of revealing useful information in online exam settings.
+
+
 ### Interaction with MCQ input types
 
 The reveal block can be used in conjunction with [MCQ](../../Authoring/Inputs/Multiple_choice_input.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
@@ -51,6 +54,63 @@ Notes
 1. hint blocks can be nested.
 2. the content of the hint is styled within a `stack-hint-content` div tag.
 
+## Adapt block ##
+
+The Adapt Block allows you to show or hide sections of text either by clicking a button (created with the `adaptbutton` block) or automatically (controlled by the `adaptauto` block). This functionality works anywhere you can use CASText, including in feedback nodes.
+
+Each Adapt Block requires a unique ID. You can reference this ID in an `adaptbutton` or `adaptauto` block using the attributes `show_ids` and `hide_ids`.
+
+***Note** the contents of all adapt blocks are within the page.  Some may be visible and some hidden, controlled by JavaScript.  Therefore, a student can inspect the page and see all blocks.  While this doesn't matter too much in formative settings, be aware of the possibility of revealing useful information in online exam settings.
+
+An example question is available by importing `Doc-Examples\Adapt_button_block.xml`.
+
+### Adaptbutton
+
+With the `adaptbutton` block you can control the visibility of `adapt` blocks with a press of a button. The button needs a `title` attribute. Note: Using Language blocks within titles is not yet supported.
+When a user clicks the button, the system shows and hides `adapt` blocks corresponding to the `show_ids` and `hide_ids` attributes and saves this action in an input you can set with the `save_state` attribute.
+You can control multiple adapt blocks by separating IDs with semicolons, e.g. `hide_ids='1;2;3'`.
+
+```
+[[adapt id='1']]
+This text will be shown until the adaptbutton has been clicked. When it is clicked, the value of the input 'ans1' is set to 'true'.
+[[adaptbutton title='Click me' hide_ids='1' save_state='ans1' show_ids='3;4'/]]
+[[/adapt]]
+[[adapt id='2' hidden='true']]
+This text is hidden if you did not press the adaptbutton.
+[[/adapt]]
+```
+
+The Adaptbutton block has no contents within the block, so you may use the form `[[adaptbutton ... /]]` rather than `[[adaptbutton ... ]][/adaptbutton]]`.
+
+### Adaptauto
+
+The `adaptauto` block automatically shows or hides `adapt` blocks when the `adaptauto` block is reached and the whole page finishes loading.
+
+```
+[[adapt id='1']]
+The text will be displayed until adaptauto is loaded.
+[[/adapt]]
+[[adapt id='2' hidden='true']]
+This text is hidden until adaptauto is loaded. Can be used as feedback.
+[[/adapt]]
+<!-- Should be placed in a true/false feedback node -->
+[[adaptauto show_ids='2' hide_ids='1'/]]
+```
+
+Like the `adaptbutton` block, the `adaptauto` block can control multiple adapt blocks by separating IDs with semicolons, e.g. `hide_ids='1;2;3'`.
+
+Like the `adaptbutton` block, the `adaptauto` block has no contents within the block.
+
+The `adaptauto` block also accepts an optional `delay` parameter that specifies a time delay in milliseconds before showing or hiding the adapt blocks. The value must be a whole number (integer). This allows for timed presentation of content.
+
+Example with delay:
+```
+[[adaptauto show_ids='2' hide_ids='1' delay='3000'/]]
+```
+This will show adapt block with ID '2' and hide adapt block with ID '1' after a 3 second delay.
+
+An example question is available by importing `Doc-Examples\Adapt_delay_block.xml`.
+
 ## JSXGraph block ##
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../../Specialist_tools/JSXGraph/index.md) elements.
@@ -64,7 +124,7 @@ STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-
 
 ## JSString block ##
 
-A new feature in 4.4 is the `[[jsstring]]` which makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then escapes it as JavaScript string literal.
+The `[[jsstring]]` block makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then escapes it as JavaScript string literal.
 
 ```
 var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];

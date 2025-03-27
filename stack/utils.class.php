@@ -1028,6 +1028,9 @@ class stack_utils {
         return $arr;
     }
 
+    /**
+     * Decides if the string looks like an array.
+     */
     public static function is_array_string($str) {
         return preg_match('/^\[\s*(.*\S)?\s*\]$/', $str);
     }

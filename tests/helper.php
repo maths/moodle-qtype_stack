@@ -81,6 +81,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
             'exdowncase',         // Test the ordergreat function with exdowncase.
             'bailout',            // Test the ability to bail out of a PRT using %stack_prt_stop_p.
+            'adaptblock',         // Test the adapt blocks.
             // Test questions for all the various input types.
             'algebraic_input',
             'algebraic_input_right',
@@ -4494,6 +4495,74 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedback        = "";
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * Add description here.
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_adaptblock() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'make_stack_question_adaptblock';
+        $q->questionvariables = "";
+        $q->questiontext = "[[adapt id='4' hidden='true']]<b>Adapt block #4</b>Click the adapt button in block 1.[[/adapt]]" .
+            "[[adapt id='1']]<b>Adapt block #1</b>Shown until the adaptbutton has been clicked." .
+            "[[adaptbutton title='Click me' hide_ids='1' save_state='ans1' show_ids='3;4' /]]" .
+            "[[/adapt]]" .
+            "[[adapt id='2' hidden='true']]<b>Adapt block #2</b>Shown by the PRT[[/adapt]]" .
+            "[[input:ans1]] [[validation:ans1]]" .
+            "[[adapt id='3' hidden='true']]<b>Adapt block #4</b>Click the adapt button in block 1.[[/adapt]]";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+
+        $q->specificfeedback = '[[feedback:prt1]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'false', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => '',
+            ]);
+
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = 'Use the test adapt blocks';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'true';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "Please click the button!";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-0-0';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "Yes, you clicked the button! [[adaptauto show_ids='2' hide_ids='1' /]]";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-0-1';
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
 

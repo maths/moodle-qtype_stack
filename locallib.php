@@ -273,4 +273,15 @@ class stack_outofcontext_process {
     public function rewrite_pluginfile_urls($text, $component, $filearea, $itemid) {
         return $text;
     }
+
+    /**
+     * Get the name (in the sense a HTML name="" attribute, or a $_POST variable
+     * name) to use for a question_type variable belonging to this question_attempt.
+     *
+     * @param string $varname The short form of the variable name.
+     * @return string The field name to use.
+     */
+    public function get_qt_field_name($varname) {
+        return $varname;
+    }
 }

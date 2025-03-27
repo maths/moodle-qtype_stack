@@ -5118,4 +5118,27 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 0 | firsttree-0-0';
         $this->check_response_summary($expected);
     }
+
+    public function test_input_validator_adaptblock(): void {
+
+        $q = test_question_maker::make_question('stack', 'adaptblock');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Most of this question is JS which needs the behat tests.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Shown until the adaptbutton has been clicked/'),
+            new question_pattern_expectation('/Click me/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+    }
 }

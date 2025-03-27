@@ -44,7 +44,7 @@ Some examples are:
 * `linsolve([x+y,2*y+2*x=0],[x,y])` will produce `[x = -%r1,y = %r1]`
 * `linsolve([x+y,x+y=1],[x,y])` will produce `[]`
 
-You can remove any percent variables using `stack_strip_percent`, documented in more detail [here](../Differential_equations.md/#Solve_and_ode2)
+You can remove any percent variables using `stack_strip_percent`, documented in more detail in the section on [differential equations](../Differential_equations/index.md)
 
 `mat_solve(A,b,[lstsq])` is a STACK-provided function that is mostly just a wrapper for `linsolve` that expects matrices instead of lists of equations. 
  * Input: `A` An \(m\times n\) matrix

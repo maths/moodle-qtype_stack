@@ -16,9 +16,10 @@ The block will only do singular direct string match, and so use of this block is
 
 There is currently no "else" clause available with this block.
 
+An example question is available by importing `Doc-Examples\Dynamic-Blocks\Reveal_block_example.xml`.
+
 ***Note** the contents of all reveal blocks are within the page.  Some may be visible and some hidden, controlled by JavaScript.  Therefore, a student can inspect the page and see all blocks.  While this doesn't matter too much in formative settings, be aware of the possibility of revealing useful information in online exam settings.
 
-An example question is available by importing `Doc-Examples\Reveal_block_example.xml`.
 
 ### Interaction with MCQ input types
 

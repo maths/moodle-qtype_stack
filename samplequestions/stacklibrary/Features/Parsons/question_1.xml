@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<quiz><question type="category">
+    <category>
+      <text>$course$/top/Default for Parsons</text>
+    </category>
+    <info format="moodle_auto_format">
+      <text>The default category for questions shared in context 'Parsons'.</text>
+    </info>
+    <idnumber />
+  </question>
+
+
+  </quiz>

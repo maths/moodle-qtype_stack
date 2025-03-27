@@ -20,7 +20,7 @@ Let us focus on the problem of finding \(\int 3(x-1)^{-4} \mathrm{d}x\). Create 
 
 ### Using question variables
 
-The next steps would be to add question text, and then to add the teacher's answer `-1*(x-1)^(-3)+c` to the `model answer` field and the `potential response tree`.  However, the expression and model answer will normally be referred to more than once, so it is usually easiest to assign them to "question variables" using the optional [question variables](../Authoring/Variables.md#Question_variables) field.
+We make more use of the question text field. For instance, we can start to use the CAS to determine the model answer, and use a question variable in the question text.
 
 Add the following to the question variables
 
@@ -35,8 +35,8 @@ Notice we are using the CAS to determine the model answer by calling the `int()`
 
 Now it will be a lot faster to fill out the rest of the question. Add the following to the question text:
 
-	Find \(\int{@exp@} \mathrm{d}x\)
-	[[input:ans1]] [[validation:ans1]]
+	<p>Find \(\int{@exp@} \mathrm{d}x\)</p>
+	<p>[[input:ans1]] [[validation:ans1]]</p>
 
 Notice that we have defined a local variable `exp`, and used the value of this in the Question text. There is a difference between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](../Authoring/CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as LaTeX.
 

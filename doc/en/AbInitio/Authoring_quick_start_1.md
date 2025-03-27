@@ -27,37 +27,59 @@ There are lots of fields, but only a few are compulsory:
 
 By default a new question automatically has one [input](../Authoring/Inputs/index.md), and one algorithm to test correctness of the answer.
 
+A new question will have most fields automatically filled for a minimal question. You just need to fill in the question name, question text and the model answer (designated in question variables). The following sections explain how to do this.
+
+Let's focus on the problem of differentiating \((x-1)^3\) with respect to \(x\).
+
 ### Question name ###
 
 You must give the question a name, for example `question1`.
 
+### Question Variables ###
+
+There should be text in question variables by default.
+
+    ta:?;
+We should replace `?` with the model answer to the question. In this case, this wil be the derivative of \((x-1)^3\), which is \(3(x-1)^2\). So we should replace `?` with `3*(x-1)^2`.
+
+    ta:3*(x-1)^2;
+
+
 ### Question text ###
 
-Let's focus on the problem of differentiating \((x-1)^3\) with respect to \(x\). We need to write the question text itself. Copy the following into the Question text box:
+We also need to write the question text.  This is the text that the student sees. This should be written in HTML as we advise the use of the plaintext editor.
 
-	Differentiate \((x-1)^3\) with respect to x.
-	[[input:ans1]] [[validation:ans1]]
+By default the question text will read 
+
+    <p></p>
+    <p>[[input:ans1]] [[validation:ans1]]</p>
+
+Update this question text, or delete and copy the following into the Question text box:
+
+	<p>Differentiate \((x-1)^3\) with respect to x.</p>
+	<p>[[input:ans1]] [[validation:ans1]]</p>
 
 Notes:
 
-* Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your variant of Moodle.  Also, the cut and paste may or may not include some of the formatting.
+* Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your variant of Moodle. 
 * The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..\]` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials, found on the Moodle qtype_stack plugin page.)
 * Internally the student's answer will be assigned to a variable `ans1`.
 * The tag `[[input:ans1]]` denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`, e.g. syntax errors caused by missing brackets.
 * These tags could be positioned anywhere in the question text.
 
+
+The next sections will automatically filled in for you for a basic question, so you can save and preview at this point. However, it is worth taking a look at these other main options
+
 ## Input: ans1
-
-For a minimal question, we must specify the _model answer_. Change the question variables so this is
-
-    ta:3*(x-1)^2;
 
 Scroll down:  there will be an [inputs](../Authoring/Inputs/index.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
 
+For a minimal question, we must specify the _model answer_. This will be `ta` by default, which we have defined to be the solution to this problem.
+
 Notes
 
-1. The student's response is stored in the answer variable `ans1`.  By default this uses the value of the variable `ta`.
+1. The student's response is stored in the answer variable `ans1`.
 2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX. This means multiplication must be explicitly specified, using `*`.
 3. [Inputs](../Authoring/Inputs/index.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
 4. A question can have many inputs for multiple parts.  These are discussed later in a later part.
@@ -85,11 +107,11 @@ Each branch can then
 * Leave an [answer note](../Authoring/Potential_response_trees.md#Answer_note) for statistical [reporting](../Authoring/../STACK_question_admin/Reporting.md) purposes,
 * Continue to the next potential response node, or end the process with `[stop]`.
 
-Let us configure the first node to determine if the student has differentiated correctly.
+We can leave the default settings for a minimal question, which is the following:
 
-1. By default we already have the variable `ans1` in the `SAns` setting.
-2. By default we already have the variable `ta` in the `TAns` setting.  The variable `ta` has been assigned a value in the "question variables".
-3. By default we have `AlgEquiv` in the _Answer test_ drop-down menu.
+1. Specify the variable `ans1` in the `SAns` setting.
+2. Specify the correct answer in the `TAns` setting: `ta`.
+3. `AlgEquiv` in the _Answer test_ drop-down menu.
 
 ## Saving the question
 
@@ -102,7 +124,7 @@ To recap, we have
 1. The "question name",
 2. The "question text",
 3. The teacher's "model answer", (`ta` in the question variables).
-4. A test of "correctness" (set to Algebraic equivalence by default).
+4. A test of "correctness" (set to Algebraic equivalence).
 
 Next we should try out our question by pressing the `Preview` link at the bottom of the page.
 

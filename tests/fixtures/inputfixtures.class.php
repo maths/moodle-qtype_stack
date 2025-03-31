@@ -19,6 +19,7 @@
  *
  * This helps us verify how STACK "validates" strings supplied by the student.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,20 +28,31 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_inputvalidation_test_data {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWSTRING     = 0;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PHPVALID      = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const PHPCASSTRING  = 2;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const CASVALID      = 3;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const DISPLAY       = 4;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const ANSNOTES      = 5;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES         = 6;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const BRITISH       = 1;
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const CONTINENTIAL  = 2;
 
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
 
         ['123', 'php_true', '123', 'cas_true', '123', '', ""],
@@ -132,6 +144,8 @@ class stack_inputvalidation_test_data {
         ["a'", 'php_false', '', '', '', 'apostrophe', ""],
         ['X', 'php_true', 'X', 'cas_true', 'X', '', ""],
         ['aXy1', 'php_true', 'aXy1', 'cas_true', '{\it aXy}_{1}', '', ""],
+        // See issue #1331.  The descriptive package defines km as a function.
+        ['km', 'php_true', 'km', 'cas_true', '{\it km}', '', ""],
         // In STACK 4.3, the parser accepts these as functions.
         ['f(x)', 'php_true', 'f(x)', 'cas_true', 'f\left(x\right)', '', "Functions"],
         ['f(x)^2', 'php_true', 'f(x)^2', 'cas_true', 'f^2\left(x\right)', '', ""],
@@ -692,6 +706,7 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdataunits = [
         ['123', 'php_true', '123', 'cas_true', '123', 'Units_SA_no_units', "Units"],
         ['9.81*m/s^2', 'php_true', 'dispdp(9.81,2)*m/s^2', 'cas_true', '9.81\, {\mathrm{m}}/{\mathrm{s}^2}', '', ""],
@@ -738,98 +753,103 @@ class stack_inputvalidation_test_data {
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatadecimals = [
         [
             0 => '123',
-            '.' => [null, 'php_true', '123', 'cas_true', '123', '', ""],
-            ',' => [null, 'php_true', '123', 'cas_true', '123', '', ""],
+            1 => [null, 'php_true', '123', 'cas_true', '123', '', ""],
+            2 => [null, 'php_true', '123', 'cas_true', '123', '', ""],
         ],
         [
             0 => '1.23',
-            '.' => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '-1.27',
-            '.' => [null, 'php_true', '-dispdp(1.27,2)', 'cas_true', '-1.27', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', '-dispdp(1.27,2)', 'cas_true', '-1.27', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '2.78e-3',
-            '.' => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '1,23',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
         ],
         [
             0 => '-1,29',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_true', '-dispdp(1.29,2)', 'cas_true', '-1.29', '', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', '-dispdp(1.29,2)', 'cas_true', '-1.29', '', ""],
         ],
         [
             0 => '2,79e-5',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_true', 'displaysci(2.79,2,-5)', 'cas_true', '2.79 \times 10^{-5}', '', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', 'displaysci(2.79,2,-5)', 'cas_true', '2.79 \times 10^{-5}', '', ""],
         ],
         // For students' input the character ; is forbidden, but not in this test.
         [
             0 => '1;23',
-            '.' => [null, 'php_true', '1', 'cas_true', '1', '', ""],
-            ',' => [null, 'php_false', '1', '', '', 'unencapsulated_comma', ""],
+            1 => [null, 'php_true', '1', 'cas_true', '1', '', ""],
+            2 => [null, 'php_false', '1', '', '', 'unencapsulated_comma', ""],
         ],
         // With strict interpretation both the following are invalid.
         [
             0 => '1.2+2,3*x',
-            '.' => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1,23}',
-            '.' => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
-            ',' => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
+            1 => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
+            2 => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
         ],
         [
             0 => '{1.23}',
-            '.' => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1;23}',
-            '.' => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
-            ',' => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
+            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            2 => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
         ],
         [
             0 => '{1.2,3}',
-            '.' => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1,2;3}',
-            '.' => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
-            ',' => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
+            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            2 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
         ],
         [
             0 => '{1,2;3;4.1}',
-            '.' => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
-            ',' => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_units() {
         return self::$rawdataunits;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_decimals() {
         return self::$rawdatadecimals;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data, $validationmethod) {
 
         $test = new stdClass();
@@ -852,6 +872,7 @@ class stack_inputvalidation_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_decimals_from_raw($data, $decimals) {
 
         $test = new stdClass();
@@ -877,6 +898,7 @@ class stack_inputvalidation_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all() {
         $tests = [];
         foreach (self::$rawdata as $data) {
@@ -888,6 +910,7 @@ class stack_inputvalidation_test_data {
         return $tests;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
         // @codingStandardsIgnoreStart
 
@@ -904,7 +927,7 @@ class stack_inputvalidation_test_data {
         $filterstoapply = [];
 
         // The common insert stars rules, that will be forced
-        // and if you do not allow inserttion of stars then it is invalid.
+        // and if you do not allow insertion of stars then it is invalid.
         $filterstoapply[] = '180_char_based_superscripts';
 
         $filterstoapply[] = '402_split_prefix_from_common_function_name';

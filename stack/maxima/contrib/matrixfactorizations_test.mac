@@ -1,0 +1,60 @@
+/* This may not work without 
+   stack_include_contrib("linearalgebra_core.mac") */
+
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Matrix factorisation functions for STACK                    */
+/*                                                              */
+/*  Test cases.                                                 */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+load(matrixfactorizations);
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
+
+s_test_case_simp(QR(matrix([1,3,5],[1,1,0],[1,1,2],[1,3,3])),[matrix([1/2,1/2,1/2],[1/2,-(1/2),-(1/2)],[1/2,-(1/2),1/2],[1/2,1/2,-(1/2)]),matrix([2,4,5],[0,2,3],[0,0,2])]);
+s_test_case(QR(matrix([1,1],[2,2])),[]);
+
+s_test_case(get_Jordan_form(1),[]);
+s_test_case(get_Jordan_form(matrix([1,2])),[]);
+s_test_case(get_Jordan_form(matrix([1,1],[0,1])),[ident(2),matrix([1,1],[0,1])]);
+s_test_case_simp(get_Jordan_form(matrix([1,2],[2,3])),[matrix([1,1],[-((sqrt(5)-1)/2),(sqrt(5)+1)/2]),matrix([2-sqrt(5),0],[0,sqrt(5)+2])]);
+s_test_case(get_Jordan_form(matrix([8,-3],[12,-4])),[matrix([6,1],[12,0]),matrix([2,1],[0,2])]);
+
+s_test_case(diagonalize(1),[]);
+s_test_case(diagonalize(matrix([1,2])),[]);
+s_test_case(diagonalize(matrix([8,-3],[12,-4])),[]);
+s_test_case_simp(diagonalize(matrix([1,2],[3,4])),[matrix([1,1],[-((sqrt(33)-3)/4),(sqrt(33)+3)/4]),matrix([-((sqrt(33)-5)/2),0],[0,(sqrt(33)+5)/2])]);
+s_test_case_simp(diagonalize(matrix([1,2],[2,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([3,0],[0,-1])]);
+s_test_case_simp(diagonalize(matrix([1,2],[1,2])),[matrix([1,1],[-(1/2),1]),matrix([0,0],[0,3])]);
+s_test_case_simp(diagonalize(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[-(1/sqrt(2)),1/sqrt(2)]),matrix([0,0],[0,2])]);
+
+s_test_case(SVD_red(matrix([0,0],[0,0])),[matrix([]),matrix([]),matrix([])]);
+s_test_case_simp(SVD_red(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
+s_test_case_simp(SVD_red(matrix([1,1],[1,1])),[matrix([1/sqrt(2)],[1/sqrt(2)]),matrix([2]),matrix([1/sqrt(2),1/sqrt(2)])]);
+s_test_case_simp(SVD_red(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0],[1/(sqrt(2)*sqrt(3)),1/sqrt(2)],[1/(sqrt(2)*sqrt(3)),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case_simp(SVD_red(matrix([1,1,0],[1,0,1])),[matrix([(sqrt(2)/sqrt(3)+1/(sqrt(2)*sqrt(3)))/sqrt(3),1/sqrt(2)],[(sqrt(2)/sqrt(3)+1/(sqrt(2)*sqrt(3)))/sqrt(3),-(1/sqrt(2))]),matrix([sqrt(3),0],[0,1]),matrix([sqrt(2)/sqrt(3),1/(sqrt(2)*sqrt(3)),1/(sqrt(2)*sqrt(3))],[0,1/sqrt(2),-(1/sqrt(2))])]);
+
+s_test_case(SVD(matrix([0,0],[0,0])),[matrix([1,0],[0,1]),matrix([0,0],[0,0]),matrix([1,0],[0,1])]);
+s_test_case_simp(SVD(matrix([sqrt(3),2],[0,sqrt(3)])),[matrix([sqrt(3)/2,1/2],[1/2,-(sqrt(3)/2)]),matrix([3,0],[0,1]),matrix([1/2,sqrt(3)/2],[sqrt(3)/2,-(1/2)])]);
+s_test_case_simp(SVD(matrix([1,1],[1,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([2,0],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case_simp(SVD(matrix([1,1],[1,0],[0,1])),[matrix([sqrt(2)/sqrt(3),0,1/sqrt(3)],[1/(sqrt(2)*sqrt(3)),1/sqrt(2),-(1/sqrt(3))],[1/(sqrt(2)*sqrt(3)),-(1/sqrt(2)),-(1/sqrt(3))]),matrix([sqrt(3),0],[0,1],[0,0]),matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))])]);
+s_test_case_simp(SVD(matrix([1,1,0],[1,0,1])),[matrix([1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-(1/sqrt(2))]),matrix([sqrt(3),0,0],[0,1,0]),matrix([sqrt(2)/sqrt(3),1/(sqrt(2)*sqrt(3)),1/(sqrt(2)*sqrt(3))],[0,1/sqrt(2),-(1/sqrt(2))],[1/sqrt(3),-(1/sqrt(3)),-(1/sqrt(3))])]);

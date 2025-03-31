@@ -49,7 +49,7 @@ Two question variants are considered to be the same if and only if the question 
 
 Before a student sees the questions, it is sensible to deploy random variants.  This controls exactly which variants are shown to a student and lets you check that the randomisation is sensible. Scroll to the top of your question and click on the link `No variants of this question have been deployed yet`. This link might say `Question tests & deployed variants` in older versions of STACK, and once you have deployed some variants.
 
-To ask STACK to generate a number of question variants, you need `Attempt to automatically deploy the following number of variants:`. Select, for example, `10` and press `Go`.  You should then be able to see 10 random variants of the question. Now students will only be shown one of these.
+To ask STACK to generate a number of question variants, you need `Attempt to automatically deploy the following number of variants:`. Select, for example, `10` and press enter.  You should then be able to see 10 random variants of the question. Now students will only be shown one of these.
 
 You also have the option to remove any variants that you don't like. For example, you might not like the variants where nn=1, as these have answers involving logarithms. Hence, you could cross out all these variants. Perhaps a better solution is to return to your `Question variables` and change `nn` to `2+rand(4)`. When you save and go back to `Question tests & deployed variants`, you will see your variants changed. This illustrates a key use of deployed variants: checking for unintentional consequences of the randomisation.
 

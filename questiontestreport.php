@@ -21,6 +21,7 @@
  * re-generate reports.  The script is designed to let a question author improve feedback
  * and assessment by looking at what students type, easily and without going through a quiz report.
  *
+ * @package    qtype_stack
  * @copyright  2020 the University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,6 +30,7 @@ require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/stack/questionreport.class.php');
+require_login();
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
@@ -48,6 +50,7 @@ question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
+$PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/questiontestreport.php', $urlparams);
 $title = stack_string('basicquestionreport');
 $PAGE->set_title($title);
@@ -66,7 +69,7 @@ echo $OUTPUT->header();
 
 // Get quizzes in which the course is used.
 // Add data for creating quiz selection dropdown.
-$quizzes = stack_question_report::get_relevant_quizzes($questionid);
+$quizzes = stack_question_report::get_relevant_quizzes($questionid, (int) $question->contextid);
 $quizoutput = [];
 foreach ($quizzes as $contextid => $quiz) {
     $quiz->url = new moodle_url('/question/type/stack/questiontestreport.php',

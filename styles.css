@@ -1,4 +1,4 @@
-/* Style for hint question block */
+/* Style for hint question block. */
 details.stack-hint {
     padding: 2px;
     display: block;
@@ -199,6 +199,17 @@ body.path-question-type-stack-doc blockquote {
     margin: 1.5em 10px;
     padding: 1em 10px .1em 10px;
     quotes: "\201C""\201D""\2018""\2019";
+}
+
+/* Support for comments, used in example questions. */
+div.stack-comment {
+    text-align: left;
+    background: #fcf8e3;
+    border: 4px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 4px;
+    overflow: hidden;
 }
 
 /* Support for proof. */
@@ -1256,5 +1267,10 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-library-import-success {
     padding: 5px 0 5px 10px;
     background-color: lightgreen;
+    border-radius: 10px;
+}
+.stack-library-import-failure {
+    padding: 5px 0 5px 10px;
+    background-color: pink;
     border-radius: 10px;
 }

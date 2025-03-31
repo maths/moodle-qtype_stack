@@ -16,22 +16,29 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Input that is a radio/multiple choice.
-//
-// @copyright  2015 University of Edinburgh.
-// @author     Chris Sangwin.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * Input that is a radio/multiple choice.
+ *
+ * @package    qtype_stack
+ * @copyright  2015 University of Edinburgh.
+ * @author     Chris Sangwin.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require_once(__DIR__ . '/../dropdown/dropdown.class.php');
-class stack_radio_input extends stack_dropdown_input {
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+class stack_radio_input extends stack_dropdown_input {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddltype = 'radio';
 
-    /*
+    /**
      * Default ddldisplay for radio is 'LaTeX'.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ddldisplay = 'LaTeX';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -85,6 +92,7 @@ class stack_radio_input extends stack_dropdown_input {
         return $result;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));

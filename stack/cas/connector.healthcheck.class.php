@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * This class supports the healthcheck functions.
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
@@ -24,26 +31,26 @@ require_once(__DIR__ . '/cassession2.class.php');
 require_once(__DIR__ . '/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/connector.dbcache.class.php');
 require_once(__DIR__ . '/installhelper.class.php');
-
-/**
- * This class supports the healthcheck functions..
- *
- * @copyright  2023 The University of Edinburgh
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 require_once(__DIR__ . '/ast.container.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession2.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_healthcheck {
-    /* This variable holds the state of the healthcheck. */
+    /**
+     * This variable holds the state of the healthcheck.
+     */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $ishealthy = true;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $config = null;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $tests = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($config) {
         global $CFG;
         $this->config = $config;
@@ -75,38 +82,9 @@ class stack_cas_healthcheck {
         stack_cas_configuration::create_maximalocal();
 
         // Make sure we are in a position to call maxima.
+        // Support for Windows was removed on 5th Feb 2025.
+        // See commit 59e255ccf13b1baf2c2c52b5bd2d8372bbde1317 for last commit containing 'win' code.
         switch ($config->platform) {
-            case 'win':
-                $maximalocation = stack_cas_configuration::confirm_maxima_win_location();
-                if ('' != $maximalocation) {
-                    $test = [];
-                    $test['tag'] = 'stackmaximalibraries';
-                    $test['result'] = null;
-                    $test['summary'] = null;
-                    $test['details'] = html_writer::tag('p', stack_string('healthcheckconfigintro1').' '.
-                        html_writer::tag('tt', $maximalocation));
-                    $this->tests[] = $test;
-                } else {
-                    $this->ishealthy = false;
-                    $test = [];
-                    $test['result'] = false;
-                    $test['summary'] = "Could not confirm the location of Maxima";
-                    $this->tests[] = $test;
-                }
-
-                stack_cas_configuration::copy_maxima_bat();
-
-                if (!is_readable($CFG->dataroot . '/stack/maxima.bat')) {
-                    $this->ishealthy = false;
-                    $test = [];
-                    $test['tag'] = 'healthcheckmaximabat';
-                    $test['result'] = false;
-                    $test['summary'] = stack_string('healthcheckmaximabatinfo', $CFG->dataroot);
-                    $test['details'] = html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $CFG->dataroot));
-                    $this->tests[] = $test;
-                }
-
-                break;
             case 'linux':
                 // On a raw linux server list the versions of Maxima available.
                 $connection = stack_connection_helper::make();
@@ -259,7 +237,7 @@ class stack_cas_healthcheck {
         $this->tests[] = $test;
     }
 
-    /*
+    /**
      * Try and evaluate the raw castext and build a result entry.
      *
      * $hideraw is for those cases where we do not wish to show the raw CASText.
@@ -293,14 +271,14 @@ class stack_cas_healthcheck {
         $this->tests[] = $test;
     }
 
-    /*
+    /**
      * This function returns a summary of the status of the healthcheck.
      */
     public function get_test_results() {
         return $this->tests;
     }
 
-    /*
+    /**
      * Return overall results.
      */
     public function get_overall_result() {

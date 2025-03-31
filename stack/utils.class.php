@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Various utility classes for Stack.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,12 +27,14 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Interface for a class that stores debug information (or not).
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 interface stack_debug_log {
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log();
@@ -48,14 +51,16 @@ interface stack_debug_log {
 /**
  * Interface for a class that stores debug information (or not).
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_debug_log_base implements stack_debug_log {
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $debuginfo = '';
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log() {
@@ -81,12 +86,14 @@ class stack_debug_log_base implements stack_debug_log {
 /**
  * A null stack_debug_log. Does not acutally log anything. Used when debugging is off.
  *
+ * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_debug_log_null implements stack_debug_log {
 
     /**
+     * Add description here.
      * @return string the contents of the log.
      */
     public function get_log() {
@@ -107,6 +114,7 @@ class stack_debug_log_null implements stack_debug_log {
 /**
  * Utility methods for processing strings.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -376,7 +384,6 @@ class stack_utils {
     /**
      * Converts windows style paths to unix style with forward slashes
      *
-     * @access public
      * @return string|null
      */
     public static function convert_slash_paths($string) {
@@ -407,7 +414,6 @@ class stack_utils {
      * Extracts double quoted strings with \-escapes, extracts only the content
      * not the quotes.
      *
-     * @access public
      * @return array
      */
     public static function all_substring_strings($string) {
@@ -443,7 +449,6 @@ class stack_utils {
      * Replaces all Maxima strings with zero length strings to eliminate string
      * contents for validation tasks.
      *
-     * @access public
      * @return string
      */
     public static function eliminate_strings($string) {
@@ -478,7 +483,6 @@ class stack_utils {
      * Convert strings to protect LaTeX backslashes for use in Maxima strings.
      * @param string in
      * @return string out
-     * @access public
      */
     public static function protect_backslash_latex($string) {
         $string = addslashes($string);
@@ -492,7 +496,6 @@ class stack_utils {
      *
      * @param string in
      * @return array out
-     * @access public
      */
     public static function cvs_to_array($string, $token = ',') {
         $exploded = explode($token, $string);
@@ -574,6 +577,7 @@ class stack_utils {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function list_to_array_workhorse($list, $rec = true) {
         $array = [];
         $list = trim($list);
@@ -643,6 +647,7 @@ class stack_utils {
     }
 
     /**
+     * Add description here
      * @param string $name a potential name for part of a STACK question.
      * @return bool whether that name is allowed.
      */
@@ -650,7 +655,9 @@ class stack_utils {
         return preg_match('~^' . self::VALID_NAME_REGEX . '$~', $name);
     }
 
-    /** Get the stack configuration settings. */
+    /**
+     * Get the stack configuration settings.
+     */
     public static function get_config() {
         if (is_null(self::$config)) {
             self::$config = get_config('qtype_stack');
@@ -658,6 +665,7 @@ class stack_utils {
         return self::$config;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function clear_config_cache() {
         self::$config = null;
     }
@@ -893,6 +901,7 @@ class stack_utils {
         return [$nint * $oden + $onum, $oden];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function fix_to_continued_fraction($n, $accuracy) {
         $frac = self::rational_approximation($n, $accuracy);
         return $frac[0] / $frac[1];
@@ -939,7 +948,7 @@ class stack_utils {
         return 0 + $str;
     }
 
-    /*
+    /**
      * This function takes user input of the form "option:arg" and splits them up.
      * Used to sort out options to the inputs field.
      */
@@ -953,7 +962,7 @@ class stack_utils {
         return([$option, $arg]);
     }
 
-    /*
+    /**
      * This function takes html and counts the number of img fields
      * with missing or empty alt text.
      */
@@ -1020,6 +1029,13 @@ class stack_utils {
     }
 
     /**
+     * Decides if the string looks like an array.
+     */
+    public static function is_array_string($str) {
+        return preg_match('/^\[\s*(.*\S)?\s*\]$/', $str);
+    }
+
+    /**
      * Takes a string that contains a list where each element has the format
      * [<JSON>, <int>]
      * and each JSON has the format
@@ -1042,6 +1058,9 @@ class stack_utils {
      */
     public static function unhash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
+        if (!is_array($decodedlist)) {
+            return stack_string('invalid_json');;
+        }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
                 foreach ($row as $j => $item) {
@@ -1082,6 +1101,9 @@ class stack_utils {
      */
     public static function hash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
+        if (!is_array($decodedlist)) {
+            return stack_string('invalid_json');;
+        }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
                 foreach ($row as $j => $item) {
@@ -1099,5 +1121,124 @@ class stack_utils {
     public static function hash_parsons_string_maxima($listofjsons) {
         $phplistofjsons = self::maxima_string_to_php_string($listofjsons);
         return self::php_string_to_maxima_string(self::hash_parsons_string($phplistofjsons));
+    }
+
+    /**
+     * Takes a PHP array and validates it's structure to check whether it represents a single Parson's state.
+     * In particular the PHP should be of the following format:
+     * array(2) {
+     *  [0]=>
+     *  array(2) {
+     *      ["used"]=>
+     *      array(1) {
+     *          [0]=>
+     *          array(1) {
+     *              [0]=>
+     *              array(_) {
+     *                  [0]=>
+     *                  string(_) <str>
+     *                  ...
+     *                  [n]=>
+     *                  string(_) <str>
+     *              }
+     *          }
+     *      }
+     *      ["available"]=>
+     *          array(_) {
+     *              [0]=>
+     *              string(_) <str>
+     *              ...
+     *              [m]=>
+     *              string(_) <str>
+     *          }
+     *      }
+     *      [1]=>
+     *      int(_)
+     *  }
+     *
+     * @param array $input
+     * @return bool whether $input represents a single Parson's state or not
+     */
+    public static function validate_parsons_state($state) {
+        // Check if $state is an array.
+        if (!is_array($state)) {
+            return false;
+        }
+
+        // Check if it's an array with exactly two elements.
+        if (count($state) !== 2) {
+            return false;
+        }
+
+        // Check if the first element is an associative array with keys "used" and "available".
+        $dict = $state[0];
+        if (!isset($dict['used']) || !isset($dict['available']) || !is_array($dict['used'])) {
+            return false;
+        }
+
+        // Validate that "used" is an array of at least two dimensions.
+        if (!is_array($dict['used'][0]) || !is_array($dict['used'][0][0])) {
+            return false;
+        }
+
+        // Check if "available" is an array of at least one dimension.
+        if (!is_array($dict['available'])) {
+            return false;
+        }
+
+        // Validate that the second element is an integer.
+        if (!is_int($state[1])) {
+            return false;
+        }
+
+        // If all checks pass, the string is valid.
+        return true;
+    }
+
+    /**
+     * Takes a string and checks whether it is a string containing a list of Parson's states.
+     * In particular, it checks whether each item in the list is of the following format:
+     * "[{"used": [[[<str>, ..., <str>]]], "available": [<str>, ..., <str>]}, <int>]"
+     *
+     * @param string $input
+     * @return bool whether $input represents a list of Parson's state or not
+     */
+    public static function validate_parsons_string($input) {
+        $data = json_decode($input, true);
+        // When used in the input class $input is a string of a string, so we need to decode twice
+        // But in later usage (e.g., for filters) $input is just a string.
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
+        // Check if the JSON decoding was successful and the resulting structure is an array.
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+            return false;
+        }
+
+        // Check whether each item is a valid PHP array corresponding to a single Parson's state.
+        foreach ($data as $state) {
+            if (!self::validate_parsons_state($state)) {
+                // If one of them fails, then the string is invalid.
+                return false;
+            }
+        }
+
+        // If all items pass, then the string is valid.
+        return true;
+    }
+
+    /**
+     * Validate a node to check that it is a string that represents a Parson's state.
+     * This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an
+     * additional safety measure to ensure we do not dehash other strings.
+     */
+    public static function validate_parsons_contents($contents) {
+        $strings = function($node) use (&$answernotes, &$errors) {
+            if ($node instanceof MP_String && self::validate_parsons_string($node->value)) {
+                $node->value = stack_utils::unhash_parsons_string($node->value);
+            }
+            return true;
+        };
+        return $strings($contents);
     }
 }

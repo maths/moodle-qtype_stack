@@ -369,6 +369,34 @@ rue]</pre></td>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[(A nounor B) nounand (not A n
+ounor B),B]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left\{\begin{array}{l}A\,{\text{ or }}\, B\cr {\rm not}\left( A \right)\,{\text{ or }}\, B\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&B& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[(A nounor B) nounand (not A n
+ounor B),stackeq(B)]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left\{\begin{array}{l}A\,{\text{ or }}\, B\cr {\rm not}\left( A \right)\,{\text{ or }}\, B\cr \end{array}\right.& \cr \color{green}{\checkmark}&=B& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2^2,stackeq(4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -2419,7 +2447,7 @@ stacklet(x+i*y,a),stacklet(r+i
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^{\ast}\cdot b^{\ast}& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&={\left(x+\mathrm{i}\cdot y\right)}^{\ast}\cdot {\left(r+\mathrm{i}\cdot s\right)}^{\ast}& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&={\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)}^{\ast}& \cr \color{green}{\checkmark}&={\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)}^{\ast}& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&={\left(a\cdot b\right)}^{\ast}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^\star\cdot b^\star& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&=\left(x+\mathrm{i}\cdot y\right)^\star\cdot \left(r+\mathrm{i}\cdot s\right)^\star& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&=\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)^\star& \cr \color{green}{\checkmark}&=\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)^\star& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&=\left(a\cdot b\right)^\star& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2552,7 +2580,7 @@ undiff(y(x),x)=0,-5*noundiff(y
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &3\cdot x^{\frac{3}{2}}-\frac{2}{x}&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&\frac{9\cdot \sqrt{x}}{2}+\frac{2}{x^2}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\int\ldots\mathrm{d}x}&3\cdot x^{\frac{3}{2}}-\frac{2}{x}+c& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &3\cdot x^{\frac{3}{2}}-\frac{2}{x}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&\frac{9\cdot \sqrt{x}}{2}+\frac{2}{x^2}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\int\ldots\mathrm{d}x}&3\cdot x^{\frac{3}{2}}-\frac{2}{x}+c& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

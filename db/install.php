@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 require_once(__DIR__ . '/../stack/cas/connectorhelper.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function xmldb_qtype_stack_install() {
     global $CFG;
 
@@ -48,17 +49,19 @@ function xmldb_qtype_stack_install() {
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         // See http://stackoverflow.com/questions/1482260/how-to-get-the-os-on-which-php-is-running
         // and http://stackoverflow.com/questions/738823/possible-values-for-php-os.
-        $platform = 'win';
+
+        // We don't support the direct 'win' setting, so try to use the server setting for goemaxima instead.
+        $platform = 'server';
     }
     set_config('platform', $platform, 'qtype_stack');
 
     // If this is a PHP unit test site, automatically create maxima_opt_auto.
     // Should probably consider doing this for real in the future.
-    if ($platform != 'win' && (PHPUNIT_TEST || defined('BEHAT_UTIL'))) {
+    if (PHPUNIT_TEST || defined('BEHAT_UTIL')) {
         // Set to the same defaults as in settings.php - however, that has not been done
         // yet in the Moodle install code flow, so we have to duplicate here.
         set_config('maximaversion', 'default', 'qtype_stack');
-        set_config('castimeout', 20, 'qtype_stack');
+        set_config('castimeout', 30, 'qtype_stack');
         set_config('casresultscache', 'db', 'qtype_stack');
         set_config('caspreparse', 'true', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');

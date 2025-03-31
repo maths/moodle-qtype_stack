@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/stack/mathsoutput/mathsoutput.class.php');
@@ -22,6 +29,7 @@ require_once(__DIR__ . '/stack/mathsoutput/mathsoutput.class.php');
  * Base class for all the types of exception we throw.
  */
 class stack_exception extends moodle_exception {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($error) {
         parent::__construct('exceptionmessage', 'qtype_stack', '', $error);
     }
@@ -164,6 +172,7 @@ function stack_maxima_translate($rawfeedback) {
     }
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_maxima_format_casstring($str) {
     // Santise the output, E.g. '>' -> '&gt;'.
     $str = stack_string_sanitise($str);
@@ -173,6 +182,7 @@ function stack_maxima_format_casstring($str) {
     return html_writer::tag('span', $str, ['class' => 'stacksyntaxexample']);
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_string_sanitise($str) {
     // Students may not input strings containing specific LaTeX
     // i.e. no math-modes due to us being unable to decide if
@@ -241,11 +251,13 @@ function qtype_stack_setup_question_test_page($question) {
     return [$context, $seed, $urlparams];
 }
 
-/* This class is needed to ignore requests for pluginfile rewrites in the bulk tester
+/**
+ * This class is needed to ignore requests for pluginfile rewrites in the bulk tester
  * and possibly elsewhere, e.g. API.
  */
 class stack_outofcontext_process {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
     }
 
@@ -260,5 +272,16 @@ class stack_outofcontext_process {
      */
     public function rewrite_pluginfile_urls($text, $component, $filearea, $itemid) {
         return $text;
+    }
+
+    /**
+     * Get the name (in the sense a HTML name="" attribute, or a $_POST variable
+     * name) to use for a question_type variable belonging to this question_attempt.
+     *
+     * @param string $varname The short form of the variable name.
+     * @return string The field name to use.
+     */
+    public function get_qt_field_name($varname) {
+        return $varname;
     }
 }

@@ -31,6 +31,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/utils.class.php');
 /**
  * Provides the information to restore STACK questions
  *
+ * @package    qtype_stack
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -65,6 +66,127 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         }
 
         return $paths;
+    }
+
+    /**
+     * Creates the data to be hashed in restore_questions_parser_processor::generate_question_identity_hash().
+     * Resulting hash must match that obtained using output from qtype_stack->get_question_options() in
+     * order to detect duplicate questions.
+     * @param array $backupdata
+     * @return stdClass
+     */
+    public static function convert_backup_to_questiondata(array $backupdata): stdClass {
+        $questiondata = parent::convert_backup_to_questiondata($backupdata);
+        if (isset($backupdata["plugin_qtype_stack_question"]['stackoptions'])) {
+            $questiondata->options = (object) array_merge(
+                (array) $questiondata->options,
+                $backupdata["plugin_qtype_stack_question"]['stackoptions'][0],
+            );
+        }
+        if (!property_exists($questiondata->options, 'stackversion')) {
+            $questiondata->options->stackversion = '';
+        }
+
+        if (!property_exists($questiondata->options, 'inversetrig')) {
+            $questiondata->options->inversetrig = 'cos-1';
+        }
+
+        if (!property_exists($questiondata->options, 'logicsymbol')) {
+            $questiondata->options->logicsymbol = 'lang';
+        }
+
+        if (!property_exists($questiondata->options, 'matrixparens')) {
+            $questiondata->options->matrixparens = '[';
+        }
+
+        if (!property_exists($questiondata->options, 'questiondescription')) {
+            $questiondata->options->questiondescription = '';
+        }
+
+        $questiondata->options->inputs = [];
+        foreach ($backupdata["plugin_qtype_stack_question"]['stackinputs']['stackinput'] ?? [] as $input) {
+            $questiondata->options->inputs[$input['name']] = (object) $input;
+        }
+
+        foreach ($questiondata->options->inputs as $input) {
+            if (!property_exists($input, 'options')) {
+                $input->options = '';
+            }
+            unset($input->id);
+        }
+
+        $questiondata->options->prts = [];
+        foreach ($backupdata["plugin_qtype_stack_question"]['stackprts']['stackprt'] ?? [] as $prt) {
+            $prt['name'] = (isset($prt['name'])) ? $prt['name'] : '';
+            $nodes = [];
+            unset($prt['id']);
+            if (isset($prt['stackprtnodes']['stackprtnode'])) {
+                foreach ($prt['stackprtnodes']['stackprtnode'] as $node) {
+                    $node['prtname'] = $prt['name'];
+                    unset($node['id']);
+                    unset($node['questionid']);
+                    $node['description'] = (isset($node['description'])) ? $node['description'] : '';
+                    $node['truenextnode'] = (isset($node['truenextnode'])) ? $node['truenextnode'] : null;
+                    $node['falsenextnode'] = (isset($node['falsenextnode'])) ? $node['falsenextnode'] : null;
+                    $node['nodename'] = (isset($node['nodename'])) ? $node['nodename'] : '';
+                    $nodes[] = $node;
+                }
+                unset($prt['stackprtnodes']);
+            }
+            if (!isset($prt['firstnodename'])) {
+                $graph = new stack_abstract_graph();
+                foreach ($nodes as $node) {
+                    if ($node['truenextnode'] == -1) {
+                        $left = null;
+                    } else {
+                        $left = (int) $node['truenextnode'] + 1;
+                    }
+                    if ($node['falsenextnode'] == -1) {
+                        $right = null;
+                    } else {
+                        $right = (int) $node['falsenextnode'] + 1;
+                    }
+                    $graph->add_node((int) $node['nodename'] + 1, $node['description'], $left, $right);
+                }
+                try {
+                    // If any of this goes wrong, we'll catch it all properly later in after_execute().
+                    // Here we just need to match our later result.
+                    $graph->layout();
+                } catch (Exception $e) {
+                    $prt['firstnodename'] = -1;
+                    continue;
+                }
+
+                $roots = $graph->get_roots();
+                reset($roots);
+                $prt['firstnodename'] = key($roots) - 1;
+            }
+            $prt['nodes'] = $nodes;
+            $questiondata->options->prts[$prt['name']] = (object) $prt;
+        }
+
+        $questiondata->options->deployedseeds = [];
+        foreach ($backupdata["plugin_qtype_stack_question"]['stackdeployedseeds']['stackdeployedseed'] ?? [] as $seed) {
+            $questiondata->options->deployedseeds[] = $seed['seed'];
+        }
+
+        return $questiondata;
+    }
+
+    /**
+     * Fields to exclude from hash to detect duplicate questions.
+     * @return string[]
+     */
+    protected function define_excluded_identity_hash_fields(): array {
+        return [
+            '/options/compiledcache',
+            '/prts/questionid',
+            '/prts/id',
+            '/prts/nodes/questionid',
+            '/prts/nodes/id',
+            '/inputs/questionid',
+            '/inputs/id',
+        ];
     }
 
     /**

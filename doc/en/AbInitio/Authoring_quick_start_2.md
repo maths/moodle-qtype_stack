@@ -20,7 +20,7 @@ Let us focus on the problem of finding \(\int 3(x-1)^{-4} \mathrm{d}x\). Create 
 
 ### Using question variables
 
-The next steps would be to add question text, and then to add the teacher's answer `-1*(x-1)^(-3)+c` to the `model answer` field and the `potential response tree`.  However, the expression and model answer will normally be referred to more than once, so it is usually easiest to assign them to "question variables" using the optional [question variables](../Authoring/Variables.md#Question_variables) field.
+We make more use of the question text field. For instance, we can start to use the CAS to determine the model answer, and use a question variable in the question text.
 
 Add the following to the question variables
 
@@ -35,16 +35,16 @@ Notice we are using the CAS to determine the model answer by calling the `int()`
 
 Now it will be a lot faster to fill out the rest of the question. Add the following to the question text:
 
-	Find \(\int{@exp@} \mathrm{d}x\)
-	[[input:ans1]] [[validation:ans1]]
+	<p>Find \(\int{@exp@} \mathrm{d}x\)</p>
+	<p>[[input:ans1]] [[validation:ans1]]</p>
 
 Notice that we have defined a local variable `exp`, and used the value of this in the Question text. There is a difference between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](../Authoring/CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as LaTeX.
 
 Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)
 
-In the input `ans1`, specify the `model answer` as the variable `ta`.
+In the input `ans1`, confirm the default `model answer` is the variable `ta`.
 
-In the potential response tree, set the `Answer test` to  `AlgEquiv`, set  `SAns` to `ans1` and set `TAns` to `ta`. 
+In the potential response tree, confirm the default `Answer test` is  `AlgEquiv`, `SAns` is `ans1` and `TAns` is `ta`.
 
 It is good practice to use question variables often, as they save time and let you change properties of the question easily in the future.
 

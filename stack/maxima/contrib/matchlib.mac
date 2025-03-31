@@ -28,7 +28,7 @@
 two commands inside `Question variables`.
 
 stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/matchlib.mac");
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 */
 
 /******************************************************************/

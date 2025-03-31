@@ -36,25 +36,27 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
-// Add in all the tests from subscriptsfixtures.php into the unit testing framework.
-// These are exposed to users as documentation and google-ci should also run all the tests.
-//
-// @copyright 2016 The University of Edinburgh.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Add in all the tests from subscriptsfixtures.php into the unit testing framework.
+ * These are exposed to users as documentation and google-ci should also run all the tests.
+ *
+ * @package    qtype_stack
+ * @copyright 2016 The University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_ast_container
  */
-class subscript_test extends qtype_stack_testcase {
+final class subscript_test extends qtype_stack_testcase {
 
     /**
+     * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_subscripts_test_data::get_raw_test_data
      * @codingStandardsIgnoreEnd
      */
-    public function test_subscripts() {
+    public function test_subscripts(): void {
+
         $this->skip_if_old_maxima('5.40.0');
 
         $test1 = stack_subscripts_test_data::test_from_raw(func_get_args());
@@ -87,12 +89,14 @@ class subscript_test extends qtype_stack_testcase {
     }
 
     /**
+     * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_subscripts_test_data::get_raw_test_data_legacy
      * @codingStandardsIgnoreEnd
      */
-    public function test_subscripts_legacy_maxima() {
+    public function test_subscripts_legacy_maxima(): void {
+
         $this->skip_if_new_maxima('5.40.0');
 
         $test1 = stack_subscripts_test_data::test_from_raw(func_get_args());
@@ -124,7 +128,7 @@ class subscript_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_texput_overide() {
+    public function test_texput_overide(): void {
 
         $preamble   = [];
         $preamble[] = 'texput(F, "{\\mathcal F}");';
@@ -148,7 +152,7 @@ class subscript_test extends qtype_stack_testcase {
         $this->assertEquals($output, $rendered);
     }
 
-    public function test_texput_overide_units() {
+    public function test_texput_overide_units(): void {
 
         $preamble   = [];
         $preamble[] = 'stack_unit_si_declare(true);';

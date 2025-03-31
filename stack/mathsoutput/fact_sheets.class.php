@@ -17,6 +17,7 @@
 /**
  * The fact sheets class for STACK.
  *
+ * @package    qtype_stack
  * @copyright  2014 Loughborough University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,6 +28,7 @@ abstract class stack_fact_sheets {
      * two corresponding lines in the language file.
      * E.g. greek_alphabet_name and greek_alphabet_fact
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $factsheets = [
         'greek_alphabet', 'alg_inequalities',
         'alg_indices', 'alg_logarithms', 'alg_quadratic_formula',
@@ -70,9 +72,9 @@ abstract class stack_fact_sheets {
      * This function replaces tags with the HTML value.
      * Note, that at this point we assume we have already validated the text.
      * @param string $text the text in which to expand fact sheet tags.
-     * @param qtype_stack_renderer $renderer (options) the STACK renderer, if you have one.
+     * @param qtype_stack_renderer|null $renderer (options) the STACK renderer, if you have one.
      */
-    public static function display($text, qtype_stack_renderer $renderer = null) {
+    public static function display($text, ?qtype_stack_renderer $renderer = null) {
 
         // Convert any old hints tags into the new format.
         $text = self::convert_legacy_tags($text);

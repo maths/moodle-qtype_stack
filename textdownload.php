@@ -18,6 +18,7 @@
  * This script serves text files generated on demand by rendering CASText
  * of a given question with a given seed. For generated data transfer needs.
  *
+ * @package    qtype_stack
  * @copyright  2021 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

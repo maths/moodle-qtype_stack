@@ -24,7 +24,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
+// phpcs:disable moodle.Files.LangFilesOrdering.UnexpectedComment
 $string['ATAlgEquiv_SA_not_equation'] = 'Ihre Anwort sollte eine Gleichung sein, ist es aber nicht.';
 $string['ATAlgEquiv_SA_not_expression'] = 'Ihre Antwort sollte ein Ausdruck und keine Gleichung/Ungleichung/Liste/Menge/Matrix sein.';
 $string['ATAlgEquiv_SA_not_function'] = 'Ihre Antwort sollte eine Funktion sein, die durch den Operator <tt>:=</tt> definiert wird. Sie ist es aber nicht.';
@@ -69,6 +70,14 @@ $string['ATInt_generic'] = 'Die formale Ableitung Ihrer Antwort sollte mit dem A
 $string['ATInt_logabs'] = 'Die formale Ableitung Ihrer Antwort entspricht dem Ausdruck, den Sie integrieren sollten. Ihre Antwort weicht jedoch in signifikanter Weise von der richtigen Antwort ab, d.h. nicht nur z.B. durch eine Integrationskonstante. Ihr/e Trainer/in könnte von Ihnen erwarten, dass Sie das Ergebnis \\(\\int\\frac{1}{x} dx = \\log(|x|)+c\\) verwenden, anstatt \\(\\int\\frac{1}{x} dx = \\log(x)+c\\).  Bitte fragen Sie Ihre/n Trainer/in diesbezüglich.';
 $string['ATInt_logabs_inconsistent'] = 'Es scheint seltsame Unstimmigkeiten zwischen Ihrer Verwendung von \\(\\log(...)\\) und \\(\\log(|...|)\\) zu geben. Bitte fragen Sie Ihre/n Trainer/in diesbezüglich.';
 $string['ATInt_weirdconst'] = 'Die formale Ableitung Ihrer Antwort stimmt mit dem Ausdruck überein, den Sie laut Aufgabenstellung integrieren sollten. Die Integrationskonstante ist allerdings seltsam. Bitte fragen Sie Ihren Kursleiter.';
+$string['ATAntidiff_error_list']          = 'Die Antwortüberprüfung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Systemadministrator.';
+$string['ATAntidiff_diff']                = 'Vermutlich haben Sie stattdessen abgeleitet!';
+$string['ATAntidiff_generic']             = 'Die formale Ableitung Ihrer Antwort sollte mit dem Ausdruck übereinstimmen, den Sie laut Aufgabenstellung integrieren sollten: Also {$a->m0}. Aber die Ableitung Ihrer Antwort nach {$a->m1} ist: {$a->m2}. Daher haben Sie etwas falsch gemacht!';
+$string['ATAntidiff_STACKERROR_Opt']  = 'Die Antwortüberprüfung wurde nicht korrekt durchgeführt: Bitte benachrichtigen Sie Ihre/n Trainer/in. Es ist etwas falsch bei den Optionen zur Antwortüberprüfung "Antidiff".';
+$string['ATAddConst_Opt']   = 'Die Antwortüberprüfung wurde nicht korrekt durchgeführt: Bitte benachrichtigen Sie Ihre/n Trainer/in. Es ist etwas falsch bei den Optionen zur Antwortüberprüfung "AddConst".';
+$string['ATAddConst_noconst']   = 'Sie müssen eine Konstante addieren! Dies kann irgend eine Konstante sein, aber keine Zahl.';
+$string['ATAddConst_severalconst']   = 'Sie haben mehrere Konstanten hinzugefügt statt nur einer!';
+$string['ATAddconst_generic']   = 'Sie haben eine Konstante eingefügt, aber diese ist nicht additiv!';
 $string['ATList_wrongentries'] = 'Die rot unterstrichenen Einträge sind falsch. {$a->m0}';
 $string['ATList_wronglen'] = 'Ihre Liste sollte {$a->m0} Elemente enthalten, sie hat aber {$a->m1}.';
 $string['ATLowestTerms_entries'] = 'Die folgenden Ausdrücke sind nicht vollständig gekürzt. {$a->m0} Bitte versuchen Sie es noch einmal.';
@@ -789,7 +798,6 @@ $string['settingplatformtype_desc'] = 'STACK muss wissen, auf welchem Betriebssy
 $string['settingplatformtypelinux'] = 'Linux';
 $string['settingplatformtypelinuxoptimised'] = 'Linux (optimiert)';
 $string['settingplatformtypeserver'] = 'Server';
-$string['settingplatformtypewin'] = 'Windows';
 $string['settingreplacedollars'] = '<code>$</code> und <code>$$</code> ersetzen';
 $string['settingreplacedollars_desc'] = 'Ersetze <code>$...$</code> und <code>$$...$$</code> Trennzeichen in Fragetexten, zusätzlich zu <code>\\\\[...\\\\]</code> und <code>\\\\(...\\\\)</code>. Eine bessere Option ist die Verwendung des Skripts \'Maths-Trennzeichen korrigieren\', auf das im Folgenden Bezug genommen wird.';
 $string['settingserveruserpass'] = 'Server username:password';
@@ -884,7 +892,6 @@ $string['stackCas_unknownFunction'] = 'Unbekannte Funktion: {$a->forbid} im Term
 $string['stackCas_unknownFunctionCase'] = 'Bei der Eingabe wird zwischen Groß- und Kleinschreibung unterschieden: {$a->forbid} ist eine unbekannte Funktion. Meinten Sie {$a->lower}?';
 $string['stackCas_unknownUnitsCase'] = 'Bei der Eingabe von Einheiten wird zwischen Groß- und Kleinschreibung unterschieden: {$a->forbid} ist eine unbekannte Einheit. Meinten Sie eine aus der folgenden Liste {$a->unit}?';
 $string['stackCas_unknownVariableCase'] = 'Bei der Eingabe wird zwischen Groß- und Kleinschreibung unterschieden: {$a->forbid} ist eine unbekannte Varriable. Meinten Sie {$a->lower}?';
-$string['stackCas_unsupportedKeyword'] = 'Nicht unterstütztes Schlüsselwort: {$a->forbid}.';
 $string['stackCas_useinsteadChar'] = 'Bitte ersetzen Sie <span class="stacksyntaxexample">{$a->bad}</span> durch \'<span class="stacksyntaxexample">{$a->char}</span>\'.';
 $string['stackDoc_404'] = 'Fehler 404';
 $string['stackDoc_404message'] = 'Datei nicht gefunden.';
@@ -911,8 +918,10 @@ $string['stackInstall_testsuite_notests'] = 'Fragen ohne Tests: bitte fügen Sie
 $string['stackInstall_testsuite_pass'] = 'Alle Tests bestanden!';
 $string['stackInstall_testsuite_title'] = 'Eine Testumgebung für STACK Antwortüberprüfungen';
 $string['stackInstall_testsuite_title_desc'] = 'Das <a href="{$a->link}">Antwortüberprüfungsskript</a> überprüft, dass die Antwortüberprüfungen korrekt funktionieren. Diese sind auch als Praxisbeispiele für eigene Anpassungen sehr hilfreich.';
+$string['stackOptions_AnsTest_values_AddConst'] = 'AddConst';
 $string['stackOptions_AnsTest_values_AlgEquiv'] = 'AlgEquiv';
 $string['stackOptions_AnsTest_values_AlgEquivNouns'] = 'AlgEquivNouns';
+$string['stackOptions_AnsTest_values_Antidiff'] = 'Antidiff';
 $string['stackOptions_AnsTest_values_CasEqual'] = 'CasEqual';
 $string['stackOptions_AnsTest_values_CompSquare'] = 'CompletedSquare';
 $string['stackOptions_AnsTest_values_Diff'] = 'Diff';

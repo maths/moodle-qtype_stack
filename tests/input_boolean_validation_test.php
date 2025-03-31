@@ -29,17 +29,19 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 require_once(__DIR__ . '/../stack/input/boolean/boolean.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-// Unit tests for stack_boolean_input_test.
-//
-// @copyright  2012 The Open University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for stack_boolean_input_test.
+ *
+ * @package    qtype_stack
+ * @copyright  2012 The Open University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \stack_boolean_input
  */
-class input_boolean_validation_test extends qtype_stack_testcase {
-    public function test_validate_student_response_true() {
+final class input_boolean_validation_test extends qtype_stack_testcase {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function test_validate_student_response_true(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response(['sans1' => 'true'], $options, 'true', new stack_cas_security());
@@ -48,7 +50,8 @@ class input_boolean_validation_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \mathbf{True} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_false() {
+    public function test_validate_student_response_false(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response(['sans1' => 'false'], $options, 'true', new stack_cas_security());
@@ -57,7 +60,8 @@ class input_boolean_validation_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \mathbf{False} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_na() {
+    public function test_validate_student_response_na(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response([], $options, 'true', new stack_cas_security());
@@ -66,7 +70,8 @@ class input_boolean_validation_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_error() {
+    public function test_validate_student_response_error(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response(['sans1' => 'frog'], $options, 'true', new stack_cas_security());
@@ -75,7 +80,8 @@ class input_boolean_validation_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">frog</span>', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_emptyanswer() {
+    public function test_validate_student_response_emptyanswer(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'EMPTYANSWER');
         $state = $el->validate_student_response(['sans1' => 'true'], $options, 'true', new stack_cas_security());
@@ -84,7 +90,8 @@ class input_boolean_validation_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \mathbf{True} \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_emptyanswer_option_sa() {
+    public function test_validate_student_response_emptyanswer_option_sa(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $el->set_parameter('options', 'allowempty');
@@ -93,7 +100,8 @@ class input_boolean_validation_test extends qtype_stack_testcase {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
     }
 
-    public function test_validate_student_response_emptyanswer_option_ta() {
+    public function test_validate_student_response_emptyanswer_option_ta(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'EMPTYANSWER');
         $el->set_parameter('options', 'allowempty');
@@ -102,7 +110,8 @@ class input_boolean_validation_test extends qtype_stack_testcase {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
     }
 
-    public function test_validate_hideanswer() {
+    public function test_validate_hideanswer(): void {
+
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'state', 'false');
         $el->set_parameter('options', 'hideanswer');

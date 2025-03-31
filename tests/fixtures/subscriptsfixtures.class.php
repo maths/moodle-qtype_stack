@@ -17,24 +17,34 @@
 /**
  * This script checks display of subscript elements.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_subscripts_test_data {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWINPUT   = 0; // What a student might type.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const MAXIMA     = 1; // Correct maxima syntax, as extended by STACK.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const MAXIMASIMP = 2; // Correct maxima syntax, as extended by STACK, with simp:true.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const TEX        = 3; // TeX output from stack_disp.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const TEXSIMP    = 4; // TeX output from stack_disp with simp:true.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NOTES      = 5;
 
-    /* Raw data should be in the following form.
+    /**
+     * Raw data should be in the following form.
      * Input, as a raw (but syntactically valid, string.
      * Maxima representation
      * TeX string
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdata = [
         ['Delta*v_x', 'Delta*v_x', '!', '\Delta\,{v}_{x}', '!'],
         ['Delta*v_x0', 'Delta*v_x0', '!', '\Delta\,{v}_{x_{0}}', '!'],
@@ -115,6 +125,7 @@ class stack_subscripts_test_data {
         ['F_1x', 'F_1x', '!', '{F}_{\text{1x}}', '!'],
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatalegacy = [
         ['Delta*v_x', 'Delta*v_x', '!', '\Delta\,{v}_{x}', '!'],
         ['Delta*v_x0', 'Delta*v_x0', '!', '\Delta\,{v}_{{\it x_0}}', '!'],
@@ -189,14 +200,17 @@ class stack_subscripts_test_data {
         ['F_1x', 'F_1x', '!', '{F}_{\text{1x}}', '!'],
     ];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_legacy() {
         return self::$rawdatalegacy;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function test_from_raw($data) {
         $test = new stdClass();
         $test->rawinput      = $data[self::RAWINPUT];
@@ -215,6 +229,7 @@ class stack_subscripts_test_data {
         return $test;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test, $simp) {
         $sec = new stack_cas_security();
 

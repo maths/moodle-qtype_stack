@@ -25,6 +25,7 @@
 /**
  * Represents a node in a {@link stack_abstract_graph}.
  *
+ * @package    qtype_stack
  * @copyright 2013 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -47,7 +48,7 @@ class stack_abstract_graph_node {
     /** @var string label on the left edge. */
     public $rightlabel = '';
 
-    /** @param string $url if set, this node should be a link to that URL. */
+    /** @var string $url if set, this node should be a link to that URL. */
     public $url = '';
 
     /** @var int depth of this node in the display. */
@@ -85,6 +86,7 @@ class stack_abstract_graph_node {
         $this->url = $url;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __toString() {
         return '[' . $this->name . ' (' . $this->x . ', ' . $this->depth . '): -> ' . $this->left . ', -> ' . $this->right . ']';
     }

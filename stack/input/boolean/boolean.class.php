@@ -17,14 +17,19 @@
 /**
  * Input for entering true/false using a select dropdown.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_boolean_input extends stack_input {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const F = 'false';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const T = 'true';
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const NA = '';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_choices() {
         return [
             self::F => stack_string('false'),
@@ -33,6 +38,7 @@ class stack_boolean_input extends stack_input {
         ];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function extra_validation($contents) {
         $validation = $contents[0];
         if ($validation === 'EMPTYANSWER') {
@@ -44,6 +50,7 @@ class stack_boolean_input extends stack_input {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -66,6 +73,7 @@ class stack_boolean_input extends stack_input {
                 $value, '', $attributes);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -79,6 +87,7 @@ class stack_boolean_input extends stack_input {
     }
 
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);
         $mform->setType($this->name, PARAM_RAW);

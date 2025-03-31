@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL')|| die();
 
 require_once(__DIR__ . '/cas/evaluatable_object.interfaces.php');
@@ -30,47 +37,62 @@ require_once(__DIR__ . '/cas/castext2/utils.php');
 class prt_evaluatable implements cas_raw_value_extractor {
 
     // The function to call.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $signature;
 
     // The generated feedback.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $feedback = null;
 
     // Render the castext only if specifically asked.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $renderedfeedback = null;
 
     // The generated path.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $path = null;
 
     // Node notes, i.e. not the test notes.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $notes = null;
 
     // The generated score.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $score = null;
 
     // The generated penalty.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $penalty = null;
 
     // The value from CAS.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $evaluated = null;
 
     // Cas errors.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $errors;
 
     // Did we bailout of execution?
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $bailed = false;
 
     // A holder for the secured feedback bits.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $holder = null;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $weight = 1;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
     // and replace them into the result once everything is complete.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $statics = null;
 
     // Stores the human-readable trace created at compile time.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $trace = [];
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(string $signature, $weight, castext2_static_replacer $statics, $trace) {
         $this->signature = $signature;
         $this->weight = $weight;
@@ -79,40 +101,49 @@ class prt_evaluatable implements cas_raw_value_extractor {
         $this->trace = $trace;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_evaluated_value(string $value) {
         $this->evaluated = $value;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_valid(): bool {
         // We count only errors from nodes, and ignore feebdack variable errors.
         return count($this->get_errors()) === 0;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_evaluationform(): string {
         return $this->signature;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_status(array $errors, array $answernotes, array $feedback) {
         $this->errors = $errors;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_source_context(): string {
         // Assume the signature has the PRT-name... and use it.
         return explode('(', substr($this->signature, 4))[0];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_key(): string {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_evaluated(): bool {
         return $this->evaluated !== null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function override_feedback(string $feedback) {
         $this->renderedfeedback = $feedback;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function unpack() {
         if (!$this->is_evaluated()) {
             return; // Cannot do this.
@@ -145,6 +176,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         $this->notes     = $value[4];
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_score() {
         if ($this->score === null) {
             $this->unpack();
@@ -156,14 +188,17 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $this->score;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_fraction() {
         return $this->weight * $this->get_score();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_fractionalpenalty() {
         return $this->weight * $this->get_penalty();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_penalty() {
         if ($this->penalty === null) {
             $this->unpack();
@@ -180,6 +215,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $this->penalty;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_path() {
         if ($this->path === null) {
             $this->unpack();
@@ -187,6 +223,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $this->path;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_feedback($processor=null) {
         if (!$this->is_evaluated()) {
             // If not procesed return undefined or any overrides.
@@ -221,6 +258,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return trim($this->renderedfeedback);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_answernotes() {
         if ($this->score === null) {
             $this->unpack();
@@ -253,6 +291,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $notes;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_errors($format='strings') {
         // Apparently one wants to separate feedback-var errors?
         $err = [];
@@ -268,6 +307,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $err;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_fverrors($format='strings') {
         $err = [];
         foreach ($this->errors as $er) {
@@ -282,16 +322,19 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $err;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_trace(): array {
         // TO-DO: Add in answer test results to the trace array?
         return $this->trace;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo(): string {
         return 'TO-DO DEBUGINFO';
     }
 
     // Applies the held back things to the filtered feedback.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function apply_placeholder_holder(string $filtered): string {
         if ($this->holder === null) {
             return $filtered;

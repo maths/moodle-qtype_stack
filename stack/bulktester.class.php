@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class for running the question tests in bulk.
  *
+ * @package    qtype_stack
  * @copyright  2015 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
@@ -26,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../../../engine/bank.php');
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_bulk_tester {
 
     /**
@@ -113,6 +115,15 @@ class stack_bulk_tester {
 
         // See question/engine/bank.php around line 500, but this does not return the last version.
         $qcparams['readystatus'] = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
+        // ISS1419 - REGEX failing in Postgres DBs. Change to LIKE as query is simple and let Moodle generate fragments.
+        $qtextlike = $DB->sql_like('q.questiontext', ':search1');
+        $feedbacklike = $DB->sql_like('q.generalfeedback', ':search2');
+        $qnotelike = $DB->sql_like('qso.questionnote', ':search3');
+        $specificfeedbacklike = $DB->sql_like('qso.specificfeedback', ':search4');
+        $qdescriptionlike = $DB->sql_like('qso.questiondescription', ':search5');
+        for ($i = 1; $i < 6; $i++) {
+            $qcparams['search' . $i] = '%\\[\\[todo%';
+        }
         return $DB->get_records_sql_menu("
                 SELECT q.id, q.name AS id2
                 FROM {question} q
@@ -129,11 +140,11 @@ class stack_bulk_tester {
                                          ON be.id = v.questionbankentryid
                                          WHERE be.id = qbe.id)
                        AND (
-                            q.questiontext REGEXP '[[][[]todo'
-                            OR q.generalfeedback REGEXP '[[][[]todo'
-                            OR qso.questionnote REGEXP '[[][[]todo'
-                            OR qso.specificfeedback REGEXP '[[][[]todo'
-                            OR qso.questiondescription REGEXP '[[][[]todo'
+                            {$qtextlike}
+                            OR {$feedbacklike}
+                            OR {$qnotelike}
+                            OR {$specificfeedbacklike}
+                            OR {$qdescriptionlike}
                         )", $qcparams);
     }
 

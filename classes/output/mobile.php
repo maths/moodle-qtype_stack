@@ -25,6 +25,7 @@ namespace qtype_stack\output;
  */
 class mobile {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function stack_view() {
         global $CFG;
         return [

@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Add description here!
+ * @package    qtype_stack
+ * @copyright  2024 University of Edinburgh.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 // This provides helper code for creating the files needed to connect to the CAS.
@@ -25,7 +32,9 @@ require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession2.class.php');
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_configuration {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $instance = null;
 
     /**
@@ -42,17 +51,22 @@ class stack_cas_configuration {
         'simplex' => 'floatnump(epsilon_lp)',
     ];
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $settings;
 
     /** @var string the date when these settings were worked out. */
     protected $date;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $maximacodepath;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $logpath;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $vnum;
 
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $blocksettings;
 
     /**
@@ -83,135 +97,19 @@ class stack_cas_configuration {
         // Note, the quotes need to be protected below.
         $this->blocksettings['PLOT_TERM_OPT'] = 'dynamic font \",11\" linewidth 1.2';
 
-        if ($this->settings->platform === 'win') {
-            $this->blocksettings['DEL_CMD']     = 'del';
-            $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
+        $this->blocksettings['DEL_CMD']     = 'rm';
+        if ((trim($this->settings->plotcommand)) != '') {
+            $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
+        } else if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
+            $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
         } else {
-            $this->blocksettings['DEL_CMD']     = 'rm';
-            if ((trim($this->settings->plotcommand)) != '') {
-                $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
-            } else if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
-                $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
-            } else {
-                $this->blocksettings['GNUPLOT_CMD'] = 'gnuplot';
-            }
+            $this->blocksettings['GNUPLOT_CMD'] = 'gnuplot';
         }
-        // Loop over this array to format them correctly...
-        if ($this->settings->platform === 'win') {
-            foreach ($this->blocksettings as $var => $val) {
-                if ($var != 'PLOT_TERM_OPT') {
-                    $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
-                }
-            }
-        }
-
         $this->blocksettings['MAXIMA_VERSION_EXPECTED'] = $this->settings->maximaversion;
         $this->blocksettings['URL_BASE']       = '!ploturl!';
-        if ($this->settings->platform === 'win') {
-            $this->blocksettings['URL_BASE']       = '!ploturl!/';
-        }
     }
 
-    /**
-     * Try to guess the gnuplot command on Windows.
-     * @return string the command.
-     */
-    public function get_plotcommand_win() {
-        global $CFG;
-        if ($this->settings->plotcommand && $this->settings->plotcommand != 'gnuplot') {
-            return $this->settings->plotcommand;
-        }
-
-        // This does its best to find your version of Gnuplot...
-        $maximalocation = $this->maxima_win_location();
-
-        $plotcommands = [];
-        $plotcommands[] = $maximalocation. 'gnuplot/wgnuplot.exe';
-        $plotcommands[] = $maximalocation. 'bin/wgnuplot.exe';
-        $plotcommands[] = $maximalocation. 'gnuplot/bin/wgnuplot.exe';
-
-        // I'm really now totally and finally fed up with dealing with spaces in MS filenames.
-        $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.exe');
-        foreach ($plotcommands as $plotcommand) {
-            if (file_exists($plotcommand)) {
-                if (substr_count($plotcommand, ' ') === 0) {
-                    $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.bat');
-                    if (!file_put_contents($newplotlocation, $this->maxima_win_location() .
-                            "gnuplot/bin/wgnuplot.exe %1 %2 %3 %3 %5 %6 %7 \n\n")) {
-                        throw new stack_exception('Failed to write wgnuplot batch file to:'. $newplotlocation);
-                    }
-                } else {
-                    copy($plotcommand, $newplotlocation);
-                }
-                return $newplotlocation;
-            }
-        }
-        throw new stack_exception('Could not locate GNUPlot.');
-    }
-
-    public function maxima_win_location() {
-        if ($this->settings->platform != 'win') {
-            return '';
-        }
-
-        $locations = [];
-        $locations[] = 'C:/maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/maxima-' . $this->settings->maximaversion . 'a/';
-        $locations[] = 'C:/Maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/bin/Maxima-gcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/bin/Maxima-sbcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files (x86)/Maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files/Maxima-sbcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files (x86)/Maxima-sbcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files/Maxima-gcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files (x86)/Maxima-gcl-' . $this->settings->maximaversion . '/';
-        if ('5.25.1' == $this->settings->maximaversion) {
-            $locations[] = 'C:/Program Files/Maxima-5.25.1-gcl/';
-            $locations[] = 'C:/Program Files (x86)/Maxima-5.25.1-gcl/';
-        }
-        if ('5.28.0' == $this->settings->maximaversion) {
-            $locations[] = 'C:/Program Files/Maxima-5.28.0-2/';
-            $locations[] = 'C:/Program Files (x86)/Maxima-5.28.0-2/';
-        }
-        if ('5.31.1' == $this->settings->maximaversion) {
-            $locations[] = 'C:/Program Files/Maxima-5.31.1-1/';
-            $locations[] = 'C:/Program Files (x86)/Maxima-5.31.1-1/';
-        }
-        $locations[] = 'C:/Program Files/Maxima/';
-        $locations[] = 'C:/Program Files (x86)/Maxima/';
-
-        foreach ($locations as $location) {
-            if (file_exists($location.'bin/maxima.bat')) {
-                return $location;
-            }
-        }
-
-        throw new stack_exception('Could not locate the directory into which Maxima is installed. Tried the following:' .
-                implode(', ', $locations));
-    }
-
-    public function copy_maxima_bat() {
-        global $CFG;
-
-        $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
-        if (substr_count($batchfilename, ' ') === 0) {
-            $batchfilecontents = "rem Auto-generated Maxima batch file.  \n\n";
-            $batchfilecontents .= $batchfilename."\n\n";
-            if (!file_put_contents($CFG->dataroot . '/stack/maxima.bat', $batchfilecontents)) {
-                throw new stack_exception('Failed to write Maxima batch file.');
-            }
-            return true;
-        }
-
-        // If there are spaces within the pathname to the windows batch file we need to copy the batch file.
-        if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
-            throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
-                    ' to location ' . $CFG->dataroot . '/stack/maxima.bat');
-        }
-        return true;
-    }
-
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_maximalocal_contents() {
         $contents = <<<END
 /* ***********************************************************************/
@@ -285,6 +183,7 @@ END;
     }
 
     /**
+     * Add description here.
      * @return stack_cas_configuration the singleton instance of this class.
      */
     protected static function get_instance() {
@@ -335,14 +234,6 @@ END;
     }
 
     /**
-     * Generate the directoryname
-     * @return string the contents that the maximalocal.mac file should have.
-     */
-    public static function confirm_maxima_win_location() {
-        return self::get_instance()->maxima_win_location();
-    }
-
-    /**
      * This function checks the current setting match to the supported packages.
      */
     protected function get_validate_maximalibraries() {
@@ -378,17 +269,14 @@ END;
         return self::get_instance()->get_validate_maximalibraries();
     }
 
-    /*
+    /**
      * This function genuinely recreates the maxima image and stores the results in
      * the configuration settings.
      */
     public static function create_auto_maxima_image() {
         $config = get_config('qtype_stack');
             // Do not try to generate the optimised image on MS platforms.
-        if ($config->platform == 'win') {
-            $errmsg = "Microsoft Windows version cannot be automatically optimised";
-            return [false, $errmsg];
-        } else if ($config->platform != 'linux' && $config->platform != 'linux-optimised') {
+        if ($config->platform != 'linux' && $config->platform != 'linux-optimised') {
             $errmsg = "$config->platform version cannot be automatically optimised";
             return [false, $errmsg];
         }
@@ -444,9 +332,9 @@ END;
                 $cs = stack_ast_container::make_from_teacher_source('a:1+1', '', new stack_cas_security());
                 $ts = new stack_cas_session2([$cs]);
                 $ts->instantiate();
-                if ($cs->get_value() != '2') {
+                if (!$ts->get_valid() || $cs->get_value() != '2') {
                     $errors = $ts->get_errors();
-                    $errmsg = "Evaluation test failed, errors: $errors";
+                    $errmsg = "Installation evaluation test failed, errors: $errors ";
                 } else {
                     // It worked!
                     $errmsg = '';

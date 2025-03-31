@@ -19,6 +19,7 @@
  * all the parts are working properly, including the conection to the CAS,
  * graph plotting, and equation rendering.
  *
+ * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -118,12 +119,9 @@ if ('db' == $config->casresultscache) {
         stack_string('clearthecache'));
 }
 
-// Option to auto-create the Maxima image and store the results.
-if ($config->platform != 'win') {
-    echo $OUTPUT->single_button(
-        new moodle_url($PAGE->url, ['createmaximaimage' => 1, 'sesskey' => sesskey()]),
+echo $OUTPUT->single_button(
+    new moodle_url($PAGE->url, ['createmaximaimage' => 1, 'sesskey' => sesskey()]),
         stack_string('healthcheckcreateimage'));
-}
 
 echo '<hr />';
 // LaTeX. This is an install requirement, rather than a CAS healtcheck.

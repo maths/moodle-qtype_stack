@@ -17,6 +17,7 @@
 /**
  * This script lets the user create or edit question tests for a question.
  *
+ * @package    qtype_stack
  * @copyright  2012 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

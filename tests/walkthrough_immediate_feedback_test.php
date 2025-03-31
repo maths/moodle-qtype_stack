@@ -28,21 +28,22 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 
-// Unit tests for the Stack question type with the immediate feedback behaviour.
-//
-// Note that none of these tests include clicking the 'Check' button that dfexplicitvaldiation provies.
-// That button is simply @author tjh238 way to trigger a save without navigating to a different page of the quiz.
-//
-// @copyright 2012 The Open University.
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-
 /**
+ * Unit tests for the Stack question type with the immediate feedback behaviour.
+ *
+ * Note that none of these tests include clicking the 'Check' button that dfexplicitvaldiation provies.
+ * That button is simply @author tjh238 way to trigger a save without navigating to a different page of the quiz.
+ *
+ * @package    qtype_stack
+ * @copyright 2012 The Open University.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_base {
+final class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_test3_partially_right_then_right() {
+    public function test_test3_partially_right_then_right(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'immediatefeedback', 4);
@@ -120,7 +121,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
     }
 
-    public function test_test3_sumbit_and_finish_before_validating() {
+    public function test_test3_sumbit_and_finish_before_validating(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'immediatefeedback', 4);
@@ -189,7 +191,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
     }
 
-    public function test_test3_save_invalid_response_correct_then_stubmit() {
+    public function test_test3_save_invalid_response_correct_then_stubmit(): void {
+
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'immediatefeedback', 4);

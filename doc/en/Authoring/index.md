@@ -8,9 +8,9 @@ A  "question" is the basic object in the system. The following table shows the f
 
 | Name                                                       | Details
 | -------------------------------------------------------------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Question name              | Names a question
+| Question name              | Names a question.
 | [Question variables](Variables.md#Question_variables)      | These are potentially random variables which can be used to generate a question.
-| [Question text](CASText.md#question_text)                  | This is the question the student actually sees
+| [Question text](CASText.md#question_text)                  | This is the question the student actually sees.
 | [General feedback](CASText.md#General_feedback/Worked_solution)            | The worked solution is only available after an item is closed.
 | [Question note](../Authoring/Question_note.md)                          | Two randomly generated question variants are different, if and only if the question note is different.  Use this field to store useful information which distinguishes variants.
 | [Inputs](Inputs/index.md)                                        | The inputs are the things, such as form boxes, with which the student actually interacts.

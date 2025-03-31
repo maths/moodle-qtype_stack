@@ -19,7 +19,7 @@ Feature: Test importing STACK questions from Moodle XML files.
   Scenario: import a STACK question from a Moodle XML file
     When I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
     And I set the field "id_format_xml" to "1"
-    And I upload "question/type/stack/samplequestions/sample_questions.xml" file to "Import" filemanager
+    And I upload "question/type/stack/tests/behat/sample_questions.xml" file to "Import" filemanager
     And I press "id_submitbutton"
     Then I should see "Parsing questions from import file."
     And I should see "Importing 7 questions from file"
@@ -46,7 +46,7 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I press "id_submitbutton"
     Then I should see "Parsing questions from import file."
     And I should see "Importing 1 questions from file"
-    And I should see "Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]"
+    And I should see "please [[input:ans1]] [[validation:ans1]]"
     And I press "Continue"
     And I should see "Question without format fields"
 

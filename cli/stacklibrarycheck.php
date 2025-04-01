@@ -32,8 +32,6 @@ require_once($CFG->libdir . '/clilib.php');
 
 function report($d) {
     global $CFG;
-    $libroot = stack_utils::convert_slash_paths($CFG->dirroot . 
-        '/question/type/stack/samplequestions');
     $a = [];
 
     if (is_dir($d)) {

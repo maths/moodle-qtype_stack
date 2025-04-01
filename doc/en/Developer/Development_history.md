@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.9.1
+
+Released April 2025.
+
+Remove special charaters in filenames (which break the .zip download).
+
 ## Version 4.9.0
 
 Released March 2025.

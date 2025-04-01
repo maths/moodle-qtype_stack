@@ -38,6 +38,7 @@ Unless you want to discuss something confidential with the developers, please do
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
 * If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
+* Check filenames in the stacklibrary do not have special characters, particularly `'` (which breaks the .zip download in the plugin directory!)
 
 ### Check API
 

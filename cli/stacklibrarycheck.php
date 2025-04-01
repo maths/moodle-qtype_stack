@@ -43,37 +43,37 @@ function report($d) {
                     '0123456789.qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-_', '~'
                     ) . ']~u';
 
-                    $matches = [];
-                    // Check for permitted characters.
-                    if (preg_match_all($allowedcharsregex, $f, $matches)) {
-                        $invalidchars = [];
-                        foreach ($matches as $match) {
-                            $badchar = $match[0];
-                            if (!array_key_exists($badchar, $invalidchars)) {
-                                switch ($badchar) {
-                                    case " ":
-                                        $invalidchars[$badchar] = "[SPACE]";
-                                        break;
-                                    case "\n":
-                                        $invalidchars[$badchar] = "\\n";
-                                        break;
-                                    case "\r":
-                                        $invalidchars[$badchar] = "\\r";
-                                        break;
-                                    case "\t":
-                                        $invalidchars[$badchar] = "\\t";
-                                        break;
-                                    case "\v":
-                                        $invalidchars[$badchar] = "\\v";
-                                        break;
-                                    case "\e":
-                                        $invalidchars[$badchar] = "\\e";
-                                        break;
-                                    case "\f":
-                                        $invalidchars[$badchar] = "\\f";
-                                        break;
-                                    default:
-                                        $invalidchars[$badchar] = $badchar;
+                $matches = [];
+                // Check for permitted characters.
+                if (preg_match_all($allowedcharsregex, $f, $matches)) {
+                    $invalidchars = [];
+                    foreach ($matches as $match) {
+                        $badchar = $match[0];
+                        if (!array_key_exists($badchar, $invalidchars)) {
+                            switch ($badchar) {
+                                case " ":
+                                    $invalidchars[$badchar] = "[SPACE]";
+                                    break;
+                                case "\n":
+                                    $invalidchars[$badchar] = "\\n";
+                                    break;
+                                case "\r":
+                                    $invalidchars[$badchar] = "\\r";
+                                    break;
+                                case "\t":
+                                    $invalidchars[$badchar] = "\\t";
+                                    break;
+                                case "\v":
+                                    $invalidchars[$badchar] = "\\v";
+                                    break;
+                                case "\e":
+                                    $invalidchars[$badchar] = "\\e";
+                                    break;
+                                case "\f":
+                                    $invalidchars[$badchar] = "\\f";
+                                    break;
+                                default:
+                                    $invalidchars[$badchar] = $badchar;
                                 }
                             }
                         }
@@ -103,7 +103,7 @@ foreach ($a as $data) {
         echo $data[0].": ";
         echo $data[2]."\n";
     } else {
-        $c +=1;
+        $c += 1;
     }
 }
 

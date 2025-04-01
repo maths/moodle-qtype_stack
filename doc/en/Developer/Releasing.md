@@ -26,6 +26,7 @@ Unless you want to discuss something confidential with the developers, please do
  * [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
  * Execute `php cli/answertests_docs.php` to update the static docs about answertests.
  * Execute `doc/maintenance.php` to search for broken links etc.
+* Run `php cli/stacklibrarycheck.php` to check filenames in the stacklibrary do not have special characters, particularly `'` (which breaks the .zip download in the plugin directory!)
 * Run `php cli/unicode_data_process.php` to update unicode mappings.
 * Run `php cli/ast_test_generator.php` to confirm if auto-generated tests have not changed.
 * Run Maxima unit tests of contributed packages by re-defining `stacklocation` and running `s_test_case.mac` in the sandbox.  E.g.
@@ -38,7 +39,6 @@ Unless you want to discuss something confidential with the developers, please do
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
 * If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
-* Check filenames in the stacklibrary do not have special characters, particularly `'` (which breaks the .zip download in the plugin directory!)
 
 ### Check API
 

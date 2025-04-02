@@ -11,11 +11,14 @@ Core functionality.
 
 Reference documentation for contributed libraries.
 
-1. Creating [random matrices](Random_Matrices.md) in contributed `rand_matric.mac`.
+1. Creating [random matrices](Random_Matrices.md) in contributed `rand_matrix.mac`.
 2. [Matrix functions](Matrix_library.md) in contributed `matrix.mac`.
 3. [Vector and vector space functions](Vector_space.md) in contributed `vectorspaces.mac`.
 4. [Vector geometry functions](Vector_geometry.md) in contributed `vectorgeometry.mac`.
-5. [Eigenvalue/vector functions](Eigen.md) in contributed `eigen.mac`.
+5. [Eigenvalue/vector functions](Eigen.md) in contributed `eigenlib.mac`.
+6. [Matrix factorisations](Matrix_factorisation.md) in contributed `matrixfactorizations.mac`
+
+If using an earlier version of STACK than 4.9.0, 2. through 6. above require an extra inclusion (see [here](Linear_algebra_core.md)).
 
 ## Solving systems of linear equations
 

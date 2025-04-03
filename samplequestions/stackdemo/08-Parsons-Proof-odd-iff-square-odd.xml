@@ -3,7 +3,7 @@
 <!-- question: 15334  -->
   <question type="stack">
     <name>
-      <text>Proof odd-iff-square-odd</text>
+      <text>n is odd iff n^2 is odd Proof</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Drag items from the available list on the right to the answer list on the left to construct a correct proof of the following theorem. </p>

@@ -3,7 +3,7 @@
 <!-- question: 44001  -->
   <question type="stack">
     <name>
-      <text>Drag and drop - 4 - Using images</text>
+      <text>Image drag and drop</text>
     </name>
     <questiontext format="moodle_auto_format">
       <text><![CDATA[<p>Drag the items to match up the functions with their derivatives. </p>

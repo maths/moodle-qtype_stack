@@ -1,6 +1,6 @@
 # Matrix manipulation and matrix predicate functions for STACK
 
-STACK has a contributed library for matrix manipulation and matrix predicate functions for STACK.  To use this library you must load it into the question variables.
+STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/matrix.mac) for matrix manipulation and matrix predicate functions for STACK.  To use this library you must load it into the question variables.
 
 * To use the latest code from github: `stack_include_contrib("matrix.mac");`
 * Loading this library automatically declares `stack_linear_algebra_declare(true);` to provide context.
@@ -16,6 +16,7 @@ The `matrix.mac` contributed library adds even more functions to help manipulate
 ## Row and column operations
 
 The Maxima library `linearalgebra` (loaded by default in STACK) provides the `rowop`, `rowswap`, `columnop` and `columnswap` functions, and STACK adds `rowadd` and `rowmul`. These are described [here](../../CAS/Matrix.md). `matrix.mac` introduces `rowscale` and `columnscale`. When `simp:true`, `rowscale` is identical to `rowmul`, but `rowscale` also works when `simp:false`, which could be useful for making model answers. 
+
 * `(simp:false, rowscale(matrix([1,2,3],[4,5,6],[7,8,9]),2,100))` will return `matrix([1,2,3],[100*4,100*5,100*6],[7,8,9])`
 
 ## Changing the entries of a matrix
@@ -50,11 +51,14 @@ These functions could be useful for setting \(PLU\) decomposition questions.
 * Core STACK provides `diagp` to check whether `M` is diagonal.
 
 Note that all of these predicates are checking whether the relevant entries are exactly equal to zero. That produces the following behaviour:
+
 * `(simp: false, trilp(matrix([1,1-1],[2,3])))` returns `false`
 * `(simp: true, trilp(matrix([1,1-1],[2,3])))` returns `true`
-This is intentional. After all, it is slightly ambiguous whether \({\left[\begin{array}{cc} 1 & 1-1 \\ 2 & 3 \end{array}\right]}\) is lower triangular, and this ambiguity gets worse with more complicated expressions than simply `1-1`. This allows teachers to check whether students have simplified their answers.
+
+This is intentional. After all, it is slightly ambiguous whether the matrix \[{\left[\begin{array}{cc} 1 & 1-1 \\ 2 & 3 \end{array}\right]}\] is lower triangular, and this ambiguity gets worse with more complicated expressions than simply `1-1`. This allows teachers to check whether students have simplified their answers.
 
 `REFp(M)` tests whether a given matrix is in row echelon form. [There is some disagreement about exactly what constitutes row echelon form](https://en.wikipedia.org/wiki/Row_echelon_form#:~:text=of%20the%20article.-,(General)%20row%20echelon%20form,-%5Bedit%5D). For clarity, `REFp` tests the following properties: 
+
 * Do all non-zero rows appear above any zero rows (that is, have all the redundant rows been moved to the bottom?)
 * Does the pivot in each row appear strictly to the right of the pivot in the above row?
 * `REFp` does **not** check whether the pivots are equal to 1 by default, but `REFp(M, true)` will additionally require this property.
@@ -79,7 +83,7 @@ The last three predicates above will all accept an optional argument, `sp`, that
 
 It is sometimes convenient to be able to display an augmented matrix. `matrix.mac` adds some limited support for this. 
 
-Perhaps you have a question in which students are asked to solve the matrix equation \(A\underline{mathbf{x}} = \underline{mathbf{b}}\) using Gaussian elimination and you wanted to display this problem as an augmented matrix. Then, with matrix `A` and right hand side vector (really a matrix) `b` already defined, you could use `aug(addcol(A,b))` to display
+Perhaps you have a question in which students are asked to solve the matrix equation \(A\underline{\mathbf{x}} = \underline{\mathbf{b}}\) using Gaussian elimination and you wanted to display this problem as an augmented matrix. Then, with matrix `A` and right hand side vector (really a matrix) `b` already defined, you could use `aug(addcol(A,b))` to display
 
 \[{\left[\begin{array}{cc} 1 & 2 \\ 4 & 5 \end{array}\right|\left.\begin{array}{c} 3 \\ 6 \end{array}\right]}\]
 

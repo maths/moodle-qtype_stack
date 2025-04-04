@@ -90,7 +90,9 @@ class stack_question_library {
             $tavalue = $question->get_ta_for_input($name);
             $fieldname = 'stack_temp_' . $name;
             $state = $question->get_input_state($name, []);
-            $render = $input->render($state, $fieldname, false, [$tavalue]);
+            // ISS1436 - As far as I can tell, only equiv input is using $tavalue
+            // and that's expecting a string not an array.
+            $render = $input->render($state, $fieldname, false, $tavalue);
             StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
             $questiontext = str_replace("[[input:{$name}]]",
                 $render,

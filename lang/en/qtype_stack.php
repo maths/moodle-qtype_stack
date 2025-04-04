@@ -965,6 +965,7 @@ $string['stackBlock_jsxgraph_underdefined_dimension'] = 'When defining aspect-ra
 $string['stackBlock_jsxgraph_overdefined_dimension'] = 'When defining aspect-ratio for the JSXGraph one should only define width or height not both.';
 $string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
+$string['stackBlock_jsxgraph_unknown_style'] = 'Unknown JSXGraph style: <code>{$a->style}</code>.';
 
 $string['stackBlock_parsons_used_header']         = 'Construct your solution here:';
 $string['stackBlock_parsons_available_header']    = 'Drag from here:';

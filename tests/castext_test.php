@@ -1894,6 +1894,22 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Basic test the jsxgraph block validation.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_jsxgraph_validation(): void {
+        $st = '[[jsxgraph style="inerror"]]' .
+            'var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});' .
+            'var p = board.create(\'point\', [4, 3]);' .
+            'stack_jxg.bind_point(stateRef, p);' .
+            'stateInput.style.display = \'none\';' .
+            '[[/jsxgraph]]';
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Unknown JSXGraph style: <code>inerror</code>.', $at2->get_errors(true));
+    }
+
+    /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_geogebra
      */

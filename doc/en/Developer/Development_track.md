@@ -7,6 +7,10 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.10.0
 
+Done:
+
+1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
+
 Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.10.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)

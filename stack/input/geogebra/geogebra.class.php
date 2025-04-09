@@ -18,7 +18,7 @@
  * GeoGebra-Input field (algebraic input field with GeoGebra specific features)
  * derived by algebraic/algebraic.class.php "A basic text-field input."
  * @package    qtype_stack
- * @copyright  2012 University of Birmingham (algebraic.class.php), 2022 University of Edinburgh(geogebra.class.php)
+ * @copyright  2012 University of Birmingham (algebraic.class.php), 2022 University of Edinburgh (geogebra.class.php)
  * @author     Tim Lutz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

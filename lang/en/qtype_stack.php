@@ -196,6 +196,7 @@ $string['inputtypenotes'] = 'Notes';
 $string['inputtypeunits'] = 'Units';
 $string['inputtypeequiv'] = 'Equivalence reasoning';
 $string['inputtypestring'] = 'String';
+$string['inputtypejson'] = 'JSON';
 $string['inputtypenumerical'] = 'Numerical';
 $string['inputtypegeogebra'] = 'GeoGebra';
 $string['inputtypeparsons'] = 'Parsons';

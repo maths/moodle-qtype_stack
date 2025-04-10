@@ -315,15 +315,15 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         if (array_key_exists('style', $this->params)) {
             $stylename = $this->params['style'];
             if (strpos($stylename, '..') !== false
-                || strpos($stylename, '/') !== false
-                || strpos($stylename, '\\') !== false) {
-                    $valid    = false;
-                    $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
-                } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/jsxgraphstyles/' .
-                        $stylename . '.css')) {
-                    $valid    = false;
-                    $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
-                }
+                    || strpos($stylename, '/') !== false
+                    || strpos($stylename, '\\') !== false) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
+            } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/jsxgraphstyles/' .
+                    $stylename . '.css')) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
+            }
         }
 
         $valids = null;

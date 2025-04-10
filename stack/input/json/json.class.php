@@ -45,21 +45,21 @@ class stack_json_input extends stack_string_input {
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
         $castextprocessor, $inertdisplayform, $ilines) {
 
-            // Always display something sensible.
-            $display = $this->contents_to_maxima($this->rawcontents);
-            $display = substr($display, 1, strlen($display) - 2);
-            if ($answer->is_correctly_evaluated()) {
-                $display = stack_utils::maxima_string_to_php_string($answer->get_value());
-            } else {
-                $valid = false;
-            }
-            $json = json_decode($display);
-            // If we have mal-formed JSON (exactly the situation we need to debug) then we display the original.
-            if ($json !== null) {
-                $display = json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-            }
-            $display = html_writer::tag('pre', $display);
+        // Always display something sensible.
+        $display = $this->contents_to_maxima($this->rawcontents);
+        $display = substr($display, 1, strlen($display) - 2);
+        if ($answer->is_correctly_evaluated()) {
+            $display = stack_utils::maxima_string_to_php_string($answer->get_value());
+        } else {
+            $valid = false;
+        }
+        $json = json_decode($display);
+        // If we have mal-formed JSON (exactly the situation we need to debug) then we display the original.
+        if ($json !== null) {
+            $display = json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        }
+        $display = html_writer::tag('pre', $display);
 
-            return [$valid, $errors, $display];
+        return [$valid, $errors, $display];
     }
 }

@@ -184,13 +184,13 @@ select_apply([ex1]) := block([f1, ex, s1],
 /* ********************************** */
 
 /* True if and only if ex is in the list l. */
-element_listp(ex, l) := any_listp(lambda([ex2], is(ex2=ex)), l)$
+element_listp(ex, _l) := any_listp(lambda([ex2], is(ex2=ex)), _l)$
 
 /* all_listp(p,l) true if all elements of l satisfy p. */
-all_listp(p, l) := if listp(l) then apply("and", maplist(p, l)) else error("all_listp expects its argument to be a list.")$
+all_listp(_p, _l) := if listp(_l) then apply("and", maplist(_p, _l)) else error("all_listp expects its argument to be a list.")$
 
 /* any_listp(p,l) true if all elements of l satisfy p. */
-any_listp(p, l) := if listp(l) then apply("or", maplist(p, l)) else error("any_listp expects its argument to be a list.")$
+any_listp(_p, _l) := if listp(_l) then apply("or", maplist(_p, _l)) else error("any_listp expects its argument to be a list.")$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w. */
 listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
@@ -199,10 +199,10 @@ listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
 listscontain(a, b, v) := elementp(v, intersection(setify(a), setify(b)))$
 
 /* Removes the first occurance of ex from the list l. */
-removeonce(ex, l) := block(
-  if listp(l)#true or emptyp(l) then return([]),
-  if first(l)=ex then return(rest(l)),
-  append([first(l)], removeonce(ex,rest(l)))
+removeonce(ex, _l) := block(
+  if listp(_l)#true or emptyp(_l) then return([]),
+  if first(_l)=ex then return(rest(_l)),
+  append([first(_l)], removeonce(ex,rest(_l)))
 )$
 
 /* All the elements of l1, which do not occur in l2.  Removes all occurances from l1, not one at a time. */
@@ -974,6 +974,7 @@ texput(binomial, binomialtex);
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
    04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
    24/02/20.  Using a lambda expression is causing an infinite loop.  Use a named function: algebraic_equivalence_zero.
+   25/04/10.  Change any_listp args to prevent an infinite loop.
 */
 
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
@@ -1034,6 +1035,7 @@ algebraic_equivalence(SA, SB) :=
        ex:[ex],
     if ex=[] then error("algebraic_equivalence: factoring the difference of two expressions threw an error."),
     ex:ex[1],
+    if ex=0 then return(true),
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),

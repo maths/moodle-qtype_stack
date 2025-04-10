@@ -524,6 +524,8 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'g(x):=x^2', 'f(x):=x^2', 0, 'ATFunction_wrongname. ATFunction_true.', ''],
         ['AlgEquiv', '', 'f(y):=y^2', 'f(x):=x^2', 1, 'ATFunction_arguments_different. ATFunction_true.', ''],
         ['AlgEquiv', '', 'f(a,b):=a^2+b^2', 'f(x,y):=x^2+y^2', 1, 'ATFunction_arguments_different. ATFunction_true.', ''],
+        // F appears as both a variable and as a function name.
+        ['AlgEquiv', '', '-30*F', '6*F(l-5*x)', 0, '', ''],
 
         ['AlgEquiv', '', '1', 'x>1', 0, 'ATAlgEquiv_SA_not_inequality.', 'Inequalities'],
         ['AlgEquiv', '', 'x=1', 'x>1 and x<5', 0, 'ATAlgEquiv_TA_not_equation.', ''],

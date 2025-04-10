@@ -588,7 +588,7 @@ $string['questiontests'] = 'Question tests';
 $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';
 $string['questiontestsdefault'] = '(Default)';
-$string['runquestiontests'] = 'STACK question dashboard';
+$string['runquestiontests'] = '<i class="fa fa-wrench"></i> STACK question dashboard';
 $string['runquestiontests_help'] = 'The dashboard runs question tests which unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.  The dashboard also has numerous other STACK specific functions.';
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['runquestiontests_auto'] = 'Automatically adding one test case assuming the teacher\'s input gets full marks.  Please check the answer note carefully.';

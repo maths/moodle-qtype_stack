@@ -504,7 +504,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (array_key_exists("columns", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["columns"]) && intval($this->params["columns"]) > 0)) {
                 $valid = false;
-                $err[] = stack_string("stackBlock_parsons_invalid_columns_value");
+                $err[] = stack_string('stackBlock_parsons_invalid_columns_value');
             }
         }
 
@@ -512,21 +512,21 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (array_key_exists("rows", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["rows"]) && intval($this->params["rows"]) > 0)) {
                 $valid = false;
-                $err[] = stack_string("stackBlock_parsons_invalid_rows_value");
+                $err[] = stack_string('stackBlock_parsons_invalid_rows_value');
             }
         }
 
         // Check we cannot have rows specified without columns.
         if (array_key_exists("rows", $this->params) && !array_key_exists("columns", $this->params)) {
             $valid = false;
-            $err[] = stack_string("stackBlock_parsons_underdefined_grid");
+            $err[] = stack_string('stackBlock_parsons_underdefined_grid');
         }
 
         // Check value of `item-height` is a string containing a positive integer.
         if (array_key_exists("item-height", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["item-height"]) && intval($this->params["item-height"]) > 0)) {
                 $valid = false;
-                $err[] = stack_string("stackBlock_parsons_invalid_item-height_value");
+                $err[] = stack_string('stackBlock_parsons_invalid_item-height_value');
             }
         }
 
@@ -534,7 +534,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (array_key_exists("item-width", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["item-width"]) && intval($this->params["item-width"]) > 0)) {
                 $valid = false;
-                $err[] = stack_string("stackBlock_parsons_invalid_item-width_value");
+                $err[] = stack_string('stackBlock_parsons_invalid_item-width_value');
             }
         }
 

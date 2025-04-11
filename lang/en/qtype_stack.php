@@ -642,6 +642,9 @@ $string['clearingcachefiles'] = 'Clearing cached STACK plot files {$a->done}/{$a
 $string['clearthecache'] = 'Clear the cache';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';
+$string['healthcheckcache_db'] = 'CAS results are being cached in the database.';
+$string['healthcheckcache_none'] = 'CAS results are not being cached.';
+$string['healthcheckcache_otherdb'] = 'CAS results are being cached in another database.';
 $string['healthcheckcachestatus'] = 'The cache currently contains {$a} entries.';
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';

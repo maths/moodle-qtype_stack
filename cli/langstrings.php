@@ -65,10 +65,18 @@ $known = [];
 $known['exceptionmessage'] = true;
 $known['autosimplify'] = true;
 $known['autosimplifyprt'] = true;
+$known['ValidateVarsSpurious'] = true;
+$known['ValidateVarsMissing'] = true;
+$known['privacy:metadata'] = true;
+$known['stack:usediagnostictools'] = true;
+$known['answernotedefaulttrue'] = true;
+$known['answernotedefaultfalse'] = true;
+$known['bulktestindexintro'] = true;
+$known['healthuncached'] = true;
 
 $ffound = 0;
 $nfound = 0;
-//$keys = ["ATAddConst_true"];
+//$keys = ["questiontextplaceholderswhitespace"];
 foreach ($keys as $key) {
     if (substr($key, -5) === '_help' || substr($key, -5) === '_link') {
         $key = substr($key, 0, strlen($key) -5);
@@ -104,6 +112,8 @@ foreach ($keys as $key) {
     } else if (substr($key, 0, 10) === 'pluginname') {
         $found = true;
     } else if (substr($key, 0, 9) === 'inputtype') {
+        $found = true;
+    } else if (substr($key, 0, 11) === 'healthcheck') {
         $found = true;
     } else {
         foreach ($strs as $str) {

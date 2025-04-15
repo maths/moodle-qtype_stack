@@ -1043,7 +1043,7 @@
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
         },
         {
-        "file":"Mechlib.md",
+        "file":"Meclib.md",
         "title":"Meclib: supporting mechanical systems",
         "description":"shortdescription: Meclib is a set of tools to simplify authoring of STACK questions with a focus on mech"
         },

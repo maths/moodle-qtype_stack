@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 93  -->
+  <question type="stack">
+    <name>
+      <text>Meclib example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+<p hidden>[[input:objects]] [[validation:objects]]</p>
+<p hidden>[[input:names]] [[validation:names]] </p>
+<div style="float:right">
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>
+
+<p>What is the exact length of the hypotenuse if the grid width is \(L\)?
+<p>[[input:S_H]] [[validation:S_H]] [[feedback:H]]</p>
+
+<p>What is the length of the hypotenuse if the grid width is \(1\,\rm{cm}\)?
+<p>[[input:S_Hnum]] [[validation:S_Hnum]] [[feedback:Hnum]]</p>
+
+<p>Indicate the center of gravity using the blue crosshair.</p>
+<p>[[feedback:CG]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025040200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[Ha: sqrt(a^2+b^2);
+
+aa:4; 
+bb: 3;
+[aa,bb]: rand([ [1,4], [1,3], [2,4], [2,3], [2,2], [3,3], [3,2], [3,1], [4,2], [4,1] ]);
+
+H: sqrt(aa^2+bb^2)*L;
+Hnum: float(sqrt(aa^2+bb^2));
+
+pB: [0,0]; 
+pC: [aa,0]; 
+pA: [aa,bb];
+
+initdata: [
+  [ "grid", "","", -1,aa+1,-1,bb+1, 40 ],
+  [ "crosshair", "", [0, bb], [0,0], [1,1], [2,2] ],
+  [ "polygon", "", pA, pB, pC ],
+  [ "label", "\\(a\\)", (pB+pC)/2 +[ 0,-0.4] ],
+  [ "label", "\\(b\\)", (pA+pC)/2 +[0.2,0] ],
+  [ "label", "\\(c\\)", (pA+pB)/2 +[-0.4,0.4] ]
+];
+init: stackjson_stringify(initdata);
+
+ic: 2;
+CG: [2/3*aa, 1/3*bb];
+
+tansdata: initdata;
+tansdata[ic][3]: CG;
+tans: stackjson_stringify(tansdata);
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@'a=aa@}, {@'b=bb@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text><![CDATA[This is an example question to illustrate use of the meclib library.
+See https://github.com/mkraska/meclib for more details.
+
+This question also illustrates the use of the "," as a decimal separator.]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>,</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>tans</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>S_H</name>
+      <type>algebraic</type>
+      <tans>H</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Hnum</name>
+      <type>units</type>
+      <tans>dispdp(Hnum,3)*cm</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>number with unit</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>+,-,sqrt</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>CG</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>S_CG: names[ic];
+vec: CG-S_CG;
+dist: sqrt(vec[1]^2+vec[2]^2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>dist</sans>
+        <tans>0</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>CG-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>The distance to the actual CG is {@dispdp(dist,2)@} grid units.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>CG-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The distance to the actual CG is {@dispdp(dist,2)@} grid units. Must be smaller than {@0.05@}.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>H</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_H</sans>
+        <tans>H</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>H-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>H-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(S_H,H)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(S_Ha,Ha)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Hnum</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>UnitsRelative</answertest>
+        <sans>S_Hnum</sans>
+        <tans>Hnum*cm</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Hnum-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Hnum-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_unit(S_Hnum, Hnum*cm, 0.05)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>204156600</deployedseed>
+    <deployedseed>1369199422</deployedseed>
+    <deployedseed>37240839</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>names</name>
+        <value>[null,CG]</value>
+      </testinput>
+      <testinput>
+        <name>objects</name>
+        <value>tans</value>
+      </testinput>
+      <testinput>
+        <name>S_H</name>
+        <value>H</value>
+      </testinput>
+      <testinput>
+        <name>S_Ha</name>
+        <value>Ha</value>
+      </testinput>
+      <testinput>
+        <name>S_Hnum</name>
+        <value>Hnum*cm</value>
+      </testinput>
+      <expected>
+        <name>CG</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>CG-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>H</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>H-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Ha</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Ha-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Hnum</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Hnum-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

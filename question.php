@@ -1750,17 +1750,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 2. Check alt-text exists.
         // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
         $tocheck = [];
-        $text = '';
-        if ($this->questiontextinstantiated !== null) {
-            $text = trim($this->questiontextinstantiated->get_rendered());
-        }
-        if ($text !== '') {
-            $tocheck[stack_string('questiontext')] = $text;
-        }
-        $ct = $this->get_generalfeedback_castext();
-        $text = trim($ct->get_rendered($this->castextprocessor));
-        if ($text !== '') {
-            $tocheck[stack_string('generalfeedback')] = $text;
+        $fields = ['questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription'];
+        foreach ($fields as $field) {
+            $text = '';
+            $fieldinstantiated = $field . 'instantiated';
+            if ($this->{$fieldinstantiated} !== null) {
+                $text = trim($this->{$fieldinstantiated}->get_rendered());
+            } else {
+                $text = trim($this->{$field});
+            }
+            if ($text !== '') {
+                $tocheck[stack_string($field)] = $text;
+            }
         }
         // This is a compromise.  We concatinate all nodes and we don't instantiate this!
         foreach ($this->prts as $prt) {

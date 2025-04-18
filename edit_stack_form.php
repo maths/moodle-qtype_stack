@@ -218,8 +218,13 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
+        if (isset($this->question->id)) {
+            $question = question_bank::load_question($this->question->id);
+            $warnings = implode("<br />", $question->validate_warnings());
+        }
         if (get_class(editors_get_preferred_editor()) !== 'textarea_texteditor') {
-            $warnings = '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
+            $warnings = ($warnings) ? $warnings . '<br />' : $warnings;
+            $warnings .= '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
         }
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead

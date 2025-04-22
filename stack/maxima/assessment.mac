@@ -351,7 +351,13 @@ safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 /* ********************************** */
 alias(ln, log);
 
-/* Legacy reasons */
+/* See section 2-13.4, 2-13.5, 2-13.6 of ISO 80000-2:2019.
+   log_a(x) is log to the base a.
+   ln(x) is the natural logarithm.
+   lg(x) is log to the base 10.
+*/
+
+/* This over generalises lg to have two arguments, taking the 2nd to be the base. */
 alias(lg, logbase);
 
 lgtex(ex) := block([n, b],

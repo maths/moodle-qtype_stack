@@ -77,6 +77,7 @@ class qtype_stack_edit_form extends question_edit_form {
      * Patch up data from the database before a user edits it in the form.
      */
     public function set_data($question) {
+        global $USER;
         if (!empty($question->questiontext)) {
             $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
         }
@@ -101,6 +102,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $feedbackstring = optional_param('cas', '', PARAM_RAW);
         if ($feedbackstring) {
             $question->generalfeedback = $feedbackstring;
+        }
+
+        // See prepare_text_field() for explanation of swapping formats.
+        $editorpreference = get_user_preferences('htmleditor', '', $USER);
+        if ($editorpreference === '') {
+            if ($question->questiontextformat == FORMAT_HTML && $this->search_for_scripts($question->questiontext)) {
+                $question->questiontextformat = FORMAT_PLAIN;
+            }
+            if ($question->generalfeedbackformat == FORMAT_HTML && $this->search_for_scripts($question->generalfeedback)) {
+                $question->generalfeedbackformat = FORMAT_PLAIN;
+            }
         }
 
         parent::set_data($question);
@@ -216,7 +228,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $prtnames = $qtype->get_prt_names_from_question($this->get_current_question_text(),
                 $this->get_current_specific_feedback());
 
-        // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
         if (isset($this->question->id)) {
             $question = question_bank::load_question($this->question->id);
@@ -935,6 +946,16 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array in the format needed by the form.
      */
     protected function prepare_text_field($field, $text, $format, $itemid, $filearea = '') {
+        // If user editor preference is set to default and the format of the field is the
+        // default (HTML) and the text (probably) contains scripts, this is likely to be bad.
+        // The question will break if saved as the HTML text editor will make substitutions.
+        // Switch format to plain text. User can switch format back to HTML if they really
+        // want to.
+        global $USER;
+        $preference = get_user_preferences('htmleditor', '', $USER);
+        if ($preference === '' && $format == FORMAT_HTML && $this->search_for_scripts($text)) {
+            $format = FORMAT_PLAIN;
+        }
         if ($filearea === '') {
             $filearea = $field;
         }
@@ -959,4 +980,17 @@ class qtype_stack_edit_form extends question_edit_form {
     public function qtype() {
         return 'stack';
     }
+
+    /**
+     * Check whether some text contains JSXgraph, GeoGebra or scripts.
+     * @param string|null $text
+     * @return bool
+     */
+    public function search_for_scripts($text) {
+        if (!$text) {
+            return false;
+        }
+        return preg_match("/<\/jsxgraph>|\[\[jsxgraph|\[\[geogebra|<\/geogebra>|<script/i", $text);
+    }
+
 }

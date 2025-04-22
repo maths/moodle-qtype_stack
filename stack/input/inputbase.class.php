@@ -1212,11 +1212,11 @@ abstract class stack_input {
                     $additionalvars['statement-qv'] = new stack_secure_loader($questionvariables['statement-qv'], 'statement');
                 }
             }
-            if ($this->extraoptions['validator']) {
+            if ((array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator'])) {
                 $additionalvars['validator'] = stack_ast_container::make_from_teacher_source(
                     $this->extraoptions['validator'].'('.$this->name.')', '', new stack_cas_security(), []);
             }
-            if ($this->extraoptions['feedback']) {
+            if ((array_key_exists('feedback', $this->extraoptions) && $this->extraoptions['feedback'])) {
                 $additionalvars['feedback'] = stack_ast_container::make_from_teacher_source(
                     $this->extraoptions['feedback'].'('.$this->name.')', '', new stack_cas_security(), []);
             }

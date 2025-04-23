@@ -15,9 +15,9 @@
 <p>Lastly, try polynomial examples for the odd function and even function.  The "formative feedback" does not contribute to the student's score.</p>
 </div>
 <br>
-<p>1. Give an example of an odd function by typing an expression which represents it. \(f_1(x)=\) [[input:ans1]]. [[validation:ans1]] [[feedback:odd]]</p>
-<p>2. Give an example of an even function. \(f_2(x)=\) [[input:ans2]]. [[validation:ans2]] [[feedback:even]]</p>
-<p>3. Give an example of a function which is odd and even. \(f_3(x)=\) [[input:ans3]]. [[validation:ans3]] [[feedback:oddeven]]</p>
+<p>1. Give an example of an odd function by typing an expression which represents it.<br />\(f_1(x)=\) [[input:ans1]]. [[validation:ans1]] [[feedback:odd]]</p>
+<p>2. Give an example of an even function.<br />\(f_2(x)=\) [[input:ans2]]. [[validation:ans2]] [[feedback:even]]</p>
+<p>3. Give an example of a function which is odd and even.<br />\(f_3(x)=\) [[input:ans3]]. [[validation:ans3]] [[feedback:oddeven]]</p>
 <p>[[feedback:poly]]</p>
 <p>4. Is the answer to 3. unique? [[input:ans4]] (Or are there many different possibilities.) [[validation:ans4]] [[feedback:unique]] </p>]]></text>
     </questiontext>

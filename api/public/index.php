@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * STACK API main landing page.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen

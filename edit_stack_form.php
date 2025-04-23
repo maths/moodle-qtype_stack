@@ -107,10 +107,12 @@ class qtype_stack_edit_form extends question_edit_form {
         // See prepare_text_field() for explanation of swapping formats.
         $editorpreference = get_user_preferences('htmleditor', '', $USER);
         if ($editorpreference === '') {
-            if ($question->questiontextformat == FORMAT_HTML && $this->search_for_scripts($question->questiontext)) {
+            if ((!isset($question->questiontextformat) || $question->questiontextformat == FORMAT_HTML)
+                        && isset($question->questiontext) && $this->search_for_scripts($question->questiontext)) {
                 $question->questiontextformat = FORMAT_PLAIN;
             }
-            if ($question->generalfeedbackformat == FORMAT_HTML && $this->search_for_scripts($question->generalfeedback)) {
+            if ((!isset($question->generalfeedbackformat) || $question->generalfeedbackformat == FORMAT_HTML)
+                        && isset($question->generalfeedback) && $this->search_for_scripts($question->generalfeedback)) {
                 $question->generalfeedbackformat = FORMAT_PLAIN;
             }
         }

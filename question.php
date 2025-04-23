@@ -252,6 +252,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public $pluginfiles = [];
 
     /**
+     * @var bool is this question marked as broken.
+     */
+    public $isbroken = false;
+
+    /**
      * Make sure the cache is valid for the current response. If not, clear it.
      *
      * @param array $response the response.
@@ -485,6 +490,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // Now instantiate the session.
             if ($session->get_valid()) {
                 $session->instantiate();
+            }
+            if ($this->isbroken) {
+                $this->runtimeerrors[stack_string('questionbroken')] = true;
             }
             if ($session->get_errors()) {
                 // In previous versions we threw an exception here.

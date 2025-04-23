@@ -104,6 +104,12 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         parent::set_data($question);
+        if ($question->options->isbroken) {
+            $mform = $this->_form;
+            $mform->setDefault('savebroken', 0);
+            $this->is_validated();
+            $mform->setDefault('savebroken', 1);
+        }
     }
 
     /**
@@ -168,6 +174,11 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('fixdollars'), stack_string('fixdollarslabel'));
         $mform->insertElementBefore($fixdollars, 'buttonar');
         $mform->addHelpButton('fixdollars', 'fixdollars', 'qtype_stack');
+        $savebroken = $mform->createElement('checkbox', 'savebroken',
+                stack_string('savebroken'), stack_string('savebrokenlabel'));
+        $mform->setDefault('savebroken', $this->question->options->isbroken);
+        $mform->insertElementBefore($savebroken, 'buttonar');
+        $mform->addHelpButton('savebroken', 'savebroken', 'qtype_stack');
         $mform->closeHeaderBefore('fixdollars');
 
         // There is no un-closeHeaderBefore, so fake it.
@@ -801,6 +812,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
         $question->assumereal            = $opt->assumereal;
+        $question->isbroken              = $opt->isbroken;
 
         return $question;
     }
@@ -818,7 +830,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($question->inputs as $inputname => $input) {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
-            $question->{$inputname . 'boxsize'}            = $input->boxsize;
+            $question->{$inputname . 'boxsize'}            = (int) $input->boxsize;
             // TO-DO: remove this when we delete it from the DB.
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
@@ -945,9 +957,12 @@ class qtype_stack_edit_form extends question_edit_form {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
-
-        $qtype = new qtype_stack();
-        return $qtype->validate_fromform($fromform, $errors);
+        if (empty($fromform['savebroken'])) {
+            $qtype = new qtype_stack();
+            return $qtype->validate_fromform($fromform, $errors);
+        } else {
+            return $errors;
+        }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

@@ -973,6 +973,18 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2024043000, 'qtype', 'stack');
     }
+
+    if ($oldversion < 2025042300) {
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('isbroken', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'stackversion');
+        // Conditionally launch add field scientificnotation.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2025042300, 'qtype', 'stack');
+    }
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

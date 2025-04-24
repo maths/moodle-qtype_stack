@@ -8,7 +8,7 @@
     <questiontext format="html">
       <text><![CDATA[<br>
 <div class="stack-comment">
-<h2>Specific feedback</h2>
+<h2>Specific feedback and multiple properties</h2>
 <p>In this, more advanced, question the student is required to find a cubic polynomial which matches up with the given function \(f(x)\).  In particular it should <em>connect smoothly</em> with both given ends.</p>
 <p>There are are <em>five separate properties</em> that characterize a correct answer</p>
 <ol>

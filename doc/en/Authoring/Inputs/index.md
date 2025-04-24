@@ -106,7 +106,7 @@ Notes:
 7. Inputs _not_ giving support for a syntax hint include:
    * All MCQ inputs: Boolean, checkbox, dropdown and radio.
    * GeoGebra
-   * Matrix and varmatrix inputs expect the syntax hint to be a correctly formatted matrix, in Maxaim syntax.  E.g. if most of your matrix is zeros you can pre-fill these with a syntax hint `{#zeromatrix(10,10)#}` etc.   The size can be determined by a random variable.  You cannot currently put `castext` functions within matrix entries.
+   * Matrix and varmatrix inputs expect the syntax hint to be a correctly formatted matrix, in Maxima syntax.  E.g. if most of your matrix is zeros you can pre-fill these with a syntax hint `{#zeromatrix(10,10)#}` etc.   The size can be determined by a random variable.  You cannot currently put `castext` functions within matrix entries.
    * Singlechar
    * Textarea and equiv inputs initially process the syntax hint as castext.  This is then assumed to be a Maxima list and re-processed as a Maxima expression. If valid, STACK removes "noun" operators, e.g. `nounand` will be converted to `and` before the syntax hint is displayed.  Therefore, you can add in a syntax hint of the form `[2x+x=?]`.  This is a list, but the contents are not valid Maxima and so are just displayed.
 8. The database limits syntax hints to 256 characters.  If you need to author a question with a longer hint, define a variable in the question variables and use this.  E.g. define a string `sh:"Very long syntax hint...."` and use `{@sh@}` as the hint.  The size restriction affects DB storage of the question, not internal operation.

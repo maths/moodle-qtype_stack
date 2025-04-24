@@ -1,6 +1,6 @@
 # Vector geometry functions for STACK
 
-STACK has a contributed library for vector geometry functions.  To use this library you must load it into the question variables.
+STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorgeometry.mac) for vector geometry functions.  To use this library you must load it into the question variables.
 
 * To use the latest code from github: `stack_include_contrib("vectorgeometry.mac");`
 * Loading this library automatically declares `stack_linear_algebra_declare(true);` to provide context.
@@ -74,6 +74,7 @@ But, solve can throw errors when we have dependent equations (as we might well d
 `linear_combinationp(ex)` is a predicate function that tests whether a given input `ex` is exactly a linear combination of column vectors with a linear offset.
 
 This function is specifically expecting something of the form \(\underline{\mathbf{r}}_0 + t_1\underline{\mathbf{d}}_1 + t_2\underline{\mathbf{d}}_2 + \dots + t_n\underline{\mathbf{d}}_n\), and can handle either `c` or `matrix` notation (not `r`). It is primarily useful as a sanity check before running the functions below. It will reject any expression with non-linear terms, and respects declarations like `declare(k,constant)`.
+
 * `linear_combinationp(c(1,2) + t*c(3,4))` returns `true`
 * `linear_combinationp(c(1,2) + t^2*c(3,4))` returns `false`
 * `linear_combinationp(c(1,2) + t*c(k,4))` returns `false`
@@ -91,6 +92,7 @@ For example, `constant_term(c(1,2) + t*c(3,4))` returns `matrix([1],[2])`, and `
 `vector_parametric_parts(ex)` will break down the expression into its constant part, direction vectors, and parameters (variables). This may behave unexpectedly if `linear_combinationp(ex)` returns false, as it assumes that the expression is linear in its parameters. 
 
 It returns a list with three components. The first is the constant term/linear offset (extracted with `constant_term`). The second is a list of column vectors; the direction vectors of this affine subspace. The third is a list of variable names; the parameters of this expression. Some examples:
+
 * `vector_parametric_parts(c(1,2) + t*c(3,4))` gives `[matrix([1],[2]), [matrix([3],[4])], [t]]`.
 * `vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1))` gives `[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]`
 * `vector_parametric_parts(matrix([p+3*q-4],[2+2*p-q],[p+q+1]))` gives `[matrix([-4],[2],[1]),[matrix([1],[2],[1]),matrix([3],[-1],[1])],[p,q]]`

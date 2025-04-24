@@ -12,7 +12,7 @@ A key feature are convenience functions `c` and `r` which convert their argument
 For more detail, see the page on [Vectors](Vectors.md).
 
 In STACK 4.9.0 this functionality was moved into the core of STACK.  For earlier versions of STACK
-you can use the latest code from github: `stack_include_contrib("linearalgebra_contrib.mac");`
+you can use the [latest code from github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/linearalgebra_contrib.mac): `stack_include_contrib("linearalgebra_contrib.mac");`
 
 ## Predicate functions for vectors
 

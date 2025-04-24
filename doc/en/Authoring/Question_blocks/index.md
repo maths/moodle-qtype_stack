@@ -23,9 +23,12 @@ Question blocks are divided into three broad groups.
 1. [Static blocks](Static_blocks.md), which are active when a question version is created.
   * Lang
   * Comment
+  * Todo
   * Debug
+  * Format
   * Textdownload
   * Include
+  * QUID
   * Template
   * [Hints/fact sheets](Fact_sheets.md)
 2. [Conditional blocks](Conditional_blocks.md), for looping and branching and programatic structures.
@@ -34,8 +37,11 @@ Question blocks are divided into three broad groups.
   * Foreach
 3. [Dynamic blocks](Dynamic_blocks.md), which manage features like Javascript and JSXGraph components.
   * Reveal
+  * Hint
+  * Adapt
   * JSXGraph
   * JSString
+  * Geogebra
   * Parsons
 4. [System blocks](System_blocks.md), which are not realy intended for end-users.
 

@@ -117,6 +117,14 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''],
         ['AlgEquiv', '', '5/4*%e^(%i*%pi/6)', '5*sqrt(3)/8+5/8*%i', 1, '', ''],
         ['AlgEquiv', '', '%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''],
+        ['AlgEquiv', '', '%e^(%i*t)', 'cos(t)+%i*sin(t)', 1, '', ''],
+        ['AlgEquiv', '', '%e^(%i*t)', '%i*sin(t)', 0, '', ''],
+        ['AlgEquiv', '', '%e^(%i*200*t)', '%e^(%i*199*t)', 0, '', ''],
+        // Cases below illustrate the problem with trigexpand:true for complex exponentials with large powers.
+        ['AlgEquiv', '', '%i*sin(3*k)+cos(3*k)', '%e^(3*%i*k)', 1, '', ''],
+        ['AlgEquiv', '', '%i*(3*cos(k)^2*sin(k)-sin(k)^3)-3*cos(k)*sin(k)^2+cos(k)^3', '%e^(3*%i*k)', 1, '', ''],
+        ['AlgEquiv', '', '%i*(3*cos(k)^2*sin(k)-sin(k)^3)-3*cos(k)*sin(k)^2+cos(k)^3', '%e^(7*%i*k)', 0, '', ''],
+        ['AlgEquiv', '', 'F(k-3)*%e^(31*%i*k)', 'F(k-3)*%e^(30*%i*k)+F(k+3)*%e^(30*%i*k)', 0, '', ''],
 
         ['AlgEquiv', '', 'inf', 'inf', 1, '', 'Infinity'],
         ['AlgEquiv', '', 'inf', '-inf', 0, '', ''],

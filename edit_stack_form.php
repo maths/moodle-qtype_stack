@@ -992,7 +992,7 @@ class qtype_stack_edit_form extends question_edit_form {
         if (!$text) {
             return false;
         }
-        return preg_match("/<\/jsxgraph>|\[\[jsxgraph|\[\[geogebra|<\/geogebra>|<script/i", $text);
+        return preg_match("/<\/jsxgraph>|\[\[jsxgraph|\[\[geogebra|<\/geogebra>|<script|\[\[javascript|\[\[script|<=|=>/i", $text);
     }
 
 }

@@ -1274,3 +1274,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     background-color: pink;
     border-radius: 10px;
 }
+.que .outcome, .que .comment {
+	color: #44331b;
+}

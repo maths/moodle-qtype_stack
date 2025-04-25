@@ -174,7 +174,7 @@ class qtype_stack extends question_type {
         $options->logicsymbol               = $fromform->logicsymbol;
         $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
-        $options->isbroken                  = !empty($fromform->savebroken) ? 1 : 0;
+        $options->isbroken                  = !empty($fromform->isbroken) ? 1 : 0;
 
         // We will not have the values for this.
         $options->compiledcache             = '{}';

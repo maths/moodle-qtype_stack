@@ -104,11 +104,14 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         parent::set_data($question);
+        // If the question is broken we run validation when the form is loaded to display errors.
+        // We have to temporarily remove the broken flag from the form to stop the validation
+        // beign by-passed.
         if ($question->options->isbroken) {
             $mform = $this->_form;
-            $mform->setDefault('savebroken', 0);
+            $mform->setDefault('isbroken', 0);
             $this->is_validated();
-            $mform->setDefault('savebroken', 1);
+            $mform->setDefault('isbroken', 1);
         }
     }
 
@@ -174,11 +177,11 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('fixdollars'), stack_string('fixdollarslabel'));
         $mform->insertElementBefore($fixdollars, 'buttonar');
         $mform->addHelpButton('fixdollars', 'fixdollars', 'qtype_stack');
-        $savebroken = $mform->createElement('checkbox', 'savebroken',
-                stack_string('savebroken'), stack_string('savebrokenlabel'));
-        $mform->setDefault('savebroken', $this->question->options->isbroken);
-        $mform->insertElementBefore($savebroken, 'buttonar');
-        $mform->addHelpButton('savebroken', 'savebroken', 'qtype_stack');
+        $isbroken = $mform->createElement('checkbox', 'isbroken',
+                stack_string('isbroken'), stack_string('isbrokenlabel'));
+        $mform->setDefault('isbroken', $this->question->options->isbroken);
+        $mform->insertElementBefore($isbroken, 'buttonar');
+        $mform->addHelpButton('isbroken', 'isbroken', 'qtype_stack');
         $mform->closeHeaderBefore('fixdollars');
 
         // There is no un-closeHeaderBefore, so fake it.
@@ -830,6 +833,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($question->inputs as $inputname => $input) {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
+            // Cast to int required to avoid erroneous validation messages on loading a broken question.
             $question->{$inputname . 'boxsize'}            = (int) $input->boxsize;
             // TO-DO: remove this when we delete it from the DB.
             $question->{$inputname . 'strictsyntax'}       = true;
@@ -957,7 +961,9 @@ class qtype_stack_edit_form extends question_edit_form {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
-        if (empty($fromform['savebroken'])) {
+        // By-pass STACK-specific validation if question is marked as broken.
+        // Moodle validation still performed.
+        if (empty($fromform['isbroken'])) {
             $qtype = new qtype_stack();
             return $qtype->validate_fromform($fromform, $errors);
         } else {

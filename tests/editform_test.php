@@ -84,6 +84,7 @@ final class editform_test_class extends \qtype_stack_edit_form {
      * @param mixed $itemid
      * @param mixed $filearea
      * @return array
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
      */
     public function prepare_text_field($field, $text, $format, $itemid, $filearea = '') {
         return parent::prepare_text_field($field, $text, $format, $itemid, $filearea);
@@ -114,7 +115,7 @@ final class editform_test extends \advanced_testcase {
         return new editform_test_class($questiontext, $specificfeedback, $quizmoduleid);
     }
 
-    public function x_test_get_input_names_from_question_text_default(): void {
+    public function test_get_input_names_from_question_text_default(): void {
 
         $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
@@ -124,7 +125,7 @@ final class editform_test extends \advanced_testcase {
                 $qtype->get_input_names_from_question_text(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
     }
 
-    public function x_test_get_prt_names_from_question_default(): void {
+    public function test_get_prt_names_from_question_default(): void {
 
         $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);

@@ -1957,7 +1957,7 @@ class qtype_stack extends question_type {
      * @return array updated $errors array.
      */
     protected function validate_cas_text($errors, $value, $fieldname, $fixingdollars, $session = null) {
-        if (!$fixingdollars && strpos($value, '$$') !== false) {
+        if (!$fixingdollars && $value && strpos($value, '$$') !== false) {
             $errors[$fieldname][] = stack_string('forbiddendoubledollars');
         }
 

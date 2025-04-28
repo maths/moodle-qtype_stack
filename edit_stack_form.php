@@ -974,7 +974,8 @@ class qtype_stack_edit_form extends question_edit_form {
             return $allerrors;
         } else {
             if (array_search(stack_string('youmustconfirm'), $allerrors)) {
-                $allerrors['versioninfo'] = stack_string('notsaved') . $allerrors['versioninfo'];
+                $allerrors['versioninfo'] = isset($allerrors['versioninfo']) ?
+                    stack_string('notsaved') . ' ' . $allerrors['versioninfo'] : stack_string('notsaved');
                 return $allerrors;
             } else {
                 return $errors;

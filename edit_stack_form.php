@@ -107,7 +107,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // If the question is broken we run validation when the form is loaded to display errors.
         // We have to temporarily remove the broken flag from the form to stop the validation
         // beign by-passed.
-        if ($question->options->isbroken) {
+        if (!empty($this->question->options->isbroken)) {
             $mform = $this->_form;
             $mform->setDefault('isbroken', 0);
             $this->is_validated();

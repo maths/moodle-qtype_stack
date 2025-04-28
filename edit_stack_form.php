@@ -179,7 +179,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('fixdollars', 'fixdollars', 'qtype_stack');
         $isbroken = $mform->createElement('checkbox', 'isbroken',
                 stack_string('isbroken'), stack_string('isbrokenlabel'));
-        $mform->setDefault('isbroken', $this->question->options->isbroken);
+        $mform->setDefault('isbroken', (!empty($this->question->options->isbroken) ? 1 : 0));
         $mform->insertElementBefore($isbroken, 'buttonar');
         $mform->addHelpButton('isbroken', 'isbroken', 'qtype_stack');
         $mform->closeHeaderBefore('fixdollars');
@@ -507,10 +507,13 @@ class qtype_stack_edit_form extends question_edit_form {
         // Set a default for the new question.
         if ($inputname === self::DEFAULT_INPUT) {
             $mform->setDefault($inputname . 'modelans', self::DEFAULT_TEACHER_ANSWER);
+        } else {
+            // Default for all parts of an input required in order to save a broken question.
+            $mform->setDefault($inputname . 'modelans', '');
         }
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), ['size' => 3]);
-        $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
+        $mform->setDefault($inputname . 'boxsize', (int) $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
         $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in',
@@ -585,6 +588,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 30]);
+        $mform->setDefault($inputname . 'options', '');
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
@@ -961,13 +965,20 @@ class qtype_stack_edit_form extends question_edit_form {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
-        // By-pass STACK-specific validation if question is marked as broken.
-        // Moodle validation still performed.
+        $qtype = new qtype_stack();
+        $allerrors = $qtype->validate_fromform($fromform, $errors);
+        // Ignore STACK-specific validation if question is marked as broken unless
+        // a confirmation is required.
+        // Moodle validation errors always returned.
         if (empty($fromform['isbroken'])) {
-            $qtype = new qtype_stack();
-            return $qtype->validate_fromform($fromform, $errors);
+            return $allerrors;
         } else {
-            return $errors;
+            if (array_search(stack_string('youmustconfirm'), $allerrors)) {
+                $allerrors['versioninfo'] = stack_string('notsaved') . $allerrors['versioninfo'];
+                return $allerrors;
+            } else {
+                return $errors;
+            }
         }
     }
 

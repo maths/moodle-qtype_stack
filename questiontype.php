@@ -235,6 +235,12 @@ class qtype_stack extends question_type {
         $prts = $DB->get_records('qtype_stack_prts',
                 ['questionid' => $fromform->id], '', 'name, id, questionid');
         foreach ($prtnames as $prtname) {
+            if (!isset($fromform->{$prtname . 'feedbackvariables'})) {
+                // Skip the PRT if it's not been set up. This should only occur when
+                // saving a broken question.
+                continue;
+            }
+
             if (array_key_exists($prtname, $prts)) {
                 $prt = $prts[$prtname];
                 unset($prts[$prtname]);
@@ -271,7 +277,7 @@ class qtype_stack extends question_type {
             }
             $graph->layout();
             $roots = $graph->get_roots();
-            if (count($roots) != 1 || $graph->get_broken_cycles()) {
+            if (empty($fromform->isbroken) && (count($roots) != 1 || $graph->get_broken_cycles())) {
                 throw new coding_exception('The PRT ' . $prtname . ' is malformed.');
             }
             reset($roots);

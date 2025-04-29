@@ -15,13 +15,13 @@ The `matrix.mac` contributed library adds even more functions to help manipulate
 
 ## Row and column operations
 
-The Maxima library `linearalgebra` (loaded by default in STACK) provides the `rowop`, `rowswap`, `columnop` and `columnswap` functions, and STACK adds `rowadd` and `rowmul`. These are described [here](../../CAS/Matrix.md). `matrix.mac` introduces `rowscale` and `columnscale`. When `simp:true`, `rowscale` is identical to `rowmul`, but `rowscale` also works when `simp:false`, which could be useful for making model answers. 
+The Maxima library `linearalgebra` (loaded by default in STACK) provides the `rowop`, `rowswap`, `columnop` and `columnswap` functions, and STACK adds `rowadd` and `rowmul`. These are described in the [matrix page](../../CAS/Matrix.md). `matrix.mac` introduces `rowscale` and `columnscale`. When `simp:true`, `rowscale` is identical to `rowmul`, but `rowscale` also works when `simp:false`, which could be useful for making model answers. 
 
 * `(simp:false, rowscale(matrix([1,2,3],[4,5,6],[7,8,9]),2,100))` will return `matrix([1,2,3],[100*4,100*5,100*6],[7,8,9])`
 
 ## Changing the entries of a matrix
 
-Maxima provides the `setelmx` function to change an element of a matrix and return the adjusted matrix. This is described [here](../../CAS/Matrix.md). `matrix.mac` provides a set of complementary functions to replace multiple entries at once.
+Maxima provides the `setelmx` function to change an element of a matrix and return the adjusted matrix. This is described in the [matrix page](../../CAS/Matrix.md). `matrix.mac` provides a set of complementary functions to replace multiple entries at once.
 
 * `setrowmx(r,i,M)` will replace row `i` of matrix `M` with `r` and return the resulting matrix. `r` can be a matrix, a list, or a single variable/number. In the latter case, `r` will populate every entry of the designated row.
   * `M[i]: r` will do the same thing, but returns the row `r` instead of the matrix. Also, `r` must be a literal list in this case.

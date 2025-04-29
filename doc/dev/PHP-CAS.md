@@ -6,7 +6,7 @@ This document describes the design of the PHP interface to the CAS.  This interf
 
 ## CAS text
 
-CAS text is literally "computer algebra active text".  This is documented [here](../Authoring/CASText.md).  Note, that when constructing CAS text it must be able to take a CAS session as an argument to the constructor.  In this way we can use lists of variables, such as [question variables](../Authoring/Variables.md) to provide values.
+CAS text is literally "computer algebra active text".  This is documented in [/Authoring/CASText](../Authoring/CASText.md).  Note, that when constructing CAS text it must be able to take a CAS session as an argument to the constructor.  In this way we can use lists of variables, such as [question variables](../Authoring/Variables.md) to provide values.
 
 E.g. we might have :
 

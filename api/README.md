@@ -6,9 +6,9 @@ This folder contains a standalone REST-API for integration of STACK into externa
 
 ### Docker
 
-The STACK API has been designed to be deployed using Docker. Pre-made images are publicly available via a gitlab registry under the identifier `https://hub.docker.com/u/stackmaths`. The used Dockerfile is available [here](https://github.com/maths/moodle-qtype_stack/blob/master/api/docker/).
+The STACK API has been designed to be deployed using Docker. Pre-made images are publicly available via a gitlab registry under the identifier `https://hub.docker.com/u/stackmaths`. The used Dockerfile is available in the [/api/docker folder of the codebase](https://github.com/maths/moodle-qtype_stack/blob/master/api/docker/).
 
-E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for images.
+E.g. see `hub.docker.com/r/mathinstitut/goemaxima` for images.
 
 > :warning: **NOTE**: The pre-built images rely on a recent version of the apache2 webserver, which requires a linux kernel version of 3.17 or newer on the Docker host.
 

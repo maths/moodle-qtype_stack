@@ -966,6 +966,7 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
         $qtype = new qtype_stack();
+        $qtype->question = $this->question;
         $allerrors = $qtype->validate_fromform($fromform, $errors);
         // Ignore STACK-specific validation if question is marked as broken unless
         // a confirmation is required.

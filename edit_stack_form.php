@@ -106,7 +106,7 @@ class qtype_stack_edit_form extends question_edit_form {
         parent::set_data($question);
         // If the question is broken we run validation when the form is loaded to display errors.
         // We have to temporarily remove the broken flag from the form to stop the validation
-        // beign by-passed.
+        // being by-passed.
         if (!empty($this->question->options->isbroken)) {
             $mform = $this->_form;
             $mform->setDefault('isbroken', 0);
@@ -966,8 +966,7 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
         $qtype = new qtype_stack();
-        $qtype->question = $this->question;
-        $allerrors = $qtype->validate_fromform($fromform, $errors);
+        $allerrors = $qtype->validate_fromform($fromform, $errors, $this->question);
         // Ignore STACK-specific validation if question is marked as broken unless
         // a confirmation is required.
         // Moodle validation errors always returned.

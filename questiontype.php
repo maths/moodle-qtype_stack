@@ -1612,9 +1612,10 @@ class qtype_stack extends question_type {
      *
      * @param array $fromform Moodle's "fromform" data type.
      * @param array $errors Existing partial error array.
+     * @param object $question.
      * @return array($errors, $warnings).
      */
-    public function validate_fromform($fromform, $errors) {
+    public function validate_fromform($fromform, $errors, $question) {
 
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
@@ -1866,7 +1867,7 @@ class qtype_stack extends question_type {
                         'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
             }
 
-            $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars);
+            $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars, $question);
 
         }
 
@@ -2134,9 +2135,10 @@ class qtype_stack extends question_type {
      * @param array $errors the error so far. This array is added to and returned.
      * @param array $fromform the submitted data to validate.
      * @param string $prtname the name of the PRT to validate.
+     * @param object $question the question.
      * @return array the update $errors array.
      */
-    protected function validate_prt($errors, $fromform, $prtname, $fixingdollars) {
+    protected function validate_prt($errors, $fromform, $prtname, $fixingdollars, $question=null) {
 
         if (strlen($prtname) > 18 && !isset($fromform[$prtname . 'prtdeleteconfirm'])) {
             $errors['specificfeedback'][] = stack_string('prtnamelength', $prtname);
@@ -2168,7 +2170,6 @@ class qtype_stack extends question_type {
         }
 
         // Check the nodes.
-        $question = null;
         if (property_exists($this, 'question')) {
             $question = $this->question;
         }

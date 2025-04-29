@@ -184,13 +184,15 @@ foreach ($files->children as $file) {
                 </div>
               </div>
             </div>
-            <hr />
-            <p style="font-size: 0.875em;color:gray;">
-              The STACK source code, including this API, is Licensed under the GNU General Public, License Version 3.
-              Documentation, sample questions and materials, are licensed under Creative Commons Attribution-ShareAlike 4.0 International.
-              See the <a href="https://docs.stack-assessment.org/en/About/License/">STACK licence</a> page for full details.
-            </p>
-            <? readfile(__DIR__ . '/stackfooter.html') ?>
+            <div class="col-lg-9">
+              <hr />
+              <p style="font-size: 0.875em;color:gray;">
+                The STACK source code, including this API, is Licensed under the GNU General Public, License Version 3.
+                Documentation, sample questions and materials, are licensed under Creative Commons Attribution-ShareAlike 4.0 International.
+                See the <a href="https://docs.stack-assessment.org/en/About/License/">STACK licence</a> page for full details.
+              </p>
+              <? readfile(__DIR__ . '/stackfooter.html') ?>
+            </div>
           </div>
         </div>
         <br>

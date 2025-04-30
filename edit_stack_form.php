@@ -973,11 +973,21 @@ class qtype_stack_edit_form extends question_edit_form {
         if (empty($fromform['isbroken'])) {
             return $allerrors;
         } else {
-            if (array_search(stack_string('youmustconfirm'), $allerrors)) {
+            $mustconfirm = (array_search(stack_string('youmustconfirm'), $allerrors) === false) ? false : true;
+            if ($errors || $mustconfirm) {
+                $errortext = stack_string('notsaved');
+                if ($errors) {
+                    $errortext .= ' ' . stack_string('moodleerrors');
+                }
+                if ($mustconfirm) {
+                    $errortext .= ' ' . stack_string('mustconfirm');
+                }
+
                 $allerrors['versioninfo'] = isset($allerrors['versioninfo']) ?
-                    stack_string('notsaved') . ' ' . $allerrors['versioninfo'] : stack_string('notsaved');
+                    $errortext . ' ' . $allerrors['versioninfo'] : $errortext;
                 return $allerrors;
             } else {
+                // This is going to be [].
                 return $errors;
             }
         }

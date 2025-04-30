@@ -1898,7 +1898,9 @@ class qtype_stack extends question_type {
                         $messages[$key] = implode(' ', $val);
                     }
                 }
-                $errors[$field] = implode(' ', $messages);
+                // Fixed to handle strings. We got away with e.g. default mark errors
+                // just not showing before but this previously threw an exception in PHP 8.x.
+                $errors[$field] = (is_array($messages)) ? implode(' ', $messages) : $messages;
                 $errorsexit = true;
             } else {
                 unset($errors[$field]);

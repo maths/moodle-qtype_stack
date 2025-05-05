@@ -48,11 +48,11 @@ final class editform_test_class extends \qtype_stack_edit_form {
             // which creates the category if it doesn't exist is 5.0 onwards.
             $category = question_get_default_category($quizcontext->id, true);
             if (!$category) {
-                $category = $category = question_make_default_categories([$quizcontext]);
+                $category = question_make_default_categories([$quizcontext]);
             }
         } else {
             // Deprecated from 5.0.
-            $category = $category = question_make_default_categories([$quizcontext]);
+            $category = question_make_default_categories([$quizcontext]);
         }
         $fakequestion = new \stdClass();
         $fakequestion->qtype = 'stack';

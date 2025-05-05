@@ -56,32 +56,22 @@ $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
     '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
     AND NOT v.status = "hidden" AND o.compiledcache = ?;';
 
-$notcompiled = $DB->get_recordset_sql($query, ['{}']);
-
-$nnotcompiled = 0;
-$ncompiled = 0;
-foreach ($notcompiled as $item) {
-    $nnotcompiled = $item->notcompiled;
-}
-$notcompiled->close();
+$notcompiled = $DB->get_record_sql($query, ['{}']);
+$nnotcompiled = $notcompiled->notcompiled;
 
 $query = 'SELECT count(*) as compiled FROM {question} q, ' .
     '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
-    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
+    AND NOT v.status = "hidden" AND o.compiledcache != ?;';
 
-$compiled = $DB->get_recordset_sql($query, ['{}']);
-
-foreach ($compiled as $item) {
-    $ncompiled = $item->compiled;
-}
-$compiled->close();
+$compiled = $DB->get_record_sql($query, ['{}']);
+$ncompiled = $compiled->compiled;
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 echo '<p>This tool only acts on succesfully compiled questions, to compile questions run the bulk tester ' .
     'or preview/use those questions.</p><p>';
-if ($ncompiled !== $notcompiled) {
+if ($nnotcompiled) {
     echo stack_string_error('errors') . '. ';
 }
 echo  'Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotcompiled .
@@ -328,7 +318,7 @@ if (data_submitted() && optional_param('todo', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        $tags = $q->get_question_todos();
+        list($hastodos, $tags) = $q->get_question_todos();
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);

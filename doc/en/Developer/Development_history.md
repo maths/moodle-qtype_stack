@@ -21,7 +21,7 @@ Released March 2025.
 7. Load Maxima's `eigen` library.
 8. The API now accepts moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
 9. Remove support for the `win` platform (which hasn't been tested for many years).  See [issue #1379](https://github.com/maths/moodle-qtype_stack/issues/1379).
-10. Add in the adapt block, and associated dynamic blocks.
+10. Add in the [adapt block](../Authoring/Question_blocks/Dynamic_blocks.md) and associated dynamic blocks.
 
 ## Version 4.8.5
 

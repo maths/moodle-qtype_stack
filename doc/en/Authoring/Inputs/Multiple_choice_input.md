@@ -9,6 +9,11 @@ If you are new to STACK please note that in STACK MCQs are *not* the place to st
 
 Please read the section on [inputs](../../Authoring/Inputs/index.md) first.
 
+STACK provides a number of multiple choice input types including:
+* Checkbox (students select one or more options from a displayed list)
+* Radio (students select *one* option from a list)
+* Drop down list (a drop-down menu box is added to the question text, from which students select a single option)
+
 Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
 * Checkbox inputs return a *list* of the CAS objects selected;
@@ -52,6 +57,11 @@ An example which includes the `display` option is
 
 Note in this example the `value` of the student's answer will be a letter which is literally a Maxima variable name.  In this situation you can't really randomize the letters used easily.  (Not impossible with some cunning code, but a lot of work....)
 
+When using checkbox or radio input types, the `display` value can include LaTeX code. (See below for including mathematics in a drop down input type.) Any `\` in the LaTeX code needs to be *escaped* to `\\`. For example a model answer might be
+
+     tacp:[[0, true, "\\( \\sin(x) \\)"], [1, false, "\\( \\cos(x) \\)"], [2, false, "\\( e^x \\)"]]
+
+
 If you choose to use an integer, and randomly shuffle the answers then the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer". Such a change might have other unintended and confusing consequences.*
 
 Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomization.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
@@ -66,7 +76,7 @@ If one of the responses is \(x=1 \text{ or } x=2\) then use `nounor` which is co
 
 Functions `diff` and `int` will evaluate, so you don't have displayed calculus operation.  If one of the responses is a _displayed_ derivative or integral then construct your answer with Maxima's inert forms `'diff` and `'int`.
 
-## Model answer: LaTeX display in dropdowns ##
+## Model answer: mathematics display in dropdowns ##
 
 HTML dropdowns cannot display LaTeX within the options.  This is a restriction of HTML/MathJax (not of STACK).  You can use HTML-entities within a string field.  For example
 
@@ -135,7 +145,7 @@ If one of the items in the teacher's answer list is is the special variable name
 ## Extra options ##
 
 These input types make use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.
-This must be a comma-separated list of values as follows, but currently the only option is to control the display of mathematical expressions.
+This must be a comma-separated list of values as follows.
 
 The way the items are displayed can be controlled by the following options.
 

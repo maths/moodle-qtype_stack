@@ -36,7 +36,7 @@ Constant coefficient ODEs can also be manipulated in STACK using Laplace Transfo
     sol: rhs(sol[1]);
     sol: subst([x(0)=-1,diff(x(t), t)=0],sol);
 
-The `laplace` command will Laplace Transform the ode (more information in maxima docs [here](https://maxima.sourceforge.io/docs/manual/maxima_104.html#index-laplace)), but it will still be in terms of the Laplace Transform of `x(t)`, which is symbolic. The `solve` command then solves the algebraic equation for this symbolic Laplace Transformed function, and on the right-hand side of the equals sign, the desired answer is obtained using the `rhs` command. Lastly, the initial conditions need to be specified for `x(t)`. The Laplace Transform symbolically specifies values for `x(0)` and `x'(0)` and these can be replaced with the `subst` command as shown above.
+The `laplace` command will Laplace Transform the ode (more information in [maxima docs](https://maxima.sourceforge.io/docs/manual/maxima_104.html#index-laplace)), but it will still be in terms of the Laplace Transform of `x(t)`, which is symbolic. The `solve` command then solves the algebraic equation for this symbolic Laplace Transformed function, and on the right-hand side of the equals sign, the desired answer is obtained using the `rhs` command. Lastly, the initial conditions need to be specified for `x(t)`. The Laplace Transform symbolically specifies values for `x(0)` and `x'(0)` and these can be replaced with the `subst` command as shown above.
 
 ### Randomly generating ODE problems ###
 

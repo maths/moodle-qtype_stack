@@ -21,9 +21,10 @@ Yes, see support for [multiple languages](Languages.md).
 LaTeX is a document preparation system. For STACK questions we only need some simple LaTeX, so please do not be put off.
 In particular STACK only really makes use of LaTeX for mathematical markup, and does not use the document structure tags.
 
-* An introduction for those totally new to LaTeX is found [here](http://www.andy-roberts.net/misc/latex/index.html).
-* The mathematics environment is described [here](http://www.andy-roberts.net/writing/latex/mathematics_1).
-* Details about LaTeX are available from <http://www.latex-project.org/guides/>.
+Useful LaTeX resources:
+* An introduction for those totally new to LaTeX, Andy Roberts' [Absolute Beginers](https://www.andy-roberts.net/latex/absolute_beginners/).
+* The [mathematics environment guidance](http://www.andy-roberts.net/writing/latex/mathematics_1).
+* Details about LaTeX are available from <www.latex-project.org/guides/>.
 
 Note that some of the more complex examples will not work on STACK. Just keep things simple.
 

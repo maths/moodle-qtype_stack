@@ -33,7 +33,7 @@
       <text>stack_unit_si_declare(true);
 td:2.0;
 tt:4.0;
-tv:ev(td/tt,simp);</text>
+tv:significantfigures(ev(td/tt,simp),2);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
@@ -68,7 +68,7 @@ tv:ev(td/tt,simp);</text>
     <input>
       <name>ans1</name>
       <type>units</type>
-      <tans>tv*m/s</tans>
+      <tans>dispsf(tv,2)*m/s</tans>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>4</insertstars>

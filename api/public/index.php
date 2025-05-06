@@ -51,5 +51,5 @@ $app->post('/test', TestController::class);
 $app->post('/grade', GradingController::class);
 $app->post('/validate', ValidationController::class);
 $app->post('/download', DownloadController::class);
-
+$app->redirect('/{page}', '/sample.php', 301);
 $app->run();

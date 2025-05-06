@@ -138,6 +138,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '\'root(x,m)', 'x^(1/m)', 1, '', ''],
         ['AlgEquiv', '', 'x', '\'root(x^2)', 0, '', ''],
         ['AlgEquiv', '', 'abs(x)', 'sqrt(x^2)', 1, '', ''],
+        ['AlgEquiv', '', '(assume(a>0),a*sqrt(5))', 'sqrt(5*a^2)', 1, '', ''],
         ['AlgEquiv', '', '1/abs(x)^(1/3)', '(abs(x)^(1/3)/abs(x))^(1/2)', 1, '', ''],
         ['AlgEquiv', '', 'sqrt((x-3)*(x-5))', 'sqrt(x-3)*sqrt(x-5)', 0, '', ''],
         ['AlgEquiv', '', '1/sqrt(x)', 'sqrt(1/x)', 1, '', ''],

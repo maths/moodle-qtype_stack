@@ -92,7 +92,10 @@ require_login();
                     const inputs = json.questioninputs;
                     let correctAnswers = '';
                     // Show correct answers.
-                    for (const [name, input] of Object.entries(inputs)) {
+                    const placeholders = question.matchAll(/\[\[input:([a-zA-Z][a-zA-Z0-9_]*)\]\]/g);
+                    for (const holder of placeholders) {
+                        const name = holder[1];
+                        const input = inputs[name];
                         question = question.replace(`[[input:${name}]]`, input.render);
                         question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
                         if (input.samplesolutionrender && name !== 'remember') {

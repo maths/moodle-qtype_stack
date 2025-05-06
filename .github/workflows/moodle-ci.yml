@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     services:
       postgres:
@@ -41,7 +41,7 @@ jobs:
           - php: '8.2'
             moodle-branch: 'MOODLE_405_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
+            maxima: 'GCL'
             moodle-app: true
           - php: '8.2'
             moodle-branch: 'MOODLE_404_STABLE'

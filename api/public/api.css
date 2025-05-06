@@ -57,3 +57,62 @@ a.nav-link:link, a.nav-link:visited, a.nav-link:hover, a.nav-link:active {
   .sidebar a {text-align: center; float: none;}
   .main-content {margin-left: 0; padding: 0px;}
 }
+.container-footer {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  max-width: 97.75rem;
+  margin-right: auto;
+  margin-left: auto
+}
+@media (min-width: 768px) {
+  .container-footer {
+      padding-right:2rem;
+      padding-left: 2rem
+  }
+}
+.footer-discover {
+  background: #252525
+}
+.footer-discover-heading {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  max-width: 97.75rem;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: calc(1.34375rem + .65625vw);
+  padding-top: 1.5rem;
+  padding-bottom: 1.3rem;
+  margin-bottom: 0;
+  font-family: "Crimson Text",serif;
+  font-weight: 400;
+  line-height: 1;
+  color: #b0b0b0;
+  text-transform: uppercase
+}
+@media (min-width: 768px) {
+  .footer-discover-heading {
+      padding-right:2rem;
+      padding-left: 2rem
+  }
+}
+@media (min-width: 1600px) {
+  .footer-discover-heading {
+      font-size:2rem
+  }
+}
+.footer {
+  padding: 1rem 0;
+  color: #d4d4d4;
+  background: linear-gradient(to bottom,#3a3a3a 0,#252525 100%) repeat scroll 0 0;
+  background-color: #3a3a3a;
+}
+footer a {
+  color: white;
+  text-decoration: none
+}
+footer a:hover {
+  --edgel-link-color-rgb: var(--edgel-link-hover-color-rgb);
+  text-decoration: underline
+}

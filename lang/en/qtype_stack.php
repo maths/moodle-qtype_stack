@@ -407,6 +407,7 @@ $string['youmustconfirm'] = 'You must confirm here.';
 $string['notsaved'] = '** QUESTION WAS NOT SAVED **';
 $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
+$string['stackerrors'] = 'You have errors in your question.';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

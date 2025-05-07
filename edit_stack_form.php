@@ -995,24 +995,34 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
         $qtype = new qtype_stack();
         $allerrors = $qtype->validate_fromform($fromform, $errors, $this->question);
+        $mustconfirm = (array_search(stack_string('youmustconfirm'), $allerrors) === false) ? false : true;
+        // Add not saved warning but only when attempting to save, not on loading question.
+        // Moodle errors and confirmation issues will always be on save as question cannot be saved and thus
+        // cannot be loaded in this state even if marked as broken. If there are STACK issues, we only flag
+        // if question is not marked as broken and it's a submit.
+        if ($errors || $mustconfirm ||
+                ($allerrors && empty($fromform['isbroken']) && !empty(optional_param_array('questiontext', [], PARAM_RAW)))) {
+            $errortext = stack_string('notsaved') . '<br>';
+            if ($errors) {
+                $errortext .= stack_string_error('moodleerrors') . '<br>';
+            }
+            if ($mustconfirm) {
+                $errortext .= stack_string_error('mustconfirm') . '<br>';
+            }
+            if (empty($fromform['isbroken']) && $allerrors != $errors) {
+                $errortext .= stack_string_error('stackerrors') . '<br>';
+            }
+
+            $allerrors['versioninfo'] = isset($allerrors['versioninfo']) ?
+                $errortext . ' ' . $allerrors['versioninfo'] : $errortext;
+        }
         // Ignore STACK-specific validation if question is marked as broken unless
         // a confirmation is required.
         // Moodle validation errors always returned.
         if (empty($fromform['isbroken'])) {
             return $allerrors;
         } else {
-            $mustconfirm = (array_search(stack_string('youmustconfirm'), $allerrors) === false) ? false : true;
             if ($errors || $mustconfirm) {
-                $errortext = stack_string('notsaved');
-                if ($errors) {
-                    $errortext .= ' ' . stack_string('moodleerrors');
-                }
-                if ($mustconfirm) {
-                    $errortext .= ' ' . stack_string('mustconfirm');
-                }
-
-                $allerrors['versioninfo'] = isset($allerrors['versioninfo']) ?
-                    $errortext . ' ' . $allerrors['versioninfo'] : $errortext;
                 return $allerrors;
             } else {
                 // This is going to be [].

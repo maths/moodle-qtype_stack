@@ -94,7 +94,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function make_from_source(string $source, string $context): castext2_evaluatable {
+    public static function make_from_source(?string $source, string $context): castext2_evaluatable {
         $r = new castext2_evaluatable();
         $r->source = $source;
         $r->context = $context;

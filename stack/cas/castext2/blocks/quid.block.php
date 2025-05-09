@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../block.interface.php');
 /**
  * A block for outputting question usage level unique identifiers.
  * Primarily used for scripting and to ensure that identifiers stay
- * unique and do not collide when simialr logic gets copied to multiple
+ * unique and do not collide when similar logic gets copied to multiple
  * questions and those questions appear on the same page.
  */
 class stack_cas_castext2_quid extends stack_cas_castext2_block {

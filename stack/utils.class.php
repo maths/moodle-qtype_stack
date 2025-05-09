@@ -617,6 +617,9 @@ class stack_utils {
      * @return array of placeholdernames.
      */
     public static function extract_placeholders($text, $type) {
+        if (!$text) {
+            return [];
+        }
         preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
                 $text, $matches);
         return $matches[1];

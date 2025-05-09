@@ -86,6 +86,9 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         if (!property_exists($questiondata->options, 'stackversion')) {
             $questiondata->options->stackversion = '';
         }
+        if (!property_exists($questiondata->options, 'isbroken')) {
+            $questiondata->options->isbroken = 0;
+        }
 
         if (!property_exists($questiondata->options, 'inversetrig')) {
             $questiondata->options->inversetrig = 'cos-1';
@@ -200,6 +203,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         if (!property_exists($data, 'stackversion')) {
             $data->stackversion = '';
+        }
+
+        if (!property_exists($data, 'isbroken')) {
+            $data->isbroken = 0;
         }
 
         if (!property_exists($data, 'inversetrig')) {

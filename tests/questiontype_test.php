@@ -251,6 +251,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>

@@ -348,3 +348,81 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Number of new variants successfully created, tested and deployed: 1."
     And I should see "Too many repeated existing question notes were generated."
     And I should see "A variant matching this Question note is already deployed."
+
+  @javascript
+  Scenario: Saving broken questions
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    # Create a new question.
+    And I add a "STACK" question filling the form with:
+      | Question name        | Test STACK question                                                           |
+      | Question variables   | p : (x-1)^3;                                                                  |
+      | Question text        | Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] |
+      | Question description | This is a very simple test question.                                          |
+      | Model answer         | diff(p,x)                                                                     |
+      | SAns                 | ans1                                                                          |
+      | TAns                 | diff(p,x)                                                                     |
+    Then I should see "Test STACK question"
+
+    # Save a broken question.
+    When I am on the "Test STACK question" "core_question > edit" page
+    And I set the following fields to these values:
+      | Question name        | Broken question       |
+      | Model answer         |                       |
+    And I press "id_submitbutton"
+    Then I should not see "Broken question"
+    And I set the following fields to these values:
+      | Save as broken        | 1 |
+    And I press "id_submitbutton"
+    Then I should see "Broken question"
+
+    # Update a broken question
+    When I am on the "Broken question" "core_question > edit" page
+    And I set the following fields to these values:
+      | Question name        | Broken question updated                                                       |
+      | Question text        | [[input:ans1]] [[validation:ans1]] [[input:ans2]] [[validation:ans2]]         |
+      | Specific feedback    | [[feedback:prt1]] [[feedback:prt2]]                                           |
+    And I press "id_submitbutton"
+    Then I should see "Broken question updated"
+
+    # Remove an input from a broken question
+    When I am on the "Broken question updated" "core_question > edit" page
+    Then I should see "Potential response tree: prt2"
+    And I should see "Input: ans2"
+    And I set the following fields to these values:
+      | Question name        | Broken question update2                                                       |
+      | Question text        | [[input:ans1]] [[validation:ans1]]                                            |
+      | Specific feedback    | [[feedback:prt1]] [[feedback:prt2]]                                           |
+    And I press "id_submitbutton"
+    Then I should see "QUESTION WAS NOT SAVED"
+    And I click on "[id='id_ans2deleteconfirm']" "css_element"
+    And I press "id_submitbutton"
+    Then I should see "Broken question update2"
+
+    # Remove a PRT from a broken question
+    When I am on the "Broken question update2" "core_question > edit" page
+    Then I should see "Potential response tree: prt1"
+    And I should see "Potential response tree: prt2"
+    And I should see "Input: ans1"
+    And I should not see "Input: ans2"
+    And I set the following fields to these values:
+      | Question name        | Broken question update3                                                       |
+      | Question text        | [[input:ans1]] [[validation:ans1]]                                            |
+      | Specific feedback    | [[feedback:prt1]]                                           |
+    And I press "id_submitbutton"
+    Then I should see "QUESTION WAS NOT SAVED"
+    And I click on "[id='id_prt2prtdeleteconfirm']" "css_element"
+    And I press "id_submitbutton"
+    Then I should see "Broken question update3"
+
+    # Fix the question, then save normally
+    When I am on the "Broken question update3" "core_question > edit" page
+    Then I should see "Potential response tree: prt1"
+    And I should not see "Potential response tree: prt2"
+    And I should see "Input: ans1"
+    And I should not see "Input: ans2"
+    And I set the following fields to these values:
+      | Question name        | Fixed question  |
+      | Model answer         | diff(p,x)       |
+      | Save as broken       | 0               |
+    And I press "id_submitbutton"
+    Then I should see "Fixed question"

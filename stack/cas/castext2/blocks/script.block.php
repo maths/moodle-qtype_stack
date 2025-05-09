@@ -45,7 +45,7 @@ class stack_cas_castext2_script extends stack_cas_castext2_block {
         ]);
 
         if (!isset($options['in iframe'])) {
-            return new MP_String(' ERROR [[script]] blocks muSt be within iframes. ');
+            return new MP_String(' ERROR [[script]] blocks must be within iframes. ');
         }
 
         // All formatting assumed to be raw HTML here.

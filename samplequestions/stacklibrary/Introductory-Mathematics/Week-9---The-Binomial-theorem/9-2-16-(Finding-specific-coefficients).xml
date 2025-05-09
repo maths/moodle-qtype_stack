@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.2.16 (Finding specific coefficients)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Finding specific coefficients</h1>
+
+<p>We have now seen how to expand binomial expressions of various types. However, it turns out that often, we need not do this amount of work. We are often only interested in finding a specific term or a specific coefficient in the expansion. Fortunately, as we will see in the next section, the Binomial Theorem allows us to find these specific values without having to preform the full expansion.</p>
+
+<p>The <b>general term</b> or \((r+1)^{th}\) term in the binomial expansion \((x+y)^n\) is 
+\[
+T_{r+1} = {n \choose r} x^{n-r}y^r.
+\]
+We will see how to use this formula in the following examples.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>3.0.7 (Truth and lies)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that we have three people \(A,B\) and \(C\) and suppose that we know that one of them is telling the truth and the others are lying. Based on their statements below which of \(A,B\) and \(C\) is telling the truth?</p>
+
+<ol type="A">
+<li>I never lie.</li>
+<li>A is lying. I am telling the truth.</li>
+<li>B is lying. I am telling the truth.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>The only way for there to be just one person telling the truth is if B is telling the truth.</p>
+
+<p> First suppose that A is telling the truth, then C's statement that B is a liar also becomes true. However, on the other hand, if C is telling the truth, then B's statement that A is a liar becomes true.</p> 
+<p>In both cases we have two truth-tellers and one liar, so the only possible solution is that B is telling the truth.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>false</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="0" format="html">
+      <text>A is telling the truth.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="html">
+      <text>B is telling the truth.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>C is telling the truth.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

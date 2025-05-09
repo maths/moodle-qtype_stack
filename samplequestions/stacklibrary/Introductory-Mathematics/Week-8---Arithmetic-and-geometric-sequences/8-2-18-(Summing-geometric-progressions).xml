@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.18 (Summing geometric progressions)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Summing geometric progressions</h3>
+
+<p>We will use the alternative name <b>geometric progression</b> to refer to a finite number of terms from a geometric sequence.</p>
+<p>Adding up the first \(n\) terms of the geometric sequence given by \(u_n=ar^{n-1}\), we have
+\[ 
+\begin{align*} S_n &amp;= u_1+u_2+\cdots+u_n \\ &amp;= a + ar + ar^2 + \cdots + ar^{n-1}.
+\end{align*} 
+\]
+Writing out \(S_n\) and \(r\times S_n\) in full,
+\[
+\begin{align*} S_n &amp;= a + ar + ar^2 + \cdots + ar^{n-1} \\ r\times S_n &amp;= \phantom{a +{}} ar + ar^2 + \cdots + ar^{n-1} + ar^n, \end{align*} 
+\]
+so we see that 
+\[
+\begin{align*} S_n - r S_n &amp;= a - ar^n \\ (1-r)S_n &amp;= a(1-r^n). \end{align*}
+\]
+This can be rearranged to get the formula for the sum of the first \(n\) terms:</p>
+<br/>
+<p>The sum of the first \(n\) terms of the geometric sequence given by \(u_n=ar^{n-1}\) is \[ S_n = \frac{a(1-r^n)}{1-r}. \]</p>
+<br/>
+<p>Note that the formula does not work if \(r=1\) since that would result in dividing by \(0\). But when \(r=1\) we just have \(S_n = a+a+a+\cdots+a=na\).</p>
+<br/>
+<h3>Example</h3>
+
+<p>What is the sum of the geometric progression \(81+27+9+\cdots+\frac{1}{81}\)?</p>
+
+<h3>Solution</h3>
+
+<p>In case case, we see that the first term of the progression is \(a = 81\) and common ratio is \(r = \frac{27}{81} = \frac{1}{3}\). The final term is 
+\[
+\frac{1}{81} = ar^{n-1} = 81(\frac{1}{3})= 81(\frac{1}{3})^{n-1}.
+\]
+Therefore, 
+\[
+(\frac{1}{3})^{n-1} = \frac{1}{81^2}=\frac{1}{3^8}.
+\]
+Hence, \(n-1 = 8\) and so \(n=9\).
+We are now in a position to use the formula above as follows
+\[
+S_9 = \frac{a(1-r^n)}{1-r} = \frac{81(1-\frac{1}{3^9})}{1-\frac{1}{3}} = \frac{9841}{81}
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.8 (Parametric form of a circle)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Parametric form of a circle</h1>
+
+<p>We have seen in the previous example that we can parameterise a circle by using the trigonometric functions \(\sin \theta\) and \(\cos \theta\). This section will focus on using parametric representations of circles and identifying when a set of parametric equations gives us a circle. Let us begin by considering the following example.</p>
+
+<h3>Example</h3>
+
+<p>Find a parametric representation \(x = f(t), y = g(t)\) of the circle of radius \(9\) and centre \((-8,-8)\).</p>
+
+<h3>Solution</h3>
+
+<p>In this case, we know that the \(x\) coordinate will be a function of \(\cos t\) and the \(y\)-coordinate will be a function of \(\sin t\). Recall that we can write the Cartesian equation of this circle is given in centre-radius form as 
+\[
+(x+8)^2 + (y+8)^2 = 9^2.
+\]
+Then, notice that the functions \(f(t) = 9 \cos t -8\) and \(g(t) = 9 \sin t - 8\) satisfy:
+\[
+\begin{align*}
+(f(t) - (-8))^2 + (g(t) - (-8))^2 &= (9 \cos t)^2 + (9 \sin t)^2
+\\
+&= 9^2 \cos^2 t + 9^2 \sin^2 t
+\\
+&= 9^2 (\cos^2 t + \sin^2 t)
+\\
+&= 9^2. 
+\end{align*}
+\]
+Therefore a parametric representation of the circle is given by \(x = 9 \cos t - 8\), \(y = 9 \sin t -8\).
+</p>
+<br/>
+In general for a circle with centre-radius form \((x-a)^2 + (y-b)^2 = r^2\) the parametric form of the circle is given by
+\[
+x = r \cos t + a \qquad \mbox{ and } \qquad y = r \sin t + b.
+\]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

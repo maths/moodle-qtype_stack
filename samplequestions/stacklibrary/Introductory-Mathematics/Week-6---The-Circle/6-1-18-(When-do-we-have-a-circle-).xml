@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.18 (When do we have a circle?)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>When is a circle not a circle?</h1>
+
+<p>We have previously introduced the centre-radius form and the expanded form for the equation of a circle. Both of these forms are ways to represent a circle in the Cartesian plane. However, in some cases even when we have an equation in expanded form it may not actually represent a circle. In other words there are some restrictions on the expanded form in order for it to represent a circle.</p>
+
+<p>Consider an equation in expanded form: \(x^2 + y^2 + 2gx + 2fy + c = 0\). We have seen that in this case the centre is given by \((-g,-f)\) and the radius is \(\sqrt{g^2 + f^2 -c}\). However we have previously seen (in week 1) that we can not always take the square root of a number. We require the number under the square root to be positive in order to obtain a real root. This means that in order for us to know that the expanded form actually represents a circle we require that \(g^2 + f^2 - c > 0\). Note that:</p>
+
+<ol>
+<li>if \(g^2 + f^2 - c < 0\) then we cannot obtain a real value for the radius, since we would have to square root a negative.</li>
+<li>if \(g^2 + f^2 - c = 0 \) then the radius is zero, in other words the equation represents a point rather than a circle.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

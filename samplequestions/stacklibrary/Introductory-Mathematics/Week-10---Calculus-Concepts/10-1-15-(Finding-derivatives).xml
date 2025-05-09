@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.15 (Finding derivatives)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Finding derivatives</h1>
+
+<p>To end this section we will practice how to find various derivatives. We will also examine functions which we cannot find the derivatives of. </p>
+
+<p>We will summarise the main derivative results we have seen so far. For a function \(y = f(x)\) the derivative (with respect to \(x\)) is denoted \(\frac{dy}{dx}\) or \(f'(x)\).</p><p>For the following basic functions we have easy rules for calculating derivatives:<br></p><p><br>
+</p><table style="text-align: center; margin-left:auto; margin-right:auto;" cellpadding="10" bordercolor="#3a87ad" border="1" width="100%">
+<thead>
+<tr style="background: #c1ddea">
+<th style="min-width: 300px" scope="col">Function</th>
+<th style="min-width: 300px" scope="col">Derivative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(y = x^n\)</td>
+<td>\(\frac{dy}{dx} = n x^{n-1}\)</td>
+</tr>
+<tr>
+<td>\(y= a_n x^n + a_{n-1}x^{n-1} + \cdots + a_1 x + a_0\)</td>
+<td>\(\frac{dy}{dx} = na_nx^{n-1} + (n-1)a_{n-1}x^{n-2} + \cdots + 2a_2x + a_1\)</td>
+</tr>
+<tr>
+<td>\(y = \sin(x)\)</td>
+<td>\(\frac{dy}{dx}&nbsp; = \cos(x)\)</td>
+</tr>
+<tr>
+<td>&nbsp;\(y = \cos(x)\)&nbsp;</td>
+<td>\(\frac{dy}{dx}&nbsp; = -\sin(x)\)</td>
+</tr>
+</tbody>
+</table><br/>
+
+<h3>Example</h3>
+
+<p>Find the derivative of the function \(y = x^2 + 3x + 2\).</p>
+
+<h3>Solution</h3>
+
+<p>Using the rules above we have that \(\frac{dy}{dx} = 2x + 3\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

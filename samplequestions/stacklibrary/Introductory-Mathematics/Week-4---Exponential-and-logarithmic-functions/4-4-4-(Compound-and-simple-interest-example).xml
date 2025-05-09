@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.4.4 (Compound and simple interest example)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Find the twenty year balance for a £100 investment at 5% yearly interest using the simple interest and compound interest formulas.</p>
+
+<h3>Solution</h3>
+
+<p>In this case we have that \(P = 100,t=20, i = 0.05\). So substituting these values into the simple interest formula gives 
+\[
+A_{\mbox{simple}} = 100 \cdot (1 + 20\cdot 0.05) = 100 \cdot 2 = £200.
+\]
+Now substituting this into the compound interest formula we have 
+\[
+A_{\mbox{compound}} = 100 \cdot (1 +0.05)^{20} = £265.33
+\]
+Therefore if we chose compound interest we would earn £65 more on our initial investment. Note that the periods have to specify how often the interest is paid. So if the interest was compounded every six months we would have to double the exponent.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

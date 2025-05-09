@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>10.2.20 (Stationary points and zeros)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Below are listed some possible behaviours of a differentiable function \(f\).&nbsp; Select all those behaviours that are indeed possible.<br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The function \(f(x) = e^x\) has no stationary points and no roots.</p><p></p><p>The function \(f(x) = x\) has no stationary points and exactly one root.</p><p></p><p>The function \(f(x) = x^2 + 1\) has exactly one stationary point and no roots.</p><p></p><p>The function \(f(x) = x^2\) has exactly one stationary point and exactly one root.</p><p></p><p>The function \(f(x) = x^2 -1\) has exactly one stationary point and two roots.</p><p>Between any two zeros of a differentiable function there must be a stationary point.&nbsp; We have not proved it but a sketch should make it clear.&nbsp; So two zeros but no stationary points, and three zeros and only one stationary point are both impossible behaviours.<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>false</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(f\) has no stationary points and no roots.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(f\) has no stationary points and exactly one root.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\(f\) has no stationary points and exactly two roots.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(f\) has exactly one stationary point and no roots.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(f\) has exactly one stationary point and exactly one root.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(f\) has exactly one stationary point and exactly two roots.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\(f\) has exactly one stationary point and exactly three roots.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

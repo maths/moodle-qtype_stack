@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.20 (Example of matrix inverse)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Find the inverse of the matrix
+\[
+A = \begin{bmatrix}
+2 & -3
+\\
+4 & -7
+\end{bmatrix}.
+\]</p>
+
+<h3>Solution</h3>
+
+<p>We seek to use the above formula. So in this case note that \(a = 2, b = -3, c = 4 d = -7\). Hence 
+\[
+A^{-1} = \frac{1}{(2 \times -7) - (-3 \times 4)} \begin{bmatrix}
+-7 & 3
+\\
+-4 & 2
+\end{bmatrix} = -\frac{1}{2} \begin{bmatrix}
+-7 & 3
+\\
+-4 & 2
+\end{bmatrix} = 
+\begin{bmatrix}
+\frac{7}{2} & -\frac{3}{2}
+\\
+2 & -1
+\end{bmatrix} 
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

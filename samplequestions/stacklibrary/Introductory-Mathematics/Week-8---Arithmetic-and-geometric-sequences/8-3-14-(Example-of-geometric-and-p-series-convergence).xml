@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.14 (Example of geometric and p series convergence)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Use the series tests above to decide if the following series are convergent or divergent.</p>
+<ol type="a">
+<li>\(\sum\limits_{n=1}^\infty \frac{1}{8n^3}\).</li>
+<li>\(\sum\limits_{n=1}^\infty 24 \cdot 2^{n-1}\)</li>
+</ol>
+
+<h3>Solution</h3>
+
+<ol type="a">
+<li>In this case we note that 
+\[
+\frac{1}{8n^3} = \frac{1}{(2n)^3},
+\]
+so this is a p-series with \(p=3 > 1\) and therefore this series is convergent.</li>
+<li>This series is a geometric series with \(r = 2\), therefore it diverges.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

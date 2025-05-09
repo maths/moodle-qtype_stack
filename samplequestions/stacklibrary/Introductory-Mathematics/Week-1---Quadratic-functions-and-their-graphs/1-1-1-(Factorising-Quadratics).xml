@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.1 (Factorising Quadratics)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Factorising</h1>
+
+<p><b>Factorising</b> is the opposite process to expanding brackets. For example, expanding the brackets \((x+2)(x+3)\) gives \(x^2 + 5x + 6\), so we have removed the brackets from the equation. Factorising is the reverse this process and is an important method for solving quadratic equations. However factorising is often a trickier process than expanding brackets and it often relies on inspection. In fact, not all quadratics will factorise, but a lot do, therefore it is an important mathematical skill to practice. </p>
+<br>
+<p>How does factorising help us solve a quadratic equation? Recall that to <i>solve</i> a quadratic we wish to find its roots, i.e. the values of \(x\) for which the quadratic is equal to zero. For example, suppose we wish to solve \(x^2 + x - 6 = 0\). This can be factorised as \((x+3)(x-2)=0\). 
+In order for this factorised form to be equal to zero, either the left or the right bracket have to be equal to zero. This is called the <b>Null factor law</b> or the <b>zero product property</b>. This occurs here when \(x = -3\) or when \(x = -2\) so these are the solutions of the initial quadratic. We can always check when we have obtained the correct factorisation by expanding out the brackets and checking if this expansion returns the initial quadratic. </p>
+<br>
+<h3>Examples</h3>
+
+<p>Factorise the following equations.</p>
+
+<ol>
+<li>\(x^2 - 3x = 0\)</li>
+<li>\(y^2 - 2y - 8 = 0\)</li>
+<li>\(2x^2 + x -1 = 0\)</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol>
+<li>Here, we seek to remove the common factor of \(x\) from both terms. 
+\[
+x^2 - 3x = x(x+3) = 0
+\]</li>
+<li>Factorising the left hand side we find \(y^2 - 2y - 8 =(y+2)(y−4)\) so that
+\[
+y^2 - 2y - 8 = 0 \qquad \mbox{ is equivalent to } \qquad (y+2)(y−4)=0.
+\]
+</li>
+<li>Again, factorising the left hand side we find \(2x^2 + x -1 = (2x -1)(x+1)\) so that 
+\[
+2x^2 + x -1 = 0 \qquad \mbox{ is equivalent to } \qquad  (2x -1)(x+1)=0.
+\]
+</li>
+</ol>
+
+<p>Therefore what are the solutions to each of these quadratics?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

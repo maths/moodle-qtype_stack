@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.1 (Applications of simultaneous equations - introduction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>This week we have focussed on solving a variety of simultaneous equations. We have seen how these systems of equations can be expressed graphically and we have seen how this reasoning can be used within linear programming. In addition, we have introduced systems of more than two linear equations. The important property of these systems, is that we can represent them using matrices. This means that we can use matrix techniques and processes to help us understand the systems of equations, enabling us to tackle a wider variety of systems. This is the beginning of the field of linear algebra and in this section we will examine the history of matrices and linear algebra. In addition, we will focus on some further examples of simultaneous equations, including their use in air traffic control and finance.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

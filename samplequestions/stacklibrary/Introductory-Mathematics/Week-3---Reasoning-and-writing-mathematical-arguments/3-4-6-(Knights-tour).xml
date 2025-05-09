@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.6 (Knights tour)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>The knight's tour problem</h3>
+
+<p>Another famous recreational maths problem is called the knight's tour. This problem dates back to the 9th century and gained popularity alongside the game of chess to which it is related. The problem is actually related to mathematical field of <i>graph theory</i> and was studied in depth by the mathematician Leonhard Euler. </p>
+<br/>
+<p>The knight's tour is played on a chess board with a single piece - the knight. The object of the problem is to is to find a sequence of moves that allow the knight to visit every square of the board exactly once. Once such sequence is called a <i>tour</i>.  If the knight ends on a square that is one knight's move from the beginning square (so that it could tour the board again immediately, following the same path), the tour is closed; otherwise, it is open. Recall that in chess, a knight can only move in an "L" shape so the challenge becomes finding a sequence of such moves.</p>
+<br/>
+<p>The solution of this problem has been greatly simplified with the advent of computers. We can programme a computer to try possible permutations of moves and see if they are valid using a technique called backtracking. In fact, it has been proven that for any \(m \times n\) chessboard with \(m \leq n\) a closed knight's tour is always possible unless one or more of the following conditions hold:</p>
+<p>\(m,n\) are both odd.</p>
+<p>\(m = 1,2\) or \(4\).</p>
+<p>\(m = 3\) and \(n= 4,6,8\).</p>
+<br/>
+<p>The point of this example, is to illustrate the fact that a seemingly straightforward problem can yield exceeding complicated mathematics. This can be seen in the fact that a solution to the problem was only found in 1823, approximately 900 years after the problem was first stated.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

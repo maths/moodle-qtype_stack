@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.1.8 (Disjunction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Disjunction</h3>
+
+<p>We have seen that we can construct larger statements from smaller ones using conjunctions. In fact we can also do this by using a <b>disjunction</b>, this corresponds to the use of the word 'or' in English. </p>
+<br/>
+<h3>Example</h3>
+
+<p>Consider the statements:</p>
+<ol type="A">
+<li>It will rain today.</li>
+<li>It will rain tomorrow.</li>
+</ol>
+<p> What is the disjunction of these statements?</p>
+
+<h3>Solution</h3>
+
+<p>The disjunction of the statements reads: C:"It will rain today or it will rain tomorrow."</p>
+<br/>
+<p>At this point we must make an important distinction. Reading statement \(C\) in English, it seems like it says <i>either</i> it will rain today <i>or</i> it will rain tomorrow, so it will only rain on one day. This is known as an <b>exclusive</b> “or” because it excluded the possibility that it rains on both days, and this is common in the English language.</p>
+
+<p> This is unfortunate, because in mathematics we take \(C\) to mean: either it will rain today or it will rain tomorrow, or both. This is known as an <b>inclusive</b> “or”. In mathematics (unless otherwise stated) it is assumed that a disjunction is <b>inclusive.</b></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

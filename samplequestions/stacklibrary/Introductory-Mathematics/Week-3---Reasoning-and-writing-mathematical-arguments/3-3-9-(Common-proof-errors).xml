@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.9 (Common proof errors)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Common proof errors</h1>
+
+<p>Mathematical proof is a difficult topic. In general, proofs are difficult to write, and if we are not careful, it is easy to lose the threads of the argument presented. This is further complicated by the fact there are many different methods of mathematical proof and the ones we have met here are by no means an exhaustive list. For example another important type of proof is induction, which relies on the recursive nature of the natural numbers. We also have to contend with the fact that often in English our sentences need not follow logically from each other. Whereas when writing mathematical argument, if a logical thread is broken, the argument no longer holds. Couple this with the fact we have to learn the symbolism of the mathematical language and there are several areas where we can make errors in a proof. In this section we shall examine some of the most common issues when writing proof to help you avoid the same pitfalls.</p>
+<br/>
+<h3>General vs specific</h3>
+
+<p>Mathematics education research has shown that the most common error when writing a mathematical proof is to prove a general statement by use of a specific example. For example, imagine we wanted to prove the statement:</p>
+
+<p>"<i>If \(a|b\) (\(a \) divides \(b\)) and \(b|c\) (\(b\) divides \(c\)) then show that \(a|c\)</i>"</p>
+
+<p>A potential solution to this could be:</p>
+<p><i>Let \(a = 2, b=4\) and \(c = 8\). Then we see that \(2|4\) and \(4|8\) and \(2|8\) therefore the given statement has been proved true.</i></p>
+
+<p>This is <b>not</b> a proof. This is a specific example where the result of the proof is true. This argument does not show that that the given statement is true for general \(a,b,c\), it only tells us what happens in the one specific case where \(a=2,b=4\) and \(c=8\). We have mentioned previously that examples can be an important tool for helping to understand a proof. Or they can be useful for developing ideas about a proof you want to write. However they do <b>not</b> constitute a full proof in themselves. Therefore if you are asked to prove a given statement, it is not enough to check that the result holds for the first few cases you must show it holds in full generality!</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.1.17 (Quantifiers)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Quantifiers</h3>
+
+<p>We have seen that the truth of certain implications can be established my mathematical arguments. However, often we need to have more descriptive power when considering certain statements. Sometimes, the truth of a statement is conditional on the domain we consider. For example, consider the statement:</p>
+
+<p><i>"\(x\) is an even number".</i></p>
+
+<p>The truth of this statement is <i>conditional</i> on the vale of \(x\). Clearly, if \(x = 4\) then it is true whereas is \(x =5\) then it is false. In the statement the  letter  \(x\)  is  called a <b>variable</b> because its value can change. We also use letter to stand for unknown <b>constants</b>. The value of a constant is fixed. For example consider \(f(y) = x+y\). In this case \(y\) is a variable as it varies according to the function \(f\), whereas \(x\) is some constant that we do not know the value of.</p>
+
+<p>In mathematics, we usually want to make true statements so that we can use these as theorems. Therefore we have to be more careful with statements involving variables since a statement can be true in one instance and false in another. Therefore it becomes paramount to say exactly where our theorem or rule is true. These are called <b>quantifiers</b>. There are two main types of quantifier you will meet, the <i> existential</i> quantifier and the <i>universal</i> quantifier.</p>
+</br>
+<h3>Existence</h3>
+
+<p>If we again consider the statement: <i>"\(x\) is an even number".</i> We could modify this to make the statement true by writing it as:</p> 
+<p><i>"There is some value for \(x\) for which \(x\) is an even number".</i> This is just a formal way of saying that there is at least one even number. In this case the phrase “there is some” is called the <b>existential</b> quantifier, it is used to state that something “exists”. This is often denoted by the symbol \("\exists"\). Many mathematical proofs are concerned with proving that a certain object exists, there are called 'existence proofs'. In order to prove the statement above we just need to note that if we let \(x = 2\) then \(x\) is even.Since we have found a value for \(x\) which is even, we have proven the statement. Note that the statement makes no claim about the number of cases in which \(x\) is even; it just says that there is at least one value of \(x\) which is even. To prove a statement with only an existential quantifier, it is sufficient to show that the statement is true in one relevant case. Similarly, if we want to prove something doesn't exist, it is sufficient to come up with a single counterexample where the statement does not hold.</p>
+<br/>
+<h3>Universality</h3>
+
+<p>Often we want to make a statement that is true for all cases. For example we have previously proved that:</p>
+
+<p>"If \(a = b\) then \(a^2 = b^2\)."</p>
+
+<p>Another way of stating this is to say that: </p>
+
+<p>"For all numbers \(a\) and \(b\), if \(a = b\) then \(a^2 = b^2\)."</p>
+
+<p>In this case, the phrase "for all" is called the <b>universal</b> quantifier. It is used to state than something is always true, and is often denoted using the symbol \(\forall\). Note that despite the use of "for all" in this statement, there is a specific restriction on what \(a\) and \(b\) can be. Namely, they must be numbers. Therefore the "for all" in this statement only applies to numbers. This may seem like a trivial distinction to make, however when dealing with more advanced mathematics (where we may be dealing with things other than numbers), it is important to take care with such distinctions. </p>
+<br/>
+<p>Statements with a universal quantifier can be more complicated to prove. For example, if we want to check a property holds "for all" cases and there are an infinite number of cases, we cannot prove the statement just by considering examples, there could always be one case we have not considered where the statement is false.<p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

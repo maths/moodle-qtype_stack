@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.0.6 (Two linear simultaneous equations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Two linear equations</h1>
+
+<p>You may have noticed that so far that the equations we have dealt with have been <i>linear</i>, meaning they are degree one polynomials. These are the simplest type of simultaneous equations and actually there are two main methods we can use to solve them. These methods are called <b>elimination</b> and <b>substitution</b>. In the examples below we will go through how to use both methods.</p>
+<br/>
+<p>The method of <i>substitution</i> is most easily used when at least one equation is given with either \(x\) or \(y\) as the <i>subject</i> of the equation. The idea is to substitute this expression for this variable into the other equation. In contrast, the method of <i>elimination</i> is most easily used when the two equations are given in the form \(ax + by = c\). In this method we make the coefficients of \(x\) or \(y\) to be the same size by multiplying either one or both of the equations. We can then subtract one of the equations from the other, which has the effect of eliminating either the \(x\) variables or the \(y\) variables. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

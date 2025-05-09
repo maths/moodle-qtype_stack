@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.2.1 (Higher derivatives)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Higher derivatives</h1>
+
+<p>When we differentiate a function \(y=f(x)\), we get a value \(f'(x)\) at each point \(x\).&nbsp; But that then is itself a function, \(g\), say: \(g(x) = f'(x)\) for all \(x\).&nbsp; It is entirely possible that this function \(g\) is itself differentiable.&nbsp; If so then we can form the <b>second derivative</b> of \(f\), \(f''\), or \(\dfrac{d^2y}{dx^2}\), which is defined just by differentiating \(f'\):
+\[
+\frac{d^2 y}{dx^2}= f''(x) = \lim_{h \to 0} \frac{f'(x+h)-f'(x)}{h}.
+\]
+It is possible that we can then differentiate yet again to get the <b>third derivative </b>\(f''' \) or \(\dfrac{d^3 y}{dx^3}\).&nbsp; In general we can consider finding the \(n\)th derivative \(f^{(n)}\) or \(\dfrac{d^n y}{dx^n}\). Calculating multiple higher derivatives do correspond to physical properties, so it is useful to be comfortable with higher derivatives. For example, in physics, the second derivative of position is acceleration. </p>
+
+<h3>Example</h3>
+
+<p>Find the second derivative of the function \(f(x) = 3 \sin (x)+ x^4&nbsp; -x^2 -4x +2.\)</p>
+
+<h3>Solution</h3>
+<p>We calculate that \[f'(x) = 3 \cos(x) + 4 x^3 -2x-4\] and so \[f''(x) = -3\sin(x) + 12x^2 -2.\]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

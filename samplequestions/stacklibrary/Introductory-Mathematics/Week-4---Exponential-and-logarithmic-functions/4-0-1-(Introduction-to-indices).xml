@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.0.1 (Introduction to indices)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Indices</h1>
+
+<p>Often in mathematics we need to deal with numbers that are repeatedly multiplied by themselves. We have already seen this when we have discussed polynomials and quadratics. In order to represent these notions we use <b>indices</b> (also called powers or exponents). For example, the number \(4\times 4\times 4\) is written, for short, as \(4^3\) and read '4 raised to the power 3' or '4 cubed'. Or if we don't know the number to be multiplied together for example we write \(a^3 = a \times a \times a\). More generally, in the expression \(x^y\), \(x\) is called the <strong>base</strong> and \(y\) is the <b>index</b>. The process of raising to a power is also known as <strong>exponentiation</strong>. Note that we can have both fractional and negative powers and we will examine these as well.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Identify the index and base in the following expressions. </p>
+<ol type="a">
+<li>\(8^{11}\)</li>
+<li>\((-2)^5\)</li>
+<li>\(p^{-q}\)</li>
+</ol>
+
+<h3>Solution</h3>
+<ol type="a">
+  <li>In the expression \(8^{11}\), \(8\) is the base and \(11\) is the index.</li>
+  <li>In the expression \((-2)^{5}\), \(-2\) is the base and 5 is the index.</li>
+  <li>In the expression \(p^{-q}\), \(p\) is the base and \(-q\) is the index.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

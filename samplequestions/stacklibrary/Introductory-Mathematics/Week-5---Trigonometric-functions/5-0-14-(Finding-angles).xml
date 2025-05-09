@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.0.14 (Finding angles)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Finding angles in a circle</h1>
+
+<p>We can use the definitions of the trigonometric ratios we have seen using the unit circle, in order to solve simple trigonometric equations. Along with the Pythagorean identity
+\[
+\sin^2 \theta + \cos^2 \theta =1,
+\]
+these are useful tools in order to solve trig equations. Let us consider the following examples.</p>
+<br/>
+<h3>Example</h3>
+
+<ol type="a">
+<li>Find the possible values of \(\cos \theta\) for \(\sin \theta = \frac{2}{3}\).</li>
+<li>If \(\sin \theta = -\frac{3}{4}\) and \(180^\circ < \theta < 270^\circ\), find \(\cos \theta\) and \(\tan \theta\).</li>
+</ol>
+
+<h3>Solution</h3>
+
+<ol type="a">
+<li>We begin with the Pythagorean identity
+\[
+\sin^2 \theta + \cos^2 \theta =1 \implies \frac{2}{3}^2 + \cos^2 \theta = 1.
+\]
+Hence, \(\cos^2 \theta = \frac{5}{9}\) and thus taking square roots we have \( \theta = \pm \frac{\sqrt{5}}{3}\).</li>
+<li>Again we start from the Pythagorean identity
+\[
+\sin^2 \theta + \cos^2 \theta =1 \implies \frac{9}{16} + \cos^2 \theta = 1.
+\]
+Hence, \(\cos^2 \theta = \frac{7}{16}\) and thus taking square roots we have \( \theta = \pm \frac{\sqrt{7}}{4}\).
+However, since we require \(180^\circ < \theta < 270^\circ\), we have that \(\cos \theta\) lies in the third quadrant of the CAST diagram, therefore \(\cos \theta\) has to be negative (as only tan is positive in the third quadrant). Therefore we must have 
+\[
+\cos \theta = -\frac{\sqrt{7}}{4} \qquad \mbox{and} \qquad \tan \theta = \frac{\sin \theta}{\cos\theta} = \frac{-\frac{3}{4}}{\frac{\sqrt{7}}{4}} = \frac{3}{\sqrt{7}}.
+\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

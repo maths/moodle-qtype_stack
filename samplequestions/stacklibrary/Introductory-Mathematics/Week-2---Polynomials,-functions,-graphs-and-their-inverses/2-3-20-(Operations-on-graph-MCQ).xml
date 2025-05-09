@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="matching">
+    <name>
+      <text>2.3.20 (Operations on graph MCQ)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Identify the equation with the corresponding operation on the graph of \(y = f(x)\).<br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <subquestion format="html">
+      <text><![CDATA[<p>\( y =f(x) -&nbsp; 3\)<br></p>]]></text>
+      <answer>
+        <text>Shifting the graph 3 units downward</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\( y = f(x -3)\)<br></p>]]></text>
+      <answer>
+        <text>Shifting the graph 3 units to the right</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\( y = - f(x)\)<br></p>]]></text>
+      <answer>
+        <text>Reflecting the graph about the x-axis</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\( y = f(-x)\)<br></p>]]></text>
+      <answer>
+        <text>Reflecting the graph about the y-axis</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(y = - f(-x)\)<br></p>]]></text>
+      <answer>
+        <text>Reflecting the graph about the y-axis and then about the x-axis</text>
+      </answer>
+    </subquestion>
+  </question>
+</quiz>

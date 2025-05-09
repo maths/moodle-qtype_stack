@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.21 (Using logs to solve exponentials examples)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>To solve equations which involve logarithms or exponentials we need to use the index and logarithm laws, as well as the fact these two processes are inverses of each other. </p>
+<br/>
+<h3>Example</h3>
+
+<p>Solve the following for the variable \(x\).</p>
+<ol>
+<li>\(3=10^x\)</li>
+<li>\(10^{x/4}=\log 3\)</li>
+<li>\(\dfrac{1}{17-e^x}=4\)</li>
+</ol>
+
+<h3>Solution</h3>
+<ol>
+ <li>Here we take logs (to base \(10\) because of the term \(10^x\)) of both sides to get
+\[
+\log 3=\log 10^x=x\log 10=x
+\]
+<nowrap>where we have used the general property that \(\log_aA^k=k\log_aA\) and the specific property that \(\log 10=1\). Hence \(x=\log 3\) or, in numerical form, \(x=0.47712\) to \(5\) d.p.</nowrap></li>
+ <li>The approach used in (a) is used here. Take logs of both sides:
+\[
+\log(10^{x/4})=\log(\log3)
+\]
+that is, 
+\[
+\dfrac{x}{4}\log 10=\log (\log 3)=\log (0.4771212)=-0.3213712.
+\]
+So, since \(\log 10=1\), we have \(x=4(-0.3213712)=-1.28549\) to \(5\) d.p.</li>
+ <li>Here we simplify the expression before taking logs.
+\[
+\dfrac{1}{17-e^x}=4\qquad\text{implies}\qquad 1=4(17-e^x)
+\] 
+or \(4e^x=4(17)-1=67\) so \(e^x=16.75\). Now taking natural logs of both sides (because of the presence of the \(e^x\) term) we have:
+\[
+\ln (e^x)=\ln (16.75)=2.8183983.\] But \(\ln (e^x)=x\ln e=x\) and so the solution to \(\dfrac{1}{17-e^x}=4\) is \(x=2.81840\) to \(5\) d.p.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

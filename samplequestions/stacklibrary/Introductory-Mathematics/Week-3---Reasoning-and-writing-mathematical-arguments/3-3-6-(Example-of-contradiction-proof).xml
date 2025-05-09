@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.6 (Example of contradiction proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>A proof by contradiction</h3>
+
+
+<p><b>Lemma:</b> There are no positive integer solutions to the equation \(x^2 - y^2 =1\).
+<div class="proof">
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step">Assume (for a contradiction later) that there is a solution \(x,y\) where \(x,y\) are positive integers.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step">If this is the case then we can factorise the lhs:
+\[
+x^2-y^2 = (x-y)(x+y) = 1.
+\]</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">Since \(x,y \in \mathbb{Z}\) then it follows that either:
+\[
+x-y = 1 \mbox{ and } x+y = 1 \qquad \mbox{ or } \qquad x-y = -1 \mbox{ and } x+y = -1.
+\]</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">In the first case we can add the two equations to get \(x = 1\) and \(y = 0\).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-step">In the second case we can add the equations to get \(x=-1\) and \(y=0\).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">6.</div>
+ <div class="proof-step">In both of these cases, we have either a zero or a negative number, which contradicts our initial assumption that \(x,y\) are positive, and so the proof is complete.</div>
+</div>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

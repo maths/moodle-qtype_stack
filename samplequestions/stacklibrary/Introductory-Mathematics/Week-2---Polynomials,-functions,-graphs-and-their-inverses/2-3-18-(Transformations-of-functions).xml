@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.3.18 (Transformations of functions)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Transformations</h1>
+
+<p>Different parts of the equation of a function can affect the graph of the function. We have seen previously, how changing the coefficients of a quadratic can affect the corresponding parabola. Something similar holds for functions \(f(x)\) in general. If we understand what part of the function controls a particular feature of the graph then we can learn how to transform the function. This is another advantage of the shorthand function notation. We can combine functions by summing them, multiplying them or composing them so that notation such as \(f(x) + g(x)\) makes sense. We will see in this section how certain actions on functions affect their graphs.</p>
+
+<h3>Translations</h3>
+
+<ul>
+<li>For \(y = f(x) + a\) for a constant \(a\), the effect is to move the graph <i>vertically</i> upwards by \(a\).</li>
+<li>For \(y = f(x-b)\) the effect of \(b\) is to move the graph <i>horizontally</i> through \(b\) units. If \(b\) is positive the graph moves right and if \(b\) is negative the graphs moves left.</li>
+<li>For \(y = f(x-b)+a\) the graph is translated horizontally \(b\) units and vertically \(a\) units, we say that it is translated by the vector \((b,a)\).</li>
+</ul>
+
+<h3>Dilations</h3>
+
+<ul>
+<li>For \(y = cf(x)\) for a constant \(c\), the effect is to <i>vertically dilate</i> the graph by the factor \(c\). If \(c&gt;0\) then it spreads the graph away from the x-axis. If \(0 &lt c &lt 1\) it moves the graph \(y = f(x)\) closer to the \(x\)-axis.</li>
+<li>For \(y = f(kx)\), \(k&gt;0\) the effect of \(k\) is to <i>horizontally dilate</i> the graph by the factor \(\frac{1}{k}\). If \(k&gt;1\) then it moves the graph closer to the \(y\)-axis. If \(0 &lt k &lt 1\) it moves the points of \(y = f(x)\) further away from the \(y\)-axis.</li>
+</ul>
+
+<h3>Reflections</h3>
+
+<ul>
+<li>For the graph \(y = f(x)\) then the graph \(-f(x)\) is a reflection of \(f(x)\) in the <i>\(x\)-axis</i>.</li>
+<li>For the graph \(y = f(x)\) then the graph \(f(-x)\) is a reflection of \(f(x)\) in the <i>\(y\)-axis</i>.</li>
+</ul>
+
+<p>These transformations lead us to make the following definitions which will prove to be useful in later weeks.</p>
+<p>We say that a function is <b>periodic with period \(p\)</b>, or <b>\(p\)-periodic</b> if \(f(x+p) = f(x)\) for all \(x\).&nbsp; The smallest number \(p\) for which this is true is called the <b>period</b> of \(f\).&nbsp; Thus the function repeats itself every \(p\) units, and so the behaviour of the function can be understood on its whole domain just by understanding it on any interval of length \(p\).</p>
+<p>A function \(f\) is <b>even </b>if \(f(-x) = f(x)\) for all \(x\), and a function \(f\) is <b>odd</b> if \(f(-x) = -f(x)\) for all \(x\). For example we will see in week 5 that \(\cos(x)\) is even and \(\sin(x)\) is odd. The function \(y = x+1\) is neither even nor odd.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

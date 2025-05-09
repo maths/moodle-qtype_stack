@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.19 (Matrix inverses)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Matrix inverses</h3>
+
+<p>We have now seen how to combine matrices by adding, subtracting or multiplying them. You may now be wondering about the question of how we divide one matrix by another. This is a very complicated question and in fact the answer is that we cannot divide one matrix by the other. The reason for this is as follows. When we divide one number by another, this is the inverse process of multiplying two numbers together. For example
+\[
+3 \times 5 = 15 \qquad \mbox{and} \qquad 15/3 = 5.
+\]
+However, this doesn't work when we consider matrices. How do we invert the process of matrix multiplication when matrix multiplication is dependent on the order in which we perform it? Therefore we cannot have a notion of division in the traditional sense. Instead we use <b>inverse matrices</b>.</p>
+<br/>
+<p>Let \(A\) be an \(n \times n\) square matrix. Then the <b>inverse matrix</b> of \(A\) is the \(n \times n\) square matrix denoted \(A^{-1}\) such that 
+\[
+AA^{-1} = A^{-1}A = I_n,
+\]
+where \(I_n\) is the identity matrix of size \(n \times n\).</p>
+<br/>
+<p>Notice that this definition only covers square matrices. There are corresponding notions of left and right inverses for non square matrices but we won't need them here. In this course, we will focus on the inverses of \(2 \times 2\) matrices, inverse of larger matrices are possible to calculate but it is time consuming and difficult work. This will be beyond pour needs. So suppose we have a general \(2 \times 2\) matrix
+\[
+A = \begin{bmatrix}
+a & b 
+\\
+c & d
+\end{bmatrix}.
+\]
+Then, the inverse of \(A\) is given by the matrix 
+\[
+A^{-1} = \frac{1}{ad-bc}\begin{bmatrix}
+d & -b 
+\\
+-c & a
+\end{bmatrix}.
+\]
+Note that the fraction \(\frac{1}{ad-bc}\) is a scalar and the quantity \(ad-bc\) is called the <b>determinant</b> on the matrix \(A\). It is often denoted by \(\det(A)\). Since the scalar is a fraction, for this formula to make sense we must have that 
+\[
+ad-bc \not=0 \qquad \mbox{ or in other words } \qquad \det(A) \not= 0.
+\]
+A matrix \(A\) such that \(\det(A) = 0\) is called a <b>singular</b> or <b>invertible</b> matrix. We can only find the inverse of a square matrix if it is invertible. 
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

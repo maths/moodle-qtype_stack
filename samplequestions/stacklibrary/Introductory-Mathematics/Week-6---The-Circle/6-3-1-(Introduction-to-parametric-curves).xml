@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.1 (Introduction to parametric curves)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>What are parametric curves?</h1>
+
+<p>So far we have primarily studied functions which are a function of one variable, whether explicitly or implicitly. All of the functions we have met so far could be expressed in the form \(y = f(x)\), that is, the variable \(y\) is a function of the variable of \(x\) and we have expressed these functions graphically on the usual \(x-y\) plane, which is called the Cartesian plane. This is one of the most simple ways to represent a given function. However, this process can be generalised fairly intuitively. One way we could do this is to consider a function with multiple inputs. For example the function \(x^2 + y^2 = 9\) (which is the equation of a circle centre at the origin and radius three) could be denoted as \(z = f(x,y)\) because it is a function with two independent variables \(x\) and \(y\). You can see that we could define functions in a similar manner for \(n\) independent variables, for example \(y = f(x_1, \dots, x_n) = x_1 + \cdots + x_n\) is a function with \(n\) independent variables. In this section we will look at a similar, but different way we can represent functions, these are <i>parametric functions</i>.</p>
+<br/>
+<p>A <b>parametric curve</b> is a curve drawn by specifying each point in the plane \((x,y)\) that lies on the curve in terms of a third variable, or <b>parameter</b>, \(t\).&nbsp; So the points on the curve are all those points of the form \( (f(t),&nbsp; g(t))\) for some functions \(x=f(t)\) and \(y = g(t)\).&nbsp; This is useful when the curve we want to sketch is not the graph of a function \(y = f(x)\). The following example illustrates why we are interested in these curves this week.</p>
+<br/>
+<h3>Example</h3>
+
+<p>The points on the unit circle centred at the origin are all those points \((x,y)\) such that \(x^2 + y^2 = 1\).&nbsp; So we can define the circle via that equation, or we can define it parametrically.&nbsp; Recall from week five that we can define the values \(\cos(\theta)\) and \(\sin(\theta)\) are the \(x\)- and \(y\)- coordinates of points on the unit circle which are an angle \(\theta\) from the positive \(x\)-axis.&nbsp; So \(f(\theta) = \cos(\theta)\) and \(g(\theta) = \sin(\theta)\) is a parametric representation of the circle: as \(\theta\) varies, the point \((\cos(\theta), \sin(\theta))\) runs around the circle. 
+</p>
+<br/>
+<p><iframe scrolling="no" title="Animated unit circle 3" src="https://www.geogebra.org/material/iframe/id/fx9vakmm/width/661/height/544/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" style="border:0px;" width="661px" height="544px"> </iframe></p>
+<br/>
+<p>This corresponds with the fact that \(\sin^2(\theta) + \cos^2(\theta) = 1\)! Note that it does not matter whether we use the letter \(t\) or \(\theta\) or any other letter for the parameter.&nbsp; It is just a "dummy variable". The key point for us is that we can use the trigonometric functions \(\sin\) and \(\cos\) to give a <i>parametric representation</i> of the equation of a circle.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

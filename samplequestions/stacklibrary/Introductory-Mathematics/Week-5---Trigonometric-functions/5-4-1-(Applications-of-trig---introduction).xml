@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.4.1 (Applications of trig - introduction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>During the material this week we have introduced the trigonometric ratios, \(\sin, \cos\) and \(tan\) in terms of the coordinates of a point moving anticlockwise around the unit circle. We have seen how to plot these functions and their inverses, in addition to seeing how we can solve equations involving trigonometric terms. In this section, we will go through the history of the development of trigonometry before examining some applications of where trigonometry is most used. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

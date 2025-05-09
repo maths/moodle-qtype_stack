@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.1.3 (Negation)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Negation</h3>
+
+<p>Consider the statements:</p>
+<ol type="A">
+<li>It will rain today.</li>
+<li>It will not rain today.</li>
+</ol>
+
+<p>These statements are related, B is the opposite of A. When we have statements related in this way we say that B is the <b>negation</b> of A. More generally, the negation of a statement S is written as <i>not S</i> or \(\bar{S}\).</p>
+
+<p>In mathematics the negation of a variable \(A\) is the opposite of \(A\). If \(A\) is true then \(\neg A\) is false and vice versa. One thing to note is that the negation of a statement is sometime not always obvious. For example consider the statements: </p>
+<ol type="A">
+<li>It will rain today.</li>
+<li>It will rain tomorrow.</li>
+</ol>
+
+<p>In this case \(B\) is <i>not</i> the negation of \(A\). In fact, these statements are logically unconnected, despite the fact they both talk about the weather. This means they could both be true, both be false or some combination of the two.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

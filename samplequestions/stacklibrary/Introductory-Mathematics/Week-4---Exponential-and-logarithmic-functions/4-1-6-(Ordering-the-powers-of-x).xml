@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="matching">
+    <name>
+      <text>4.1.6 (Ordering the powers of x)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Suppose \(x, a &gt; 1\).&nbsp; Put the following values in ascending numerical order: \(1, 0, x, x^a, x^{-a}, x^{1/a}\).<br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Since \(a&gt;1\), we have that \(1&lt;x &lt; x^a\).&nbsp; Taking reciprocals we have, since \(x^{-a} = 1/(x^a)\), that \(x^{-a} &lt; 1\).&nbsp; It is, however, still a positive number, so \(0&lt;x^{-a}&lt; 1\).&nbsp; The number \(x^{1/a}\) is the \(a\)-th root of \(x\), which is a number between \(1\) and \(x\).<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <subquestion format="html">
+      <text><![CDATA[<p>1.<br></p>]]></text>
+      <answer>
+        <text>0</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>2.<br></p>]]></text>
+      <answer>
+        <text>x^(-a)</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>3.<br></p>]]></text>
+      <answer>
+        <text>1</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>4.<br></p>]]></text>
+      <answer>
+        <text>x^(1/a)</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>5.<br></p>]]></text>
+      <answer>
+        <text>x</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>6.<br></p>]]></text>
+      <answer>
+        <text>x^a</text>
+      </answer>
+    </subquestion>
+  </question>
+</quiz>

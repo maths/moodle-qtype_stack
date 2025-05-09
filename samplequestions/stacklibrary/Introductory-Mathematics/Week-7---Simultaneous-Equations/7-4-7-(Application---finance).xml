@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.7 (Application - finance)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Investments</h1>
+
+<p>A more mundane but perhaps more important us of simultaneous equations is to personal finance. We all need to manage our money safely and given the wide variety of products offered by various banks, it is often not a straightforward task to decide which product would represent the best deal to us. In this section we will examine the particular example various investments using the techniques of simultaneous equations that we have seen in the previous sections this week. </p>
+
+<p>Simultaneous equations can be used to determine the best investment choices to make when saving to buying a car or a house for example. There are a number of factors we can consider when deciding on the best investment, for example; the duration we will invest, the interest rate and the monthly payment. Other variables may be involved as well. With the information at hand, you can calculate properties of the investment by mapping the appropriate variables to the unknowns in a system of simultaneous equations.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Suppose that Carmen invested \(£30,000\), part at 5% and part at 8%. Given that the total interest on the investment was \(£2100\). How much did she invest at each rate?</p>
+
+<h3>Solution</h3>
+
+<p>We can form simultaneous equations out of the total investment and the interest invested. Specifically if we let \(x\) be the amount invested at 5% and \(y\) the amount invested at 8%. Then the information from the question tell us that 
+\[
+\begin{align*}
+\mbox{total investment: } x + y = 30000
+\\
+\mbox{total interest: }0.05x + 0.08y = 2100
+\end{align*}
+\].
+At this point it is probably easiest to make the second equation involve integers by multiplying it by \(100\) to get
+\[
+\begin{align*}
+&x + y = 30000
+\\
+&5x + 8y = 210000.
+\end{align*}
+\] 
+We can then solve these equations simultaneously, using the method of your choice to get \(x = £10000\) and \(y = £20000\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

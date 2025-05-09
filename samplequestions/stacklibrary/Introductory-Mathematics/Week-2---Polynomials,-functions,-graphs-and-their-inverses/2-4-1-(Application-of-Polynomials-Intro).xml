@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.4.1 (Application of Polynomials Intro)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Applications of Polynomials</h1>
+
+<p>During the material this week we have examined some of the most common techniques for dealing with polynomial equations and their graphs. We have introduced function notation and examined the importance of properly defining functions. We have seen that function notation is highly useful, because the relationship between almost any two variables can be expressed via functions. This gives us a much wider range of techniques to model such relationships. In addition we have looked at polynomials, which are a specific class of functions that are used to model a variety of phenomena. One of the reasons that polynomials are so useful is that they can be used to approximate any function to arbitrary accuracy. In this section we aim to further motivate our study of polynomials by examining their history and the applications of cubics to various areas of study.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

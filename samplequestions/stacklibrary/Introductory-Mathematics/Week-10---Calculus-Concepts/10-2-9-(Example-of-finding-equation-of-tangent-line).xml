@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.2.9 (Example of finding equation of tangent line)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Find the equation of the tangent to \(f(x) = x^2+1\) at the point where \(x = 1\). </p>
+
+<h3>Solution</h3>
+
+<p>Since \(f(1) = 1^2 +1 = 2\), the point where the tangent touches the curve is \((1,2)\). Now, \(f'(x) = 2x\) so at \(x = 1\), \(f(1) = 2\), thus the gradient at the of the tangent at the point is \(2\). Therefore, using the formula above, the tangent has equation 
+\[
+y = 2(x-1) +2 \implies y = 2x
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

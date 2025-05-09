@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>3.1.14 (Identify Converse)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[Identify the converse of the statement: "If it rains either today or tomorrow then it will rain next week".]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Recall that the converse of the implication \(A \implies B\) is \(B \implies A\). Let \(A\) be the statement "it will rain today", \(B\) "it will rain tomorrow" and \(C\) "it will rain next week."</p>
+<p>then the given statement says \((A \vee B) \implies C\). Therefore the converse is \(C \implies (A \vee B)\), in English this reads "If it rains next week then it will rain either today or tomorrow."</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text>If it rains next week then it will rain either today or tomorrow.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>If it rains next week then it will rain today but not rain tomorrow.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>If it rains next week then it will rain tomorrow but it will not rain today.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>If it rains tomorrow then it will rain next week.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>If it rains today then it will rain next week.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>If it rains next week then it will not rain either today or tomorrow.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

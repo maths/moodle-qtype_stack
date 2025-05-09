@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.4 (Difference of two squares)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Difference of two squares</h3>
+
+<p>There is one form of expression which can be factorised immediately, and it is useful to remember. If you are asked to factorise an expression which is one square number minus another this can be factorised immediately using the identity 
+\[
+x^2 - y^2 = (x+y)(x-y)
+\]</p>
+
+<p>This is called <b>the difference of two squares</b>. We can see why this holds if we expands the brackets on the right hand side,
+\[
+(x+y)(x -y) = x^2 -xy + yx -y^2.
+\] 
+Then \(-xy\) cancels with \(yx\) as multiplication is commutative (in other words because \(xy = yx\) e.g. \(2 \cdot 3 = 6 = 3 \cdot 2\)). Hence we are left with \(x^2 - y^2\), which is the difference of two squares.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

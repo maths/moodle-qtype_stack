@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.0.1 (What is a proof?)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>What is a mathematical proof?</h1>
+
+<p>Most of the mathematics we meet in school and later involve performing ever more difficult calculations and solving numerical problems. Sometimes, we require the use of a theorem (e.g. Pythagoras' Theorem) in order to solve such a problem. However we must ask ourselves, <i>why</i> are we performing such calculations? Why is the theorem we are referencing true? These questions touch on the idea of mathematical proof. Proof is key to mathematics as it is the tool we use in order to show the truth of mathematical statements. Only when a conjecture is provided with an appropriate proof can it be accepted and incorporated into existing mathematics. It is in this way that mathematics evolves and grows.</p>
+<br/>
+<p>We are  familiar with the concept of “proof” in everyday life. A proof is a convincing argument that statement is true. For example, a trial is held to prove the innocence or guilt of a dependent. When is an argument convincing enough to be convincing? In our example of a trial, it would be the job of the jury to decide this. We also have the concept of proof in science. A scientist postulates a new theory, this theory is not accepted unless experimental evidence can be found to support it. This is the <b>scientific method</b> and is perhaps the most important human intellectual endeavour.</p>
+<br/>
+<p>Whilst science relies on experimental evidence, mathematics relies on logic and reasoning. Mathematics abhors uncertainty! The proof of a mathematical statement is universal and unambiguous. In science a proof is true until some example can be found which does not fit with the existing theory. This is often how science develops. In maths, there is no counterexample, once something has been proved mathematically, it is proved absolutely.</p>
+<br/>
+<p>A <b>(mathematical) statement</b> is a sentence which must either be true or false. For example '<i>If a number is even then it is divisible by \(2\)</i>' is a true mathematical statement.</p>
+<p>A <b>mathematical proof</b> is an argument which establishes the truth of a mathematical statement.</p>
+<p>A <b>hypothesis</b> is an assumption at the start of a proof.</p>
+<p>A <b>conclusion</b> is the statement that is being proved.</p>
+<p>Therefore, the we can see that a mathematical proof is a combination of a hypothesis or hypotheses, a sequence of correct mathematical or logical steps and then a conclusion.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

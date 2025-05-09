@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.0.11 (Zeros vs Roots)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Zeros and Roots</h1>
+
+<p>Much of our work regrading quadratics was to find the roots of the quadratics. The notion of a root extends to polynomials in a similar way. In this section we shall look at the definition of a root of a polynomial and the notion of a zero of a polynomial, which is a related but different idea.</p>
+
+<p>A <b>root</b> of the polynomial equation \(P(x) = a_nx^n + a_{n-1}x^{n-1} + \cdots + a_2x^2 + a_1x_1 + a_0 = 0\) is a value of \(x\) such that \(P(x) =0\), that is, they are the solutions to the equation \(P(x) =0\). For example, if \(P(x) = x^3 - 2x^2 + x -12\), then a root of the <i>equation</i> \(P(x)=0\) is \(x = 3\) since
+\[
+\begin{align*}
+P(3) &amp;= 3^3 - 2 \cdot 3^2 + 3 -12 
+\\
+&amp;= 27-18+3-12
+\\
+&amp;= 0.
+\end{align*}
+\]
+Notice that this is the same as the definition of a root of a quadratic, however we have generalised it to the case of a polynomial. </p>
+
+<p>A <b>zero</b> of a polynomial \(P(x) = a_nx^n + \cdots + a_1x_1 + a_0\) is a value of \(x\) which makes the polynomial equal to zero. For example, if we again consider \(x^3 - 2x^2 + x -12\) then a zero of the <i>expression</i> is \(3\) (since we have already seen that \(P(3) = 0\)).</p>
+
+<p>We must take care to note that a zero of a polynomial and a root of a polynomial are not quite the same thing. \(a\) is a root of \(P(x)\) (or a solution to the equation \(P(x) = 0\)) if and only if \(P(a) =0\). Whereas \(a\) is a zero of \(P(x)\) if and only if \(P(a) = 0\). Therefore, returning to our example above, we have that \(P(3) = 0\) which tells us that:</p>
+<p>\(3\) is a root of \(x^3 - 2x^2 + x -12 = 0\)</p>
+<p>\(3\) is a zero of \(x^3 - 2x^2 + x -12\).</p>
+<br>
+<h3>Factorising and Expanding</h3>
+
+<p>We have seen that we can factorise and expand quadratics in the previous week. The same is true for polynomials, except there may be more brackets to deal with. For example consider the polynomial \(P(x) = (x+1)(x+2)(x+3)\). Each bracket in the factorisation of a polynomial is called a <b>factor</b>. We can expand this as we did with quadratics. We expand the first two brackets and then multiply the result with the final bracket. So,
+\[
+\begin{align*}
+(x+1)(x+2)(x+3) &amp;= (x^2 + 3x + 2)(x+3) 
+\\
+&amp;= x^3 + 3x^2 + 2x + 3x^2 + 9x + 6
+\\
+&amp;= x^3 + 6x^2 +11x + 6.
+\end{align*}
+\]
+Similarly, we can reverse this process by factorising the polynomial to rewrite \(P(x)\) as \((x+1)(x+2)(x+3)\). However, factorising polynomials is harder than factorising quadratics. There are more factors to find and it becomes harder to spot the pattern by inspection. However there are certain things we can do, and we will discuss these in the next section. In addition there are also some special forms of polynomials which allow us to proceed similarly to how we did with quadratics.</p>
+<br>
+<h3>Examples of quadratic polynomial factorising, cubic and quartic</h3>
+
+<p>Fully factorise the following polynomials:</p>
+
+<ol type="a">
+<li>\(x^3 + 6x^2 + 8x\)</li>
+<li>\(x^4 + 3x^2+ 2\)</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol type="a">
+<li>Notice that every term contains an \(x\) so we can factorise the equation as \(x(x^2 + 6x + 8)\). Then the equation in the bracket is now a quadratic and we can factorise it as \((x+4)(x+2)\). Hence the full factorisation of the given polynomial is
+\[
+x^3 + 6x^2 + 8x = x(x+4)(x+2).
+\]</li>
+<li>In this case notice that the polynomial has the form of a quadratic - but in \(x^2\) rather than \(x\). In other words let \(z = x^2\), then rewrite the given equation and factorise as 
+\[
+x^4 + 3x^2+ 2 = z^2 + 3z + 2 = (z+2)(z+1).
+\]
+Finally we substitute \(x^2\) back in for \(z\) to obtain the full factorisation of the quadratic:
+\[
+x^4 + 3x^2+ 2 = (x^2+2)(x^2+1)
+\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

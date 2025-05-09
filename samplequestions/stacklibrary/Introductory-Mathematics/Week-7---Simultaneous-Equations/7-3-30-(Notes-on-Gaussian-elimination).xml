@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.30 (Notes on Gaussian elimination)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Some notes</h3>
+
+<p>The method of Gaussian elimination actually an algorithmic method to find the inverse of a matrix. This allows us to solve a wider range of systems of equations. When solving a system of equations we stop performing row operations when the augmented matrix of the system has the following properties.</p>
+<ol>
+<li>The first non-zero element in each row, called the <b>leading entry</b>, is \(1\).</li>
+<li>Each leading entry is in a column to the right of the leading entry in the previous row.</li>
+<li>Rows with all zero elements, if any, are below rows having a non-zero element.</li>
+<li>The leading entry in each row is the only non-zero entry in its column.</li>
+</ol>
+<p>If a matrix satisfies these properties, then the matrix is said to be in <b> reduced row echelon form</b>. The process of Gaussian elimination is in general the fastest way to solve larger systems of equations as it is easily generalised to matrices of larger sizes.</p>
+<p>In summary, this means that in order to solve a system of linear equations we do the following:</p>
+<ol>
+<li>Put the system of linear equations in the form \(A \mathbf{x} = \mathbf{b}\) where \(A\) is the matrix of coefficients, \(\mathbf{x}\) is the column vector of variables, and \(\mathbf{b}\) is the column vector of the values of the rhs of each equals sign.</li>
+<li>Form the augmented matrix of the system by appending the vector \(\mathbf{b}\) to the right hand side of the matrix \(A\).</li>
+<li>Perform Gaussian elimination on the augmented matrix until it is in reduced row echelon form.</li>
+<li>Read off the solutions of the system of equations.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

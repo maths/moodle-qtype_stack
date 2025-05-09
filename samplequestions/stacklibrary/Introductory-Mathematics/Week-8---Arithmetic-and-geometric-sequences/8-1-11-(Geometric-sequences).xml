@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.11 (Geometric sequences)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Geometric sequences</h1>
+
+<p>So far, we have discussed arithmetic sequences, that is sequences whose difference between terms is constant. These are not the only form of sequence. In this section we introduce and examine geometric sequences.</p>
+
+<p>A <b>geometric sequence</b> is one in which the ratio of consecutive terms is constant. For example,
+\[ 
+1, 2, 4, 8, 16, \ldots 
+\]
+is a geometric sequence since each term is twice as big as the previous one. We can check the ratios:
+\[ 
+\frac{2}{1}=2,\quad \frac{4}{2}=2,\quad \frac{8}{4}=2,\quad \text{etc.} 
+\]
+So in a geometric sequence, we find that each term is obtained from the previous one by multiplying by a fixed number, which we call the <b>common ratio</b> of the sequence. This is usually denoted \(r\) -- so for the example above, \(r=2\).</p>
+<>br/
+<p>We can use a recurrence relation to capture the idea of multiplying each term by the common ratio to get the next term.For example, the sequence \(1,2,4,8,\ldots\) is given by the recurrence relation
+\[ 
+u_{n+1}=2u_n,\quad u_1=1. 
+\]
+In general, if the first term is \(a\) and the common ratio is \(r\), the recurrence relation is
+\[ 
+u_{n+1}=ru_n,\quad u_1=a. 
+\]</p>
+<br/>
+<p>We can also define such a sequence by a formula. The sequence with first term \(a\) and common ratio \(r\) has the following terms:
+\[ 
+a, ar, ar^2, ar^3,\ldots. 
+\]
+We can see from this that the term \(u_n\) is given by the formula
+\[ 
+u_n=a r^{n-1}, 
+\]
+where the first term is \(u_1\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

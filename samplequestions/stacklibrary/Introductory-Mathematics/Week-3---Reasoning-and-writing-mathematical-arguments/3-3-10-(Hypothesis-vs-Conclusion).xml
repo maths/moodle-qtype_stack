@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.10 (Hypothesis vs Conclusion)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Hypothesis vs conclusion</h3>
+
+<p>In a previous section, we have defined the hypothesis and conclusion of a mathematical argument. The hypotheses are the initial assumptions and the conclusion is the end of an argument, the goal which we seek to reach. Recall that often we are seeking to prove conditional statements of the form "if \(A\) then \(B\). In this case we go from statement \(A\), proceed using a series of logically connected statements until we show that statement \(B\) is true. It is a common error to begin a proof by assuming the conclusion that the proof turns into a circular argument, which essentially shows that \(B\) is true because \(B\) is true.</p>
+
+<p>Consider the following example. Suppose that we wish to prove the statement:</p>
+<p><i>If \(x, y\) are positive integers then \(x +y\) is even.</i></p>
+</br>
+<p>We could 'prove' this as follows: <i>if \(x +y\) is even then it can be written as \(2z\) for some integer \(z\). Since \(x+y = 2z\) then \(x+y\) is even.</i></p>
+</br>
+<p>This argument is <b>not</b> a suitable proof. In this case it begins by assuming that \(x+y\) is even, but this should be the <i>conclusion</i> of the argument, <b>not</b> a hypothesis. To illustrate a the structure of a correct proof of this statement begin by letting:</p>
+</br>
+<p>A: \(x,y\) are positive integers</p>
+<p>B: \(x+y\) is even.</p>
+
+<p>Now we see that the given statement can be written as \(A \implies B\), which helps to illustrate the structure of the argument. It is good practice when writing a proof to ensure that you can identify the hypotheses and conclusions of the argument. This helps to prevent errors like the above. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

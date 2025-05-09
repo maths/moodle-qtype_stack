@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.4 (Application - Circular motion in physics)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Circular Motion</h1>
+
+<p>In physics, circular motion is the name given to the study of of the movement of certain objects along the circumference of a circle or rotation along a circular path. This motion can either be constant (meaning its acceleration is zero) or it can be non-uniform. The rotation around a fixed axis of a three-dimensional body involves circular motion of its parts, in this case the equations of motion describe the movement of the centre of mass of a body. There are many examples of circular motion in the real world, for example: a satellite orbiting earth, other planetary orbits, movement of a ferris wheel, movement of a fan, movement of a rollercoaster etc. The key point fact of circular motion is that the vector representing velocity is constantly changing (as the direction the object is travelling changes constantly), therefore the object undergoes acceleration due to a centripetal force in the direction of the centre of the rotation. If this force isn't there Newton's laws of motion tell us that the object would travel in a straight line. </p>
+</br>
+<p>In our examples we will restrict ourselves to <i>uniform circular motion</i> which is circular motion of a object with constant speed (but not constant velocity as the direction of travel is constantly changing). To tackle the case of non-constant speed often requires a use of calculus. There are three main quantities we need when examining circular motion; speed (or angular velocity), acceleration and (centripetal)force. These are governed  by the following equations 
+\[
+\mbox{average speed} = \frac{\mbox{distance}}{\mbox{time}} = \frac{2 \pi r}{T} \qquad \mbox{acceleration} = \frac{v^2}{R} = \frac{4 \pi^2 R}{T^2} \qquad \mbox{Force} = F = ma = m + \frac{v^2}{R} = m + \frac{4 \pi^2 R}{T^2},
+\]
+where \(v\) is speed, \(R\) is the radius of the circle, \(T\) is the period, \(F\) is the net force and \(m\) is the mass of the object. We can see that we have derived these equations from the Newtonian definitions of speed as being distance of time and force being mass multiplied by acceleration. Recall that in general, the inward force acting on a body in circular motion is larger than the outward force  such that the outward force cancels and the unbalanced force is in the direction of the centre of the circle. This is the net force and is the \(F\) in the equations above. Let us consider the following examples to see how we can solve circular motion problems.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

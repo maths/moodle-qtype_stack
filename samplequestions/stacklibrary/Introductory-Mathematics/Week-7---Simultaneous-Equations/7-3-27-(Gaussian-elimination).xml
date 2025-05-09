@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.27 (Gaussian elimination)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Gaussian elimination</h3>
+
+<p>We have now seen why matrices are useful when discussing simultaneous equations. However, how do we solve systems of equations of the form \(A \mathbf{x} = \mathbf{y}\) when we cannot find the inverse of the matrix \(A\)? This is an important question because we have seen that not all matrices are invertible and we even when they are, matrix inverses are not easy to calculate. In this case we use a process called <b>Gaussian elimination</b> to find the solution of the system of equations.</p>
+<br>
+<p>Gaussian elimination is a sequence of operations (called <b>row operations</b>) performed on a matrix to solve systems of equations. There are three different valid row operations:</p>
+<ol>
+<li>Swapping two rows.</li>
+<li>Multiplying a row by a nonzero number.</li>
+<li>Adding a multiple of of one row to another row.</li>
+</ol>
+<p>We use a sequence of row operations to transform a given matrix so that the leftmost nonzero entry in each row is a \(1\) and every other entry is a \(0\). We will see in the following example how this helps us to solve a system of linear equations. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

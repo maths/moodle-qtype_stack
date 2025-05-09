@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.9 (Example of infinite series)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+<p>What is the value of \(\displaystyle1+\frac14+\frac1{16}+\frac1{64}+\cdots\)?</p>
+
+<h3>Solution</h3>
+
+<p>As we noted earlier, this is the geometric series with \(a=1\) and \(r=\frac14\). So using the formula,
+\[ 
+1+\frac14+\frac1{16}+\frac1{64}+\cdots = \frac{a}{1-r} = \frac{1}{1-\tfrac14} = \frac{4}{3}. \]
+In particular, notice that this means the shaded area in the picture above is \(\frac13\) of the total area.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

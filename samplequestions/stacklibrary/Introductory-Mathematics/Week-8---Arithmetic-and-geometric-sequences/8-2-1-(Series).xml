@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.1 (Series)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Series</h1>
+
+<p>So far this week, we have introduced and examined sequences. We will now turn our attention to series instead. A <b>series</b> is a possibly infinite sum of all the terms in a sequence. We will begin by introducing the notation we use to examine series. This notation can initially appear somewhat complicated but it is a highly useful tool for discussing series. Studying series involves summing large lists of numbers so let's begin with some practice of computing sums. Then we will move on to discuss systematic (shorter) ways to produce such calculations.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

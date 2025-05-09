@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.1 (Applications of circles - introduction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>This week we have focussed on the mathematics that governs the graphical representations of circles. We have seen that we can represent circles in the \(x-y\) plane in several ways, with each method providing us with different information. In addition we have introduced parametric equations and discussed how they can give us a greater flexibility to plot a wider range of functions. Most importantly, we can represent a circle as parametric equations involving the trigonometric ratios \(\sin \theta\) and \(\cos \theta\). Trigonometry, therefore is closely linked to circles and vice versa. In this section we will look at the history of the mathematical study of circles before examining some applications including architecture and circular motion in classical physics. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.4 (Sigma notation)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Sigma notation</h3>
+
+<p>As stated above, a series is a sum of a long list of numbers (i.e. the sum of entries of a sequence). So for example
+\[
+1+2+3+4+\cdots \qquad \mbox{and} \qquad 4 + 8 + 12 + 16 + 24
+\]
+are both series. The first series is infinite but the second has only five terms. We can see that writing a series like this is cumbersome (and in the case of infinite series impossible). Fortunately a series can be represented in a compact manner using <b>sigma notation</b>. This refers to the fact that the Greek capital letter sigma (written \(\sum\)) is used to represent the series. Let us consider the second series above as an example.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Write the series \(4 + 8 + 12 + 16 + 24\) using sigma notation and therefore find the value of the sum.</p>
+
+<h3>Solution</h3>
+
+<p>We can write the given series as 
+\[
+\sum\limits_{n=1}^6 4n.
+\]
+This expression is read as "the terms of the series are given by the formula \(4n\) as \(n\) goes from \(1\) to \(6\)". The variable \(n\) is called the <b>index</b> of the summation. The bottom of the sigma tells us that the first value of \(n\) is a \(1\), the top of the sigma tells us the last value of \(n\) to substitute into the formula. </p>
+<p>To generate the terms of a series given in sigma notation, we successively replace the index of summation with consecutive integers from the first value to the last value of the index. S in this case we must replace \(n\) in the formula by \(1,2,3,4,5,6\) and them sum each term. Hence we have 
+\[
+\sum\limits_{n=1}^6 4n = 4(1) + 4(2) + 4(3) + 4(4) + 4(5) + 4(6) = 4 + 8 + 12 + 16 + 20 + 24 = 84.
+\]
+So the sum of the series is \(84\).</p>
+<br/>
+<p>As we will see in a later section, one of the advantages of sigma notation is that it allows us to deal with infinite series as well. We formally define these ideas as follows.</p>
+<br/>
+<p>Given a function \(f\) and two integers \(A\) and \(B\) (with \(A\leq B\)), we write
+\[
+&nbsp; \sum_{n=A}^B f(n) = f(A) + f(A+1) + \cdots + f(B), 
+\]
+i.e. adding up the results when \(f\) is applied to each of the integers from \(A\) to \(B\).</p>
+<p>Note that we don't have to use the letter \(n\) for the counter; other common choices are \(i,j,k\) and \(m\).<p>
+<br/>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.3.2 (Geogebra parabola sliders)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>This shows a graph of a parabola. Move the sliders to see what effect changing each of the coefficients in the equation \(y = ax^2+bx+c\) has on the shape of the graph.</p>
+<p> </p>
+<p><iframe style="border: 0px;" title="Quadratic Graph Slider" src="https://www.geogebra.org/material/iframe/id/gpxhjmnz/width/1680/height/934/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" scrolling="no" width="820px" height="450px"> </iframe></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

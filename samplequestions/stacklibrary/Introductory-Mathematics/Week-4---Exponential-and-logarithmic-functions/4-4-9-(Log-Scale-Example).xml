@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.4.9 (Log Scale Example)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Suppose that the relationship between variables \(x\) and \(y\) is given by \(y = ab^x\) where \(a\) and \(b\) are positive constants. An experiment to test that the data did follow this relationship was plotted on a log-scaled graph of \(x\) against \(Y = \ln(y)\). Given that the points \((0,3)\) and \((7,5)\) lie on the line in the graph find the values of \(a\) and \(b\).</p>
+
+<h3>Solution</h3>
+
+<p>Since we are old that \(x\) is plotted against \(Y= \ln(y)\) we know that the data follow a straight line. Therefore we need to obtain a straight line equation from \(y = ab^x\). So taking logs as before and using the log laws to simplify we obtain.
+\[
+\begin{align*} 
+\ln(y) &amp;= \ln(ab^x) 
+\\ 
+&amp;= \ln(a) + x\ln(b)
+\\
+&= Y = (\ln(b))x + \ln(a).
+\end{align*} 
+\] 
+Since this is now an equation of a straight line we need to find the \(y\)-intercept and the gradient. Happily we are told that \((0,3)\) lies on the line so the y-intercept is \(3\). therefore \(ln(a) = 3\) and thus \(a = e^3\).</p>
+<p>We can find the gradient as follows
+\[
+\ln(b) = \frac{5-3}{7-0} = 2/7.
+\]
+Hence, b = e^{2/7} and the equation of the line is \(Y = e^{\frac{2}{7}}x + e^{3}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.3 Table of inverse trig (copy)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Domains and ranges of trigonometric inverses</h4><br><table style="text-align: center; margin-left:auto; margin-right:auto;" cellpadding="10" bordercolor="#3a87ad" border="1">
+<thead>
+<tr style="background: #c1ddea">
+<th scope="col">Function</th>
+<th scope="col">Domain</th>
+<th scope="col">Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(y=\arcsin(x)\)</td>
+<td>\(-1\leq x \leq 1\)</td>
+<td>\(-\pi/2 \leq y \leq \pi/2\)</td>
+</tr>
+<tr>
+<td>\(y=\arccos(x)\)</td>
+<td>\(-1\leq x \leq 1\)</td>
+<td>\(0 \leq y \leq \pi\)</td>
+</tr>
+<tr>
+<td>\(y=\arctan(x)\)</td>
+<td>\(-\infty &lt; x &lt; \infty\)</td>
+<td>\(-\pi/2 &lt; y &lt; \pi/2\)</td>
+</tr>
+</tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

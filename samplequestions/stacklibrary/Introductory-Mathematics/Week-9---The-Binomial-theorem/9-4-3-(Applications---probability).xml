@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.4.3 (Applications - probability)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>The Binomial Distribution</h1>
+
+<p>How does the Binomial Theorem relate to probability or statistics? In this section we will examine the ideas of Jacob Bernoulli (among others) and how binomial coefficients describe probabilities. </p>
+<br/>
+<p>Let us begin with the question of flipping a coin. Suppose we toss a coin three times. What is the chance of getting two heads? To answer this question lets firstly count how many possible outcomes we have. The possible outcomes are: 
+\[
+HHH, HHT, HTH, HTT, THH, THT, TTH, TTT,
+\]
+so there are eight possible outcomes. Notice that in order for the condition 'two heads' to be satisfied we don't care about the order in which the heads are picked, therefore 3 of the above outcomes give us 'two heads'. Therefore the probability fo the event 'throwing two heads' is the number of potential outcomes multiplied by probability of each outcome i.e. it is \(3 \times \frac{1}{8}= \frac{3}{8}\).
+</p>
+<br/>
+<p>Now suppose that we want to generalise this idea to an arbitrary number of coin tosses. Clearly, we can't write down every possible outcome, so we write the experiment in terms of a <i>random variable</i> \(X\). A <b>random variable</b> is a variable that uses numbers to describe the possible outcomes which could result from a random experiment. A random variable can be <i>discrete</i> or <i>continuous</i>. A <b>discrete</b> random variable has a set of distinct possible values (e.g. coin tosses) whereas a continuous random variable is one which can take any value within a given interval (e.g. temperature). So returning to the example of three coin tosses we can write our random variable as \(X=\) 'number of heads thrown.' We write our observation above that the probability of throwing two heads as: \(P(X = 2) = \frac{3}{8}\). But how does this relate to the binomial theorem? Well, let us calculate the probabilities of the amount of heads thrown for every possible number of heads: 
+\[
+\begin{align*}
+\mbox{0 heads:   }P(X = 0) = \frac{1}{8} \qquad TTT
+\\
+\mbox{1 heads   }P(X = 1) = \frac{3}{8} \qquad HTT, THT, TTH
+\\
+\mbox{2 heads:   }P(X = 2) = \frac{3}{8} \qquad HHT,HTH, THH
+\\
+\mbox{3 heads:   }P(X = 3) = \frac{1}{8} \qquad HHH.
+\end{align*}
+\]
+Do you notice the pattern of the probabilities? Specifically in the numerators? these are the binomial coefficients (and entries of the 3rd row of Pascal's triangle). It turns out that this behaviour can be generalised to statistical experiments of a certain type. This leads us to the following definitions</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

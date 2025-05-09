@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.4.12 (Examples of Log Scales)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Examples of log-scales</h3>
+
+<p>Log scales are used all the time to represent different data. In fact virtually anywhere we see a form of exponential growth, it is often represented on a log-scale. For example think of the Richter scale and the Decibel scale. The Richter scale measure earthquake intensity and the Decibel scale measures noise. As we have seen the idea is to put a quantity which can vary a lot (e.g. earthquake intensity) on to a small scale with a small range. Each one point increase on the scale then corresponds to a \(10x\) step up in intensity. The largest recorded earthquake is the Valdivia earthquake which hit much of Chile in 1960, estimates place its power at around \(9.5\) on the moment magnitude scale (an updated model of the Richter scale.) It was so large that the resulting tsunamis affected regions as far away as Japan.</p>
+
+<p>Similarly, there are a large range of sounds that our brains can process. For exampl we can process both a whisper in a library and the sound of a jet taking off. In reality the sound of the jet is millions of times more powerful than a whisper but it is inconvenient to have a scale that goes from \(1\) to such a large number.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

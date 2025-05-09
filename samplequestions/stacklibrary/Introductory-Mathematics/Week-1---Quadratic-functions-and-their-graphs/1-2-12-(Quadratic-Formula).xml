@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.12 (Quadratic Formula)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>The quadratic formula</h1>
+
+<p>Another option to solve a quadratic equation is to use the <b>quadratic formula</b>. Often this is the fastest method for solving quadratics that cannot be factorised immediately. The quadratic formula is stated as follows:
+For the quadratic \(ax^2 + bx + c = 0\) the roots of the quadratic are given by
+\[
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.
+\]
+
+</p><p>To apply the formula to solve a specific quadratic equation it is a matter of identifying the correct coefficients \(a\), \(b\) and \(c\), making sure that we get the correct signs of these numbers. Substitution of these values into the formula then gives the desired solutions. Note that the discriminant \(b^2-4ac\) appears under the square root in the formula. This explains our previous classification of the roots of a quadratic. Remember that if the discriminant is positive then the quadratic formula produces two distinct real roots. If it is equal to zero there will be one repeated root. The value of this root is \(x=-\dfrac{b}{2a}\). Finally, if \(b^2-4ac\) is negative then the number under the square root is negative and therefore the quadratic has no real roots. In fact it has <i>complex roots</i> which will not discuss here as these require special treatment.</p>
+<br>
+<h3>How to obtain the formula</h3>
+<br>
+<p> The quadratic formula is obtained by completing the square in the general quadratic \(ax^2+bx+c=0\). </p>
+<p>We begin by dividing through by \(a\) to make the leading coefficient equal to \(1\). Recall that we can do this as we have stipulated that \(a \not=1\) as we have a quadratic. Thus we have
+\[
+ax^2+bx+c = x^2+\frac{b}{a}x+\frac{c}{a} = 0.
+\]
+We now complete to square to obtain
+\[
+\left(x+\frac{b}{2a}\right)^2+\frac{c}{a}-\frac{b^2} {4a^2} = 0.
+\]
+Thus the solution of \(ax^2+bx+c=0\) is the same as the solution to \( \left(x+\frac{b}{2a}\right)^2+\frac{c}{a}-\frac{b^2}{4a^2}=0. \)
+So, solving:
+\[
+\left(x+\dfrac{b}{2a}\right)^2=-\dfrac{c}{a}+\dfrac{b^2}{4a^2}
+\]
+which leads to
+\[
+ x=-\dfrac{b}{2a}\pm\sqrt{ -\dfrac{c}{a}+\dfrac{b^2}{4a^2}}.
+\]
+Simplifying this expression further by putting everything over a common denominator we obtain the quadratic formula
+\[
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.
+\]
+<br>
+</p><h3> Example</h3>
+<br>
+<p>Solve the quadratic equation \(4x^2+3x-8=0\) using the formula.</p>
+<br>
+<h4>Solution</h4>
+<br>
+<p>We compare the given equation with the standard form \(ax^2+bx+c=0\) in order to identify \(a\), \(b\) and \(c\). We see that here \(a=4\), \(b=3\) and \(c=-8\). Substituting these values into the formula we find</p>
+<p>
+\[
+x = \frac{-3 \pm \sqrt{(-3)^2 - (4 \cdot 4 \cdot -8)}}{2 \cdot 4} = \frac{-3 \pm \sqrt{137}}{8} = -\frac{3}{8} \pm \frac{\sqrt{137}}{8}
+\]
+Note that it is often better to leave the solution in terms of the square roots. 
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

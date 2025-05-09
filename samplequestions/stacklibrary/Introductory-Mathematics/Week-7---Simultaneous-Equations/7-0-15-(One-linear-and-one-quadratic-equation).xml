@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.0.15 (One linear and one quadratic equation)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>One linear and one quadratic equation</h1>
+
+<p>So far we have examined pairs of simultaneous equations which have consisted solely of linear equations. These are the simplest forms of simultaneous equations and have the advantage that they can be solved relatively quickly either using substitution or with elimination. In fact, it is perfectly possible to have simultaneous equations where at least one of the equations are non-linear. We will discuss applications of systems of linear equations in later sections. Here we will look at how to solves simultaneous equations where one equation is linear and the other is a quadratic. The method to solve these systems is slightly different that the ones we have seen for the solely linear case. In the case where we have at least one quadratic, we use an adapted form of substitution.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

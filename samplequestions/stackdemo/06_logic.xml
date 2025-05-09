@@ -6,7 +6,13 @@
       <text>Propositional logic</text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>Type in an expression with variables \(A\) and \(B\) using only the operations <code>and</code>, <code>or</code> and <code>nor</code> which has the following truth table.</p><p>{@T2@}</p>
+      <text><![CDATA[<br>
+<div class="stack-comment">
+<h2>Logic in Answers</h2>
+
+<p>STACK can work with logic. Try an incorrect answer to see the tailored feedback.</p>
+</div>
+<p>Type in an expression with variables \(A\) and \(B\) using only the operations <code>and</code>, <code>or</code> and <code>nor</code> which has the following truth table.</p><p>{@T2@}</p>
 <p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">

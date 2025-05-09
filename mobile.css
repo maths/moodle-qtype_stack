@@ -988,12 +988,12 @@ ol.HELM_parts {
     float: left;
     width: 100%;
 }
-ol.HELM_parts li {
+ol.HELM_parts > li {
     counter-increment: helm-parts;
     margin-bottom: 1.5rem;
 }
 
-ol.HELM_parts li:before {
+ol.HELM_parts > li:before {
     content: "(" counter(helm-parts, lower-alpha) ")";
     margin-left: -2.2rem;
     margin-top: -0.3rem;

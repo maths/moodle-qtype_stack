@@ -9,8 +9,9 @@
       <text><![CDATA[<br>
 <div class="stack-comment">
 <h2>Live data capture and scientific units</h2>
-<p>STACK can be used in conjunction with live data capture in science labs.  For example, here is a sample question which confirms if students have calculated a speed correctly from their own data.</p>
-<p>STACK also has full support for scientific units and numerical precision.</p>
+
+<p>STACK can be used in conjunction with live data capture in science labs. For example, here is a sample question which confirms if students have calculated a speed correctly from their own data.</p>
+<p>STACK also has full support for scientific units and numerical precision. Try out different values of time and distance, varying units. e.g. 10cm, 4.0s and 0.025m/s.</p>
 </div>
 <br>
 <p>In this question use the data captured from your moving cart in the speed lab. &nbsp;</p>

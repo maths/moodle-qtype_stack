@@ -3,10 +3,21 @@
 <!-- question: 15334  -->
   <question type="stack">
     <name>
-      <text>n is odd iff n^2 is odd Proof</text>
+      <text>Parsons problem with "if and only if" proof</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Drag items from the available list on the right to the answer list on the left to construct a correct proof of the following theorem. </p>
+      <text><![CDATA[
+      <div class="stack-comment">
+      <h2>Drag and drop Parsons problems</h2>
+      <p>STACK has advanced libraries for dealing with drag and drop problems.
+      <ul>
+      <li>The teacher can specify mutliple correct answers, e.g. here the two sub-proofs can occur in either order.</li>
+      <li>The system automatically finds the closest proof to one correct proof, and gives feedback on how to change the student's answer to the closest correct proof.</li>
+      </ul>
+      Try getting the proof incorrect and look at the feedback generated.
+      </p>
+      </div>
+      <p>Drag items from the available list on the right to the answer list on the left to construct a correct proof of the following theorem. </p>
 
 <p><strong>Theorem.</strong> {@thm@}</p>
 [[parsons input="ans1" log="true"]]

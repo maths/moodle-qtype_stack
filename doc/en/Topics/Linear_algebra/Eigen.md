@@ -1,6 +1,6 @@
 # Eigenvalue/vector functions
 
-STACK has a contributed library for eigenvector/value functions.  To use this library you must load it into the question variables.
+STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/eigenlib.mac) for eigenvector/value functions.  To use this library you must load it into the question variables.
 
 * To use the latest code from github: `stack_include_contrib("eigenlib.mac");`
 * Loading this library automatically declares `stack_linear_algebra_declare(true);` to provide context. See the documentation on the core [linear algebra](Linear_algebra_core.md) for more information. 
@@ -41,7 +41,7 @@ The contributed `matrixfactorizations.mac` file contains functions for diagonali
  
 ## Miscellaneous useful functions
 
-The contributed function `Rayleigh(M,v)` computes the Rayleigh quotient of a matrix `M` and `v`: \(\displaystyle \frac{\underline{\mathbf{v}}^{*}\,M\,\underline{\mathbf{v}}}{\underline{\mathbf{v}}^{*}\,\underline{\mathbf{v}}}\). This is an eigenvalue estimate for approximate eigenvector `v` and is sometimes used in power method calculations .
+The contributed function `Rayleigh(M,v)` computes the Rayleigh quotient of a matrix `M` and `v`: \(\displaystyle \frac{\underline{\mathbf{v}}^{*}\,M\,\underline{\mathbf{v}}}{\underline{\mathbf{v}}^{*}\,\underline{\mathbf{v}}}\). This is an eigenvalue estimate for approximate eigenvector `v` and is sometimes used in power method calculations.
  
 ## Some suggestions for writing eigenvector-eigenvalue questions
 

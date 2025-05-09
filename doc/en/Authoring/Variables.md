@@ -62,6 +62,8 @@ STACK has a special constant `%_stack_preamble_end`.  Any variables _before_ thi
 
 Note, that students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble. e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
 
+For example, `assume(a>0)` will enable you to accept \(a\sqrt{5}=\sqrt{5a^2}\) using the `AlgEquiv` answer test.  Normally \(\sqrt{a^2}=|a|\neq a\).
+
 For example, `texput(blob, "\\diamond")` is simple.  You can also define a function and use this function in texput.
 
 ```

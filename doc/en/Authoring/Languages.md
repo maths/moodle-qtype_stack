@@ -137,4 +137,4 @@ A related issue is decimal separators.  An internal variable `stackfltsep` holds
 
 ### Further reading
 
-The STACK project has been translated to many languages. Information on specific languages, installing language packs and how to contribute to translations can be found [here](../Developer/Language_packs.md).
+The STACK project has been translated to many languages. Information on specific languages, installing language packs and how to contribute to translations can be found on the [language packs page](../Developer/Language_packs.md).

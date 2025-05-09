@@ -988,12 +988,12 @@ ol.HELM_parts {
     float: left;
     width: 100%;
 }
-ol.HELM_parts li {
+ol.HELM_parts > li {
     counter-increment: helm-parts;
     margin-bottom: 1.5rem;
 }
 
-ol.HELM_parts li:before {
+ol.HELM_parts > li:before {
     content: "(" counter(helm-parts, lower-alpha) ")";
     margin-left: -2.2rem;
     margin-top: -0.3rem;
@@ -1273,4 +1273,8 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     padding: 5px 0 5px 10px;
     background-color: pink;
     border-radius: 10px;
+}
+.que .outcome,
+.que .comment {
+    color: #44331b;
 }

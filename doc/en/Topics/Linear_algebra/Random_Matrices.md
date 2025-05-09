@@ -18,7 +18,7 @@ STACK has a contributed library for creating structured random matrices.  The co
 Notes.
 
 1. You may omit the third argument, `k`, and STACK will assume \(k = 1\).
-2. \(0\) is an allowed value in all of the above cases, so you cannot guarantee properties like invertibility even with `rand_diag`. 
+2. \(0\) may appear as a matrix entry in any of the above functions, so you cannot guarantee properties like invertibility even with `rand_diag`. 
 3. For non-negative entries apply `abs`, e.g. use `abs(rand_matrix(m, n, k))`.
 
 The above functions have `_list` and `_list_no_replacement` varieties. 
@@ -32,7 +32,7 @@ You can also use `rand_diag_list`, `rand_triu_list`, `rand_tril_list`, `rand_dia
 
 `rand_matrix.mac` also includes functions for matrices with useful properties. e.g. `rand_invertible(n)` will generate an invertible \(n \times n\) matrix.
 
-In many of these functions you can optionally add an extra input, `k`, which can be read as a "level of complexity". It defaults to `1`. For example, `rand_invertible(3)` might produce something like \(\left[\begin{array}{ccc} 1 & -1 & 1 \\ 0 & -1 & -1 \\ -1 & 0 & -3 \end{array}\right]\) `whilst rand_invertible(3,5)` might produce something like \(\left[\begin{array}{ccc} 20 & -20 & 8 \\ 5 & -9 & 2 \\ -15 & 11 & -22 \end{array}\right]\).
+In many of these functions you can optionally add an extra input, `k`, which can be read as a "level of complexity". It defaults to `1`. For example, `rand_invertible(3)` might produce something like \[\left[\begin{array}{ccc} 1 & -1 & 1 \\ 0 & -1 & -1 \\ -1 & 0 & -3 \end{array}\right]\] `whilst rand_invertible(3,5)` might produce something like \[\left[\begin{array}{ccc} 20 & -20 & 8 \\ 5 & -9 & 2 \\ -15 & 11 & -22 \end{array}\right]\].
 
 * `rand_invertible(n, k)` will generate an integer \(n \times n\) invertible matrix. `k` is the optional "level of complexity" and defaults to 1.
 * `rand_integer_invertible(n, k)` will generate an integer \(n \times n\) invertible matrix whose inverse is also an integer matrix. `k` is the optional "level of complexity" and defaults to 1.

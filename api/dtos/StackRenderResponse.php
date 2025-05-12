@@ -41,6 +41,8 @@ class StackRenderResponse {
     public $questionvariants;
     /** @var array */
     public $iframes;
+    /** @var bool */
+    public $isinteractive;
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class

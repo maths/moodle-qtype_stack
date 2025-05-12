@@ -51,6 +51,7 @@ abstract class stack_cas_castext2_block {
     // Store any errors.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $err = [];
+    public static $isinteractive = false;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(
@@ -92,6 +93,15 @@ abstract class stack_cas_castext2_block {
      */
     public function is_flat(): bool {
         return true;
+    }
+
+    /**
+     * Is this an interactive block?
+     * If true, we can't generate a static version.
+     * @return bool
+     */
+    public function is_interactive(): bool {
+        return false;
     }
 
     /**

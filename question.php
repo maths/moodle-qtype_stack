@@ -2254,7 +2254,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // Remember to collect the extracted strings once all has been done.
         $cc['static-castext-strings'] = $map->get_map();
-
+        $cc['is-interactive'] = \stack_cas_castext2_block::$isinteractive;
         return $cc;
     }
 
@@ -2288,5 +2288,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $formatoptions->allowid = true;
         $text = $qa->rewrite_pluginfile_urls($text, $component, $filearea, $itemid);
         return format_text($text, $format, $formatoptions);
+    }
+
+    /**
+     * Is the question interactive?
+     * @return bool
+     */
+    public function is_interactive() {
+        return $this->get_cached('is-interactive');
     }
 }

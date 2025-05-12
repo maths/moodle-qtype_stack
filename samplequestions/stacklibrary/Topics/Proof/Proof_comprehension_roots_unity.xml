@@ -50,7 +50,7 @@ i.e. \(1, e^{\frac{2 \pi i}{n}}, e^{\frac{4 \pi i}{n}}, \dots, e^{\frac{2(n-1) \
     <generalfeedback format="moodle_auto_format">
       <text><![CDATA[<p>a. Note that \(1 = z^n = r^n e^{n i \theta}\). </p>
 
-<p>b. Step 3. of the proof holds because two complex numbers \(u = re^{i\\theta} \mbox{ and } v = se^{i\phi}\) are equal if \(r = s\) and \(\theta -\phi = 2k\pi\) with \(k \in \mathbb{Z}\).
+<p>b. Step 3. of the proof holds because two complex numbers \(u = re^{i \theta} \mbox{ and } v = se^{i\phi}\) are equal if \(r = s\) and \(\theta -\phi = 2k\pi\) with \(k \in \mathbb{Z}\).
 Therefore the correct choice is statement A. </p>
 
 <p>c. A root of unity is a complex number which yields \(1\) when raised to some power. In other words, \(z\) is a root of unity if \(z^n - 1 = 0\). Thus the correct statement is statement B.</p>

@@ -457,16 +457,4 @@ class stack_varmatrix_input extends stack_input {
         }
         return $valid;
     }
-
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution($tavalue) {
-        // We clear the name, and then restore its original value,
-        // to not include the prefix in the api solution.
-        $name = $this->name;
-        $this->name = '';
-        $sol = $this->maxima_to_response_array($tavalue);
-        $this->name = $name;
-        return $sol;
-    }
-
 }

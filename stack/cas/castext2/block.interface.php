@@ -51,6 +51,10 @@ abstract class stack_cas_castext2_block {
     // Store any errors.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $err = [];
+    /**
+     * Keeps track of whether the current question has interactove elements.
+     * @var bool
+     */
     public static $isinteractive = false;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

@@ -2006,6 +2006,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $units = false;
         $forbiddenkeys = [];
         $sec = new stack_cas_security();
+        \stack_cas_castext2_block::$isinteractive = false;
 
         // Some counter resets to ensure that the result is the same even if
         // we for some reason would compile twice in a session.

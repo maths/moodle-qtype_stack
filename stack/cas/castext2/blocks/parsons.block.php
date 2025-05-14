@@ -568,4 +568,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         return $valid;
     }
+
+    /**
+     * Is this an interactive block?
+     * If true, we can't generate a static version.
+     * @return bool
+     */
+    public function is_interactive(): bool {
+        return true;
+    }
 }

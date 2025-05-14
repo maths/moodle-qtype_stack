@@ -137,6 +137,7 @@ class RenderController {
         $renderresponse->questionseed = $question->seed;
         $renderresponse->questionvariants = $question->deployedseeds;
         $renderresponse->iframes = StackIframeHolder::$iframes;
+        $renderresponse->isinteractive = $question->is_interactive();
 
         $response->getBody()->write(json_encode($renderresponse));
         return $response->withHeader('Content-Type', 'application/json');

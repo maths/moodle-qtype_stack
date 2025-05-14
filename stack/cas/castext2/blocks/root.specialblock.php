@@ -49,6 +49,11 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             $r = new MP_List([new MP_String('%root')]);
         }
 
+        $interactive = $this->is_interactive();
+        if ($interactive) {
+            stack_cas_castext2_block::$isinteractive = true;
+        }
+
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
             if ($c !== null) {
@@ -133,6 +138,20 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         }
 
         return $flat;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function is_interactive(): bool {
+        $interactive = false;
+
+        foreach ($this->children as $child) {
+            if ($child->is_interactive()) {
+                $interactive = true;
+                break;
+            };
+        }
+
+        return $interactive;
     }
 
     /**

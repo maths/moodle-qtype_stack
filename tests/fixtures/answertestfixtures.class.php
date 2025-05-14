@@ -202,6 +202,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'cos(x)^2+sin(x)^2', '1', 1, '', ''],
         ['AlgEquiv', '', 'cos(x+y)', 'cos(x)*cos(y)-sin(x)*sin(y)', 1, '', ''],
         ['AlgEquiv', '', 'cos(x+y)', 'cos(x)*cos(y)+sin(x)*sin(y)', 0, '', ''],
+        ['AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', 1, '', ''],
         ['AlgEquiv', '', 'cos(x#pm#y)', 'cos(x)*cos(y)-(#pm#sin(x)*sin(y))', 1, 'ATLogic_True.', ''],
         ['AlgEquiv', '', 'sin(x#pm#y)', 'sin(x)*cos(y)#pm#cos(x)*sin(y)', 1, 'ATLogic_True.', ''],
         ['AlgEquiv', '', 'sin(x#pm#y)', 'cos(x)*sin(y)#pm#sin(x)*cos(y)', 0, '', ''],
@@ -682,7 +683,6 @@ class stack_answertest_test_data {
         ],
         ['AlgEquiv', '', 'abs(x^2-4)/(abs(x-2)*abs(x+2))', '1', -3, '', ''],
         ['AlgEquiv', '', 'abs(x^2-4)', 'abs(x-2)*abs(x+2)', -3, '', ''],
-        ['AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -3, '', ''],
         ['AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -3, '', ''],
         ['AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -3, '', ''],
         ['AlgEquiv', '', 'sqrt(2*x*sqrt(x^2+1)+2*x^2+1)-sqrt(x^2+1)-x', '0', -3, '', ''],
@@ -739,6 +739,11 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'diff(y(x),x)', 'diff(y,x)', 0, '', ''],
         // Both get evaluated to zero.
         ['AlgEquiv', '', 'diff(y,x)', 'diff(y,x,2)', 1, '', ''],
+        // Tests with unevaluated integrals.
+        ['AlgEquiv', '', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 1, '', ''],
+        ['AlgEquiv', '', 'int(f(t)*%e^(-i*t*xi), t, -inf, inf)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', -3, '', ''],
+        ['AlgEquiv', '', 'F(xi)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 0, '', ''],
+
 
         ['AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'],
         ['AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''],

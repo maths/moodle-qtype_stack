@@ -39,6 +39,7 @@ $string['debuginfo']         = 'Debug info';
 $string['exceptionmessage']  = '{$a}';
 $string['seekhelp']          = 'Please ask your teacher about this.';
 $string['runtimeerror']      = 'This question generated an unexpected internal error.';
+$string['questionbroken']    = 'The question has been marked as broken during editing.';
 $string['runtimefielderr']   = 'The field ""{$a->field}"" generated the following error: {$a->err}';
 $string['version']           = 'Version';
 
@@ -140,6 +141,9 @@ $string['fixdollars'] = 'Fix dollars';
 $string['fixdollarslabel'] = 'Replace <code>$...$</code> with <code>\(...\)</code>, <code>$$...$$</code> with <code>\[...\]</code> and <code>@...@</code> with <code>{@...@}</code> on save.';
 $string['fixdollars_help'] = 'This option is useful if are copying and pasting (or typing) TeX with <code>$...$</code> and <code>$$...$$</code> delimiters. Those delimiters will be replaced by the recommended delimiters during the save process.';
 $string['forbiddendoubledollars'] = 'Please use the delimiters <code>\(...\)</code> for inline maths and <code>\[...\]</code> for display maths. <code>$...$</code> and <code>$$...$$</code> are not permitted. There is an option at the end of the form to fix this automatically.';
+$string['isbroken'] = 'Save as broken';
+$string['isbrokenlabel'] = 'Mark the question as broken. This will allow the question to be saved even with most errors but it will not be displayed to students.';
+$string['isbroken_help'] = 'This option allows you to save your work even if a question is incomplete or has errors. You or a colleague can then return to work on it later. You will still need to supply required fields and tick the boxes to confirm any deletion of inputs or PRTs before the question will save.';
 $string['forbidfloat'] = 'Forbid float';
 $string['forbidfloat_help'] = 'If set to yes, then any answer of the student which has a floating point number will be rejected as invalid.';
 $string['forbidfloat_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Forbid_Floats';
@@ -400,6 +404,10 @@ $string['variantsselectionseed'] = 'Random group';
 $string['variantsselectionseed_help'] = 'Normally you can leave this box blank. If, however, you want two different questions in a quiz to use the same random seed, then type the same string in this box for the two questions (and deploy the same set of random seeds, if you are using deployed variants) and the random seeds for the two questions will be synchronised.';
 $string['verifyquestionandupdate'] = 'Verify the question text and update the form';
 $string['youmustconfirm'] = 'You must confirm here.';
+$string['notsaved'] = '** QUESTION WAS NOT SAVED **';
+$string['mustconfirm'] = 'You have changes to confirm.';
+$string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
+$string['stackerrors'] = 'You have errors in your question.';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

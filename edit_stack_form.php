@@ -118,6 +118,15 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         parent::set_data($question);
+        // If the question is broken we run validation when the form is loaded to display errors.
+        // We have to temporarily remove the broken flag from the form to stop the validation
+        // being by-passed.
+        if (!empty($this->question->options->isbroken)) {
+            $mform = $this->_form;
+            $mform->setDefault('isbroken', 0);
+            $this->is_validated();
+            $mform->setDefault('isbroken', 1);
+        }
     }
 
     /**
@@ -182,6 +191,11 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('fixdollars'), stack_string('fixdollarslabel'));
         $mform->insertElementBefore($fixdollars, 'buttonar');
         $mform->addHelpButton('fixdollars', 'fixdollars', 'qtype_stack');
+        $isbroken = $mform->createElement('checkbox', 'isbroken',
+                stack_string('isbroken'), stack_string('isbrokenlabel'));
+        $mform->setDefault('isbroken', (!empty($this->question->options->isbroken) ? 1 : 0));
+        $mform->insertElementBefore($isbroken, 'buttonar');
+        $mform->addHelpButton('isbroken', 'isbroken', 'qtype_stack');
         $mform->closeHeaderBefore('fixdollars');
 
         // There is no un-closeHeaderBefore, so fake it.
@@ -511,10 +525,13 @@ class qtype_stack_edit_form extends question_edit_form {
         // Set a default for the new question.
         if ($inputname === self::DEFAULT_INPUT) {
             $mform->setDefault($inputname . 'modelans', self::DEFAULT_TEACHER_ANSWER);
+        } else {
+            // Default for all parts of an input required in order to save a broken question.
+            $mform->setDefault($inputname . 'modelans', '');
         }
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), ['size' => 3]);
-        $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
+        $mform->setDefault($inputname . 'boxsize', (int) $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
         $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in',
@@ -589,6 +606,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 30]);
+        $mform->setDefault($inputname . 'options', '');
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
@@ -819,6 +837,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
         $question->assumereal            = $opt->assumereal;
+        $question->isbroken              = $opt->isbroken;
 
         return $question;
     }
@@ -836,7 +855,8 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($question->inputs as $inputname => $input) {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
-            $question->{$inputname . 'boxsize'}            = $input->boxsize;
+            // Cast to int required to avoid erroneous validation messages on loading a broken question.
+            $question->{$inputname . 'boxsize'}            = (int) $input->boxsize;
             // TO-DO: remove this when we delete it from the DB.
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
@@ -973,9 +993,42 @@ class qtype_stack_edit_form extends question_edit_form {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
-
         $qtype = new qtype_stack();
-        return $qtype->validate_fromform($fromform, $errors);
+        $allerrors = $qtype->validate_fromform($fromform, $errors, $this->question);
+        $mustconfirm = (array_search(stack_string('youmustconfirm'), $allerrors) === false) ? false : true;
+        // Add not saved warning but only when attempting to save, not on loading question.
+        // Moodle errors and confirmation issues will always be on save as question cannot be saved and thus
+        // cannot be loaded in this state even if marked as broken. If there are STACK issues, we only flag
+        // if question is not marked as broken and it's a submit.
+        if ($errors || $mustconfirm ||
+                ($allerrors && empty($fromform['isbroken']) && !empty(optional_param_array('questiontext', [], PARAM_RAW)))) {
+            $errortext = stack_string('notsaved') . '<br>';
+            if ($errors) {
+                $errortext .= stack_string_error('moodleerrors') . '<br>';
+            }
+            if ($mustconfirm) {
+                $errortext .= stack_string_error('mustconfirm') . '<br>';
+            }
+            if (empty($fromform['isbroken']) && $allerrors != $errors) {
+                $errortext .= stack_string_error('stackerrors') . '<br>';
+            }
+
+            $allerrors['versioninfo'] = isset($allerrors['versioninfo']) ?
+                $errortext . ' ' . $allerrors['versioninfo'] : $errortext;
+        }
+        // Ignore STACK-specific validation if question is marked as broken unless
+        // a confirmation is required.
+        // Moodle validation errors always returned.
+        if (empty($fromform['isbroken'])) {
+            return $allerrors;
+        } else {
+            if ($errors || $mustconfirm) {
+                return $allerrors;
+            } else {
+                // This is going to be [].
+                return $errors;
+            }
+        }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

@@ -111,7 +111,7 @@ require_login();
                                 correctAnswers += `, <?php echo stack_string('api_which_typed') ?>: `;
                                 for (const [name, solution] of Object.entries(input.samplesolution)) {
                                     if (name.indexOf('_val') === -1) {
-                                        correctAnswers += `<span class='correct-answer'>${solution}</span>`;
+                                        correctAnswers += `<span class='correct-answer'>${solution.replace(/\n/g, '<br>')}</span>`;
                                     }
                                 }
                             }

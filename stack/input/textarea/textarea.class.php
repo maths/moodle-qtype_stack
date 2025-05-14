@@ -342,21 +342,4 @@ class stack_textarea_input extends stack_input {
 
         return stack_string('teacheranswershow', ['value' => $value, 'display' => $display]);
     }
-
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution($tavalue) {
-        $values = stack_utils::list_to_array($tavalue, false);
-        foreach ($values as $key => $val) {
-            if (trim($val) !== '' ) {
-                $cs = stack_ast_container::make_from_teacher_source($val);
-                $cs->get_valid();
-                $val = $cs->get_inputform(true, 0, true);
-            }
-            $values[$key] = $val;
-        }
-
-        return ['' => implode("\n", $values)];
-    }
-
-
 }

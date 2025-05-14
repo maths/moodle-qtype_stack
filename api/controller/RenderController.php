@@ -100,8 +100,10 @@ class RenderController {
         $inputs = [];
         foreach ($question->inputs as $name => $input) {
             $apiinput = new StackRenderInput();
-
-            $apiinput->samplesolution = $input->get_api_solution($question->get_ta_for_input($name));
+            $correctresponse = (isset($question->get_correct_response()[$name])) ? $question->get_correct_response()[$name] : null;
+            // Deal with matrix questions.
+            $correctresponse = (isset($correctresponse)) ? $correctresponse : $question->get_ta_for_input($name);
+            $apiinput->samplesolution = $input->get_api_solution($correctresponse);
             $apiinput->samplesolutionrender = $input->get_api_solution_render(
                 $question->get_ta_render_for_input($name), $question->get_ta_for_input($name));
 

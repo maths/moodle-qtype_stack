@@ -106,19 +106,19 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             $questiondata->options->questiondescription = '';
         }
 
-        $questiondata->options->inputs = [];
+        $questiondata->inputs = [];
         foreach ($backupdata["plugin_qtype_stack_question"]['stackinputs']['stackinput'] ?? [] as $input) {
-            $questiondata->options->inputs[$input['name']] = (object) $input;
+            $questiondata->inputs[$input['name']] = (object) $input;
         }
 
-        foreach ($questiondata->options->inputs as $input) {
+        foreach ($questiondata->inputs as $input) {
             if (!property_exists($input, 'options')) {
                 $input->options = '';
             }
             unset($input->id);
         }
 
-        $questiondata->options->prts = [];
+        $questiondata->prts = [];
         foreach ($backupdata["plugin_qtype_stack_question"]['stackprts']['stackprt'] ?? [] as $prt) {
             $prt['name'] = (isset($prt['name'])) ? $prt['name'] : '';
             $nodes = [];
@@ -165,12 +165,12 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
                 $prt['firstnodename'] = key($roots) - 1;
             }
             $prt['nodes'] = $nodes;
-            $questiondata->options->prts[$prt['name']] = (object) $prt;
+            $questiondata->prts[$prt['name']] = (object) $prt;
         }
 
-        $questiondata->options->deployedseeds = [];
+        $questiondata->deployedseeds = [];
         foreach ($backupdata["plugin_qtype_stack_question"]['stackdeployedseeds']['stackdeployedseed'] ?? [] as $seed) {
-            $questiondata->options->deployedseeds[] = $seed['seed'];
+            $questiondata->deployedseeds[] = $seed['seed'];
         }
 
         return $questiondata;

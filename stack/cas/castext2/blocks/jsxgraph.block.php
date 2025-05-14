@@ -45,6 +45,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
             'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
         ],
+        'cdn-1.11.1' => [
+            'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.11.1/jsxgraph.min.css',
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.11.1/jsxgraphcore.min.js',
+        ],
         'cdn-1.10.1' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraph.min.css',
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraphcore.min.js',

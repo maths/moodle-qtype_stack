@@ -15,7 +15,7 @@
 (defprop $nounsub 100. tex-lbp)
 
 (defprop $nounmul tex-nary tex)
-(defprop $nounmul "\\," texsym)
+(defprop $nounmul ("\\times ") texsym)
 (defprop $nounmul 120. tex-lbp)
 (defprop $nounmul 120. tex-rbp)
 

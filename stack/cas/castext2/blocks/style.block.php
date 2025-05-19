@@ -88,7 +88,7 @@ class stack_cas_castext2_style extends stack_cas_castext2_block {
 
         $attributes = [];
 
-        foreach (['href', 'media', 'blocking', 'title', 'nonce', 'type'] as $attr) {
+        foreach (['href', 'media', 'blocking', 'title', 'nonce', 'type', 'crossorigin'] as $attr) {
             if (isset($parameters[$attr])) {
                 $attributes[$attr] = $parameters[$attr];
             }

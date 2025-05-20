@@ -1093,10 +1093,12 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if is(pval = []) then (print("STACK: ignore previous error. (2)"), return(false)),
   /* User functions without a function rule cannot be evaluated numerically */
   if recurse_userfunctionp(first(pval)) then return(false),
-  /* If we have no variables, and not a number, then bail here. */
-  if is(emptyp(lv)) and not(numberp(first(pval))) then return(false),
+  /* If not a number, then bail here. */
+  sz:errcatch(ev(float(first(pval)), simp)),
+  if is(sz = []) then (print("STACK: ignore previous error. (3)"), return(false)),
+  if not(floatnump(first(sz))) then return(false),
   pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)),
-  if is(pval = []) then (print("STACK: ignore previous error. (3)"), return(false)),
+  if is(pval = []) then (print("STACK: ignore previous error. (4)"), return(false)),
   if first(pval) then return(true),
   /* Evaluate the difference of the expressions at each variable as floats. */
   lv:zip_with("=", pvars, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(pvars))),
@@ -1105,22 +1107,22 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if recurse_predp(p1, numerical_not_expressionp) or recurse_predp(p2, numerical_not_expressionp) then return(false),
   /* Now we evaluate the difference of the expressions at each variable. */
   p1:errcatch(subst(lv, p1)),
-  if is(p1 = []) then (print("STACK: ignore previous error. (4)"), return(false)),
-  p1:errcatch(ev(float(first(p1)), lg=logbasesimp, numer_pbranch:true, simp)),
   if is(p1 = []) then (print("STACK: ignore previous error. (5)"), return(false)),
+  p1:errcatch(ev(float(first(p1)), lg=logbasesimp, numer_pbranch:true, simp)),
+  if is(p1 = []) then (print("STACK: ignore previous error. (6)"), return(false)),
   p2:errcatch(subst(lv, p2)),
-  if is(p2 = []) then (print("STACK: ignore previous error. (6)"), return(false)),
-  p2:errcatch(ev(float(first(p2)), lg=logbasesimp, numer_pbranch:true, simp)),
   if is(p2 = []) then (print("STACK: ignore previous error. (7)"), return(false)),
+  p2:errcatch(ev(float(first(p2)), lg=logbasesimp, numer_pbranch:true, simp)),
+  if is(p2 = []) then (print("STACK: ignore previous error. (8)"), return(false)),
   /* Make sure we have a number. */
   sz:errcatch(ev(float(first(p1)-first(p2)), simp)),
-  if is(sz = []) then (print("STACK: ignore previous error. (8)"), return(false)),
+  if is(sz = []) then (print("STACK: ignore previous error. (9)"), return(false)),
   if not(floatnump(first(sz))) then return(false),
   /* Make the error here relative, and don't divide by zero. */
   sz:errcatch(ev(abs(first(sz))/max(min(abs(first(p1)),abs(first(p2))),1), simp)),
-  if is(sz = []) then (print("STACK: ignore previous error. (9)"), return(false)),
+  if is(sz = []) then (print("STACK: ignore previous error. (10)"), return(false)),
   pnum:errcatch(floatnump(first(sz))),
-  if is(pnum = []) then (print("STACK: ignore previous error. (10)"), return(false)),
+  if is(pnum = []) then (print("STACK: ignore previous error. (11)"), return(false)),
   if not(first(pnum)) then return(false),
   if first(sz) > 0.0001 then true else false
 )$

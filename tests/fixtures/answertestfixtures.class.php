@@ -279,10 +279,11 @@ class stack_answertest_test_data {
         // The log(x) function is base e.
         ['AlgEquiv', '', 'log(root(x,n))', 'lg(x,10)/n', 0, '', ''],
         ['AlgEquiv', '', 'x^log(y)', 'y^log(x)', 1, '', ''],
-        // Example where some pre-processing is needed.
-        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
+        // Example where some pre-processing was needed, but not any more.
+        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 1, '', ''],
         ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
             'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', '', ],
+        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+2))', 0, '', ''],
 
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],
@@ -743,7 +744,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 1, '', ''],
         ['AlgEquiv', '', 'int(f(t)*%e^(-i*t*xi), t, -inf, inf)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', -3, '', ''],
         ['AlgEquiv', '', 'F(xi)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 0, '', ''],
-
+        ['AlgEquiv', '', 'F(xi)^(-25*xi^2*t)', 't', 0, '', ''],
 
         ['AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'],
         ['AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''],

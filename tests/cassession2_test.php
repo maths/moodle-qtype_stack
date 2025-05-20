@@ -643,7 +643,7 @@ final class cassession2_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $options->set_option('inversetrig', 'arccos-arcosh');
+        $options->set_option('inversetrig', 'arsinh');
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();

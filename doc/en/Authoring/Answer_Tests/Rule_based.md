@@ -49,6 +49,7 @@ The teacher must supply an option consisting of a list of the following rule nam
 |  -                 | _Options to switch off the defaults_                                                   |
 | `noncomAdd`       | Indicate addition is non-commutative                                                   |
 | `noncomMul`       | Indicate multiplication is non-commutative                                             |
+| `comMulNum`       | Commutativity of numbers only within multiplication                                    |
 | (`ID_TRANS`)      |                                                                                        |
 | `zeroAdd`         | \(0+x \rightarrow x\)                                                                  |
 | `zeroMul`         | \(0\times x \rightarrow 0\)                                                            |

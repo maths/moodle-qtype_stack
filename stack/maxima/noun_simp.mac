@@ -322,13 +322,14 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul, comMulNum])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
 ALL_TRANSP[assMul] : assMulp$
 ALL_TRANSP[comAdd] : comAddp$
 ALL_TRANSP[comMul] : comMulp$
+ALL_TRANSP[comMulNum] : comMulNump$
 
 ALL_TRANSP[zeroAdd] : zeroAddp$
 ALL_TRANSP[zeroMul] : zeroMulp$
@@ -359,7 +360,7 @@ ALL_TRANSP[sqrtRem] : sqrtRemp$
 ALL_TRANSP[mminusInt] : mminusIntp$
 
 /* Sets of incompatible rules. */
-INCOMPATIBLE_TRANS : [{intFac, intMul}, {negOrd, negDist}]$
+INCOMPATIBLE_TRANS : [{intFac, intMul}, {negOrd, negDist}, {comMul, comMulNum}]$
 
 /*******************************************/
 /* Top level transformations using rules   */
@@ -476,6 +477,13 @@ elsort(l) := block([l1, l2, la],
     append(sort(la, orderelementaryp), sort(l1, orderelementaryp), sort(l2, orderelementaryp))  
 )$
 
+/* Pull out any numbers to the front and sort only numbers. */
+numsort(l) := block([l1, l2],
+    l1:sublist(l, lambda([ex], is(ex=UNARY_MINUS) or numberp(ex))),
+    l2:sublist(l, lambda([ex], not(is(ex=UNARY_MINUS) or numberp(ex)))),
+    append(sort(l1, orderelementaryp), l2)  
+)$
+
 /* Sort out the order of elements, i.e. commutativity. */
 /* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
 comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
@@ -484,6 +492,9 @@ comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
 comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
 comMul(ex) := if comMulp(ex) then apply(op(ex), elsort(args(ex))) else ex$
 
+/* Pull out and sort only numbers. */
+comMulNump(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numsort(args(ex)))#ex then true else false$
+comMulNum(ex) := if comMulp(ex) then apply(op(ex), numsort(args(ex))) else ex$
 
 /* Consolidate products of division: a*UNARY_RECIP(b)*UNARY_RECIP(c) -> a*UNARY_RECIP(b*c) */
 recipMulp(ex) := block([ex2],

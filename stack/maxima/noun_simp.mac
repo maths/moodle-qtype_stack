@@ -74,6 +74,10 @@ declare("nouneq", lassociative);
 declare("nouneq", rassociative);
 
 verb_arith(ex) := block([a],
+    /* Better display for -x, etc. */
+    if is(safe_op(ex)="nounmul") and is(part(ex,1)=UNARY_MINUS) then
+      if is(length(args(ex))=2) then ex:-part(ex,2) else
+                                               ex:-apply("nounmul", rest(args(ex))),
     ex:subst("=", "nouneq", ex),
     ex:subst("+", "nounadd", ex),
     ex:subst("*", "nounmul", ex),
@@ -475,10 +479,10 @@ elsort(l) := block([l1, l2, la],
 /* Sort out the order of elements, i.e. commutativity. */
 /* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
 comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comAdd(ex) := if comAddp(ex) then apply(op(ex),elsort(args(ex))) else ex$
+comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
 
 comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comMul(ex) := if comMulp(ex) then apply(op(ex),elsort(args(ex))) else ex$
+comMul(ex) := if comMulp(ex) then apply(op(ex), elsort(args(ex))) else ex$
 
 
 /* Consolidate products of division: a*UNARY_RECIP(b)*UNARY_RECIP(c) -> a*UNARY_RECIP(b*c) */

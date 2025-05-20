@@ -140,7 +140,7 @@ This results in `UNARY_MINUS nounmul UNARY_MINUS nounmul x nounmul UNARY_RECIP(y
 
 gives `x nounmul UNARY_RECIP(y)`.
 
-The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are replaced by `(-1)*` and `ex^(-1)` respectively.  E.g. `verb_arith(UNARY_MINUS nounmul x nounmul UNARY_RECIP(y)) =  (-1)*x*y^-1`.
+The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
 
 The simplfier is designed to go in one direction only to establish membership of an equivalence class. We do not (as of Dec 2024) support displaying the resulting manipulated expressions in traditional form.
 

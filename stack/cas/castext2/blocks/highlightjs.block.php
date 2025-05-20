@@ -123,10 +123,68 @@ class stack_cas_castext2_highlightjs extends stack_cas_castext2_block {
 
             for (const sheet of document.styleSheets) {
                 for (const rule of sheet.cssRules) {
-                    /* If only these were logically the same. */
+                    /* If we have a comma separated list of selectors with the same rule... */
                     /* There is now a risk that an attribute selector messes things up. */
+                    /* So if we have a comma we need to parse things to know when to split. */
                     if (rule.selectorText.includes(',')) {
-                        for (const selector of rule.selectorText.split(',')) {
+                        let selectors = [];
+                        let indq = false;
+                        let insq = false;
+                        let lastslash = false;
+                        let current = '';
+                        for (let i = 0; i < rule.selectorText.length; i++) {
+                            const c = rule.selectorText[i];
+                            current = current + c;
+                            switch (c) {
+                                case ',':
+                                    if (!indq && !insq) {
+                                        /* Drop the extra comma. */
+                                        current = current.substring(0, current.length - 1);
+                                        current = current.trim();
+                                        if (current != '') {
+                                            selectors.push(current);
+                                        }
+                                        current = '';
+                                    }
+                                    lastslash = false;
+                                    break;
+                                case '\\\\':
+                                    lastslash = !lastslash;
+                                    break;
+                                case '\"':
+                                    if (indq) {
+                                        if (!lastslash) {
+                                            indq = false;
+                                        } else {
+                                            lastslash = false;
+                                        }
+                                    } else {
+                                        indq = !insq;
+                                        lastslash = false;
+                                    }
+                                    break;
+                                case \"'\":
+                                    if (insq) {
+                                        if (!lastslash) {
+                                            insq = false;
+                                        } else {
+                                            lastslash = false;
+                                        }
+                                    } else {
+                                        insq = !indq;
+                                        lastslash = false;
+                                    }
+                                    break;
+                                default:
+                                    lastslash = false;
+                            } 
+                        }
+                        current = current.trim();
+                        if (current != '') {
+                            selectors.push(current);
+                        }
+
+                        for (const selector of selectors) {
                             let trial = document.querySelector(selector.trim());
                             if (trial !== null) {
                                 rules.push({'selectorText': selector.trim(), 'style': {'cssText': rule.style.cssText}});
@@ -144,7 +202,7 @@ class stack_cas_castext2_highlightjs extends stack_cas_castext2_block {
             }
 
             /* Now that we have all the rules that are relevant we can sort them by specificity. */
-            /* Note that we assume ES2019 sort, as it is a stable sort and to us the declaration order matters. */
+            /* Note that we assume >=ES2019 sort, as it is a stable sort and to us the declaration order matters. */
             rules.sort((a,b) => {
                 const aspec = specificitymap[a.selectorText];
                 const bspec = specificitymap[b.selectorText];
@@ -163,7 +221,7 @@ class stack_cas_castext2_highlightjs extends stack_cas_castext2_block {
                     let inlinestyle = els[i].getAttribute('style') || '';
                     /* Prepend the rule as inline always beats in specificity. */
                     inlinestyle = rule.style.cssText + ';' + inlinestyle;
-                    /* TODO clean duplicates from that. */
+                    /* TODO clean duplicates and shadowed ones from that. */
                     els[i].setAttribute('style', inlinestyle);
                 }
             }

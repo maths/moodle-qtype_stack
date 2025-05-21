@@ -26,15 +26,16 @@
 define('CLI_SCRIPT', true);
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
-include_once(__DIR__ . '/../lang/en/qtype_stack.php');
+require_once(__DIR__ . '/../lang/en/qtype_stack.php');
 $keys = array_keys($string);
 
-/*
+/**
  * This function finds all the occurances of $str.
+ * @param string $str
+ * @return string
  */
- function grep_for($str) {
+function grep_for($str) {
     $command = "cd ..\n grep -rn \"{$str}\" *\n";
-    //echo $command . "\n";
     $env = ['PATH' => getenv('PATH')];
     $descriptors = [
         0 => ['pipe', 'r'],
@@ -76,16 +77,15 @@ $known['healthuncached'] = true;
 
 $ffound = 0;
 $nfound = 0;
-//$keys = ["questiontextplaceholderswhitespace"];
 foreach ($keys as $key) {
     if (substr($key, -5) === '_help' || substr($key, -5) === '_link') {
-        $key = substr($key, 0, strlen($key) -5);
+        $key = substr($key, 0, strlen($key) - 5);
     }
     if (substr($key, -5) === '_name' || substr($key, -5) === '_fact') {
         break;
     }
 
-    // The following are legitimate ways language strings might appear in the code..
+    // The following are legitimate ways language strings might appear in the code.
     $strs = [];
     $strs[] = "stack_string('" . $key . "'";
     $strs[] = "stack_string_error('" . $key . "'";

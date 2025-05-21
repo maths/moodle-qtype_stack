@@ -30,6 +30,11 @@ require(__DIR__ . '/../../../../config.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once($CFG->libdir . '/clilib.php');
 
+/**
+ * This function cretes a report starting in a particular directory.
+ * @param string $d
+ * @return array
+ */
 function report($d) {
     global $CFG;
     $a = [];
@@ -74,11 +79,11 @@ function report($d) {
                                     break;
                                 default:
                                     $invalidchars[$badchar] = $badchar;
-                                }
                             }
                         }
-                        $a[] = [$fpath, 'E', 'Forbidden characters: ' . implode($invalidchars)];
                     }
+                    $a[] = [$fpath, 'E', 'Forbidden characters: ' . implode($invalidchars)];
+                }
                 if (substr($f, 0, 1) != '.') {
                     if (filetype($fpath) == 'dir') {
                         $a = array_merge($a, report($fpath));

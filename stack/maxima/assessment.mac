@@ -980,8 +980,13 @@ texput(binomial, binomialtex);
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
    04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
    24/02/20.  Using a lambda expression is causing an infinite loop.  Use a named function: algebraic_equivalence_zero.
-   25/04/10.  Change any_listp args to prevent an infinite loop.
+   10/04/25.  Change any_listp args to prevent an infinite loop.
+   20/04/25.  Strengthen the numerical test: numerical_not_alg_equiv by checking for numbers.
+   21/04/25.  Add option to "factor" which causes problems. E.g. try factor(%e^(10*k)-%e^(10*x)) in maxima.
 */
+
+algebraic_equivalence_factorp:true;
+algebraic_equivalence_trigexpandp:true;
 
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
@@ -1035,7 +1040,7 @@ algebraic_equivalence(SA, SB) :=
       if rat(ex)=0 then return(true)
       else return (false),
     /* Try not to expand out: factoring, but only if without floats. */
-    if not(anyfloatex(SA-SB)) then
+    if algebraic_equivalence_factorp and not(anyfloatex(SA-SB)) then
        ex:errcatch(ev(factor(SA-SB), simp))
     else
        ex:[ex],
@@ -1058,7 +1063,8 @@ algebraic_equivalence(SA, SB) :=
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
-    trigexpand:true,
+    /* Don't always expand out trig expressions. */
+    if algebraic_equivalence_trigexpandp then trigexpand:true else trigexpand:false,
     ex:trigsimp(ex),
     if not(freeof(%i, ex)) then ex:rectform(ex),
     ex:exponentialize(ex),

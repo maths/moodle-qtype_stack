@@ -125,6 +125,17 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '%i*(3*cos(k)^2*sin(k)-sin(k)^3)-3*cos(k)*sin(k)^2+cos(k)^3', '%e^(3*%i*k)', 1, '', ''],
         ['AlgEquiv', '', '%i*(3*cos(k)^2*sin(k)-sin(k)^3)-3*cos(k)*sin(k)^2+cos(k)^3', '%e^(7*%i*k)', 0, '', ''],
         ['AlgEquiv', '', 'F(k-3)*%e^(31*%i*k)', 'F(k-3)*%e^(30*%i*k)+F(k+3)*%e^(30*%i*k)', 0, '', ''],
+        ['AlgEquiv', '', 'F(k-3)*%e^(31*%i*k)',
+            '(algebraic_equivalence_trigexpandp:false,F(k-3)*%e^(300*%i*k)+F(k+3)*%e^(300*%i*k))', 0, '', ''],
+        ['AlgEquiv', '', 'F(k)*sin(1000*k)', '(algebraic_equivalence_trigexpandp:false,F(k)*cos(1000*x))', 0, '', ''],
+        ['AlgEquiv', '', '(-%i*k^3*%e^(800*%i*k)*F(k+3)-%i*F(k-3)*k^3*%e^(800*%i*k))/2',
+            '(algebraic_equivalence_trigexpandp:false,-(%i*F(k-3)*k^3*%e^(800*%i*k))/2)', 0, '', ''],
+
+        // Cases in which you can't use "factor".
+        ['AlgEquiv', '', 'F(k)*%e^(1000*k)', '(algebraic_equivalence_factorp:false,F(k)*%e^(1000*x))', 0, '', ''],
+        ['AlgEquiv', '', 'F(k)*%e^(1000*k)', 'F(k)*%e^(1000*k)', 1, '', ''],
+        ['AlgEquiv', '', 'sum(sin(n*x/6)*exp(-7*n^2*t/36),n,1,inf)', '%e^-(112*t)*sin(4*x)', 0, '', ''],
+        ['AlgEquiv', '', 'F(xi)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 0, '', ''],
 
         ['AlgEquiv', '', 'inf', 'inf', 1, '', 'Infinity'],
         ['AlgEquiv', '', 'inf', '-inf', 0, '', ''],

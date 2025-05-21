@@ -57,6 +57,23 @@ This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot
 
 We recommend you do _not_ use algebraic equivalence testing for floating point numbers.  Instead use one of the [numerical tests](Numerical.md).  Examples of why algebraic equivalence fails when you might expect it to pass, e.g. `ATAlgEquiv(452,4.52*10^2)` (Maxima 5.44.0, November 2022), are given in the documentation on [numerical rounding](../../CAS/Numbers.md).
 
+In establishing equivalence with zero, this test tries to factor the expression and then check whether any of the factors are zero.  This works very well most of the time.  Expanding out expressions is not used, indeed we avoid operations that leads to expression growth.
+
+* Expanding out expressions is a problem, e.g. try `expand((x-a)^100-(x-b^100));` 
+* Factoring expressions can also be a problem, e.g. try `factor(%e^(10*k)-%e^(10*x));`, or `factor(x^105-1)` in maxima.
+* Use of `trigexpand` can also lead to computational explosion, e.g. try `trigexpand:true; trigsimp(sin(100*k));`
+
+If you have an expression with large exponents, then this can cause a problem when algebraic equivalence testing uses factoring leading to a timeout.  You can avoid factoring using this variable in the feedback variable section of the PRT.
+
+    algebraic_equivalence_factorp:false;
+
+You can avoid using trigexpand using this global variable.
+
+    algebraic_equivalence_trigexpandp:false;
+
+These settings will reduce the "strength" of the test, but will avoid timeouts caused by expression explosion caused by the use of `factor`.
+
+
 ### EqualComAss ###
 
 A particularly useful test is to establish that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.  For example, under this test

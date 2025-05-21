@@ -50,6 +50,38 @@ The output of the last line, as expected will be \(b+a\).  STACK moves `ordergre
 
 This is a limitation, especially in questions where you want to have a randomly generated variable name.
 
+## Fixing the order of some terms in sums and products
+
+By default, maxima returns `a+b` as `b+a` because `b` is "greater" than `a`.
+
+Sometimes we don't want to change the order in which Maxima displays expressions, but within part of an expression we do want to fix the order in the sum, even with `simp:true`.
+
+One approach is to use the library in the rule-based simplifier and define
+
+    fix_sum([ex]):=apply("nounadd",ex);
+
+Here are some test cases (WIP)
+
+````
+{@a+b@}, </br> </br>
+{@fix_sum(a,b)@}, </br>
+{@fix_sum(a,b,c)@}, </br>
+{@fix_sum(a,-b)@}, </br>
+{@fix_sum(-a,b)@}, </br>
+{@fix_sum(a,-b,c)@}, </br>
+{@fix_sum(a,3)@}, </br>
+{@fix_sum(a,-2,b)@}, </br>
+{@fix_sum(a,3/2)@}, </br>
+{@(simp:false,fix_sum(a,-3/2))@}, </br>
+{@fix_sum(a,b,a+b)@}, </br>
+{@fix_sum(a,b,fix_sum(a,b))@}</br>
+{@fix_sum(a,b^fix_sum(a,b))@}</br>
+</br>
+
+{@(simp:false,verb_arith(fix_sum(a,-2,b)))@}, </br>
+{@(simp:false,fix_sum(a,-3/2))@}, </br>
+````
+
 ## Logarithms to an arbitrary base
 
 By default, Maxima does not provide logarithms to an arbitrary base.  To overcome this, STACK provides a function `lg` for student entry.

@@ -326,7 +326,7 @@ make_arccos(OPT_ACOS) := block(
        ?tex\-setup(?cdr([?%acsch, "{\\rm acsch}"])),
        ?tex\-setup(?cdr([?%acoth, "{\\rm acoth}"]))
     ),
-    if OPT_ACOS = "arccos-arcosh" then block(
+    if OPT_ACOS = "arsinh" then block(
        ?tex\-setup(?cdr([?%asin, "\\arcsin "])),
        ?tex\-setup(?cdr([?%acos, "\\arccos "])),
        ?tex\-setup(?cdr([?%atan, "\\arctan "])),

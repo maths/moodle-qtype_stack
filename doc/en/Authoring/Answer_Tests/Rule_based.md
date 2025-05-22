@@ -49,7 +49,8 @@ The teacher must supply an option consisting of a list of the following rule nam
 |  -                 | _Options to switch off the defaults_                                                   |
 | `noncomAdd`       | Indicate addition is non-commutative                                                   |
 | `noncomMul`       | Indicate multiplication is non-commutative                                             |
-| `comMulNum`       | Commutativity of numbers only within multiplication                                    |
+| `comMulNum`       | Commutativity of numbers (inc unary minus) only within multiplication                  |
+| `comNeg`          | Commutativity of only unary minus within multiplication                                |
 | (`ID_TRANS`)      |                                                                                        |
 | `zeroAdd`         | \(0+x \rightarrow x\)                                                                  |
 | `zeroMul`         | \(0\times x \rightarrow 0\)                                                            |
@@ -128,7 +129,6 @@ To deal with unary minus we transform it into multiplication with a special tag 
 
 Similarly, division is also conveted to `UNARY_RECIP`.  E.g. `(-x)/(-y) = UNARY_MINUS nounmul UNARY_RECIP(UNARY_MINUS nounmul y) nounmul x`.
 
-
 We the use the rule `negDiv` to pull out the unary minus outside the devision (pulls `UNARY_MINUS` outside `UNARY_RECIP`), but we also need the rules `assMul` (associativity) and `comMul` (commutativity).  E.g. try the following in the STACK-maxima sandbox.
 
     ex:(-x)/(-y);
@@ -141,7 +141,7 @@ This results in `UNARY_MINUS nounmul UNARY_MINUS nounmul x nounmul UNARY_RECIP(y
 
 gives `x nounmul UNARY_RECIP(y)`.
 
-The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
+The goal of this code is to create reliable equivalence classes of expressions.  We are gradually expanding the use to allow full control over elementary expressions. Note in particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
 
 The simplfier is designed to go in one direction only to establish membership of an equivalence class. We do not (as of Dec 2024) support displaying the resulting manipulated expressions in traditional form.
 

@@ -55,6 +55,7 @@
 nary("nouneq", 150);
 nary("nounadd", 100);
 prefix("nounsub", 100);
+texput(UNARY_MINUS,"-");
 nary("nounmul", 120);
 infix("noundiv", 122, 123);
 infix("nounpow", 140, 139);
@@ -322,7 +323,7 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul, comMulNum])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul, comMulNum, comNeg])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
@@ -330,6 +331,7 @@ ALL_TRANSP[assMul] : assMulp$
 ALL_TRANSP[comAdd] : comAddp$
 ALL_TRANSP[comMul] : comMulp$
 ALL_TRANSP[comMulNum] : comMulNump$
+ALL_TRANSP[comNeg] : comNegp$
 
 ALL_TRANSP[zeroAdd] : zeroAddp$
 ALL_TRANSP[zeroMul] : zeroMulp$
@@ -460,6 +462,14 @@ assAdd(ex) := if assAddp(ex) then flatten(ex) else ex$
 assMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and flatten(ex)#ex then true else false$
 assMul(ex) := if assMulp(ex) then flatten(ex) else ex$
 
+/* Sort out the order of elements, i.e. commutativity. */
+/* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
+comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
+comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
+
+comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
+comMul(ex) := if comMulp(ex) then apply(op(ex), elsort(args(ex))) else ex$
+
 /* Define a predicate to sort elements, UNARY_MINUS at the front, UNARY_RECIP at the end. */
 orderelementaryp(exa,exb) := block(
     if exa=UNARY_MINUS then return(true),
@@ -474,27 +484,30 @@ elsort(l) := block([l1, l2, la],
     la:sublist(l, lambda([ex], atom(ex))),
     l1:sublist(l, lambda([ex], not(atom(ex)) and safe_op(ex)#"UNARY_RECIP")),
     l2:sublist(l, lambda([ex], not(atom(ex)) and safe_op(ex)="UNARY_RECIP")),
-    append(sort(la, orderelementaryp), sort(l1, orderelementaryp), sort(l2, orderelementaryp))  
+    append(sort(la, orderelementaryp), sort(l1, orderelementaryp), sort(l2, orderelementaryp))
 )$
+
+/* Pull out and sort only numbers. */
+comMulNump(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numsort(args(ex)))#ex then true else false$
+comMulNum(ex) := if comMulNump(ex) then apply(op(ex), numsort(args(ex))) else ex$
 
 /* Pull out any numbers to the front and sort only numbers. */
 numsort(l) := block([l1, l2],
     l1:sublist(l, lambda([ex], is(ex=UNARY_MINUS) or numberp(ex))),
     l2:sublist(l, lambda([ex], not(is(ex=UNARY_MINUS) or numberp(ex)))),
-    append(sort(l1, orderelementaryp), l2)  
+    append(sort(l1, orderelementaryp), l2)
 )$
 
-/* Sort out the order of elements, i.e. commutativity. */
-/* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
-comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
+/* Pull out and sort only unary minus. */
+comNegp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numnegsort(args(ex)))#ex then true else false$
+comNeg(ex) := if comNegp(ex) then apply(op(ex), numnegsort(args(ex))) else ex$
 
-comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comMul(ex) := if comMulp(ex) then apply(op(ex), elsort(args(ex))) else ex$
-
-/* Pull out and sort only numbers. */
-comMulNump(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numsort(args(ex)))#ex then true else false$
-comMulNum(ex) := if comMulp(ex) then apply(op(ex), numsort(args(ex))) else ex$
+/* Pull out only unary minus to the front. */
+numnegsort(l) := block([l1, l2],
+    l1:sublist(l, lambda([ex], is(ex=UNARY_MINUS))),
+    l2:sublist(l, lambda([ex], not(is(ex=UNARY_MINUS)))),
+    append(l1, l2)
+)$
 
 /* Consolidate products of division: a*UNARY_RECIP(b)*UNARY_RECIP(c) -> a*UNARY_RECIP(b*c) */
 recipMulp(ex) := block([ex2],

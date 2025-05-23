@@ -980,8 +980,13 @@ texput(binomial, binomialtex);
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
    04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
    24/02/20.  Using a lambda expression is causing an infinite loop.  Use a named function: algebraic_equivalence_zero.
-   25/04/10.  Change any_listp args to prevent an infinite loop.
+   10/04/25.  Change any_listp args to prevent an infinite loop.
+   20/04/25.  Strengthen the numerical test: numerical_not_alg_equiv by checking for numbers.
+   21/04/25.  Add option to "factor" which causes problems. E.g. try factor(%e^(10*k)-%e^(10*x)) in maxima.
 */
+
+algebraic_equivalence_factorp:true;
+algebraic_equivalence_trigexpandp:true;
 
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
@@ -1035,7 +1040,7 @@ algebraic_equivalence(SA, SB) :=
       if rat(ex)=0 then return(true)
       else return (false),
     /* Try not to expand out: factoring, but only if without floats. */
-    if not(anyfloatex(SA-SB)) then
+    if algebraic_equivalence_factorp and not(anyfloatex(SA-SB)) then
        ex:errcatch(ev(factor(SA-SB), simp))
     else
        ex:[ex],
@@ -1058,7 +1063,8 @@ algebraic_equivalence(SA, SB) :=
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
-    trigexpand:true,
+    /* Don't always expand out trig expressions. */
+    if algebraic_equivalence_trigexpandp then trigexpand:true else trigexpand:false,
     ex:trigsimp(ex),
     if not(freeof(%i, ex)) then ex:rectform(ex),
     ex:exponentialize(ex),
@@ -1093,10 +1099,12 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if is(pval = []) then (print("STACK: ignore previous error. (2)"), return(false)),
   /* User functions without a function rule cannot be evaluated numerically */
   if recurse_userfunctionp(first(pval)) then return(false),
-  /* If we have no variables, and not a number, then bail here. */
-  if is(emptyp(lv)) and not(numberp(first(pval))) then return(false),
+  /* If not a number, then bail here. */
+  sz:errcatch(ev(float(first(pval)), simp)),
+  if is(sz = []) then (print("STACK: ignore previous error. (3)"), return(false)),
+  if not(floatnump(first(sz))) then return(false),
   pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)),
-  if is(pval = []) then (print("STACK: ignore previous error. (3)"), return(false)),
+  if is(pval = []) then (print("STACK: ignore previous error. (4)"), return(false)),
   if first(pval) then return(true),
   /* Evaluate the difference of the expressions at each variable as floats. */
   lv:zip_with("=", pvars, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(pvars))),
@@ -1105,18 +1113,22 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if recurse_predp(p1, numerical_not_expressionp) or recurse_predp(p2, numerical_not_expressionp) then return(false),
   /* Now we evaluate the difference of the expressions at each variable. */
   p1:errcatch(subst(lv, p1)),
-  if is(p1 = []) then (print("STACK: ignore previous error. (4)"), return(false)),
-  p1:errcatch(ev(float(first(p1)), lg=logbasesimp, numer_pbranch:true, simp)),
   if is(p1 = []) then (print("STACK: ignore previous error. (5)"), return(false)),
+  p1:errcatch(ev(float(first(p1)), lg=logbasesimp, numer_pbranch:true, simp)),
+  if is(p1 = []) then (print("STACK: ignore previous error. (6)"), return(false)),
   p2:errcatch(subst(lv, p2)),
-  if is(p2 = []) then (print("STACK: ignore previous error. (6)"), return(false)),
-  p2:errcatch(ev(float(first(p2)), lg=logbasesimp, numer_pbranch:true, simp)),
   if is(p2 = []) then (print("STACK: ignore previous error. (7)"), return(false)),
+  p2:errcatch(ev(float(first(p2)), lg=logbasesimp, numer_pbranch:true, simp)),
+  if is(p2 = []) then (print("STACK: ignore previous error. (8)"), return(false)),
+  /* Make sure we have a number. */
+  sz:errcatch(ev(float(first(p1)-first(p2)), simp)),
+  if is(sz = []) then (print("STACK: ignore previous error. (9)"), return(false)),
+  if not(floatnump(first(sz))) then return(false),
   /* Make the error here relative, and don't divide by zero. */
-  sz:errcatch(ev(abs(float(first(p1)-first(p2))/max(min(abs(first(p1)),abs(first(p2))),1)), simp)),
-  if is(sz = []) then (print("STACK: ignore previous error. (8)"), return(false)),
+  sz:errcatch(ev(abs(first(sz))/max(min(abs(first(p1)),abs(first(p2))),1), simp)),
+  if is(sz = []) then (print("STACK: ignore previous error. (10)"), return(false)),
   pnum:errcatch(floatnump(first(sz))),
-  if is(pnum = []) then (print("STACK: ignore previous error. (9)"), return(false)),
+  if is(pnum = []) then (print("STACK: ignore previous error. (11)"), return(false)),
   if not(first(pnum)) then return(false),
   if first(sz) > 0.0001 then true else false
 )$

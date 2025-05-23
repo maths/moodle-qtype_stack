@@ -125,6 +125,17 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '%i*(3*cos(k)^2*sin(k)-sin(k)^3)-3*cos(k)*sin(k)^2+cos(k)^3', '%e^(3*%i*k)', 1, '', ''],
         ['AlgEquiv', '', '%i*(3*cos(k)^2*sin(k)-sin(k)^3)-3*cos(k)*sin(k)^2+cos(k)^3', '%e^(7*%i*k)', 0, '', ''],
         ['AlgEquiv', '', 'F(k-3)*%e^(31*%i*k)', 'F(k-3)*%e^(30*%i*k)+F(k+3)*%e^(30*%i*k)', 0, '', ''],
+        ['AlgEquiv', '', 'F(k-3)*%e^(31*%i*k)',
+            '(algebraic_equivalence_trigexpandp:false,F(k-3)*%e^(300*%i*k)+F(k+3)*%e^(300*%i*k))', 0, '', ''],
+        ['AlgEquiv', '', 'F(k)*sin(1000*k)', '(algebraic_equivalence_trigexpandp:false,F(k)*cos(1000*x))', 0, '', ''],
+        ['AlgEquiv', '', '(-%i*k^3*%e^(800*%i*k)*F(k+3)-%i*F(k-3)*k^3*%e^(800*%i*k))/2',
+            '(algebraic_equivalence_trigexpandp:false,-(%i*F(k-3)*k^3*%e^(800*%i*k))/2)', 0, '', ''],
+
+        // Cases in which you can't use "factor".
+        ['AlgEquiv', '', 'F(k)*%e^(1000*k)', '(algebraic_equivalence_factorp:false,F(k)*%e^(1000*x))', 0, '', ''],
+        ['AlgEquiv', '', 'F(k)*%e^(1000*k)', 'F(k)*%e^(1000*k)', 1, '', ''],
+        ['AlgEquiv', '', 'sum(sin(n*x/6)*exp(-7*n^2*t/36),n,1,inf)', '%e^-(112*t)*sin(4*x)', 0, '', ''],
+        ['AlgEquiv', '', 'F(xi)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 0, '', ''],
 
         ['AlgEquiv', '', 'inf', 'inf', 1, '', 'Infinity'],
         ['AlgEquiv', '', 'inf', '-inf', 0, '', ''],
@@ -202,6 +213,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'cos(x)^2+sin(x)^2', '1', 1, '', ''],
         ['AlgEquiv', '', 'cos(x+y)', 'cos(x)*cos(y)-sin(x)*sin(y)', 1, '', ''],
         ['AlgEquiv', '', 'cos(x+y)', 'cos(x)*cos(y)+sin(x)*sin(y)', 0, '', ''],
+        ['AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', 1, '', ''],
         ['AlgEquiv', '', 'cos(x#pm#y)', 'cos(x)*cos(y)-(#pm#sin(x)*sin(y))', 1, 'ATLogic_True.', ''],
         ['AlgEquiv', '', 'sin(x#pm#y)', 'sin(x)*cos(y)#pm#cos(x)*sin(y)', 1, 'ATLogic_True.', ''],
         ['AlgEquiv', '', 'sin(x#pm#y)', 'cos(x)*sin(y)#pm#sin(x)*cos(y)', 0, '', ''],
@@ -278,10 +290,11 @@ class stack_answertest_test_data {
         // The log(x) function is base e.
         ['AlgEquiv', '', 'log(root(x,n))', 'lg(x,10)/n', 0, '', ''],
         ['AlgEquiv', '', 'x^log(y)', 'y^log(x)', 1, '', ''],
-        // Example where some pre-processing is needed.
-        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 0, '', ''],
+        // Example where some pre-processing was needed, but not any more.
+        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+1))', 1, '', ''],
         ['AlgEquiv', '', 'ratsimp(logcontract(log((x+1)/(1-x))))',
             'ratsimp(logcontract(-log((1-x)/(x+1))))', 1, '', '', ],
+        ['AlgEquiv', '', 'log((x+1)/(1-x))', '-log((1-x)/(x+2))', 0, '', ''],
 
         ['AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'],
         ['AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'],
@@ -682,7 +695,6 @@ class stack_answertest_test_data {
         ],
         ['AlgEquiv', '', 'abs(x^2-4)/(abs(x-2)*abs(x+2))', '1', -3, '', ''],
         ['AlgEquiv', '', 'abs(x^2-4)', 'abs(x-2)*abs(x+2)', -3, '', ''],
-        ['AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -3, '', ''],
         ['AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -3, '', ''],
         ['AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -3, '', ''],
         ['AlgEquiv', '', 'sqrt(2*x*sqrt(x^2+1)+2*x^2+1)-sqrt(x^2+1)-x', '0', -3, '', ''],
@@ -739,6 +751,11 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'diff(y(x),x)', 'diff(y,x)', 0, '', ''],
         // Both get evaluated to zero.
         ['AlgEquiv', '', 'diff(y,x)', 'diff(y,x,2)', 1, '', ''],
+        // Tests with unevaluated integrals.
+        ['AlgEquiv', '', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 1, '', ''],
+        ['AlgEquiv', '', 'int(f(t)*%e^(-i*t*xi), t, -inf, inf)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', -3, '', ''],
+        ['AlgEquiv', '', 'F(xi)', 'int(f(x)*%e^(-i*x*xi), x, -inf, inf)', 0, '', ''],
+        ['AlgEquiv', '', 'F(xi)^(-25*xi^2*t)', 't', 0, '', ''],
 
         ['AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'],
         ['AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''],

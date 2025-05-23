@@ -96,9 +96,8 @@ class stack_cas_castext2_highlightjs extends stack_cas_castext2_block {
         // For binding and other use we need to import the stack_js library.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
 
-        // A bit tricky but necessary for general case CSS application.
-        // NOTE! If we were to include this block and would care about style transfer in general this would need to be added to the CORS-dir.
-        $r->items[] = new MP_String("import cssSpecificityCalculator from 'https://cdn.jsdelivr.net/npm/css-specificity-calculator@2.1.1/+esm';\n");
+        // For CSS style inlining we need to import the stack_css_utils library.
+        $r->items[] = new MP_String("\nimport {stack_css_utils} from '" . stack_cors_link('stackcssutils.min.js') . "';\n");
 
         // We need the id for our code container.
         $r->items[] = new MP_String("\nconst codeelement = '");
@@ -116,115 +115,7 @@ class stack_cas_castext2_highlightjs extends stack_cas_castext2_block {
 
             hljs.highlightAll();
 
-            /* Assuming no styles elsewhere than stylesheets. */
-            /* Find all the rules that match any elements. */
-            let rules = [];
-            let specificitymap = {};
-
-            for (const sheet of document.styleSheets) {
-                for (const rule of sheet.cssRules) {
-                    /* If we have a comma separated list of selectors with the same rule... */
-                    /* There is now a risk that an attribute selector messes things up. */
-                    /* So if we have a comma we need to parse things to know when to split. */
-                    if (rule.selectorText.includes(',')) {
-                        let selectors = [];
-                        let indq = false;
-                        let insq = false;
-                        let lastslash = false;
-                        let current = '';
-                        for (let i = 0; i < rule.selectorText.length; i++) {
-                            const c = rule.selectorText[i];
-                            current = current + c;
-                            switch (c) {
-                                case ',':
-                                    if (!indq && !insq) {
-                                        /* Drop the extra comma. */
-                                        current = current.substring(0, current.length - 1);
-                                        current = current.trim();
-                                        if (current != '') {
-                                            selectors.push(current);
-                                        }
-                                        current = '';
-                                    }
-                                    lastslash = false;
-                                    break;
-                                case '\\\\':
-                                    lastslash = !lastslash;
-                                    break;
-                                case '\"':
-                                    if (indq) {
-                                        if (!lastslash) {
-                                            indq = false;
-                                        } else {
-                                            lastslash = false;
-                                        }
-                                    } else {
-                                        indq = !insq;
-                                        lastslash = false;
-                                    }
-                                    break;
-                                case \"'\":
-                                    if (insq) {
-                                        if (!lastslash) {
-                                            insq = false;
-                                        } else {
-                                            lastslash = false;
-                                        }
-                                    } else {
-                                        insq = !indq;
-                                        lastslash = false;
-                                    }
-                                    break;
-                                default:
-                                    lastslash = false;
-                            } 
-                        }
-                        current = current.trim();
-                        if (current != '') {
-                            selectors.push(current);
-                        }
-
-                        for (const selector of selectors) {
-                            let trial = document.querySelector(selector.trim());
-                            if (trial !== null) {
-                                rules.push({'selectorText': selector.trim(), 'style': {'cssText': rule.style.cssText}});
-                                specificitymap[selector.trim()] = cssSpecificityCalculator(selector.trim());
-                            }                        
-                        }
-                    } else {
-                        let trial = document.querySelector(rule.selectorText);
-                        if (trial !== null) {
-                            rules.push(rule);
-                            specificitymap[rule.selectorText] = cssSpecificityCalculator(rule.selectorText);
-                        }                        
-                    }
-                }
-            }
-
-            /* Now that we have all the rules that are relevant we can sort them by specificity. */
-            /* Note that we assume >=ES2019 sort, as it is a stable sort and to us the declaration order matters. */
-            rules.sort((a,b) => {
-                const aspec = specificitymap[a.selectorText];
-                const bspec = specificitymap[b.selectorText];
-                if (aspec < bspec) {
-                    return 1;
-                } else if (aspec > bspec) {
-                    return -1;
-                }
-                return 0;
-            });
-
-            /* Apply rules in reverse order, most specific first. */
-            for (const rule of rules.reverse()) {
-                const els = document.querySelectorAll(rule.selectorText);
-                for (let i = 0; i < els.length; i++) {
-                    let inlinestyle = els[i].getAttribute('style') || '';
-                    /* Prepend the rule as inline always beats in specificity. */
-                    inlinestyle = rule.style.cssText + ';' + inlinestyle;
-                    /* TODO clean duplicates and shadowed ones from that. */
-                    els[i].setAttribute('style', inlinestyle);
-                }
-            }
+            stack_css_utils.inline();
 
             stack_js.switch_content(codeelement, local.innerHTML);
         });";

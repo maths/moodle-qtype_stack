@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
+    public static $defaults = null;
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
         try {
@@ -66,117 +67,166 @@ class StackQuestionLoader {
         $question->pluginfiles = $files;
 
         // Based on moodles base question type.
-        $question->name = (string) $xmldata->question->name->text ? (string) $xmldata->question->name->text : 'Question';
+        $question->name = (string) $xmldata->question->name->text ?
+            (string) $xmldata->question->name->text : StackQuestionLoader::get_default('question', 'name', 'Question');
         $question->questiontext = (string) $xmldata->question->questiontext->text ?
-            (string) $xmldata->question->questiontext->text : '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>';
+            (string) $xmldata->question->questiontext->text :
+            StackQuestionLoader::get_default(
+                'question', 'questiontext', '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>'
+            );
         $question->questiontextformat =
-            (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] : 'html';
+            (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] :
+            StackQuestionLoader::get_default('question', '', 'html');
         $question->generalfeedback =
-            (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text : '';
-        $question->generalfeedbackformat = (string) $xmldata->question->generalfeedback['format'];
-        $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade : 1.0;
-        $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty : 0.1;
+            (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text :
+            StackQuestionLoader::get_default('question', 'generalfeedback', '');
+        $question->generalfeedbackformat =
+            (string) $xmldata->question->generalfeedback['format'] ? (string) $xmldata->question->generalfeedback['format'] :
+            StackQuestionLoader::get_default('question', 'generalfeedbackformat', 'html');
+        $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade :
+            StackQuestionLoader::get_default('question', 'defaultgrade', 1.0);
+        $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty :
+            StackQuestionLoader::get_default('question', 'penalty', 0.1);
 
         // Based on initialise_question_instance from questiontype.php.
         $question->stackversion              =
-            (string) $xmldata->question->stackversion->text ? (string) $xmldata->question->stackversion->text : '';
+            (string) $xmldata->question->stackversion->text ? (string) $xmldata->question->stackversion->text :
+            StackQuestionLoader::get_default('question', 'stackversion', '');
         $question->questionvariables         =
-            (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text : 'ta1:1;';
+            (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text :
+            StackQuestionLoader::get_default('question', 'questionvariables', 'ta1:1;');
         $question->questionnote              =
-            (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text : '{@ta1@}';
+            (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text :
+            StackQuestionLoader::get_default('question', 'questionnote', '{@ta1@}');
         $question->questionnoteformat        =
-            (string) $xmldata->question->questionnote['format'] ? (string) $xmldata->question->questionnote['format'] : 'html';
+            (string) $xmldata->question->questionnote['format'] ? (string) $xmldata->question->questionnote['format'] :
+            StackQuestionLoader::get_default('question', 'questionnoteformat', 'html');
         $question->specificfeedback          =
                 (string) $xmldata->question->specificfeedback->text ?
-                (string) $xmldata->question->specificfeedback->text : '[[feedback:prt1]]';
+                (string) $xmldata->question->specificfeedback->text :
+                StackQuestionLoader::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
         $question->specificfeedbackformat    =
                 (string) $xmldata->question->specificfeedback['format'] ?
-                (string) $xmldata->question->specificfeedback['format'] : 'html';
+                (string) $xmldata->question->specificfeedback['format'] :
+                StackQuestionLoader::get_default('question', 'specificfeedbackformat', 'html');
         $question->questiondescription       =
-            (string) $xmldata->question->questiondescription->text ? (string) $xmldata->question->questiondescription->text : '';
+            (string) $xmldata->question->questiondescription->text ? (string) $xmldata->question->questiondescription->text :
+            StackQuestionLoader::get_default('question', 'questiondescription', '');
         $question->questiondescriptionformat =
                 (string) $xmldata->question->questiondescription['format'] ?
-                (string) $xmldata->question->questiondescription['format'] : 'html';
+                (string) $xmldata->question->questiondescription['format'] :
+                StackQuestionLoader::get_default('question', 'questiondescriptionformat', 'html');
         if (isset($xmldata->question->prtcorrect->text)) {
             $question->prtcorrect                = (string) $xmldata->question->prtcorrect->text;
             $question->prtcorrectformat          = (string) $xmldata->question->prtcorrect['format'];
         } else {
-            $question->prtcorrect = get_string('defaultprtcorrectfeedback', 'qtype_stack', null);
-            $question->prtcorrectformat = 'html';
+            $question->prtcorrect =
+                StackQuestionLoader::get_default(
+                    'question', 'prtcorrect', get_string('defaultprtcorrectfeedback', 'qtype_stack', null)
+                );
+            $question->prtcorrectformat = StackQuestionLoader::get_default('question', 'prtcorrectformat', 'html');
         }
         if (isset($xmldata->question->prtpartiallycorrect->text)) {
             $question->prtpartiallycorrect = (string)$xmldata->question->prtpartiallycorrect->text;
             $question->prtpartiallycorrectformat = (string)$xmldata->question->prtpartiallycorrect['format'];
         } else {
-            $question->prtpartiallycorrect = get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null);
-            $question->prtpartiallycorrectformat = 'html';
+            $question->prtpartiallycorrect =
+                StackQuestionLoader::get_default(
+                    'question', '', get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null)
+                );
+            $question->prtpartiallycorrectformat =
+                StackQuestionLoader::get_default('question', 'prtpartiallycorrectformat', 'html');
         }
         if (isset($xmldata->question->prtincorrect->text)) {
             $question->prtincorrect = (string)$xmldata->question->prtincorrect->text;
             $question->prtincorrectformat = (string)$xmldata->question->prtincorrect['format'];
         } else {
-            $question->prtincorrect = get_string('defaultprtincorrectfeedback', 'qtype_stack', null);
-            $question->prtincorrectformat = 'html';
+            $question->prtincorrect =
+                StackQuestionLoader::get_default(
+                    'question', 'prtincorrect', get_string('defaultprtincorrectfeedback', 'qtype_stack', null)
+                );
+            $question->prtincorrectformat =
+                StackQuestionLoader::get_default('question', 'prtincorrectformat', 'html');
         }
         $question->variantsselectionseed     =
-            (string) $xmldata->question->variantsselectionseed ? (string) $xmldata->question->variantsselectionseed : '';
+            (string) $xmldata->question->variantsselectionseed ? (string) $xmldata->question->variantsselectionseed :
+            StackQuestionLoader::get_default('question', 'variantsselectionseed', '');
         $question->compiledcache             = [];
-        $question->isbroken = (array) $xmldata->question->isbroken ? self::parseboolean($xmldata->question->isbroken) : 0;
+        $question->isbroken = (array) $xmldata->question->isbroken ? self::parseboolean($xmldata->question->isbroken) :
+            StackQuestionLoader::get_default('question', 'isbroken', 0);
         $question->options = new \stack_options();
         $question->options->set_option(
             'multiplicationsign',
             (array) $xmldata->question->multiplicationsign ?
-                (string) $xmldata->question->multiplicationsign : get_config('qtype_stack', 'multiplicationsign')
+                (string) $xmldata->question->multiplicationsign :
+                StackQuestionLoader::get_default('question', '', get_config('qtype_stack', 'multiplicationsign'))
         );
         $question->options->set_option(
             'complexno',
             (array) $xmldata->question->complexno ?
-                (string) $xmldata->question->complexno : get_config('qtype_stack', 'complexno')
+                (string) $xmldata->question->complexno :
+                StackQuestionLoader::get_default('question', 'complexno', get_config('qtype_stack', 'complexno'))
         );
         $question->options->set_option(
             'inversetrig',
             (array) $xmldata->question->inversetrig ?
-                (string) $xmldata->question->inversetrig : get_config('qtype_stack', 'inversetrig')
+                (string) $xmldata->question->inversetrig :
+                StackQuestionLoader::get_default('question', 'inversetrig', get_config('qtype_stack', 'inversetrig'))
         );
         $question->options->set_option(
             'logicsymbol',
             (array) $xmldata->question->logicsymbol ?
-                (string) $xmldata->question->logicsymbol : get_config('qtype_stack', 'logicsymbol')
+                (string) $xmldata->question->logicsymbol :
+                StackQuestionLoader::get_default('question', 'logicsymbol', get_config('qtype_stack', 'logicsymbol'))
         );
         $question->options->set_option(
             'matrixparens',
             (array) $xmldata->question->matrixparens ?
-                (string) $xmldata->question->matrixparens : get_config('qtype_stack', 'matrixparens')
+                (string) $xmldata->question->matrixparens :
+                StackQuestionLoader::get_default('question', 'matrixparens', get_config('qtype_stack', 'matrixparens'))
         );
         $question->options->set_option(
             'sqrtsign',
             (array) $xmldata->question->sqrtsign ?
-                self::parseboolean($xmldata->question->sqrtsign) : (bool) get_config('qtype_stack', 'sqrtsign')
+                self::parseboolean($xmldata->question->sqrtsign) :
+                StackQuestionLoader::get_default('question', 'sqrtsign', (bool) get_config('qtype_stack', 'sqrtsign'))
         );
         $question->options->set_option(
             'simplify',
             (array) $xmldata->question->questionsimplify ?
-                self::parseboolean($xmldata->question->questionsimplify) : (bool) get_config('qtype_stack', 'questionsimplify')
+                self::parseboolean($xmldata->question->questionsimplify) :
+                StackQuestionLoader::get_default(
+                    'question', 'questionsimplify', (bool) get_config('qtype_stack', 'questionsimplify'))
         );
         $question->options->set_option(
             'assumepos',
             (array) $xmldata->question->assumepositive ?
-                self::parseboolean($xmldata->question->assumepositive) : (bool) get_config('qtype_stack', 'assumepositive')
+                self::parseboolean($xmldata->question->assumepositive) :
+                StackQuestionLoader::get_default(
+                    'question', 'assumepositive', (bool) get_config('qtype_stack', 'assumepositive')
+                )
         );
         $question->options->set_option(
             'assumereal',
             (array) $xmldata->question->assumereal ?
-                self::parseboolean($xmldata->question->assumereal) : (bool) get_config('qtype_stack', 'assumereal')
+                self::parseboolean($xmldata->question->assumereal) :
+                StackQuestionLoader::get_default(
+                    'question', 'assumereal', (bool) get_config('qtype_stack', 'assumereal')
+                )
         );
         $question->options->set_option(
             'decimals',
             (array) $xmldata->question->decimals ?
-                (string) $xmldata->question->decimals : get_config('qtype_stack', 'decimals')
+                (string) $xmldata->question->decimals :
+                StackQuestionLoader::get_default('question', 'decimals', get_config('qtype_stack', 'decimals'))
         );
         $question->options->set_option(
             'scientificnotation',
             (array) $xmldata->question->scientificnotation ?
-                                (string) $xmldata->question->scientificnotation : get_config('qtype_stack', 'scientificnotation')
+                (string) $xmldata->question->scientificnotation :
+                StackQuestionLoader::get_default(
+                    'question', 'scientificnotation', get_config('qtype_stack', 'scientificnotation')
+                )
         );
 
         $inputmap = [];
@@ -186,38 +236,55 @@ class StackQuestionLoader {
 
         if (empty($inputmap) && $question->defaultmark) {
             $defaultinput = new \SimpleXMLElement('<input></input>');
-            $defaultinput->addChild('name', 'ans1');
-            $defaultinput->addChild('tans', 'ta1');
-            $inputmap['ans1'] = $defaultinput;
+            $defaultinput->addChild('name', StackQuestionLoader::get_default('input', 'name', 'ans1'));
+            $defaultinput->addChild('tans', StackQuestionLoader::get_default('input', 'tans', 'ta1'));
+            $inputmap[StackQuestionLoader::get_default('input', '', 'ans1')] = $defaultinput;
         }
 
         $requiredparams = \stack_input_factory::get_parameters_used();
         foreach ($inputmap as $name => $inputdata) {
             $allparameters = [
                 'boxWidth'        => (array) $inputdata->boxsize ?
-                    (int) $inputdata->boxsize : get_config('qtype_stack', 'inputboxsize'),
+                    (int) $inputdata->boxsize :
+                    StackQuestionLoader::get_default('input', 'boxsize', get_config('qtype_stack', 'inputboxsize')),
                 'insertStars'     => (array) $inputdata->insertstars ?
-                    (int) $inputdata->insertstars : get_config('qtype_stack', 'inputinsertstars'),
-                'syntaxHint'      => isset($inputdata->syntaxhint) ? (string) $inputdata->syntaxhint : '',
-                'syntaxAttribute' => (array) $inputdata->syntaxattribute ? (int) $inputdata->syntaxattribute : 0,
+                    (int) $inputdata->insertstars :
+                    StackQuestionLoader::get_default('input', 'insertstars', get_config('qtype_stack', 'inputinsertstars')),
+                'syntaxHint'      => isset($inputdata->syntaxhint) ?
+                    (string) $inputdata->syntaxhint :
+                    StackQuestionLoader::get_default('input', 'syntaxHint', ''),
+                'syntaxAttribute' => (array) $inputdata->syntaxattribute ?
+                    (int) $inputdata->syntaxattribute : StackQuestionLoader::get_default('input', 'syntaxAttribute', 0),
                 'forbidWords'     => isset($inputdata->forbidwords) ?
-                    (string) $inputdata->forbidwords : get_config('qtype_stack', 'inputforbidwords'),
-                'allowWords'      => isset($inputdata->allowwords) ? (string) $inputdata->allowwords : '',
+                    (string) $inputdata->forbidwords :
+                    StackQuestionLoader::get_default('input', 'forbidwords', get_config('qtype_stack', 'inputforbidwords')),
+                'allowWords'      => isset($inputdata->allowwords) ?
+                    (string) $inputdata->allowwords : StackQuestionLoader::get_default('input', '', ''),
                 'forbidFloats'    => (array) $inputdata->forbidfloat ?
-                    self::parseboolean($inputdata->forbidfloat) : (bool) get_config('qtype_stack', 'inputforbidfloat'),
+                    self::parseboolean($inputdata->forbidfloat) :
+                    StackQuestionLoader::get_default('input', 'forbidfloat', (bool) get_config('qtype_stack', 'inputforbidfloat')),
                 'lowestTerms'     => (array) $inputdata->requirelowestterms ?
                     self::parseboolean($inputdata->requirelowestterms) :
-                    (bool) get_config('qtype_stack', 'inputrequirelowestterms'),
+                    StackQuestionLoader::get_default(
+                        'input', 'requirelowestterms', (bool) get_config('qtype_stack', 'inputrequirelowestterms')
+                    ),
                 'sameType'        => (array) $inputdata->checkanswertype ?
-                    self::parseboolean($inputdata->checkanswertype) : (bool) get_config('qtype_stack', 'inputcheckanswertype'),
+                    self::parseboolean($inputdata->checkanswertype) :
+                    StackQuestionLoader::get_default(
+                        'input', 'checkanswertype', (bool) get_config('qtype_stack', 'inputcheckanswertype')
+                    ),
                 'mustVerify'      => (array) $inputdata->mustverify ?
-                    self::parseboolean($inputdata->mustverify) : (bool) get_config('qtype_stack', 'inputmustverify'),
+                    self::parseboolean($inputdata->mustverify) :
+                    StackQuestionLoader::get_default('input', 'mustverify', (bool) get_config('qtype_stack', 'inputmustverify')),
                 'showValidation'  => (array) $inputdata->showvalidation ?
-                    (int) $inputdata->showvalidation : get_config('qtype_stack', 'inputshowvalidation'),
-                'options'         => isset($inputdata->options) ? (string) $inputdata->options : '',
+                    (int) $inputdata->showvalidation :
+                    StackQuestionLoader::get_default('input', 'showvalidation', get_config('qtype_stack', 'inputshowvalidation')),
+                'options'         => isset($inputdata->options) ? (string) $inputdata->options :
+                    StackQuestionLoader::get_default('input', 'options', ''),
             ];
             $parameters = [];
-            $inputtype = (string) $inputdata->type ? (string) $inputdata->type : 'algebraic';
+            $inputtype = (string) $inputdata->type ? (string) $inputdata->type :
+                StackQuestionLoader::get_default('input', 'type', 'algebraic');
             foreach ($requiredparams[$inputtype] as $paramname) {
                 if ($paramname == 'inputType') {
                     continue;
@@ -237,20 +304,20 @@ class StackQuestionLoader {
 
         if (empty($prtmap) && $question->defaultmark) {
             $defaultprt = new \SimpleXMLElement('<prt></prt>');
-            $defaultprt->addChild('name', 'prt1');
+            $defaultprt->addChild('name', StackQuestionLoader::get_default('prt', 'name', 'prt1'));
             $defaultnode = $defaultprt->addChild('node');
-            $defaultnode->addChild('name', '0');
-            $defaultnode->addChild('sans', 'ans1');
-            $defaultnode->addChild('tans', 'ta1');
-            $defaultnode->addChild('trueanswernote', 'prt1-1-T');
-            $defaultnode->addChild('falseanswernote', 'prt1-1-F');
-            $prtmap['prt1'] = $defaultprt;
+            $defaultnode->addChild('name', StackQuestionLoader::get_default('node', 'name', '0'));
+            $defaultnode->addChild('sans', StackQuestionLoader::get_default('node', 'sans', 'ans1'));
+            $defaultnode->addChild('tans', StackQuestionLoader::get_default('node', 'tans', 'ta1'));
+            $defaultnode->addChild('trueanswernote', StackQuestionLoader::get_default('node', 'trueanswernote', 'prt1-1-T'));
+            $defaultnode->addChild('falseanswernote', StackQuestionLoader::get_default('node', 'falseanswernote', 'prt1-1-F'));
+            $prtmap[StackQuestionLoader::get_default('prt', 'name', 'prt1')] = $defaultprt;
         }
 
         foreach ($prtmap as $prtdata) {
             // At this point we do not have the PRT method is_formative() available to us.
             if (!isset($prtdata->feedbackstyle) || ((int) $prtdata->feedbackstyle) > 0) {
-                $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : 1;
+                $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : StackQuestionLoader::get_default('prt', 'value', 1);
                 $allformative = false;
             }
         }
@@ -263,18 +330,22 @@ class StackQuestionLoader {
         foreach ($prtmap as $prtdata) {
             $prtvalue = 0;
             if (!$allformative) {
-                $value = $prtdata->value ? (float) $prtdata->value : 1;
+                $value = $prtdata->value ? (float) $prtdata->value : StackQuestionLoader::get_default('prt', 'value', 1);
                 $prtvalue = $value / $totalvalue;
             }
 
             $data = new \stdClass();
             $data->name = (string) $prtdata->name;
-            $data->autosimplify = (array) $prtdata->autosimplify ? self::parseboolean($prtdata->autosimplify) : true;
-            $data->feedbackstyle = (array) $prtdata->feedbackstyle ? (int) $prtdata->feedbackstyle : 1;
-            $data->value = (array) $prtdata->value ? (float) $prtdata->value : 1.0;
+            $data->autosimplify = (array) $prtdata->autosimplify ? self::parseboolean($prtdata->autosimplify) :
+                StackQuestionLoader::get_default('prt', 'autosimplify', true);
+            $data->feedbackstyle = (array) $prtdata->feedbackstyle ? (int) $prtdata->feedbackstyle :
+                StackQuestionLoader::get_default('prt', 'feedbackstyle', 1);
+            $data->value = (array) $prtdata->value ? (float) $prtdata->value :
+                StackQuestionLoader::get_default('prt', 'value', 1.0);
             $data->firstnodename = null;
 
-            $data->feedbackvariables = (string) $prtdata->feedbackvariables->text ? (string) $prtdata->feedbackvariables->text : '';
+            $data->feedbackvariables = (string) $prtdata->feedbackvariables->text ? (string) $prtdata->feedbackvariables->text :
+                StackQuestionLoader::get_default('prt', 'feedbackvariables', '');
 
             $data->nodes = [];
             foreach ($prtdata->node as $node) {
@@ -282,29 +353,43 @@ class StackQuestionLoader {
 
                 $newnode->nodename = (string) $node->name;
                 $newnode->description = isset($node->description) ? (string) $node->description : '';
-                $newnode->answertest = isset($node->answertest) ? (string) $node->answertest : 'AlgEquiv';
+                $newnode->answertest = isset($node->answertest) ? (string) $node->answertest :
+                    StackQuestionLoader::get_default('node', 'answertest', 'AlgEquiv');
                 $newnode->sans = (string) $node->sans;
                 $newnode->tans = (string) $node->tans;
-                $newnode->testoptions = (string) $node->testoptions ? (string) $node->testoptions : '';
-                $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) : false;
+                $newnode->testoptions = (string) $node->testoptions ? (string) $node->testoptions :
+                    StackQuestionLoader::get_default('node', '', 'testoptions');
+                $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) :
+                    StackQuestionLoader::get_default('node', 'quiet', false);
 
-                $newnode->truescoremode = (array) $node->truescoremode ? (string) $node->truescoremode : '=';
-                $newnode->truescore = (array) $node->truescore ? (string) $node->truescore : '1.0';
-                $newnode->truepenalty = (array) $node->truepenalty ? (string) $node->truepenalty : null;
-                $newnode->truenextnode = (array) $node->truenextnode ? (string) $node->truenextnode : '-1';
-                $newnode->trueanswernote = (string) $node->trueanswernote ? (string) $node->trueanswernote : '';
-                $newnode->truefeedback = (string) $node->truefeedback->text ? (string) $node->truefeedback->text : '';
+                $newnode->truescoremode = (array) $node->truescoremode ?
+                    (string) $node->truescoremode : StackQuestionLoader::get_default('node', 'truescoremode', '=');
+                $newnode->truescore = (array) $node->truescore ?
+                (string) $node->truescore : StackQuestionLoader::get_default('node', '', '1.0';
+                $newnode->truepenalty = (array) $node->truepenalty ? (string) $node->truepenalty : StackQuestionLoader::get_default('node', '', null;
+                $newnode->truenextnode = (array) $node->truenextnode ? (string) $node->truenextnode : StackQuestionLoader::get_default('node', '', '-1';
+                $newnode->trueanswernote = (string) $node->trueanswernote ? (string) $node->trueanswernote : StackQuestionLoader::get_default('node', '', '';
+                $newnode->truefeedback = (string) $node->truefeedback->text ? (string) $node->truefeedback->text : StackQuestionLoader::get_default('node', '', '';
                 $newnode->truefeedbackformat =
-                    (string) $node->truefeedback['format'] ? (string) $node->truefeedback['format'] : 'html';
+                    (string) $node->truefeedback['format'] ?
+                    (string) $node->truefeedback['format'] : StackQuestionLoader::get_default('node', 'truefeedbackformat', 'html');
 
-                $newnode->falsescoremode = (array) $node->falsescoremode ? (string) $node->falsescoremode : '=';
-                $newnode->falsescore = (array) $node->falsescore ? (string) $node->falsescore : '0.0';
-                $newnode->falsepenalty = (array) $node->falsepenalty ? (string) $node->falsepenalty : null;
-                $newnode->falsenextnode = (array) $node->falsenextnode ? (string) $node->falsenextnode : '-1';
-                $newnode->falseanswernote = (string) $node->falseanswernote ? (string) $node->falseanswernote : '';
-                $newnode->falsefeedback = (string) $node->falsefeedback->text ? (string) $node->falsefeedback->text : '';
+                $newnode->falsescoremode = (array) $node->falsescoremode ?
+                    (string) $node->falsescoremode : StackQuestionLoader::get_default('node', 'falsescoremode', '=');
+                $newnode->falsescore = (array) $node->falsescore ? (string) $node->falsescore :
+                    StackQuestionLoader::get_default('node', 'falsescore', '0.0');
+                $newnode->falsepenalty = (array) $node->falsepenalty ?
+                    (string) $node->falsepenalty : StackQuestionLoader::get_default('node', 'falsepenalty', null);
+                $newnode->falsenextnode = (array) $node->falsenextnode ?
+                    (string) $node->falsenextnode : StackQuestionLoader::get_default('node', 'falsenextnode', '-1');
+                $newnode->falseanswernote = (string) $node->falseanswernote ?
+                    (string) $node->falseanswernote : StackQuestionLoader::get_default('node', 'falseanswernote', '');
+                $newnode->falsefeedback = (string) $node->falsefeedback->text ?
+                    (string) $node->falsefeedback->text : StackQuestionLoader::get_default('node', 'falsefeedback', '');
                 $newnode->falsefeedbackformat =
-                    (string) $node->falsefeedback['format'] ? (string) $node->falsefeedback['format'] : 'html';
+                    (string) $node->falsefeedback['format'] ?
+                    (string) $node->falsefeedback['format'] :
+                    StackQuestionLoader::get_default('node', 'falsefeedbackformat', 'html');
 
                 $data->nodes[(int) $node->name] = $newnode;
             }
@@ -366,4 +451,21 @@ class StackQuestionLoader {
 
         throw new \stack_exception('invalid bool value');
     }
+
+    public static function get_default($defaultcategory, $defaultname, $default) {
+        if (!get_config('qtype_stack', 'stackapi')) {
+            return $default;
+        }
+        if (!StackQuestionLoader::$defaults) {
+                StackQuestionLoader::$defaults = yaml_parse(file_get_contents('../questiondefaults.yml'));
+        }
+
+        if (isset(StackQuestionLoader::$defaults->{$defaultcategory}->{$defaultname})) {
+            return StackQuestionLoader::$defaults->{$defaultcategory}->{$defaultname};
+        }
+
+        return null;
+    }
+
+
 }

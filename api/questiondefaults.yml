@@ -1,9 +1,7 @@
 question:
   name: Default
   questiontext: |-
-      <p></p>
-
-      <p>[[input:ans1]] [[validation:ans1]]</p>
+      <p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>
   questiontextformat: html
   generalfeedback: ''
   generalfeedbackformat: html

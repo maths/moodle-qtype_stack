@@ -536,5 +536,44 @@ class StackQuestionLoader {
         return $xml;  
     }
 
+    public static function object_to_yaml($question) {
+        $defaultquestion = StackQuestionLoader::loadxml('<quiz><question type="stack"></question></quiz>');
+        $diff = StackQuestionLoader::obj_diff($defaultquestion['question'], $question);
+        $yaml = yaml_emit($diff);
+        return $yaml;
+    }
 
-}
+    public static function obj_diff($obj1, $obj2):array { 
+        $a1 = (array)$obj1;
+        $a2 = (array)$obj2;
+        return StackQuestionLoader::arr_diff($a1, $a2);
+    }
+
+    public static function arr_diff(array $a1, array $a2):array {
+        $r = [];
+        foreach ($a1 as $k => $v) {
+            if (array_key_exists($k, $a2)) { 
+                if ($v instanceof stdClass) { 
+                    $rad = StackQuestionLoader::obj_diff($v, $a2[$k]); 
+                    if (count($rad)) { $r[$k] = $rad; } 
+                }else if (is_array($v)){
+                    $rad = StackQuestionLoader::arr_diff($v, $a2[$k]);  
+                    if (count($rad)) { $r[$k] = $rad; } 
+                // required to avoid rounding errors due to the 
+                // conversion from string representation to double
+                } else if (is_double($v)){ 
+                    if (abs($v - $a2[$k]) > 0.000000000001) { 
+                        $r[$k] = $a2[$k]; 
+                    }
+                } else { 
+                    if ($v != $a2[$k]) { 
+                        $r[$k] = $a2[$k]; 
+                    }
+                }
+            } else { 
+                $r[$k] = $v; 
+            } 
+        } 
+        return $r;
+    }    
+} 

@@ -38,7 +38,11 @@ class StackQuestionLoader {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
         try {
-            $xmldata = new SimpleXMLElement($xml);
+            if (str_contains($xml, '<question type="stack">')) {
+                $xmldata = new SimpleXMLElement($xml);
+            } else {
+                $xmldata = StackQuestionLoader::yaml_to_object($xml);
+            }
         } catch (\Exception $e) {
             throw new \stack_exception("The provided file does not contain valid XML");
         }
@@ -76,7 +80,7 @@ class StackQuestionLoader {
             );
         $question->questiontextformat =
             (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] :
-            StackQuestionLoader::get_default('question', '', 'html');
+            StackQuestionLoader::get_default('question', 'questiontextformat', 'html');
         $question->generalfeedback =
             (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text :
             StackQuestionLoader::get_default('question', 'generalfeedback', '');
@@ -461,7 +465,7 @@ class StackQuestionLoader {
             return $default;
         }
         if (!StackQuestionLoader::$defaults) {
-                StackQuestionLoader::$defaults = yaml_parse(file_get_contents('../questiondefaults.yml'));
+                StackQuestionLoader::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
         }
 
         if (isset(StackQuestionLoader::$defaults[$defaultcategory][$defaultname])) {
@@ -469,6 +473,67 @@ class StackQuestionLoader {
         }
 
         return null;
+    }
+
+    /**
+     * Converts a YAML string to a SimpleXMLElement object.
+     *
+     * @param string $yamlstring The YAML string to convert.
+     * @return SimpleXMLElement The resulting XML object.
+     * @throws \stack_exception If the YAML string is invalid.
+     */
+    public static function yaml_to_object($yamlstring) {
+        $yaml = yaml_parse($yamlstring);
+        if (!$yaml) {
+            throw new \stack_exception("The provided file does not contain valid YAML or XML.");
+        }
+        $xml = new SimpleXMLElement("<quiz></quiz>");
+        $question = $xml->addChild('question');
+        $question->addAttribute('type', 'stack');
+
+        /**
+         * Recursively converts an associative array to XML.
+         */
+        function array_to_xml($data, &$xml) {
+            $textfields = [
+                'questiontext', 'generalfeedback', 'stackversion', 'questionvariables',
+                'specificfeedback', 'questionnote',
+                'questiondescription', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect',
+                'feedbackvariables', 'truefeedback', 'falsefeedback'
+            ];
+            $arrayfields = [
+                'input', 'prt', 'node'
+            ];
+            foreach($data as $key => $value) {
+                if (strpos($key, 'format') !== false && in_array(str_replace('format', '', $key), $textfields)) {
+                    // Skip format attributes for text fields - they are handled with the text field below.
+                    continue;
+                } else if (in_array($key, $textfields)) {
+                    // Convert basic YAML field to node with text and format fields.
+                    $subnode = $xml->addChild($key);
+                    $subvalue = ['text' => $value];
+                    if (isset($data[$key . 'format'])) {
+                        $subvalue['format'] = $data[$key . 'format'];
+                    }
+                    array_to_xml($subvalue, $subnode);
+                } else if (in_array($key, $arrayfields)) {
+                    // Input, PRT and node fields need special handling to strip out
+                    // numeric keys.
+                    foreach($value as $element) {
+                        $subnode = $xml->addChild($key);
+                        array_to_xml($element, $subnode);
+                    }
+                } else if (is_array($value)) {
+                    $subnode = $xml->addChild($key);
+                    array_to_xml($value, $subnode);
+                } else {
+                    $xml->addChild($key, $value);
+                } 
+            } 
+        }
+        array_to_xml($yaml, $question);
+        $x = $xml->asXML();
+        return $xml;  
     }
 
 

@@ -38,7 +38,7 @@ class StackQuestionLoader {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
         try {
-            if (str_contains($xml, '<question type="stack">')) {
+            if (strpos($xml, '<question type="stack">') !== false) {
                 $xmldata = new SimpleXMLElement($xml);
             } else {
                 $xmldata = StackQuestionLoader::yaml_to_object($xml);

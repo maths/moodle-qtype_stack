@@ -264,7 +264,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(1, $this->output->scores->total);
         $this->assertEquals(1, $this->output->scoreweights->prt1);
         $this->assertEquals(1, $this->output->scoreweights->total);
-        $this->assertEquals('[[feedback:prt1]]', $this->output->specificfeedback);
+        $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
     }
 

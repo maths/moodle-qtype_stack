@@ -148,6 +148,7 @@ require_login();
                     document.getElementById('stackapi_qtext').style.display = 'block';
                     if (displayType === FULLDISPLAY) {
                         document.getElementById('stackapi_correct').style.display = 'block';
+                        document.getElementById('stackapi_difference').style.display = 'block';
                     }
 
                     // Setup a validation call on inputs. Timeout length is reset if the input is updated
@@ -191,6 +192,9 @@ require_login();
                     innerFeedback.classList.remove('feedback');
                     document.getElementById('formatcorrectresponse').innerHTML = correctAnswers;
                     createIframes(json.iframes);
+                    if (displayType === FULLDISPLAY) {
+                        document.getElementById('difference').innerText = json.diff;
+                    }
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 }
                 catch (e) {
@@ -368,7 +372,7 @@ require_login();
     // Replace feedback tags in some text with an approproately named HTML div.
     function replaceFeedbackTags(text) {
         let result = text;
-        const feedbackTags = text.match(/\[\[feedback:.*\]\]/g);
+        const feedbackTags = text.match(/\[\[feedback:.*?\]\]/g);
         if (feedbackTags) {
             for (const tag of feedbackTags) {
                 // Part name is between '[[feedback:' and ']]'.

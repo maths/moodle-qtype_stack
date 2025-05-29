@@ -185,9 +185,14 @@ require_login();
           <div id="response_summary" class="feedback"></div>
         </div>
         <div id="stackapi_correct" class="col-lg-10" style="display: none">
-          <div class="noninfo"></div>
+          <div class="noninfo">
             <h2><?php echo stack_string('api_correct')?>:</h2>
             <div id="formatcorrectresponse" class="feedback"></div>
+          </div>
+        </div>
+        <div id="stackapi_difference" class="col-lg-10" style="display: none">
+            <h2><?php echo stack_string('api_difference')?>:</h2>
+            <div id="difference" class="feedback" style="white-space: pre;"></div>
           </div>
         </div>
       </div>

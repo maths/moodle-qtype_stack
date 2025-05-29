@@ -35,13 +35,23 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
  */
 class StackQuestionLoader {
     public static $defaults = null;
+    public const TEXTFIELDS = [
+        'questiontext', 'generalfeedback', 'stackversion', 'questionvariables',
+        'specificfeedback', 'questionnote',
+        'questiondescription', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect',
+        'feedbackvariables', 'truefeedback', 'falsefeedback'
+    ];
+    public const ARRAYFIELDS = [
+        'input', 'prt', 'node'
+    ];
+            
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
         try {
             if (strpos($xml, '<question type="stack">') !== false) {
                 $xmldata = new SimpleXMLElement($xml);
             } else {
-                $xmldata = StackQuestionLoader::yaml_to_object($xml);
+                $xmldata = StackQuestionLoader::yaml_to_xml($xml);
             }
         } catch (\Exception $e) {
             throw new \stack_exception("The provided file does not contain valid XML");
@@ -482,7 +492,7 @@ class StackQuestionLoader {
      * @return SimpleXMLElement The resulting XML object.
      * @throws \stack_exception If the YAML string is invalid.
      */
-    public static function yaml_to_object($yamlstring) {
+    public static function yaml_to_xml($yamlstring) {
         $yaml = yaml_parse($yamlstring);
         if (!$yaml) {
             throw new \stack_exception("The provided file does not contain valid YAML or XML.");
@@ -490,56 +500,113 @@ class StackQuestionLoader {
         $xml = new SimpleXMLElement("<quiz></quiz>");
         $question = $xml->addChild('question');
         $question->addAttribute('type', 'stack');
-
-        /**
-         * Recursively converts an associative array to XML.
-         */
-        function array_to_xml($data, &$xml) {
-            $textfields = [
-                'questiontext', 'generalfeedback', 'stackversion', 'questionvariables',
-                'specificfeedback', 'questionnote',
-                'questiondescription', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect',
-                'feedbackvariables', 'truefeedback', 'falsefeedback'
-            ];
-            $arrayfields = [
-                'input', 'prt', 'node'
-            ];
-            foreach($data as $key => $value) {
-                if (strpos($key, 'format') !== false && in_array(str_replace('format', '', $key), $textfields)) {
-                    // Skip format attributes for text fields - they are handled with the text field below.
-                    continue;
-                } else if (in_array($key, $textfields)) {
-                    // Convert basic YAML field to node with text and format fields.
-                    $subnode = $xml->addChild($key);
-                    $subvalue = ['text' => $value];
-                    if (isset($data[$key . 'format'])) {
-                        $subvalue['format'] = $data[$key . 'format'];
-                    }
-                    array_to_xml($subvalue, $subnode);
-                } else if (in_array($key, $arrayfields)) {
-                    // Input, PRT and node fields need special handling to strip out
-                    // numeric keys.
-                    foreach($value as $element) {
-                        $subnode = $xml->addChild($key);
-                        array_to_xml($element, $subnode);
-                    }
-                } else if (is_array($value)) {
-                    $subnode = $xml->addChild($key);
-                    array_to_xml($value, $subnode);
-                } else {
-                    $xml->addChild($key, $value);
-                } 
-            } 
-        }
-        array_to_xml($yaml, $question);
-        $x = $xml->asXML();
+        
+        StackQuestionLoader::array_to_xml($yaml, $question);
         return $xml;  
     }
 
-    public static function object_to_yaml($question) {
-        $defaultquestion = StackQuestionLoader::loadxml('<quiz><question type="stack"></question></quiz>');
-        $diff = StackQuestionLoader::obj_diff($defaultquestion['question'], $question);
+    /**
+     * Recursively converts an associative array to XML.
+     */
+    public static function array_to_xml($data, &$xml) {
+        foreach($data as $key => $value) {
+            if (strpos($key, 'format') !== false && in_array(str_replace('format', '', $key), StackQuestionLoader::TEXTFIELDS)) {
+                // Skip format attributes for text fields - they are handled with the text field below.
+                continue;
+            } else if (in_array($key, StackQuestionLoader::TEXTFIELDS)) {
+                // Convert basic YAML field to node with text and format fields.
+                $subnode = $xml->addChild($key);
+                $subvalue = ['text' => $value];
+                if (isset($data[$key . 'format'])) {
+                    $subvalue['format'] = $data[$key . 'format'];
+                }
+                StackQuestionLoader::array_to_xml($subvalue, $subnode);
+            } else if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
+                // Input, PRT and node fields need special handling to strip out
+                // numeric keys.
+                foreach($value as $element) {
+                    $subnode = $xml->addChild($key);
+                    StackQuestionLoader::array_to_xml($element, $subnode);
+                }
+            } else if (is_array($value)) {
+                $subnode = $xml->addChild($key);
+                StackQuestionLoader::array_to_xml($value, $subnode);
+            } else {
+                $xml->addChild($key, $value);
+            } 
+        } 
+    }
+
+    /**
+     * Converts a SimpleXMLElement object to an array for conversion to YAML.
+     *
+     * @param SimpleXMLElement The resulting XML object.
+     * @return array The resulting array.
+     */
+    public static function xml_to_array($xmldata, &$output = []) {
+        foreach($xmldata as $key => $value) {
+            if (in_array($key, StackQuestionLoader::TEXTFIELDS)) {
+                $output[$key] = (string) $value->text;
+                if (isset($value->format)) {
+                    $output[$key . 'format'] = (string) $value->format[0];
+                }
+            } else if ($value instanceof SimpleXMLElement && $value->count()) {
+                if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
+                    $output[$key][] = StackQuestionLoader::xml_to_array($value);
+                } else {
+                    $output[$key] = [];
+                    StackQuestionLoader::xml_to_array($value, $output[$key]);
+                }
+            } else {
+                if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
+                    $output[$key][] = StackQuestionLoader::xml_to_array($value);
+                } else {
+                    $output[$key] = (string) $value;
+                }
+            } 
+        }
+        return $output;  
+    }
+
+    public static function detect_differences($xml) {      
+        if (!StackQuestionLoader::$defaults) {
+                StackQuestionLoader::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
+        }
+        if (strpos($xml, '<question type="stack">') !== false) {
+            $xmldata = new SimpleXMLElement($xml);
+        } else {
+            $xmldata = StackQuestionLoader::yaml_to_xml($xml);
+        }
+        $plaindata = StackQuestionLoader::xml_to_array($xmldata);
+        $diff = StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['question'], $plaindata['question']);
+        $diffinputs = [];
+        foreach ($plaindata['question']['input'] as $input) {
+            $diffinput = [];
+            $diffinput['name'] = $input['name'];
+            $diffinput['tans'] = $input['tans'];
+            $diffinput = array_merge($diffinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['input'], $input));
+            $diffinputs[] = $diffinput;
+        }
+        $diff['input'] = $diffinputs;
+        $diffprts = [];
+        foreach ($plaindata['question']['prt'] as $prt) {
+            $diffprt = [];
+            $diffprt['name'] = $prt['name'];
+            $diffprt = array_merge($diffprt, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['prt'], $prt));
+            foreach ($prt['node'] as $node) {
+                $diffnode = [];
+                $diffnode['name'] = $node['name'];
+                $diffnode['sans'] = $node['sans'];
+                $diffnode['tans'] = $node['tans'];
+                $diffnode = array_merge($diffnode, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['node'], $node));
+                $diffprt['node'][] = $diffnode;
+            }
+            $diffprts[] = $diffprt;
+        }
+        $diff['prt'] = $diffprts;
         $yaml = yaml_emit($diff);
+        $yaml = ltrim($yaml, "---\n");
+        $yaml = rtrim($yaml, "...\n");
         return $yaml;
     }
 
@@ -549,15 +616,12 @@ class StackQuestionLoader {
         return StackQuestionLoader::arr_diff($a1, $a2);
     }
 
-    public static function arr_diff(array $a1, array $a2):array {
+    public static function arr_diff($a1, $a2):array {
         $r = [];
         foreach ($a1 as $k => $v) {
             if (array_key_exists($k, $a2)) { 
-                if ($v instanceof stdClass) { 
-                    $rad = StackQuestionLoader::obj_diff($v, $a2[$k]); 
-                    if (count($rad)) { $r[$k] = $rad; } 
-                }else if (is_array($v)){
-                    $rad = StackQuestionLoader::arr_diff($v, $a2[$k]);  
+                if (is_array($v)){
+                    $rad = StackQuestionLoader::arr_diff($v, (array) $a2[$k]);  
                     if (count($rad)) { $r[$k] = $rad; } 
                 // required to avoid rounding errors due to the 
                 // conversion from string representation to double
@@ -570,9 +634,7 @@ class StackQuestionLoader {
                         $r[$k] = $a2[$k]; 
                     }
                 }
-            } else { 
-                $r[$k] = $v; 
-            } 
+            }
         } 
         return $r;
     }    

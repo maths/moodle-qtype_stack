@@ -138,6 +138,9 @@ class RenderController {
         $renderresponse->questionvariants = $question->deployedseeds;
         $renderresponse->iframes = StackIframeHolder::$iframes;
         $renderresponse->isinteractive = $question->is_interactive();
+        // TO-DO Make this a separate endpoint.
+        $diff = StackQuestionLoader::detect_differences($data["questionDefinition"]);
+        $renderresponse->diff = $diff;
 
         $response->getBody()->write(json_encode($renderresponse));
         return $response->withHeader('Content-Type', 'application/json');

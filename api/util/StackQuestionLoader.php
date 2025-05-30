@@ -36,13 +36,13 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
 class StackQuestionLoader {
     public static $defaults = null;
     public const TEXTFIELDS = [
-        'questiontext', 'generalfeedback', 'stackversion', 'questionvariables',
+        'name', 'questiontext', 'generalfeedback', 'stackversion', 'questionvariables',
         'specificfeedback', 'questionnote',
         'questiondescription', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect',
         'feedbackvariables', 'truefeedback', 'falsefeedback'
     ];
     public const ARRAYFIELDS = [
-        'input', 'prt', 'node'
+        'input', 'prt', 'node', 'deployedseed', 'qtest', 'testinput', 'expected'
     ];
             
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -424,6 +424,20 @@ class StackQuestionLoader {
         $question->deployedseeds = $deployedseeds;
         $testcases = [];
         if ($includetests) {
+            if (empty($qtest) && $question->defaultmark) {
+                $defaulttest = new \SimpleXMLElement('<qtest></qtest>');
+                $defaulttest->addChild('testcase', StackQuestionLoader::get_default('qtest', 'testcase', '1'));
+                $defaulttest->addChild('description', StackQuestionLoader::get_default('qtest', 'description', ''));
+                $defaulttinput = $defaulttest->addChild('testinput');
+                $defaulttinput->addChild('name', StackQuestionLoader::get_default('testinput', 'name', 'ans1'));
+                $defaulttinput->addChild('value', StackQuestionLoader::get_default('testinput', 'value', 'ta1'));
+                $defaulttexpected = $defaulttest->addChild('expected');
+                $defaulttexpected->addChild('name', StackQuestionLoader::get_default('expected', 'name', 'prt1'));
+                $defaulttexpected->addChild('expectedscore', StackQuestionLoader::get_default('expected', 'expectedscore', '1.0000000'));
+                $defaulttexpected->addChild('expectedpenalty', StackQuestionLoader::get_default('expected', 'expectedpenalty', '0.0000000'));
+                $defaulttexpected->addChild('expectedanswernote', StackQuestionLoader::get_default('expected', 'expectedanswernote', '1-0-T'));
+                $testcases[] = $defaulttest;
+            }
             foreach ($xmldata->question->qtest as $test) {
                 $testinputs = [];
                 foreach ($test->testinput as $testinput) {
@@ -434,9 +448,9 @@ class StackQuestionLoader {
                     $testcase->add_expected_result((string) $expected->name,
                             new \stack_potentialresponse_tree_state(1, true,
                                 (array) $expected->expectedscore ?
-                                    (string) $expected->expectedscore : null,
+                                    (string) $expected->expectedscore : StackQuestionLoader::get_default('expected', 'expectedscore', '1.0000000'),
                                 (array) $expected->expectedpenalty ?
-                                    (string) $expected->expectedpenalty : null,
+                                    (string) $expected->expectedpenalty : StackQuestionLoader::get_default('expected', 'expectedpenalty', '0.0000000'),
                                     '', [(string) $expected->expectedanswernote]));
                 }
                 $testcases[] = $testcase;
@@ -502,6 +516,9 @@ class StackQuestionLoader {
         $question->addAttribute('type', 'stack');
         
         StackQuestionLoader::array_to_xml($yaml, $question);
+        $name = (string) $xml->question->name;
+        $xml->question->name = new SimpleXMLElement('<root></root>');
+        $xml->question->name->addChild('text', $name);
         return $xml;  
     }
 
@@ -515,18 +532,33 @@ class StackQuestionLoader {
                 continue;
             } else if (in_array($key, StackQuestionLoader::TEXTFIELDS)) {
                 // Convert basic YAML field to node with text and format fields.
-                $subnode = $xml->addChild($key);
-                $subvalue = ['text' => $value];
-                if (isset($data[$key . 'format'])) {
-                    $subvalue['format'] = $data[$key . 'format'];
+                if ($key !== 'name') {
+                    // Name is used in multiple places and sometimes has text property and sometimes not.
+                    // Handled in yaml_to_xml().
+                    $subnode = $xml->addChild($key);
+                    /* if (!empty($value) && htmlspecialchars($value, ENT_COMPAT) != $value) {
+                        $subvalue = ['text' => '<![CDATA[' . $value . ']]>'];
+                    } else {
+                        $subvalue = ['text' => $value];
+                    } */
+                    $subvalue = ['text' => $value];
+                    if (isset($data[$key . 'format'])) {
+                        $subvalue['format'] = $data[$key . 'format'];
+                    }
+                    StackQuestionLoader::array_to_xml($subvalue, $subnode);
+                } else {
+                    $xml->addChild($key, $value);
                 }
-                StackQuestionLoader::array_to_xml($subvalue, $subnode);
             } else if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
-                // Input, PRT and node fields need special handling to strip out
+                // Certain fields need special handling to strip out
                 // numeric keys.
                 foreach($value as $element) {
-                    $subnode = $xml->addChild($key);
-                    StackQuestionLoader::array_to_xml($element, $subnode);
+                    if (is_array($element)) {
+                        $subnode = $xml->addChild($key);
+                        StackQuestionLoader::array_to_xml($element, $subnode);
+                    } else {
+                        $xml->addChild($key, $element);
+                    }
                 }
             } else if (is_array($value)) {
                 $subnode = $xml->addChild($key);
@@ -534,7 +566,7 @@ class StackQuestionLoader {
             } else {
                 $xml->addChild($key, $value);
             } 
-        } 
+        }
     }
 
     /**
@@ -545,10 +577,18 @@ class StackQuestionLoader {
      */
     public static function xml_to_array($xmldata, &$output = []) {
         foreach($xmldata as $key => $value) {
+            if ($key === 'deployedseed') {
+                // Convert deployedseed to an array of integers.
+                $x= (int) $value;
+            }
             if (in_array($key, StackQuestionLoader::TEXTFIELDS)) {
-                $output[$key] = (string) $value->text;
+                if (isset($value->text)) {
+                    $output[$key] = (string) $value->text;
+                } else {
+                    $output[$key] = (string) $value;
+                }
                 if (isset($value->format)) {
-                    $output[$key . 'format'] = (string) $value->format[0];
+                    $output[$key . 'format'] = (string) $value->format;
                 }
             } else if ($value instanceof SimpleXMLElement && $value->count()) {
                 if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
@@ -559,7 +599,7 @@ class StackQuestionLoader {
                 }
             } else {
                 if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
-                    $output[$key][] = StackQuestionLoader::xml_to_array($value);
+                    $output[$key][] = (string) $value;
                 } else {
                     $output[$key] = (string) $value;
                 }
@@ -604,7 +644,31 @@ class StackQuestionLoader {
             $diffprts[] = $diffprt;
         }
         $diff['prt'] = $diffprts;
-        $yaml = yaml_emit($diff);
+        $diff['deployedseed'] = [];
+        foreach ($plaindata['question']['deployedseed'] as $seed) {
+            $diff['deployedseed'][] = (string) $seed;
+        }
+        $difftests = [];
+        foreach ($plaindata['question']['qtest'] as $test) {
+            $difftest = [];
+            $difftest['testcase'] = $test['testcase'];
+            $difftest = array_merge($difftest, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['qtest'], $test));
+            foreach ($test['testinput'] as $tinput) {
+                $difftinput = [];
+                $difftinput['name'] = $tinput['name'];
+                $difftinput = array_merge($difftinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['testinput'], $tinput));
+                $difftest['testinput'][] = $difftinput;
+            }
+            foreach ($test['expected'] as $texpected) {
+                $difftexpected = [];
+                $difftexpected['name'] = $texpected['name'];
+                $difftexpected = array_merge($difftexpected, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['expected'], $texpected));
+                $difftest['expected'][] = $difftexpected;
+            }
+            $difftests[] = $difftest;
+        }
+        $diff['qtest'] = $difftests;
+        $yaml = yaml_emit($diff, YAML_UTF8_ENCODING, YAML_CRLN_BREAK);
         $yaml = ltrim($yaml, "---\n");
         $yaml = rtrim($yaml, "...\n");
         return $yaml;

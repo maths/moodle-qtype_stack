@@ -597,7 +597,7 @@ divDivProdp(ex):= block(
 )$
 divDivp(ex):= block([ex2],
     if safe_op(ex)="UNARY_RECIP" then return(divDivProdp(part(ex,1))),
-    if not(safe_op(ex)="*" or safe_op(ex)="nunmul") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     ex2:sublist(args(ex),lambda([ex3], safe_op(ex3)="UNARY_RECIP")),
     if emptyp(ex2) then return(false),
     ex2:map(first,ex2),

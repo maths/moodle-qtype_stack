@@ -1,6 +1,6 @@
-# Rules-based answer tests
+# Rule-based answer tests
 
-Rules-based answer tests are a special kind of mathematical [answer test](index.md).
+Rule-based answer tests are a special kind of mathematical [answer test](index.md).
 
 ### Equality up to associativity and commutativity ### {#EqualComAss}
 
@@ -46,7 +46,7 @@ The teacher must supply an option consisting of a list of the following rule nam
 | `assMul`          | Associativity of multiplication                                                        |
 | `comAdd`          | Commutativity of addition                                                              |
 | `comMul`          | Commutativity of multiplication                                                        |
-|  -                 | _Options to switch off the defaults_                                                   |
+|  -                 | _Options to switch off the defaults_                                                  |
 | `noncomAdd`       | Indicate addition is non-commutative                                                   |
 | `noncomMul`       | Indicate multiplication is non-commutative                                             |
 | `comMulNum`       | Commutativity of numbers only within multiplication                                    |
@@ -77,10 +77,11 @@ The teacher must supply an option consisting of a list of the following rule nam
 | `negDist`         | Distribute only `UNARY_MINUS` over a sum (incompatible with `negOrd`)                  |
 | `sqrtRem`         | Remove the `sqrt` function and replace with `^(1/2)`                                   |
 
-The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity).
-However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative.
-Factoring out is better than distributing here, since in a produce such as \(-(x-y)(x-z)\) it is not clear which term in the product the initial minus sign will end up in.
-Since `negOrd` is a factor command, it is incompatible with `negDist`.
+Notes: 
+
+* We do not guarantee the simplification is mathematically correct!  E.g. if you are unlucky enough to try the rule `zeroPow` on the expression `0^(1-1)` then since `1-1` is not equal to zero (taken literally) then the rule applies and you have failed to spot a potential `0^0` error.
+* The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity). However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative. Factoring out is better than distributing here, since in a produce such as \(-(x-y)(x-z)\) it is not clear which term in the product the initial minus sign will end up in. Since `negOrd` is a factor command, it is incompatible with `negDist`.
+* Note that `oneDiv` only operates on the very special case of a single \(1\) in the denominator of a fraction.  E.g. in \(\frac{x}{1\times a}\) we have a product \(1\times a\) in the denominator.  To further simplify this you need `oneMul` rather than `oneDiv`.
 
 By default the test assumes commutativity of addition and multiplication.  If you choose the `nonmulCom` rule then you can switch off commutativity of multiplication.  However, rules such as `zeroMul` include both \(0\times x \rightarrow 0\) and \(x\times 0 \rightarrow 0\).  The rules `intMul` (etc) would appear to be non-compatible with `nonmulCom`, however they are very useful in that by performing integer arithmetic we bring integers to the front of the expression.
 
@@ -89,8 +90,6 @@ For convenience sets of rules can be specified.  E.g. you can use the name `ID_T
 If you want to remove tests from a list you can use code such as `delete(zeroAdd, ID_TRANS)`.
 
 The test takes the student's answer and teacher's answer and repeatedly applies the rules in turn until the expressions remain the same.  The rules are designed to always shorten the expression, so the process is guaranteed to terminate.  Once the expression is written in final form, the test compares the two expression trees.
-
-Note that we do not guarantee the simplification is mathematically correct!  E.g. if you are unlucky enough to try the rule `zeroPow` on the expression `0^(1-1)` then since `1-1` is not equal to zero (taken literally) then the rule applies and you have failed to spot a potential `0^0` error.
 
 If you add the rule `testdebug` then you will see both expressions in the answer note.  This is useful for debugging, but would clutter up things in a production setting.
 

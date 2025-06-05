@@ -58,6 +58,7 @@ ta1: unary_minus_sort(sol[1]+sol[2]/denom0);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

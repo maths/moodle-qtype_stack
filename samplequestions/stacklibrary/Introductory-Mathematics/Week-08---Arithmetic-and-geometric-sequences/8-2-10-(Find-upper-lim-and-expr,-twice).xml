@@ -59,6 +59,7 @@ sumval:sum(taexpr1,k,talower1,taupper1);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>expr1</name>

@@ -69,13 +69,14 @@ cor2:[nums[d+2]];]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>numerical</type>
       <tans>ta1</tans>
       <boxsize>5</boxsize>
-      <strictsyntax>0</strictsyntax>
+      <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
@@ -93,7 +94,7 @@ cor2:[nums[d+2]];]]></text>
       <type>checkbox</type>
       <tans>ta2</tans>
       <boxsize>15</boxsize>
-      <strictsyntax>0</strictsyntax>
+      <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>

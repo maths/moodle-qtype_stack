@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 40643180  -->
   <question type="stack">
     <name>
       <text>Find orthogonal basis for plane in R3</text>
@@ -21,12 +20,12 @@
 [[/hint]]]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.5</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024111900</text>
     </stackversion>
@@ -58,13 +57,13 @@ validate_set_of_vecs(ex):= block(
 );]]></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
       <text>{@plane@} has basis {@sol_basis@}</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -86,7 +85,8 @@ validate_set_of_vecs(ex):= block(
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>stu_basis</name>
       <type>algebraic</type>
@@ -94,10 +94,10 @@ validate_set_of_vecs(ex):= block(
       <boxsize>30</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -119,23 +119,23 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>check_form and not(check_row_vecs)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt_basis-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_basis-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -144,15 +144,15 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>subspace_equivp(stu_basis_f,make_list_of_lists(sol_basis))</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt_basis-2-T</trueanswernote>
         <truefeedback format="html">
@@ -160,7 +160,7 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_basis-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -169,15 +169,15 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>lin_indp(stu_basis_f)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>3</truenextnode>
         <trueanswernote>prt_basis-3-T</trueanswernote>
         <truefeedback format="html">
@@ -185,7 +185,7 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_basis-3-F</falseanswernote>
         <falsefeedback format="html">
@@ -194,15 +194,15 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
       </node>
       <node>
         <name>3</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>first(stu_basis_f) . second(stu_basis_f)</sans>
         <tans>0</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_basis-4-T</trueanswernote>
         <truefeedback format="html">
@@ -210,7 +210,7 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_basis-4-F</falseanswernote>
         <falsefeedback format="html">
@@ -246,7 +246,7 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_basis</name>
         <value>{transpose(nn)}</value>
@@ -260,7 +260,7 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_basis</name>
         <value>{transpose(nn),c(0,0,0)}</value>
@@ -274,7 +274,7 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
     </qtest>
     <qtest>
       <testcase>4</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_basis</name>
         <value>ev(setify(append(args(sol_basis),[c(0,0,0)])),simp)</value>
@@ -282,13 +282,13 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
       <expected>
         <name>prt_basis</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_basis-3-F</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>5</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_basis</name>
         <value>ev({v1/sqrt(v1 . v1) + v2/sqrt(v2 . v2),v1/sqrt(v1 . v1) - v2/sqrt(v2 . v2)},simp)</value>
@@ -301,5 +301,4 @@ check_row_vecs: member(r,get_ops(stu_basis_l));</text>
       </expected>
     </qtest>
   </question>
-
 </quiz>

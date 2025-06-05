@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 40643163  -->
   <question type="stack">
     <name>
       <text>Compute QR factorisation of 3×2 matrix</text>
@@ -29,12 +28,12 @@
 [[/hint]]]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.5</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024111900</text>
     </stackversion>
@@ -61,13 +60,13 @@ q2: radcan(v2/sol_R[2,2]);
 sol_Q: addcol(q1,q2);]]></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
       <text>\({@sol_Q@}{@sol_R@} = {@AA@}\)</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -89,7 +88,8 @@ sol_Q: addcol(q1,q2);]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>stu_Q</name>
       <type>varmatrix</type>
@@ -97,16 +97,16 @@ sol_Q: addcol(q1,q2);]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_R</name>
@@ -115,16 +115,16 @@ sol_Q: addcol(q1,q2);]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt_QR</name>
@@ -132,19 +132,19 @@ sol_Q: addcol(q1,q2);]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>triup(stu_R)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt_QR-1-T</trueanswernote>
         <truefeedback format="html">
@@ -152,7 +152,7 @@ sol_Q: addcol(q1,q2);]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>1</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt_QR-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -161,15 +161,15 @@ sol_Q: addcol(q1,q2);]]></text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>orthonormal_columnsp(stu_Q)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt_QR-2-T</trueanswernote>
         <truefeedback format="html">
@@ -177,7 +177,7 @@ sol_Q: addcol(q1,q2);]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>1</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt_QR-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -186,15 +186,15 @@ sol_Q: addcol(q1,q2);]]></text>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>stu_Q . stu_R</sans>
         <tans>AA</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_QR-3-T</trueanswernote>
         <truefeedback format="html">
@@ -202,7 +202,7 @@ sol_Q: addcol(q1,q2);]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_QR-3-F</falseanswernote>
         <falsefeedback format="html">
@@ -236,7 +236,7 @@ sol_Q: addcol(q1,q2);]]></text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_Q</name>
         <value>AA</value>
@@ -248,10 +248,9 @@ sol_Q: addcol(q1,q2);]]></text>
       <expected>
         <name>prt_QR</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_QR-3-T</expectedanswernote>
       </expected>
     </qtest>
   </question>
-
 </quiz>

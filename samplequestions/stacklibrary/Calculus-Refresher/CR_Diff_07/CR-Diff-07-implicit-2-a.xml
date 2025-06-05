@@ -18,7 +18,7 @@ Hence we can re-write the derivative purely as a function of \(x\) in the form \
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2025012100</text>
     </stackversion>
@@ -41,7 +41,7 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
 \[\frac{dy}{dx} = {@ans@}\]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -63,7 +63,8 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -71,16 +72,16 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>Result</name>
@@ -88,11 +89,11 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>Diff</answertest>
         <sans>ans1</sans>
         <tans>ans</tans>
@@ -100,32 +101,32 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-0-T </trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>Result-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>-ans</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
@@ -133,11 +134,11 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>Result-1-F </falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
@@ -150,25 +151,25 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-3-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>Result-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>ans</value>
@@ -182,7 +183,7 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>-ans</value>
@@ -196,7 +197,7 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>tans1</value>
@@ -218,7 +219,7 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
       <expected>
         <name>Result</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>Result-3-F</expectedanswernote>
       </expected>
     </qtest>
@@ -227,5 +228,4 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
 </tag>
     </tags>
   </question>
-
 </quiz>

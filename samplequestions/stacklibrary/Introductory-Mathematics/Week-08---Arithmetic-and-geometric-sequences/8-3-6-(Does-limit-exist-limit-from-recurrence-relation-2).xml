@@ -26,8 +26,7 @@ What is the limit of the sequence? if you believe the limit does not exist type 
       <text>aa: 1/100*(100+rand(98));
 bb: 1+rand(50);
 
-ta1:none
-</text>
+ta1:none</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -58,6 +57,7 @@ ta1:none
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

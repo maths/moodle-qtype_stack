@@ -32,8 +32,7 @@ rate2: 1+ rate1;
 nn: 1+rand(10);
 
 finsal: start*rate2^(nn-1);
-ta1: round(finsal)
-</text>
+ta1: round(finsal)</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -64,6 +63,7 @@ ta1: round(finsal)
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

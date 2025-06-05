@@ -98,13 +98,14 @@ keyterm:[(x-r1),(x-r1)^2,(x-r2)^3,(x-r),(x-r1),(x-r1)^2,(x-r2)^3,(x-r1)][qform];
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>dropdown</type>
       <tans>ta1</tans>
       <boxsize>15</boxsize>
-      <strictsyntax>0</strictsyntax>
+      <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>

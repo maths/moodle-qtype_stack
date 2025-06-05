@@ -28,8 +28,7 @@ dd:1+rand(10);
 
 
 tac1:[[A, false, "A. x is an integer"], [B, false, "B. x is rational"], [C, true, "C. x is real"], [D, false, "D. x is positive"], [E, false, "E. x is negative"], [F, false, "F. y is positive"]];
-taa1:dropdown_correct(tac1);
-]]></text>
+taa1:dropdown_correct(tac1);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -60,6 +59,7 @@ taa1:dropdown_correct(tac1);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

@@ -73,6 +73,7 @@ ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "al
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

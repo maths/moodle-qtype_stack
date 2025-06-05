@@ -36,8 +36,7 @@ a6: 1+rand(10);
 
 mat1: matrix([a1,a2,a3],[a4,a5,a6]);
 
-ta1: rref(mat1)
-</text>
+ta1: rref(mat1)</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -68,6 +67,7 @@ ta1: rref(mat1)
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

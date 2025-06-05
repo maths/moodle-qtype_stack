@@ -52,6 +52,7 @@ Express \(\dfrac{2\tan t}{2-\sec^2 t}\) as \(\tan(nt)\) for some integer \(n\).
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

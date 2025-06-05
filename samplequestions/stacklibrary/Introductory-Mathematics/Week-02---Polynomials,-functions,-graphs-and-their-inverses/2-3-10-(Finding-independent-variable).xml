@@ -34,9 +34,7 @@ bb: 1+ rand(10);
 func1: (x-aa)*(x-bb);
 func2: expand((x-aa)*(x-bb)) - aa*bb;
 ta1: aa;
-ta2: bb;
-
-</text>
+ta2: bb;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -67,6 +65,7 @@ ta2: bb;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

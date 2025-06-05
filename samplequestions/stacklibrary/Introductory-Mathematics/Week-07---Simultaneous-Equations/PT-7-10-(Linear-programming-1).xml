@@ -98,8 +98,7 @@ ll: [aa,bb,cc];
 ss: sort (ll, 'orderlessp)
 
 ta1: ss[3]
-ta2:ss[1]
-]]></text>
+ta2:ss[1]]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -130,6 +129,7 @@ ta2:ss[1]
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

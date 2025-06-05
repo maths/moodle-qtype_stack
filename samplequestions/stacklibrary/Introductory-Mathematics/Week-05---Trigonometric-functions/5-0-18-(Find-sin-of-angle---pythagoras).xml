@@ -27,8 +27,7 @@ Since we require that \(0 < \theta < 90^\circ\), we take the positive value.
 bb: 10+ rand(15);
 frac: aa/bb;
 frac2: 1-frac^2;
-ta1: sqrt(frac2);
-</text>
+ta1: sqrt(frac2);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -59,6 +58,7 @@ ta1: sqrt(frac2);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

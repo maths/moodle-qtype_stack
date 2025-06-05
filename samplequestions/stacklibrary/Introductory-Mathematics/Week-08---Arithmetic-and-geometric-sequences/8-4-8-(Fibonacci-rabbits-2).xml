@@ -54,6 +54,7 @@ ta1: simplify(1/sqrt(5)*(gg1^nn - gg2^nn));</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

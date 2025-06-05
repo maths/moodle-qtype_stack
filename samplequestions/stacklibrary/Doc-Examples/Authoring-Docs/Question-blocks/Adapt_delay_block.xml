@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 51  -->
   <question type="stack">
     <name>
       <text>Adapt block delay</text>
@@ -28,23 +27,23 @@ This text is hidden and is shown 10 seconds after you activate the PRT.
 </p>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2025030700</text>
     </stackversion>
     <questionvariables>
-      <text></text>
+      <text/>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="html">
-      <text></text>
+      <text/>
     </questionnote>
     <questiondescription format="html">
       <text><![CDATA[This question is a example of how to use the delay feature within the "adapt" blocks.]]></text>
@@ -69,7 +68,8 @@ This text is hidden and is shown 10 seconds after you activate the PRT.
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>numerical</type>
@@ -77,16 +77,16 @@ This text is hidden and is shown 10 seconds after you activate the PRT.
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -94,19 +94,19 @@ This text is hidden and is shown 10 seconds after you activate the PRT.
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>integerp(ans1)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
@@ -115,7 +115,7 @@ This text is hidden and is shown 10 seconds after you activate the PRT.
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -138,5 +138,4 @@ This text is hidden and is shown 10 seconds after you activate the PRT.
       </expected>
     </qtest>
   </question>
-
 </quiz>

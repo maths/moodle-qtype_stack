@@ -1,30 +1,30 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="truefalse">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="truefalse">
     <name>
       <text>Is this separable</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;The differential equation \[ \frac{dy}{dx} = x+y\] is separable.&lt;/p&gt;</text>
+      <text><![CDATA[<p>The differential equation \[ \frac{dy}{dx} = x+y\] is separable.</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text />
+      <text/>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>1.0000000</penalty>
+    <defaultgrade>1</defaultgrade>
+    <penalty>1</penalty>
     <hidden>0</hidden>
+    <idnumber/>
     <answer fraction="0" format="moodle_auto_format">
       <text>true</text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
     <answer fraction="100" format="moodle_auto_format">
       <text>false</text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
   </question>
-
-
-  </quiz>
+</quiz>

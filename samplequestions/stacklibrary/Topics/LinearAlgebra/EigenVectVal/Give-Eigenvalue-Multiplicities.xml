@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 40643199  -->
   <question type="stack">
     <name>
       <text>Give Eigenvalue Multiplicities</text>
@@ -44,12 +43,12 @@
 </ol>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.5</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024111900</text>
     </stackversion>
@@ -87,13 +86,13 @@ sol_invert: invertiblep(AA);
 sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
       <text>\({@AA@} = {@PP@}{@JJ@}{@simplify(invert(PP))@}\)</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -115,7 +114,8 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>stu_alg1</name>
       <type>numerical</type>
@@ -123,16 +123,16 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_alg2</name>
@@ -141,16 +141,16 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_diag</name>
@@ -159,16 +159,16 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_geo1</name>
@@ -177,16 +177,16 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_geo2</name>
@@ -195,16 +195,16 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_invert</name>
@@ -213,16 +213,16 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt_1</name>
@@ -230,56 +230,56 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>stu_alg1</sans>
         <tans>sol_alg1</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt_1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt_1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>stu_geo1</sans>
         <tans>sol_geo1</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_1-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -289,56 +289,56 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>stu_alg2</sans>
         <tans>sol_alg2</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt_2-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt_2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>stu_geo2</sans>
         <tans>sol_geo2</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_2-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_2-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -348,31 +348,31 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>String</answertest>
         <sans>stu_diag</sans>
         <tans>first(mcq_correct(sol_diag))</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_diag-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_diag-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -382,31 +382,31 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>String</answertest>
         <sans>stu_invert</sans>
         <tans>first(mcq_correct(sol_invert))</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_invert-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_invert-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -475,7 +475,7 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_alg1</name>
         <value>3-sol_alg1</value>
@@ -503,28 +503,27 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
       <expected>
         <name>prt_1</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_1-2-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt_2</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_2-2-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt_diag</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_diag-1-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt_invert</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_invert-1-F</expectedanswernote>
       </expected>
     </qtest>
   </question>
-
 </quiz>

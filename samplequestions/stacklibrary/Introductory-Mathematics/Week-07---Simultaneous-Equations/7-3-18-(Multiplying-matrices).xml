@@ -42,8 +42,7 @@ jj: matrix([1,1,1]);
 mat1: rand([aa,bb,cc,dd,ee,ff,gg,hh,ii,jj]);
 mat2: rand([aa,bb,cc,dd,ee,ff,gg,hh,ii,jj]);
 
-ta1: mat1.mat2
-</text>
+ta1: mat1.mat2</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -74,6 +73,7 @@ ta1: mat1.mat2
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

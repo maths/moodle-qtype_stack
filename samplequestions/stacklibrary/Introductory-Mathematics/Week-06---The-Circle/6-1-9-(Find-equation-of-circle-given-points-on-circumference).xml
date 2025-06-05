@@ -71,6 +71,7 @@ ta1: (x - midx)^2 + (y-midy)^2 = rrsq;</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

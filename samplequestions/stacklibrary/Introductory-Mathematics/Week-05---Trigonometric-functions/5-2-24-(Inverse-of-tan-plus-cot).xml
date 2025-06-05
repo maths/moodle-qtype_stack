@@ -55,6 +55,7 @@ Express \(\dfrac{1}{\tan t + \cot t}\) as a function of \(\sin(2t)\):
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

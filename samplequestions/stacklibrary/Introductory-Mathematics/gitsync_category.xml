@@ -2,7 +2,7 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/Introductory-Mathematics</text>
+      <text>top/stacklibrary/Introductory-Mathematics</text>
     </category>
     <info format="html">
       <text>The default category for questions in Introductory Mathematics.</text>

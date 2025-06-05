@@ -23,7 +23,7 @@ We can use this with \(n={@n@}\), \(a={@t1@}\) and \(b={@t2@}\).&nbsp;</p><p>Thi
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2023010400</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
       <text>orderless(x,y);
@@ -31,8 +31,8 @@ We can use this with \(n={@n@}\), \(a={@t1@}\) and \(b={@t2@}\).&nbsp;</p><p>Thi
 t1: a;
 t2: -b*x;
 bin: t1+t2;
-nn: rand([4,5])
-pp:bin^nn
+nn: rand([4,5]);
+pp:bin^nn;
 ta: expand(pp);</text>
     </questionvariables>
     <specificfeedback format="html">
@@ -90,9 +90,7 @@ ta: expand(pp);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>/* Create a list of coefficients. */
-cf1:maplist(lambda([ex],coeff(expand(ans1-ta),x,ex)),makelist(j,j,0,n));
-nz1:sublist_indices(cf1,lambda([ex],not(is(ex=0))));</text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -122,9 +120,9 @@ nz1:sublist_indices(cf1,lambda([ex],not(is(ex=0))));</text>
       <node>
         <name>1</name>
         <description/>
-        <answertest>GTE</answertest>
-        <sans>length(nz1)</sans>
-        <tans>1</tans>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
@@ -133,7 +131,7 @@ nz1:sublist_indices(cf1,lambda([ex],not(is(ex=0))));</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text>Your answer is equivalent to the correct answer, but not in the correct form.</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
@@ -181,9 +179,9 @@ nz1:sublist_indices(cf1,lambda([ex],not(is(ex=0))));</text>
       </testinput>
       <expected>
         <name>prt1</name>
-        <expectedscore/>
-        <expectedpenalty/>
-        <expectedanswernote>NULL</expectedanswernote>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -197,7 +195,7 @@ nz1:sublist_indices(cf1,lambda([ex],not(is(ex=0))));</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-2-T</expectedanswernote>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
       </expected>
     </qtest>
   </question>

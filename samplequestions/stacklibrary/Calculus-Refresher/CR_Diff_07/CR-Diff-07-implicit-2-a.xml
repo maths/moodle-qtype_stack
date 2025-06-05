@@ -191,8 +191,8 @@ tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
       <expected>
         <name>Result</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.4000000</expectedpenalty>
-        <expectedanswernote>Result-1-T </expectedanswernote>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>

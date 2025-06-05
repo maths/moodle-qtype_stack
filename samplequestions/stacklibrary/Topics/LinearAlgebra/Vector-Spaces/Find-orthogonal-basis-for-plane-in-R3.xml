@@ -27,13 +27,10 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include_contrib("linearalgebra_contrib.mac");
-%_stack_preamble_end;
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("vectorspaces.mac");
 
 ordergreat(x,y,z);

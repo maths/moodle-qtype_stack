@@ -5,27 +5,18 @@
       <text>Compute QR factorisation of 3×2 matrix</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>
-  Find a \(QR\)-factorisation for the following matrix:
-  \[
-  	A = {@AA@}
-  \]
-</p>
+      <text><![CDATA[<p>Find a \(QR\)-factorisation for the following matrix: \[ A = {@AA@} \]</p>
 <ul>
-  <li>
-    <div>\(Q = \) [[input:stu_Q]] [[validation:stu_Q]]</div>
-  </li>
-  <li>
-    <div>\(R = \) [[input:stu_R]] [[validation:stu_R]]</div>
-  </li>
+<li>
+<div>\(Q = \) [[input:stu_Q]] [[validation:stu_Q]]</div>
+</li>
+<li>
+<div>\(R = \) [[input:stu_R]] [[validation:stu_R]]</div>
+</li>
 </ul>
-[[feedback:prt_QR]]
-<br>
-[[hint title="How might I check my answers?"]]
-<p>
-  Your \(Q\) should have orthonormal columns (check that \(Q^TQ = I\)), your \(R\) should be upper triangular, and \(QR\) should equal \(A\). 
-</p>
-[[/hint]]]]></text>
+<p>[[feedback:prt_QR]] <br>[[hint title="How might I check my answers?"]]</p>
+<p>Your \(Q\) should have orthonormal columns (check that \(Q^TQ = I\)), your \(R\) should be upper triangular, and \(QR\) should equal \(A\).</p>
+<p>[[/hint]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text/>
@@ -35,13 +26,10 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include_contrib("linearalgebra_contrib.mac");
-%_stack_preamble_end;
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("matrix.mac")
 stack_include_contrib("rand_matrix.mac");
 
@@ -72,13 +60,13 @@ sol_Q: addcol(q1,q2);]]></text>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -156,7 +144,7 @@ sol_Q: addcol(q1,q2);]]></text>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt_QR-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(R\) is not upper triangular.<br></p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(R\) is not upper triangular.</p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -198,7 +186,7 @@ sol_Q: addcol(q1,q2);]]></text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_QR-3-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(R\) multiply to \(A\). Good job!&nbsp;</p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(R\) multiply to \(A\). Good job! </p>]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
@@ -206,7 +194,7 @@ sol_Q: addcol(q1,q2);]]></text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_QR-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(R\) do not multiply to \(A\).&nbsp;</p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(R\) do not multiply to \(A\). </p>]]></text>
         </falsefeedback>
       </node>
     </prt>

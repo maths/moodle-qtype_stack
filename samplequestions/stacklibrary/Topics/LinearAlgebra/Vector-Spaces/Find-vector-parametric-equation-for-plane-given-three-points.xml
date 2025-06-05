@@ -20,13 +20,10 @@ Find a vector parametric equation for the plane that goes through the points \(\
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include_contrib("linearalgebra_contrib.mac");
-%_stack_preamble_end;
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("vectorgeometry.mac");
 
 p1: transpose(rand_selection([-4,-3,-2,-1,0,1,2,3,4],3));
@@ -39,12 +36,7 @@ ta: un_vec_convert(p1) + t*un_vec_convert(p2 - p1) + s*un_vec_convert(p3 - p1);]
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="html">
-      <text><![CDATA[<p>
-Find a vector parametric equation for the plane that goes through the points \(\mathcal{P}_1 = {@p1@}\), \(\mathcal{P}_2 = {@p2@}\) and \(\mathcal{P}_3 = {@p3@}\). You may use <code>c(1,2,3)</code> notation to enter vectors in this question.
-</p>
-<div>
-\(\underline{\mathbf{r}} = {@vector_parametric_display(vector_parametric_parts(ta))@} \)
-</div>]]></text>
+      <text>\(\mathcal{P}_1 = {@p1@}\), \(\mathcal{P}_2 = {@p2@}\) and \(\mathcal{P}_3 = {@p3@} \rightarrow {@ta@} \)</text>
     </questionnote>
     <questiondescription format="html">
       <text/>

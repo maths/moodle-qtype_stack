@@ -5,37 +5,29 @@
       <text>LU Decomposition</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>
-  Find an \(LU\) decomposition for the matrix
-  \[
-  	A = {@AA@}
-  \]
-  <strong>Do not</strong> use pivoting. 
-</p>
+      <text><![CDATA[<p>Find an \(LU\) decomposition for the matrix \[ A = {@AA@} \] <strong>Do not</strong> use pivoting.</p>
 <table>
-  <tbody>
-    <tr>
-      <td>\(L = \)</td>
-      <td>[[input:stu_L]]</td>
-      <td>[[validation:stu_L]] [[feedback:prt_L]]</td>
-    </tr>
-  </tbody>
-</table><br>
-<table>
-  <tbody>
-    <tr>
-      <td>\(U = \)</td>
-      <td>[[input:stu_U]]</td>
-      <td>[[validation:stu_U]] [[feedback:prt_U]]</td>
-    </tr>
-  </tbody>
+<tbody>
+<tr>
+<td>\(L = \)</td>
+<td>[[input:stu_L]]</td>
+<td>[[validation:stu_L]] [[feedback:prt_L]]</td>
+</tr>
+</tbody>
 </table>
-[[feedback:prt_LU]]<br>
-[[hint title="How might I check my answer?"]]
-<p>
-  Your \(L\) should be lower triangular with ones on the diagonal and \(U\) should be upper triangular. To check that they are correct, multiply \(LU\) and check that you get \(A\).
-</p>
-[[/hint]]]]></text>
+<p></p>
+<table>
+<tbody>
+<tr>
+<td>\(U = \)</td>
+<td>[[input:stu_U]]</td>
+<td>[[validation:stu_U]] [[feedback:prt_U]]</td>
+</tr>
+</tbody>
+</table>
+<p>[[feedback:prt_LU]]<br>[[hint title="How might I check my answer?"]]</p>
+<p>Your \(L\) should be lower triangular with ones on the diagonal and \(U\) should be upper triangular. To check that they are correct, multiply \(LU\) and check that you get \(A\).</p>
+<p>[[/hint]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text/>
@@ -45,12 +37,10 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* If you are not using STACK 4.9.0 or later, this inclusion is required: */
-stack_include_contrib("linearalgebra_contrib.mac");
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("matrix.mac");
 stack_include_contrib("rand_matrix.mac");
 
@@ -73,13 +63,13 @@ AA: sol_L . sol_U;]]></text>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -216,7 +206,7 @@ AA: sol_L . sol_U;]]></text>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt_LU-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(L\) does not have only ones on the diagonal.<br></p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(L\) does not have only ones on the diagonal.</p>]]></text>
         </falsefeedback>
       </node>
       <node>

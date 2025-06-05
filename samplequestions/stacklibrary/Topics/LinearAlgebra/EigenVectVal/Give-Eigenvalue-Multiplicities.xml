@@ -5,41 +5,25 @@
       <text>Give Eigenvalue Multiplicities</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>
-  The matrix 
-  \[
-  	A = {@AA@}
-  \]
-  has 2 eigenvalues, \(\lambda_1 = {@L1@}\) and \(\lambda_2 = {@L2@}\), and characteristic polynomial \(p(\lambda) = {@factor(charpoly(AA,lambda))@}\).
-</p>
+      <text><![CDATA[<p>The matrix \[ A = {@AA@} \] has 2 eigenvalues, \(\lambda_1 = {@L1@}\) and \(\lambda_2 = {@L2@}\), and characteristic polynomial \(p(\lambda) = {@factor(charpoly(AA,lambda))@}\).</p>
 <ol type="a">
-  <li>
-    <p>
-      Find the algebraic and geometric multiplicity of each eigenvalue.
-    </p>
-    <ul>
-      <li>
-        <p>
-          \(\lambda_1 = {@L1@}\) has algebraic multiplicity [[input:stu_alg1]] and geometric multiplicity [[input:stu_geo1]]. [[validation:stu_alg1]] [[validation:stu_geo1]] [[feedback:prt_1]]
-        </p>
-      </li>
-      <li>
-        <p>
-          \(\lambda_2 = {@L2@}\) has algebraic multiplicity [[input:stu_alg2]] and geometric multiplicity [[input:stu_geo2]]. [[validation:stu_alg2]] [[validation:stu_geo2]] [[feedback:prt_2]]
-        </p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>
-      Is \(A\) diagonalisable? [[input:stu_diag]] [[validation:stu_diag]] [[feedback:prt_diag]]
-    </p>
-  </li>
-  <li>
-    <p>
-      Is \(A\) invertible? [[input:stu_invert]] [[validation:stu_invert]] [[feedback:prt_invert]]
-    </p>
-  </li>
+<li>
+<p>Find the algebraic and geometric multiplicity of each eigenvalue.</p>
+<ul>
+<li>
+<p>\(\lambda_1 = {@L1@}\) has algebraic multiplicity [[input:stu_alg1]] and geometric multiplicity [[input:stu_geo1]]. [[validation:stu_alg1]] [[validation:stu_geo1]] [[feedback:prt_1]]</p>
+</li>
+<li>
+<p>\(\lambda_2 = {@L2@}\) has algebraic multiplicity [[input:stu_alg2]] and geometric multiplicity [[input:stu_geo2]]. [[validation:stu_alg2]] [[validation:stu_geo2]] [[feedback:prt_2]]</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Is \(A\) diagonalisable? [[input:stu_diag]] [[validation:stu_diag]] [[feedback:prt_diag]]</p>
+</li>
+<li>
+<p>Is \(A\) invertible? [[input:stu_invert]] [[validation:stu_invert]] [[feedback:prt_invert]]</p>
+</li>
 </ol>]]></text>
     </questiontext>
     <generalfeedback format="html">
@@ -50,13 +34,10 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include_contrib("linearalgebra_contrib.mac");
-%_stack_preamble_end;
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("eigenlib.mac");
 stack_include_contrib("matrix.mac");
 
@@ -98,13 +79,13 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>

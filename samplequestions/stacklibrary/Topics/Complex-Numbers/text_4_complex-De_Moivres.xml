@@ -159,6 +159,12 @@ p : ev(mod(b*n,2),simp);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>892650831</deployedseed>
+    <deployedseed>1416287895</deployedseed>
+    <deployedseed>1078851977</deployedseed>
+    <deployedseed>2085669899</deployedseed>
+    <deployedseed>1171456721</deployedseed>
+    <deployedseed>133533374</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description/>

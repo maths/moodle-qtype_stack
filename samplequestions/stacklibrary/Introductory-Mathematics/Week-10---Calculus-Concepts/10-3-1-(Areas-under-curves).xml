@@ -22,7 +22,7 @@ var rightEndpoint = function(){return 6;};
 var f = function(x){ return x*x; };
 var plot = brd.create('functiongraph',[f,-3, 6.5],{strokeColor:'#003399',strokeWidth:3});
 var i1 = brd.create('integral', [[0,6], plot], {fillColor:'#003399',fillOpacity:0.15});
-i1.curveLeft.setAttribute({visible:false}); /* hide the gliders */
+i1.curveLeft.setAttribute({visible:false}); 
 i1.curveRight.setAttribute({visible:false});
 i1.label.setAttribute({visible:false});
 var xaxis = brd.create('axis', [[0,0],[1,0]]);
@@ -102,7 +102,7 @@ JXG.addEvent(showRight.rendNodeCheckbox, 'change', function() {
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2022071300</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
       <text/>

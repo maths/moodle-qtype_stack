@@ -9,7 +9,7 @@
 <p>{@thm@}</p>
 
 [[parsons input="ans1"]]
-{# stackjson_stringify(proof_steps) #}
+{# parsons_encode(proof_steps) #}
 [[/parsons ]]
 <p style="display:none">[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
@@ -31,7 +31,7 @@ we now use <em>associativity</em> (not commutativity) to get
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024112000</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_include_contrib("prooflib.mac");
@@ -99,8 +99,8 @@ tas:setify(map(proof_flatten, tal));]]></text>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
-      <type>string</type>
-      <tans>proof_parsons_key_json(ta1, proof_steps)</tans>
+      <type>parsons</type>
+      <tans>[ta1, proof_steps]</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -121,7 +121,7 @@ tas:setify(map(proof_flatten, tal));]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text><![CDATA[sa:proof_parsons_interpret(ans1);
+        <text><![CDATA[sa:parsons_decode(ans1);
 [pd, saa]:proof_assessment(sa, tal);
 
 /* Remove "w4" = "Using commutativity of matrix multiplication...", if used. */
@@ -224,7 +224,7 @@ we now use <em>associativity</em> (not commutativity) to get
       <description>Test case assuming the teacher's input gets full marks.</description>
       <testinput>
         <name>ans1</name>
-        <value>proof_parsons_key_json(ta1, proof_steps)</value>
+        <value>parsons_answer(ta1, proof_steps)</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -238,7 +238,7 @@ we now use <em>associativity</em> (not commutativity) to get
       <description>Condone missing justification</description>
       <testinput>
         <name>ans1</name>
-        <value>proof_parsons_key_json(ta2, proof_steps)</value>
+        <value>parsons_answer(ta2, proof_steps)</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -252,7 +252,7 @@ we now use <em>associativity</em> (not commutativity) to get
       <description><![CDATA[Student uses key "w4"]]></description>
       <testinput>
         <name>ans1</name>
-        <value><![CDATA[proof_parsons_key_json(proof("hyp","ca1","ca2","w4","ca3","ca4","ca5","ca6","conc"), proof_steps)]]></value>
+        <value><![CDATA[parsons_answer(proof("hyp","ca1","ca2","w4","ca3","ca4","ca5","ca6","conc"), proof_steps)]]></value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -266,7 +266,7 @@ we now use <em>associativity</em> (not commutativity) to get
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>proof_parsons_key_json(ta3, proof_steps)</value>
+        <value>parsons_answer(ta3, proof_steps)</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -280,7 +280,7 @@ we now use <em>associativity</em> (not commutativity) to get
       <description>Student misses out the first step.</description>
       <testinput>
         <name>ans1</name>
-        <value><![CDATA[proof_parsons_key_json(proof("ca1","ca2","ca3","ca4","ca5","ca6","conc"), proof_steps)]]></value>
+        <value><![CDATA[parsons_answer(proof("ca1","ca2","ca3","ca4","ca5","ca6","conc"), proof_steps)]]></value>
       </testinput>
       <expected>
         <name>prt1</name>

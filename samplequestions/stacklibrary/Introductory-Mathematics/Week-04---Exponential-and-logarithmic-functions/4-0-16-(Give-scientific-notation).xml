@@ -1,50 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
+<!-- question: 9318  -->
   <question type="stack">
     <name>
       <text>4.0.16 (Give scientific notation)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[THIS QUESTION IS CURRENTLY NOT WORKING PLEASE DO NOT ANSWER. 
-</br>
-
-
-
-
-
-<p>Express each of the following numbers in scientific notation. Please give your answer in the form \(a\times 10^m\), and not in the form \(aEm\).</p>
-
+      <text><![CDATA[<p>Express each of the following numbers in scientific notation. Please give your answer in the form \(a\times 10^m\), and not in the form \(aEm\).</p>
 <ol type = "a">
 <li>\({@a1@}=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</li>
-
 <li>\({@a2@}=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</li>
-
 <li>\({@a3@}=\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</li>
-
 <li>\({@a4@}=\) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</li>
-
 <li>\({@a5@}=\) [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</li>
-
 <li>\({@a6@}=\) [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]</li>
-
 <li>\({@a7@}=\) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]]</li>
-
 </ol>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text/>
+      <text></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber/>
+    <idnumber></idnumber>
     <stackversion>
-      <text>2023060500</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text>/**sorry this question is primitive, when I tried to write this question with randomisation and automation I couldn't find a way to accept, say, 4.5*10^1 but reject .45*10^1**/
-
-a1: 45;
+      <text>a1: 45;
 ta1: 4.5*10^1;
 
 a2: 457;
@@ -66,13 +50,13 @@ a7: 0.09856;
 ta7: 9.856*10^(-2);</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text/>
+      <text></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
       <text>\({@ta1@},{@ta2@},{@ta3@},{@ta4@},{@ta5@},{@ta6@},{@ta7@}\)</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text/>
+      <text></text>
     </questiondescription>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -94,132 +78,133 @@ ta7: 9.856*10^(-2);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed/>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta1</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>a*10^m</syntaxhint>
       <syntaxattribute>1</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <input>
       <name>ans2</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta2</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>a*10^m</syntaxhint>
       <syntaxattribute>1</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <input>
       <name>ans3</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta3</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>a*10^m</syntaxhint>
       <syntaxattribute>1</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <input>
       <name>ans4</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta4</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>a*10^m</syntaxhint>
       <syntaxattribute>1</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <input>
       <name>ans5</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta5</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>a*10^m</syntaxhint>
       <syntaxattribute>1</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <input>
       <name>ans6</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta6</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>a*10^m</syntaxhint>
       <syntaxattribute>1</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <input>
       <name>ans7</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta7</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>a*10^m</syntaxhint>
       <syntaxattribute>1</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <prt>
       <name>prt1</name>
@@ -227,44 +212,44 @@ ta7: 9.856*10^(-2);</text>
       <autosimplify>0</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>String</answertest>
+        <description></description>
+        <answertest>EqualComAss</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
         <testoptions>0</testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
@@ -272,11 +257,11 @@ ta7: 9.856*10^(-2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -286,44 +271,44 @@ ta7: 9.856*10^(-2);</text>
       <autosimplify>0</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>String</answertest>
+        <description></description>
+        <answertest>EqualComAss</answertest>
         <sans>ans2</sans>
         <tans>ta2</tans>
         <testoptions>0</testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans2</sans>
         <tans>ta2</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-2-T</trueanswernote>
         <truefeedback format="html">
@@ -331,11 +316,11 @@ ta7: 9.856*10^(-2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -345,44 +330,44 @@ ta7: 9.856*10^(-2);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>String</answertest>
+        <description></description>
+        <answertest>EqualComAss</answertest>
         <sans>ans3</sans>
         <tans>ta3</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans3</sans>
         <tans>ta3</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-2-T</trueanswernote>
         <truefeedback format="html">
@@ -390,11 +375,11 @@ ta7: 9.856*10^(-2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -404,44 +389,44 @@ ta7: 9.856*10^(-2);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>String</answertest>
+        <description></description>
+        <answertest>EqualComAss</answertest>
         <sans>ans4</sans>
         <tans>ta4</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt4-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt4-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans4</sans>
         <tans>ta4</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt4-2-T</trueanswernote>
         <truefeedback format="html">
@@ -449,11 +434,11 @@ ta7: 9.856*10^(-2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -463,44 +448,44 @@ ta7: 9.856*10^(-2);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>String</answertest>
+        <description></description>
+        <answertest>EqualComAss</answertest>
         <sans>ans5</sans>
         <tans>ta5</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt5-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt5-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans5</sans>
         <tans>ta5</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt5-2-T</trueanswernote>
         <truefeedback format="html">
@@ -508,11 +493,11 @@ ta7: 9.856*10^(-2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -522,44 +507,44 @@ ta7: 9.856*10^(-2);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>String</answertest>
+        <description></description>
+        <answertest>EqualComAss</answertest>
         <sans>ans6</sans>
         <tans>ta6</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt6-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt6-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans6</sans>
         <tans>ta6</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt6-2-T</trueanswernote>
         <truefeedback format="html">
@@ -567,11 +552,11 @@ ta7: 9.856*10^(-2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt6-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -581,44 +566,44 @@ ta7: 9.856*10^(-2);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>String</answertest>
+        <description></description>
+        <answertest>EqualComAss</answertest>
         <sans>ans7</sans>
         <tans>ta7</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt7-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt7-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans7</sans>
         <tans>ta7</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty/>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt7-2-T</trueanswernote>
         <truefeedback format="html">
@@ -626,17 +611,17 @@ ta7: 9.856*10^(-2);</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty/>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt7-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
     <qtest>
       <testcase>1</testcase>
-      <description/>
+      <description></description>
       <testinput>
         <name>ans1</name>
         <value>ta1</value>
@@ -710,7 +695,7 @@ ta7: 9.856*10^(-2);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description/>
+      <description></description>
       <testinput>
         <name>ans1</name>
         <value>a1</value>
@@ -784,7 +769,7 @@ ta7: 9.856*10^(-2);</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description/>
+      <description></description>
       <testinput>
         <name>ans1</name>
         <value>0</value>
@@ -857,4 +842,5 @@ ta7: 9.856*10^(-2);</text>
       </expected>
     </qtest>
   </question>
+
 </quiz>

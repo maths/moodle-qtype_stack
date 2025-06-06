@@ -42,6 +42,12 @@ decimalplaces(%pi,5);
 3.14159$ 
 decimalplaces(%pi,4); 
 3.1416$ 
+decimalplaces(%pi,0); 
+3$ 
+decimalplaces(1,3); 
+1$ 
+decimalplaces(1.0,3); 
+1$ 
 
 significantfigures(11292,2); 
 11000$ 

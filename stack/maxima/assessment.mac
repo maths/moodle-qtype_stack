@@ -780,8 +780,9 @@ decimalplacesfun(ex, n, dispdps) := block([ex2],
 )$
 
 decimalplaces(ex, n):= block(
-    if n=0 then return(round(ex)), 
+    if n=0 then return(ev(round(ex),simp)),
     if integerp(ex) then return(ex),
+    if equal(ex,ev(round(ex),simp)) then return(ev(round(ex),simp)),
     decimalplacesfun(ex, n, false)
 )$
 

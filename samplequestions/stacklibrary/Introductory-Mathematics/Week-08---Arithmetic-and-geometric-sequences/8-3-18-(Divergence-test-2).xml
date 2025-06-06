@@ -34,16 +34,13 @@ bb1: 1+rand(10);
 bb2: 1+rand(10);
 
 tac1:[[A, false, "A. true"],  [B, false, "B. false"], [C, true, "C. we cannot tell"]];
-taa1:C;
-
-
-]]></text>
+taa1:C;]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text> \(a_n = \frac{{@aa1@}n^2 + {@aa2@}n}{{@bb1@}n^2-{@bb2@}}\)</text>
+      <text>\(a_n = \frac{{@aa1@}n^2 + {@aa2@}n}{{@bb1@}n^2-{@bb2@}}\)</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>
@@ -68,6 +65,7 @@ taa1:C;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

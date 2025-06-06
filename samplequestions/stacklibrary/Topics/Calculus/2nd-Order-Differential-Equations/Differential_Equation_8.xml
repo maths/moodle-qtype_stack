@@ -5,37 +5,54 @@
       <text>Differential_Equation_8</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Solve \[{@n1@} \frac{d^2y}{dx^2} + {@cc@} y = 0,\ y(0) = {@n4@},\ y^\prime(0) = {@n6@}\] <br /> where \({}^\prime\) denotes differentiation with respect to \(x\). <br /> y(x) = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p>Solve \[{@n1@} \frac{d^2y}{dx^2} + {@cc@} y = 0,\ y(0) = {@n4@},\ y^\prime(0) = {@n6@}\] <br> where \({}^\prime\) denotes differentiation with respect to \(x\). <br> y(x) = [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>To solve the differential equation \[{@n1@} \frac{d^2y}{dx^2} + {@cc@} y = 0\] Let \(y = e^{mx}\) and hence \(\frac{dy}{dx}=me^{mx}\) and \(\frac{d^2y}{dx^2} = m^2e^{mx}\) <br />Substituting for \(y\) gives \[{@n1@}m^2e^{mx} + {@cc@}e^{mx} = 0\] and dividing throughout by \(e^{mx}\) and {@n1@} gives \[m^2 + {@cc/n1@} = 0\] which can be solved to give {@m@} <br />For roots of \(m\) in the form \(a±bi\), the solution to the differential equation is of the form \[y = {@e^(ax)@}(Acos(bx)+Bsin(bx))\] and therefore \[y= Acos({@bvar*x@})+Bsin({@bvar*x@})\] Given \(\ y(0) = {@n4@}\) \[ A = {@n4@}\] and \(\ y^\prime(0) = {@n6@}\) \[B = {@n6/bvar@}\] Therefore \[y = {@correctanswer@}\]</p>]]></text>
+      <text><![CDATA[<p>To solve the differential equation 
+\[{@n1@} \frac{d^2y}{dx^2} + {@cc@} y = 0\] 
+Let \(y = e^{mx}\) and hence \(\frac{dy}{dx}=me^{mx}\) and \(\frac{d^2y}{dx^2} = m^2e^{mx}\).
+Substituting for \(y\) gives 
+\[{@n1@}m^2e^{mx} + {@cc@}e^{mx} = 0\] 
+and dividing throughout by \(e^{mx}\) and {@n1@} gives 
+\[m^2 + {@cc/n1@} = 0\] 
+which can be solved to give {@m@}.</p> 
+<p>
+For roots of \(m\) in the form \(a±bi\), the solution to the differential equation is of the form 
+\[y = {@e^(ax)@}(Acos(bx)+Bsin(bx))\] 
+and therefore 
+\[y= Acos({@bvar*x@})+Bsin({@bvar*x@})\] 
+Given \(\ y(0) = {@n4@}\) \[ A = {@n4@}\] and \(\ y^\prime(0) = {@n6@}\) 
+\[B = {@n6/bvar@}\] 
+Therefore 
+\[y = {@correctanswer@}\]
+</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0</penalty>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
       <text>n1:rand(8)+2;
- n2:rand(4)+1;
- n2:2*n2-1;
- n4:rand(3)+1;
- n6:rand(3)+1;
- cc:n1*(n2^2);
- msol:solve(n1*m^2 + cc = 0,m);
- m1:rhs(msol[1]);
- m2:rhs(msol[2]);
- avar:realpart(m1);
- bvar:abs(imagpart(m1));
- correctanswer:n4*cos(bvar*x)+(n6/bvar)*sin(bvar*x);
- ode:n1 * 'diff(y,x,2) + cc* y;
- wronganswer1:a*sin(n2*x) + b*cos(n2*x);
- wronganswer2:n4*cos(n2*x);
- wronganswer3:sin(n2*x)*n6/n2;
- wronganswer4:(n4/2 - i*n6/(2*n2))*exp(bvar*x*i)+(n4/2 + i*n6/(2*n2))*exp(-bvar*x*i);
- wronganswer5:(n4/2 + i*n6/(2*n2))*exp(bvar*x*i)+(n4 + i*n6/(2*n2))*exp(-bvar*x*i);</text>
+n2:rand(4)+1;
+n2:2*n2-1;
+n4:rand(3)+1;
+n6:rand(3)+1;
+cc:n1*(n2^2);
+msol:solve(n1*m^2 + cc = 0,m);
+m1:rhs(msol[1]);
+m2:rhs(msol[2]);
+avar:realpart(m1);
+bvar:abs(imagpart(m1));
+correctanswer:n4*cos(bvar*x)+(n6/bvar)*sin(bvar*x);
+ode:n1 * 'diff(y,x,2) + cc* y;
+wronganswer1:a*sin(n2*x) + b*cos(n2*x);
+wronganswer2:n4*cos(n2*x);
+wronganswer3:sin(n2*x)*n6/n2;
+wronganswer4:(n4/2 - %i*n6/(2*n2))*exp(bvar*x*%i)+(n4/2 + %i*n6/(2*n2))*exp(-bvar*x*%i);
+wronganswer5:(n4/2 + %i*n6/(2*n2))*exp(bvar*x*%i)+(n4 + %i*n6/(2*n2))*exp(-bvar*x*%i);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -66,6 +83,7 @@
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -92,11 +110,15 @@
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>sa1:ev(subst(y=ans1,ode),simp);
- sa2:ev(sa1,nouns);
- sa3:fullratsimp(expand(sa2));
- sa4:ev(ans1,x=0);
- sa5:block([ds],ds:diff(ans1,x),ev(ds,x=0));
- sa6:block(listconstvars:true,listofvars(ans1));</text>
+sa2:ev(sa1,nouns);
+/* Does ans1 satisfy the ODE? */
+sa3:fullratsimp(expand(sa2));
+/* Does ans1 satisfy y(0)=n4? */
+sa4:fullratsimp(expand(ev(ans1,x=0,simp)));
+/* Does ans1 satisfy y'(0)=n5? */
+sa5:fullratsimp(expand(block([ds],ds:diff(ans1,x),ev(ds,x=0,simp))));
+sa6:setify(block(listconstvars:true,listofvars(ans1)));
+sa7:elementp(%i,sa6);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -107,132 +129,109 @@
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>Result-0-T </trueanswernote>
+        <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
           <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>1</falsenextnode>
-        <falseanswernote>Result-0-F </falseanswernote>
+        <falseanswernote>Result-1-F </falseanswernote>
         <falsefeedback format="html">
           <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
+        <description>Does ans1 satisfy the ODE?</description>
         <answertest>AlgEquiv</answertest>
         <sans>sa3</sans>
         <tans>0</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.3400000</truescore>
+        <truescore>0.34</truescore>
         <truepenalty/>
         <truenextnode>2</truenextnode>
-        <trueanswernote>Result-1-T </trueanswernote>
+        <trueanswernote>Result-2-T </trueanswernote>
         <truefeedback format="html">
           <text><![CDATA[<p>Your solution satisfies the ODE.</p>]]></text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>2</falsenextnode>
-        <falseanswernote>Result-1-F </falseanswernote>
+        <falseanswernote>Result-2-F </falseanswernote>
         <falsefeedback format="html">
           <text><![CDATA[<p>Your solution does not satisfy the ODE.</p>]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
-        <description/>
+        <description>Does ans1 satisfy y(0)=n4?</description>
         <answertest>AlgEquiv</answertest>
         <sans>sa4</sans>
         <tans>n4</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.3300000</truescore>
+        <truescore>0.33</truescore>
         <truepenalty/>
         <truenextnode>3</truenextnode>
-        <trueanswernote>Result-2-T </trueanswernote>
+        <trueanswernote>Result-3-T </trueanswernote>
         <truefeedback format="html">
           <text><![CDATA[<p>Your solution satisfies the initial condition \(y(0) = {@n4@}\).</p>]]></text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>3</falsenextnode>
-        <falseanswernote>Result-2-F </falseanswernote>
+        <falseanswernote>Result-3-F </falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Your solution does not satisfy the initial condition \(y(0) = {@n4@}\).</p>]]></text>
+          <text><![CDATA[<p>Your solution does not satisfy the initial condition \(y(0) = {@n4@}\).<br />
+When we substitute \(x=0\) into {@ans1@} we get \({@sa4@}\neq {@n4@}\).</p>]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>3</name>
-        <description/>
+        <description>Does ans1 satisfy y'(0)=n5?</description>
         <answertest>AlgEquiv</answertest>
         <sans>sa5</sans>
         <tans>n6</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.3300000</truescore>
+        <truescore>0.33</truescore>
         <truepenalty/>
         <truenextnode>4</truenextnode>
-        <trueanswernote>Result-3-T </trueanswernote>
+        <trueanswernote>Result-4-T </trueanswernote>
         <truefeedback format="html">
           <text><![CDATA[<p>Your solution satisfies the initial condition \(y^{\prime}(0) = {@n6@}\).</p>]]></text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>4</falsenextnode>
-        <falseanswernote>Result-3-F </falseanswernote>
+        <falseanswernote>Result-4-F </falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Your solution does not satisfy the initial condition \(y^{\prime}(0) = {@n6@}\).</p>]]></text>
+          <text><![CDATA[<p>Your solution does not satisfy the initial condition \(y^{\prime}(0) = {@n6@}\).<br />
+When we substitute \(x=0\) into {@ev(diff(ans1,x),simp)@} we get \({@sa5@}\neq {@n6@}\).</p>]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>4</name>
-        <description/>
-        <answertest>AlgEquiv</answertest>
+        <description>Check for %i in the studen't answer.</description>
+        <answertest>EqualComAss</answertest>
         <sans>ans1</sans>
         <tans>wronganswer4</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
-        <truepenalty/>
-        <truenextnode>-1</truenextnode>
-        <trueanswernote>Result-4-T </trueanswernote>
-        <truefeedback format="html">
-          <text><![CDATA[<p>Please simplify your answer, which should reduce to a real expression.</p>]]></text>
-        </truefeedback>
-        <falsescoremode>+</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty/>
-        <falsenextnode>5</falsenextnode>
-        <falseanswernote>Result-4-F </falseanswernote>
-        <falsefeedback format="html">
-          <text/>
-        </falsefeedback>
-      </node>
-      <node>
-        <name>5</name>
-        <description/>
-        <answertest>AlgEquiv</answertest>
-        <sans>member(%i,sa6)</sans>
-        <tans>true</tans>
-        <testoptions/>
-        <quiet>0</quiet>
-        <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0.8</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-5-T </trueanswernote>
@@ -240,10 +239,35 @@
           <text><![CDATA[<p>Please simplify your answer, which should reduce to a real expression.</p>]]></text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>Result-5-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description>Check for a particular wrong (complex) answer.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa7</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-6-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Please simplify your answer, which should reduce to a real expression.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
-        <falseanswernote>Result-5-F </falseanswernote>
+        <falseanswernote>Result-6-F </falseanswernote>
         <falsefeedback format="html">
           <text/>
         </falsefeedback>
@@ -270,7 +294,7 @@
         <name>Result</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-0-T</expectedanswernote>
+        <expectedanswernote>Result-1-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -284,7 +308,7 @@
         <name>Result</name>
         <expectedscore>0.3300000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-5-F</expectedanswernote>
+        <expectedanswernote>Result-6-F</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -298,7 +322,7 @@
         <name>Result</name>
         <expectedscore>0.3400000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-5-F</expectedanswernote>
+        <expectedanswernote>Result-6-F</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -312,7 +336,7 @@
         <name>Result</name>
         <expectedscore>0.6700000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-5-F</expectedanswernote>
+        <expectedanswernote>Result-6-F</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -326,7 +350,7 @@
         <name>Result</name>
         <expectedscore>0.6700000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-5-F</expectedanswernote>
+        <expectedanswernote>Result-6-F</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -338,9 +362,9 @@
       </testinput>
       <expected>
         <name>Result</name>
-        <expectedscore>0.0000000</expectedscore>
+        <expectedscore>0.8000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-4-T</expectedanswernote>
+        <expectedanswernote>Result-5-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -352,9 +376,9 @@
       </testinput>
       <expected>
         <name>Result</name>
-        <expectedscore>0.0000000</expectedscore>
+        <expectedscore>0.3400000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-5-T</expectedanswernote>
+        <expectedanswernote>Result-6-T</expectedanswernote>
       </expected>
     </qtest>
   </question>

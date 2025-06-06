@@ -75,6 +75,7 @@ ta3:[A=A1,B=B1,C=C1];]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -353,7 +354,7 @@ whatthatgives:ev(ans1,theirsols);</text>
       </expected>
     </qtest>
     <qtest>
-      <testcase>4</testcase>
+      <testcase>3</testcase>
       <description/>
       <testinput>
         <name>ans1</name>
@@ -387,7 +388,7 @@ whatthatgives:ev(ans1,theirsols);</text>
       </expected>
     </qtest>
     <qtest>
-      <testcase>5</testcase>
+      <testcase>4</testcase>
       <description/>
       <testinput>
         <name>ans1</name>

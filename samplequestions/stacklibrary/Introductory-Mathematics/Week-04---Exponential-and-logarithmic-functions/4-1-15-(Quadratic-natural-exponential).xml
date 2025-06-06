@@ -38,8 +38,7 @@ fact2: e^x+cc;
 
 quad1: expand(fact1*fact2);
 quad2: fact1*fact2;
-ta1: bb;
-</text>
+ta1: bb;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -70,6 +69,7 @@ ta1: bb;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

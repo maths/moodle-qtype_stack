@@ -5,30 +5,15 @@
       <text>4.0.16 (Give scientific notation)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[THIS QUESTION IS CURRENTLY NOT WORKING PLEASE DO NOT ANSWER. 
-</br>
-
-
-
-
-
-<p>Express each of the following numbers in scientific notation. Please give your answer in the form \(a\times 10^m\), and not in the form \(aEm\).</p>
-
+      <text><![CDATA[<p>Express each of the following numbers in scientific notation. Please give your answer in the form \(a\times 10^m\), and not in the form \(aEm\).</p>
 <ol type = "a">
 <li>\({@a1@}=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</li>
-
 <li>\({@a2@}=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</li>
-
 <li>\({@a3@}=\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</li>
-
 <li>\({@a4@}=\) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</li>
-
 <li>\({@a5@}=\) [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</li>
-
 <li>\({@a6@}=\) [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]</li>
-
 <li>\({@a7@}=\) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]]</li>
-
 </ol>]]></text>
     </questiontext>
     <generalfeedback format="html">
@@ -39,12 +24,10 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2023060500</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text>/**sorry this question is primitive, when I tried to write this question with randomisation and automation I couldn't find a way to accept, say, 4.5*10^1 but reject .45*10^1**/
-
-a1: 45;
+      <text>a1: 45;
 ta1: 4.5*10^1;
 
 a2: 457;
@@ -94,10 +77,11 @@ ta7: 9.856*10^(-2);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta1</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -115,7 +99,7 @@ ta7: 9.856*10^(-2);</text>
     </input>
     <input>
       <name>ans2</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta2</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -133,7 +117,7 @@ ta7: 9.856*10^(-2);</text>
     </input>
     <input>
       <name>ans3</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta3</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -151,7 +135,7 @@ ta7: 9.856*10^(-2);</text>
     </input>
     <input>
       <name>ans4</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta4</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -169,7 +153,7 @@ ta7: 9.856*10^(-2);</text>
     </input>
     <input>
       <name>ans5</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta5</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -187,7 +171,7 @@ ta7: 9.856*10^(-2);</text>
     </input>
     <input>
       <name>ans6</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta6</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -205,7 +189,7 @@ ta7: 9.856*10^(-2);</text>
     </input>
     <input>
       <name>ans7</name>
-      <type>string</type>
+      <type>numerical</type>
       <tans>ta7</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
@@ -232,7 +216,7 @@ ta7: 9.856*10^(-2);</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>String</answertest>
+        <answertest>EqualComAss</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
         <testoptions>0</testoptions>
@@ -291,7 +275,7 @@ ta7: 9.856*10^(-2);</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>String</answertest>
+        <answertest>EqualComAss</answertest>
         <sans>ans2</sans>
         <tans>ta2</tans>
         <testoptions>0</testoptions>
@@ -350,7 +334,7 @@ ta7: 9.856*10^(-2);</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>String</answertest>
+        <answertest>EqualComAss</answertest>
         <sans>ans3</sans>
         <tans>ta3</tans>
         <testoptions/>
@@ -409,7 +393,7 @@ ta7: 9.856*10^(-2);</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>String</answertest>
+        <answertest>EqualComAss</answertest>
         <sans>ans4</sans>
         <tans>ta4</tans>
         <testoptions/>
@@ -468,7 +452,7 @@ ta7: 9.856*10^(-2);</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>String</answertest>
+        <answertest>EqualComAss</answertest>
         <sans>ans5</sans>
         <tans>ta5</tans>
         <testoptions/>
@@ -527,7 +511,7 @@ ta7: 9.856*10^(-2);</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>String</answertest>
+        <answertest>EqualComAss</answertest>
         <sans>ans6</sans>
         <tans>ta6</tans>
         <testoptions/>
@@ -586,7 +570,7 @@ ta7: 9.856*10^(-2);</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>String</answertest>
+        <answertest>EqualComAss</answertest>
         <sans>ans7</sans>
         <tans>ta7</tans>
         <testoptions/>

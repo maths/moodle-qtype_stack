@@ -1334,7 +1334,7 @@ logical_normal(ex):=block(
     ex:subst("and", "nounand", ex),
     ex:subst("or", "nounor", ex),
     ex:subst("not", "nounnot", ex),
-    ex:if not ev(numberp(ex), simp) then logic_simplify(ex) else ex,    
+    ex:if not(ev(numberp(ex), simp) or is(ex=false)) then logic_simplify(ex) else ex,
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
     /* %not is not an infix operator... */

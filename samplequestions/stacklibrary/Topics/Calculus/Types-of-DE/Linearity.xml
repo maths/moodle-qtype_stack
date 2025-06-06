@@ -1,29 +1,30 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="truefalse">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="truefalse">
     <name>
       <text>Linearity</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;If \(y_1(x)\) and \(y_2(x)\) are both solutions of&lt;br /&gt;\[ \frac{\mathrm{d}y}{\mathrm{d}x}=g(y,x)\]&lt;br /&gt;then for any numbers \(c_1\) and \(c_2\) the function \(x\mapsto c_1y_1(x)+c_2y_2(x)\) is also a solution of the differential equation.&lt;/p&gt;</text>
+      <text><![CDATA[<p>If \(y_1(x)\) and \(y_2(x)\) are both solutions of<br />\[ \frac{\mathrm{d}y}{\mathrm{d}x}=g(y,x)\]<br />then for any numbers \(c_1\) and \(c_2\) the function \(x\mapsto c_1y_1(x)+c_2y_2(x)\) is also a solution of the differential equation.</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text />
+      <text/>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>1.0000000</penalty>
+    <defaultgrade>1</defaultgrade>
+    <penalty>1</penalty>
     <hidden>0</hidden>
+    <idnumber/>
     <answer fraction="0" format="moodle_auto_format">
       <text>true</text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
     <answer fraction="100" format="moodle_auto_format">
       <text>false</text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
   </question>
-
 </quiz>

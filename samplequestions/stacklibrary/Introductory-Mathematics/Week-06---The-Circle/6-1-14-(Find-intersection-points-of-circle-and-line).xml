@@ -56,8 +56,7 @@ p2: (xx2,yy2);
 ta11: sqrt(2);
 ta12: 3*sqrt(2);
 ta21: -sqrt(2);
- ta22: -3*sqrt(2);
-</text>
+ ta22: -3*sqrt(2);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -88,6 +87,7 @@ ta21: -sqrt(2);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans11</name>

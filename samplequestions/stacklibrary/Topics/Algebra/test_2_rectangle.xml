@@ -1,22 +1,21 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="stack">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
     <name>
       <text>test_2_rectangle</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;A rectangle has length {@sg@}cm greater than its width. If it has an area of \({@abs(ar)@}cm^2\), find the dimensions of the rectangle.&lt;/p&gt;
- &lt;p&gt;1. Write down an equation which relates the side lengths to the area of the rectangle. &lt;br /&gt;[[input:ans1]] [[validation:ans1]] [[feedback:eq]]&lt;/p&gt;
- &lt;p&gt;2. Solve your equation. Enter your answer as a set of numbers. &lt;br /&gt; [[input:ans2]] [[validation:ans2]] [[feedback:sol]]&lt;/p&gt;
- &lt;p&gt;3. Hence, find the length of the shorter side. &lt;br /&gt;[[input:ans3]] cm [[validation:ans3]] [[feedback:short]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>A rectangle has length {@sg@}cm greater than its width. If it has an area of \({@abs(ar)@}cm^2\), find the dimensions of the rectangle.</p><p>1. Write down an equation which relates the side lengths to the area of the rectangle. <br />[[input:ans1]] [[validation:ans1]] [[feedback:eq]]</p><p>2. Solve your equation. Enter your answer as a set of numbers. <br /> [[input:ans2]] [[validation:ans2]] [[feedback:sol]]</p><p>3. Hence, find the length of the shorter side. <br />[[input:ans3]] cm [[validation:ans3]] [[feedback:short]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text>&lt;p&gt;If \(x\)cm is the width then \((x+{@sg@})\) is the length. Now the area is \({@abs(ar)@}cm^2\) and so \[ {@x*(x+sg)=-ar@}.\] \[ {@x^2+sg*x+ar@}=0\] \[ {@(x+rp)*(x+rn)=0@} \] So that \(x={@-rp@}\) or \(x={@-rn@}\). Since lengths are positive quantities \(x&amp;gt;0\) and we discard the negative root. Hence the length of the shorter side is \(x={@-rn@}\)cm.&lt;/p&gt;</text>
+      <text><![CDATA[<p>If \(x\)cm is the width then \((x+{@sg@})\) is the length. Now the area is \({@abs(ar)@}cm^2\) and so \[ {@x*(x+sg)=-ar@}.\] \[ {@x^2+sg*x+ar@}=0\] \[ {@(x+rp)*(x+rn)=0@} \] So that \(x={@-rp@}\) or \(x={@-rn@}\). Since lengths are positive quantities \(x&gt;0\) and we discard the negative root. Hence the length of the shorter side is \(x={@-rn@}\)cm.</p>]]></text>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>0.1000000</penalty>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
     <hidden>0</hidden>
+    <idnumber/>
     <stackversion>
-      <text />
+      <text/>
     </stackversion>
     <questionvariables>
       <text>rn:-1*(rand(4)+2);
@@ -29,29 +28,36 @@ tas1:setify(map(rhs,solve(ta1,x)));
 tas2:setify(map(rhs,solve(ta2,x)));</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text />
+      <text/>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text>{@ta1@}, {@tas1@}.</text>
     </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text>&lt;p&gt;&lt;span class="correct"&gt;Correct answer, well done.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text>&lt;p&gt;&lt;span class="partially"&gt;Your answer is partially correct.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text>&lt;p&gt;&lt;span class="incorrect"&gt;Incorrect answer.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed />
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -59,16 +65,16 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>1</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <input>
       <name>ans2</name>
@@ -77,16 +83,16 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>1</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <input>
       <name>ans3</name>
@@ -95,70 +101,73 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>1</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <prt>
       <name>eq</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text />
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>SubstEquiv</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>eq-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>eq-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
+        <description/>
         <answertest>SubstEquiv</answertest>
         <sans>ans1</sans>
         <tans>ta2</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>eq-1-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>eq-1-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -166,31 +175,33 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       <name>short</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text />
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans3</sans>
         <tans>-rn</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>short-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>short-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -198,128 +209,134 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       <name>sol</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>v1:first(listofvars(ans1));
  ftm:setify(map(rhs,solve(ans1,v1)));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>SubstEquiv</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>3</truenextnode>
         <trueanswernote>sol-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>sol-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
+        <description/>
         <answertest>SubstEquiv</answertest>
         <sans>ans1</sans>
         <tans>ta2</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>4</truenextnode>
         <trueanswernote>sol-1-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>sol-1-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans2</sans>
         <tans>ftm</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>sol-2-T </trueanswernote>
         <truefeedback format="html">
-          <text>&lt;p&gt;You have correctly solved the equation you have entered in part 1. Please try both parts again!&lt;/p&gt;</text>
+          <text><![CDATA[<p>You have correctly solved the equation you have entered in part 1. Please try both parts again!</p>]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>sol-2-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>3</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans2</sans>
         <tans>tas1</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>sol-3-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>sol-3-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>4</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans2</sans>
         <tans>tas2</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>sol-5-T</trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>sol-5-F</falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -329,6 +346,7 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
     <deployedseed>1740562616</deployedseed>
     <qtest>
       <testcase>1</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>ta1</value>
@@ -362,6 +380,7 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>ta2</value>
@@ -395,6 +414,7 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>x+sg=-ar</value>
@@ -405,7 +425,7 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       </testinput>
       <testinput>
         <name>ans3</name>
-        <value />
+        <value/>
       </testinput>
       <expected>
         <name>eq</name>
@@ -415,8 +435,8 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       </expected>
       <expected>
         <name>short</name>
-        <expectedscore />
-        <expectedpenalty />
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
@@ -427,6 +447,4 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
       </expected>
     </qtest>
   </question>
-
-
-  </quiz>
+</quiz>

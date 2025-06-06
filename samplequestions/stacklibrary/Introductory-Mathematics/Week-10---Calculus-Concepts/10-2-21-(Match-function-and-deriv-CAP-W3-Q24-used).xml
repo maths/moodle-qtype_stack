@@ -91,6 +91,7 @@ thumbnailplot:lambda([ex1,ex2],plot(ex1,[x,-4,4],[y,-4,4],[box, false],[yx_ratio
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

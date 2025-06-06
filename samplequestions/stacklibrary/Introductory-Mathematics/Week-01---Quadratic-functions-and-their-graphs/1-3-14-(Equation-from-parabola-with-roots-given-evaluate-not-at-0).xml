@@ -47,8 +47,7 @@ quad2: ev(quad1,x=gg);
 bb:solve(quad2=hh,a);
 aa: map(rhs,bb)[1];
 
-ta1: expand(aa*(x-dd)*(x+ee));
-</text>
+ta1: expand(aa*(x-dd)*(x+ee));</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -79,6 +78,7 @@ ta1: expand(aa*(x-dd)*(x+ee));
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

@@ -65,11 +65,7 @@ ta31: (2*k)^2 - 4*(2*k) + 5;
 ta32: 2*k^2-4*k+2;
 
 tac4:[[A,true, "A. odd"], [B, false, "B. even"]];
-taa4:dropdown_correct(tac4);
-
-
- 
-]]></text>
+taa4:dropdown_correct(tac4);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -100,6 +96,7 @@ taa4:dropdown_correct(tac4);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

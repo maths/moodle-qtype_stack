@@ -57,6 +57,7 @@ By writing \(\cos 4x\) as \(\cos 2(2x)\), or otherwise, express \(\cos 4x\) in t
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

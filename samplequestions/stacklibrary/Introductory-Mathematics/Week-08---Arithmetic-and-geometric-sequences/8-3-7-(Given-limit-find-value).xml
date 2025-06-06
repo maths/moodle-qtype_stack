@@ -29,8 +29,7 @@ Hence, rearranging we obtain \(k = {@ta1@}\)</p>]]></text>
     <questionvariables>
       <text>lim: 10+rand(30);
 cc: 1+rand(9);
-ta1:lim/(cc+lim);
-</text>
+ta1:lim/(cc+lim);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -61,6 +60,7 @@ ta1:lim/(cc+lim);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

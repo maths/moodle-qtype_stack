@@ -26,8 +26,7 @@
 aa: 3+rand(4)
 rr: (aa*180)/(theta*pi)
 
-ta1: round(2*pi*rr);
-</text>
+ta1: round(2*pi*rr);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
@@ -58,6 +57,7 @@ ta1: round(2*pi*rr);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

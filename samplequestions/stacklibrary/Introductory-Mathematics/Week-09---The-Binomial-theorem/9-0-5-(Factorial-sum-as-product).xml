@@ -34,8 +34,7 @@ bb:9;
 cc: 8;
 
 ta1:82;
-ta2:8;
-</text>
+ta2:8;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -66,6 +65,7 @@ ta2:8;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

@@ -35,8 +35,7 @@ ta1: gg^2+ff^2 -cc;
 
 eqn: gg^2+ff^2 -cc;
 
-if (eqn > 0) then ta2: true else ta2: false;
-]]></text>
+if (eqn > 0) then ta2: true else ta2: false;]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -67,6 +66,7 @@ if (eqn > 0) then ta2: true else ta2: false;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

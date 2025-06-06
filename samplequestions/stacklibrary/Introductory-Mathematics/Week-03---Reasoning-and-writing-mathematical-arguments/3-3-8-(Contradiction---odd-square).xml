@@ -50,8 +50,7 @@ tac2:[[A, false, "A. even"],  [B, true, "B. odd"]];
 taa2:dropdown_correct(tac2);
 
 tac3:[[A, true, "A. even"],  [B, false, "B. odd"]];
-taa3:dropdown_correct(tac3);
-]]></text>
+taa3:dropdown_correct(tac3);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -82,6 +81,7 @@ taa3:dropdown_correct(tac3);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

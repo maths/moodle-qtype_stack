@@ -54,6 +54,7 @@ Express \( \cos^4A-\sin^4 A\) as a function of \(\cos(2A)\)
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

@@ -1,19 +1,22 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="stack">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
     <name>
       <text>1st-Order-ODE-2-sep</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;Solve the following differential equation: \[ {@sqrt(n1-x^2)@}\frac{\mathrm{d}y}{\mathrm{d}x}-x(y+{@n2@})=0\] Use the letter \(c\) to denote the arbitrary constant in the general solution.&lt;br&gt;\(y(x)\) = [[input:ans1]] [[validation:ans1]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>Solve the following differential equation: \[ {@sqrt(n1-x^2)@}\frac{\mathrm{d}y}{\mathrm{d}x}-x(y+{@n2@})=0\] Use the letter \(c\) to denote the arbitrary constant in the general solution.<br>\(y(x)\) = [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text>&lt;p&gt;For the equation \[ {@sqrt(n1-x^2)@}\frac{\mathrm{d}y}{\mathrm{d}x} -x(y+ {@n2@}) = 0 \] rearranging gives \[\frac{\mathrm{d}y}{y+ {@n2@}} = \frac{x\mathrm{d}x}{{@sqrt(n1-x^2)@}}\] To integrate, let \(u = {@n1@}-x^2\) giving \(du = -2dx\) \[\int \frac{\mathrm{d}y}{y+ {@n2@}} = \int\frac{-\mathrm{d}u}{2{@sqrt(u)@}}\]&lt;/p&gt;
-&lt;p&gt;Hence \[\ln(|y+{@n2@}|) = {@-u^(1/2)@}+c\] and \[y + {@n2@} = {@e^(-u^(1/2)+c)@} = {@e^(c-sqrt(n1-x^2))@}=c{@e^(-(n1-x^2)^(1/2))@}\] &lt;br&gt; Hence \[y = c{@e^(-(n1-x^2)^(1/2))@}-{@n2@}\]&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;</text>
+      <text><![CDATA[<p>For the equation \[ {@sqrt(n1-x^2)@}\frac{\mathrm{d}y}{\mathrm{d}x} -x(y+ {@n2@}) = 0 \] rearranging gives \[\frac{\mathrm{d}y}{y+ {@n2@}} = \frac{x\mathrm{d}x}{{@sqrt(n1-x^2)@}}\] To integrate, let \(u = {@n1@}-x^2\) giving \(du = -2dx\) \[\int \frac{\mathrm{d}y}{y+ {@n2@}} = \int\frac{-\mathrm{d}u}{2{@sqrt(u)@}}\]</p><p>Hence \[\ln(|y+{@n2@}|) = {@-u^(1/2)@}+c\] and \[y + {@n2@} = {@e^(-u^(1/2)+c)@} = {@e^(c-sqrt(n1-x^2))@}=c{@e^(-(n1-x^2)^(1/2))@}\] <br> Hence \[y = c{@e^(-(n1-x^2)^(1/2))@}-{@n2@}\]</p><p>&nbsp;</p>]]></text>
     </generalfeedback>
-    <defaultgrade>3.0000000</defaultgrade>
-    <penalty>0.0000000</penalty>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0</penalty>
     <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
     <questionvariables>
       <text>n1:rand(8)+2;
 n2:rand(6)+2;
@@ -25,29 +28,36 @@ wronganswer3:e^(-(n1-x^2)^(1/2)+c)-n2;
 check2:x/sqrt(n1-x^2);</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text>&lt;p&gt;[[feedback:Result]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text>\({@sqrt(n1-x^2)@}\frac{\mathrm{d}y}{\mathrm{d}x} -x(y+ {@n2@}) = 0\)  gives \({@correctanswer@}\)</text>
     </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text>&lt;p&gt;&lt;span class="correct"&gt;Correct answer, well done.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text>&lt;p&gt;&lt;span class="partially"&gt;Your answer is partially correct.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text>&lt;p&gt;&lt;span class="incorrect"&gt;Incorrect answer.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed />
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -55,94 +65,98 @@ check2:x/sqrt(n1-x^2);</text>
       <boxsize>20</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <prt>
       <name>Result</name>
       <value>3.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>studentderivcheck:ev(diff(ans1,x)/(ans1+n2),simp);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>correctanswer</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>Result-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>correctanswer2</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty>0</truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>Result-1-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>studentderivcheck</sans>
         <tans>check2</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.7500000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-3-T</trueanswernote>
         <truefeedback format="html">
-          <text>&lt;p&gt;Your answer satisfies the differential equation, but is not in the desired simplest format.&lt;/p&gt;</text>
+          <text><![CDATA[<p>Your answer satisfies the differential equation, but is not in the desired simplest format.</p>]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>Result-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -161,6 +175,7 @@ check2:x/sqrt(n1-x^2);</text>
     <deployedseed>455246304</deployedseed>
     <qtest>
       <testcase>1</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>correctanswer</value>
@@ -174,6 +189,7 @@ check2:x/sqrt(n1-x^2);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>correctanswer+n2</value>
@@ -187,6 +203,7 @@ check2:x/sqrt(n1-x^2);</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>wronganswer1</value>
@@ -200,6 +217,7 @@ check2:x/sqrt(n1-x^2);</text>
     </qtest>
     <qtest>
       <testcase>4</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>wronganswer2</value>
@@ -213,6 +231,7 @@ check2:x/sqrt(n1-x^2);</text>
     </qtest>
     <qtest>
       <testcase>5</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>wronganswer3</value>
@@ -225,6 +244,4 @@ check2:x/sqrt(n1-x^2);</text>
       </expected>
     </qtest>
   </question>
-
-
-  </quiz>
+</quiz>

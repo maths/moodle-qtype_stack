@@ -57,6 +57,7 @@ mcq2:maplist(lambda([ex],[ex, is(ex=corr2)]), opts2);]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -212,7 +213,7 @@ mcq2:maplist(lambda([ex],[ex, is(ex=corr2)]), opts2);]]></text>
       </expected>
     </qtest>
     <qtest>
-      <testcase>3</testcase>
+      <testcase>2</testcase>
       <description/>
       <testinput>
         <name>ans1</name>

@@ -29,8 +29,7 @@ bb: 1+ rand(10);
 cc: 1+ rand(10);
 
 qq1: (x+ aa)*expand((x+bb)*(x-cc));
-ta1: (x+ aa)*(x+bb)*(x-cc);
-</text>
+ta1: (x+ aa)*(x+bb)*(x-cc);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -61,6 +60,7 @@ ta1: (x+ aa)*(x+bb)*(x-cc);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

@@ -1,62 +1,62 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="multichoice">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
     <name>
       <text>Which method to solve</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;Which method would you use to solve the following differential equation?&lt;/p&gt;
-&lt;p&gt;\[\displaystyle  \frac{1}{y}\frac{\mathrm{d}y}{\mathrm{d}x} =\frac{e^{-x^2}}{y}-2x,\quad y(0)=1. \]&lt;/p&gt;</text>
+      <text><![CDATA[<p>Which method would you use to solve the following differential equation?</p><p>\[\displaystyle  \frac{1}{y}\frac{\mathrm{d}y}{\mathrm{d}x} =\frac{e^{-x^2}}{y}-2x,\quad y(0)=1. \]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text />
+      <text/>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
+    <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden>0</hidden>
+    <idnumber/>
     <single>true</single>
     <shuffleanswers>true</shuffleanswers>
     <answernumbering>abc</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
     <correctfeedback format="html">
-      <text>&lt;p&gt;Your answer is correct.&lt;/p&gt;</text>
+      <text><![CDATA[<p>Your answer is correct.</p>]]></text>
     </correctfeedback>
     <partiallycorrectfeedback format="html">
-      <text>&lt;p&gt;Your answer is partially correct.&lt;/p&gt;</text>
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
     </partiallycorrectfeedback>
     <incorrectfeedback format="html">
-      <text>&lt;p&gt;Your answer is incorrect.&lt;/p&gt;</text>
+      <text><![CDATA[<p>Your answer is incorrect.</p>]]></text>
     </incorrectfeedback>
-    <shownumcorrect />
+    <shownumcorrect/>
     <answer fraction="0" format="html">
-      <text>&lt;p&gt;Linear ODE, so use the substitution \(x(t)=e^{\lambda t}\).&lt;/p&gt;</text>
+      <text><![CDATA[<p>Linear ODE, so use the substitution \(x(t)=e^{\lambda t}\).</p>]]></text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
     <answer fraction="0" format="html">
-      <text>&lt;p&gt;Laplace Transforms.&lt;/p&gt;</text>
+      <text><![CDATA[<p>Laplace Transforms.</p>]]></text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
     <answer fraction="100" format="html">
-      <text>&lt;p&gt;Integrating factor.&lt;/p&gt;</text>
+      <text><![CDATA[<p>Integrating factor.</p>]]></text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
     <answer fraction="0" format="html">
-      <text>&lt;p&gt;It is exact, so reformulate and integrate directly.&lt;/p&gt;</text>
+      <text><![CDATA[<p>It is exact, so reformulate and integrate directly.</p>]]></text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
     <answer fraction="0" format="html">
-      <text>&lt;p&gt;None of these methods - it has no solution in terms of elementary functions.&lt;/p&gt;</text>
+      <text><![CDATA[<p>None of these methods - it has no solution in terms of elementary functions.</p>]]></text>
       <feedback format="html">
-        <text />
+        <text/>
       </feedback>
     </answer>
   </question>
-
-
-  </quiz>
+</quiz>

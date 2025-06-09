@@ -621,58 +621,80 @@ class StackQuestionLoader {
         }
         $plaindata = StackQuestionLoader::xml_to_array($xmldata);
         $diff = StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['question'], $plaindata['question']);
-        $diffinputs = [];
-        foreach ($plaindata['question']['input'] as $input) {
-            $diffinput = [];
-            $diffinput['name'] = $input['name'];
-            $diffinput['tans'] = $input['tans'];
-            $diffinput = array_merge($diffinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['input'], $input));
-            $diffinputs[] = $diffinput;
-        }
-        $diff['input'] = $diffinputs;
-        $diffprts = [];
-        foreach ($plaindata['question']['prt'] as $prt) {
-            $diffprt = [];
-            $diffprt['name'] = $prt['name'];
-            $diffprt = array_merge($diffprt, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['prt'], $prt));
-            foreach ($prt['node'] as $node) {
-                $diffnode = [];
-                $diffnode['name'] = $node['name'];
-                $diffnode['sans'] = $node['sans'];
-                $diffnode['tans'] = $node['tans'];
-                $diffnode = array_merge($diffnode, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['node'], $node));
-                $diffprt['node'][] = $diffnode;
+        if (!empty($plaindata['question']['input'])) {
+            $diffinputs = [];
+            foreach ($plaindata['question']['input'] as $input) {
+                $diffinput = [];
+                $diffinput['name'] = $input['name'];
+                $diffinput['tans'] = $input['tans'];
+                $diffinput = array_merge($diffinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['input'], $input));
+                $diffinputs[] = $diffinput;
             }
-            $diffprts[] = $diffprt;
+            $diff['input'] = $diffinputs;
+        } else if (isset($plaindata['question']['defaultgrade']) && $plaindata['question']['defaultgrade']) {
+            $diff['input'] = ['name' => StackQuestionLoader::get_default('input', 'name', 'ans1'),
+                'tans' => StackQuestionLoader::get_default('input', 'tans', 'ta1')];
+        } else {
+            $diff['input'] = [];
         }
-        $diff['prt'] = $diffprts;
-        $deployedseeds = [];
-        foreach ($plaindata['question']['deployedseed'] as $seed) {
-            $deployedseeds[] = (string) $seed;
-        }
-        if (count($deployedseeds)) {
-            $diff['deployedseed'] = $deployedseeds;
-        }
-        $difftests = [];
-        foreach ($plaindata['question']['qtest'] as $test) {
-            $difftest = [];
-            $difftest['testcase'] = $test['testcase'];
-            $difftest = array_merge($difftest, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['qtest'], $test));
-            foreach ($test['testinput'] as $tinput) {
-                $difftinput = [];
-                $difftinput['name'] = $tinput['name'];
-                $difftinput = array_merge($difftinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['testinput'], $tinput));
-                $difftest['testinput'][] = $difftinput;
+        if (!empty($plaindata['question']['prt'])) {
+            $diffprts = [];
+            foreach ($plaindata['question']['prt'] as $prt) {
+                $diffprt = [];
+                $diffprt['name'] = $prt['name'];
+                $diffprt = array_merge($diffprt, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['prt'], $prt));
+                foreach ($prt['node'] as $node) {
+                    $diffnode = [];
+                    $diffnode['name'] = $node['name'];
+                    $diffnode['sans'] = $node['sans'];
+                    $diffnode['tans'] = $node['tans'];
+                    $diffnode = array_merge($diffnode, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['node'], $node));
+                    $diffprt['node'][] = $diffnode;
+                }
+                $diffprts[] = $diffprt;
             }
-            foreach ($test['expected'] as $texpected) {
-                $difftexpected = [];
-                $difftexpected['name'] = $texpected['name'];
-                $difftexpected = array_merge($difftexpected, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['expected'], $texpected));
-                $difftest['expected'][] = $difftexpected;
-            }
-            $difftests[] = $difftest;
+            $diff['prt'] = $diffprts;
+        } else if (isset($plaindata['question']['defaultgrade']) && $plaindata['question']['defaultgrade']) {
+            $diff['prt'] = ['name' => StackQuestionLoader::get_default('prt', 'name', 'prt1'),
+                'node' => [['name' => StackQuestionLoader::get_default('node', 'name', '0'),
+                    'sans' => StackQuestionLoader::get_default('node', 'sans', 'ans1'),
+                    'tans' => StackQuestionLoader::get_default('node', 'tans', 'ta1')]]];
+        } else {
+            $diff['prt'] = [];
         }
-        $diff['qtest'] = $difftests;
+        if (!empty($plaindata['question']['deployedseed'])) {
+            $deployedseeds = [];
+            foreach ($plaindata['question']['deployedseed'] as $seed) {
+                $deployedseeds[] = (string) $seed;
+            }
+            if (count($deployedseeds)) {
+                $diff['deployedseed'] = $deployedseeds;
+            }
+        }
+        if (!empty($plaindata['question']['qtest'])) {
+            $difftests = [];
+            foreach ($plaindata['question']['qtest'] as $test) {
+                $difftest = [];
+                $difftest['testcase'] = $test['testcase'];
+                $difftest = array_merge($difftest, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['qtest'], $test));
+                foreach ($test['testinput'] as $tinput) {
+                    $difftinput = [];
+                    $difftinput['name'] = $tinput['name'];
+                    $difftinput = array_merge($difftinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['testinput'], $tinput));
+                    $difftest['testinput'][] = $difftinput;
+                }
+                foreach ($test['expected'] as $texpected) {
+                    $difftexpected = [];
+                    $difftexpected['name'] = $texpected['name'];
+                    $difftexpected = array_merge($difftexpected, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['expected'], $texpected));
+                    $difftest['expected'][] = $difftexpected;
+                }
+                $difftests[] = $difftest;
+            }
+            $diff['qtest'] = $difftests;
+        } else {
+            $diff['qtest'] = [];
+        }
         $yaml = Yaml::dump($diff, 10, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
         $yaml = ltrim($yaml, "---\n");
         $yaml = rtrim($yaml, "...\n");

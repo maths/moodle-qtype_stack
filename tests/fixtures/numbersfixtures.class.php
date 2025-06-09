@@ -15,15 +15,14 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script provides test cases for the numerical rounding tests.
- *
- *
  * @package    qtype_stack
  * @copyright  2016 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+/*
+ * This class provides fixture test cases for the numerical rounding tests.
+ */
 class stack_numbers_test_data {
 
     // In this text digits are 1-9 and 0 is not a digit.
@@ -75,7 +74,7 @@ class stack_numbers_test_data {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatautils = [
 
-            // Scientific notation.
+        // Scientific notation.
         ["4.320e-3", 4, 4, 3, '"~,3e"'], // After a digit, zeros after the decimal separator are always significant.
             // If no digits before a zero that zero is not significant even after the decimal separator.
         ["0.020e3", 2, 2, 3, '"~,1e"'],

@@ -162,7 +162,9 @@ Please note that these predicate functions need to be used with `simp:false`.  S
 
 The functions `decimalplaces(x,n)` and `dispdp(x,n)` perform rounding.  See the separate notes on [numerical rounding](Numerical_rounding.md) for details.  There are some edge cases.
 
-* If `x` is an integer, then we do _not_ convert to a Maxima float.
+* If `x` is not a real number (judged by `real_numberp`) then we return `ex` (without an error).
+* `n` must be an integer, otherwise we throw an error.
 * If `n` equals zero, then we round to the nearest integer with Maxima's `round` command.
-* `decimalplaces(x,n)` returns a number (integer or float) if possible.
-* `dispdp(x,n)` returns an intert form intended to display trailing zeros (if any).
+* `n` negative is possible, in which case we round. e.g. `decimalplaces(314.15,-2)` gives `300`.
+* `decimalplaces(x,n)` returns an integer if possible.  That is we don't return a float like `7.0` we return the integer `7` instead.
+* `dispdp(x,n)` returns an inert form intended to display trailing zeros (if any).  In this case `x` must be a real number, otherwise we throw an error.

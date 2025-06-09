@@ -7,6 +7,7 @@ WORKDIR /work/api/
 
 RUN composer install
 RUN composer dump-autoload --optimize
+RUN composer require symfony/yaml
 
 #Base Image
 FROM php:8.4.5-apache-bookworm AS base

@@ -24,6 +24,7 @@
 
 namespace api\util;
 use SimpleXMLElement;
+use Symfony\Component\Yaml\Yaml;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
 require_once(__DIR__ . '/../../stack/questiontest.php');
@@ -82,7 +83,7 @@ class StackQuestionLoader {
 
         // Based on moodles base question type.
         $question->name = (string) $xmldata->question->name->text ?
-            (string) $xmldata->question->name->text : StackQuestionLoader::get_default('question', 'name', 'Question');
+            (string) $xmldata->question->name->text : StackQuestionLoader::get_default('question', 'name', 'Default');
         $question->questiontext = (string) $xmldata->question->questiontext->text ?
             (string) $xmldata->question->questiontext->text :
             StackQuestionLoader::get_default(
@@ -516,7 +517,8 @@ class StackQuestionLoader {
         $question->addAttribute('type', 'stack');
         
         StackQuestionLoader::array_to_xml($yaml, $question);
-        $name = (string) $xml->question->name;
+        // Name is a special case. Has text tag but no format.
+        $name = (string) $xml->question->name ? (string) $xml->question->name : StackQuestionLoader::get_default('question', 'name', 'Default');
         $xml->question->name = new SimpleXMLElement('<root></root>');
         $xml->question->name->addChild('text', $name);
         return $xml;  
@@ -644,9 +646,12 @@ class StackQuestionLoader {
             $diffprts[] = $diffprt;
         }
         $diff['prt'] = $diffprts;
-        $diff['deployedseed'] = [];
+        $deployedseeds = [];
         foreach ($plaindata['question']['deployedseed'] as $seed) {
-            $diff['deployedseed'][] = (string) $seed;
+            $deployedseeds[] = (string) $seed;
+        }
+        if (count($deployedseeds)) {
+            $diff['deployedseed'] = $deployedseeds;
         }
         $difftests = [];
         foreach ($plaindata['question']['qtest'] as $test) {
@@ -668,7 +673,7 @@ class StackQuestionLoader {
             $difftests[] = $difftest;
         }
         $diff['qtest'] = $difftests;
-        $yaml = yaml_emit($diff, YAML_UTF8_ENCODING, YAML_CRLN_BREAK);
+        $yaml = Yaml::dump($diff, 10, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
         $yaml = ltrim($yaml, "---\n");
         $yaml = rtrim($yaml, "...\n");
         return $yaml;

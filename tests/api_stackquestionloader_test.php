@@ -157,4 +157,78 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
+    
+    public function testYamlToXmlReturnsSimpleXMLElement()
+    {
+        $yaml = "name: Test Question";
+        $xml = StackQuestionLoader::yaml_to_xml($yaml);
+        $this->assertInstanceOf(SimpleXMLElement::class, $xml);
+        $this->assertEquals('Test Question', (string)$xml->question->name->text);
+    }
+
+    public function testArrayToXmlAndXmlToArrayAreInverse()
+    {
+        $data = [
+            'name' => 'Test',
+            'questiontext' => 'What is 2+2?',
+            'input' => [
+                [
+                    'name' => 'ans1',
+                    'tans' => '4'
+                ]
+            ]
+        ];
+        $xml = new SimpleXMLElement('<question></question>');
+        StackQuestionLoader::array_to_xml($data, $xml);
+        $array = StackQuestionLoader::xml_to_array($xml);
+        $this->assertEquals('Test', $array['name']);
+        $this->assertEquals('What is 2+2?', $array['questiontext']);
+        $this->assertEquals('ans1', $array['input'][0]['name']);
+        $this->assertEquals('4', $array['input'][0]['tans']);
+    }
+
+    public function testObjDiffReturnsDifference()
+    {
+        $a = ['a' => 1, 'b' => 2];
+        $b = ['a' => 1, 'b' => 3];
+        $diff = StackQuestionLoader::obj_diff($a, $b);
+        $this->assertArrayHasKey('b', $diff);
+        $this->assertEquals(2, $diff['b']);
+    }
+
+    public function testArrDiffReturnsDifference()
+    {
+        $a = ['x' => 5, 'y' => 6];
+        $b = ['x' => 5, 'y' => 7];
+        $diff = StackQuestionLoader::arr_diff($a, $b);
+        $this->assertArrayHasKey('y', $diff);
+        $this->assertEquals(6, $diff['y']);
+    }
+
+    public function testGetDefaultReturnsDefaultIfNoConfig()
+    {
+        // Simulate get_config returning false
+        if (!function_exists('get_config')) {
+            function get_config($a, $b) { return false; }
+        }
+        $default = StackQuestionLoader::get_default('question', 'name', 'Fallback');
+        $this->assertEquals('Fallback', $default);
+    }
+
+    public function testDetectDifferencesReturnsYaml()
+    {
+        // Simulate defaults
+        StackQuestionLoader::$defaults = [
+            'question' => ['name' => 'Default'],
+            'input' => ['name' => 'ans1', 'tans' => 'ta1'],
+            'prt' => ['name' => 'prt1'],
+            'node' => ['name' => '0', 'sans' => 'ans1', 'tans' => 'ta1'],
+            'qtest' => ['testcase' => '1'],
+            'testinput' => ['name' => 'ans1', 'value' => 'ta1'],
+            'expected' => ['name' => 'prt1']
+        ];
+        $xml = '<question type="stack"><name><text>Test</text></name></question>';
+        $yaml = StackQuestionLoader::detect_differences($xml);
+        $this->assertStringContainsString('name: Test', $yaml);
+    }
 }

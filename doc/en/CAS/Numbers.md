@@ -129,7 +129,7 @@ The following commands which are relevant to manipulation of numbers are defined
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures (does perform rounding).
-| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places  (does perform rounding).
+| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places  (does perform rounding). See below.
 | `commonfaclist(l)`              | Returns the highest common factors of a list of numbers.
 | `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
 | `coeff_list(ex,v)`              | This function takes an expression \(ex\) and returns a list of coefficients of \(v\).
@@ -157,3 +157,12 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `scientific_notationp(ex)` | Determines if \(ex\) is written in the form \(a10^n\) where \(a\) is an integer or float, and \(n\) is an integer.
 
 Please note that these predicate functions need to be used with `simp:false`.  Some answer tests, including the default algebraic equivalence (`ATAlgEquiv`) always simplify their arguments.  Instead use a non-simplifying answer test such as `EqualComAss`.
+
+### Decimal places
+
+The functions `decimalplaces(x,n)` and `dispdp(x,n)` perform rounding.  See the separate notes on [numerical rounding](Numerical_rounding.md) for details.  There are some edge cases.
+
+* If `x` is an integer, then we do _not_ convert to a Maxima float.
+* If `n` equals zero, then we round to the nearest integer with Maxima's `round` command.
+* `decimalplaces(x,n)` returns a number (integer or float) if possible.
+* `dispdp(x,n)` returns an intert form intended to display trailing zeros (if any).

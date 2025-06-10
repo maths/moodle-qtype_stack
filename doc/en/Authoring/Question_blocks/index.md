@@ -45,6 +45,10 @@ Question blocks are divided into three broad groups.
   * Geogebra
   * Parsons
 4. [System blocks](System_blocks.md), which are not realy intended for end-users.
+5. [Iframe blocks](Iframe_blocks.md), which allow creation of sandboxed iframes that can be included in the output.
+  * Iframe
+  * Style
+  * Script
 
 ## General syntax ##
 

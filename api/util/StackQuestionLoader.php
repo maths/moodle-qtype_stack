@@ -45,7 +45,7 @@ class StackQuestionLoader {
     public const ARRAYFIELDS = [
         'input', 'prt', 'node', 'deployedseed', 'qtest', 'testinput', 'expected'
     ];
-            
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
         try {
@@ -486,17 +486,19 @@ class StackQuestionLoader {
     }
 
     public static function get_default($defaultcategory, $defaultname, $default) {
+        // If we're in the STACK library in Moodle we can't load YML.
         if (!get_config('qtype_stack', 'stackapi')) {
             return $default;
         }
+
         if (!StackQuestionLoader::$defaults) {
-                StackQuestionLoader::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
+            StackQuestionLoader::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
         }
 
         if (isset(StackQuestionLoader::$defaults[$defaultcategory][$defaultname])) {
             return StackQuestionLoader::$defaults[$defaultcategory][$defaultname];
         }
-
+        // We could return $default here but we'd rather the default file was fixed.
         return null;
     }
 
@@ -515,13 +517,13 @@ class StackQuestionLoader {
         $xml = new SimpleXMLElement("<quiz></quiz>");
         $question = $xml->addChild('question');
         $question->addAttribute('type', 'stack');
-        
+
         StackQuestionLoader::array_to_xml($yaml, $question);
         // Name is a special case. Has text tag but no format.
         $name = (string) $xml->question->name ? (string) $xml->question->name : StackQuestionLoader::get_default('question', 'name', 'Default');
         $xml->question->name = new SimpleXMLElement('<root></root>');
         $xml->question->name->addChild('text', $name);
-        return $xml;  
+        return $xml;
     }
 
     /**
@@ -538,11 +540,6 @@ class StackQuestionLoader {
                     // Name is used in multiple places and sometimes has text property and sometimes not.
                     // Handled in yaml_to_xml().
                     $subnode = $xml->addChild($key);
-                    /* if (!empty($value) && htmlspecialchars($value, ENT_COMPAT) != $value) {
-                        $subvalue = ['text' => '<![CDATA[' . $value . ']]>'];
-                    } else {
-                        $subvalue = ['text' => $value];
-                    } */
                     $subvalue = ['text' => $value];
                     if (isset($data[$key . 'format'])) {
                         $subvalue['format'] = $data[$key . 'format'];
@@ -567,7 +564,7 @@ class StackQuestionLoader {
                 StackQuestionLoader::array_to_xml($value, $subnode);
             } else {
                 $xml->addChild($key, $value);
-            } 
+            }
         }
     }
 
@@ -605,12 +602,12 @@ class StackQuestionLoader {
                 } else {
                     $output[$key] = (string) $value;
                 }
-            } 
+            }
         }
-        return $output;  
+        return $output;
     }
 
-    public static function detect_differences($xml) {      
+    public static function detect_differences($xml) {
         if (!StackQuestionLoader::$defaults) {
                 StackQuestionLoader::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
         }
@@ -631,9 +628,9 @@ class StackQuestionLoader {
                 $diffinputs[] = $diffinput;
             }
             $diff['input'] = $diffinputs;
-        } else if (isset($plaindata['question']['defaultgrade']) && $plaindata['question']['defaultgrade']) {
-            $diff['input'] = ['name' => StackQuestionLoader::get_default('input', 'name', 'ans1'),
-                'tans' => StackQuestionLoader::get_default('input', 'tans', 'ta1')];
+        } else if (!isset($plaindata['question']['defaultgrade']) || !$plaindata['question']['defaultgrade']) {
+            $diff['input'] = [['name' => StackQuestionLoader::get_default('input', 'name', 'ans1'),
+                'tans' => StackQuestionLoader::get_default('input', 'tans', 'ta1')]];
         } else {
             $diff['input'] = [];
         }
@@ -654,11 +651,11 @@ class StackQuestionLoader {
                 $diffprts[] = $diffprt;
             }
             $diff['prt'] = $diffprts;
-        } else if (isset($plaindata['question']['defaultgrade']) && $plaindata['question']['defaultgrade']) {
-            $diff['prt'] = ['name' => StackQuestionLoader::get_default('prt', 'name', 'prt1'),
+        } else if (!isset($plaindata['question']['defaultgrade']) || !$plaindata['question']['defaultgrade']) {
+            $diff['prt'] = [['name' => StackQuestionLoader::get_default('prt', 'name', 'prt1'),
                 'node' => [['name' => StackQuestionLoader::get_default('node', 'name', '0'),
                     'sans' => StackQuestionLoader::get_default('node', 'sans', 'ans1'),
-                    'tans' => StackQuestionLoader::get_default('node', 'tans', 'ta1')]]];
+                    'tans' => StackQuestionLoader::get_default('node', 'tans', 'ta1')]]]];
         } else {
             $diff['prt'] = [];
         }
@@ -695,38 +692,36 @@ class StackQuestionLoader {
         } else {
             $diff['qtest'] = [];
         }
-        $yaml = Yaml::dump($diff, 10, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
-        $yaml = ltrim($yaml, "---\n");
-        $yaml = rtrim($yaml, "...\n");
+        $yaml = Yaml::dump($diff, 10, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK | Yaml::DUMP_COMPACT_NESTED_MAPPING);
         return $yaml;
     }
 
-    public static function obj_diff($obj1, $obj2):array { 
-        $a1 = (array)$obj1;
-        $a2 = (array)$obj2;
+    public static function obj_diff($obj1, $obj2):array {
+        $a1 = (array) $obj1;
+        $a2 = (array) $obj2;
         return StackQuestionLoader::arr_diff($a1, $a2);
     }
 
     public static function arr_diff($a1, $a2):array {
         $r = [];
         foreach ($a1 as $k => $v) {
-            if (array_key_exists($k, $a2)) { 
+            if (array_key_exists($k, $a2)) {
                 if (is_array($v)){
-                    $rad = StackQuestionLoader::arr_diff($v, (array) $a2[$k]);  
-                    if (count($rad)) { $r[$k] = $rad; } 
-                // required to avoid rounding errors due to the 
+                    $rad = StackQuestionLoader::arr_diff($v, (array) $a2[$k]);
+                    if (count($rad)) { $r[$k] = $rad; }
+                // required to avoid rounding errors due to the
                 // conversion from string representation to double
-                } else if (is_double($v)){ 
-                    if (abs($v - $a2[$k]) > 0.000000000001) { 
-                        $r[$k] = $a2[$k]; 
+                } else if (is_double($v)){
+                    if (abs($v - $a2[$k]) > 0.000000000001) {
+                        $r[$k] = $a2[$k];
                     }
-                } else { 
-                    if ($v != $a2[$k]) { 
-                        $r[$k] = $a2[$k]; 
+                } else {
+                    if ($v != $a2[$k]) {
+                        $r[$k] = $a2[$k];
                     }
                 }
             }
-        } 
+        }
         return $r;
-    }    
-} 
+    }
+}

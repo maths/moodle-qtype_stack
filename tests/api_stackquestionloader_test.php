@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/fixtures/apifixtures.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '../../api/util/StackQuestionLoader.php');
-
 use api\util\StackQuestionLoader;
 use stack_api_test_data;
 use qtype_stack_testcase;
@@ -131,7 +130,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $xml = stack_api_test_data::get_question_string('empty');
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml)['question'];
-        $this->assertEquals('Question', $question->name);
+        $this->assertEquals('Default', $question->name);
         $this->assertEquals('Correct answer, well done.', $question->prtcorrect);
         $this->assertEquals('html', $question->prtcorrectformat);
         $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->truenextnode);
@@ -157,78 +156,187 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
-    
-    public function testYamlToXmlReturnsSimpleXMLElement()
+
+    public function test_yaml_to_xml()
     {
-        $yaml = "name: Test Question";
+        if (!function_exists('yaml_parse')) {
+            $this->markTestSkipped('YAML extension is not available.');
+            return;
+        }
+        $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
         $xml = StackQuestionLoader::yaml_to_xml($yaml);
-        $this->assertInstanceOf(SimpleXMLElement::class, $xml);
-        $this->assertEquals('Test Question', (string)$xml->question->name->text);
+        $this->assertEquals('Test question', (string)$xml->question->name->text);
+        $this->assertEquals(1,
+            preg_match('/<p>Question<\/p><p>\[\[input:ans1\]\] \[\[validation:ans1\]\]<\/p>\n    <p>' .
+                '\[\[input:ans2\]\] \[\[validation:ans2\]\]<\/p>/s', (string) $xml->question->questiontext->text));
+       $this->assertEquals('html', (string)$xml->question->questiontext->format);
     }
 
-    public function testArrayToXmlAndXmlToArrayAreInverse()
+    public function test_array_to_xml_inverse()
     {
         $data = [
             'name' => 'Test',
             'questiontext' => 'What is 2+2?',
+            'questiontextformat' => 'moodle',
             'input' => [
                 [
                     'name' => 'ans1',
-                    'tans' => '4'
+                    'tans' => '1'
+                ],
+                [
+                    'name' => 'ans1',
+                    'tans' => '2'
+                ]
+            ],
+            'prt' => [
+                [
+                    'name' => 'prt1',
+                    'value' => '23',
+                    'node' => [
+                        [
+                            'name' => '0',
+                            'sans' => '011',
+                            'tans' => '022'
+                        ],
+                        [
+                            'name' => '1',
+                            'sans' => '033',
+                            'tans' => '044'
+                        ]
+                    ]
                 ]
             ]
         ];
-        $xml = new SimpleXMLElement('<question></question>');
+        $xml = new \SimpleXMLElement('<question></question>');
         StackQuestionLoader::array_to_xml($data, $xml);
+        $this->assertEquals('Test', $xml->name);
+        $this->assertEquals('What is 2+2?', $xml->questiontext->text);
+        $this->assertEquals('moodle', $xml->questiontext->format);
+        $this->assertEquals(2, count($xml->input));
+        $this->assertEquals(1, count($xml->prt));
+        $this->assertEquals('prt1', $xml->prt->name);
+        $this->assertEquals(2, count($xml->prt[0]->node));
+        $this->assertEquals('1', $xml->prt[0]->node[1]->name);
+        $this->assertEquals('033', $xml->prt[0]->node[1]->sans);
+        $this->assertEquals('044', $xml->prt[0]->node[1]->tans);
         $array = StackQuestionLoader::xml_to_array($xml);
-        $this->assertEquals('Test', $array['name']);
-        $this->assertEquals('What is 2+2?', $array['questiontext']);
-        $this->assertEquals('ans1', $array['input'][0]['name']);
-        $this->assertEquals('4', $array['input'][0]['tans']);
+        $this->assertEqualsCanonicalizing($data, $array);
     }
 
-    public function testObjDiffReturnsDifference()
+    public function test_obj_diff()
     {
-        $a = ['a' => 1, 'b' => 2];
-        $b = ['a' => 1, 'b' => 3];
+        $a = (object) ['a' => 1, 'b' => 2];
+        $b = (object) ['a' => 1, 'b' => 3];
         $diff = StackQuestionLoader::obj_diff($a, $b);
         $this->assertArrayHasKey('b', $diff);
-        $this->assertEquals(2, $diff['b']);
+        $this->assertEquals(3, $diff['b']);
     }
 
-    public function testArrDiffReturnsDifference()
+    public function test_arr_diff()
     {
-        $a = ['x' => 5, 'y' => 6];
-        $b = ['x' => 5, 'y' => 7];
+        $a = ['x' => 5, 'y' => 6, 'z' => (0.1+0.7)*10, 'a' => [1 => 'x', 2 => 'y']];
+        $b = ['x' => 5, 'y' => 7, 'z' => 8, 'a' => [1 => 'x', 2 => 'z']];
         $diff = StackQuestionLoader::arr_diff($a, $b);
+        $this->assertEquals(2, count($diff));
         $this->assertArrayHasKey('y', $diff);
-        $this->assertEquals(6, $diff['y']);
+        $this->assertEquals(7, $diff['y']);
+        $this->assertEquals(1, count($diff['a']));
+        $this->assertEquals('z', $diff['a'][2]);
     }
 
-    public function testGetDefaultReturnsDefaultIfNoConfig()
+    public function test_get_default()
     {
-        // Simulate get_config returning false
-        if (!function_exists('get_config')) {
-            function get_config($a, $b) { return false; }
-        }
+        set_config('stackapi', true, 'qtype_stack');
+        $default = StackQuestionLoader::get_default('question', 'name', 'Fallback');
+        $this->assertEquals('Default', $default);
+        set_config('stackapi', false, 'qtype_stack');
         $default = StackQuestionLoader::get_default('question', 'name', 'Fallback');
         $this->assertEquals('Fallback', $default);
     }
 
-    public function testDetectDifferencesReturnsYaml()
+    public function test_detect_difference()
     {
-        // Simulate defaults
-        StackQuestionLoader::$defaults = [
-            'question' => ['name' => 'Default'],
-            'input' => ['name' => 'ans1', 'tans' => 'ta1'],
-            'prt' => ['name' => 'prt1'],
-            'node' => ['name' => '0', 'sans' => 'ans1', 'tans' => 'ta1'],
-            'qtest' => ['testcase' => '1'],
-            'testinput' => ['name' => 'ans1', 'value' => 'ta1'],
-            'expected' => ['name' => 'prt1']
-        ];
-        $xml = '<question type="stack"><name><text>Test</text></name></question>';
+        if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
+            $this->markTestSkipped('Symfony YAML extension is not available.');
+            return;
+        }
+        $xml = '<quiz><question type="stack"><name><text>Test</text></name></question></quiz>';
         $yaml = StackQuestionLoader::detect_differences($xml);
         $this->assertStringContainsString('name: Test', $yaml);
+    }
+
+    public function test_detect_difference_yml()
+    {
+        if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
+            $this->markTestSkipped('Symfony YAML extension is not available.');
+            return;
+        }
+        $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
+        $diff = StackQuestionLoader::detect_differences($yaml);
+        $diffarray = yaml_parse($diff);
+        $this->assertEquals(8, count($diffarray));
+        $expected = [
+            'name' => 'Test question',
+            'questiontext' => "<p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>\n    <p>[[input:ans2]] [[validation:ans2]]</p>\n",
+            'questionvariables' => 'ta1:1;ta2:2;',
+            'prtcorrect' => '<p><i class="fa fa-check"></i> Correct answer*, well done.</p>',
+            'multiplicationsign' => 'cross',
+            'input' => [
+                [
+                    'name' => 'ans1',
+                    'tans' => 'ta1'
+                ],
+                [
+                    'name' => 'ans2',
+                    'tans' => 'ta2'
+                ]
+            ],
+            'prt' => [
+                [
+                    'name' => 'prt1',
+                    'node' => [
+                        [
+                            'name' => '0',
+                            'sans' => 'ans1',
+                            'tans' => 'ta1'
+                        ]
+                    ]
+                ],
+                [
+                    'name' => 'prt2',
+                    'node' => [
+                        [
+                            'name' => '0',
+                            'sans' => 'ans2',
+                            'tans' => 'ta2'
+                        ]
+                    ]
+                ]
+            ],
+            'qtest' => [
+                [
+                    'testcase' => '1',
+                    'testinput' => [
+                        [
+                            'name' => 'ans1'
+                        ],
+                        [
+                            'name' => 'ans2',
+                            'value' => 'ta2'
+                        ]
+                    ],
+                    'expected' => [
+                        [
+                            'name' => 'prt1'
+                        ],
+                        [
+                            'name' => 'prt2',
+                            'expectedanswernote' => '2-0-T'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
     }
 }

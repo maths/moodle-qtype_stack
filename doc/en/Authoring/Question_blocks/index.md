@@ -31,6 +31,7 @@ Question blocks are divided into three broad groups.
   * QUID
   * Template
   * [Hints/fact sheets](Fact_sheets.md)
+  * Entity escape
 2. [Conditional blocks](Conditional_blocks.md), for looping and branching and programatic structures.
   * Define
   * If

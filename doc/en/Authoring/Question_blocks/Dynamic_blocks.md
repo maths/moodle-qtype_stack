@@ -130,11 +130,18 @@ The student can repeat the contents of the block by using a corresponding "repea
 * There must be one repeat button for each repeat block id.
 * The button must be _outside_ the repeat block.
 
-The basic purpose of the interactive repeat is to allow question authors to create questions without specifying the precise number of inputs.
+The basic purpose of the interactive repeat is to allow question authors to create questions without specifying the precise number of inputs.  Students can add another input/inputs as needed.
 
-* repeat blocks may contain some inputs.
-* repeat blocks may _not_ currently contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc. (This may change in future versions).  This is established by the block method `is_interactive()`.
-* repeat blocks may contain a special tag `repeat_id_X` where `X` is the id of the block.
+* repeat blocks may contain some inputs.  If so, the repeat block must also contain the corresponding validation tag.
+* repeat blocks may _not_ currently contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc. (This may change in future versions).  This is established by the block method `is_interactive()`. TODO: implement this check.
+* repeat blocks may contain a special tag `repeat_id_X` where `X` is the id of the block.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  This tag cannot be used inside castext (e.g. within CAS calculations), which is evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations. TODO: implement this feature.
+
+When a student interacts with an input inside a repeat block, this is validated exactly as would be the case for the input as normal.  The validation tag is then updated.
+
+When a student submits the page, their response becomes a _list_ of expressions.
+
+TODO: support the `ALLOWEMPTY` option.  Inputs may go from `EMPTYANSWER` to `[EMPTYANSWER]`.
+
 
 ## JSXGraph block ##
 

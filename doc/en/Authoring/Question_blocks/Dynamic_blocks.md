@@ -134,6 +134,7 @@ The basic purpose of the interactive repeat is to allow question authors to crea
 
 * repeat blocks may contain some inputs.  If so, the repeat block must also contain the corresponding validation tag.
 * repeat blocks may _not_ currently contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc. (This may change in future versions).  This is established by the block method `is_interactive()`. TODO: implement this check.
+* repeat blocks currently may _not_ be used to add rows (`<tr><tr>`) to a table (`<table>`) which starts outside of the repeat block. This is due to limitations in the current javascript implementation. You can put whole tables inside a repeat block, however.
 * repeat blocks may contain a special tag `<repeatindex>`.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  This tag cannot be used inside castext (e.g. within CAS calculations), which is evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations. TODO: implement this feature.
 
 When a student interacts with an input inside a repeat block, this is validated exactly as would be the case for the input as normal.  The validation tag is then updated.
@@ -144,14 +145,14 @@ TODO: support the `ALLOWEMPTY` option.  Inputs may go from `EMPTYANSWER` to `[EM
 
 ### Basic use case
 
-A typical example is asking the students to list the roots of a polynomial. Knowing how many roots a given polynomial has is something that you might want to assess instead of giving it away with the number of provided input fields. The question text could then look as follows:
+STACK's sample question library contains questions similar to this typical example: Students are asked to list the roots of a polynomial. Knowing how many roots a given polynomial has is something that you might want to assess instead of giving it away with the number of provided input fields. The question text could then look as follows:
 ```
 Find all roots of the polynomial \(P(x) = x^3 - x\). Add as many input fields as required.
 
 [[repeat id="1"]]
 \(x_{<repeatindex>} = \) [[input:ans1]] [[validation:ans1]]
 [[/repeat]]
-[[repeatbutton title="Add another root" repeat_ids="1"]]
+[[repeatbutton title="Add another root" repeat_ids="1" /]]
 ```
 
 The input options for `ans1` should then be configured as if there was only one such input field. STACK will take care of copying the field multiple times, a validation of each created input field and collecting the answers. The student answer `ans1` will be a list of the input type you specified, and you will have to deal with that accordingly in the PRTs.

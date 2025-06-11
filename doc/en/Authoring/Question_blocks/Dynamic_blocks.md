@@ -154,7 +154,7 @@ Find all roots of the polynomial \(P(x) = x^3 - x\). Add as many input fields as
 [[repeatbutton title="Add another root" repeat_ids="1"]]
 ```
 
-The input options for `ans1` should then be configured as if there was only one such input field. STACK will take care of copying the field multiple times, a validation of each created input field and collecting the answers. The student answer `ans1` will be a list of the input type you specified, and you will have to deal with that accordingly in the PRTs, bespoke validators, etc.
+The input options for `ans1` should then be configured as if there was only one such input field. STACK will take care of copying the field multiple times, a validation of each created input field and collecting the answers. The student answer `ans1` will be a list of the input type you specified, and you will have to deal with that accordingly in the PRTs.
 
 More advanced examples could ask for several different inputs, e.g. a combination of an eigenvalue and an eigenvector or the coordinates of a critical point of a function with a classification using a dropdown input.
 

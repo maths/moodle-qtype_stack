@@ -38,7 +38,7 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
 
         $repeatid = $this->params['id'];
         $body = new MP_List([new MP_String('%root')]);
-        $body->items[] = new MP_String('<div id="');
+        $body->items[] = new MP_String('<div id="');   // TODO: we want to make this hidden!
         // We use the quid block to make the ids unique.
         $body->items[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $repeatid)]);
         $body->items[] = new MP_String('">');
@@ -50,6 +50,11 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
             }
         }
         $body->items[] = new MP_String('</div>');
+        
+        $body->items[] = new MP_String('<div id="');
+        // We use the quid block to make the ids unique.
+        $body->items[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_" . $repeatid)]);
+        $body->items[] = new MP_String('"></div>');
 
         return $body;
     }

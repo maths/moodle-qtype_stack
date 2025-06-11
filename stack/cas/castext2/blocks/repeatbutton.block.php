@@ -62,25 +62,31 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
         $list[] = new MP_String($code);
 
-        $list[] = new MP_String("function add_repeat(){");
-        if (isset($this->params['repeat_ids'])) {
-            $splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
-            foreach ($splitrepeatid as &$id) {
-				$list[] = new MP_String("var repeat_content;");
-				$list[] = new MP_String("stack_js.get_content('");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $id )]);
-				$list[] = new MP_String("').then((content) => {");
-				$list[] = new MP_String("repeat_content = content;");
+		$list[] = new MP_String("function add_repeat(){\n");
 
-				$list[] = new MP_String("stack_js.switch_content('");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $id )]);
-				$list[] = new MP_String("', repeat_content + repeat_content");
-				$list[] = new MP_String(");");
+		if (isset($this->params['repeat_ids'])) {
+			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
+			foreach ($splitrepeatid as &$id) {
+				$list[] = new MP_String("  const contentPromise_$id = stack_js.get_content('");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $id)]);
+				$list[] = new MP_String("');\n");
 
-				$list[] = new MP_String("});");
-            }
-        }
-        $list[] = new MP_String("}");
+				$list[] = new MP_String("  const containerPromise_$id = stack_js.get_content('");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_" . $id)]);
+				$list[] = new MP_String("');\n");
+
+				$list[] = new MP_String("  Promise.all([contentPromise_$id, containerPromise_$id]).then(([repeat_content, repeatcontainer_content]) => {\n");
+				$list[] = new MP_String("    console.log('repeat_content', repeat_content);\n");
+				$list[] = new MP_String("    console.log('repeatcontainer_content', repeatcontainer_content);\n");
+				$list[] = new MP_String("    stack_js.switch_content('");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_" . $id)]);
+				$list[] = new MP_String("', repeatcontainer_content + repeat_content);\n");
+				$list[] = new MP_String("  });\n");
+			}
+		}
+
+		$list[] = new MP_String("};");
+
 
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([

@@ -41,7 +41,6 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
         $body->items[] = new MP_String('<div id="');
         // We use the quid block to make the ids unique.
         $body->items[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $repeatid)]);
-        $body->items[] = new MP_String('" ' . $style . '>');
 
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);

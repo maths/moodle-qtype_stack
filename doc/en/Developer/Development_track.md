@@ -11,7 +11,8 @@ Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stac
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.
-3. Resolve [issue #1363] to download students data in json format.
+3. Resolve [issue #1363](https://github.com/maths/moodle-qtype_stack/issues/1363) to download students data in json format.
+4. Add in a [repeat block](../Authoring/Question_blocks/Dynamic_blocks.md) to allow a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  This static content includes some input elements.
 
 ## Future Adapt block development ideas
 

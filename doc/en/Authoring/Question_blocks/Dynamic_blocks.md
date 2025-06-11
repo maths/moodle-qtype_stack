@@ -111,6 +111,31 @@ This will show adapt block with ID '2' and hide adapt block with ID '1' after a 
 
 An example question is available by importing `Doc-Examples\Authoring-Docs\Question-blocks\Adapt_delay_block.xml`.
 
+## Interactive repeat ##
+
+The "interactive repeat" block allows a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  The contents is copied, client side, by javascript.
+
+```
+[[repeat id="1"]]
+
+[[/repeat]]
+```
+
+The student can repeat the contents of the block by using a corresponding "repeat button".
+
+```
+[[repeatbutton title='Add another line' repeat_ids='1;3'/]]
+```
+
+* There must be one repeat button for each repeat block id.
+* The button must be _outside_ the repeat block.
+
+The basic purpose of the interactive repeat is to allow question authors to create questions without specifying the precise number of inputs.
+
+* repeat blocks may contain some inputs.
+* repeat blocks may _not_ currently contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc. (This may change in future versions).  This is established by the block method `is_interactive()`.
+* repeat blocks may contain a special tag `repeat_id_X` where `X` is the id of the block.
+
 ## JSXGraph block ##
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../../Specialist_tools/JSXGraph/index.md) elements.

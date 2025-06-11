@@ -72,6 +72,12 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				$list[] = new MP_String("').then((content) => {");
 				$list[] = new MP_String("repeat_content = content;");
 				$list[] = new MP_String("console.log(repeat_content);");
+
+				$list[] = new MP_String("stack_js.switch_content('");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $id )]);
+				$list[] = new MP_String("', repeat_content + repeat_content");
+				$list[] = new MP_String(");");
+
 				$list[] = new MP_String("});");
             }
         }

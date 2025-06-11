@@ -424,35 +424,38 @@ class StackQuestionLoader {
 
         $question->deployedseeds = $deployedseeds;
         $testcases = [];
+
         if ($includetests) {
-            if (empty($qtest) && $question->defaultmark) {
-                $defaulttest = new \SimpleXMLElement('<qtest></qtest>');
-                $defaulttest->addChild('testcase', StackQuestionLoader::get_default('qtest', 'testcase', '1'));
-                $defaulttest->addChild('description', StackQuestionLoader::get_default('qtest', 'description', ''));
-                $defaulttinput = $defaulttest->addChild('testinput');
-                $defaulttinput->addChild('name', StackQuestionLoader::get_default('testinput', 'name', 'ans1'));
-                $defaulttinput->addChild('value', StackQuestionLoader::get_default('testinput', 'value', 'ta1'));
-                $defaulttexpected = $defaulttest->addChild('expected');
-                $defaulttexpected->addChild('name', StackQuestionLoader::get_default('expected', 'name', 'prt1'));
-                $defaulttexpected->addChild('expectedscore', StackQuestionLoader::get_default('expected', 'expectedscore', '1.0000000'));
-                $defaulttexpected->addChild('expectedpenalty', StackQuestionLoader::get_default('expected', 'expectedpenalty', '0.0000000'));
-                $defaulttexpected->addChild('expectedanswernote', StackQuestionLoader::get_default('expected', 'expectedanswernote', '1-0-T'));
-                $testcases[] = $defaulttest;
-            }
             foreach ($xmldata->question->qtest as $test) {
                 $testinputs = [];
                 foreach ($test->testinput as $testinput) {
-                    $testinputs[(string) $testinput->name] = (string) $testinput->value;
+                    $testiname = (string) $testinput->name ? (string) $testinput->name :
+                        StackQuestionLoader::get_default('testinput', 'name', 'ans1');
+                    $testivalue = (array) $testinput->value ? (string) $testinput->value :
+                        StackQuestionLoader::get_default('testinput', 'value', 'ta1');
+                    $testinputs[$testiname] = $testivalue;
                 }
-                $testcase = new \stack_question_test((string) $test->description, $testinputs, (string) $test->testcase);
+                $testdescription = (array) $test->description ? (string) $test->description :
+                    StackQuestionLoader::get_default('qtest', 'description', '');
+                $testtestcase = (array) $test->testcase ? (string) $test->testcase :
+                    StackQuestionLoader::get_default('qtest', 'testcase', '1');
+                $testcase = new \stack_question_test($testdescription, $testinputs, $testtestcase);
                 foreach ($test->expected as $expected) {
-                    $testcase->add_expected_result((string) $expected->name,
+                    $testename = (string) $expected->name ? (string) $expected->name :
+                        StackQuestionLoader::get_default('expected', 'name', 'prt1');
+                    $testcase->add_expected_result($testename,
                             new \stack_potentialresponse_tree_state(1, true,
                                 (array) $expected->expectedscore ?
-                                    (string) $expected->expectedscore : StackQuestionLoader::get_default('expected', 'expectedscore', '1.0000000'),
+                                    (string) $expected->expectedscore :
+                                    StackQuestionLoader::get_default('expected', 'expectedscore', null),
                                 (array) $expected->expectedpenalty ?
-                                    (string) $expected->expectedpenalty : StackQuestionLoader::get_default('expected', 'expectedpenalty', '0.0000000'),
-                                    '', [(string) $expected->expectedanswernote]));
+                                    (string) $expected->expectedpenalty :
+                                    StackQuestionLoader::get_default('expected', 'expectedpenalty', null),
+                                '', [
+                                    (array) $expected->expectedanswernote ?
+                                    (string) $expected->expectedanswernote :
+                                    StackQuestionLoader::get_default('expected', 'expectedanswernote', '1-0-T')
+                                ]));
                 }
                 $testcases[] = $testcase;
             }
@@ -689,8 +692,6 @@ class StackQuestionLoader {
                 $difftests[] = $difftest;
             }
             $diff['qtest'] = $difftests;
-        } else {
-            $diff['qtest'] = [];
         }
         $yaml = Yaml::dump($diff, 10, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK | Yaml::DUMP_COMPACT_NESTED_MAPPING);
         return $yaml;

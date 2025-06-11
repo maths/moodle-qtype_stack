@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Response to a question render request.
+ * Response to a request to diff a question with the defaults.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -26,36 +26,7 @@ namespace api\dtos;
 defined('MOODLE_INTERNAL') || die();
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class StackRenderResponse {
+class StackDiffResponse {
     /** @var string */
-    public $questionrender;
-    /** @var string */
-    public $questionsamplesolutiontext;
-    /** @var StackRenderInput[]  */
-    public $questioninputs;
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
-    public $questionassets;
-    /** @var int */
-    public $questionseed;
-    /** @var int[]  */
-    public $questionvariants;
-    /** @var array */
-    public $iframes;
-    /** @var bool */
-    public $isinteractive;
     public $diff;
-}
-
-// phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class StackRenderInput {
-    /** @var int */
-    public $validationtype;
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
-    public $samplesolution;
-    /** @var string */
-    public $samplesolutionrender;
-    /** @var array */
-    public $configuration;
-    /** @var string */
-    public $render;
 }

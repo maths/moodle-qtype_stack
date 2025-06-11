@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * This script handles rendering a question and inputs.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -138,9 +138,6 @@ class RenderController {
         $renderresponse->questionvariants = $question->deployedseeds;
         $renderresponse->iframes = StackIframeHolder::$iframes;
         $renderresponse->isinteractive = $question->is_interactive();
-        // TO-DO Make this a separate endpoint.
-        $diff = StackQuestionLoader::detect_differences($data["questionDefinition"]);
-        $renderresponse->diff = $diff;
 
         $response->getBody()->write(json_encode($renderresponse));
         return $response->withHeader('Content-Type', 'application/json');

@@ -81,7 +81,7 @@ node:
   falseanswernote: prt1-1-F
   falsefeedback: ''
   falsefeedbackformat: html
-# No default for deployed seed. 
+# No default for deployed seed.
 qtest:
   testcase: '1'
   description:
@@ -90,6 +90,6 @@ testinput:
   value: 'ta1'
 expected:
   name: 'prt1'
-  expectedscore: '1.0000000'
-  expectedpenalty: '0.0000000'
+  expectedscore:
+  expectedpenalty:
   expectedanswernote: '1-0-T'

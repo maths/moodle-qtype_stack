@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.1.7 (Sine rule example)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Suppose that we have a triangle \(ABC\) as above. Let angle \(A = 48^\circ\), angle \(C = 78^\circ\) and the length of side \(AB\) be \(23\)cm. Hence find the length of side \(BC\).</p>
+
+<h3>Solution</h3>
+
+<p>Substituting the values into the sine rule and noting that \(BC = a\) we have that
+\[
+\frac{a}{\sin A} = \frac{23}{\sin 37^\circ} \implies \frac{a}{\sin 48^\circ} = \frac{23}{\sin 37^\circ}.
+\]
+Hence, we can rearrange this expression so that we get the length \(a\);
+\[
+a = \sin 48^\circ \times \left(\frac{23}{\sin 37^\circ}\right) \approx 28.4\: cm
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

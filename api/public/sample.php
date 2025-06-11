@@ -27,14 +27,13 @@ require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
 require_once(__DIR__ . '/../../stack/questionlibrary.class.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
-// It's cleaner to just show the contents of the question library directory.
-$files = stack_question_library::get_file_list('../../samplequestions/stackdemo/stacklibrary/*');
+$files = stack_question_library::get_file_list('../../samplequestions/stackdemo/*');
 
 $questions = [];
 foreach ($files->children as $file) {
     if (!$file->isdirectory) {
         $question = new StdClass();
-        $questiondata = file_get_contents('../../samplequestions/stacklibrary/' . $file->path);
+        $questiondata = file_get_contents('../../samplequestions/' . $file->path);
         $questionobject = simplexml_load_string($questiondata)->question;
         $question->definition = $questiondata;
         $question->name = (string) $questionobject->name->text;
@@ -142,6 +141,9 @@ foreach ($files->children as $file) {
             STACK is also available for direct integration in Moodle, ILIAS and through LTI.
             For more information visit <a href="https://stack-assessment.org/">the STACK community page</a>.
           </p>
+          <p>
+            There is also a <a href="/stack.php">library of STACK questions</a> on this demo site.
+          </p>
           <hr>
         </div>
         <div>
@@ -181,17 +183,21 @@ foreach ($files->children as $file) {
                 </div>
               </div>
             </div>
+            <div class="col-lg-9">
+              <hr />
+              <p style="font-size: 0.875em;color:gray;">
+                The STACK source code, including this API, is Licensed under the GNU General Public, License Version 3.
+                Documentation, sample questions and materials, are licensed under Creative Commons Attribution-ShareAlike 4.0 International.
+                See the <a href="https://docs.stack-assessment.org/en/About/License/">STACK licence</a> page for full details.
+              </p>
+              <? readfile(__DIR__ . '/stackfooter.html') ?>
+            </div>
           </div>
         </div>
         <br>
       </div>
     </div>
-  <hr />
-  <p><span style="font-size: 0.875em;color:gray;">
-  The STACK source code, including this API, is Licensed under the GNU General Public, License Version 3.
-  Documentation, sample questions and materials, are licensed under Creative Commons Attribution-ShareAlike 4.0 International.
-  See the <a href="https://docs.stack-assessment.org/en/About/License/">STACK licence</a> page for full details.
-  </span></p>
+
   </body>
   <script type="text/javascript">
     <?php

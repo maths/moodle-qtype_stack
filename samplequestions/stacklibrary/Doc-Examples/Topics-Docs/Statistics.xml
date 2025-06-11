@@ -9,12 +9,12 @@
 <p>\([\)[[input:ans1]]\(,\) [[input:ans2]] \(]\)[[validation:ans1]][[validation:ans2]]</p>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>10</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2024072400</text>
     </stackversion>
@@ -50,7 +50,7 @@ ta:[LB,UB];]]></text>
       <text>{@dispsf(ta,4)@}</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -72,7 +72,8 @@ ta:[LB,UB];]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>numerical</type>
@@ -80,16 +81,16 @@ ta:[LB,UB];]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>ans2</name>
@@ -98,16 +99,16 @@ ta:[LB,UB];]]></text>
       <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -115,11 +116,11 @@ ta:[LB,UB];]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>NumAbsolute</answertest>
         <sans>ans1</sans>
         <tans>LB</tans>
@@ -127,15 +128,15 @@ ta:[LB,UB];]]></text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -144,7 +145,7 @@ ta:[LB,UB];]]></text>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>NumAbsolute</answertest>
         <sans>ans2</sans>
         <tans>UB</tans>
@@ -152,15 +153,15 @@ ta:[LB,UB];]]></text>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -194,7 +195,7 @@ ta:[LB,UB];]]></text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>LB-1</value>
@@ -212,7 +213,7 @@ ta:[LB,UB];]]></text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>LB</value>
@@ -230,7 +231,7 @@ ta:[LB,UB];]]></text>
     </qtest>
     <qtest>
       <testcase>4</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>LB-1</value>
@@ -247,5 +248,4 @@ ta:[LB,UB];]]></text>
       </expected>
     </qtest>
   </question>
-
 </quiz>

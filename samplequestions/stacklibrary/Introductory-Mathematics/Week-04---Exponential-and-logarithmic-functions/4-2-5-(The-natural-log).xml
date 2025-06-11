@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.5 (The natural log)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The natural logarithm</h3>
+
+<p>Perhaps the most important logarithm is that to the base \(e\). Logarithms to the base \(e\) are called <b>natural logarithms</b>.We write such logarithms as \(\ln (x)\) to represent \(\log_e(x)\), and this can be input into the quiz questions using <tt>ln(x)</tt> for \(\ln(x)\).&nbsp; STACK (the system we are using here) sometimes prints this input as \(\log(x)\), but it always interprets it as \(\ln (x)\), and should always be read as such. So do not be puzzled if a question about \(\ln\) suggests you type an answer using <tt>log</tt>, or displays an answer using \(\log\).&nbsp; This is just a quirk of the system, and you should continue using \(\ln\).</p>
+
+<p>We can see that 
+\[
+\ln e^x = x \qquad \mbox{ and } \qquad e^{\ln (x)} = x.
+\]
+Natural logarithms are important for the same reason the natural exponential is important. Recall that the number \(e\) is the number which governs exponential growth and decay. Natural logs give us another tool for dealing with the value \(e\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

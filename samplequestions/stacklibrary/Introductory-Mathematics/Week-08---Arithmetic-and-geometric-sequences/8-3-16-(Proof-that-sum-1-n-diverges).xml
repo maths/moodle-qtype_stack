@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.16 (Proof that sum 1/n diverges)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Show that the series \(\sum\limits_{n=1}^\infty \frac{1}{n}\) diverges.</p>
+
+<h3>Solution</h3>
+
+<p>To prove this fact, notice that the given series is a p-series with \(p=1\). Let us write out the first few terms of the series
+\[
+S_1= \sum\limits_{n=1}^\infty \frac{1}{n} = 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \cdots
+\] 
+We can compare this with the series 
+\[
+S_2 = 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{4} + \frac{1}{8} + \frac{1}{8} + \frac{1}{8} + \frac{1}{8} + \cdots.
+\]
+Clearly, the second series is smaller than the first. Notice that in \(S_2\) each set of terms wafter the first term can be collected to add up to \(\frac{1}{2}\). Therefore, 
+\[
+S_2 =  1 + \frac{1}{2} + \frac{1}{2} + \frac{1}{2} + \frac{1}{2} \cdots.
+\]
+Therefore, \(S_2\) diverges. But \(S_2\) is smaller than \(S_1\) and therefore by the comparison test \(S_1 = \sum\limits_{n=1}^\infty \frac{1}{n}\) diverges as well.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

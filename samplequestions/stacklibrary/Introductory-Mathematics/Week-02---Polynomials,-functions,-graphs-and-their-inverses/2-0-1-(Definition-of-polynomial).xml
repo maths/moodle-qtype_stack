@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.0.1 (Definition of polynomial)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Polynomials</h1>
+
+<p>We have spent time previously looking at quadratic functions and we are familiar with linear functions. For modelling certain phenomena we require a more general class of functions which encompasses linear and quadratic equations. These are the class of polynomial functions. A <b>polynomial</b>&nbsp;is an expression which can be written in the form</p>
+<p>
+\[ 
+a_nx^n + a_{n-1}x^{n-1} + \cdots + a_2x^2 + a_1x_1 + a_0
+\]
+where \(a_0, a_1, \dots, a_n\) are constants and \(a_n \not=0\) and \(n \in \mathbb{Z}_+\).
+The <b>degree </b> of the polynomial is the highest power of \(x\) which appears in the expression, i.e. it is \(n\) in the equation above. The key characteristic of a polynomial is that it is a linear combination of powers of the variable - (as with quadratics usually \(x\)). Therefore we can see that quadratic and linear equations are polynomials of degree \(2\) and \(1\) respectively. The following are more examples of polynomials:</p>
+<p></p>
+<ul style="list-style: none;">
+<li>cubics, e.g. \(2x^3+4x+3\) which has degree \(n=3\) and \(a_0=3, a_1=4, a_2=0, a_3=2\).</li>
+<li>quartics, e.g. \(x^4 + 2x^3+ 4 x^2+3x-1\) which has degree \(n=4\) and \(a_0=-1, a_1=3, a_2=4,a_3=2, a_4=1\)</li>
+</ul>
+<p>As we have seen previously with quadratics, the same polynomial can be written down in different ways, with certain representations being useful in particular situations, we will illustrate these forms by looking at the following example of the quadratic polynomial, \(q(x)=x^2-2x-3\).</p>
+<p></p>
+<ul style="list-style: none;">
+<li>The <b>standard form</b> \(x^2-2x-3\), with terms written in order of their degree, makes it easy to see this is a quadratic.</p></li>
+<li>The <b>fully factorised form</b> \( (x+1)(x-3) \) makes it easy to see the roots are \(x=-1\) and \(x=3\).</li>
+<li>The <b>nested form</b> \(x(x-2)-3\) is the most efficient way to evaluate the polynomial for a specific value of \(x\) (we will not really use this form).</li>
+<li>The <b>completed square form</b> \( (x-1)^2-4 \) lets us immediately see the coordinates of the turning point of the polynomial.</p></li>
+</ul></p>
+<br/>
+<h3>Terminology</h3>
+
+<p>We will now introduce the following terminology. Let \(P(x) = a_nx^n + a_{n-1}x^{n-1} + \cdots + a_2x^2 + a_1x_1 + a_0.\) Then:</p>
+<ul style="list-style: none;">
+<li>\(x\) is called the <b>variable</b>.</li>
+<li>\(a_0\) is the <b>constant</b>.</li>
+<li>\(a_n\) is the <b>leading coefficient</b>.</li>
+<li>\(a_r\) is the <b>coefficient</b> of \(x_r\).</li>
+<ul/>
+<br/>
+<p>It is important to be comfortable with this terminology and to be able to identify the different aspects of a given polynomial.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

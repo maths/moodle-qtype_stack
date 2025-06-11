@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.1 (Contrapositive)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Contrapositive</h1>
+
+<p>We have seen several techniques of how we can prove implications of the form "if \(A\) then \(B\)". We have seen some explicit examples of <i>direct</i> proofs and have seen how we can se deductive reasoning to perform such arguments. However, in this section we will focus on methods of <i>indirect</i> proof, beginning with proof by <i>contrapositive</i>.</p>
+
+<p>Suppose that we are, once again, asked to prove a conditional statement of the form \(A \implies B\). We know that we can try to prove this directly, however what can we do if direct proof fails? One option is to form the <i>contrapositive</i> statement. If we have the statement \(A \implies B\), we could form a new statement from this by saying
+\[
+\neg B \implies \neg A,
+\]
+this is called the <b>contrapositive</b> of the first statement. Often the direct proof may be more enlightening, but for those cases where direct arguments don't work, proof by contraposition can be very useful. Note here that we are negating both \(A,B\) but in the <i>reverse</i> order! The contrapositive is very useful because it is <i>logically equivalent</i> to the initial implication (so they have the same truth table). Therefore, if we need to prove that \(A \implies B\), we could just prove the contrapositive instead! </p>
+
+<p>The method of proof by contrapositive is as follows. To prove a statement of the form \(A \implies B\):</p>
+<ol>
+<li>Form the contrapositive, remembering to negate the statements \(A\) and \(B\) and reverse the order.</li>
+<li>Prove directly that \(\neg B \implies \neg A\).</li>
+</ol>
+<br/>
+<h3>Example</h3>
+
+<p>What is the contrapositive of the statement "If \(x\) is rational then \(2^x \not= 3\)."</p>
+
+<h3>Solution</h3>
+
+<p>Let \(A\) be the statement "\(x\) is rational" and let \(B\) be the statement "\(2^x \not= 3\)."</p>
+
+<p>Then the given statement is in the form \(A \implies B\). The contrapositive therefore is \(\neg B \implies \neg A\). Or in other words it is:</p>
+<p>"If \(2^x = 3\) then \(x\) is not rational (i.e. irrational)."</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

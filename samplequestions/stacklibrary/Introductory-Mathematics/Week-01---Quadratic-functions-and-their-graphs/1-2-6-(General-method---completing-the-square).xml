@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.6 (General method - completing the square)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>General method</h1>
+
+<p>In order to solve a quadratic by completing the square we proceed using the following steps.</p>
+
+<ol>
+<li>Rearrange the given quadratic into standard form \(ax^2 + bx + c = 0\).</li>
+<li>If \(a \not =1\) then divide all terms by \(a\).</li>
+<li>Rearrange the equation so that only the constant term is on the right hand side. </li>
+<li>Add \(\left(\frac{b}{2}\right)^2\) to both sides of the equation.</li>
+<li>Factorise the left hand side (which should be a perfect square).</li>
+<li>Take square roots of both sides (remembering both the positive and negative square roots).</li>
+<li>Rearrange to get an equation of the form \(x = \dots\), the two values for \(x\) are then the solutions of the quadratic.</li>
+<li>Check the values of \(x\) are indeed the roots by substituting them back into the quadratic and checking that this gives zero.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

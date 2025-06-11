@@ -62,6 +62,9 @@ abstract class stack_fact_sheets {
      * @return array tags, if there are any. Empty array if none.
      */
     protected static function get_fact_sheet_tags($text) {
+        if (!$text) {
+            return [];
+        }
         if (preg_match_all('|\[\[facts:(\w*)\]\]|U', $text, $matches)) {
             return $matches[1];
         }

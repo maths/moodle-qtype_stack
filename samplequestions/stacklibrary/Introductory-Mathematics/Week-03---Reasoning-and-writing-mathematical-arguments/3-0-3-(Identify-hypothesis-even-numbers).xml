@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>3.0.3 (Identify hypothesis even numbers)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Consider the following statement:</p>
+
+<p> Let \(n\) and \(m\) be integers. Then if \(n\) and \(m\) are both even, then \(n+m\) is even.</p>
+
+<p>Which of the following is the hypothesis of this statement?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text>That \(m\) and \(n\) are both even integers.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>That \(m+n\) is even.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>That \(m\) and \(n\) can be written in the form \(2\cdot k\) for any integer \(k\).</text>
+      <feedback format="html">
+        <text>This is equivalent to the statement \(n,m\) are even integers. We could re-write the theorem using this statement, but this isn't the hypothesis here.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>That \(m+n=2k\) for any integer \(k\).</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

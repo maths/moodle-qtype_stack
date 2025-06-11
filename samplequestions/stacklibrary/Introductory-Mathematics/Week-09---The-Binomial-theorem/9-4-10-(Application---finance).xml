@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.4.10 (Application - finance)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Finance</h1>
+
+<p>We have now seen how the Binomial Theorem is closely related to probability and statistics. By formulating the Binomial Distribution, we have seen how to use it to  calculate basic probabilities. We now move on to discuss another application of the Binomial Theorem - namely their use in predicting the stock market. </p>
+<br/>
+<p>Clearly, stock prediction is f great interest to a number of people due to the amount of money that can be made from doing it correctly. However stock prediction is intrinsically difficult as stock markets follow a type of behaviour known as chaotic behaviour. In short, this means that it is mathematically impossible to predict stocks accurately, large times in advance (similarly to the weather). However, there are certain things one can do within short time frames to analyse trends in the markets. One of the tools used for predictions of this type, involve mathematics based upon the binomial distribution. Other applications are found all throughout finance. Let us consider the following examples.</p>
+<br/>
+<p>Suppose that you are a money lender e.g. a bank who knows (with a certain accuracy) the likelihood of a particular borrower defaulting. What are the chances of enough borrowers defaulting to make the bank insolvent? This is a binomial experiment and is key because it allows you as the money lender, to understand where to price insurance, and understand how much money you should lend and how much you should keep in reserve.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.0.5 (Purpose of Proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>The purpose of proof</h1>
+
+<p>We have seen that mathematical proof is key in developing new mathematical techniques and argument. However there are several other reasons that proof is key to maths.</p>
+<p>Proof is used: </p>
+
+<ul style="list-style: none;">
+<li>To convince the reader of the truth or falsity of a given statement. This becomes particularly important when the result of the statement seems counterintuitive. This is a far more common occurrence in maths than one would initially expect.</li>
+<li>To understand how and why the different assumptions, definitions and hypotheses interact and combine to make the result.</li>
+<li>To communicate new ideas or Theorems. Mathematicians talk the language of proof, it is the cornerstone of mathematical discourse and debate.</li>
+<li>To discover new ideas and new mathematics. This is the process of mathematical research.</li>
+</ul>
+
+<p>A proof is an example of <i>deductive reasoning</i>, we begin at some starting point, under some assumptions often taking the form of definitions or statements, we then apply a sequence of mathematical or logical steps to arrive at a conclusion which is another mathematical statement.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 17333  -->
+  <question type="stack">
+    <name>
+      <text>Cart speed analysis</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<br>
+<div class="stack-comment">
+<h2>Live data capture and scientific units</h2>
+
+<p>STACK can be used in conjunction with live data capture in science labs. For example, here is a sample question which confirms if students have calculated a speed correctly from their own data.</p>
+<p>STACK also has full support for scientific units and numerical precision. Try out different values of time and distance, varying units. e.g. 10cm, 4.0s and 0.025m/s.</p>
+</div>
+<br>
+<p>In this question use the data captured from your moving cart in the speed lab. &nbsp;</p>
+<p>How far did the cart go? [[input:d]] [[validation:d]]</p>
+<p>How long did it take? [[input:t]] [[validation:t]]</p>
+<p>So what is the speed? [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Remember that \[ d=st.\] &nbsp;So if you have a distance of \(d\) meters, in a time of \(t\) seconds, then the speed \(s\) will be \(d/t\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025030700</text>
+    </stackversion>
+    <questionvariables>
+      <text>stack_unit_si_declare(true);
+td:2.0;
+tt:4.0;
+tv:significantfigures(ev(td/tt,simp),2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>units</type>
+      <tans>dispsf(tv,2)*m/s</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>4</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>minsf:2</options>
+    </input>
+    <input>
+      <name>d</name>
+      <type>units</type>
+      <tans>td*m</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>4</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>minsf:2</options>
+    </input>
+    <input>
+      <name>t</name>
+      <type>units</type>
+      <tans>tt*s</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>4</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>minsf:2</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>stack_unit_si_declare(true);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>UnitsAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>ev(d/t,simp)</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Well done, your calculation of the speed is consistent with the data you measured.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The speed you entered is not consistent with the data you entered for the first two parts.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value>2.5</value>
+      </testinput>
+      <testinput>
+        <name>d</name>
+        <value>5.0</value>
+      </testinput>
+      <testinput>
+        <name>t</name>
+        <value>2.0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value>0.392*m/s</value>
+      </testinput>
+      <testinput>
+        <name>d</name>
+        <value>5.1*m</value>
+      </testinput>
+      <testinput>
+        <name>t</name>
+        <value>2.0*s</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value>0.52*m/s</value>
+      </testinput>
+      <testinput>
+        <name>d</name>
+        <value>2.6*m</value>
+      </testinput>
+      <testinput>
+        <name>t</name>
+        <value>5.0*s</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

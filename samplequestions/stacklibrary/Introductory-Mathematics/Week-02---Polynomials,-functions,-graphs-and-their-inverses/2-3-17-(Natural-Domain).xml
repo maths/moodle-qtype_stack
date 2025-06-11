@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.3.17 (Natural Domain)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Natural domain</h3>
+
+<p>Note that in order to fully describe a function we need both the function rule <i>and</i> a domain. For example, we can specify \(f(x)=x^2\) for \(x\geq 0\). If a domain is not specified, we use the <b>natural domain</b> which is the largest part of the real numbers \(\mathbb{R}\) for which \(f(x)\) is defined. For example the natural domain for \(x^2\) is \(\mathbb{R}\) and the natural domain for \(\frac{1}{x}\) is \(x \not=0\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

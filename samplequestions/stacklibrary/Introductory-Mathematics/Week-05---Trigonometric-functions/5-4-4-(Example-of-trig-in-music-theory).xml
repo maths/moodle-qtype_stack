@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.4.4 (Example of trig in music theory)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Given that a note has a frequency of \(20\)Hz, write down the equation of the corresponding graph that models this note.</p>
+
+<h3>Solution</h3>
+
+<p>We have seen that a single note is modelled by a sine wave and therefor the equation of the graph has the from \(y = \sin bx\). Recall that the value of \(b\) affects the period of the sine wave by the relationship \(\frac{360^\circ}{b}\) and that we know that the period is the reciprocal of the frequency. Hence
+\[
+\mbox{period} = \frac{1}{\mbox{frequency}} = \frac{1}{20} = \frac{360^\circ}{b}.
+\]
+Therefore rearranging gives \(b = 7200^\circ\). Hence the equation of the sine wave is 
+\[
+y = \sin(7200^\circ x)
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

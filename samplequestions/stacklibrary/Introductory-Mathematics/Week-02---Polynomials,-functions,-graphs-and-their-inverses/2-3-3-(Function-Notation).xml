@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.3.3 (Function Notation)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Function Notation</h3>
+
+<p>In order to fully understand functions properly, we need to be comfortable with the variety of notation that is used to describe them. We have already met some of this notation in previous sections. Most frequently, we denote a function by \(y= f(x)\), this is shorthand for 'the expression \(y\) is a function of a given value of \(x\)'. Here \(x\) is called the <b>(independent) variable</b> of the function and \(y\) is the <b>dependent</b> variable.</p>
+<p>There are some further subtleties that we also need to examine. Consider the function \(f(x) = 3x+5\). This is shorthand for 'the function \(f\) is a function which converts the variable \(x\) into \(3x+5\)'. We can write this as 
+\[
+f : x \mapsto 3x+5.
+\]
+Here, \(f\) is the name of the function, '\(:\)' means 'such that' \(x\) is mapped to \(3x+5\).</p>
+<p>More generally, \(f\) is the the function which converts \(x\) to \(f(x)\) so we write \(f: x \mapsto f(x)\). Here \(y = f(x)\) is called the <b>image</b> of the function. For example the image of \(x = 2\) under the function \(f : x \mapsto 3x+5\) is \(3 \times 2 + 5 = 11\), therefore we write \(f(2) = 11\).</p>
+
+<p>There are a number of advantages to employing this function notation. </p>
+<ol>
+<li>It allows for individual names for different functions, for example we can deal with \(f(x) = x^2\) and \(g(x) = x+1\) without confusion.</li>
+<li>It allows us to quickly identify the independent variable of the function for example \(f(x)\)-\(x\) is the independent variable and in \(g(y)\)-y is the independent variable. This is especially useful if we have functions of several variables e.g. \(f(x,y)\) where both \(x\) and \(y\) are independent variables. Functions like this come up a lot but are beyond the scope of this course.</li>
+<li>It allows us to quickly identify which element of the function is to be examined, for example \(f(1)\) immediately allows us to see that we need to evaluate the function \(f\) at the point \(x=1\).</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.1.3 (Obtaining Linear Factors)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Write the polynomial \(P(x) ={@qq1@}\) as a product of linear factors.</p>
+
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Recall that a linear factor is a factor of the form \(x - a\). We already have that the factor \((x + {@aa@})\) is a linear factor. So it remains to factorise the quadratic factor \({@expand((x+bb)*(x-cc))@}\). We see that 
+\[
+{@expand((x+bb)*(x-cc))@} = (x+{@bb@})(x-{@cc@}).
+\]
+Therefore \(P(x) = {@ta1@}\)]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: 1+ rand(10);
+bb: 1+ rand(10);
+cc: 1+ rand(10);
+
+qq1: (x+ aa)*expand((x+bb)*(x-cc));
+ta1: (x+ aa)*(x+bb)*(x-cc);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1034390670</deployedseed>
+    <deployedseed>1383256127</deployedseed>
+    <deployedseed>320739548</deployedseed>
+    <deployedseed>1716048280</deployedseed>
+    <deployedseed>809660228</deployedseed>
+    <deployedseed>1790872303</deployedseed>
+    <deployedseed>308292960</deployedseed>
+    <deployedseed>735612822</deployedseed>
+    <deployedseed>1137586831</deployedseed>
+    <deployedseed>2085345395</deployedseed>
+    <deployedseed>1904954995</deployedseed>
+    <deployedseed>842130292</deployedseed>
+    <deployedseed>174461575</deployedseed>
+    <deployedseed>1492646979</deployedseed>
+    <deployedseed>1404150203</deployedseed>
+    <deployedseed>1223365232</deployedseed>
+    <deployedseed>660063607</deployedseed>
+    <deployedseed>1983997239</deployedseed>
+    <deployedseed>303507381</deployedseed>
+    <deployedseed>1251422659</deployedseed>
+    <deployedseed>1459916317</deployedseed>
+    <deployedseed>83817160</deployedseed>
+    <deployedseed>127147077</deployedseed>
+    <deployedseed>1757289927</deployedseed>
+    <deployedseed>1975306617</deployedseed>
+    <deployedseed>8241019</deployedseed>
+    <deployedseed>1078356336</deployedseed>
+    <deployedseed>1910009294</deployedseed>
+    <deployedseed>2015525502</deployedseed>
+    <deployedseed>1483871141</deployedseed>
+    <deployedseed>2012834508</deployedseed>
+    <deployedseed>926765307</deployedseed>
+    <deployedseed>1040700717</deployedseed>
+    <deployedseed>1516015889</deployedseed>
+    <deployedseed>1634529359</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>(x-cc)*(x+bb)*(x+ aa)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

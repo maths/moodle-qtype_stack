@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.1.1 (Exponential equations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Exponential equations</h1>
+
+<p>An <b>exponential equation</b> is an equation in which an unknown occurs as part of an exponent or index. For example \(2^x = 8\) is an exponential equation but \(2x=8\) is not. We shall see that exponential equations can be examined using their graphs and that they behave somewhat differently to polynomials. </p>
+
+<p>There are a number of different methods that we can use in order to solve exponential equations. We will see in the next section how to use <i>logarithms</i> in order to do this. However, in some cases we can solve the equations algebraically. This tends to be more simple than using logarithms, so it is a useful technique to use. Often, in order to do this we must rely on the following rule. If both sides of an exponential equation are written as powers with the same base numbers then we can equate indices. In other words, if
+\[
+a^x = a^y \mbox{ then } x = y.
+\]
+We can use this to solve our example above. Note that if \(2^x = 8\) then \(2^x = 2^3\) (since \(2^3 = 8\)), therefore the solution is \(x =3\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

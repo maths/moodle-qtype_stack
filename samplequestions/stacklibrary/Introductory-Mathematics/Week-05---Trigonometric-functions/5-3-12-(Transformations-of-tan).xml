@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.3.12 (Transformations of tan)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Transformations of the tangent</h3>
+
+<p>As with the sine and cosine functions we can transform the tangent function to obtain the graph of related functions. Since the definition of tan is slightly more complicated than that of the sine and cosine functions, the transformations are perhaps slightly more difficult to understand. However, they still follow a similar pattern to the transformations for sine and cosine. The following is a summary of all the transformations of the tangent function.</p>
+
+<ol>
+<li>The graph of \(y = \tan bx\), for \(b > 0\) is obtained by a horizontal dilation of \(y = \tan x\) with a factor of \(\frac{1}{b}\).</li>
+<li>The graph of \(y = \tan bx\), for \(b > 0\) has a period of \(\frac{180^\circ}{b}\).</li>
+<li>The graph of \(y = \tan(x - c)\) is obtained by a horizontal translation of \(y = \tan x\) by a distance of \(c\).</li>
+<li>The graph of \(y = \tan(x)+d\) is obtained by a vertical translation of \(y = \tan x\) by a distance of \(d\).</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

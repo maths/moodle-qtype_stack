@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>5.3.14 (Spot the scaled trig based on MNS L4.1 Q4 edited)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="center">            <p class="noindent">            </p><p class="noindent">Which graph shows the function \( f(x)={@p@} \)?<br></p><p class="noindent">[[input:ans1]] [[validation:ans1]]&nbsp;<br></p></div><table>
+  <tbody><tr>
+    <td style="text-align: center;"><span><b>Graph A</b></span></td>
+    <td style="text-align: center;"><span><b>Graph B</b></span></td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">{@plot(plist[1],[x,-5,5],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -4, 1,4],[ytics, -4, 1, 4],[alt,"Graph A"])@}</td>
+    <td style="text-align: center;">{@plot(plist[2],[x,-5,5],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -4, 1,4],[ytics, -4, 1, 4],[alt,"Graph B"])@}</td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;</td>
+    <td style="text-align: center;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="text-align: center;"><b>Graph C</b></td>
+    <td style="text-align: center;"><b>Graph D</b></td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">{@plot(plist[3],[x,-5,5],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -4, 1,4],[ytics, -4, 1, 4],[alt,"Graph C"])@}</td>
+    <td style="text-align: center;">{@plot(plist[4],[x,-5,5],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -4, 1,4],[ytics, -4, 1, 4],[alt,"Graph D"])@}</td>
+  </tr>
+</tbody></table><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p class="noindent">The function \(\sin({@a@}x)\) has a graph which is like that of \(\sin(x)\), but is compressed horizontally.<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Make sure m<>1, or adjust the list of options. */
+m:2;
+/* Make sure a<>b. */
+a:2+rand(2);
+p:sin(a*x);
+flistpre:[sin(x+a),sin(x),a*sin(x),sin(x/a),cos(a*x),cos(x),cos(x/a)];
+flist:rand_selection(flistpre,3);
+flist:append([[p,true]],maplist(lambda([ex],[ex,false]),flist));
+flist:random_permutation(flist);
+/* Create a list of just the plots, to plot. */
+plist:map(first,flist);
+/* Identify both the correct answer, and the position of the correct answer. */
+tac:first(mcq_correct(flist));
+n:first(sublist_indices(flist, lambda([ex],second(ex))));
+corletter:[A,B,C,D][n];
+ta1:maplist(lambda([letter],[letter,is(letter=corletter),sconcat("Graph ",letter)]),[A,B,C,D]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@flist@} f is element {#n#}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>corletter</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1890833457</deployedseed>
+    <deployedseed>880294126</deployedseed>
+    <deployedseed>1984131213</deployedseed>
+    <deployedseed>977545842</deployedseed>
+    <deployedseed>786905706</deployedseed>
+    <deployedseed>625360340</deployedseed>
+    <deployedseed>1241150354</deployedseed>
+    <deployedseed>574654335</deployedseed>
+    <deployedseed>2055415952</deployedseed>
+    <deployedseed>1200921429</deployedseed>
+    <deployedseed>832151888</deployedseed>
+    <deployedseed>1337821232</deployedseed>
+    <deployedseed>1151799315</deployedseed>
+    <deployedseed>1541454876</deployedseed>
+    <deployedseed>1613945911</deployedseed>
+    <deployedseed>192016714</deployedseed>
+    <deployedseed>577701955</deployedseed>
+    <deployedseed>988059747</deployedseed>
+    <deployedseed>1949431263</deployedseed>
+    <deployedseed>1994710669</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corletter</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>delete(corletter,[A,B,C,D])[1]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -588,9 +588,4 @@ class stack_equiv_input extends stack_input {
         $in = implode("\n", $in);
         return [$this->name => $in];
     }
-
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution($tavalue) {
-        return ['' => $this->maxima_to_raw_input($tavalue)];
-    }
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.19 (Problem solving with sequences)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Problem solving with sequences</h1>
+
+<p>Now that we are familiar with both arithmetic and geometric sequences, let us use some of the techniques we have seen so far to solve various problems that require the use of series. Let us begin with the following example.</p>
+<br/>
+
+<h3>Example</h3>
+
+<p>Alice started a new job and earned £\(15000\) in her first month. Thereafter, her salary increased by £\(1500\) per year. Her expenses are £\(13000\) during the first year and the expenses increase by £\(900\) per year. How many years will it take for Alice to save £\(20000\) per month?</p>
+
+<h3>Solution</h3>
+
+<p>Let us begin by turning everything into a monthly timetable. Alice's salary increases by £\(1500/12 =\) £\(125\) per month. Similarly, Alices expenses increase by £\(900/12\) = £\(75\) per month.</p>
+
+<p>Next we can write both the expenses and salary as a monthly sequence:
+\[
+\begin{align*}
+&\mbox{salary}: 15000,15125, 15250, \dots
+\\
+&\mbox{savings}: 13000,13075, 13150, \dots
+\end{align*}
+\]
+We can subtract the second sequence from the first which will give us a sequence of how much Alice saves every month. We have:
+\[
+2000,2050,2100, \dots.
+\]
+We notice that this sequence is an arithmetic sequence because each term is increasing by \(50\) per month. Therefore we can write a formula for the sequence as
+\[
+u_n = a + (n-1)d = 2000 + 50(n-1).
+\]
+To find which month Alice saves £\(20000\) we substitute \(u_n = 20000\) into the formula above and rearrange to get \(n\). So we have 
+\[
+20000 = 2000 + 50(n-1) \implies 18000/50 + 1 = n = 361.
+\] 
+Thus it takes Alice \(361\) months to save £\(20000\) or in years, it takes her \(361/12 \approx 30\) years.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

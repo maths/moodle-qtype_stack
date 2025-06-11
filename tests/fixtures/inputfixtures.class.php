@@ -711,45 +711,45 @@ class stack_inputvalidation_test_data {
         ['123', 'php_true', '123', 'cas_true', '123', 'Units_SA_no_units', "Units"],
         ['9.81*m/s^2', 'php_true', 'dispdp(9.81,2)*m/s^2', 'cas_true', '9.81\, {\mathrm{m}}/{\mathrm{s}^2}', '', ""],
         ['9.81*m*s^-2', 'php_true', 'dispdp(9.81,2)*m*s^-2', 'cas_true', '9.81\, {\mathrm{m}}/{\mathrm{s}^2}', '', ""],
-        ['2*(pi+1)', 'php_true', '2*(pi+1)', 'cas_true', '2\, \left(\pi+1\right)', 'Units_SA_no_units', ""],
+        ['2*(pi+1)', 'php_true', '2*(pi+1)', 'cas_true', '2\,\left(\pi+1\right)', 'Units_SA_no_units', ""],
         [
             '(2*(pi+1))*mm', 'php_true', '(2*(pi+1))*mm', 'cas_true',
-            '2\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '2\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
         [
             '2*(pi+1)*mm', 'php_true', '2*(pi+1)*mm', 'cas_true',
-            '2\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '2\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
         [
             '2*mm*(pi+1)', 'php_true', '2*mm*(pi+1)', 'cas_true',
-            '2\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '2\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
         [
             '(2*mm)*(pi+1)', 'php_true', '(2*mm)*(pi+1)', 'cas_true',
-            '2\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '2\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
-        ['mm*2*(pi+1)', 'php_true', 'mm*2*(pi+1)', 'cas_true', '2\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', ""],
-        ['(pi+1)*2*mm', 'php_true', '(pi+1)*2*mm', 'cas_true', '\left(\pi+1\right)\, 2\, \mathrm{m}\mathrm{m}', '', ""],
-        ['(pi+1)*mm*2', 'php_true', '(pi+1)*mm*2', 'cas_true', '\left(\pi+1\right)\, 2\, \mathrm{m}\mathrm{m}', '', ""],
+        ['mm*2*(pi+1)', 'php_true', 'mm*2*(pi+1)', 'cas_true', '2\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', ""],
+        ['(pi+1)*2*mm', 'php_true', '(pi+1)*2*mm', 'cas_true', '\left(\pi+1\right)\,2\, \mathrm{m}\mathrm{m}', '', ""],
+        ['(pi+1)*mm*2', 'php_true', '(pi+1)*mm*2', 'cas_true', '\left(\pi+1\right)\,2\, \mathrm{m}\mathrm{m}', '', ""],
         [
             '(2*1*(pi+1))*mm', 'php_true', '(2*1*(pi+1))*mm', 'cas_true',
-            '2\, 1\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '2\,1\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
         [
             '(1*2*(pi+1))*mm', 'php_true', '(1*2*(pi+1))*mm', 'cas_true',
-            '1\, 2\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '1\,2\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
         [
             '(2*pi+2)*mm', 'php_true', '(2*pi+2)*mm', 'cas_true',
-            '\left( 2\, \pi+2\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '\left( 2\,\pi+2\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
         [
             '(2+0)*(pi+1)*mm', 'php_true', '(2+0)*(pi+1)*mm', 'cas_true',
-            '\left(2+0\right)\, \left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
+            '\left(2+0\right)\,\left(\pi+1\right)\, \mathrm{m}\mathrm{m}', '', "",
         ],
         [
             '(pi+1)*(2*mm)', 'php_true', '(pi+1)*(2*mm)', 'cas_true',
-            '\left(\pi+1\right)\, 2\, \mathrm{m}\mathrm{m}', '', "",
+            '\left(\pi+1\right)\,2\, \mathrm{m}\mathrm{m}', '', "",
         ],
     ];
 

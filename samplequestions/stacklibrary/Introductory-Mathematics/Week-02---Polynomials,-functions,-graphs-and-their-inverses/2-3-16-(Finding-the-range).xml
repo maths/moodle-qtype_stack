@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>2.3.16 (Finding the range)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>What is the range of the function \(f(x) = |x|\) where \(|x|\) is the absolute value of \(x\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>In this case the absolute value converts negative number into their positive equivalent, e.g. \(|-2| = 2\). Therefore the range of this function is all the positive real numbers, as well as \(0\). Therefore</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text>\([0,\infty)\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\([0,\infty]\)</text>
+      <feedback format="html">
+        <text>Recall that we can't have a closed interval containing infinity.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\([-\infty,0]\)</text>
+      <feedback format="html">
+        <text>Recall that we can't have a closed interval containing infinity.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\((-\infty,0]\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\([-\infty,\infty]\)</text>
+      <feedback format="html">
+        <text>Recall that we can't have a closed interval containing infinity.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\((-\infty,\infty)\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.1.16 (Factor theorem)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Factor Theorem</h1>
+
+<p>Building on the division process from the previous page, we have seen that we can take any polynomial \(P(x)\) and number \(a\) and write
+\[ 
+P(x) = (x-a)Q(x) +&nbsp; r, 
+\]
+where \(Q(x)\) is a polynomial with degree less than the degree of \(P(x)\), and \(r\) is a number. For example, 
+\[ 
+\frac{x^2+x-10}{x-3} = x+4 + \frac{2}{x-3} 
+\]
+so multiplying throughout by \(x-3\), we get
+\[ 
+x^2+x-10 = (x-3)(x+4) + 2 
+\]
+i.e. we have found \(Q(x)=x+4\) and \(r=2\).</p>
+
+<p>Using this observation, we can establish two theorems which are useful when working with polynomials - the factor and remainder theorems.</p>
+<br/>
+<h3>Theorem</h3>
+
+<p>\(x-a\) is a factor of \(P(x)\) if and only if \(P(a)=0\).</p>
+
+<p><b>Proof</b></p><p><span>Because this is an "if and only if" statement, we need to prove both directions, (we will talk more about this in week 3).</span></p>
+<ul>
+<li>If \(P(a)=0\) then 
+\[
+\begin{eqnarray} 
+P(x) &amp;=&amp; (x-a)Q(x)+P(a)
+\\
+&amp;=&amp; (x-a)Q(x). 
+\end{eqnarray}
+\] 
+So we have written \(P(x)\) as a product of \(x-a\) and another polynomial, meaning \(x-a\) is a factor of \(P(x)\).</li>
+<li>If \(x-a\) is a factor of&nbsp;\(P(x)\), this means we can write \(P(x)=(x-a)Q(x)\) for some polynomial \(Q(x)\).
+Using this expression, \(P(a)=(a-a)Q(a)=0\times Q(a)=0\).</li>
+</ul>
+<p>Since we have proved both directions, this completes the proof.</p>
+<br/>
+<p>For the example above, the fact that \(P(-4)=2\) tells us that \(x+4\) is not a factor of \(P(x)\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

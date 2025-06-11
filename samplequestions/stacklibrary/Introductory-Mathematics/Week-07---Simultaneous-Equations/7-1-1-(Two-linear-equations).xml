@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.1.1 (Two linear equations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Two linear equations</h1>
+
+<p>In the previous section we discussed methods for solving two linear simultaneous equations and equations when we have one quadratic and one linear equation. In fact there is another way that we can solves such equations. This is the <b>graphical method</b>. Notice that in all the cases we have seen, each pari of simultaneous equations are a pair of functions, therefore we can plot both equations simultaneously on the same set of axes. The solutions of the simultaneous equations will then be the coordinates of the points which satisfy <i>both</i> equations. In other words, these will correspond to the points of intersection of the two functions. For linear equations this will be fairly straightforward to spot. We will see what this means in practice in the following example.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

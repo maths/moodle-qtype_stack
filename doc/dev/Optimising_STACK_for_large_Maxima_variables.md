@@ -22,7 +22,7 @@ To determine the root cause we created a dummy question, which generates a datas
 ```
     makelist(makelist(100, c, 1, 4), makelist(100, r, 1, N))
 ```
-within `Question variables`. We intercepted the CAS command called on question load from STACK (version 4.5.0) and timed this within a Maxima terminal using the approach described [here](https://docs.stack-assessment.org/en/Developer/Unit_tests/#timing-the-code). This allowed us to see the total time globally and per function, the most called function, and the average time per call for each function. This information highlighted possible inefficiencies within the function `stackjson_stringify` found [here](https://github.com/maths/moodle-qtype_stack/blob/dc19c913b6c4a8fc8b8ef20ae31ced699d23dd7b/stack/maxima/stackstrings.mac#L216). This function converts the Maxima `stack_map` representation of a JSON object into a string containing an actual JSON object, ready for parsing on the PHP side. It is a crucial component that is used [at the point of communication between Maxima and PHP](https://github.com/maths/moodle-qtype_stack/blob/dc19c913b6c4a8fc8b8ef20ae31ced699d23dd7b/stack/maxima/stackmaxima.mac#L692).
+within `Question variables`. We intercepted the CAS command called on question load from STACK (version 4.5.0) and timed this within a Maxima terminal using the approach described in the [STACK documentation](https://docs.stack-assessment.org/en/Developer/Unit_tests/#timing-the-code). This allowed us to see the total time globally and per function, the most called function, and the average time per call for each function. This information highlighted possible inefficiencies within the function `stackjson_stringify` found in [stackstrings.mac](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/stackstrings.mac#L216). This function converts the Maxima `stack_map` representation of a JSON object into a string containing an actual JSON object, ready for parsing on the PHP side. It is a crucial component that is used [at the point of communication between Maxima and PHP](https://github.com/maths/moodle-qtype_stack/blob/dc19c913b6c4a8fc8b8ef20ae31ced699d23dd7b/stack/maxima/stackmaxima.mac#L692).
 
 ### Experiments
 
@@ -168,7 +168,7 @@ Instead we propose a _batch_ version of `stackjson_stringify` that does the foll
   3. Loop through the batches and pass the batch to `sconcat` as 64 individual character arguments to create a batch string of length 64.
   4. `sconcat` the batch strings together.
 
-The code for this approach can be found [here](https://github.com/maths/moodle-qtype_stack/blob/2d2fc0e5fe8620163ff78644da0ce06ef5fa61df/stack/maxima/stackstrings.mac#L221).
+The code for this approach can be found in [stackstrings.mac](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/stackstrings.mac#L221).
 
 Note also that since this is really an issue with _string length_, rather than array dimension, this means that the precision of floating point numbers in dataset entries will also have an impact. Truncating these to a small precision will help to speed up the processing time.
 
@@ -609,7 +609,7 @@ While the above experiments show that combining SBCL-compiled Maxima with the pr
 To check this we run the answer test script (containing 2033 tests at the time of writing) on the STACK Plugin settings page on a Moodle dev environment on Linux 
 Ubuntu 22.04.3, for the various STACK and Maxima compilations discussed above, with different STACK configured settings (e.g., whether to cache). These test scripts provide the total time taken, which we report in the table below. 
 
-We observe that when running STACK using (non-optimised) Linux and no cache, SBCL seems to inflate the time taken by the answer test which is something we found to be the case previously [here](../Installation/Optimising_Maxima.md). In all other configurations, however, there does not appear to be a discernible difference among the four columns. In particular, the use of the batch optimisation of `stackjson_stringify` does not appear to significantly affect the running time of the answer tests.
+We observe that when running STACK using (non-optimised) Linux and no cache, SBCL seems to inflate the time taken by the answer test which is something we found to be the case previously in [optimising maxima](../Installation/Optimising_Maxima.md). In all other configurations, however, there does not appear to be a discernible difference among the four columns. In particular, the use of the batch optimisation of `stackjson_stringify` does not appear to significantly affect the running time of the answer tests.
 
 <table>
   <thead>

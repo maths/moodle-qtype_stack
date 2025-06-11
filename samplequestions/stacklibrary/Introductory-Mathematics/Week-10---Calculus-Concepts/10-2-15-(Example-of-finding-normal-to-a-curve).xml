@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.2.15 (Example of finding normal to a curve)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Find the equation of the normal to the curve \(y = \frac{8}{\sqrt{x}}\) at the point where \(x = 4\).</p>
+
+<h3>Solution</h3>
+
+<p>When \(x = 4\), \(y = \frac{8}{\sqrt{4}} = \frac{8}{2} = 4\). Thus the point where the curve intersects the normal is \((4,4)\).</p>
+<p>Now, \(f(x) = 8x^{1/2}\), thus \(f'(x) = -4x^{-3/2}\) and so \(f'(4) = -4 \cdot 4^{-3/2} = -\frac{1}{2}\).</p>
+<p>Therefore the gradient of the normal at the point \((4,4)\) is given by 
+\[
+-\frac{1}{f'(4)} = -\frac{1}{-1/2} = 2.
+\]</p>
+<p>So, using the formula above, the equation of the normal is
+\[
+y = 2(x - 4) + 4 \implies y = 2x -4.
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

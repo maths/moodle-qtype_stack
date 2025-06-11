@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.3.19 (Graph showing transformations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Below is a graph of some function \(y=f(x)\).&nbsp; The four sliders \(a,b,c,d\) are parameters in the four associated functions \(f(ax), bf(x), f(x+c), f(x) + d\).&nbsp; Change the values of the sliders to see how these graphs are related to that of \(f\).<br></p><p><iframe scrolling="no" title="Manipulations of graphs" src="https://www.geogebra.org/material/iframe/id/zhq9gqbt/width/700/height/700/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" style="border:0px;" width="500px" height="500px"> </iframe><br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

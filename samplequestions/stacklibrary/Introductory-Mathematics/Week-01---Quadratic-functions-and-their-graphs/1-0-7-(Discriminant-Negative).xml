@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.0.7 (Discriminant: Negative)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="noindent">Consider the quadratic equation {@expr=0@}.</p>    <p class="noindent">Evaluate its discriminant.</p>  
+ <p>[[input:ans1]][[feedback:prt1]] [[validation:ans1]]</p>  <p class="noindent">How many roots does the equation have?&nbsp; &nbsp;[[input:ans2]][[feedback:prt2]] [[validation:ans2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The discriminant is \(b^2-4ac=({@b@})^2-4\times({@a@})\times({@c@})={@disc@}\).</p><p>Since the discriminant is {@sgnofdisc@}, the quadratic equation has {@opts[d+2]@}.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[bb: rand(10);
+aa: rand(10);
+cc: 5+rand(10);
+
+expr:(aa)*x^2+(bb)*x+(cc);
+disc: bb^2-4*aa*cc;
+
+ta1:disc;
+
+
+
+a:rand_range(2,6);
+b:rand_range(-1,1,2)*rand_range(1,8);
+c:rand_range(-1,1,2)*rand_range(1,8);
+d:signum(disc);
+sgnofdisc:["negative","equal to zero","positive"][d+2];
+opts:["no real roots","a repeated root","two distinct real roots"];
+nums:[0,1,2];
+ta2:makelist([nums[i], is(d+2=i),opts[i]],i,1,3);
+cor2:[nums[d+2]];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>[{@expr@}, {#disc#}]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>*,^</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>checkbox</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>cor2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>276469483</deployedseed>
+    <deployedseed>378371151</deployedseed>
+    <deployedseed>1885936121</deployedseed>
+    <deployedseed>1035065094</deployedseed>
+    <deployedseed>45576087</deployedseed>
+    <deployedseed>610622631</deployedseed>
+    <deployedseed>494251193</deployedseed>
+    <deployedseed>315524341</deployedseed>
+    <deployedseed>27654172</deployedseed>
+    <deployedseed>1483759009</deployedseed>
+    <deployedseed>1472917908</deployedseed>
+    <deployedseed>205859500</deployedseed>
+    <deployedseed>514554346</deployedseed>
+    <deployedseed>2138120561</deployedseed>
+    <deployedseed>86328566</deployedseed>
+    <deployedseed>1538646250</deployedseed>
+    <deployedseed>1411133881</deployedseed>
+    <deployedseed>1845540432</deployedseed>
+    <deployedseed>1650362590</deployedseed>
+    <deployedseed>1227252141</deployedseed>
+    <deployedseed>340867751</deployedseed>
+    <deployedseed>133874613</deployedseed>
+    <deployedseed>1738618402</deployedseed>
+    <deployedseed>1674998273</deployedseed>
+    <deployedseed>731656505</deployedseed>
+    <deployedseed>1656139353</deployedseed>
+    <deployedseed>1819286300</deployedseed>
+    <deployedseed>461599762</deployedseed>
+    <deployedseed>1464413877</deployedseed>
+    <deployedseed>487035421</deployedseed>
+    <deployedseed>808873553</deployedseed>
+    <deployedseed>1939599596</deployedseed>
+    <deployedseed>729291763</deployedseed>
+    <deployedseed>1090307972</deployedseed>
+    <deployedseed>1436308629</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>cor2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>cor2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -54,6 +54,7 @@ This is clearly a difference of two squares so the fully factored form is:
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans</name>

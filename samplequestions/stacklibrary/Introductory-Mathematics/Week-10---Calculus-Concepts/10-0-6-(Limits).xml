@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.0.6 (Limits)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Limits</h1>
+
+<p>We have met the notion of a limit previously in this course. Specifically we met them in week 8 when discussing infinite sequences and series. Limits provide us with a way of dealing with infinite quantities. Remember that infinity is not a number, so without the concept of limits we would not be able to perform calculations with them. We have seen that in order to calculate instantaneous rates of change we take two points on the curve and examine what happens as those points become arbitrarily close to each other. Performing this operation formally, relies on the idea of the limit as one point approaches another. We will see in the next section how this is done formally and how this allows us to calculate the gradients of tangents. For now, let us recall the definition of a limit and practice how to calculate limits of different functions.</p>
+<br/>
+<p>Suppose that we have a function \(f(x)\). We say that a number \(b\) is the <b>limit</b> of \(f(x)\) as \(x\) goes to \(a\), or we say \(f(x)\) <b>tends to</b> \(b\) as \(x\) tends to \(a\), if we can make \(f(x)\) arbitrarily close to \(a\) by making \(x\) close to \(a\). We denote this as 
+\[
+\lim\limits_{x\to a} f(x) = b \qquad \mbox{ or } f(x) \to b \mbox{ as } x \to 0.
+\]</p>
+<br/>
+<p>Note that this is not the full, general mathematical definition of a limit however it will be sufficient for our purposes. The limit is defined for \(x\) being close to <i>but not equal to</i> \(a\). Whether the function \(f(x)\) is defined or not when \(x = a\) is not actually important to the definition of the limit. What is important, is the behaviour of the function as \(x\) <i>gets very close to</i> \(a\).</p>
+<br/>
+<h3>Example</h3>
+
+<p>Find the limit of 
+\[
+f(x) = \frac{5x+x^2}{x} \mbox{ as } x \to 0.
+\]</p>
+
+<h3>Solution</h3>
+
+<p>We need to find the limit \(\lim\limits_{x \to 0} f(x)\).</p>
+<p>Notice that we may be tempted just to substitute \(x=0\) into the equation. However, we can't do this because the function is not defined when \(x=0\), therefore we have to use limits. Instead, observe that we can write 
+\[
+\frac{5x+x^2}{x} = \frac{x(5+x)}{x}. 
+\]
+So, \(f(x) = 5 + x\) if \(x \not=0\) and \(f(x)\) is undefined when \(x=0\). Now we see that as \(x \to 0\) \(5+x \to 5\), so \(\lim\limits_{x \to 0} f(x) = 5\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

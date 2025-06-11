@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.24 (Systems of equations with matrices)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Solving simultaneous equations with matrices</h1>
+
+<p>Now that we have seen how to perform basic operations with matrices let us return to our motivating problem of this section. Namely solving a system of three linear equations in three variables. Recall that we have the equations
+\[
+\begin{align*}
+&a_1x_1+a_2x_2 + a_3x_3 = y_1
+\\
+&a_4x_1+a_5x_2 +a_6x_3 = y_2
+\\
+&a_7x_1+a_8x_2 +a_9x_3 = y_3,
+\end{align*}.
+\]
+We can write these equations in terms of matrices as 
+\[
+\begin{bmatrix}
+a_1 & a_2 & a_3
+\\
+a_4 & a_5 & a_6
+\\
+a_7 & a_8 & a_9
+\end{bmatrix}
+\begin{bmatrix}
+x_1
+\\
+x_2
+\\
+x_3
+\end{bmatrix} = \begin{bmatrix}
+y_1
+\\
+y_2
+\\
+y_3
+\end{bmatrix},
+\]
+Or, writing this in terms of matrices we have \(A\mathbf{x} = \mathbf{b}\)
+This helps us solve these equations because we have translated the problem into a problem of matrices and we know that we have several techniques to deal with matrices. Recall that solving these equations means to find the value of each \(x_i\) variable. Notice that if we could find the inverse of the matrix \(A\) then we could multiply the equation on the left by \(A^{-1}\) to obtain
+\[
+A^{-1}A \mathbf{x} = A^{-1} \mathbf{b} \implies x = A^{-1} \mathbf{b},
+\]
+in other words we could solve the equation. Let's see this in the following example. 
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

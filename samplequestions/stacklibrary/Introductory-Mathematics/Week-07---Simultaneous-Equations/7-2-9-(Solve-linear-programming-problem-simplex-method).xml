@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.2.9 (Solve linear programming problem simplex method)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Consider the following linear programming problem: Maximise the equation \(z = 2x_1 -x_2 +2x_3\), subject to the constraints 
+\[
+\begin{align*}
+&2x_1+ x_2 \leq 10
+\\
+&x_1 + 2x_2 -2x_3  \leq 20
+\\
+& x_2 +2x_3 \leq 5
+\end{align*}
+\]
+where \(x_1,x_2,x_3 \geq 0\).</p>
+
+
+<p>Maximum z = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Begin by noting that this problem is in standard form. We can introduce the three slack variables \(s_1,s_2,s_3\) to turn the constraints into the following equations:
+\[
+\begin{align*}
+&2x_1+ x_2 + s_1 = 10
+\\
+&x_1 + 2x_2 -2x_3 +s_2 = 20
+\\
+& x_2 +2x_3 + s_3 = 5
+\end{align*},
+\]
+We can then form the initial simplex tableau:
+\[
+\begin{bmatrix}
+2 & 1 & 0 & 1 & 0 & 0 & 10
+\\
+1 & 2 & -2 & 0 & 1 & 0 & 20
+\\
+0 & 1 & 2 & 0 & 0 & 1 & 5
+\\
+-2 & 1 & -2 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+We then go through the simplex algorithm by noting that the first pivot column is the third one, and the pivot row is the third row. So the pivot variable is \(2\) and we need to perform the pivot to make this entry a \(1\) and all other entries in the same column a \(0\) this gives us 
+\[
+\begin{bmatrix}
+2 & 1 & 0 & 1 & 0 & 0 & 10
+\\
+1 & 3 & 0 & 0 & 1 & 1 & 25
+\\
+0 & 1/2 & 1 & 0 & 0 & 1/2 & 5/2
+\\
+-2 & 1 & -2 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\] 
+The next negative indicator is in the first column, so, calculating the ratios of all the entries in this column, we see the next pivot variable is in the top row, so it is the value \(2\) in the top left. Performing the pivot again with this variable we have
+\[
+\begin{bmatrix}
+1 & 1/2 & 0 & 1/2 & 0 & 0 & 5
+\\
+0 & 5/2 & 0 & -1/2 & 1 & 1 & 20
+\\
+0 & 1/2 & 1 & 0 & 0 & 1/2 & 5/2
+\\
+0 & 3 & 0 & 1 & 0 & 1 & 15
+\end{bmatrix}.
+\]
+So the maximum value is \(15\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1:15;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

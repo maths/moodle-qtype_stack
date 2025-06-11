@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.1 (Arithmetic sequences)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Arithmetic Sequences</h1>
+
+<p>An <b>arithmetic sequence</b> is a sequence where the difference between consecutive terms is a constant. This difference is called the "common difference" and is usually denoted by \(d\). If an arithmetic sequence has first term \(a\) and common difference \(d\), then the terms of the sequence are 
+\[ 
+a, \quad a+d, \quad a+2d, \quad a+3d, \ldots 
+\]
+We can describe the sequence in two ways:</p>
+<ol>
+<li>Using a recurrence relation: We know each term should be \(d\) more than the previous term, so 
+\[
+&nbsp; 
+u_n=u_{n-1}+d,\quad u_1=a. 
+\]
+</li>
+<li>Using a formula: Spotting the pattern above, we have 
+\[ 
+u_n=a+(n-1)d. 
+\]</li>
+</ol>
+<p>Let us consider the following example.</p>
+<br/>
+<h3>Example</h3>
+<p>For the arithmetic sequence \(5, 8, 11, 14,\ldots\), the first term is \(a=5\) and the common difference is \(d=3\). So we have</p>
+<ol>
+<li>Recurrence relation: \(u_n=u_{n-1}+3\), \(u_1=5\).</li>
+<li>Formula: \(u_n=5+3(n-1)\).</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

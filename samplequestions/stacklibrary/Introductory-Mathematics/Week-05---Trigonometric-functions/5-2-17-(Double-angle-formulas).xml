@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.17 (Double angle formulas)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Double angle formulas</h3>
+
+<p>We often need to deal with sines and cosines of a double angle, that is, an angle of the form \(2 \theta\). Fortunately, we also have identities which deal with such a situation. As we shall see, these identities are actually just a special case of the sum identities above.</p>
+<br/>
+<p>The <b>Double angle formulas</b> are the following trigonometric identities:</p>
+<ol>
+<li>\(\sin 2x = 2\sin x\cos x\).</li>
+<li>\(\cos 2x = \cos^2 x -\sin^2 x\).</li>
+<li>\(\cos 2x = 1 - 2 \sin^2 x \).</li>
+<li>\(\cos 2x = 2 \cos x -1\).</li>
+<li>\(\tan 2x = \frac{2\tan x}{1-\tan^2 x}\)</li>
+</ol>
+<br/>
+<h3>Proof</h3>
+
+<ol>
+<li>Let \(A= x = B\) and substitute this into the sum identity \(\sin (A+B)\equiv\sin A\cos B+\cos A\sin B\) to obtain 
+\[
+\sin (x+x) \equiv\sin x \cos x + \cos x \sin x \implies \sin (2a) = 2 \sin x \cos x.
+\] </li>
+<li>Similarly, let \(A= x = B\) and substitute this into the sum identity \(\cos(A+B)\equiv\cos A\cos B-\sin A\sin B\) to obtain
+\[
+\cos(x+x)\equiv\cos x \cos x - \sin x \sin x \implies \cos (2x) = \cos^2 x - \sin^2 x.
+\]</li>
+<li>From the Pythagorean identity we have 
+\[
+\cos^2 x + \sin^2 x = 1 \implies \cos^2 x = 1 - \sin^2 x.
+\]
+Substituting this into the formula from 2. we have 
+\[
+\cos (2x) = \cos^2 x - \sin^2 x = (1 - \sin^2 x) - \sin^2 x = 1 - 2\sin^2 x. 
+\]</li>
+<li>Similarly for 3. note that the Pythagorean identity gives us that 
+\[
+\cos^2 x + \sin^2 x = 1 \implies \sin^2 x = 1 - \cos^2 x.
+\]
+Substituting this into the formula from 2. gives 
+\[
+\cos (2x) = \cos^2 x - \sin^2 x = \cos^2 x - (1 - \cos^2 x) = 2\cos^2 x -1
+\]</li>
+<li>The proof is left to the reader.</li>
+</ol>
+<br/>
+<p>There are also formulas for sines and cosines of \(3x, 4x,... etc\). The case for \(3x\) are called the triple angle formulas, and for higher values they are know as the <i>multi-angle formulas</i>. As we have done above, you can derive these from the sum identities by considering e.g. \(\sin 2x + x\) for the triple angle case. These formulas are beyond the scope of this course but it is important to know they exist and that the method for deriving them is similar to the double angle case. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

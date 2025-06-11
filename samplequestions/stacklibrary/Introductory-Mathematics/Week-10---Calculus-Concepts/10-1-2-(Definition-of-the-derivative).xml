@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.2 (Definition of the derivative)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Definition of derivative</h3>
+
+<p>As we have discussed previously, that as \(h\) gets smaller, the value \(\dfrac{f(x + h) - f(x)}{h}\) becomes a better approximation for the gradient of the tangent to the graph of \(f\) at \((x, f(x))\). &nbsp; Thus we want to define the derivative to be the "limiting value" of the expression \(\dfrac{f(x + h) - f(x)}{h}\) as \(h\) goes to zero.&nbsp; Formalising this idea, requires the mathematical notion of a limit which we have met previously. </p>
+<br/>
+<p>We are now in a position to give the formal definition of the <i>derivative</i> of a function \(f\) at a point \(x\).  We define 
+\[
+f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}.
+\]
+The expression \(\dfrac{f(x+h) - f(x)}{h}\) is sometimes called a difference quotient; thus the derivative is the limit of the difference quotients as \(h\) goes to \(0\). For a function \(y = f(x)\) the derivative (with respect to \(x\)) is denoted \(\frac{dy}{dx}\) or \(f'(x)\). We will use this notation interchangeably so that we become more comfortable with both types. </p>
+<p>We will now use this definition to figure out, from "first principles". This is why it is key to be able to calculate and manipulate derivatives. Once we are familiar with this process, we will see how to calculate certain derivatives in a faster manner.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

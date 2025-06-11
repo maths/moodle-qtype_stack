@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.1 (Limits of sequences)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Calculating limits of sequences</h1>
+
+<p>Previously in this week, we have introduced the idea of infinite sequences and series. In addition we have also introduced the properties of boundedness and convergence. In this section we will return to these topics to examine further how to find limits of different infinite sequences and how we can apply these to find limits of infinite sequences.</p>
+<br/>
+<p>Recall that sequences defined by recurrence relations of the form \(u_{n+1} = au_n +b\) with \(-1 < a < 1\) converge to a limit. It is possible to work out this limit by knowing the values of \(a\) and \(b\) only. </p>
+<br/>
+<p>The sequence defined by \(u_{n+1} = au_n + b\) with \( -1< a < 1\) tends to the limit \(L\) as \(n \to \infty\) which is given by 
+\[
+L= \frac{b}{1-a}.
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

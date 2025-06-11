@@ -440,11 +440,11 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
-        $this->assertEquals('x\,y', $s1[0]->get_display());
-        $this->assertEquals('x\,y\,z', $s1[1]->get_display());
-        $this->assertEquals('x\,\left(y\,z\right)', $s1[2]->get_display());
+        $this->assertEquals('x y', $s1[0]->get_display());
+        $this->assertEquals('x y z', $s1[1]->get_display());
+        $this->assertEquals('x \left(y z\right)', $s1[2]->get_display());
         // Notice the associativity of Maxima suppresses the extra explicit brackets here.
-        $this->assertEquals('x\,y\,z', $s1[3]->get_display());
+        $this->assertEquals('x y z', $s1[3]->get_display());
     }
 
     public function test_multiplication_option_cross(): void {
@@ -525,12 +525,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
-        $this->assertEquals('2 x', $s1[0]->get_display());
-        $this->assertEquals('2 3 x', $s1[1]->get_display());
-        $this->assertEquals('3 5^2', $s1[2]->get_display());
-        $this->assertEquals('3 x^2', $s1[3]->get_display());
-        $this->assertEquals('x \left(-y\right)', $s1[4]->get_display());
-        $this->assertEquals('3 \left(-4\right) x \left(-y\right)', $s1[5]->get_display());
+        $this->assertEquals('2\,x', $s1[0]->get_display());
+        $this->assertEquals('2\,3\,x', $s1[1]->get_display());
+        $this->assertEquals('3\,5^2', $s1[2]->get_display());
+        $this->assertEquals('3\,x^2', $s1[3]->get_display());
+        $this->assertEquals('x\,\left(-y\right)', $s1[4]->get_display());
+        $this->assertEquals('3\,\left(-4\right)\,x\,\left(-y\right)', $s1[5]->get_display());
     }
 
     public function test_function_power_display(): void {
@@ -643,7 +643,7 @@ final class cassession2_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $options->set_option('inversetrig', 'arccos-arcosh');
+        $options->set_option('inversetrig', 'arsinh');
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();

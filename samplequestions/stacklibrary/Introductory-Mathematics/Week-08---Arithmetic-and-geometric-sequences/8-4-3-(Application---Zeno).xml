@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.4.3 (Application - Zeno)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Achilles and the tortoise</h3>
+
+<p>We have mentioned that some of the earliest studies of sequences and series began in ancient Greece with Zeno (circa 450BCE). In fact Zeno appears to have made no explicit statement of sequences and series. However in the solution to many of his paradoxes, lie implicit infinite series. Here we will discuss one of the most famous of Zeno's paradoxes, that of Achilles and the tortoise.</p>
+<p></p>
+<p>There was a tortoise who challenged Achilles to a race, claiming that he would win so long as Achilles gave him a head start of \(10\) metres. However, Achilles pointed out that he could travel the \(10\)m very quickly. To which the tortoise replied with the following argument. To run the distance between Achilles and the tortoise after the \(10\)m head start, Achilles would have to travel half the distance, then half the remaining distance, then half the remaining distance and so on ad infinitum. Every time achilles had halved the distance, the tortoise would have gone a little further, with the consequence that Achilles can never overtake the tortoise.</p>
+<br/>
+<p>An interesting side effect of this argument is that it would make motion impossible because before Achilles could cover half the distance, he must cover half of half the distance and sop on and so on, so he could never move at all. However clearly, motion exists so this is a paradox. So what is wrong with the logic? Where is the flaw in the argument? Perhaps you will have already spotted this, being benefitted as we are with the modern techniques we have met so far this week, which eluded Zeno.</p>
+<br/>
+<p>Let us examine the distance Achilles will travel according to the tortoise. Suppose that the race is 1km long and that before Achilles has travelled 1km he has to travel a half-km and before he travels half a km he has to travel a quarter of a km etc etc. Well how far has Achilles travelled here? Well he should have travelled 1 kilometre, meaning that 
+\[
+1 = \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \frac{1}{32} + \cdots.
+\]
+But surely this is impossible. We are adding an infinite number of distances so would expect to get an infinite answer. However, we now know better, we have seen the idea of limits of infinite series and understand that this sum is true (remember that this was beyond Zeno at the time). We can use this knowledge to resolve the paradox as follows. It will take some fixed time for Achilles to travel half the total distance of one mile, let's say 2 seconds (ridiculously fast, but that doesn't matter for the argument, we choose the value to make the illustration of the problem easier). Then it will take half this amount of time to cover half that distance - i.e. it will take \(1\) second to travel a quarter of a kilometre and so on for an eighth of a kilometre, a sixteenth of a kilometre etc. Once Achilles has finished the race we can add up all the times it took him to travel the sub-distances (forming an infinite series similar to above.) to see that it would have taken him 4 seconds for him to travel the 1km to presumably win the race. The key point here is that the series of sub-intervals has a limit and therefore Achilles can win. As the idea of limits was unknown to the Greeks, it took many hundreds of years before anyone could solve this paradox.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

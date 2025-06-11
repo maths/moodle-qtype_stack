@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.2.7 (Sketching quartics)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Sketching Quartics</h1>
+
+<p>Like other polynomials we can also sketch quartic functions. A <b>quartic</b> is a polynomial with degree \(4\). The general form of a quartic is \(P(x) = ax^4 + bx^3 +cx^2 +dx+e\). This is the expanded form of the quartic. We may also wish to find the fully factorised form. For example 
+\[
+y = x^4 -4x^3-x^2+16x-12 \: \mbox{(expanded)} \qquad \: y = (x+2)(x-1)(x-3) \mbox{ (factorised)}.
+\] </p>
+
+<p>Move the sliders in the following graph to show what effect changing the coefficients has on the graph of the quartic \(y = ax^4 + bx^3 +cx^2 +dx+e\).</p>
+
+<iframe scrolling="no" title="Quartic Graph Sliders" src="https://www.geogebra.org/material/iframe/id/at3mm2wx/width/1920/height/964/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="800px" height="450px" style="border:0px;"> </iframe>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

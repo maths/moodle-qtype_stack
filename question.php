@@ -252,6 +252,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public $pluginfiles = [];
 
     /**
+     * @var bool is this question marked as broken.
+     */
+    public $isbroken = false;
+
+    /**
      * Make sure the cache is valid for the current response. If not, clear it.
      *
      * @param array $response the response.
@@ -359,9 +364,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * Once we know the random seed, we can initialise all the other parts of the question.
      */
     public function initialise_question_from_seed() {
+        // If the question is marked as broken skip straight to error output.
         // We can detect a logically faulty question by checking if the cache can
         // return anything if it can't then we can simply skip to the output of errors.
-        if ($this->get_cached('units') !== null) {
+        if ($this->isbroken) {
+            // Question is marked as broken. Students should not see it.
+            $this->runtimeerrors[stack_string('questionbroken')] = true;
+        } else if ($this->get_cached('units') !== null) {
             // Build up the question session out of all the bits that need to go into it.
             // 1. question variables.
             $session = new stack_cas_session2([], $this->options, $this->seed);
@@ -1750,17 +1759,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 2. Check alt-text exists.
         // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
         $tocheck = [];
-        $text = '';
-        if ($this->questiontextinstantiated !== null) {
-            $text = trim($this->questiontextinstantiated->get_rendered());
-        }
-        if ($text !== '') {
-            $tocheck[stack_string('questiontext')] = $text;
-        }
-        $ct = $this->get_generalfeedback_castext();
-        $text = trim($ct->get_rendered($this->castextprocessor));
-        if ($text !== '') {
-            $tocheck[stack_string('generalfeedback')] = $text;
+        $fields = ['questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription'];
+        foreach ($fields as $field) {
+            $text = '';
+            $fieldinstantiated = $field . 'instantiated';
+            if ($this->{$fieldinstantiated} !== null) {
+                $text = trim($this->{$fieldinstantiated}->get_rendered());
+            } else {
+                $text = trim($this->{$field});
+            }
+            if ($text !== '') {
+                $tocheck[stack_string($field)] = $text;
+            }
         }
         // This is a compromise.  We concatinate all nodes and we don't instantiate this!
         foreach ($this->prts as $prt) {
@@ -2005,6 +2015,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $units = false;
         $forbiddenkeys = [];
         $sec = new stack_cas_security();
+        \stack_cas_castext2_block::$isinteractive = false;
 
         // Some counter resets to ensure that the result is the same even if
         // we for some reason would compile twice in a session.
@@ -2253,7 +2264,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // Remember to collect the extracted strings once all has been done.
         $cc['static-castext-strings'] = $map->get_map();
-
+        $cc['is-interactive'] = \stack_cas_castext2_block::$isinteractive;
         return $cc;
     }
 
@@ -2287,5 +2298,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $formatoptions->allowid = true;
         $text = $qa->rewrite_pluginfile_urls($text, $component, $filearea, $itemid);
         return format_text($text, $format, $formatoptions);
+    }
+
+    /**
+     * Is the question interactive?
+     * @return bool
+     */
+    public function is_interactive() {
+        return $this->get_cached('is-interactive');
     }
 }

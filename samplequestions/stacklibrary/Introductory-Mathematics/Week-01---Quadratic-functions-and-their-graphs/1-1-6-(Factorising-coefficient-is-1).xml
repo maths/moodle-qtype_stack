@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.6 (Factorising coefficient is 1)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Coefficient of \(x^2\) is \(1\)</h1>
+
+<p>As we have noted previously, there is no algorithmic method for factorising all quadratics. However, there is a certain process we can use for relatively simple cases. It is often more straightforward to factorise a quadratic where the leading coefficient is \(1\). We will illustrate this process in the following example. </p>
+<br/>
+<h3>Example</h3>
+
+<p>Solve the quadratic \((x+2)(x+7) = x^2 + 9x + 14 = 0\) by factorisation.</p>
+
+<h3>Solution</h3>
+
+<p>If we expand the brackets on the left hand side we obtain
+\[
+(x+2)(x+7) = x^2 +7x + 2x +14 = x^2 + 9x + 14 = 0.
+\]
+Now, we wish to consider precisely where each term in the quadratic comes from in the expansion. The \(14\) must come from multiplying together the \(2\) and the \(7\) and the \(9x\) comes from adding the terms \(7x\) and \(2x\). 
+So, beginning with the quadratic \(x^2 + 9x + 14 = 0\) we can reverse engineer this process which tells us that, in order to factorise this quadratic, we are looking for two numbers which <i>multiply</i> to get \(14\) and <i>sum</i> to get \(7\). Hence we require \(m\) and \(n\) such that 
+\[
+m \cdot n = 14 \qquad \mbox{ and } \qquad m + n = 9.
+\]
+We have seen in this case that the numbers that work are \(7\) and \(2\). With practice it will become easier to spot these numbers just by inspection. However, if it is not immediately obvious, it is often useful to write out all the factors of the constant term and try all the possible pairings. So in this case the factors of \(14\) are 
+\[
+1, 2, 7, 14.
+\]
+Then, noting that \(1 + 14 =15\), we can rule out these, so the correct answers must be \(2\) and \(7\) as we have seen.</p>
+
+<p>Therefore, putting this all together we have
+\[
+\begin{eqnarray*}
+x^2 + 9x + 14  &=  x^2 + 7x + 2x + 14 
+\\
+&= x(x + 2) + 7x + 14
+\\
+&= x(x+2) + 7(x + 2) 
+\\ 
+&= (x+ 7)(x+2) = 0. 
+\end{eqnarray*}
+\]
+Thus, we have factorised the quadratic and the solutions to the quadratic are \(x = -2 \mbox{ or } -7\).
+We should always <b>check</b> that these are roots of the given equation by substituting them into the quadratic and checking that this gives us zero. 
+We have,
+\[
+-2: \:\:\: (-2)^2 + (9 \cdot -2) + 14 = 4 - 18 + 14 = 0 \qquad \mbox{ and } \qquad -7: \:\:\: (-7)^2 + (9 \cdot -7) + 14 = 49 - 63 + 14 = 0,
+\]
+so \(x = -2 \mbox{ and } -7\) <i>are</i> the roots of the equation. 
+</p>
+<p>We will see in this section how to factorise by inspection, that is by spotting the pattern. The ability to use inspection comes with practice and may not be immediately obvious straight away. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

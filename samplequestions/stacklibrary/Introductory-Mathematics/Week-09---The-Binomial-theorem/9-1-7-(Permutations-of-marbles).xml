@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.1.7 (Permutations of marbles)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>How many ways can you order {@bb@} blue marbles, {@rr@} red marbles and {@gg@} green marbles given that two marbles of the same colour are indistinguishable. You can leave your answers in terms of factorials if you would prefer.</p>
+
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Here we have {@bb+rr+gg@}  total marbles. And there are {@bb+rr+gg@}! = {@(bb+rr+gg)!@} ways to order these marbles.</p>
+<p>However, there are {@bb@}! to order the blue marbles, {@gg@}! ways to order the green and {@rr@}! to order the red marbles. Since the marbles of the same colour are indistinguishable, we need to divide by these orderings. So the total number of orderings that we require is 
+\[
+\frac{{@bb+rr+gg@}!}{{@bb@}!{@rr@}!{@gg@}!} = \frac{{@(bb+rr+gg)!@}}{{@bb!*rr!*gg!@}} = {@ta1@}.
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>bb:1+rand(10);
+rr: 3+rand(10);
+gg: 6+rand(10);
+
+ta1: (bb+rr+gg)!/(bb!*rr!*gg!)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>blue: {@bb@}, red: {@rr@}, green: {@gg@} permutations: {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>812687729</deployedseed>
+    <deployedseed>463769830</deployedseed>
+    <deployedseed>1414005670</deployedseed>
+    <deployedseed>681459422</deployedseed>
+    <deployedseed>469123518</deployedseed>
+    <deployedseed>1884890614</deployedseed>
+    <deployedseed>242196336</deployedseed>
+    <deployedseed>747305995</deployedseed>
+    <deployedseed>990482878</deployedseed>
+    <deployedseed>304710492</deployedseed>
+    <deployedseed>602553646</deployedseed>
+    <deployedseed>389699059</deployedseed>
+    <deployedseed>1395354015</deployedseed>
+    <deployedseed>1870421284</deployedseed>
+    <deployedseed>2077003844</deployedseed>
+    <deployedseed>2088338812</deployedseed>
+    <deployedseed>217965445</deployedseed>
+    <deployedseed>1659818842</deployedseed>
+    <deployedseed>2038617969</deployedseed>
+    <deployedseed>23735279</deployedseed>
+    <deployedseed>80578406</deployedseed>
+    <deployedseed>2035108879</deployedseed>
+    <deployedseed>1670178981</deployedseed>
+    <deployedseed>1092193102</deployedseed>
+    <deployedseed>280484060</deployedseed>
+    <deployedseed>1504049839</deployedseed>
+    <deployedseed>1507070992</deployedseed>
+    <deployedseed>1253975140</deployedseed>
+    <deployedseed>1957771971</deployedseed>
+    <deployedseed>720397916</deployedseed>
+    <deployedseed>448273514</deployedseed>
+    <deployedseed>1526906587</deployedseed>
+    <deployedseed>2078501457</deployedseed>
+    <deployedseed>1504951137</deployedseed>
+    <deployedseed>690136701</deployedseed>
+    <deployedseed>538149483</deployedseed>
+    <deployedseed>2032750502</deployedseed>
+    <deployedseed>1055946969</deployedseed>
+    <deployedseed>721845857</deployedseed>
+    <deployedseed>1435237643</deployedseed>
+    <deployedseed>1050854732</deployedseed>
+    <deployedseed>1049395002</deployedseed>
+    <deployedseed>1372578014</deployedseed>
+    <deployedseed>1689491857</deployedseed>
+    <deployedseed>1187293139</deployedseed>
+    <deployedseed>69974307</deployedseed>
+    <deployedseed>301714120</deployedseed>
+    <deployedseed>409676867</deployedseed>
+    <deployedseed>766385838</deployedseed>
+    <deployedseed>2090889550</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

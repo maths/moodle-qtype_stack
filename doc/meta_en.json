@@ -139,8 +139,8 @@
             },
             {
             "file":"Rule_based.md",
-            "title":"Rules based tests - STACK Documentation",
-            "description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
+            "title":"Rule-based tests - STACK Documentation",
+            "description":"STACK can test expressions belong to the same bespoke equivalence class."
             },
             {
             "file":"String.md",

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.4 (Monty Hall)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Monty Hall problem</h3>
+
+<p>Perhaps one of the most famous recreational mathematics problems is that of <i>Monty Hall problem</i>. This problem is to do with basic probability but it has a somewhat counter-intuitive solution. The problem is named after the game show host Monty Hall and it was originally proposed to the American statistician in 1975 by Steve Selvin. However, it really became famous in 1990 as it was featured in Marilyn von Savant's column in parade magazine, where the solution was explained. Her explanation of the solution caused a furore and nearly 10 000 readers including about 1000 who had PhDs wrote to the magazine claiming that von Savant was wrong. She was not! Even today when the correct solution is given, many people refuse to accept the solution. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

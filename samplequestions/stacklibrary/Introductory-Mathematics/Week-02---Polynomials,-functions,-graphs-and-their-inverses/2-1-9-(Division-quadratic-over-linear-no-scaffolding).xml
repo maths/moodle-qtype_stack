@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.1.9 (Division quadratic over linear no scaffolding)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>\(\dfrac{{@numer2@}}{{@x+d2@}}=\) [[input:ans4]][[validation:ans4]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\( \dfrac{{@(x+d2)*ev((a2*x+b2),simp)+c2@}}{({@x+d2@})} = \dfrac{{@(x+d2)*ev((a2*x+b2),simp)@}}{({@x+d2@})}+\dfrac{{@c2@}}{({@x+d2@})} = {@ev(a2*x+b2,simp)+c2/(x+d2)@}&nbsp; \)<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>d2:rand([-1,-2,-3]);
+a2:1;
+b2:rand_with_prohib(-5,5,[0]);
+c2:rand_with_prohib(-3,3,[0]);
+numer2:ev(expand((x+d2)*(a2*x+b2)+c2),simp);
+ta4: unary_minus_sort(ev((a2*x+b2),simp)+c2/(x+d2));
+polypart:a2*x+b2;
+fracpart:c2/(x+d2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt2]]<br></p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@(numer2)/(x+d2)=ta4@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>??? + ?/(x-?)</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>polynomialp(ans4-fracpart,[x])</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your final answer does not seem to be in the correct form.<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1229562750</deployedseed>
+    <deployedseed>1417866914</deployedseed>
+    <deployedseed>651442217</deployedseed>
+    <deployedseed>30449679</deployedseed>
+    <deployedseed>176637699</deployedseed>
+    <deployedseed>100106792</deployedseed>
+    <deployedseed>1119768826</deployedseed>
+    <deployedseed>398037143</deployedseed>
+    <deployedseed>1198917828</deployedseed>
+    <deployedseed>2059267948</deployedseed>
+    <deployedseed>1811148284</deployedseed>
+    <deployedseed>739264713</deployedseed>
+    <deployedseed>513569026</deployedseed>
+    <deployedseed>1658518687</deployedseed>
+    <deployedseed>289024142</deployedseed>
+    <deployedseed>794429477</deployedseed>
+    <deployedseed>630007689</deployedseed>
+    <deployedseed>364505720</deployedseed>
+    <deployedseed>2019718384</deployedseed>
+    <deployedseed>1998345098</deployedseed>
+    <deployedseed>625221523</deployedseed>
+    <deployedseed>130101132</deployedseed>
+    <deployedseed>65069807</deployedseed>
+    <deployedseed>1376352297</deployedseed>
+    <deployedseed>553452888</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans4</name>
+        <value>numer2/(x+d2)</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

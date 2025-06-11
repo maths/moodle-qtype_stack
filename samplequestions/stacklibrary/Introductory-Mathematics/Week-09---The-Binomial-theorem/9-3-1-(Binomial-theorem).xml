@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.3.1 (Binomial theorem)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Statement and proof of theorem</h1>
+
+<p>You should now be familiar with expanding binomials to both integer and non integer powers. We have also seen how to find coefficients of binomial expansions. We are now in a position to formally state and prove the Binomial Theorem. </p>
+<br/>
+
+<p>Recall that we considered the example
+\[ 
+(x+y)^4=(x+y)(x+y)(x+y)(x+y)
+\]
+Now we can see that to get a term of the form \(x^2y^2\) we would need to have chosen \(x\) from two of the brackets. Since there are 4 brackets to choose from, the number of ways to do this is \({4\choose2}=6\), just as we have calculated before.</p><p>This way of thinking about expanding brackets works in general and is essentially how we can prove the Binomial Theorem, which we state as follows:</p>
+<br/>
+<p>Let \(a,b\) be real numbers, then we can calculate the following expansion
+\[
+(a+b)^n=\sum_{r=0}^n {n\choose r}a^{n-r}b^r
+\]</p>
+<br/>
+<p><b>Proof:</b></p>
+<p>There are \(n\) brackets to be expanded, and from each bracket we choose either \(a\) or \(b\). If we choose \(b\) from \(r\) of the brackets, and \(a\) from the remaining \(n-r\), we will get a term of the form \(a^{n-r}b^r\). Since we have \(n\) brackets and want to choose \(r\) of them, the number of ways to do this is \({n\choose r}\). Thus there will be \({n\choose r}\) terms of the form&nbsp;\(a^{n-r}b^r\) in the expansion.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

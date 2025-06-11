@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.0.16 (Example of solving sim. eqns. with one lin. one qud.)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Examples</h3>
+
+<p>Solve the following simultaneous equations.</p>
+
+<ol type = "a">
+<li>
+\[
+\begin{align}
+&y = x^2 + 2x+ 3 \:\:\:\:\: (1)
+\\
+&y = 3x+9 \:\:\:\:\: (2)
+\end{align}
+\]
+</li>
+<li>
+\[
+\begin{align}
+&y = 2x^2 + x -5  \:\:\:\:\: (1)
+\\
+&2x-y =-1  \:\:\:\:\: (2)
+\end{align}
+\]</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol type = "a">
+<li>In this case we see that both the first and second equations are equal to tthe variable \(y\). Therefore we can set these equations equal to each other to obtains
+\[
+x^2-2x+3 = 3x+9.
+\]
+We can now rearrange this equation to obtain a zero on the right hand side. (This will give us a quadratic in standard form), we then solve the quadratic using an appropriate method in order to find the values of \(x\). We have 
+\[
+x^2 - 5x - 6 = 0 \implies (x-6)(x+1) = 0 \implies x=6 \mbox{ or } x= -1.
+\]
+Substituting each of these values of \(x\) into equation (2) (or (1) depending which is easiest) gives that 
+\[
+y = 3(6)+9 = 27 \mbox{ or } y =3(-1)+9 = 6.
+\]
+Therefore the solutions to the simultaneous equations are \((6,27)\) and \((-1,6)\).</li>
+<li>We proceed similarly as in part a. In this case equation (2) does not have \(y\) as its subject but we can rearrange it to obtain 
+\[
+y = 2x +1.
+\]
+Now both equations (1) and (2) are equal to \(y\) therefore we can again set them equal to each other and rearrange them to get a quadratic in standard form. We have 
+\[
+2x+1 = 2x^2 + x -5 \implies 2x^2 -2 - 6 = 0 \implies (2x+3)(x-2)=0
+\]
+
+Hence either \(x = -\frac{3}{2}\) or \(x = -2\). Substituting these values of \(x\) into equation (2) (or (1)) gives that
+\[
+y = 2(-\frac{3}{2}) +1 = -2 \mbox{ or } y = 2(-2)+1 = -3
+\]
+So the solutions to the simultaneous equations are \((-\frac{3}{2},-2)\) and \((-2,5)\).</li>
+<br/>
+<p>Notice that just as in the case of two linear equations, we can check our answer by inputting all of the solutions we found for \(x\) and \(y\) and checking that they satisfy the equations. The difference in the case where we have one quadratic and one linear equation is that we can get two solutions to the equations (as we have done in these example above) whereas when we have two linear equations there is only one value of \(x\) and \(y\). Therefore we often give our answers in terms of coordinates. This will become more useful as we examine simultaneous equations graphically.</p>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

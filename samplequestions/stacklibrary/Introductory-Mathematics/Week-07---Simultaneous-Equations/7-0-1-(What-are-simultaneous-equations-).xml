@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.0.1 (What are simultaneous equations?)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Simultaneous equations</h1>
+
+<p>So far in the course, we have met a variety of equations. We are often most concerned with how to solve equations, for example finding the roots of polynomials or quadratics. However, we have primarily focussed on equations in one variable, that is, functions of the form \(y=f(x)\). Even when we looked at circles which had equations in terms of both \(x\) and \(y\) actually we could have rearranged them to be of the form \(y=f(x)\) as well. For example we could write the circle \(x^2 + y^2 = r^2\) as \(y = \sqrt{r^2 - x^2}\). In many real life situations however, we often have to deal with functions of more than one variable. </p>
+<br/>
+<p>On occasion, you will come across two or more unknown quantities, and two or more equations relating them. These are called <b>simultaneous equations</b> and when asked to solve them you must find values of the unknowns which satisfy all the given equations at the same time (hence the simultaneous in the name). For example suppose that we have a rectangle with perimeter 100cm, if the length is three more than five times as long as the width how can we find the area? Well we can encode this information in the following equations by letting \(x\) be the length of the rectangle and \(y\) the width
+\[
+\begin{align*}
+&2x + 2y =100 \:\:\:\: \mbox{(formula for perimeter)}
+\\
+&x = 5y + 3 
+\end{align*}
+\]
+Then we can solve these equations together <i>simultaneously</i> to get the length and width of the rectangle to then find the area.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -52,7 +52,7 @@ The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", o
 [[/parsons]]
 ````
 
-A list of all Sortable.js options can be found [here](https://github.com/SortableJS/Sortable#options), currently these are set at the default option for `"animation"` which controls the animation speed.
+A list of all Sortable.js options can be found on the [SortableJS GitHub](https://github.com/SortableJS/Sortable#options), currently these are set at the default option for `"animation"` which controls the animation speed.
 
 ````
 {

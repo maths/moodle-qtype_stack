@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.1.1 (Factors of Polynomials)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Factors</h1>
+
+<p>We have seen in the previous section that we can write a polynomial in several different forms. As we were with quadratics, when we study polynomials we are often interested in the roots of the polynomial. In order to find the roots, we often need to factorise polynomials. This is often a longer process than with quadratics and involves use of <i>polynomial division</i> in order to find the <i>factors</i> of the polynomial.</p>
+
+<p>Suppose that \(P(x) = (3x+1)(x+1)^2(x^2+x+1)\) then each bracket is called a <b>factor</b> of \(P(x)\). A factor is a <b>linear factor</b> is the polynomial in the bracket is linear. Hence, \((3x+1)\) and \((x+1)\) are the linear factors of \(P(x)\) (where the factor (x+1) is a repeated factor). The factor \((x^2+x+1)\) is a <b>quadratic factor</b>.</p>
+
+<p>We shall see that factors are important to the theory of polynomials as they give us a way to solve different polynomials in the <i>Factor Theorem</i> and <i>Remainder Theorem</i>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

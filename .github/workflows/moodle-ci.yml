@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     services:
       postgres:
@@ -31,7 +31,6 @@ jobs:
       fail-fast: false
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL.
-        # As of Sept 2024, SBCL is not working.
         include:
           - php: '8.2'
             moodle-branch: 'main'
@@ -41,12 +40,12 @@ jobs:
           - php: '8.2'
             moodle-branch: 'MOODLE_405_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
+            maxima: 'GCL'
             moodle-app: true
           - php: '8.2'
             moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
-            maxima: 'GCL'
+            maxima: 'SBCL'
             moodle-app: true
           - php: '8.1'
             moodle-branch: 'MOODLE_403_STABLE'

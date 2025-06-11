@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>10.2.22 (MCQ statements about inc/dec/stat)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider the function \(f(x)={@poly@}\).</p><p>Which of the following statements are true? Select all that apply.<br></p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Whether the function is increasing, decreasing, or stationary at a point is determined by the sign of its derivative of that point.&nbsp; A positive value of the derivative implies that the function is increasing; a negative value for the derivative implies that the function is decreasing, and a value of zero for the derivative implies that the function is stationary.</p><p>We calculate that \(f'(x)={@der@}\).&nbsp; Evaluating this at each \(x\)-value to find the sign of the derivative, we see that</p>
+<ul>
+<li><p>\(f'({@xvals[1]@})={@fdvals[1]@}\) so \(f\) is {@interps[1]@} when {@x=xvals[1]@};</p></li>
+<li><p>\(f'({@xvals[2]@})={@fdvals[2]@}\) so \(f\) is {@interps[2]@} when {@x=xvals[2]@};</p></li>
+<li><p>\(f'({@xvals[3]@})={@fdvals[3]@}\) so \(f\) is {@interps[3]@} when {@x=xvals[3]@}; and<br></p></li>
+<li><p>\(f'({@xvals[4]@})={@fdvals[4]@}\) so \(f\) is {@interps[4]@} when {@x=xvals[4]@}.</p></li>
+</ul>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* construct a cubic with three distinct roots */
+r1:rand_range(-3,-2);
+r2:0;
+r3:rand_range(2,3);
+poly:expand((x-r1)*(x-r2)*(x-r3));
+der:diff(poly,x);
+dsi:["decreasing","stationary","increasing"];
+pts:random_permutation(delete(0,makelist(i,i,r1-1,r3+1)));
+/* make true and false statements about these points */
+mcq_cor_base:makelist([ [dsi[signum(ev(der,x=pts[i]))+2],pts[i]] ,true],i,1,2);
+mcq_wrong_base:append([ [["stationary",0],false] ], makelist([ [dsi[signum(-1*ev(der,x=pts[i]))+2],pts[i]] ,false],i,3,3));
+/* these have some statements which are incorrect!
+corbase:[ ["increasing",r1-1], ["decreasing",0], ["increasing",r3], ["decreasing",r3+1] ];
+wrongbase:[ ["stationary",r2], ["stationary",r1], ["increasing",r3-1], ["decreasing",r2+1] ];
+*/
+/* now build the mcq - this uses some code from multiselqnalpha but has to adapt it a bit to build up the presentation of the options from the non-standard list structure of corbase/wrongbase */
+mcq_raw:random_permutation(append(mcq_cor_base,mcq_wrong_base));
+talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(mcq_raw)), simp);
+ta1:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> \\(f\\) is ",ex2[1][1]," when ", stack_disp(x=ex2[1][2], "i"))]), talab, mcq_raw);
+version: map(first, mcq_raw);
+corr1:mcq_correct(ta1);
+/* do the working */
+xvals:map(second,version);
+fdvals:map(lambda([ex],ev(der,x=ex)),xvals);
+interps:map(lambda([ex],dsi[signum(ex)+2]),fdvals);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@poly@} {#version#}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>checkbox</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>corr1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>702430913</deployedseed>
+    <deployedseed>1849229837</deployedseed>
+    <deployedseed>338504560</deployedseed>
+    <deployedseed>1359339576</deployedseed>
+    <deployedseed>1789825556</deployedseed>
+    <deployedseed>2144257098</deployedseed>
+    <deployedseed>748195087</deployedseed>
+    <deployedseed>1510038957</deployedseed>
+    <deployedseed>817877527</deployedseed>
+    <deployedseed>641977562</deployedseed>
+    <deployedseed>1239544964</deployedseed>
+    <deployedseed>45215932</deployedseed>
+    <deployedseed>181732140</deployedseed>
+    <deployedseed>297604710</deployedseed>
+    <deployedseed>189894646</deployedseed>
+    <deployedseed>1375931481</deployedseed>
+    <deployedseed>649160396</deployedseed>
+    <deployedseed>993469920</deployedseed>
+    <deployedseed>1365295410</deployedseed>
+    <deployedseed>15980027</deployedseed>
+    <deployedseed>2090959870</deployedseed>
+    <deployedseed>1815624825</deployedseed>
+    <deployedseed>1940747399</deployedseed>
+    <deployedseed>1237655700</deployedseed>
+    <deployedseed>610153538</deployedseed>
+    <deployedseed>240974492</deployedseed>
+    <deployedseed>625290058</deployedseed>
+    <deployedseed>970368601</deployedseed>
+    <deployedseed>1131324162</deployedseed>
+    <deployedseed>1824912431</deployedseed>
+    <deployedseed>2097987146</deployedseed>
+    <deployedseed>1505478970</deployedseed>
+    <deployedseed>93357823</deployedseed>
+    <deployedseed>1902762194</deployedseed>
+    <deployedseed>784399786</deployedseed>
+    <deployedseed>2029342030</deployedseed>
+    <deployedseed>1209173175</deployedseed>
+    <deployedseed>889836880</deployedseed>
+    <deployedseed>1135819933</deployedseed>
+    <deployedseed>809670384</deployedseed>
+    <deployedseed>1756280707</deployedseed>
+    <deployedseed>1657980831</deployedseed>
+    <deployedseed>572156479</deployedseed>
+    <deployedseed>955919175</deployedseed>
+    <deployedseed>1666727345</deployedseed>
+    <deployedseed>1461641436</deployedseed>
+    <deployedseed>421690213</deployedseed>
+    <deployedseed>1565019167</deployedseed>
+    <deployedseed>2129746282</deployedseed>
+    <deployedseed>1889897275</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[corr1[1]]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

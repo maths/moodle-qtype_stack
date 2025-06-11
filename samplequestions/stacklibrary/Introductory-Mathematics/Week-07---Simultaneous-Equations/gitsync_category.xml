@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category>
+      <text>top/stacklibrary/Introductory-Mathematics/Week 07 - Simultaneous Equations</text>
+    </category>
+    <info format="html">
+      <text>All material for week seven of IMA, looking at common simultaneous equations and how they are used. </text>
+    </info>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.0.4 (Operations with Polynomials)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Combining Polynomials</h1>
+
+<p>It is possible to combine several polynomials with the operations of addition, subtraction, multiplication and scalar multiplication. We will consider each in turn by looking at some examples.</p>
+<br/>
+<h3>Addition & Subtraction</h3>
+
+<p>To add or subtract two polynomials we sum the coefficients of each term. For example, if we wanted to add the polynomials \(P(x) = x^3 + 2x^2 - 4x +1\) and \(Q(x) = x^2 - x +4\) we have,
+\[
+(x^3 + 2x^2 - 4x +1) + (x^2 - x +4) = x^3 + 3x^2 - 5x +5.
+\]
+Note that we could have written this as \(P(x) + Q(x) = x^3 + 3x^2 - 5x +5\) using <i>function notation</i>, we will talk more about this in a later section. Similarly if we wanted to subtract \(Q(x)\) from \(P(x)\) we have 
+\[
+(x^3 + 2x^2 - 4x +1) - (x^2 - x +4) = x^3 + x^2 -3x -3.
+\]
+</p>
+<br/>
+<h3>Scalar Multiplication</h3>
+
+<p>We shall see that there are two types of multiplication we can perform with polynomials. It is important to note the difference between the two. The first is <b>scalar multiplication</b>. To multiply a polynomial by a scalar (constant) we multiply each term of the polynomial by the scalar. For example to multiply the polynomial \(P(x) = x^3 + 2x^2 - 4x +1\) by the scalar \(4\) we have,
+\[
+4(x^3 + 2x^2 - 4x +1) = 4x^3 + 8x^2 - 16x + 4,
+\]
+note that this is written as \(4P(x) = 4x^3 + 8x^2 - 16x + 4\).
+</p>
+<br/>
+<h3>Polynomial Multiplication</h3>
+
+<p>It is also possible to multiply two polynomials together. In order to do this we multiply each term of the first polynomial by each term of the second polynomial and then collect terms. Note that this is the same process as expanding brackets. For example to multiply \(P(x) = x^3 + 2x^2 - 4x +1\) by \(Q(x) = x+1\) we have
+\[
+\begin{align*}
+(x+1)(x^3 + 2x^2 - 4x +1) &= x^4 + 2x^3 - 4x^2 +x + x^3 + 2x^2 - 4x +1
+\\
+&= x^4 +3x^3 -2x^2 -3x + 1,
+\end{align*}
+\]
+again, we could save time by writing this as \(P(x) \cdot Q(x) = x^4 +3x^3 -2x^2 -3x + 1. \)</p>
+
+<p>We can also divide one polynomial by another. This is a longer process and we will devote a later section to it.</p>
+<br/>
+<h3>Equality</h3>
+
+<p>It is not necessarily straightforward to decide when two polynomials are equal. We have to be somewhat careful with our definition. We say that two polynomials are <i>equal</i> if they have the same degree and the corresponding terms have the same coefficients. For example the polynomials \(x^2 + x +1\) and \(x(x+1) + 1\) are equal whilst \(x^2 + x +1\) and \(x^3 + x +1\) are not.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

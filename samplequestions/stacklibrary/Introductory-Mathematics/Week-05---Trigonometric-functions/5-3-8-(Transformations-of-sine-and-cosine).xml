@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.3.8 (Transformations of sine and cosine)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Transformations of sines and cosines</h3>
+
+<p>We have seen that the forms of the general sine and cosine functions are similar. This means that for both \(y = a \sin b(x-c) + d\) and \(y = a \cos b(x-c) + d\), the coefficients \(a,b,c,d\) control the same properties. Below we outline the specific effect each of the coefficients has on these functions.</p>
+
+<ol>
+<li>The <i>amplitude</i> is \(|a|\).</li>
+<li>The <i>period</i> is \(\frac{360^\circ}{b}\), for \(b > 0\).</li>
+<li> The <i>principal axis</i> is \(y = d\).</li>
+<li>\(y = a \sin b(x-c) + d\) is obtained from \(y = \sin x\) by a vertical dilation of factor \(a\) and a horizontal dilation with factor \(\frac{1}{b}\), followed by a horizontal translation of \(c\) units and a vertical translation of \(d\) units.</li>
+<li>\(y = a \cos b(x-c) + d\) is obtained from \(y = \cos x\) by a vertical dilation of factor \(a\) and a horizontal dilation with factor \(\frac{1}{b}\), followed by a horizontal translation of \(c\) units and a vertical translation of \(d\) units.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

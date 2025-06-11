@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>PT.5.2 (Find all trigonometric functions)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p> Obtain the <b> exact </b> value of  \(\sin,\, \cos,\, \tan,\) of the angle \( \theta \) which is given by the counterclockwise angle from the x-axis to the vector \(P = ({@x1@},{@y1@})\) (see figure):<br></p>
+
+<p style="text-align: center;"><img src="@@PLUGINFILE@@/4.2%20fig%2015%20point%20p%20take%202.svg" alt="Vector P" role="presentation" class="img-responsive atto_image_button_text-bottom" width="250" height="154"><br></p>
+
+<ol type = "a">
+<li><p>\(\sin \theta=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+<li><p>\(\cos\theta=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+<li><p>\(\tan \theta=\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p></li>
+</ol>]]></text>
+<file name="4.2 fig 15 point p take 2.svg" path="/" encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgc29kaXBvZGk6ZG9jbmFtZT0iZXgyZmlnMWFkYXB0ZWQuc3ZnIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIxLjAgKDQwMzVhNGZiNDksIDIwMjAtMDUtMDEpIgogICBpZD0ic3ZnNzM4IgogICB2ZXJzaW9uPSIxLjEiCiAgIHZpZXdCb3g9IjAgMCA4MjIuNjY0OTIgNTA0Ljk4MDcxIgogICBoZWlnaHQ9IjUwNC45ODA3MW1tIgogICB3aWR0aD0iODIyLjY2NDkybW0iPgogIDxkZWZzCiAgICAgaWQ9ImRlZnM3MzIiPgogICAgPGNsaXBQYXRoCiAgICAgICBpZD0iYi05Ij4KICAgICAgPHBhdGgKICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMCw1NSkiCiAgICAgICAgIGQ9Ik0gMCwwLjA2IEggMTE0LjMxMSBWIDU0LjUgSCAwIFoiCiAgICAgICAgIGlkPSJwYXRoODUtNyIgLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIwIgogICAgIGlua3NjYXBlOndpbmRvdy15PSIwIgogICAgIGlua3NjYXBlOndpbmRvdy14PSIyNiIKICAgICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSIxMDQwIgogICAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTI3NCIKICAgICBzaG93Z3JpZD0iZmFsc2UiCiAgICAgaW5rc2NhcGU6ZG9jdW1lbnQtcm90YXRpb249IjAiCiAgICAgaW5rc2NhcGU6Y3VycmVudC1sYXllcj0iZzkwIgogICAgIGlua3NjYXBlOmRvY3VtZW50LXVuaXRzPSJtbSIKICAgICBpbmtzY2FwZTpjeT0iOTUzLjI0MzY4IgogICAgIGlua3NjYXBlOmN4PSIxNTA4LjcyNiIKICAgICBpbmtzY2FwZTp6b29tPSIwLjM0MjY4ODM2IgogICAgIGlua3NjYXBlOnBhZ2VzaGFkb3c9IjIiCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAuMCIKICAgICBib3JkZXJvcGFjaXR5PSIxLjAiCiAgICAgYm9yZGVyY29sb3I9IiM2NjY2NjYiCiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGlkPSJiYXNlIiAvPgogIDxtZXRhZGF0YQogICAgIGlkPSJtZXRhZGF0YTczNSI+CiAgICA8cmRmOlJERj4KICAgICAgPGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPgogICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PgogICAgICAgIDxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4KICAgICAgICA8ZGM6dGl0bGU+PC9kYzp0aXRsZT4KICAgICAgPC9jYzpXb3JrPgogICAgPC9yZGY6UkRGPgogIDwvbWV0YWRhdGE+CiAgPGcKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOTkuOTQ3OSwxNzYuNjE3MTYpIgogICAgIGlkPSJsYXllcjEiCiAgICAgaW5rc2NhcGU6Z3JvdXBtb2RlPSJsYXllciIKICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSI+CiAgICA8ZwogICAgICAgaWQ9Imc4NDAiPgogICAgICA8cGF0aAogICAgICAgICBzdHlsZT0ic3Ryb2tlLXdpZHRoOjguOTQ1NzYiCiAgICAgICAgIGZpbGw9Im5vbmUiCiAgICAgICAgIHN0cm9rZT0iIzIzMWYyMCIKICAgICAgICAgZD0iTSAtNzQuMjIyMzMzLDQ5LjU3NzEzOCBBIDI0OS41MzczNywyNjcuNzA0NjMgMCAwIDEgOTMuMDMxMjM2LC0xOS4xMDAyMyBjIDEyMS4wMzc2MTQsMCAyMjIuMDI4ODg0LDkyLjExMDMzIDI0NS4zODMwMzQsMjE0LjU1NjU4IgogICAgICAgICBpZD0icGF0aDgxIiAvPgogICAgICA8cGF0aAogICAgICAgICBzdHlsZT0ic3Ryb2tlLXdpZHRoOjguOTQ1NzYiCiAgICAgICAgIGQ9Im0gMzUxLjE3MDkxLDIxNC45ODg0NSBjIDEuMzYzNjksLTE1LjkzNzAxIDMuNDAzMDcsLTI2LjU0NjI1IDUuNjA1MjgsLTM5LjU3MzgyIGwgLTQyLjY4MzM3LDkuMzY3NjIgYyAyLjcyOTA3LDMuODkxNjEgMTIuNTQ5MjYsMTkuOTU4MzIgMTkuNjQwMTUsMzQuMDMyOTQgNy41OTIwNCwxNS4wNzUyOCAxMy40NTYzNSwyOC45NTUzIDE2LjM2NzA3LDM4LjE2NTQgLTAuNzAwMiwtOS42OTE5MiAtMC4zODkyNiwtMjQuOTM0MDEgMS4wNjk5LC00MS45OTIxNCBNIC04My40ODk3MTUsNzEuMjU4ODggQyAtNjkuOTczMTQsNjQuNDc2MzcgLTYwLjQyMDUzNiw2MC45OTI0NzYgLTQ4LjgyMTE5MSw1Ni40NTIyOTcgTCAtNzcuOTE4OTU0LDIxLjY2ODg0OCBjIC0xLjc2Mjc0NSw0LjQ5Mzg1MyAtOS43MDc4MjMsMjEuNzAwMjg4IC0xNy40NjM4OTgsMzUuMzc2NDYyIC04LjI4MjY5OCwxNC42Mzk4MDkgLTE2LjQ4Nzc3OCwyNy4wOTI5MDUgLTIyLjQyMTM2OCwzNC40MzEzMzUgNy40MzYzMywtNS41NDA4ODUgMTkuODU2MzMsLTEyLjk1MzQzOSAzNC4zMTQ1MDUsLTIwLjIxNzc2NSIKICAgICAgICAgZmlsbD0iIzIzMWYyMCIKICAgICAgICAgaWQ9InBhdGg4MyIgLz4KICAgICAgPGcKICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoOC42MzY5MDE5LDAsMCw5LjI2NTcwMTMsLTQ2NC41NzU4OSwtMTgxLjI1MDAxKSIKICAgICAgICAgY2xpcC1wYXRoPSJ1cmwoI2ItOSkiCiAgICAgICAgIGlkPSJnOTAiPgogICAgICAgIDxwYXRoCiAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICBzdHJva2U9IiMyMzFmMjAiCiAgICAgICAgICAgZD0ibSAxOS4wNjEsNDYuNzUgaCA5NS4yNSBNIDY0LjU2MSw0Ni41IDI5LjM1NywyMS40MjYgTSA2NC4zMTEsNTUgViAwLjUiCiAgICAgICAgICAgaWQ9InBhdGg4OCIgLz4KICAgICAgPC9nPgogICAgICA8ZwogICAgICAgICBpZD0idXNlOTUiCiAgICAgICAgIHN0eWxlPSJmaWxsOiMyMzFmMjAiCiAgICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEwMy4yNTQxNiwwLDAsLTExMC43NzE0NiwtMzA3LjI3MDU3LC03LjExNzMxNDIpIj4KICAgICAgICA8cGF0aAogICAgICAgICAgIGlkPSJwYXRoMzQzIgogICAgICAgICAgIGQ9Im0gMC4yNDksMC4zMTggaCAwLjE2OCBjIDAuMTM4LDAgMC4yNzYsMC4xMDIgMC4yNzYsMC4yMTYgMCwwLjA3OCAtMC4wNjYsMC4xNDkgLTAuMTkyLDAuMTQ5IEggMC4xOTIgYyAtMC4wMTksMCAtMC4wMjgsMCAtMC4wMjgsLTAuMDE5IDAsLTAuMDEgMC4wMDksLTAuMDEgMC4wMjQsLTAuMDEgMC4wNjEsMCAwLjA2MSwtMC4wMDggMC4wNjEsLTAuMDE5IDAsLTAuMDAyIDAsLTAuMDA4IC0wLjAwNCwtMC4wMjMgTCAwLjExLDAuMDc0IEMgMC4xMDEsMC4wMzkgMC4wOTksMC4wMjkgMC4wMjksMC4wMjkgMC4wMSwwLjAyOSAwLDAuMDI5IDAsMC4wMTEgMCwwIDAuMDA5LDAgMC4wMTUsMCBMIDAuMDczLDAuMDAyIEggMC4xOSBMIDAuMjQ5LDAgYyAwLjAwOCwwIDAuMDE5LDAgMC4wMTksMC4wMTkgMCwwLjAxIC0wLjAwOSwwLjAxIC0wLjAyNCwwLjAxIC0wLjA2LDAgLTAuMDYxLDAuMDA3IC0wLjA2MSwwLjAxNyBMIDAuMTg1LDAuMDYzIDAuMjQ5LDAuMzE4IE0gMC4zMjEsMC42MTUgQyAwLjMzLDAuNjUyIDAuMzM0LDAuNjU0IDAuMzczLDAuNjU0IGggMC4wOTkgYyAwLjA3NSwwIDAuMTM3LC0wLjAyNCAwLjEzNywtMC4wOTkgQSAwLjI2MSwwLjI2MSAwIDAgMCAwLjU1LDAuMzk4IEMgMC41MzMsMC4zOCAwLjQ4NSwwLjM0MiAwLjM5NCwwLjM0MiBIIDAuMjUzIFoiIC8+CiAgICAgIDwvZz4KICAgICAgPGcKICAgICAgICAgaWQ9InVzZTEzMCIKICAgICAgICAgc3R5bGU9ImZpbGw6IzIzMWYyMCIKICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMTAzLjI1NDE2LDAsMCwtMTEwLjc3MTQ2LDE0NS42NjQ1Nyw5Ni42MjgzODMpIj4KICAgICAgICA8cGF0aAogICAgICAgICAgIGlkPSJwYXRoMzcxIgogICAgICAgICAgIGQ9Ik0gMC40MDMsMC41MTMgQyAwLjQwMywwLjYxNSAwLjM3MSwwLjcxNCAwLjI4OSwwLjcxNCAwLjE0OSwwLjcxNCAwLDAuNDIxIDAsMC4yMDEgMCwwLjE1NSAwLjAxLDAgMC4xMTUsMCAwLjI1MSwwIDAuNDAzLDAuMjg2IDAuNDAzLDAuNTEzIE0gMC4xLDAuMzcyIGMgMC4wMTUsMC4wNTkgMC4wMzYsMC4xNDMgMC4wNzYsMC4yMTQgMC4wMzMsMC4wNiAwLjA2OCwwLjEwOCAwLjExMiwwLjEwOCAwLjAzMywwIDAuMDU1LC0wLjAyOCAwLjA1NSwtMC4xMjQgQSAwLjc0NCwwLjc0NCAwIDAgMCAwLjMxMSwwLjM3MiBIIDAuMSBNIDAuMzA0LDAuMzQyIEEgMC44NDUsMC44NDUgMCAwIDAgMC4yMjIsMC4xMTggQyAwLjE5MywwLjA2NyAwLjE1OCwwLjAyIDAuMTE2LDAuMDIgMC4wODUsMC4wMiAwLjA2LDAuMDQ0IDAuMDYsMC4xNDMgYyAwLDAuMDY1IDAuMDE2LDAuMTMzIDAuMDMyLDAuMTk5IHoiIC8+CiAgICAgIDwvZz4KICAgICAgPHBhdGgKICAgICAgICAgc3R5bGU9InN0cm9rZS13aWR0aDo4Ljk0NTc2IgogICAgICAgICBkPSJtIC0xOTguNDY0MjEsMTkuMTIwNzY4IGEgMTEuODg0Mzc3LDEyLjc0OTYwNSAwIDEgMSAtMjMuNzYwMDksLTAuMDA4MiAxMS44ODQzNzcsMTIuNzQ5NjA1IDAgMCAxIDIzLjc2MDA5LDAuMDA4MiIKICAgICAgICAgZmlsbD0iIzIzMWYyMCIKICAgICAgICAgaWQ9InBhdGgxMzIiIC8+CiAgICAgIDxwYXRoCiAgICAgICAgIHN0eWxlPSJzdHJva2Utd2lkdGg6OC45NDU3NiIKICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgc3Ryb2tlPSIjMjMxZjIwIgogICAgICAgICBkPSJtIC0xOTguNDY0MjEsMTkuMTIwNzY4IGEgMTEuODg0Mzc3LDEyLjc0OTYwNSAwIDEgMSAtMjMuNzYwMDksLTAuMDA4MiAxMS44ODQzNzcsMTIuNzQ5NjA1IDAgMCAxIDIzLjc2MDA5LDAuMDA4MiB6IgogICAgICAgICBpZD0icGF0aDEzNCIgLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo=</file>
+<file name="4.2 fig 15 point p.svg" path="/" encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgaWQ9InN2ZzczOCIKICAgdmVyc2lvbj0iMS4xIgogICB2aWV3Qm94PSIwIDAgODI5Ljk4NzU1IDUwNC40MjQ3NyIKICAgaGVpZ2h0PSI1MDQuNDI0NzdtbSIKICAgd2lkdGg9IjgyOS45ODc1NW1tIj4KICA8ZGVmcwogICAgIGlkPSJkZWZzNzMyIj4KICAgIDxjbGlwUGF0aAogICAgICAgaWQ9ImItOSI+CiAgICAgIDxwYXRoCiAgICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDAsNTUpIgogICAgICAgICBkPSJNIDAsMC4wNiBIIDExNC4zMTEgViA1NC41IEggMCBaIgogICAgICAgICBpZD0icGF0aDg1LTciIC8+CiAgICA8L2NsaXBQYXRoPgogIDwvZGVmcz4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGE3MzUiPgogICAgPHJkZjpSREY+CiAgICAgIDxjYzpXb3JrCiAgICAgICAgIHJkZjphYm91dD0iIj4KICAgICAgICA8ZGM6Zm9ybWF0PmltYWdlL3N2Zyt4bWw8L2RjOmZvcm1hdD4KICAgICAgICA8ZGM6dHlwZQogICAgICAgICAgIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiIC8+CiAgICAgICAgPGRjOnRpdGxlPjwvZGM6dGl0bGU+CiAgICAgIDwvY2M6V29yaz4KICAgIDwvcmRmOlJERj4KICA8L21ldGFkYXRhPgogIDxnCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzA3LjI3MDU3LDE3Ni42MTcxNikiCiAgICAgaWQ9ImxheWVyMSI+CiAgICA8ZwogICAgICAgaWQ9Imc4NDAiPgogICAgICA8cGF0aAogICAgICAgICBzdHlsZT0ic3Ryb2tlLXdpZHRoOjguOTQ1NzYiCiAgICAgICAgIGZpbGw9Im5vbmUiCiAgICAgICAgIHN0cm9rZT0iIzIzMWYyMCIKICAgICAgICAgZD0iTSAtNzQuMjIyMzMzLDQ5LjU3NzEzOCBBIDI0OS41MzczNywyNjcuNzA0NjMgMCAwIDEgOTMuMDMxMjM2LC0xOS4xMDAyMyBjIDEyMS4wMzc2MTQsMCAyMjIuMDI4ODg0LDkyLjExMDMzIDI0NS4zODMwMzQsMjE0LjU1NjU4IgogICAgICAgICBpZD0icGF0aDgxIiAvPgogICAgICA8cGF0aAogICAgICAgICBzdHlsZT0ic3Ryb2tlLXdpZHRoOjguOTQ1NzYiCiAgICAgICAgIGQ9Im0gMzUxLjE3MDkxLDIxNC45ODg0NSBjIDEuMzYzNjksLTE1LjkzNzAxIDMuNDAzMDcsLTI2LjU0NjI1IDUuNjA1MjgsLTM5LjU3MzgyIGwgLTQyLjY4MzM3LDkuMzY3NjIgYyAyLjcyOTA3LDMuODkxNjEgMTIuNTQ5MjYsMTkuOTU4MzIgMTkuNjQwMTUsMzQuMDMyOTQgNy41OTIwNCwxNS4wNzUyOCAxMy40NTYzNSwyOC45NTUzIDE2LjM2NzA3LDM4LjE2NTQgLTAuNzAwMiwtOS42OTE5MiAtMC4zODkyNiwtMjQuOTM0MDEgMS4wNjk5LC00MS45OTIxNCBNIC04My40ODk3MTUsNzEuMjU4ODggQyAtNjkuOTczMTQsNjQuNDc2MzcgLTYwLjQyMDUzNiw2MC45OTI0NzYgLTQ4LjgyMTE5MSw1Ni40NTIyOTcgTCAtNzcuOTE4OTU0LDIxLjY2ODg0OCBjIC0xLjc2Mjc0NSw0LjQ5Mzg1MyAtOS43MDc4MjMsMjEuNzAwMjg4IC0xNy40NjM4OTgsMzUuMzc2NDYyIC04LjI4MjY5OCwxNC42Mzk4MDkgLTE2LjQ4Nzc3OCwyNy4wOTI5MDUgLTIyLjQyMTM2OCwzNC40MzEzMzUgNy40MzYzMywtNS41NDA4ODUgMTkuODU2MzMsLTEyLjk1MzQzOSAzNC4zMTQ1MDUsLTIwLjIxNzc2NSIKICAgICAgICAgZmlsbD0iIzIzMWYyMCIKICAgICAgICAgaWQ9InBhdGg4MyIgLz4KICAgICAgPGcKICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoOC42MzY5MDE5LDAsMCw5LjI2NTcwMTMsLTQ2NC41NzU4OSwtMTgxLjI1MDAxKSIKICAgICAgICAgY2xpcC1wYXRoPSJ1cmwoI2ItOSkiCiAgICAgICAgIGlkPSJnOTAiPgogICAgICAgIDxwYXRoCiAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICBzdHJva2U9IiMyMzFmMjAiCiAgICAgICAgICAgZD0ibSAxOS4wNjEsNDYuNzUgaCA5NS4yNSBNIDY0LjU2MSw0Ni41IDI5LjM1NywyMS40MjYgTSA2NC4zMTEsNTUgViAwLjUiCiAgICAgICAgICAgaWQ9InBhdGg4OCIgLz4KICAgICAgPC9nPgogICAgICA8ZwogICAgICAgICBpZD0idXNlOTUiCiAgICAgICAgIHN0eWxlPSJmaWxsOiMyMzFmMjAiCiAgICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEwMy4yNTQxNiwwLDAsLTExMC43NzE0NiwtMzA3LjI3MDU3LC03LjExNzMxNDIpIj4KICAgICAgICA8cGF0aAogICAgICAgICAgIGlkPSJwYXRoMzQzIgogICAgICAgICAgIGQ9Im0gMC4yNDksMC4zMTggaCAwLjE2OCBjIDAuMTM4LDAgMC4yNzYsMC4xMDIgMC4yNzYsMC4yMTYgMCwwLjA3OCAtMC4wNjYsMC4xNDkgLTAuMTkyLDAuMTQ5IEggMC4xOTIgYyAtMC4wMTksMCAtMC4wMjgsMCAtMC4wMjgsLTAuMDE5IDAsLTAuMDEgMC4wMDksLTAuMDEgMC4wMjQsLTAuMDEgMC4wNjEsMCAwLjA2MSwtMC4wMDggMC4wNjEsLTAuMDE5IDAsLTAuMDAyIDAsLTAuMDA4IC0wLjAwNCwtMC4wMjMgTCAwLjExLDAuMDc0IEMgMC4xMDEsMC4wMzkgMC4wOTksMC4wMjkgMC4wMjksMC4wMjkgMC4wMSwwLjAyOSAwLDAuMDI5IDAsMC4wMTEgMCwwIDAuMDA5LDAgMC4wMTUsMCBMIDAuMDczLDAuMDAyIEggMC4xOSBMIDAuMjQ5LDAgYyAwLjAwOCwwIDAuMDE5LDAgMC4wMTksMC4wMTkgMCwwLjAxIC0wLjAwOSwwLjAxIC0wLjAyNCwwLjAxIC0wLjA2LDAgLTAuMDYxLDAuMDA3IC0wLjA2MSwwLjAxNyBMIDAuMTg1LDAuMDYzIDAuMjQ5LDAuMzE4IE0gMC4zMjEsMC42MTUgQyAwLjMzLDAuNjUyIDAuMzM0LDAuNjU0IDAuMzczLDAuNjU0IGggMC4wOTkgYyAwLjA3NSwwIDAuMTM3LC0wLjAyNCAwLjEzNywtMC4wOTkgQSAwLjI2MSwwLjI2MSAwIDAgMCAwLjU1LDAuMzk4IEMgMC41MzMsMC4zOCAwLjQ4NSwwLjM0MiAwLjM5NCwwLjM0MiBIIDAuMjUzIFoiIC8+CiAgICAgIDwvZz4KICAgICAgPGcKICAgICAgICAgaWQ9InVzZTEzMCIKICAgICAgICAgc3R5bGU9ImZpbGw6IzIzMWYyMCIKICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMTAzLjI1NDE2LDAsMCwtMTEwLjc3MTQ2LDE0NS42NjQ1Nyw5Ni42MjgzODMpIj4KICAgICAgICA8cGF0aAogICAgICAgICAgIGlkPSJwYXRoMzcxIgogICAgICAgICAgIGQ9Ik0gMC40MDMsMC41MTMgQyAwLjQwMywwLjYxNSAwLjM3MSwwLjcxNCAwLjI4OSwwLjcxNCAwLjE0OSwwLjcxNCAwLDAuNDIxIDAsMC4yMDEgMCwwLjE1NSAwLjAxLDAgMC4xMTUsMCAwLjI1MSwwIDAuNDAzLDAuMjg2IDAuNDAzLDAuNTEzIE0gMC4xLDAuMzcyIGMgMC4wMTUsMC4wNTkgMC4wMzYsMC4xNDMgMC4wNzYsMC4yMTQgMC4wMzMsMC4wNiAwLjA2OCwwLjEwOCAwLjExMiwwLjEwOCAwLjAzMywwIDAuMDU1LC0wLjAyOCAwLjA1NSwtMC4xMjQgQSAwLjc0NCwwLjc0NCAwIDAgMCAwLjMxMSwwLjM3MiBIIDAuMSBNIDAuMzA0LDAuMzQyIEEgMC44NDUsMC44NDUgMCAwIDAgMC4yMjIsMC4xMTggQyAwLjE5MywwLjA2NyAwLjE1OCwwLjAyIDAuMTE2LDAuMDIgMC4wODUsMC4wMiAwLjA2LDAuMDQ0IDAuMDYsMC4xNDMgYyAwLDAuMDY1IDAuMDE2LDAuMTMzIDAuMDMyLDAuMTk5IHoiIC8+CiAgICAgIDwvZz4KICAgICAgPHBhdGgKICAgICAgICAgc3R5bGU9InN0cm9rZS13aWR0aDo4Ljk0NTc2IgogICAgICAgICBkPSJtIC0xOTguNDY0MjEsMTkuMTIwNzY4IGEgMTEuODg0Mzc3LDEyLjc0OTYwNSAwIDEgMSAtMjMuNzYwMDksLTAuMDA4MiAxMS44ODQzNzcsMTIuNzQ5NjA1IDAgMCAxIDIzLjc2MDA5LDAuMDA4MiIKICAgICAgICAgZmlsbD0iIzIzMWYyMCIKICAgICAgICAgaWQ9InBhdGgxMzIiIC8+CiAgICAgIDxwYXRoCiAgICAgICAgIHN0eWxlPSJzdHJva2Utd2lkdGg6OC45NDU3NiIKICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgc3Ryb2tlPSIjMjMxZjIwIgogICAgICAgICBkPSJtIC0xOTguNDY0MjEsMTkuMTIwNzY4IGEgMTEuODg0Mzc3LDEyLjc0OTYwNSAwIDEgMSAtMjMuNzYwMDksLTAuMDA4MiAxMS44ODQzNzcsMTIuNzQ5NjA1IDAgMCAxIDIzLjc2MDA5LDAuMDA4MiB6IgogICAgICAgICBpZD0icGF0aDEzNCIgLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo=</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The distance of the point <span class="math inline">\(P\)</span> from the origin is <span class="math inline">\(r=\sqrt{({@x1@})^2+{@y1@}^2}={@r1@}\)</span>. Since <span class="math inline">\(P\)</span> lies on a circle of radius <span class="math inline">\({@r1@}\)</span> rather than a circle of unit radius, we have:
+\[
+\begin{array}{l} 
+\sin\theta = \dfrac{y}{r} = \displaystyle{{@ta1@}} 
+\\
+\cos\theta=\dfrac{x}{r} = \displaystyle{{@ta2@}}
+\\
+\tan\theta=\dfrac{y}{x} = \displaystyle{{@ta3@}}
+\end{array}
+\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>x1 : -(1+ rand(4));
+y1 : (1+rand(4));
+r1 : sqrt(x1^2 + y1^2);
+ta1 : y1/r1;
+ta2: x1/r1;
+ta3: y1/x1;
+ta4: 1/ta1;
+ta5: 1/ta2;
+ta6: 1/ta3;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@x1@},{@y1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>sin</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>cos</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>tan</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>297889390</deployedseed>
+    <deployedseed>2100194221</deployedseed>
+    <deployedseed>1873680594</deployedseed>
+    <deployedseed>1150777826</deployedseed>
+    <deployedseed>538112501</deployedseed>
+    <deployedseed>1780689668</deployedseed>
+    <deployedseed>749897067</deployedseed>
+    <deployedseed>1075369882</deployedseed>
+    <deployedseed>1871532492</deployedseed>
+    <deployedseed>1603155925</deployedseed>
+    <deployedseed>663552355</deployedseed>
+    <deployedseed>292214033</deployedseed>
+    <deployedseed>95116569</deployedseed>
+    <deployedseed>1527660664</deployedseed>
+    <deployedseed>1929866119</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.2.17 (Example of finding a term in binomial expansion)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Find the 7th term in the expansion of \((3a-\frac{4}{a^2})^{14}\).</p>
+
+<h3>Solution</h3>
+
+<p>In this case we have \(x = (3a), y = -\frac{4}{a^2}\) and \(n=14\). We know that the general term is given by 
+\[
+T_{r+1} = {n \choose r} x^{n-r}y^r,
+\]
+in this case we have 
+\[
+T_{7} = {14 \choose 6} (3a)^8 (\frac{-4}{a^2})^6 = 3003 (3a)^8 (\frac{-4}{a^2})^6
+\]
+At this point we could expand the brackets and collect the powers of a, but this leads to very large coefficients. For this reason we tend to leave the solution in this format as it is easier to understand.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

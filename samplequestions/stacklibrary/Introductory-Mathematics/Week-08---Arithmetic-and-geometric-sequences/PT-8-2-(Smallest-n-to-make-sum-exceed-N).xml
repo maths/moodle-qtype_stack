@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>PT.8.2 (Smallest n to make sum exceed N)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>What is the smallest number of terms needed for the sum \({@(apply("+",firstterms)),simp=false@}+\cdots \) to exceed {@N@}?<br></p><p>[[input:ans1]] [[validation:ans1]]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The terms in the sum are a geometric sequence given by \(u_n=ar^{n-1}={@ev(un,simp)@}\).<br></p><p></p><p>We have \[S_n=\frac{a(1-r^n)}{1-r}=\frac{1-{@r@}^n}{{@1-r@}}\] so for \(S_n\geq{@N@}\), we need \( 1-{@r@}^n\geq{@1-r@}\times{@N@} \) i.e. \[ {@r@}^n \leq 1-({@(1-r)*N@})={@1-(1-r)*N@}.&nbsp;\]</p><p>We could just try different powers of \(n\), but we can also take logarithms to see that we need \[ n \leq \frac{\ln({@1-(1-r)*N@})}{\ln({@r@})} = {@decimalplaces(log(1-(1-r)*N)/log(r),3)@}\ldots, \]</p><p>so the smallest possible number of terms is \(n={@nval@}\).</p><br><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:1;
+r:rand([2,3,4]);
+un:a*r^(n-1);
+firstterms:makelist(ev(un),n,1,6);
+nval:rand([7,9,11]);
+snval:ev(a*(1-r^n)/(1-r),n=nval);
+snval_min:ev(abs(a*(1-r^n)/(1-r)),n=nval-1);
+N:rand_range(snval_min+10,snval-5);
+ta1:nval;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@un@} has \(S_{@nval@}={@snval@}\geq{@N@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>718850397</deployedseed>
+    <deployedseed>1154513361</deployedseed>
+    <deployedseed>1702169546</deployedseed>
+    <deployedseed>1677778094</deployedseed>
+    <deployedseed>799610461</deployedseed>
+    <deployedseed>1284351468</deployedseed>
+    <deployedseed>1464312537</deployedseed>
+    <deployedseed>277621849</deployedseed>
+    <deployedseed>1092273666</deployedseed>
+    <deployedseed>1546764819</deployedseed>
+    <deployedseed>805846252</deployedseed>
+    <deployedseed>1133962674</deployedseed>
+    <deployedseed>1750199731</deployedseed>
+    <deployedseed>1928787186</deployedseed>
+    <deployedseed>1824251328</deployedseed>
+    <deployedseed>433696729</deployedseed>
+    <deployedseed>180676658</deployedseed>
+    <deployedseed>1775664541</deployedseed>
+    <deployedseed>343408385</deployedseed>
+    <deployedseed>1803524637</deployedseed>
+    <deployedseed>266320431</deployedseed>
+    <deployedseed>346897851</deployedseed>
+    <deployedseed>1712198643</deployedseed>
+    <deployedseed>1945321600</deployedseed>
+    <deployedseed>728489411</deployedseed>
+    <deployedseed>1034218643</deployedseed>
+    <deployedseed>1148332385</deployedseed>
+    <deployedseed>634272185</deployedseed>
+    <deployedseed>175059061</deployedseed>
+    <deployedseed>229986566</deployedseed>
+    <deployedseed>709259610</deployedseed>
+    <deployedseed>233170475</deployedseed>
+    <deployedseed>553744077</deployedseed>
+    <deployedseed>703286568</deployedseed>
+    <deployedseed>1257839689</deployedseed>
+    <deployedseed>312124588</deployedseed>
+    <deployedseed>1339370600</deployedseed>
+    <deployedseed>677961137</deployedseed>
+    <deployedseed>154030687</deployedseed>
+    <deployedseed>680376192</deployedseed>
+    <deployedseed>874453714</deployedseed>
+    <deployedseed>1156962425</deployedseed>
+    <deployedseed>1114232448</deployedseed>
+    <deployedseed>1834737545</deployedseed>
+    <deployedseed>963694865</deployedseed>
+    <deployedseed>189375318</deployedseed>
+    <deployedseed>404821702</deployedseed>
+    <deployedseed>468767213</deployedseed>
+    <deployedseed>1868810343</deployedseed>
+    <deployedseed>1061942013</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

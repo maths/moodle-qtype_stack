@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.1.12 (Example of calculating combinations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>The School of Mathematics has 60 lecturers, and needs to choose 3 of them to teach Introduction to Linear Algebra. How many different lecturing teams are possible?</p>
+<p>In this case the order of the people in the team does not matter. We can count the number of ways to pick 3 people in an ordered way:
+\[
+\dfrac{60!}{(60-3)!}=\dfrac{60\times59\times58\times57!}{57!}
+\]
+We just need to correct this for the fact that we don't care about the order -- so we divide by the number of ways to permute the 3 chosen lecturers:
+\[
+\dfrac{60!}{(60-3)!3!}=\dfrac{60\times59\times58\times57!}{57!3!}=\dfrac{60\times59\times58}{6}=10\times59\times58=34220
+\]</p>
+<br/>
+<p>Alternatively we could have used the formula, but this reasoning helps illustrate where the formula comes from.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

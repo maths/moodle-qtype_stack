@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.22 (Find sum of GP (with surds))</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>What is the sum of the first {@n@} terms of the geometric progression \({@aval@}+{@aval@}\sqrt{{@k@}}+{@ev(aval*k,simp)@}+{@ev(aval*k,simp)@}\sqrt{@k@}+\cdots\)?</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The partial sum \(S_{n}\) of the first \(n\) terms of a geometric progression, first term \(a\) and common ratio \(r\), is given by the equation \[ S_{n}=\frac{a(1-r^n)}{1 - r}. \] Here \(a = {@aval@}\) and \(r = {@rval@}\) so \(S_{@n@} = {@sum1@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* based on CAP W8 Q24 Diagnostic_SEQ-SGM_1 */
+aval:ev(1+rand(3),simp);
+rval:rand([sqrt(2),sqrt(3),sqrt(5)]);
+k:ev(rval^2,simp);
+
+an: aval*rval^(n-1);
+N:5;
+S1:ev(makelist(k,k,1,N),simp);
+S2:maplist(lambda([ex],ev(an,n=ex)),S1);
+S3:ev(S2,simp);
+S4:apply("+",S3);
+
+n:ev((rand(4)*2+5), simp);
+rp1:rval+1;
+avalrval: aval * rval;
+ar:a * r;
+sumtoinfinity: ev(aval/(1-rval), simp);
+sum1: ev(sumtoinfinity*(1-rval^n), simp);
+ta1:sum1]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@aval@}+{@aval@}\sqrt{{@k@}}+{@ev(aval*k,simp)@}+{@ev(aval*k,simp)@}\sqrt{@k@}+\cdots\) has \(a={@aval@}\), \(r={@rval@}\) and \(S_{@n@}={@sum1@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>sum1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>sum1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>SEQ-SGM-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>SEQ-SGM-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ev(aval/rp1,simp)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>WRONG_DENOMINATOR</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The partial sum of the first \(n\) terms of a geometric progression, first term \(a\) and common ratio \(r\), is \[\frac{a(1-r^n)}{1-r}.\] Here \(a = {@aval@}\) and \(r = {@rval@}\). Your answer is \[\frac{a}{1+r}.\]</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>SEQ-SGM-1-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>ev(avalrval/rp1,simp)</tans>
+        <testoptions>0</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>NUMERATOR_AR_WRONG_DENOMINATOR</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The partial sum of the first \(n\) terms of a geometric progression, first term \(a\) and common ratio \(r\), is \[\frac{a(1-r^n)}{1-r}. \] Here \(a = {@aval@}\) and \(r = {@rval@}\). Your answer is \[\frac{ar}{1+r}\mbox{.}\]</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>SEQ-SGM-2-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>sumtoinfinity*rval</tans>
+        <testoptions>0</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>NUMERATOR_AR</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The partial sum of the first \(n\) terms of a geometric progression, first term \(a\) and common ratio \(r\), is \[\frac{a(1-r^n)}{1-r}. \] Here \(a = {@aval@}\) and \(r = {@rval@}\). Your answer is \[\frac{ar}{1-r}.\]</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>SEQ-SGM-3-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>rval/(1-rval)</tans>
+        <testoptions>0</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>NUMERATOR_R</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The partial sum of the first \(n\) terms of a geometric progression, first term \(a\) and common ratio \(r\), is \[\frac{a(1-r^n)}{1-r}. \] Here \(a = {@aval@}\) and \(r = {@rval@}\). Your answer is \[\frac{r}{1-r}.\]</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>SEQ-SGM-4-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>sumtoinfinity</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>SUM_TO_INF</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You appear to have used the formula for the sum to infinity of a geometric progression, valid for a common ratio less than 1 in magnitude. You are only asked for the partial sum of the first {@n@} terms.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>SEQ-SGM-5-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>114006612</deployedseed>
+    <deployedseed>157473426</deployedseed>
+    <deployedseed>643136668</deployedseed>
+    <deployedseed>1713099058</deployedseed>
+    <deployedseed>1275406114</deployedseed>
+    <deployedseed>185950671</deployedseed>
+    <deployedseed>1200860074</deployedseed>
+    <deployedseed>1833627691</deployedseed>
+    <deployedseed>145030309</deployedseed>
+    <deployedseed>1992923619</deployedseed>
+    <deployedseed>198187704</deployedseed>
+    <deployedseed>1921028179</deployedseed>
+    <deployedseed>753939998</deployedseed>
+    <deployedseed>1312100209</deployedseed>
+    <deployedseed>692057581</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sum1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>SEQ-SGM-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(aval/rp1,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>WRONG_DENOMINATOR</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(avalrval/rp1,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>NUMERATOR_AR_WRONG_DENOMINATOR</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(sumtoinfinity*rval,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>NUMERATOR_AR</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sumtoinfinity</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>SUM_TO_INF</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

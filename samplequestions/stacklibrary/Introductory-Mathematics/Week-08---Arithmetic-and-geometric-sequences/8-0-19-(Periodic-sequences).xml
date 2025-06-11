@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.0.19 (Periodic sequences)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Periodic sequences</h3>
+
+<p>Sequences can also demonstrate different behaviours. There areexamples of sequences where certain patterns of values are repeated. Fromally we define the following.</p>
+<p>The sequence \(u_1, u_2, u_3, \ldots\) is said to be <b>periodic</b> if the same terms are always repeated, e.g. 
+\[ 
+u_1, u_2, \ldots, u_p, u_1, u_2, \ldots, u_p, u_1, \ldots 
+\]
+<p>The number of terms which are repeated (\(p\)) is called the <b>period</b> of the sequence. Considering our earlier example of \(u_n=(-1)^n\), the sequence repeats the values \(-1, 1\) over and over again, so it is periodic with period 2.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.16 (Converting parametric equations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Converting parametric equations</h1>
+
+<p>As we have seen with our examination of the parametric form of a circle. It is important to be able to convert between the parametric and Cartesian forms of the function where possible. It is sometimes possible to write a curve given in parametric form \(x= f(t)\) and \(y = g(t)\) in the more usual form as the set of points of the form \((x, F(x)\)).&nbsp; We can find the appropriate function \(F(x)\) by eliminating the parameter \(t\) from the two expressions for \(x\) and \(y\).</p>
+
+<h3>Example</h3>
+
+<p>Write the curve given in parametric form by \(x = 1+2t\) and \(y = 1-2t^2\) in the form \(y = f(x)\) for some function \(f(x)\).</p>
+
+<h3>Solution</h3>
+
+<p>The first step here is to rewrite one of the equations so that we get an expression for \(t\) in terms of \(x\) or \(y\). We can see that the first equation will be easier to rearrange because in the second equation, \(t\) appears to the power of two, and it will make our lives easier if we avoid square root terms. Therefore rearranging the first equation gives
+\[
+x = 1 + 2t \implies t = \frac{x - 1}{2}.
+\]
+Now, substituting this into the second equation will give us an expression for \(y\) in terms of \(x\), so we have 
+\[
+\begin{align*}
+y &= 1-2t^2
+\\
+&= 1 - 2\left( \frac{x-1}{2}\right)^2
+\\
+&= 1 -2 \left( \frac{(x-1)^2}{4}\right)
+\\
+&= 1- \frac{1}{2}(x-1)^2
+\\
+&= 1 - \frac{1}{2}(x^2 - 2x + 1)
+\\
+&= -\frac{1}{2}x^2 + x + \frac{1}{2}
+\\
+&= \frac{1}{2}(1 + 2x - x^2).
+\end{align*}
+\]
+This is now in the form \(y = f(x) = \frac{1}{2}(1 + 2x - x^2)\) and therefore it is the Cartesian form of the parametric equations.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

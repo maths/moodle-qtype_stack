@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.0.5 (Roots of quadratics)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Roots of Quadratics</h1>
+
+<p>We are often interested in finding the <b>roots</b> or <b>solutions</b> of the quadratic equations. The roots of the quadratic \(y = ax^2 + bx+ c\) are the values of \(x\) which make the quadratic equal to zero. 
+In other words, the roots of \(y = ax^2 + bx+ c\) are the values of \(x\) such that \(ax^2 + bx+ c = 0\). 
+</p>
+
+<p>If the equation \(ax^2 + bx + c =0\) has roots \(\alpha\) and \(\beta\) then \(\alpha + \beta = -\frac{b}{a}\) and \(\alpha \beta = \frac{c}{a}\). For example, if \(\alpha\) and \(\beta\) are the roots of \(2x^2 - 2x -1 = 0\) then \(\alpha + \beta = -\frac{-2}{2} = 1\) and \(\alpha\beta = \frac{-1}{2}\).</p>
+<br>
+<p>We can determine the number of real roots of a given quadratic by using the <b>discriminant</b> of the quadratic. For the quadratic \(ax^2 + bx+ c\) the discriminant is the quantity \(b^2 - 4ac\). It plays an important role in determining the behaviour of the equation and it is often used to classify quadratics. Note that you will sometimes see the discriminant represented by the symbol \(\Delta\), which is the Greek capital letter "delta".</p> 
+<br>
+<p>If the discriminant \(\Delta &gt; 0\): the quadratic has <b>two distinct real roots</b>, e.g. \(x^2 -6x +8\) has discriminant \(\Delta = (-6)^2 - 4 \cdot 1 \cdot 8 = 4 &gt; 0\).</p>
+<p>If the discriminant \(\Delta = 0\): the quadratic has <b>one repeated real root</b>, e.g.  \(x^2 + 4x + 4\) has discriminant \(\Delta = 4^2 - 4 \cdot 1 \cdot 4 = 0\).</p>
+<p>If the discriminant \(\Delta &lt; 0\): the quadratic has <b>no real roots</b>, e.g. \(4x^2 -x + 2\) has discriminant \(\Delta = (-1)^2 - 4 \cdot 4 \cdot 2 = -31\).</p>
+
+<h3>Example</h3>
+
+<p>Decide whether the following quadratics have two distinct real roots, one repeated real root or no real roots.</p>
+
+<ol type="a">
+<li>\(2x^2 - 4x + 9 = 0\).</li>
+<li>\(x^2 - 6x + 9 = 0\).</li>
+<li>\(x^2 + 3x - 10 = 0\).</li>
+</ol>
+
+<h3>Solution</h3>
+
+<p>In each case we have to find the discriminant of the given quadratic. </p>
+<ol type="a">
+<li>\(\Delta = b^2 - 4ac = (-4)^2 - (4 \cdot 2 \cdot 9) = -56 &lt; 0\). Thus the quadratic has no real roots.</li>
+<li>\(\Delta = b^2 - 4ac = (-6)^2 - (4 \cdot 1 \cdot 9) = 0\). Thus the quadratic has one repeated real root.</li>
+<li>\(\Delta = b^2 - 4ac = (3)^2 - (4 \cdot 1 \cdot -10) = 49 &gt; 0\). Thus the quadratic has two distinct real roots.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

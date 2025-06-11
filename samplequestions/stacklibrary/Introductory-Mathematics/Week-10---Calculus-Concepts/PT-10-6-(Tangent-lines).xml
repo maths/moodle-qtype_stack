@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>PT.10.6 (Tangent lines)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the equation of the line tangent to the graph of \(f\) at the point \(({@aa@}, f({@aa@}))\), if \(f({@aa@})={@bb@}\) and \(f'({@aa@}) = {@cc@}\).&nbsp; Your answer should involve a variable \(x\).<br></p><p>\( y = \) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The gradient of the tangent line to \(f\) at the point \({@aa@}\) is given by the derivative \(f'({@aa@}) = {@cc@}\). So the equation has the form \(y = {@cc@}x + c\) for some \(c\) which we have to compute.</p><p>But we know that \(f({@aa@}) = {@bb@}\), and the tangent line meets the graph of \(f\) at that point, so we must have that \({@bb@} = {@cc@}\cdot{@aa@} + c\), i.e. that \(c = {@AA@}\).<br></p><p>Hence, the equation of the line tangent to the graph of \(f\) is \( y = {@ta1@}.\)</p><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand(5)+1;
+bb: rand_with_prohib(2,15,[a])
+cc: rand_with_prohib(-5,5,[0,a,b])
+
+AA: bb-cc*aa
+ta1: cc*x+AA</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(f({@aa@})={@bb@}\), \(f'({@aa@}) = {@cc@}\) so \( y = {@ta1@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1240577015</deployedseed>
+    <deployedseed>516525577</deployedseed>
+    <deployedseed>1674336634</deployedseed>
+    <deployedseed>220528187</deployedseed>
+    <deployedseed>449581497</deployedseed>
+    <deployedseed>803388326</deployedseed>
+    <deployedseed>1456494430</deployedseed>
+    <deployedseed>1325522475</deployedseed>
+    <deployedseed>1650242706</deployedseed>
+    <deployedseed>1342656264</deployedseed>
+    <deployedseed>1067969240</deployedseed>
+    <deployedseed>837238839</deployedseed>
+    <deployedseed>595283569</deployedseed>
+    <deployedseed>1257709099</deployedseed>
+    <deployedseed>947930726</deployedseed>
+    <deployedseed>2132215615</deployedseed>
+    <deployedseed>329695761</deployedseed>
+    <deployedseed>1024571182</deployedseed>
+    <deployedseed>473818011</deployedseed>
+    <deployedseed>126642647</deployedseed>
+    <deployedseed>775266363</deployedseed>
+    <deployedseed>594807159</deployedseed>
+    <deployedseed>1069256130</deployedseed>
+    <deployedseed>479519701</deployedseed>
+    <deployedseed>1659105449</deployedseed>
+    <deployedseed>1572673725</deployedseed>
+    <deployedseed>1608116845</deployedseed>
+    <deployedseed>539884983</deployedseed>
+    <deployedseed>582260424</deployedseed>
+    <deployedseed>55431012</deployedseed>
+    <deployedseed>1338290266</deployedseed>
+    <deployedseed>1464243106</deployedseed>
+    <deployedseed>1845749064</deployedseed>
+    <deployedseed>1117248759</deployedseed>
+    <deployedseed>21629708</deployedseed>
+    <deployedseed>470378111</deployedseed>
+    <deployedseed>702572785</deployedseed>
+    <deployedseed>1301751704</deployedseed>
+    <deployedseed>38345289</deployedseed>
+    <deployedseed>815141686</deployedseed>
+    <deployedseed>981906177</deployedseed>
+    <deployedseed>1605255159</deployedseed>
+    <deployedseed>1339994483</deployedseed>
+    <deployedseed>828382008</deployedseed>
+    <deployedseed>1059448160</deployedseed>
+    <deployedseed>1386680235</deployedseed>
+    <deployedseed>1569628037</deployedseed>
+    <deployedseed>1345349891</deployedseed>
+    <deployedseed>11596069</deployedseed>
+    <deployedseed>1545972250</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

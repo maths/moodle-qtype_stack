@@ -56,32 +56,22 @@ $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
     '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
     AND NOT v.status = "hidden" AND o.compiledcache = ?;';
 
-$notcompiled = $DB->get_recordset_sql($query, ['{}']);
-
-$nnotcompiled = 0;
-$ncompiled = 0;
-foreach ($notcompiled as $item) {
-    $nnotcompiled = $item->notcompiled;
-}
-$notcompiled->close();
+$notcompiled = $DB->get_record_sql($query, ['{}']);
+$nnotcompiled = $notcompiled->notcompiled;
 
 $query = 'SELECT count(*) as compiled FROM {question} q, ' .
     '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
-    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
+    AND NOT v.status = "hidden" AND o.compiledcache != ?;';
 
-$compiled = $DB->get_recordset_sql($query, ['{}']);
-
-foreach ($compiled as $item) {
-    $ncompiled = $item->compiled;
-}
-$compiled->close();
+$compiled = $DB->get_record_sql($query, ['{}']);
+$ncompiled = $compiled->compiled;
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 echo '<p>This tool only acts on succesfully compiled questions, to compile questions run the bulk tester ' .
     'or preview/use those questions.</p><p>';
-if ($ncompiled !== $notcompiled) {
+if ($nnotcompiled) {
     echo stack_string_error('errors') . '. ';
 }
 echo  'Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotcompiled .
@@ -108,6 +98,9 @@ echo $OUTPUT->single_button(
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['todo' => 1, 'sesskey' => sesskey()]),
     'Find "todo"');
+echo $OUTPUT->single_button(
+    new moodle_url($PAGE->url, ['broken' => 1, 'sesskey' => sesskey()]),
+    'Find "broken"');
 
 if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
     /*
@@ -328,13 +321,46 @@ if (data_submitted() && optional_param('todo', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        $tags = $q->get_question_todos();
+        list($hastodos, $tags) = $q->get_question_todos();
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) .
             '</td><td>' . implode(', ', $tags). '<td></tr>';
+    }
+    echo '</tbody></table>';
+}
+
+if (data_submitted() && optional_param('broken', false, PARAM_BOOL)) {
+    /*
+     * Question marked as broken.
+     */
+    $qs = $DB->get_recordset_sql('SELECT q.id as questionid, q.name as name
+                                  FROM {question} q
+                                  JOIN {question_versions} qv ON qv.questionid = q.id
+                                  JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                                  JOIN {qtype_stack_options} o ON q.id = o.questionid
+                                  WHERE o.isbroken = 1
+                                    AND qv.version = (
+                                        SELECT MAX(version)
+                                        FROM {question_versions} v
+                                        WHERE v.questionbankentryid = qbe.id
+                                    )');
+    echo '<h4>Questions with most recent version marked as broken</h4>';
+    echo '<table><thead><tr><th>Question</th><th>Version</th></thead><tbody>';
+    // Load the whole question, simpler to get the contexts correct that way.
+    foreach ($qs as $item) {
+        $q = question_bank::load_question($item->questionid);
+        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+        $editurl = new \moodle_url('/question/bank/editquestion/question.php', [
+            'id' => $urlparams['questionid'],
+            'returnURL' => new moodle_url('/question/type/stack/adminui/dependencies.php'),
+            'courseid' => $urlparams['courseid'],
+        ]);
+        echo '<tr><td>' . $item->name . ' ' .
+            $OUTPUT->action_icon($editurl, new pix_icon('t/edit', get_string('edit'))) .
+            '</td><td>' . $q->version . '</td></tr>';
     }
     echo '</tbody></table>';
 }

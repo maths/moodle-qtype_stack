@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.17 (Changing base example)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Solve for \(x\) if \(3\ln x+4\log x=1\).</p>
+
+<h3>Solution</h3>
+
+<p>This has logs to two different bases. So we must first express each logarithm in terms of logs to the <i>same</i> base, we will use base \(e\).Recall</p>
+\[
+\log x=\dfrac{\ln x}{\ln 10}.
+\] 
+So \(3\ln x+4\log x=1\) becomes
+\[ 
+3\ln x+4\dfrac{\ln x}{\ln 10}=1\qquad\text{or}\qquad \left(3+\dfrac{4}{\ln 10}\right)\ln x=1
+\]
+leading to \(\ln x=\dfrac{\ln 10}{3\ln 10 +4}=\dfrac{2.302585}{10.907755}=0.211096\) and so
+\[ 
+x=e^{0.211096}=1.2350311.
+\]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

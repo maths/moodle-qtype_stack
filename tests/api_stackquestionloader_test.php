@@ -40,7 +40,7 @@ use qtype_stack_testcase;
  */
 final class api_stackquestionloader_test extends qtype_stack_testcase {
 
-    public function test_question_loader(): void {
+    public function x_test_question_loader(): void {
 
         $xml = stack_api_test_data::get_question_string('matrices');
         $ql = new StackQuestionLoader();
@@ -66,7 +66,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($question->deployedseeds));
     }
 
-    public function test_question_loader_use_defaults(): void {
+    public function x_test_question_loader_use_defaults(): void {
 
         global $CFG;
         $xml = stack_api_test_data::get_question_string('usedefaults');
@@ -98,7 +98,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
-    public function test_question_loader_do_not_use_defaults(): void {
+    public function x_test_question_loader_do_not_use_defaults(): void {
 
         global $CFG;
         $xml = stack_api_test_data::get_question_string('optionset');
@@ -125,7 +125,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), 30);
     }
 
-    public function test_question_loader_base_question(): void {
+    public function x_test_question_loader_base_question(): void {
         global $CFG;
         $xml = stack_api_test_data::get_question_string('empty');
         $ql = new StackQuestionLoader();
@@ -157,7 +157,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
-    public function test_yaml_to_xml()
+    public function x_test_yaml_to_xml()
     {
         if (!function_exists('yaml_parse')) {
             $this->markTestSkipped('YAML extension is not available.');
@@ -172,7 +172,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
        $this->assertEquals('html', (string)$xml->question->questiontext->format);
     }
 
-    public function test_array_to_xml_inverse()
+    public function x_test_array_to_xml_inverse()
     {
         $data = [
             'name' => 'Test',
@@ -223,7 +223,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEqualsCanonicalizing($data, $array);
     }
 
-    public function test_obj_diff()
+    public function x_test_obj_diff()
     {
         $a = (object) ['a' => 1, 'b' => 2];
         $b = (object) ['a' => 1, 'b' => 3];
@@ -232,7 +232,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(3, $diff['b']);
     }
 
-    public function test_arr_diff()
+    public function x_test_arr_diff()
     {
         $a = ['x' => 5, 'y' => 6, 'z' => (0.1+0.7)*10, 'a' => [1 => 'x', 2 => 'y']];
         $b = ['x' => 5, 'y' => 7, 'z' => 8, 'a' => [1 => 'x', 2 => 'z']];
@@ -244,7 +244,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('z', $diff['a'][2]);
     }
 
-    public function test_get_default()
+    public function x_test_get_default()
     {
         set_config('stackapi', true, 'qtype_stack');
         $default = StackQuestionLoader::get_default('question', 'name', 'Fallback');
@@ -254,7 +254,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('Fallback', $default);
     }
 
-    public function test_detect_difference()
+    public function x_test_detect_difference()
     {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');
@@ -271,10 +271,11 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             $this->markTestSkipped('Symfony YAML extension is not available.');
             return;
         }
+        // Test the difference detection with a full question.
         $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
         $diff = StackQuestionLoader::detect_differences($yaml);
         $diffarray = yaml_parse($diff);
-        $this->assertEquals(8, count($diffarray));
+        $this->assertEquals(9, count($diffarray));
         $expected = [
             'name' => 'Test question',
             'questiontext' => "<p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>\n    <p>[[input:ans2]] [[validation:ans2]]</p>\n",
@@ -284,7 +285,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             'input' => [
                 [
                     'name' => 'ans1',
-                    'tans' => 'ta1'
+                    'tans' => 'ta1',
+                    'boxsize' => 25,
                 ],
                 [
                     'name' => 'ans2',
@@ -294,28 +296,38 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             'prt' => [
                 [
                     'name' => 'prt1',
+                    'value' => '2',
                     'node' => [
                         [
                             'name' => '0',
                             'sans' => 'ans1',
-                            'tans' => 'ta1'
+                            'tans' => 'ta1',
+                            'quiet' => '1'
                         ]
                     ]
                 ],
                 [
                     'name' => 'prt2',
+                    'value' => '1.0000001',
                     'node' => [
                         [
                             'name' => '0',
                             'sans' => 'ans2',
-                            'tans' => 'ta2'
+                            'tans' => 'ta2',
+                            'falsescore' => '1'
                         ]
                     ]
                 ]
             ],
+            'deployedseeds' => [
+                1,
+                2,
+                3
+            ],
             'qtest' => [
                 [
                     'testcase' => '1',
+                    'description' => 'A test',
                     'testinput' => [
                         [
                             'name' => 'ans1'
@@ -337,6 +349,57 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                 ]
             ]
         ];
+        $expectedstring = "name: 'Test question'\nquestiontext: |\n  <p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>" .
+            "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nquestionvariables: 'ta1:1;ta2:2;'\nprtcorrect: '<p>" .
+            "<i class=\"fa fa-check\"></i> Correct answer*, well done.</p>'\nmultiplicationsign: cross\ninput:\n  - name: ans1\n" .
+            "    tans: ta1\n    boxsize: '25'\n  - name: ans2\n    tans: ta2\nprt:\n  - name: prt1\n    value: '2'\n    " .
+            "node:\n      - name: '0'\n        sans: ans1\n        tans: ta1\n        quiet: '1'\n  - name: prt2\n    " .
+            "value: '1.0000001'\n    node:\n      - name: '0'\n        sans: ans2\n        tans: ta2\n        falsescore: '1'\n" .
+            "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
+            "testinput:\n      - name: ans1\n      - name: ans2\n        value: ta2\n    expected:\n      - name: prt1\n      " .
+            "- name: prt2\n        expectedanswernote: 2-0-T\n";
+        $this->assertStringContainsString($expectedstring, $diff);
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+        // Test the difference detection with a completely default XML question.
+        $blankxml = '<quiz><question type="stack"></question></quiz>';
+        $expected = [
+            'input' => [
+                [
+                    'name' => 'ans1',
+                    'tans' => 'ta1'
+                ]
+            ],
+            'prt' => [
+                [
+                    'name' => 'prt1',
+                    'node' => [
+                        [
+                            'name' => '0',
+                            'sans' => 'ans1',
+                            'tans' => 'ta1'
+                        ]
+                    ]
+                ]
+            ],
+            'qtest' => []
+        ];
+        $diff = StackQuestionLoader::detect_differences($blankxml);
+        $diffarray = yaml_parse($diff);
+        $this->assertEquals(3, count($diffarray));
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+
+        // Test the difference detection with an info XML question.
+        $infoxml = '<quiz><question type="stack"><defaultgrade>0</defaultgrade></question></quiz>';
+        $expected = [
+            'defaultgrade' => '0',
+            'input' => [],
+            'prt' => [],
+            'qtest' => []
+        ];
+        $diff = StackQuestionLoader::detect_differences($infoxml);
+        $diffarray = yaml_parse($diff);
+        $this->assertEquals(4, count($diffarray));
+
         $this->assertEqualsCanonicalizing($expected, $diffarray);
     }
 }

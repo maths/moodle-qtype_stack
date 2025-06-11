@@ -628,7 +628,7 @@ class StackQuestionLoader {
                 $diffinputs[] = $diffinput;
             }
             $diff['input'] = $diffinputs;
-        } else if (!isset($plaindata['question']['defaultgrade']) || !$plaindata['question']['defaultgrade']) {
+        } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
             $diff['input'] = [['name' => StackQuestionLoader::get_default('input', 'name', 'ans1'),
                 'tans' => StackQuestionLoader::get_default('input', 'tans', 'ta1')]];
         } else {
@@ -651,7 +651,7 @@ class StackQuestionLoader {
                 $diffprts[] = $diffprt;
             }
             $diff['prt'] = $diffprts;
-        } else if (!isset($plaindata['question']['defaultgrade']) || !$plaindata['question']['defaultgrade']) {
+        } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
             $diff['prt'] = [['name' => StackQuestionLoader::get_default('prt', 'name', 'prt1'),
                 'node' => [['name' => StackQuestionLoader::get_default('node', 'name', '0'),
                     'sans' => StackQuestionLoader::get_default('node', 'sans', 'ans1'),

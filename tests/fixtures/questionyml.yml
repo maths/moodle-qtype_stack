@@ -36,7 +36,7 @@ logicsymbol: lang
 matrixparens: '['
 isbroken: 0
 variantsselectionseed:
-deployedseeds:
+deployedseed:
   - 1
   - 2
   - 3
@@ -44,7 +44,7 @@ input:
   - name: ans1
     type: algebraic
     tans: ta1
-    boxsize: 15
+    boxsize: 25
     strictsyntax: 1
     insertstars: 0
     syntaxhint:
@@ -75,7 +75,7 @@ input:
     options:
 prt:
   - name: prt1
-    value: 1.0000000
+    value: 2.0000000
     autosimplify: 1
     feedbackstyle: 1
     feedbackvariables:
@@ -86,7 +86,7 @@ prt:
         sans: ans1
         tans: ta1
         testoptions:
-        quiet: 0
+        quiet: 1
         truescoremode: =
         truescore: 1
         truepenalty:
@@ -102,7 +102,7 @@ prt:
         falsefeedback:
         falsefeedbackformat: html
   - name: prt2
-    value: 1.0000000
+    value: 1.0000001
     autosimplify: 1
     feedbackstyle: 1
     feedbackvariables:
@@ -122,7 +122,7 @@ prt:
         truefeedback:
         truefeedbackformat: html
         falsescoremode: =
-        falsescore: 0
+        falsescore: 1
         falsepenalty:
         falsenextnode: -1
         falseanswernote: prt1-1-F
@@ -130,7 +130,7 @@ prt:
         falsefeedbackformat: html
 qtest:
   - testcase: '1'
-    description:
+    description: 'A test'
     testinput:
       - name: 'ans1'
         value: 'ta1'

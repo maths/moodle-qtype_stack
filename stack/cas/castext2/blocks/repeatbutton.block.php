@@ -125,6 +125,12 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
             return false;
         }
 
+        if (trim($this->params['title']) === '') {
+            $errors[] = new $options['errclass']('Repeatbutton block title must be non-empty.', $options['context'] . '/' .
+                $this->position['start'] . '-' . $this->position['end']);
+            return false;
+        }
+
         if (!array_key_exists('repeat_ids', $this->params)) {
             $errors[] = new $options['errclass']('Repeatbutton block requires a repeat_ids parameter.',
                 $options['context'] . '/' .

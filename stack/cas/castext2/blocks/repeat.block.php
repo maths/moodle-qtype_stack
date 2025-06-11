@@ -75,6 +75,13 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
+        foreach ($this->children as $item) {
+            if ($item->is_interactive()) {
+                $errors[] = new $options['errclass']('Repeat blocks may not contain interactive children.', $options['context'] . '/' .
+                    $this->position['start'] . '-' . $this->position['end']);
+                return false;
+            }
+        }
         return true;
     }
 

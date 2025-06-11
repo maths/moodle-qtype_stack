@@ -1899,6 +1899,94 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Basic test the repeat blocks compile.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_repeat_blocks(): void {
+        $st = '[[repeat id="1"]]' .
+            '[[input:ans1]] [[validation:ans1]]</p>' .
+            '[[/repeat]]' .
+            '[[repeatbutton title="Add another solution" repeat_ids="1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertTrue($at2->get_valid());
+    }
+
+    /**
+     * Basic test the repeat blocks error checking.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_repeat_blocks_noid(): void {
+        $st = '[[repeat]]' .
+            '[[input:ans1]] [[validation:ans1]]</p>' .
+            '[[/repeat]]' .
+            '[[repeatbutton title="Add another solution" repeat_ids="1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Repeat block requires a id parameter.', $at2->get_errors(true));
+    }
+
+    /**
+     * Basic test the repeat button blocks error checking.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_repeat_blocksbutton_noid(): void {
+        $st = '[[repeat id="1"]]' .
+            '[[input:ans1]] [[validation:ans1]]</p>' .
+            '[[/repeat]]' .
+            '[[repeatbutton title="Add another solution"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Repeatbutton block requires a repeat_ids parameter.', $at2->get_errors(true));
+    }
+
+    /**
+     * Basic test the repeat button blocks error checking.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_repeat_blocksbutton_notitle(): void {
+        $st = '[[repeat id="1"]]' .
+            '[[input:ans1]] [[validation:ans1]]</p>' .
+            '[[/repeat]]' .
+            '[[repeatbutton title=""  repeat_ids="1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Repeatbutton block title must be non-empty.', $at2->get_errors(true));
+    }
+
+    /**
+     * Basic test the repeat blocks error checking with nested blocks.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_repeat_blocks_nonested(): void {
+        $st = '[[repeat id="1"]]' .
+            '[[input:ans1]] [[validation:ans1]]</p>' .
+            '[[adapt id=\'1\']] Shown if clicked.' .
+            '[[adaptbutton title=\'Click me\' hide_ids=\'1\' save_state=\'ans1\' show_ids=\'3;4\']]' .
+            '[[/adaptbutton]][[/adapt]]' .
+            '[[/repeat]]' .
+            '[[repeatbutton title="Add another solution" repeat_ids="1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Repeat blocks may not contain interactive children.', $at2->get_errors(true));
+    }
+
+    /**
      * Basic test the jsxgraph blocks compile.
      * @covers \qtype_stack\stack_cas_castext2_jsxgraph
      */

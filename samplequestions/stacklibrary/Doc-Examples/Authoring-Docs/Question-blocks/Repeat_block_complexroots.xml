@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 312  -->
+  <question type="stack">
+    <name>
+      <text>Using Block: Vorbereitung Wurzel 05</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Solve the equation \(z^4 = 1\). How many solutions are there? Add as many input fields as you need. Enter your solutions in cartesian form.</p>
+<p>
+[[repeat id="1"]]
+\(z_{<repeatindex>} = \) [[input:ans1]] [[validation:ans1]]<br>
+[[/repeat]]
+[[repeatbutton title="Add another root" repeat_ids="1" /]]
+</p>
+[[feedback:prt1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><strong>Lösung</strong>: Gemäss Kapitel 4.9 im Polybook hat die Gleichung \(z^4 = 1\) gerade so viele Lösungen wie der Grad des Polynoms ist, also hier 4. Wir klicken als 3x auf den Knopf, bis wir 4 Eingabefelder haben.</p>
+<p>Diese Lösungen haben alle den gleichen Betrag und sie liegen jeweils um \(\pi/2\) im Gegenuhrzeigersinn weitergedreht. Sobald wir eine erste Lösung gefunden haben, erhalten wir also alle weiteren Lösungen schnell.</p>
+<p>Die erste Lösung ist aber auch einfach: Natürlich gilt \(1^4 = 1\), also \(z_1 = 1\). Nun drehen wir einfach und schreiben in Normalform:</p>\[z_2 = z_1 \cdot e^{\text{i}\pi/2} = 1 \cdot \text{i} = \text{i},\]\[z_3 = z_2 \cdot e^{\text{i}\pi/2} = \text{i} \cdot \text{i} = -1,\]\[ z_4 = z_3 \cdot e^{\text{i}\pi/2} = -1 \cdot \text{i} = -\text{i}.\]
+<p>Die vier Lösungen bilden also ein Quadrat.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text>/*Written by Meike Akveld, George Ionita, Andreas Steiger, ETH Zürich
+Contact and more information:
+stack@math.ethz.ch - www.math.ethz.ch/stack*/
+/*Author: Michael Kallweit, Ruhr Universität Bochum
+You find further information on our website:
+https://www.ruhr-uni-bochum.de/hdm/stack.en.shtml*/
+z0:1;
+z1:%i;
+z2:-1;
+z3:-%i;
+polarz0:polarform(z0);
+polarz1:polarform(z1);
+polarz2:polarform(z2);
+polarz3:polarform(z3);
+simp:false;
+ta:append([z0],[z1],[z2],[z3]);/*We can use z0, z1, z2, and z3 if we do not want the polar form, but the normal form*/
+poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<br><p></p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@ta@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Richtige Antwort, gut gemacht!]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Ihre Antwort ist teilweise korrekt.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Falsche Antwort.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>(</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(ta)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>FC3</text>
+</tag>
+      <tag><text>MK</text>
+</tag>
+    </tags>
+  </question>
+
+</quiz>

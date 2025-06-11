@@ -64,9 +64,9 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
         $list[] = new MP_String("function add_repeat(){");
         if (isset($this->params['repeat_ids'])) {
-            $splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
+            $splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
             foreach ($splitrepeatid as &$id) {
-                $list[] = new MP_String("console.log($id);");
+                $list[] = new MP_String("console.log('debug');console.log($id);");
                 // We use the quid block to make the ids unique.
                 //$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $id)]);
             }

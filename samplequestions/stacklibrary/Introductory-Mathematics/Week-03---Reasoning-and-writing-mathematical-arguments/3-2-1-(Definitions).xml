@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.1 (Definitions)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Definitions and proof</h1>
+
+<p>So far this week we have introduced the concept of formal mathematical reasoning. We have seen how logical connectives can be applied to mathematical statements in order to form valid mathematical arguments called proofs. Often we wish to use a proof in order to establish the truth of a given mathematical statement. This makes a <i>theorem</i> which we can then later invoke in other arguments. There are many different types of proofs and there is no one way to write a proof. In this section we will introduce some of the most common types of mathematical proof. We will see some simple examples of each type of proof and understand the differences between them. We will begin by discussing the roles definitions play in proof.</p>
+<br/>
+<p>A <b>definition</b> is an important concept in mathematics. Alongside the notions of a theorem and a proof, it is one of the primary building blocks of mathematics. Proofs often make use of formal definitions of objects. Some simple proofs can be reduced to repeatedly applying definitions to re-write a given statement. Mathematical definitions are often very difficult to write. Once we get to advanced mathematics, it becomes very difficult to spot what would make a suitable definition. Often they come from very careful thought and research. In some sense, definitions collect similar examples together and it is often useful to build a collection of examples that do and do not satisfy a given definition. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

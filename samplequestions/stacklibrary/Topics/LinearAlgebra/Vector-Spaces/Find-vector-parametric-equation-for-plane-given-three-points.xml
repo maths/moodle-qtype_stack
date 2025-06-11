@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 40643364  -->
   <question type="stack">
     <name>
       <text>Find vector parametric equation for plane given three points</text>
@@ -14,20 +13,17 @@ Find a vector parametric equation for the plane that goes through the points \(\
 </div>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include_contrib("linearalgebra_contrib.mac");
-%_stack_preamble_end;
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("vectorgeometry.mac");
 
 p1: transpose(rand_selection([-4,-3,-2,-1,0,1,2,3,4],3));
@@ -40,15 +36,10 @@ ta: un_vec_convert(p1) + t*un_vec_convert(p2 - p1) + s*un_vec_convert(p3 - p1);]
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="html">
-      <text><![CDATA[<p>
-Find a vector parametric equation for the plane that goes through the points \(\mathcal{P}_1 = {@p1@}\), \(\mathcal{P}_2 = {@p2@}\) and \(\mathcal{P}_3 = {@p3@}\). You may use <code>c(1,2,3)</code> notation to enter vectors in this question.
-</p>
-<div>
-\(\underline{\mathbf{r}} = {@vector_parametric_display(vector_parametric_parts(ta))@} \)
-</div>]]></text>
+      <text>\(\mathcal{P}_1 = {@p1@}\), \(\mathcal{P}_2 = {@p2@}\) and \(\mathcal{P}_3 = {@p3@} \rightarrow {@ta@} \)</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -70,7 +61,8 @@ Find a vector parametric equation for the plane that goes through the points \(\
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -78,16 +70,16 @@ Find a vector parametric equation for the plane that goes through the points \(\
       <boxsize>30</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -110,11 +102,11 @@ if check_form then block(
         <answertest>AlgEquiv</answertest>
         <sans>check_form</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
@@ -135,11 +127,11 @@ if check_form then block(
         <answertest>AlgEquiv</answertest>
         <sans>point_in_affine_spacep(sa_cons,ta_parts)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
@@ -147,7 +139,7 @@ if check_form then block(
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -160,11 +152,11 @@ if check_form then block(
         <answertest>AlgEquiv</answertest>
         <sans>vector_in_spacep(first(sa_dirvecs), ta_dirvecs)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>3</truenextnode>
         <trueanswernote>prt1-3-T</trueanswernote>
         <truefeedback format="html">
@@ -172,7 +164,7 @@ if check_form then block(
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-3-F</falseanswernote>
         <falsefeedback format="html">
@@ -185,11 +177,11 @@ if check_form then block(
         <answertest>AlgEquiv</answertest>
         <sans>vector_in_spacep(second(sa_dirvecs), ta_dirvecs)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-4-T</trueanswernote>
         <truefeedback format="html">
@@ -197,7 +189,7 @@ if check_form then block(
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-4-F</falseanswernote>
         <falsefeedback format="html">
@@ -231,7 +223,7 @@ if check_form then block(
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>ev(p3 + 2*Xi*(p3 - p2) - 1/pi*LL*(p2 - p1),simp)</value>
@@ -245,7 +237,7 @@ if check_form then block(
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>p1 + p2*t + p3*s</value>
@@ -253,13 +245,13 @@ if check_form then block(
       <expected>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt1-3-F</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>4</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>matrix([0],[0],[0])</value>
@@ -272,5 +264,4 @@ if check_form then block(
       </expected>
     </qtest>
   </question>
-
 </quiz>

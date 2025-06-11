@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.9 (The Highway Code)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Some important notes</h3>
+
+<p>Our calculations so far are clearly not a perfect representation of the stopping distances in real life. We have failed to take into account a number of other factors because it would overly complicate our calculations. For example we have not discussed perception time or reaction time of the driver, the coefficient of friction of the road i.e. whether the road is wet, dry or icy or the efficiency of the car brakes. However, this does not mean our calculations are worthless. As mentioned previously, it is an important skill to suitably simplify a real-world problem so that we can model it mathematically. Whilst not 100\(\%\) accurate, this process can still give us good approximations to use. For example, the British highway code uses the approximation of stopping distance as \(s = u + \frac{u^2}{20}\).</p>
+<br>
+<h3>Thinking distance and the Highway Code</h3>
+
+<p>The British highway code advises minimum stopping distances for different speeds based on <i>br</i><i style="font-size: 0.9375rem;">aking distance</i><span style="font-size: 0.9375rem;"> and </span><i style="font-size: 0.9375rem;">thinking distance</i><span style="font-size: 0.9375rem;">. Thinking distance is the distance the car travels during the perception and reaction times of the driver. If we were to consider the thinking distance as well as the braking distance we would see that the total </span><i style="font-size: 0.9375rem;">stopping distance</i><span style="font-size: 0.9375rem;"> (which is the braking distance plus the thinking distance) would increase dramatically. For example, if it took a driver \(2\) seconds to notice a hazard in a car travelling \(20 \: ms^{-1}\) then the car would have travelled another \(40\) metres, before the brakes were even applied. Coupling this with the fact that there are several factors that can increase a drivers thinking time e.g. age, alcohol, tiredness, talking on a phone etc. this increase in stopping distance could be substantial. The following table shows the highway codes' suggested stopping distances for different speeds.</span></p>
+<br>
+<table>
+  <tbody><tr>
+    <th>Speed (kph)</th>
+    <th>Suggested stopping distance (metres)</th>
+  </tr>
+  <tr>
+    <td>32</td>
+    <td>12</td>
+  </tr>
+  <tr>
+    <td>48</td>
+    <td>23</td>
+  </tr>
+   <tr>
+    <td>64</td>
+    <td>36</td>
+  </tr>
+   <tr>
+    <td>80</td>
+    <td>53</td>
+  </tr>
+   <tr>
+    <td>96</td>
+    <td>73</td>
+  </tr>
+   <tr>
+    <td>112</td>
+    <td>96</td>
+  </tr>
+</tbody></table>
+<p>Now that we understand that stopping distances are governed by a quadratic, it may be interesting to use our analysis to ask if these stopping distances seem sensible.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -128,12 +128,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+            $vcmd = '(make_multsgn("space"),stack_validate_units(['.$starredanswer.'], ' .
                     $lowestterms.', '.$tans.', "inline"))';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+            $vcmd = '(make_multsgn("space"),stack_validate_units(['.$starredanswer.'], ' .
                     $lowestterms.', '.$tans.', "negpow"))';
         }
         return $this->validationcontext['vname'] . ':' . $vcmd;

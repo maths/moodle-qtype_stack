@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.3 (Direct proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Direct proof</h3>
+
+<p>Perhaps the most logically straightforward proof is to directly proof a statement using deductive reasoning, following a chain of implications. This is called a <b>direct proof</b> or a <b>proof by deduction</b>. In direct proofs we start with a <i>hypothesis</i> and then pass through a series of implications until we reach a <i>conclusion</i>.</p>
+
+<p>It may sometimes be reasonably simple to prove a statement directly using deductive reasoning. The most useful statements in mathematics are usually conditional (or equivalence) statements.  Proving a conditional  statement \(A \implies B\) directly, means to begin by assuming that \(A\) is true, and showing that this leads to a series of logical implications, which in turn leads to us saying that \(B\) must also be true. This type of proof is very old and is often used in geometric-based proofs. An example of direct proof can be seen in the following lemma. Note that a <b>lemma</b> is a 'smaller' or minor theorem, that is used as a stepping stone to a larger result.</p>
+<br/>
+<h3>Example</h3>
+
+<b>Lemma:</b> If \(a,b \in \mathbb{Z}\) and \(a\) and \(b\) are both even then \(a \times b\) is also even
+<div class="proof">
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step">Let \(a\) and \(b\) be even numbers so that 
+\[
+a = 2k \qquad \mbox{and} \qquad b = 2l,
+\]
+where \(k, l \in \mathbb{Z}\).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step">Then note that the product \(a \times b\) can be expressed as
+\[
+a \times b = 2k \times 2l = 4kl = 2 (2kl).
+\]</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">Since \(2\) divides the expression \(4kl\), the number \(a \times b\) is even.</div>
+</div>
+</div>
+
+<p>This is a direct proof, because each numbered step of the proof follows directly by implication from the previous one. Therefore the argument is an example of deductive reasoning. One further thing to note here is that every time new notation or new names for variables has been introduced, we have explained what they are. For example, when we introduced \(k\) and \(l\) we have specified that they are integers. This tells the reader precisely where the proof is operating and leaves no room for ambiguity. Perhaps in this case it was obvious anyway, but there are proofs where such precision becomes vital to the argument actually making sense. We shall see in the next section that there is another type of direct proof which involves equivalence of calculations. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

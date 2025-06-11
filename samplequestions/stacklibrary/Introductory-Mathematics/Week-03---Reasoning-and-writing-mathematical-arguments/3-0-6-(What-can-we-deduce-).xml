@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>3.0.6 (What can we deduce?)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that we have the following three facts.</p>
+<ol>
+<li>Alice will be admitted to university only if she is clever.</li>
+<li>If Alice is clever then she does not need to work hard</li>
+<li>Alice has to work hard.</li>
+</ol>
+
+<p>By forming a chain of logical implications, which of the following is the final conclusion that we can deduce from these statements?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Set \(A, B\) and \(C\) to be the statements:</p>
+<ul style="list-style: none;">
+<li>A: Alice is admitted to university.</li>
+<li>B: Alice is clever.</li>
+<li>C: Alice works hard.</li>
+</ul>
+
+<p>Then statement 1. says \(A\) implies \(B\), statement 2. says \(B\) implies \(C\) is false (called the complement of C, often denoted \(\bar{C}\)). Statement 3. tells us that \(C\) is true. Therefore
+\[
+C \mbox{ implies } \bar{B} \qquad \mbox{and} \qquad \bar{B} \mbox{ implies } \bar{A}.
+\]
+Therefore we can deduce that Alice will not be admitted to university.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text>Alice will not be admitted into university.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>Alice is clever.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>Alice does not work hard.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>Alice works hard.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>Alice will be admitted into university</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>Alice is not clever.</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

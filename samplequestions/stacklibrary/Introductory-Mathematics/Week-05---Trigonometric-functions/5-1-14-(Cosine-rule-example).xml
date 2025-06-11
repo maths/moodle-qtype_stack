@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.1.14 (Cosine rule example)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p> Suppose that we have a triangle \(ABC\) where \(AB = 5\)cm, \(BC=3cm\) and angle \(B = 50^\circ\). Find the length of the remaining side of the triangle.</p>
+
+<h3>Solution</h3>
+
+<p>Note that the remaining side of the triangle is the side \(AC\) which corresponds to the symbol \(b\) in the cosine rule. Thus from the cosine rule we have 
+\[
+b^2 = a^2 + c^2 - 2ac\cos B.
+\]
+In this case we have \(a = 3, c = 5\) and \(B = 50^\circ\), so substituting these into the above equation we obtain
+\[
+AC^2 = b^2 = 3^2 + 5^2 - (2 \cdot 3 \cdot 5 \cdot \cos 50^\circ) = 34 - 30 \cdot 50^\circ \approx 14.7 \: \mbox{cm}.
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

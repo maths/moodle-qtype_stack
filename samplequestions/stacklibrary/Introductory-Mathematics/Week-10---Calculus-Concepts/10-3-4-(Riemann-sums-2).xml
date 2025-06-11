@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>10.3.4 (Riemann sums 2)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>What about bigger n?</h3>
+
+<p>Notice what happens now as we make \(n\) really large. Here you can try the previous example with larger values of \(n\):</p>
+<br/>
+<div style="margin-left:1em;margin-right:auto;">[[jsxgraph width='550px' height='360px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+var brd = JXG.JSXGraph.initBoard(divid, {axis:true, boundingbox:[-0.5,40,8,-10], showCopyright: false, showNavigation:false});
+var s = brd.create('slider',[[1,-5],[4,-5],[3,3,2000]],{name:'n',snapWidth:1,precision:0});
+var leftEndpoint = function(){return 0;};
+var rightEndpoint = function(){return 6;};
+var f = function(x){ return x*x; };
+var plot = brd.create('functiongraph',[f,-0.5, 6.5],{strokeColor:'#003399',strokeWidth:3});
+var xaxis = brd.create('axis', [[0,0],[1,0]]);
+brd.create('ticks', [xaxis, [leftEndpoint(),rightEndpoint()]], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
+  
+ 
+var rs = brd.create('riemannsum',[f, 
+    function(){ return s.Value();}, "right",
+    function(){return leftEndpoint();}, 
+    function(){return rightEndpoint();}
+    ], 
+    {fillColor:'#CC0000', fillOpacity:0.15, strokeColor: '#CC0000'});
+
+var ls = brd.create('riemannsum',[f, 
+    function(){ return s.Value();}, "left",
+    function(){return leftEndpoint();}, 
+    function(){return rightEndpoint();}
+    ], 
+    {fillColor:'#003399', fillOpacity:0.3, strokeColor: '#003399'});
+
+var lsval = brd.create('text', [5.5,-5,function(){ return 'Left Sum = '+ (JXG.Math.Numerics.riemannsum(f,s.Value(),"left",leftEndpoint(),rightEndpoint())).toFixed(4); }]);
+var rsval = brd.create('text', [5.5,-8,function(){ return 'Right Sum = '+(JXG.Math.Numerics.riemannsum(f,s.Value(),"right",leftEndpoint(),rightEndpoint())).toFixed(4); }]);
+      
+var showLeft = brd.create('checkbox', [0.5, 30, ' Show Left Sums'],{checked:'true'});
+var showRight = brd.create('checkbox', [0.5, 27, ' Show Right Sums'],{checked:'true'});
+
+JXG.addEvent(showLeft.rendNodeCheckbox, 'change', function() {
+    if (this.Value()) {
+        ls.setAttribute({visible:"true"});
+        lsval.setAttribute({visible:"true"});
+    } else {
+        ls.setAttribute({visible:"false"});
+        lsval.setAttribute({visible:"false"});
+    }
+}, showLeft);
+
+JXG.addEvent(showRight.rendNodeCheckbox, 'change', function() {
+    if (this.Value()) {
+        rs.setAttribute({visible:"true"});
+        rsval.setAttribute({visible:"true"});
+    } else {
+        rs.setAttribute({visible:"false"});
+        rsval.setAttribute({visible:"false"});
+    }
+}, showRight);
+[[/jsxgraph]]</div>
+<br/>
+<p>You should notice that the two values are getting closer together -- they both seem to be approaching 72. This does not always happen, as you can see with the example of \(y=\frac{1}{x}\):</p>
+
+<div style="margin-left:1em;margin-right:auto;">[[jsxgraph width='550px' height='360px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+var brd = JXG.JSXGraph.initBoard(divid, {axis:true, boundingbox:[-0.5,20,8,-10], showCopyright: false, showNavigation:false});
+var s = brd.create('slider',[[1,-5],[4,-5],[3,3,1000]],{name:'n',snapWidth:1,precision:0});
+var leftEndpoint = function(){return 0;};
+var rightEndpoint = function(){return 6;};
+var f = function(x){ return 1/x; };
+var plot = brd.create('functiongraph',[f,0, 6.5],{strokeColor:'#003399',strokeWidth:3});
+var xaxis = brd.create('axis', [[0,0],[1,0]]);
+brd.create('ticks', [xaxis, [leftEndpoint(),rightEndpoint()]], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
+  
+ 
+var rs = brd.create('riemannsum',[f, 
+    function(){ return s.Value();}, "right",
+    function(){return leftEndpoint();}, 
+    function(){return rightEndpoint();}
+    ], 
+    {fillColor:'#CC0000', fillOpacity:0.15, strokeColor: '#CC0000'});
+
+var ls = brd.create('riemannsum',[f, 
+    function(){ return s.Value();}, "left",
+    function(){return leftEndpoint();}, 
+    function(){return rightEndpoint();}
+    ], 
+    {fillColor:'#003399', fillOpacity:0.3, strokeColor: '#003399'});
+
+var lsval = brd.create('text', [5.5,-5,function(){ return 'Left Sum = '+ (JXG.Math.Numerics.riemannsum(f,s.Value(),"left",leftEndpoint(),rightEndpoint())).toFixed(4); }]);
+var rsval = brd.create('text', [5.5,-8,function(){ return 'Right Sum = '+(JXG.Math.Numerics.riemannsum(f,s.Value(),"right",leftEndpoint(),rightEndpoint())).toFixed(4); }]);
+      
+var showLeft = brd.create('checkbox', [3, 10, ' Show Left Sums'],{checked:'true'});
+var showRight = brd.create('checkbox', [3, 8, ' Show Right Sums'],{checked:'true'});
+
+JXG.addEvent(showLeft.rendNodeCheckbox, 'change', function() {
+    if (this.Value()) {
+        ls.setAttribute({visible:"true"});
+        lsval.setAttribute({visible:"true"});
+    } else {
+        ls.setAttribute({visible:"false"});
+        lsval.setAttribute({visible:"false"});
+    }
+}, showLeft);
+
+JXG.addEvent(showRight.rendNodeCheckbox, 'change', function() {
+    if (this.Value()) {
+        rs.setAttribute({visible:"true"});
+        rsval.setAttribute({visible:"true"});
+    } else {
+        rs.setAttribute({visible:"false"});
+        rsval.setAttribute({visible:"false"});
+    }
+}, showRight);
+[[/jsxgraph]]</div>
+
+<p>Here, the left sum is "infinity" because it's not possible to work out the value of \(\frac{1}{0}\) to get the height of the first rectangle. Notice also that the value of the right sum seems to be increasing without settling down on a value. In this case, it's not possible to pick out a value like "72" which would make sense as the area.</p>
+<br/>
+<p>The concept of breaking up the area under the curves into infinitely many rectangles is an example of <b>Riemann sums</b>. We wont focus on these here, eschewing this topic to focus on computing integrations. However, we will make the following notes. Firstly, hopefully you can see in our brief introduction so far, that in order to calculate the areas under curves it involves summing versions of infinite series. Indeed, this is one of the most important applications of the methods we met in week 8. Secondly, as shown by the second example above the idea of limits and convergence is key to performing such calculations. In practice we don't often need to deal with such complicated questions of convergence, however the formal theory of calculus (known as analysis) gives us the formal footing for the calculations we will go into throughout the remains of this section. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text>.</text>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022071300</text>
+    </stackversion>
+    <questionvariables>
+      <text/>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+  </question>
+</quiz>

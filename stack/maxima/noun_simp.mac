@@ -74,6 +74,10 @@ declare("nouneq", lassociative);
 declare("nouneq", rassociative);
 
 verb_arith(ex) := block([a],
+    /* Better display for -x, etc. */
+    if is(safe_op(ex)="nounmul") and is(part(ex,1)=UNARY_MINUS) then
+      if is(length(args(ex))=2) then ex:-part(ex,2) else
+                                               ex:-apply("nounmul", rest(args(ex))),
     ex:subst("=", "nouneq", ex),
     ex:subst("+", "nounadd", ex),
     ex:subst("*", "nounmul", ex),
@@ -318,13 +322,14 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul, comMulNum])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
 ALL_TRANSP[assMul] : assMulp$
 ALL_TRANSP[comAdd] : comAddp$
 ALL_TRANSP[comMul] : comMulp$
+ALL_TRANSP[comMulNum] : comMulNump$
 
 ALL_TRANSP[zeroAdd] : zeroAddp$
 ALL_TRANSP[zeroMul] : zeroMulp$
@@ -355,7 +360,7 @@ ALL_TRANSP[sqrtRem] : sqrtRemp$
 ALL_TRANSP[mminusInt] : mminusIntp$
 
 /* Sets of incompatible rules. */
-INCOMPATIBLE_TRANS : [{intFac, intMul}, {negOrd, negDist}]$
+INCOMPATIBLE_TRANS : [{intFac, intMul}, {negOrd, negDist}, {comMul, comMulNum}]$
 
 /*******************************************/
 /* Top level transformations using rules   */
@@ -440,9 +445,18 @@ zPowp(ex):= block(
 )$
 zPow(ex) := if zPowp(ex) then 1 else ex$
 
-/* UNARY_RECIP(1) -> 1 (intended to be used with other rules). */
-oneDivp(ex):= if safe_op(ex)="UNARY_RECIP" and part(ex, 1)=1 then true else false$
-oneDiv(ex) := if oneDivp(ex) then 1 else ex$
+/* UNARY_RECIP(1) -> 1 and x/1 -> x. */
+oneDivp(ex):= block(
+    if safe_op(ex)="UNARY_RECIP" and is(part(ex, 1)=1) then return(true),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
+    not(emptyp(sublist(args(ex), lambda([ex], is(ex=UNARY_RECIP(1))))))
+)$
+oneDiv(ex) := block([l1],
+    if safe_op(ex)="UNARY_RECIP" and is(part(ex, 1)=1) then return(1),
+    l1:sublist(args(ex), lambda([ex], not(is(ex=UNARY_RECIP(1))))),
+    if length(l1)=1 then return(first(l1)),
+    apply(op(ex),l1)
+)$
 
 /*****************************************/
 
@@ -472,14 +486,24 @@ elsort(l) := block([l1, l2, la],
     append(sort(la, orderelementaryp), sort(l1, orderelementaryp), sort(l2, orderelementaryp))  
 )$
 
+/* Pull out any numbers to the front and sort only numbers. */
+numsort(l) := block([l1, l2],
+    l1:sublist(l, lambda([ex], is(ex=UNARY_MINUS) or numberp(ex))),
+    l2:sublist(l, lambda([ex], not(is(ex=UNARY_MINUS) or numberp(ex)))),
+    append(sort(l1, orderelementaryp), l2)  
+)$
+
 /* Sort out the order of elements, i.e. commutativity. */
 /* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
 comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comAdd(ex) := if comAddp(ex) then apply(op(ex),elsort(args(ex))) else ex$
+comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
 
 comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comMul(ex) := if comMulp(ex) then apply(op(ex),elsort(args(ex))) else ex$
+comMul(ex) := if comMulp(ex) then apply(op(ex), elsort(args(ex))) else ex$
 
+/* Pull out and sort only numbers. */
+comMulNump(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numsort(args(ex)))#ex then true else false$
+comMulNum(ex) := if comMulp(ex) then apply(op(ex), numsort(args(ex))) else ex$
 
 /* Consolidate products of division: a*UNARY_RECIP(b)*UNARY_RECIP(c) -> a*UNARY_RECIP(b*c) */
 recipMulp(ex) := block([ex2],
@@ -573,7 +597,7 @@ divDivProdp(ex):= block(
 )$
 divDivp(ex):= block([ex2],
     if safe_op(ex)="UNARY_RECIP" then return(divDivProdp(part(ex,1))),
-    if not(safe_op(ex)="*" or safe_op(ex)="nunmul") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     ex2:sublist(args(ex),lambda([ex3], safe_op(ex3)="UNARY_RECIP")),
     if emptyp(ex2) then return(false),
     ex2:map(first,ex2),
@@ -682,11 +706,11 @@ intMul(ex) := block([a1, a2],
 
 intPowp(ex):= block(
     if not(safe_op(ex)="^" or safe_op(ex)="nounpow") then return(false),
-    if integerp(part((ex),1)) and part((ex),1)#0 and integerp(part((ex),2)) and part((ex),2)#0 then return(true) else return(false)
+    if integerp(part((ex),1)) and not(is(part((ex),1)=0)) and integerp(part((ex),2)) and not(is(part((ex),2)=0)) then return(true) else return(false)
 )$
 intPow(ex) := block([a1, a2], 
     if intPowp(ex)=false then return(ex),
-    ev(ex, simp)
+    ev(subst("^", "nounpow", ex), simp)
 )$
 
 intFacp(ex):= integerp(ex)$

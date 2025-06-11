@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.12 (Problem with iff)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>The problem with 'iff'</h3>
+
+<p>We have previously introduced the notion of an equivalence proof. Two statements  \(A\) and \(B\) are equivalent if both \(A \implies B\) and its converse \(B \implies A\) are true. We write this as \(A \iff B\). The main error when attempting to write an if and only if proof is to forget to prove both directions. For example, if we wished to prove the statement:</p>
+<br/>
+<p><i>A positive integer \(n\) is divisible by \(6\) if and only if \(n\) is divisible by \(2\) and \(3\).</i></p>
+<br/>
+<p>In order to prove this statement we have to prove <b>both</b> that 'if \(n\) is divisible by \(6\) then \(n\) is divisible by \(2\) and \(3\)' and 'if \(n\) is divisible by \(2\) and \(3\) then \(n\) is divisible by \(6\).'</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

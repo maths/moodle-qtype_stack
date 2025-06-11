@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.19 (Example of deciding if an equation is a circle)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Decide whether the equation \(x^2 + y^2 - 18x + 20y +364 = 0\) is the equation of a circle.</p>
+
+<h3>Solution</h3>
+
+<p>
+We recall that the expanded form of a circle is given by \(x^2 + y^2 +2gx +2fy + c = 0\), thus comparing this with the given equation we get that 
+\[
+2g =-18 \implies g = -9 \qquad \mbox{and} \qquad 2f = 20 \implies f = 10 \qquad \mbox{and} \qquad c = 364.
+\]
+Then we calculate 
+\[
+g^2 + f^2 - c = (-9)^2 + 10^2 - 364 = 81 + 100 - 364 = -183 < 0,
+\]
+therefore we cannot obtain a real value for the radius so the given equation is not that of a circle.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

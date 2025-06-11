@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>5.1.21 (Sine rule find length when not given angle 2)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Suppose that we have a triangle \(ABC\) and suppose that length \(AB = {@AB@}\)cm, angle \(B = {@bb@}^\circ\), angle \(C = {@cc@}^\circ\) find the length of the side \(BC\). Give your answer to the nearest centimetre.</p>
+<ul style="list-style: none;">
+<li>AC = [[input:ans1]] [[validation:ans1]] cm</li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Here we wish to use the sine rule. Recall that 
+\[ 
+\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c} \qquad \mbox{ or } \qquad \frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}. 
+\]
+However in this case we have that angle \(B = {@bb@}\), angle \(C = {@cc@}\) but we dont have angle \(A\) which is the angle we need to apply the sine rule. We can obtain this angle by noting that since we have a triangle the angles must add up to \(180^\circ\). Hence,
+\[
+A = 180 - ({@bb@} + ({@cc@})) = {@aa@}.
+\]
+We are now in a position to use the sine rule. We have  
+\[
+\frac{BC}{\sin {@aa@}^\circ} = \frac{{@AB@}}{\sin {@cc@}^\circ} \implies BC = \left( \frac{{@AB@}}{\sin {@cc@}^\circ}\right) \cdot \sin{@aa@}^\circ \approx {@ta1@} \: cm.
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text>sind(d):=sin(d*%pi/180);
+asind(x)=asin(x)*180/%pi;
+
+bb: 50 + rand(10);
+cc: 40+ rand(15);
+aa: 180-(bb + cc);
+
+AB: 1+rand(15);
+BC: (AB/(sind(cc)))*sind(aa);
+
+ta1: round(BC);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(AC = \left( \frac{{@AB@}}{\sin {@cc@}}\right) \cdot \sin{@bb@} = {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1078064697</deployedseed>
+    <deployedseed>974990506</deployedseed>
+    <deployedseed>1176765704</deployedseed>
+    <deployedseed>1237185869</deployedseed>
+    <deployedseed>1105331545</deployedseed>
+    <deployedseed>516404731</deployedseed>
+    <deployedseed>1667429154</deployedseed>
+    <deployedseed>2049040616</deployedseed>
+    <deployedseed>115969035</deployedseed>
+    <deployedseed>276034134</deployedseed>
+    <deployedseed>1523070079</deployedseed>
+    <deployedseed>550779728</deployedseed>
+    <deployedseed>1524168441</deployedseed>
+    <deployedseed>840013376</deployedseed>
+    <deployedseed>380531752</deployedseed>
+    <deployedseed>527643122</deployedseed>
+    <deployedseed>1599915946</deployedseed>
+    <deployedseed>463706846</deployedseed>
+    <deployedseed>1115564643</deployedseed>
+    <deployedseed>613011655</deployedseed>
+    <deployedseed>1156084562</deployedseed>
+    <deployedseed>128362606</deployedseed>
+    <deployedseed>1048748723</deployedseed>
+    <deployedseed>1248440342</deployedseed>
+    <deployedseed>1313061765</deployedseed>
+    <deployedseed>1631495524</deployedseed>
+    <deployedseed>231398612</deployedseed>
+    <deployedseed>1471966511</deployedseed>
+    <deployedseed>1851512524</deployedseed>
+    <deployedseed>1234630759</deployedseed>
+    <deployedseed>1214669018</deployedseed>
+    <deployedseed>804797490</deployedseed>
+    <deployedseed>1508652251</deployedseed>
+    <deployedseed>1867073767</deployedseed>
+    <deployedseed>97562304</deployedseed>
+    <deployedseed>1395956557</deployedseed>
+    <deployedseed>2023539619</deployedseed>
+    <deployedseed>1033179491</deployedseed>
+    <deployedseed>1968959315</deployedseed>
+    <deployedseed>502913206</deployedseed>
+    <deployedseed>931869647</deployedseed>
+    <deployedseed>1970669676</deployedseed>
+    <deployedseed>1451519876</deployedseed>
+    <deployedseed>330654763</deployedseed>
+    <deployedseed>1565481742</deployedseed>
+    <deployedseed>627741373</deployedseed>
+    <deployedseed>1316504720</deployedseed>
+    <deployedseed>1989901664</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

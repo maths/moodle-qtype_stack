@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.3 (Application - recreational maths)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Recreational mathematics</h1>
+
+<p>Perhaps, the most common application of mathematical proof is formal mathematical research. However, that does not mean that proof is only used in higher abstract maths by academics. Many mathematical problems have gained notoriety amongst the general public due to their interesting or counter-intuitive nature. Often, these problems can lie in the field of <b>recreational mathematics</b>.</p>
+
+<p>There is no real definition of what recreational mathematics actually is. Often people use the phrase 'maths on the back of an envelope' coined by physicist Enrico Fermi as a way of describing some recreational problems. Essentially a recreational maths problem is a problem carried out for entertainment or fun, related to mathematical puzzles or games that can be easily explained to a novice. For example a sudoku puzzle could be considered recreational maths. In this section we will look at some common recreational mathematics problems and examine how we can solve them, using the logic the we have met previously. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

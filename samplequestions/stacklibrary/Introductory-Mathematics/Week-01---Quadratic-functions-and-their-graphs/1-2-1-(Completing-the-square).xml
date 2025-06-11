@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.1 (Completing the square)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Completing the square</h1>
+
+<p>Often the quickest way to solve simple quadratics is by factorising. However, as we have seen, not all quadratics factorise nicely. In this case we require the use of a different method. One such technique is known as <b>completing the square.</b> This is primarily used to solve quadratic equations although it is applicable in many other circumstances too so it is well worth studying. The process of completing the square allows us to write the quadratic equation \(y = ax^2 + bx + c\) in the form \(y = a(x+ p)^2 + q\), for suitable values of \(p\) and \(q\). This is called the <b>completed square form</b> and it has the advantage that the variable \(x\) only appears in the square term making this form easier to solve. </p>
+<br/>
+<h3>Example</h3>
+
+<p>Solve the equation \((x + 5)^2 = 8\)</p>
+
+<h3>Solution</h3>
+
+<p>Note that the left hand side of the equation is a perfect square. Therefore we can solve this equation by taking square roots (remembering both the positive and negative roots) of both sides to obtain
+\[
+x+ 5 = \sqrt{8} \mbox{ or }  -\sqrt{8}.
+\]
+Subtracting \(5\) from each side of the equation gives that the solutions are \(x = \sqrt{8} - 5\) or \(x = - \sqrt{8} - 5\).</p>
+<br/>
+<h3>Example</h3>
+
+<p>Solve the equation \(x^2 +6x =2\) by completing the squrare.</p>
+
+<h3>Solution</h3>
+
+<p>Our first instinct here may be to rewrite the equation in standard form to get \(x^2 + 6x - 2 = 0\) and then to factorise. However a quick examination tells us that this equation does not factorise nicely, so we need to proceed using a different method. In fact we wish to use a method similar to the previous example.</p>
+<p>The issue we have in this case is that the left hand side in this example is not a perfect square, so we cannot proceed by taking square roots. So how do we solve this issue? The answer is that we must re-write the expression on the left hand side so that it becomes a perfect square, then proceed as in the previous example. Hence why this method is called completing the square!</p>
+<br/>
+<p>Consider the quadratic \(x^2 + 6x - 2 = 0\) and note that for a given number \(p\), 
+\[
+(x + p)^2 = (x+ p)(x+ p) = x^2 + 2px + p^2 \qquad \mbox{ and } \qquad (x - p)^2 = (x- p)(x- p) = x^2 - 2px + p^2.
+\]
+In order to write \(x^2 + 6x - 2\) as a perfect square we can compare this expression with \(x^2 + 2px + p^2\). Hence we see that \(2p = 6\) so \(p =3\). Therefore
+\[
+(x+3)^2 = x^2 + 6x + 9 \qquad \mbox{ or after subtracting 9 from each side } \qquad (x+3)^2 - 9 = x^2 + 6x.
+\]
+Therefore, replacing the terms \(x^2 + 6x\) in our initial quadratic with \((x+3)^2 - 9\) we obtain
+\[
+x^2 + 6x - 2 = (x+3)^2 - 9 - 2 = (x+3)^2 - 11.
+\]
+We have now completed the square because we have written the expression \(x^2 + 6x - 2\) as a perfect square plus or minus a constant. Thus to solve the quadratic we can add \(11\) to both sides and take square roots as in the previous example. 
+\[
+\begin{align*}
+x^2 + 6x - 2 = 0 &\implies (x+3)^2 - 11 = 0
+\\
+&\implies (x+3)^2 = 11 
+\\
+&\implies x+3 = \pm \sqrt{11}
+\\
+&\implies x = -3 + \sqrt{11} \mbox{ or } x = -3 - \sqrt{11}.
+\end{align*}
+\]
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

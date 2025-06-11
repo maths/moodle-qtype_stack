@@ -79,8 +79,7 @@ oc_num(x,y) := block([Ans],
 /* Validate student's input. */
 
 /* Return a list of errors for a single connected component. */ 
-interval_validate_single_interval(ex) := block([ret, iop, il, ir],
-    ret:"",
+interval_validate_single_interval(ex) := block([iop, il, ir],
     if trivialintervalp(ex) then return(""),
     if not(intervalp(ex)) then
         return(StackAddFeedback("", "Interval_notinterval", stack_disp(ex, "i"))),
@@ -91,8 +90,8 @@ interval_validate_single_interval(ex) := block([ret, iop, il, ir],
     il:first(args(ex)),
     ir:second(args(ex)),
     if real_numberp(il) and real_numberp(ir) and is(ir<il) then       
-        ret:StackAddFeedback(ret, "Interval_backwards", stack_disp(ex, "i"), stack_disp(apply(iop,[ir, il]), "i")),
-    return(ret)  
+        return(StackAddFeedback("", "Interval_backwards", stack_disp(ex, "i"), stack_disp(apply(iop,[ir, il]), "i"))),
+    return("")  
 )$
 
 /* Validate a realset, mostly for student feedback, so no errors thrown. */

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.1 (Centre and radius of circles)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Centre and radius</h1>
+
+<p>We have seen how to write down the equation of a circle in centre-radius form given the coordinates of the centre point and the radius. We can actually reverse this process as well. In other words, we can find the centre and radius of a circle given its equation. In fact, the name centre-radius from comes from the fact that we can just read off the centre and radius of the circle from an equation in this form. </p>
+<br/>
+<h3>Example</h3>
+
+<p>Suppose that we have a circle with equation \(x^2 + 4x+4 + y^2 -2y +1 - 15 =1\). What is the centre and radius of this circle? </p>
+
+<h3>Solution</h3>
+
+<p>We firstly need to put the equation in centre-radius form. So factorising the brackets and re-arranging we get:
+\[
+(x+2)^2 + (y-1)^2 = 16.
+\]
+Therefore the coordinates of the centre are \((-2,1)\) and the radius is \(r = \sqrt{16} = 4\).</p>
+
+<p>Note that if we have an equation of a circle given in <b>expanded form</b> \(x^2 + y^2 + 2gx + 2fxy = 0\), then it is still possible to find the centre and radius of the circle. Either by converting this into centre-radius form (as we did in the previous section) and reading off the centre and radius as in the example above. Or by completing the square on the general expanded equation of a circle and noting that in centre-radius form this gives us 
+\[
+(x+ g)^2+ (y+f)^2 = r^2,
+\]
+therefore the centre of the circle is \((-g,-f)\) and the radius is \(r = \sqrt{g^2 + f^2 - c}\). Hence we can read off this information from the expanded equation of a circle as well. 
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.12 (Example of multiplying square matrices)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Examples</h3>
+
+<p>Multiply the following square matrices:</p>
+<ol type = "a">
+<li>
+\[
+A = \begin{bmatrix} 
+1 & 2 
+\\
+3 &  4
+\end{bmatrix} \qquad \mbox{and} \qquad B =  \begin{bmatrix} 
+1 & 1
+\\
+1 &  -1
+\end{bmatrix}
+\]</li>
+<li>
+\[
+C= \begin{bmatrix} 
+1 & 2 & 4
+\\
+3 &  4 & 1
+\\
+1 & 0 & 1
+\end{bmatrix} \qquad \mbox{and} \qquad D= \begin{bmatrix} 
+1 & 0 & 0
+\\
+0 &  1 & 0
+\\
+0 & 0 & 1
+\end{bmatrix}
+\]
+</li>
+</ol>
+<h3>Solutions</h3>
+
+<ol type = "a">
+<li>Recall that we multiply matrices by considering each combination of rows of the first matrix and columns of the second matrix and calculating their dot product. So here we have 
+\[
+AB = \begin{bmatrix} 
+1 & 2 
+\\
+3 &  4
+\end{bmatrix} \begin{bmatrix} 
+1 & 1
+\\
+1 &  -1 
+\end{bmatrix} = \begin{bmatrix} 
+(1 \times 1) + (2 \times 1) & (1 \times 1) + (2 \times -1) 
+\\
+(3 \times 1) + (4 \times 1) & (3 \times 1) + (4 \times -1)
+\end{bmatrix} =  \begin{bmatrix} 
+3 & -1
+\\
+7 & -1
+\end{bmatrix}. 
+\]</li>
+<li>We proceed in the same way as in part a. but now we will have three elements in each sum rather than two. We have:
+\[
+CD = \begin{bmatrix} 
+1 & 2 & 4
+\\
+3 &  4 & 1
+\\
+1 & 0 & 1
+\end{bmatrix} \begin{bmatrix} 
+1 & 0 & 0
+\\
+0 &  1 & 0
+\\
+0 & 0 & 1
+\end{bmatrix} = \begin{bmatrix} 
+(1 \times 1) + (2 \times 0) + (4 \times 0) & (1\times 0) + (2 \times 1) + (4 \times 0) & (1 \times 0) + (2 \times 0) + (4 \times 1)
+\\
+(3 \times 1) + (4 \times 0) + (1 \times 0) & (3\times 0) + (4 \times 1) + (1 \times 0) & (3 \times 0) + (4 \times 0) + (1 \times 1)
+\\
+(1 \times 1) + (0 \times 0) + (1 \times 0) & (1\times 0) + (0 \times 1) + (1 \times 0) & (1 \times 0) + (0 \times 0) + (1 \times 1)
+\end{bmatrix} = \begin{bmatrix} 
+1 & 2 & 4
+\\
+3 &  4 & 1
+\\
+1 & 0 & 1
+\end{bmatrix}.
+\]</li>
+</ol>
+<br/>
+<p>Notice that in part b. when we multiplied by the matrix \(D\) we ended up with the matrix \(C\) as the result of the multiplication. The matrix 
+\[
+D = \begin{bmatrix} 
+1 & 0 & 0
+\\
+0 &  1 & 0
+\\
+0 & 0 & 1
+\end{bmatrix},
+\]
+is the only matrix where this property holds. We call the matrix \(D\) the <i>identity matrix</i> Multiplying a square matrix by the identity matrix is like multiplying a number by \(1\). In general the \(n \times n\) <b>identity matrix</b> is the square matrix with ones on the main (top-left to bottom-right) diagonal and zeroes everywhere else. It is denoted by \(I_n\) and has the property that 
+\[
+I_n A = A I_n = A,
+\]
+for any \(n \times n\) square matrix \(A\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

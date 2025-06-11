@@ -241,7 +241,7 @@ class stack_subscripts_test_data {
         }
         $options = new stack_options();
         $options->set_option('simplify', $simp);
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         if ($at1->get_valid()) {

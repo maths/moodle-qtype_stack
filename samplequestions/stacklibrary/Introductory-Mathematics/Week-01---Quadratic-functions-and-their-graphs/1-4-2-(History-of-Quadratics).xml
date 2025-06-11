@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.2 (History of Quadratics)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>History</h3>
+
+<p>As we have seen previously, we can think of a quadratic equation as an equation which governs the area of a square or rectangle. Thousands of years ago it was known how to calculate the area of a rectangle given its side lengths, however the question was how this process could be reversed. When they wanted to find the side lengths necessary to give a certain area of land they found this required the solution of a quadratic equation. This transpired to be an exceedingly important problem as dispute over land borders could lead to great conflict and the fair distribution of land was a major issue for ancient kingdoms.</p>
+
+<p>The first recording of a solution to a quadratic was written on the Berlin Papyrus from the Middle Kingdom (2160-1700 B.C.) Egypt. However the first people to develop a systematic method for solving quadratics were the Babylonians, who around 400 B.C. developed a method equivalent to completing the square. Euclid and Pythagoras both examined quadratic from a geometric point of view, which lead to Pythagoras noting that not every solution to a quadratic had to be an integer. In fact he had discovered <i>irrational</i> numbers (e.g. \(\sqrt{2}\) which is a solution to the quadratic equation \(x^2 = 2\)), however he refused to believe such numbers could exist. The next major leap forward was made by Hindu mathematician Brahmagupta in around 700 A.D. who actually developed one half of the quadratic formula we all know and love today! He found that a solution to the equation \(ax^2 + bx + c = 0\) was given by 
+\[
+x = \frac{-b + \sqrt{b^2 - 4ac}}{2a}.
+\]
+This is almost what we are familiar with today, however we now know of the existence of the other solution, namely,
+\[
+x = \frac{-b - \sqrt{b^2 - 4ac}}{2a}.
+\]
+As Europe was travelling through the dark ages, mathematical advances on the continent declined rapidly. European knowledge of the quadratic formula came via the Arabic mathematician Muhammed bin Musa Al-Khwarizmi, who discovered that the discriminant of the quadratic must be positive for the equation to have real roots. This knowledge reached Europe by the time of the renaissance (around 1500-1600 A.D.) and the quadratic formula in the form we use it today was finally stated by Ren&eacute Descartes in 1637.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

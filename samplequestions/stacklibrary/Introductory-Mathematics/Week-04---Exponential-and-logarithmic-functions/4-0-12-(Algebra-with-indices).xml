@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.0.12 (Algebra with indices)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Algebra with indices</h1>
+
+<p>We have seen previously that we can use indices when examining polynomial equations. We routinely simplify polynomials by collecting indices. This is just one area of mathematics where index laws can help us.</p>
+</br>
+<h3>Example</h3>
+
+<p>Simplify the expression \(x^{-\frac{1}{2}}(x^{\frac{3}{2}} + 2x^{\frac{1}{2}} - 3x^{\frac{-1}{2}})\).</p>
+
+<h3>Solution</h3>
+
+<p>We use the index laws in order to expand the brackets and collect indices. We have 
+\[
+\begin{align*}
+x^{-\frac{1}{2}}(x^{\frac{3}{2}} + 2x^{\frac{1}{2}} - 3x^{\frac{-1}{2}}) &= (x^{-\frac{1}{2}}\cdot x^{\frac{3}{2}}) + (x^{-\frac{1}{2}} \cdot 2x^{\frac{1}{2}}) - (x^{-\frac{1}{2}} \cdot 3x^{\frac{-1}{2}})
+\\ 
+&= (x^1) + 2x^0 -3x^{-1}
+\\
+&= x + 2 - \frac{3}{x}.
+\end{align*}
+\]
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

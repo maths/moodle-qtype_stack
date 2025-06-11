@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.4.7 (Calculate stopping distance 2)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that a car can come to a stop in {@tt@} seconds after the breaks are applied from a speed of \({@uu@} \: ms^{-1}\)  with a (constant) deceleration of \({@aa@} \: ms^{-2}\) (metres per second per second). How far will the car travel before coming to a stop?</p>
+
+<ul style="list-style: none;">
+<li>[[input:ans1]] [[validation:ans1]] metres.</li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Here we have \(u = {@uu@}\), \(a = {@aa@}\) and \(t = {@tt@}\). We can substitute these values into either Equation (2) or Equation (3) to get the answer. So proceeding using equation (3) we obtain
+\[
+s =  {@uu^2@}/{@2*aa@} = {@ta1@}
+\] </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: 1+rand(10);
+tt: 1+rand(10)
+uu: aa*tt;
+
+ta1: uu^2/(2*aa);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@ta1@} =  {@uu^2@}/{@2*aa@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1590992362</deployedseed>
+    <deployedseed>795072909</deployedseed>
+    <deployedseed>1700810249</deployedseed>
+    <deployedseed>1245144339</deployedseed>
+    <deployedseed>1414397132</deployedseed>
+    <deployedseed>1226532902</deployedseed>
+    <deployedseed>1613913838</deployedseed>
+    <deployedseed>528034563</deployedseed>
+    <deployedseed>603401105</deployedseed>
+    <deployedseed>2088077631</deployedseed>
+    <deployedseed>401022711</deployedseed>
+    <deployedseed>1683965484</deployedseed>
+    <deployedseed>780908485</deployedseed>
+    <deployedseed>1923494649</deployedseed>
+    <deployedseed>1978239427</deployedseed>
+    <deployedseed>1990757963</deployedseed>
+    <deployedseed>1231461879</deployedseed>
+    <deployedseed>311253466</deployedseed>
+    <deployedseed>1140452412</deployedseed>
+    <deployedseed>1051398571</deployedseed>
+    <deployedseed>1525903807</deployedseed>
+    <deployedseed>296895942</deployedseed>
+    <deployedseed>1266294294</deployedseed>
+    <deployedseed>2127977809</deployedseed>
+    <deployedseed>433185531</deployedseed>
+    <deployedseed>265182952</deployedseed>
+    <deployedseed>1960970058</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>uu*tt -1/2*aa*tt^2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

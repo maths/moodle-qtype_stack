@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.1.14 (Intersections with polynomials)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Intersections with polynomials</h1>
+
+<p>We have seen that is it is possible to have a set of simultaneous equations consisting of one quadratic equation and one linear. In fact it is also possible to consider simultaneous equations consisting of equations in higher degrees as well. We saw in the previous section that simultaneous equations involving one quadratic and one linear equation corresponds to the intersection of a straight line and a quadratic. In a similar way simultaneous equations with polynomials of higher degrees corresponds to the intersection points of a straight line with the polynomial. These forms of problem occur comparatively less often than the case with quadratics. However, the method to solve them is similar to that which we saw in the previous section. Consider the following example.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>6.1.24 (Is not expanded equation a circle rational)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>By calculating the appropriate quantity decide whether the equation \({@circ@}=0\) represents a circle.</p>
+
+<p>appropriate quantity = [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
+<p>Thus the equation represents a circle. [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Note that the equation is not given in expanded form. Therefore we begin by dividing the given equation by {@aa@}  to get \({@expand(circ1)@} = 0\). Then quantity we must calculate is \(g^2 + f^2 -c\). For the equation to be that of a circles' we require this quantity to be strictly greater than zero. Here we have 
+\[
+g = {@gg/aa@}, f = {@ff/aa@} \mbox{ and } c = {@cc/aa@}.
+\]
+Thus, \( g^2 + f^2 - c = {@ta1@}\) and the statement is {@ta2@}</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[aa: 1+rand(5);
+gg: 1+ rand(5);
+ff: 1+rand(5);
+cc: 1+rand(30);
+
+circ: aa*x^2 + aa*y^2 + 2*gg*x + 2*ff*y + cc;
+circ1: x^2 + y^2 +((2*gg)/aa)*x + ((2*ff)/aa)*y +(cc/aa);
+
+ta1: (gg/aa)^2+(ff/aa)^2 -cc/aa;
+
+eqn: (gg/aa)^2+(ff/aa)^2 -cc/aa;
+
+if (eqn > 0) then ta2: true else ta2: false;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@circ@}: \(g^2+f^2 - c = {@ta1@}\), {@ta2@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>boolean</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>878267904</deployedseed>
+    <deployedseed>448335939</deployedseed>
+    <deployedseed>1808506071</deployedseed>
+    <deployedseed>186565008</deployedseed>
+    <deployedseed>2098286020</deployedseed>
+    <deployedseed>2087526351</deployedseed>
+    <deployedseed>786358214</deployedseed>
+    <deployedseed>438242610</deployedseed>
+    <deployedseed>901989075</deployedseed>
+    <deployedseed>919209164</deployedseed>
+    <deployedseed>1328890808</deployedseed>
+    <deployedseed>660343082</deployedseed>
+    <deployedseed>705224657</deployedseed>
+    <deployedseed>376867024</deployedseed>
+    <deployedseed>1376121384</deployedseed>
+    <deployedseed>319355234</deployedseed>
+    <deployedseed>1734786524</deployedseed>
+    <deployedseed>990840112</deployedseed>
+    <deployedseed>2111063905</deployedseed>
+    <deployedseed>2062014767</deployedseed>
+    <deployedseed>1448214547</deployedseed>
+    <deployedseed>1944584564</deployedseed>
+    <deployedseed>497251867</deployedseed>
+    <deployedseed>85174360</deployedseed>
+    <deployedseed>261511482</deployedseed>
+    <deployedseed>1305509100</deployedseed>
+    <deployedseed>2071336720</deployedseed>
+    <deployedseed>1677306321</deployedseed>
+    <deployedseed>2095989914</deployedseed>
+    <deployedseed>582992443</deployedseed>
+    <deployedseed>410504035</deployedseed>
+    <deployedseed>1823102914</deployedseed>
+    <deployedseed>2058284416</deployedseed>
+    <deployedseed>1878016248</deployedseed>
+    <deployedseed>793580781</deployedseed>
+    <deployedseed>1440028956</deployedseed>
+    <deployedseed>377416279</deployedseed>
+    <deployedseed>1879934891</deployedseed>
+    <deployedseed>714475736</deployedseed>
+    <deployedseed>2079164565</deployedseed>
+    <deployedseed>1571868743</deployedseed>
+    <deployedseed>1188261290</deployedseed>
+    <deployedseed>988889845</deployedseed>
+    <deployedseed>332691168</deployedseed>
+    <deployedseed>1983675502</deployedseed>
+    <deployedseed>1034277690</deployedseed>
+    <deployedseed>481550403</deployedseed>
+    <deployedseed>1391923200</deployedseed>
+    <deployedseed>2120079880</deployedseed>
+    <deployedseed>1449480424</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

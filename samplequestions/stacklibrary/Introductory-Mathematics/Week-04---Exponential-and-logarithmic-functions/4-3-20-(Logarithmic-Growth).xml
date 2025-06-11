@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.20 (Logarithmic Growth)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Logarithmic Growth</h3>
+
+<p>Note that although we have focussed on exponential growth problems, there is a second type of growth known as <i>logarithmic growth</i>. <b>Logarithmic growth </b> is growth which follows a function involving a logarithm. There are many such quantities in real life ranging from weight loss to language proficiency. Roughly, logarithmic growth tells us that improvements come quickly in the beginning but then slow down. Whereas exponential growth is the opposite, improvements come slowly in the beginning but then speed up. We can deal with such problems in the same way we deal with general logarithmic functions, growth problems simply provide a context for such calculations.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

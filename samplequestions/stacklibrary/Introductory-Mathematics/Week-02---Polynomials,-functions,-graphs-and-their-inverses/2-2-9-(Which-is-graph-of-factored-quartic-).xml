@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.2.9 (Which is graph of factored quartic?)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Which of the following could be the graph of \(y={@q@}\)?</p><p>[[input:ans1]][[feedback:prt1]] [[validation:ans1]]</p>
+<table>
+  <tbody><tr>
+    <td style="text-align: center;"><b>Graph A</b></td>
+    <td style="text-align: center;"><b>Graph B</b></td><td style="text-align: center;">&nbsp;<b>Graph C</b></td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[1],"Graph A")@}</td>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[2],"Graph B")@}</td><td style="text-align: center;">{@thumbnailplot(funcstoplot[3],"Graph C")@}</td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;</td>
+    <td style="text-align: center;">&nbsp;</td><td style="text-align: center;">&nbsp;</td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;<b>Graph D</b></td>
+    <td style="text-align: center;"><b>Graph E</b></td><td style="text-align: center;"><b>Graph F</b></td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;{@thumbnailplot(funcstoplot[4],"Graph D")@}</td>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[5],"Graph E")@}&nbsp;</td><td style="text-align: center;">{@thumbnailplot(funcstoplot[6],"Graph F")@}&nbsp;</td>
+  </tr>
+  
+  
+</tbody></table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The expression has {@theexpressionhas[qform]@}. So the correct graph is Graph {#corr1#}.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[r1:rand_range(-3,-2);
+r2:rand_range(-1,1);
+r3:rand_range(2,3);
+r4:rand_with_prohib(-4,4,[r1,r2,r3,-r1,-r2,-r3]);
+c1:rand_range(1,3);
+forms:[(x-r1)*(x-r2)*(x-r3)*(x-r4), (x-r1)^2*(x-r2)*(x-r3), (x-r2)^3*(x-r3), (x-r3)^4, (x-r1)*(x-r2)*(x^2+x+c1), (x+3)*(x+1.5)*(x-1.7)*(x-2.7)/10+2];
+funcs:zip_with("*",forms,[1/6,1/5,3/2,1,1/2,1]); /* these multiplicative factors make the plots have nice y-ranges */
+theexpressionhas:["four distinct linear factors, giving four distinct real roots", sconcat("the factor \\(",stack_disp((x-r1)^2,""),"\\) giving a repeated root at ",r1), sconcat("the factor \\(",stack_disp((x-r2)^3,""),"\\) giving a flat crossing at ",r2), sconcat("the factor \\(",stack_disp((x-r3)^4,""),"\\) giving a flat turning point at ",r3), "two distinct linear factors which give two real roots, and a quadratic factor with negative discriminant", "two quadratic factors with negative discriminant, so no real roots"];
+qform:rand_range(1,5);
+q:forms[qform];
+/* permute the graphs but keep note of which ones are right! */
+reordering:random_permutation([1,2,3,4,5,6]);
+fntoletter:zip_with("[",reordering,[A,B,C,D,E,F]);
+/* apply the reordering to produce the shuffled list of options */
+funcstoplot: makelist(funcs[reordering[i]],i,1,6);
+corr:maplist(lambda([ex],assoc(ex,fntoletter)), [1,2,3,4,5,6]);
+ta1:maplist(lambda([ex],[ex, is(ex=assoc(qform,fntoletter))]), [A,B,C,D,E,F]);
+corr1:corr[qform];
+f(x):=q;
+ys:append([-4,4],map (lambda ([e], subst (e, f(x))),solve(diff(f(x),x),x)));
+thumbnailplot:lambda([ex1,ex2],plot(ex1,[x,-5,5],[y,-5,5],[box, false],[yx_ratio, 1],[xtics, -4, 8, 4],[ytics, -100, 200, 100],[axes, solid],[size,200,200],[plottags,false],[alt,ex2],[color,"#003399"]));
+thumbnailplotold:lambda([ex1,ex2],plot(ex1,[x,-5,5],[y,-5,5],[box, false],[yx_ratio, 1],[xtics, -4, 8, 4],[ytics, -6, 12, 6],[axes, solid],[size,200,200],[plottags,false],[alt,ex2]));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@forms@} {@q@} {#fntoletter#}
+{@theexpressionhas[qform]@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>corr1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1510075859</deployedseed>
+    <deployedseed>1406687982</deployedseed>
+    <deployedseed>421731890</deployedseed>
+    <deployedseed>1531468802</deployedseed>
+    <deployedseed>1635940333</deployedseed>
+    <deployedseed>640329148</deployedseed>
+    <deployedseed>331801782</deployedseed>
+    <deployedseed>1465808546</deployedseed>
+    <deployedseed>1640152167</deployedseed>
+    <deployedseed>2064650081</deployedseed>
+    <deployedseed>97129165</deployedseed>
+    <deployedseed>619353542</deployedseed>
+    <deployedseed>320321787</deployedseed>
+    <deployedseed>1092396228</deployedseed>
+    <deployedseed>513111808</deployedseed>
+    <deployedseed>345525729</deployedseed>
+    <deployedseed>797688275</deployedseed>
+    <deployedseed>151223553</deployedseed>
+    <deployedseed>818074356</deployedseed>
+    <deployedseed>1917890024</deployedseed>
+    <deployedseed>492381709</deployedseed>
+    <deployedseed>2061142855</deployedseed>
+    <deployedseed>1765121417</deployedseed>
+    <deployedseed>2085125557</deployedseed>
+    <deployedseed>1099332050</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

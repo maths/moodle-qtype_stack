@@ -82,4 +82,13 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
         }
         return true;
     }
+
+    /**
+     * Is this an interactive block?
+     * If true, we can't generate a static version.
+     * @return bool
+     */
+    public function is_interactive(): bool {
+        return true;
+    }
 }

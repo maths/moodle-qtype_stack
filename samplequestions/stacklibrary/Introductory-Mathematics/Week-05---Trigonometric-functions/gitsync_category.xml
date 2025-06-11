@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category>
+      <text>top/stacklibrary/Introductory-Mathematics/Week 05 - Trigonometric functions </text>
+    </category>
+    <info format="html">
+      <text>All material for week five of IMA, introducing common trig functions and their applications</text>
+    </info>
+    <idnumber/>
+  </question>
+</quiz>

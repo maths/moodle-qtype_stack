@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.15 (Sum and difference formulas)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Sum and difference formulas</h3>
+
+<p>It is possible to obtain information about the sine or cosine of a sum or difference of angles. These identities turn out to be vary important, particularly if we need to deal with multiple angles at once, for example in construction or engineering, we often need to calculate the sum or difference of two angles of a bridge or a pulley system or a ladder. The <b>sum and difference</b> are stated as follows:
+<ol>
+<li>\(\sin (A+B)\equiv\sin A\cos B+\cos A\sin B\)</li>
+<li>\(\cos(A+B)\equiv\cos A\cos B-\sin A\sin B\)</li>
+<li>\(\sin (A-B)\equiv \sin A \cos B - \cos A \sin  B\)</li>
+<li>\(\cos(A-B)\equiv \cos A \cos B + \sin A \sin B\)</li>
+</ol>
+
+<p>Note carefully the addition sign in 1. and 4. but the subtraction sign in 2. and 3. As with the Pythagorean identity, we can readily obtained other identities from the above. Dividing 1. by 2. we obtain 
+\[
+\tan(A+B) \equiv \dfrac{\sin(A+B)}{\cos(A+B)} \equiv \dfrac{\sin A\cos B+\cos A\sin B}{\cos A\cos B-\sin A\sin B}.
+\]
+Dividing every term by \(\cos A \cos B\) we obtain:
+\[
+\tan (A+B) = \dfrac{\tan A+\tan B}{1-\tan A\tan B}.
+\] 
+</p>
+
+<p>In addition, we can obtain 3. and 4. from 1. and 2. by replacing \(B\) by \(-B\) in 1. and 2. and remembering that \(\cos (-B)\equiv \cos B,\ \sin(-B)\equiv -\sin \). Whilst you need to know these formulas,  you can see you may not need to remember <i>all</i> of these formulas as you can quickly derive some of them from the statements above.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

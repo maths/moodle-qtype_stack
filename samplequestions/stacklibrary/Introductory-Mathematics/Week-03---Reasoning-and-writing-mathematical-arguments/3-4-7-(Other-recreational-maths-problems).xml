@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.7 (Other recreational maths problems)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Other Problems</h3>
+
+<p>The problems we have seen so far, are just two of many problems that could be labelled in recreational mathematics. The Monty Hall problem can be solved and explained relatively quickly, however we have seen with the Knight's tour that to solve this requires difficult and complicated mathematics. Often interesting research can stem from such unexpected sources. To end this section we will introduce some further interesting problems.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

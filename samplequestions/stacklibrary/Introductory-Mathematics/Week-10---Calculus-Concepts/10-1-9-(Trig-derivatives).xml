@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.9 (Trig derivatives)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Derivatives of trigonometric functions</h3>
+
+<p>
+\[
+\frac{d}{dx} \sin(x) = \cos (x) \qquad \mbox{and} \qquad \frac{d}{dx} \cos(x) = - \sin(x)
+\]
+</p>
+
+<p>Beyond this however, we can find derivatives for the other trigonometric functions. These are summarised in the following table. Again, we will not prove these here, but the proofs rely on an application of several trigonometric identities as well as some clever manipulation of limits of quotients. </p>
+
+<table style="text-align: center; margin-left:auto; margin-right:auto;" cellpadding="13" bordercolor="#3a87ad" border="1">
+<thead>
+<tr style="background: #c1ddea">
+<th scope="col" style="min-width:8em">Function</th>
+<th scope="col" style="min-width:11em">Derivative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(y =\sin(x)\)</td>
+<td>\(\frac{dy}{dx} = \cos(x)\)</td>
+</tr>
+<tr>
+<td>\(y= \cos(x)\)</td>
+<td>\(\frac{dy}{dx} = -\sin(x)\)</td>
+</tr>
+<tr>
+<td>\(y = \tan(x)\)</td>
+<td>\(\frac{dy}{dx}&nbsp; = \sec^2(x)\)</td>
+</tr>
+<tr>
+<td>&nbsp;\(y = \sec(x)\)&nbsp;</td>
+<td>\(\frac{dy}{dx}&nbsp; = \sec(x)\tan(x)\)<br></td>
+</tr>
+<tr>
+<td>&nbsp;\(y = \csc(x)\)&nbsp;</td>
+<td>\(\frac{dy}{dx}&nbsp; = -\cot(x)\csc(x)\)<br></td>
+</tr>
+<tr>
+<td>&nbsp;\(y = \cot(x)\)&nbsp;</td>
+<td>\(\frac{dy}{dx}&nbsp; = -\csc^2(x)\)<br></td>
+</tr>
+</tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

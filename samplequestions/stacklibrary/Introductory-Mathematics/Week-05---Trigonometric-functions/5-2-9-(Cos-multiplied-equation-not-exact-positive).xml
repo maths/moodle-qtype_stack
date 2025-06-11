@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>5.2.9 (Cos multiplied equation not exact positive)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>What are the solutions to the equation {@eqn@} are there in the range \(0 < x < 180^\circ\)? Give your answer as a list to the nearest degree. For example if you believe the answers to be \(x = 10^\circ\) and \(x = 20^\circ\) then enter <code>[x=10,x=20]</code></p>
+<p>[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Since we have {@eqn@} we see that \(\cos({@cc@}x\) must be positive, therefore we are looking for solutions in the first and fourth quadrants. Hence we can expect solutions of the form \({@cc@}x)\) or \(360^\circ - {@cc@}x\).
+Thus we have, 
+\[
+{@cc@}x = {@rccx@} \qquad \mbox{and} \qquad {@360-rccx@}.
+\]
+However these aren't the only solutions since we require \(0 < x < 180^\circ\) we require \(0 < {@cc@}x < {@cc@}\cdot 180^\circ\). Thus to find the other solutions we use the fact that adding multiples of \(360^\circ\) doesn't alter the value of \(\cos {@cc@}x\) and we keep doing this until we pass \({@cc*180@}^\circ\). Thus in this case we have 
+\[
+{@cc@}x = {@rccx@} \mbox{ and } {@360-rccx@} \mbox{ and } {@360+rccx@}  
+\]
+Hence we can divide all of these by {@cc@} to obtain
+\[
+x = {@soln1@} \mbox{ or } {@soln2@} \mbox{ or } {@soln3@},
+\]
+and these are the only solutions in the given range.
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>cosd(d):=cos(d*%pi/180);
+acosd(x):=acos(x)*180/%pi;
+
+aa:7+rand(10);
+bb: 1+rand(5);
+cc: 3;
+ang:bb/aa;
+eqn: cos(cc*x)= ang;
+ccx: acosd(ang);
+rccx:round(ccx)
+
+soln1: round(ccx/cc);
+soln2: round((360-ccx)/cc);
+soln3: round((360+ccx)/cc)
+
+ta1:[x=soln1,x=soln2,x=soln3]</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@eqn@} \implies {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>[x=?, x=?]</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(ta1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>291017975</deployedseed>
+    <deployedseed>39360138</deployedseed>
+    <deployedseed>1121441898</deployedseed>
+    <deployedseed>1320283312</deployedseed>
+    <deployedseed>1344666571</deployedseed>
+    <deployedseed>1283482876</deployedseed>
+    <deployedseed>646999799</deployedseed>
+    <deployedseed>153828589</deployedseed>
+    <deployedseed>1780423228</deployedseed>
+    <deployedseed>114607448</deployedseed>
+    <deployedseed>556083701</deployedseed>
+    <deployedseed>1071698054</deployedseed>
+    <deployedseed>1381502348</deployedseed>
+    <deployedseed>1040731588</deployedseed>
+    <deployedseed>1258207877</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[x=soln2,x=soln1,x=soln3]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

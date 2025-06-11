@@ -56,6 +56,7 @@ wronganswer4:sqrt(n1)*tanh(sqrt(n1)*(n2*x+x^3/3)+p);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

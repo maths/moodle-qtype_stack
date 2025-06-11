@@ -265,7 +265,7 @@ final class castext2_test extends qtype_stack_testcase {
 
         $input = '{@a@}, {@pi*x^2@}';
         $preamble = ['a:x*y*z'];
-        $output = '\({x\,y\,z}\), \({\pi\,x^2}\)';
+        $output = '\({x y z}\), \({\pi x^2}\)';
         $options = new stack_options(['multiplicationsign' => 'none']);
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }

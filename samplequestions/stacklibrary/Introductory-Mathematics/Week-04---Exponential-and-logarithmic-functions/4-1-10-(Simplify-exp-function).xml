@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>4.1.10 (Simplify exp function)</text>
+    </name>
+    <questiontext format="html">
+      <text>Let \(g(x) ={@g@} \) and \(h(x) = {@h@}. \) Then the function \(f(x) = (g(x))^2/h(x)\) is of the form \(f(x) = e^{p(x)}\), where \(p(x) = \) [[input:ans1]]. [[validation:ans1]]</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The laws of exponentials imply that\begin{align*}<br>f(x) <br>&amp;= \frac{(g(x))^2}{h(x)} \\<br>&amp;= \frac{\left({@g@} \right)^2}{@h@}\\<br>&amp;= {@g^2@} \cdot {@1/h@} \\<br>&amp; = {@f@}.\end{align*} so \(p(x) = {@ta1@} .\)<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>a: rand(5)+2
+b: rand_with_prohib(1,6,[a])
+c: rand(8)+2
+g: %e^(a*x+b)
+h: %e^(c*x^2)
+f: expand(g^2/h)
+ta1: -c*x^2 + 2*a*x+2*b</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(g(x) = {@g@} \) and \(h(x) = {@h@}\) so \( f(x) = {@f@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>/</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>978779822</deployedseed>
+    <deployedseed>868360294</deployedseed>
+    <deployedseed>752888567</deployedseed>
+    <deployedseed>1927446637</deployedseed>
+    <deployedseed>1902099225</deployedseed>
+    <deployedseed>36274575</deployedseed>
+    <deployedseed>367053507</deployedseed>
+    <deployedseed>1430760988</deployedseed>
+    <deployedseed>861174359</deployedseed>
+    <deployedseed>301403012</deployedseed>
+    <deployedseed>762957388</deployedseed>
+    <deployedseed>328682020</deployedseed>
+    <deployedseed>1289478225</deployedseed>
+    <deployedseed>1518548252</deployedseed>
+    <deployedseed>2138725566</deployedseed>
+    <deployedseed>719484599</deployedseed>
+    <deployedseed>879761838</deployedseed>
+    <deployedseed>1759055932</deployedseed>
+    <deployedseed>1432318475</deployedseed>
+    <deployedseed>1928374573</deployedseed>
+    <deployedseed>1570593879</deployedseed>
+    <deployedseed>961972941</deployedseed>
+    <deployedseed>1684749683</deployedseed>
+    <deployedseed>1579370226</deployedseed>
+    <deployedseed>1851380717</deployedseed>
+    <deployedseed>1644242957</deployedseed>
+    <deployedseed>236152883</deployedseed>
+    <deployedseed>1817868747</deployedseed>
+    <deployedseed>164882276</deployedseed>
+    <deployedseed>1488185182</deployedseed>
+    <deployedseed>802419315</deployedseed>
+    <deployedseed>1436540676</deployedseed>
+    <deployedseed>1730459648</deployedseed>
+    <deployedseed>1054205159</deployedseed>
+    <deployedseed>1946801910</deployedseed>
+    <deployedseed>213118522</deployedseed>
+    <deployedseed>345937289</deployedseed>
+    <deployedseed>1399372478</deployedseed>
+    <deployedseed>1551463824</deployedseed>
+    <deployedseed>1439942912</deployedseed>
+    <deployedseed>1389244758</deployedseed>
+    <deployedseed>1848335873</deployedseed>
+    <deployedseed>2110714544</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

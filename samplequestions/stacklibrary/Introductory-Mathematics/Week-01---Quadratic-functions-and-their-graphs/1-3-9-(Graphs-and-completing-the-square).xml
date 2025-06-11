@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.3.9 (Graphs and completing the square)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Why complete the square?</h1>
+<br>
+<p>We have now seen how the roots of a quadratic correspond to its \(x\)-intercepts. It seems reasonable to ask now, why do we ever need to complete the square? The answer to this is because it gives us information about the turning point of the corresponding parabola. In other words, it is useful to be able to complete the square if we wish to accurately sketch graphs of quadratics. Recall that completing the square means to write a quadratic function \(y = ax^2 + bx+ c\) in the form \(y = a(x+p)^2 + q\). Once we have the quadratic in this <i>completed square form</i>, we can read off the coordinates of the turning point as \(-p,q\). Note that this also gives us the equation of the axis of symmetry as \(x = -p\).</p>
+<br>
+<h3>Example</h3>
+<br>
+<p>Find the coordinates of the turning point of the quadratic function \(y = x^2 + 8x + 25\).</p>
+<br>
+<h3>Solution</h3>
+<br>
+<p>We proceed by completing the square. We have 
+\[
+\begin{align*}
+x^2 + 8x + 25 &amp;= (x + 4)^2 -16 + 25
+\\
+&amp;= (x + 4)^2 + 9 
+\\
+&amp;= 0.
+\end{align*}
+\]
+Therefore, the coordinates of the turning point are \((-4,9)\) and the equation of the axis of symmetry is \(x = -4\).</p>
+<br>
+<p>So, why does this work? Well, consider the general quadratic \(y = ax^2 + bx+c\) and firstly suppose that \(a &gt;0\). The advantage of a parabola is that we know it only has one turning point. As \(a\) is positive then the turning point is going to be a minimum. Therefore we need to find where the smallest value of the quadratic occurs. Suppose we have our quadratic in completed square form \(y = a(x+p)^2 + q\). The benefit of the completed square form is that \(x\) appears only in one place, so we can easily deduce that the smallest value of \(y\) will occur when the bracket \((x+p)\) is equal to zero. This occurs precisely when \(x = -p\) and then the corresponding \(y\) value is then \(q\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

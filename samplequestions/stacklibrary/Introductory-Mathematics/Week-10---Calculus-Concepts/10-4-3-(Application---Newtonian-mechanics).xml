@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.4.3 (Application - Newtonian mechanics)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Newtonian mechanics</h3>
+
+<p>As we have seen in the previous section, to Isaac Newton calculus was the mathematical and scientific explanation for changes in motion. He approached calculus as a way to describe the laws of motion. In this section we will look at how Newton was able to describe motion in terms of differential calculus. The description of  motion is a cornerstone of modern physics. Physics seeks to explain everything in our natural universe as effects on the motion of a particle. Newton was the first person who was able to come up with a complete model of motion of a particle, he was able to do this because of his use of calculus. Newtons laws of motion are very famous and you will probably be familiar with them already. They describe the effect of a force applied to a body. For completeness we shall state them here.</p>
+
+<ol>
+<li>An object either remains at rest of continues to move at constant velocity unless acted upon by a force.</li>
+<li>The sum of the forces on an object is equal to the mass of that object multiplied by the acceleration of the object. This is written as \(F = ma\).</li>
+<li>When one body exerts a force on a second body, the second body simultaneously exerts a force equal in magnitude and opposite in direction to the first body.</li>
+</ol>
+
+<p>It may not be clear how we can use calculus to encode this information. However, in order to understand the motion of a particle, we need to be able to define the basic properties of motion in a meaningful way. That is, we need to define; the position of a particle, its velocity and its acceleration. In terms of position we have a useful co-ordinate system of Cartesian axes where we can specify the position of a particle with an x and y coordinate (and z coordinate in 3D). However, how do we define a velocity relative to this position? Recall that speed is defined to be the distance travelled by a  particle divided by the time it takes. Or in other words, the change in position with respect to time (or the rate of change in position). Therefore, actually we can define velocity as the <i>derivative</i> of position. Finally we can define acceleration as the instantaneous rate of change of velocity, in other words acceleration is the derivative of velocity (and therefore the second derivative of position). This allows us to rewrite the second law of motion as 
+\[
+F = m\mathbf{a} = m \frac{d\mathbf{v}}{dt} = m \frac{d^2\mathbf{x}}{dt},
+\]
+where \(F\) is the force, \(m\) is the mass of the object, \(\mathbf{v}\) is velocity and \(\mathbf{x}\) is position. We can use this relationship to solve problems like the following.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

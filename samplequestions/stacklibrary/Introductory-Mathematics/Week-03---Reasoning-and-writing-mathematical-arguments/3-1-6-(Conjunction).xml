@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.1.6 (Conjunction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Conjunction</h3>
+
+<p>We have already seen that we can make larger spaces from smaller ones using a conjunction, usually corresponding to the use of the word 'and' in English. In general, the conjunction of two statements \(A\) and \(B\) is written as \(A\) and \(B\). If \(A\) and \(B\) are true then \(A \wedge B\) is also true (in fact this is the only way that \(A \wedge B\) can be true).</p>
+
+<h3>Example</h3>
+
+<p>Consider the statement: </p>
+<p>"It will rain today and it will rain tomorrow"</p>
+<p>The only way for this to be true is if it both rains today and it rains tomorrow. If either day sees no rain then the statement is false.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

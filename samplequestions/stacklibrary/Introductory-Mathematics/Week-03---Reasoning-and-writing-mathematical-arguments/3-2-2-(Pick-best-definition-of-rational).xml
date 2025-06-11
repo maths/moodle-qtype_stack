@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>3.2.2 (Pick best definition of rational)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>Which of the following is the correct definition of a rational number?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>In this case the correct definition should be: </p>
+
+<p>A rational number is a number that is written in the form \(\frac{a}{b}\) for \(a,b\mathbb{Z}\), \(b \not=0\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text>A number that is written in the form \(\frac{a}{b}\) for \(a,b \in \mathbb{Z}\), \(b \not=0\).</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>A number that is written in the form \(\frac{a}{b}\) for \(a,b \in \mathbb{Z}\).</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>A number that is written in the form \(\frac{a}{b}\) for \(a,b \in \mathbb{R}\), \(b \not=0\).</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>A number that is written in the form \(\frac{a}{b}\) for \(a,b \in \mathbb{R}\).</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>A number that is written in the form \(\frac{a}{b}\) for \(a,b \in \mathbb{Z}\), \(b \not=0\) and the highest common factor of \(a\) and \(b\) is \(1\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

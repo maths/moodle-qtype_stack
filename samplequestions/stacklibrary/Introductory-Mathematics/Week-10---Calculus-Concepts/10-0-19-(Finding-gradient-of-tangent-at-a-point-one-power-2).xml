@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>10.0.19 (Finding gradient of tangent at a point one power 2)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the gradient of the tangent to the curve \(f(x)= x^{@pp@}\) at the point \(({@xx@},{@yy@})\).</p>
+
+<p>[[input:ans1]][[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We will use the observation above, so let \(A\) be the point \(({@xx@},{@yy@})\) and \(B\) be the point \({@xh@}, f({@xh@})\) = \(({@xh@}, {@f1@})\). Thus the gradient of the tangent at the point A is 
+\[
+\begin{align*}
+\mbox{gradient } &= \lim\limits_{h \to 0} \frac{f({@xh@}) -f({@xx@})}{h}
+\\
+&= \lim\limits_{h \to 0} \frac{{@f1@} - {@yy@}}{h}
+\\
+&= \lim\limits_{h \to 0} {@lim1@}
+\\
+&=\lim\limits_{h \to 0} ({@lim2@})
+\\
+&= {@ta1@}
+\end{align*}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>pp:rand([2,3]);
+
+xx: 1+rand(20);
+xh: xx+h;
+func:x^pp;
+yy: ev(func,x=xx);
+
+f1: ev(func, x=xh);
+
+lim1: (f1-yy)/h;
+
+lim2: expand(lim1);
+
+ta1: ev(lim2,h=0);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@func@} at point ({@xx@},{@yy@}) has derivative {@ta1@}.</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>367743109</deployedseed>
+    <deployedseed>681405247</deployedseed>
+    <deployedseed>800618894</deployedseed>
+    <deployedseed>2113577380</deployedseed>
+    <deployedseed>1983466915</deployedseed>
+    <deployedseed>1274848174</deployedseed>
+    <deployedseed>1852178896</deployedseed>
+    <deployedseed>212278647</deployedseed>
+    <deployedseed>1294894055</deployedseed>
+    <deployedseed>769186801</deployedseed>
+    <deployedseed>354568160</deployedseed>
+    <deployedseed>131548559</deployedseed>
+    <deployedseed>474866715</deployedseed>
+    <deployedseed>617927609</deployedseed>
+    <deployedseed>1801439531</deployedseed>
+    <deployedseed>1597018296</deployedseed>
+    <deployedseed>1101618772</deployedseed>
+    <deployedseed>1882862931</deployedseed>
+    <deployedseed>184125230</deployedseed>
+    <deployedseed>358401414</deployedseed>
+    <deployedseed>297657386</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

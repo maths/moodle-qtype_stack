@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.1.17 (Remainder theorem)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Remainder Theorem</h1>
+
+<p>When the polynomial \(P(x)\) is divided by \(x-a\), the remainder is \(P(a)\), i.e. in the notation above, \(r=P(a)\).</p>
+
+<p><b>Proof</b></p>
+<p>We have established that we can write \(P(x) = (x-a)Q(x) +&nbsp; r\) for some&nbsp;\(Q(x)\) and \(r\).</p>
+<p>Using this, 
+\[
+\begin{eqnarray} 
+P(a) &amp;=&amp; (a-a)Q(a)+r 
+\\ 
+&amp;=&amp; 0\times Q(a)+r &nbsp;
+\\ 
+&amp;=&amp; r,
+\end{eqnarray}
+\] 
+which is what we wanted to show.</p>
+<br/>
+<p>For the example above, \(P(x)=x^2+x-10\), we worked out that the remainder when dividing by \(x+4\) is \(2\), and indeed \(P(-4)=16-4-10=2\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

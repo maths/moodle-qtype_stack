@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.2.1 (Binomial expansions)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>General expansions</h1>
+
+<p>In the first and second weeks of the course, we saw how to expand brackets of the form \((x+a)(x+b)\) to make polynomial expressions. The issue with the method we explained in this week it that it quickly becomes cumbersome and time consuming when we have brackets to large powers e.g. expanding \((x+2)^{14}\). In this section we will revisit this topic but we will see how we can use binomial coefficients to tackle much longer expansion to save us time. This is called using <b>binomial expansions</b>.</p>
+<br/>
+<p>In particular, we will look at how to expand powers of the same bracket. For example, we know that 
+\[
+(x+y)^2=(x+y)(x+y)=x(x+y)+y(x+y)=x^2+2xy+y^2
+\]
+We can do the same thing for \((x+y)^3\), but to keep track of what is going on, we will label the terms from different factors:
+\[
+\begin{eqnarray*} 
+(x+y)^3 &amp;=&amp; (x_1+y_1)(x_2+y_2)(x_3+y_3) \\ &amp;=&amp; (x_1+y_1)(x_2x_3+x_2y_3+x_3y_2+y_2y_3) \\ &amp;=&amp; x_1x_2x_3 + \underbrace{x_1x_2y_3+x_1y_2x_3+y_1x_2x_3}_{3x^2y}+\underbrace{x_1y_2y_3+y_1x_2y_3+y_1y_2x_3}_{3xy^2} + y_1y_2y_3&nbsp;
+\end{eqnarray*}
+\]
+Notice that after expanding the brackets, each term is a product of exactly one term from each factor. Another way to think about expanding brackets is that each term arises from making a choice of term from each factor, and we just need to carefully work through all possible choices. This can be a really powerful idea, saving a lot of effort in writing out calculations like the one above. For instance, consider expanding \((x+y)^4\).
+\[ 
+(x+y)^4=(x+y)(x+y)(x+y)(x+y)
+\]</p>
+<ul>
+<li>Choosing \(x\) from each bracket gives \(x^4\).</li>
+<li>If we choose \(y\) in the first bracket and \(x\) in the others, we get \(x^3y\) -- but we will also get that term from choosing \(y\) in the second bracket only, and from the third or fourth only. So overall we will get \(4x^3y\).</li>
+<li>Similarly, \(x^2y^2\) will arise when we choose \(x\) from two of the brackets and \(y\) from the other two. How many ways can we do that? Well, thinking about which two brackets we choose \(x\) in, the possibilities are: (1,2), (1,3), (1,4), (2,3), (2,4), (3,4). So we should get \(6x^2y^2\).</li>
+<li>Continuing like this, we conclude:</li>
+</ul>
+<p>
+\[ 
+(x+y)^4 = x^4+4x^3y+6x^2y^2+4xy^3+y^4
+\]
+This method makes it easier to deal with bigger examples, but the tricky bit is counting all the possible choices, this is where we use some of the techniques we introduced in the previous section. Clever counting. Do you notice anything about the coefficients of each of the expansions above?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

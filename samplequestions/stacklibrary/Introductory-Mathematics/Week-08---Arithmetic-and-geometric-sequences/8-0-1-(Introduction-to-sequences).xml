@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.0.1 (Introduction to sequences)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Sequences</h1>
+
+<p>A <b>sequence </b>is a (possibly infinite) ordered list. 
+The items in the list are called <b>terms</b>, so we can refer to "the first term in the sequence", "the second term in the sequence" and so on. Let us consider the following examples.</p>
+<br/>
+<h3>Examples</h3>
+
+<ol>
+<li>The sequence of natural numbers: \(1,2,3,4,\ldots\)<br></li>
+<li>The prime numbers: \(2,3,5,7,11,\ldots\)<br></li>
+<li>Multiples of 4: \(4,8,12,16,\ldots\)<br></li>
+<li>Scores I got when rolling a die: \(1,5,4,4,\ldots\)<br></li>
+</ol>
+
+<p>These examples show that sometimes sequences will follow a clear pattern, but not always. Writing a sequence in this way assumes that you can tell what pattern the numbers are following but this is not always clear. For this reason, we prefer to have a <i>formula</i> or <i>rule</i> which explicitly defines the terms of the sequence.
+It is common to use subscript numbers to label the terms, e.g.
+\[
+u_1, u_2, u_3, \dots.
+\]
+We can then define sequences with a formula for the nth term. The advantage of this is that if we have a formula for \(u_n\) , it is possible to work out any term in the sequence. For example, you could easily find \(u_{1000}\) for any of the sequences above without having to list all the previous terms. However, for the examples above, can you tell what the next term is going to be in each case? This is not always straightforward. If the sequence is \(u_1,u_2,u_3,\ldots\) then a formula should be of the form \(u_n=\cdots\).</p><br/>
+
+<h3>Example</h3>
+
+<p>For the multiples of 4, we have
+\[ 
+\begin{align*} 
+u_1&amp;=4, 
+\\ u_2&amp;=8=4\times2,
+ \\ u_3&amp;=12=4\times3, \ldots
+\end{align*} 
+\]
+</p>
+<p>In this case, we spot that the formula should be \(u_n=4n\).</p>
+<p>This week we will look at more examples of sequences and try to understand their behaviour and we will look at some techniques which allow us to discover the formula for such sequences.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

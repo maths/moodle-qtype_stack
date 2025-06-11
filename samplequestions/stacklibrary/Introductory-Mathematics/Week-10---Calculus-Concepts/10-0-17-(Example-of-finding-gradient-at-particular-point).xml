@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.0.17 (Example of finding gradient at particular point)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Find the gradient of the tangent to the curve \(f(x)= x^2\) at the point \((2,4)\).</p>
+
+<h3>Solution</h3>
+
+<p>We will use the observation above, so let \(A\) be the point \((2,4)\) and \(B\) be the point \(2+h, f(2+h)\) = \((2+h, (2+h)^2)\). Thus the gradient of the tangent at the point A is 
+\[
+\begin{align*}
+\mbox{gradient } &= \lim\limits_{h \to 0} \frac{f(2+h) -f(2)}{h}
+\\
+&= \lim\limits_{h \to 0} \frac{(2+h)^2 -4}{h}
+\\
+&= \lim\limits_{h \to 0} \frac{4 +4h +h^2 - 4}{h}
+\\
+&= \lim\limits_{h \to 0} \frac{h(4+h)}{h}
+\\
+&= \lim\limits_{h \to 0} 4 + h \:\:\:\:\: \mbox{as } h \ne 0
+\\
+&= 4
+\end{align*}
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

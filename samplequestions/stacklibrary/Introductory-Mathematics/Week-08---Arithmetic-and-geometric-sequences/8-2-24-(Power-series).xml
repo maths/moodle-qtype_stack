@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.24 (Power series)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Power series</h1>
+
+<p>Another example of the adaptability of series notation is that we can represent polynomials in terms of series. Before we see how to do this, let us note the following. We frequently encounter certain standard sums, so it's helpful to know the following facts:</p>
+<p>\[\sum_{k=1}^n 1 =n\]
+\[\sum_{k=1}^n k =\tfrac12n(n+1)\]</p>
+<p>The first rule is just noting that we have \(n\) copies of \(1\) in the sum. The second is an application of the sum of an arithmetic progression previous section.</p><p>What about \(\displaystyle\sum_{k=1}^n k^2\)? We will work that out in the next couple of questions..</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

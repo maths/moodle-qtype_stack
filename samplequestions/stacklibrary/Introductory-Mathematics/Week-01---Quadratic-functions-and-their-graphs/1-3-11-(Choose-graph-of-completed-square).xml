@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.3.11 (Choose graph of completed square)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Which of the following could be the graph of \(y={@compsq@}\)?</p><p>[[input:ans1]][[feedback:prt1]] [[validation:ans1]]</p>
+<table>
+  <tbody><tr>
+    <td style="text-align: center;"><b>Graph A</b></td>
+    <td style="text-align: center;"><b>Graph B</b></td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[1],"Graph A",tpsinplot[1])@}</td>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[2],"Graph B",tpsinplot[2])@}</td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;</td>
+    <td style="text-align: center;">&nbsp;</td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;<b>Graph C</b></td>
+    <td style="text-align: center;"><b>Graph D</b></td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;{@thumbnailplot(funcstoplot[3],"Graph C",tpsinplot[3])@}</td>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[4],"Graph D",tpsinplot[4])@}&nbsp;</td>
+  </tr>
+  
+  
+</tbody></table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Since \(y=a(x-p)^2+q\) has its turning point at \((p,q)\), the turning point of \(y={@compsq@}\) is at \(({@p@},{@q@})\). So the correct graph is either {@maybegraph[1]@} or {@maybegraph[2]@}.</p><p>Since \(a={@a@}\) is {@signofa@}, the graph is concave {@concavewhat@} so the correct graph is {@corr1@}.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[p:rand_with_prohib(-4,4,[0,1,-1]);
+q:rand_with_prohib(-4,4,[0,1,-1,p,-p]);
+a:rand_with_prohib(-1,1,[0]);
+compsq:a*(x-p)^2+q;
+funcs:[compsq,a*(x+p)^2+q,-a*(x-p)^2+q,-a*(x+p)^2+q];
+tps:[[p,q],[-p,q],[p,q],[-p,q]];
+/* permute the graphs but keep note of which ones are right! */
+reordering:random_permutation([1,2,3,4]);
+fntoletter:zip_with("[",reordering,[A,B,C,D]);
+/* apply the reordering to produce the shuffled list of options */
+funcstoplot: makelist(funcs[reordering[i]],i,1,4);
+tpsinplot: makelist(tps[reordering[i]],i,1,4);
+corr:maplist(lambda([ex],assoc(ex,fntoletter)), [1,2,3,4]);
+ta1:maplist(lambda([ex],[ex, is(ex=assoc(1,fntoletter))]), [A,B,C,D]);
+corr1:corr[1];
+thumbnailplot:lambda([ex1,ex2,tp],plot(ex1,[x,-7,7],[y,-7,7],[box, false],[yx_ratio, 1],[xtics, -20, 20+tp[1], 40],[ytics, -20, 20+tp[2], 40],[axes, solid],[size,200,200],[plottags,false],[alt,ex2],[color,"#003399"]));
+maybegraph:[assoc(1,fntoletter),assoc(3,fntoletter)]; /*the two forms with the same TP */
+signofa:["negative","zero","positive"][signum(a)+2];
+concavewhat:["down","NULL","up"][signum(a)+2];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[{@compsq@} {#fntoletter#}
+{@thumbnailplot(funcstoplot[1],"Graph A",tpsinplot[1])@} {@thumbnailplot(funcstoplot[2],"Graph B",tpsinplot[2])@} {@thumbnailplot(funcstoplot[3],"Graph C",tpsinplot[3])@} {@thumbnailplot(funcstoplot[4],"Graph D",tpsinplot[4])@}]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>corr1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>324484287</deployedseed>
+    <deployedseed>1447363981</deployedseed>
+    <deployedseed>1454377742</deployedseed>
+    <deployedseed>1878319118</deployedseed>
+    <deployedseed>1664710808</deployedseed>
+    <deployedseed>279283991</deployedseed>
+    <deployedseed>1167989882</deployedseed>
+    <deployedseed>221319744</deployedseed>
+    <deployedseed>859780529</deployedseed>
+    <deployedseed>71468057</deployedseed>
+    <deployedseed>1803233267</deployedseed>
+    <deployedseed>55878137</deployedseed>
+    <deployedseed>183020020</deployedseed>
+    <deployedseed>616909657</deployedseed>
+    <deployedseed>130892803</deployedseed>
+    <deployedseed>1795513584</deployedseed>
+    <deployedseed>1568513606</deployedseed>
+    <deployedseed>1339755322</deployedseed>
+    <deployedseed>1459742014</deployedseed>
+    <deployedseed>845236405</deployedseed>
+    <deployedseed>1512496955</deployedseed>
+    <deployedseed>806069409</deployedseed>
+    <deployedseed>274634189</deployedseed>
+    <deployedseed>1064141165</deployedseed>
+    <deployedseed>697003498</deployedseed>
+    <deployedseed>813042287</deployedseed>
+    <deployedseed>1089090565</deployedseed>
+    <deployedseed>990500779</deployedseed>
+    <deployedseed>330811073</deployedseed>
+    <deployedseed>1129950731</deployedseed>
+    <deployedseed>754488474</deployedseed>
+    <deployedseed>1466389741</deployedseed>
+    <deployedseed>438180328</deployedseed>
+    <deployedseed>1557556355</deployedseed>
+    <deployedseed>976087364</deployedseed>
+    <deployedseed>145814164</deployedseed>
+    <deployedseed>1838236526</deployedseed>
+    <deployedseed>76341458</deployedseed>
+    <deployedseed>102999353</deployedseed>
+    <deployedseed>1820728897</deployedseed>
+    <deployedseed>5097651</deployedseed>
+    <deployedseed>1983934772</deployedseed>
+    <deployedseed>941343338</deployedseed>
+    <deployedseed>147865651</deployedseed>
+    <deployedseed>536040156</deployedseed>
+    <deployedseed>1602052712</deployedseed>
+    <deployedseed>1343482517</deployedseed>
+    <deployedseed>590106923</deployedseed>
+    <deployedseed>1128232355</deployedseed>
+    <deployedseed>1986046348</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.1.16 (Given terms find u_n gp 2)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find a formula for the general term of the geometric sequence \({@u[1]@}, {@u[2]@}, {@u[3]@}, \ldots\).</p><p>\(u_n=\) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The first term is {@u[1]@} so \(a={@u[1]@}\).</p><p>The ratio of the first two terms is {@(u[2]/u[1]),simp=false@} so \(r={@r@}\).</p><p>Thus \(u_n=ar^{n-1}={@ta1@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:rand_with_prohib(-9,9,[0]);
+r:rand_with_prohib(-9,9,[0,1,-1,a,-a]);
+u:[a,a*r,a*r^2];
+ta1:a*r^(n-1);
+wa1:a*r^n;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[{#u#} -> {@ta1@}]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>5</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wa1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have used \(u_n=ar^n\) which is not quite right, as that gives the first term \(u_1=ar\) which is different from the actual first term.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>622208728</deployedseed>
+    <deployedseed>1775565851</deployedseed>
+    <deployedseed>709589569</deployedseed>
+    <deployedseed>1313005158</deployedseed>
+    <deployedseed>1177253497</deployedseed>
+    <deployedseed>2302445</deployedseed>
+    <deployedseed>1156464022</deployedseed>
+    <deployedseed>1270168774</deployedseed>
+    <deployedseed>1868744359</deployedseed>
+    <deployedseed>1089512139</deployedseed>
+    <deployedseed>528884677</deployedseed>
+    <deployedseed>1737957901</deployedseed>
+    <deployedseed>64819533</deployedseed>
+    <deployedseed>164833336</deployedseed>
+    <deployedseed>956648309</deployedseed>
+    <deployedseed>722601023</deployedseed>
+    <deployedseed>1782631751</deployedseed>
+    <deployedseed>947045841</deployedseed>
+    <deployedseed>532149922</deployedseed>
+    <deployedseed>1280749291</deployedseed>
+    <deployedseed>1287973692</deployedseed>
+    <deployedseed>349647880</deployedseed>
+    <deployedseed>943948573</deployedseed>
+    <deployedseed>704594151</deployedseed>
+    <deployedseed>1093100125</deployedseed>
+    <deployedseed>575524719</deployedseed>
+    <deployedseed>1192800119</deployedseed>
+    <deployedseed>318927608</deployedseed>
+    <deployedseed>1988368322</deployedseed>
+    <deployedseed>1406745603</deployedseed>
+    <deployedseed>1773543877</deployedseed>
+    <deployedseed>1485244094</deployedseed>
+    <deployedseed>601842031</deployedseed>
+    <deployedseed>745174553</deployedseed>
+    <deployedseed>319325765</deployedseed>
+    <deployedseed>2006560404</deployedseed>
+    <deployedseed>838187951</deployedseed>
+    <deployedseed>901377917</deployedseed>
+    <deployedseed>1627425094</deployedseed>
+    <deployedseed>1217310203</deployedseed>
+    <deployedseed>518144870</deployedseed>
+    <deployedseed>874735218</deployedseed>
+    <deployedseed>1260102716</deployedseed>
+    <deployedseed>630165487</deployedseed>
+    <deployedseed>569046193</deployedseed>
+    <deployedseed>2137534680</deployedseed>
+    <deployedseed>2062557892</deployedseed>
+    <deployedseed>2038399515</deployedseed>
+    <deployedseed>146179648</deployedseed>
+    <deployedseed>77086280</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(expand(ta1),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>wa1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

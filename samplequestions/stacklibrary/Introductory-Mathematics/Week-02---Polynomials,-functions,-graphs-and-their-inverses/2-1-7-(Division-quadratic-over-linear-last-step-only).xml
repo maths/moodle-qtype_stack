@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.1.7 (Division quadratic over linear last step only)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<table><tbody><tr><td style="text-align: right; min-width:10em;">\(\dfrac{{@numer0@}}{{@x+d1@}}=\)&nbsp;</td><td style="text-align: left; border-bottom: 1pt solid black;">\( {@(x+d1)*(a0*x+b0)+c0@} \)</td></tr><tr><td>&nbsp;</td><td style="text-align: center;">\( ({@x+d1@}) \)</td></tr><tr><td style="text-align: right;">&nbsp;\(=\)</td><td>[[input:ans0]]</td></tr></tbody></table><p>[[validation:ans0]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\( \dfrac{{@(x+d1)*(a0*x+b0)+c0@}}{({@x+d1@})} =&nbsp;\dfrac{{@(x+d1)*(a0*x+b0)@}}{({@x+d1@})}+\dfrac{{@c0@}}{({@x+d1@})} = {@a0*x+b0+c0/(x+d1)@}&nbsp; \)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>d1:rand([3,4,5]);
+a0:rand([2,3]);
+b0:rand_with_prohib(-5,5,[0]);
+c0:rand_with_step(-3,3,2); /* ensure c0 is odd in this part */
+numer0:ev(expand((x+d1)*(a0*x+b0)+c0),simp);
+ta0:unary_minus_sort(a0*x+b0+c0/(x+d1));
+polypart:a0*x+b0;
+fracpart:c0/(x+d1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt0]]<br></p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@(numer0)/(x+d1) = ans0@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans0</name>
+      <type>algebraic</type>
+      <tans>ta0</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>??? + ?/(x+?)</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt0</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans0</sans>
+        <tans>ta0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt0-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt0-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>polynomialp(ans0-c0/(x+d1),[x])</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt0-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt0-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your final answer does not seem to be in the correct form.<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1713192161</deployedseed>
+    <deployedseed>958847564</deployedseed>
+    <deployedseed>218124061</deployedseed>
+    <deployedseed>394468394</deployedseed>
+    <deployedseed>1362395080</deployedseed>
+    <deployedseed>725849402</deployedseed>
+    <deployedseed>801087419</deployedseed>
+    <deployedseed>1064551754</deployedseed>
+    <deployedseed>1855797472</deployedseed>
+    <deployedseed>1126091056</deployedseed>
+    <deployedseed>1929206935</deployedseed>
+    <deployedseed>429396598</deployedseed>
+    <deployedseed>1996409961</deployedseed>
+    <deployedseed>1203747722</deployedseed>
+    <deployedseed>2052864763</deployedseed>
+    <deployedseed>776117479</deployedseed>
+    <deployedseed>331756793</deployedseed>
+    <deployedseed>1729735078</deployedseed>
+    <deployedseed>1368409050</deployedseed>
+    <deployedseed>892379874</deployedseed>
+    <deployedseed>667343314</deployedseed>
+    <deployedseed>8409250</deployedseed>
+    <deployedseed>402680953</deployedseed>
+    <deployedseed>1626040749</deployedseed>
+    <deployedseed>1189152347</deployedseed>
+    <deployedseed>282247041</deployedseed>
+    <deployedseed>81027280</deployedseed>
+    <deployedseed>1205389720</deployedseed>
+    <deployedseed>426496907</deployedseed>
+    <deployedseed>2078475239</deployedseed>
+    <deployedseed>455407018</deployedseed>
+    <deployedseed>1442782366</deployedseed>
+    <deployedseed>252652713</deployedseed>
+    <deployedseed>629459301</deployedseed>
+    <deployedseed>1258559966</deployedseed>
+    <deployedseed>1760278554</deployedseed>
+    <deployedseed>1454716194</deployedseed>
+    <deployedseed>2142708078</deployedseed>
+    <deployedseed>792598679</deployedseed>
+    <deployedseed>1158435490</deployedseed>
+    <deployedseed>1105630037</deployedseed>
+    <deployedseed>1331342696</deployedseed>
+    <deployedseed>457540978</deployedseed>
+    <deployedseed>757737753</deployedseed>
+    <deployedseed>1345650735</deployedseed>
+    <deployedseed>237787502</deployedseed>
+    <deployedseed>237241346</deployedseed>
+    <deployedseed>1175738386</deployedseed>
+    <deployedseed>1893865699</deployedseed>
+    <deployedseed>1574990268</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans0</name>
+        <value>ta0</value>
+      </testinput>
+      <expected>
+        <name>prt0</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt0-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans0</name>
+        <value>numer0/(x+d1)</value>
+      </testinput>
+      <expected>
+        <name>prt0</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt0-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans0</name>
+        <value>factor(polypart)+fracpart</value>
+      </testinput>
+      <expected>
+        <name>prt0</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt0-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

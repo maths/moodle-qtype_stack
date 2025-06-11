@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.0.1 (Factorial notation)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Factorials</h1>
+
+<p>This week we are concerned with introducing the Binomial Theorem. In weeks 1 and 2 we saw how to expand brackets of the form \((a+b)^n\), however this week we will see how we can apply the Binomial theorem to calculate such expansions of brackets in a far more efficient manner. Before we can do this we need to introduce certain useful concepts, and in this section we will focus on the notation we will require, beginning with factorials.</p>
+<br/>
+<p>It transpires that when performing calculations with the Binomial Theorem, we frequently find ourselves needing to calculate quantities of the form \(1 \times 2 \times 3 \times 4\) or \(1 \times 2 \times 3 \times 4 \times 5 \times 6\). this leads us to define the concept of a <i>factorial</i>.</p>
+
+<p>For \(n \geq 1\), \(n!\) is the product of the first \(n\) positive integers, that is
+\[
+n! = n(n-1)(n-2)\cdots 3 \times 2 \times 1.
+\]
+The quantity \(n!\) is called <b>\(n\) factorial</b>.</p>
+<p>Note that an alternative definition of a factorial is that 
+\[
+n! = n \times (n-1)!
+\]
+for \(n \geq 1\). Under this rule for example we have \(6! = 6 \times 5!\). However, more importantly we have \(1! = 1 \times 0!\), therefore we define 
+\[
+0! = 1.
+\]</p>
+<p>It is important to be comfortable with calculating factorials as well as manipulating expressions involving factorials. With this in mind let us consider the following examples.</p>
+<br/>
+<h3>Examples</h3>
+
+<ol type = "a">
+<li>Calculate the factorial \(7!\).</li>
+<li>Express \(9 \times 8 \times 7\) in terms of factorials.</li>
+<li>Write \(8! + 6!\) as the product of a factorial and a positive integer.</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol type = "a">
+<li>By definition we have 
+\[
+7! = 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1 = 5040.
+\]</li>
+<li>Notice that 
+\[
+\frac{9 \times 8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1}{6 \times 5 \times 4 \times 3 \times 2 \times 1} = 9 \times 8 \times 7
+\]
+because every other term cancels. Therefore by definitions of the factorials, we can simplify these fractions to get 
+\[
+9 \times 8 \times 7 = \frac{9!}{6!}.
+\]</li>
+<li>Here we have 
+\[
+\begin{align*}
+8! + 6! &= 8 \times 7 \times 6! + 6! 
+\\
+&= 6!(8 \times 7 + 1)
+\\
+&= 6! \times 57.
+\end{align*}
+\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>5.1.5 (Isosceles triangle)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[What is the area \(A\) of an isosceles triangle with two equal sides of length \(x\) and apex angle \(\theta\)? Express your answer as a function of \(x\) and \(\sin \theta\).
+<br><p>
+\(A=\) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p><p>Hint: Use the following diagram</p><p><img src="@@PLUGINFILE@@/4.3%20fig%201%20isosceles%20triangle.svg" alt="Isosceles triangle with apex angle theta and bisector at apex" role="presentation" class="img-responsive atto_image_button_text-bottom" width="196" height="172">]]></text>
+<file name="4.3 fig 1 isosceles triangle.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTk2IiBoZWlnaHQ9IjE3MiIgdmlld0JveD0iMCAwIDE0NyAxMjkiPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAxMjkpIiBkPSJNMCAwaDE0N3YxMjlIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMTEuMjQ2IDExMy45MTdoMTI2LjAwMUw3My43NDYgNC40MTdsLTYyLjUgMTA5LjV6Ii8+PHBhdGggc3Ryb2tlLWRhc2hhcnJheT0iMywzLDMsMywzLDMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTczLjc0NiA2LjkxN3YxMDYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik03NC43NDYgMTAwLjQxN2g5LjV2MTMuNSIvPjxzeW1ib2wgaWQ9ImIiPjxwYXRoIGQ9Ik0uNDQ2LjQxOEMuNDE0LjQxMi40MDIuMzg4LjQwMi4zNjljMC0uMDI0LjAxOS0uMDMyLjAzMy0uMDMyLjAzIDAgLjA1MS4wMjYuMDUxLjA1MyAwIC4wNDItLjA0OC4wNjEtLjA5LjA2MUMuMzM1LjQ1MS4zMDEuMzkxLjI5Mi4zNzJhLjEwNC4xMDQgMCAwMS0uMTAzLjA3OUMuMDg3LjQ1MS4wMzMuMzIuMDMzLjI5OGMwLS4wMDQuMDA0LS4wMDkuMDExLS4wMDkuMDA4IDAgLjAxLjAwNi4wMTIuMDEuMDM0LjExMS4xMDEuMTMyLjEzLjEzMkMuMjMxLjQzMS4yNC4zODkuMjQuMzY1LjI0LjM0My4yMzQuMzIuMjIyLjI3MkwuMTg4LjEzNUMuMTczLjA3NS4xNDQuMDIuMDkxLjAyLjA4Ni4wMi4wNjEuMDIuMDQuMDMzYS4wNTIuMDUyIDAgMDEuMDQ0LjA0OWMwIC4wMi0uMDE1LjAzMi0uMDM0LjAzMkEuMDUyLjA1MiAwIDAxMCAuMDYxQzAgLjAxOS4wNDcgMCAuMDkgMGMuMDQ4IDAgLjA4Mi4wMzguMTAzLjA3OUEuMTA1LjEwNSAwIDAxLjI5NiAwYy4xMDIgMCAuMTU2LjEzMS4xNTYuMTUzIDAgLjAwNS0uMDA0LjAwOS0uMDEuMDA5Qy40MzMuMTYyLjQzMi4xNTcuNDI5LjE0OS40MDIuMDYxLjM0NC4wMi4yOTkuMDIuMjY0LjAyLjI0NS4wNDYuMjQ1LjA4N2MwIC4wMjIuMDA0LjAzOC4wMi4xMDRMLjMuMzI3Yy4wMTUuMDYuMDQ5LjEwNC4wOTUuMTA0LjAwMiAwIC4wMyAwIC4wNTEtLjAxM3oiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNiIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMzEuMTAzIDU4LjYzKSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImMiPjxwYXRoIGQ9Ik0uMTM2LjExMUMuMTAxLjA1Mi4wNjcuMDMyLjAxOS4wMjkuMDA4LjAyOCAwIC4wMjggMCAuMDEgMCAuMDA0LjAwNSAwIC4wMTIgMGwuMDgxLjAwMkwuMTgyIDBDLjE4OCAwIC4yIDAgLjIuMDE5YzAgLjAwOS0uMDA4LjAxLS4wMTQuMDFDLjE2My4wMzEuMTQ0LjAzOS4xNDQuMDYzYzAgLjAxNC4wMDYuMDI1LjAxOS4wNDdsLjA3Ni4xMjZoLjI1NUwuNDk2LjIxQTMuMjcgMy4yNyAwIDAwLjUxMS4wNjFDLjUxMS4wMzEuNDYuMDI5LjQ0NC4wMjljLS4wMTEgMC0uMDIyIDAtLjAyMi0uMDE4Qy40MjIgMCAuNDMxIDAgLjQzNyAwbC4wNTQuMDAyaC4wNTdDLjYwOS4wMDIuNjUzIDAgLjY1NCAwYy4wMDcgMCAuMDE4IDAgLjAxOC4wMTkgMCAuMDEtLjAwOS4wMS0uMDI0LjAxLS4wNTUgMC0uMDU2LjAwOS0uMDU5LjAzOUwuNTI4LjY5MkMuNTI2LjcxMi41MjIuNzE0LjUxMS43MTQuNTAxLjcxNC40OTUuNzEyLjQ4Ni42OTdMLjEzNi4xMTFtLjEyLjE1NGwuMjAxLjMzNi4wMzQtLjMzNkguMjU2eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA1OC43MjggOS4wMSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJkIj48cGF0aCBkPSJNLjMxOC42MTVDLjMyNy42NTIuMzMxLjY1NC4zNy42NTRILjVDLjYxMy42NTQuNjEzLjU1OC42MTMuNTQ5LjYxMy40NjguNTMyLjM2NS40LjM2NUguMjU2bC4wNjIuMjVNLjQ4Ny4zNTdjLjEwOS4wMi4yMDguMDk2LjIwOC4xODggMCAuMDc4LS4wNjkuMTM4LS4xODIuMTM4SC4xOTJjLS4wMTkgMC0uMDI4IDAtLjAyOC0uMDE5IDAtLjAxLjAwOS0uMDEuMDI0LS4wMS4wNjEgMCAuMDYxLS4wMDguMDYxLS4wMTkgMC0uMDAyIDAtLjAwOC0uMDA0LS4wMjNMLjExLjA3NEMuMTAxLjAzOS4wOTkuMDI5LjAyOS4wMjkuMDEuMDI5IDAgLjAyOSAwIC4wMTEgMCAwIC4wMDYgMCAuMDI2IDBoLjM0M0MuNTIyIDAgLjY0LjExNi42NC4yMTdjMCAuMDgyLS4wNzIuMTMyLS4xNTMuMTRNLjM0NS4wMjlILjIxTC4xODguMDNDLjE3Ny4wMzEuMTc2LjAzMy4xNzYuMDQxYzAgLjAwNy4wMDIuMDEzLjAwNC4wMjJsLjA3LjI4MmguMTg4Yy4xMTggMCAuMTE4LS4xMS4xMTgtLjExOEEuMjA5LjIwOSAwIDAwLjM0NS4wMjl6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IC41NzMgMTI0LjUxKSIgZmlsbD0iIzIzMWYyMCIvPjxjbGlwUGF0aCBpZD0iZSI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAxMjkpIiBkPSJNLjA2IDBoMTQ2LjcwN3YxMjguOTU2SC4wNnoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNlKSI+PHN5bWJvbCBpZD0iZiI+PHBhdGggZD0iTS42OTcuNzE2Qy42OTcuNzI1LjY5LjcyNS42ODguNzI1Yy0uMDAyIDAtLjAwNiAwLS4wMTQtLjAxTC42MDUuNjMxQS4xOC4xOCAwIDAxLjQ0LjcyNUMuMjI0LjcyNSAwIC41MDYgMCAuMjcxIDAgLjEwNC4xMTcgMCAuMjYzIDBjLjA4IDAgLjE1LjAzNC4yMDguMDgzLjA4Ny4wNzMuMTEzLjE3LjExMy4xNzhDLjU4NC4yNy41NzYuMjcuNTczLjI3LjU2NC4yNy41NjMuMjY0LjU2MS4yNkEuMzEuMzEgMCAwMC4yOC4wMjljLS4xMDYgMC0uMTk4LjA2OC0uMTk4LjIxIDAgLjAzMi4wMS4yMDYuMTIzLjMzNy4wNTUuMDY0LjE0OS4xMi4yNDQuMTIuMTEgMCAuMTU5LS4wOTEuMTU5LS4xOTNDLjYwOC40NzcuNjA1LjQ1NS42MDUuNDUxYzAtLjAwOS4wMS0uMDA5LjAxMy0uMDA5LjAxMSAwIC4wMTIuMDAxLjAxNi4wMTlsLjA2My4yNTV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEzOC45OTYgMTI1LjI2MSkiIGZpbGw9IiMyMzFmMjAiLz48L2c+PHN5bWJvbCBpZD0iZyI+PHBhdGggZD0iTS4xMS4wNzRDLjEwMS4wMzkuMDk5LjAyOS4wMjkuMDI5LjAxLjAyOSAwIC4wMjkgMCAuMDExIDAgMCAuMDA2IDAgLjAyNiAwaC4zMTdjLjIwMiAwIC4zOTkuMjA5LjM5OS40MzIgMCAuMTQ0LS4wODYuMjUxLS4yMjkuMjUxSC4xOTJjLS4wMTkgMC0uMDI4IDAtLjAyOC0uMDE5IDAtLjAxLjAwOS0uMDEuMDI0LS4wMS4wNjEgMCAuMDYxLS4wMDguMDYxLS4wMTkgMC0uMDAyIDAtLjAwOC0uMDA0LS4wMjNMLjExLjA3NG0uMjExLjU0MUMuMzMuNjUyLjMzNC42NTQuMzczLjY1NGguMTFjLjA5NCAwIC4xOC0uMDUxLjE4LS4xODkgMC0uMDUtLjAyLS4yMjQtLjExNy0uMzM0QS4yOTQuMjk0IDAgMDAuMzI3LjAyOUguMjEzTC4xOTEuMDNDLjE4LjAzMS4xNzkuMDMzLjE3OS4wNDFjMCAuMDA3LjAwMi4wMTMuMDA0LjAyMmwuMTM4LjU1MnoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNnIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNjkuNTk1IDEyNi4wMSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJoIj48cGF0aCBkPSJNLjQwMy41MTNjMCAuMTAyLS4wMzIuMjAxLS4xMTQuMjAxQy4xNDkuNzE0IDAgLjQyMSAwIC4yMDEgMCAuMTU1LjAxIDAgLjExNSAwYy4xMzYgMCAuMjg4LjI4Ni4yODguNTEzTS4xLjM3MmMuMDE1LjA1OS4wMzYuMTQzLjA3Ni4yMTQuMDMzLjA2LjA2OC4xMDguMTEyLjEwOEMuMzIxLjY5NC4zNDMuNjY2LjM0My41N0EuNzQ0Ljc0NCAwIDAwLjMxMS4zNzJILjFtLjIwNC0uMDNBLjg0NS44NDUgMCAwMC4yMjIuMTE4Qy4xOTMuMDY3LjE1OC4wMi4xMTYuMDIuMDg1LjAyLjA2LjA0NC4wNi4xNDNjMCAuMDY1LjAxNi4xMzMuMDMyLjE5OWguMjEyeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2giIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA3OC4xOSAzMi4wNDIpIiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggZD0iTTc3LjE3NSAzMy43ODNoNS44NTN2LjQ3OGgtNS44NTN6IiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iaSI+PHBhdGggZD0iTS4zOTEuMTY4SC4zNjlDLjM2Ni4xNTEuMzU4LjA5Ni4zNDguMDguMzQxLjA3MS4yODQuMDcxLjI1NC4wNzFILjA2OWMuMDI3LjAyMy4wODguMDg3LjExNC4xMTEuMTUyLjE0LjIwOC4xOTIuMjA4LjI5MUMuMzkxLjU4OC4zLjY2NS4xODQuNjY1QS4xODUuMTg1IDAgMDEwIC40OEMwIC40MjkuMDQ0LjQyOS4wNDcuNDI5Yy4wMjEgMCAuMDQ3LjAxNS4wNDcuMDQ3YS4wNDUuMDQ1IDAgMDEtLjA0Ny4wNDdMLjAzMy41MjJDLjA1Mi41OS4xMDYuNjM2LjE3MS42MzYuMjU2LjYzNi4zMDguNTY1LjMwOC40NzMuMzA4LjM4OC4yNTkuMzE0LjIwMi4yNUwwIC4wMjRWMGguMzY1bC4wMjYuMTY4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2kiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA3OS4yNjIgNDMuMjEpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEwOS42MDIgNTcuMTMpIiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNOTUuODEyIDQzLjAyN2E0NC40MjIgNDQuNDIyIDAgMDEtMjIuODE2IDYuMjY1Ii8+PC9nPjwvc3ZnPg==</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[The right-angled triangle \(ACD\) has area \(\dfrac{1}{2} (CD)(AD)\)
+\(\begin{eqnarray*}\text{But}\qquad \sin \left(\dfrac{\theta}{2}\right)=\dfrac{CD}{x}\qquad
+ &amp;\therefore&amp;\quad CD=x\sin \left(\dfrac{\theta}{2}\right)\\
+\\
+\cos\left(\dfrac{\theta}{2}\right)=\dfrac{AD}{x}\qquad &amp;\therefore&amp;\quad AD=x\cos\left(\dfrac{\theta}{2}\right)\end{eqnarray*}\)
+\(\begin{eqnarray*}\therefore\qquad \text{area of}\ \ \ \Delta ACD&amp;=&amp;
+\dfrac{1}{2}x^2\sin\left(\dfrac{\theta}{2}\right)\cos\left(\dfrac{\theta}{2}\right)=\dfrac{1}{4} x^2\sin \theta\\
+\\
+\\
+\therefore\qquad \text{area of}\ \ \ \Delta ABC&amp;=&amp; 2\times \text{area of}\ \Delta ACD
+=\dfrac{1}{2} x^2\sin \theta\end{eqnarray*}\)]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1 : x^2*sin(theta)/2;
+ta1_aa : x^2*aa/2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>ans1_aa:subst(sin(theta)=aa,ans1)</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1_aa</sans>
+        <tans>ta1_aa</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer can be simplified</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sin(theta)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

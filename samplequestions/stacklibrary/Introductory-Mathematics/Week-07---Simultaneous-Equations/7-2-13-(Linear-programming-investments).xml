@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.2.13 (Linear programming investments)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that you have £\(12000\) to invest, and three different funds from which to choose. Suppose that bank A has a \(0.07\) return, bank B has a \(0.08\) return and bank C has a riskier fund which may yield a  \(0.12\) return. To minimise risk, you decide to invest no more than £\(2000\) into bank C. Suppose that you wish to invest three times as much in bank A as bank B. Assuming that the yields from each bank are as expected, what amounts should you invest in bank A and bank B in order to maximise your investment? </p>
+
+<p>maximum = [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Note that we can form a system of equations by setting \(x\) to be the amount in bank A and \(y\) to be the amount in bank B. Notice that we can then simplify the mathematics by writing \(x\) and \(y\) to be the amounts in thousands. Then we can see that the amount invested in bank C is given by \(12-x-y\).</p>
+
+<p>Next we have to figure out our constraints. Firstly, notice that we cannot invest a negative amount of money so we have \(x \geq 0, y \geq 0\) and \(12-x-y \geq 0\). In addition, we are told that we invest a maximum of £\(2000\) in bank C and so we must have \(12-x-y \leq 2\). In addition we are told we invest three times as much in bank A as in bank B we have \(y \leq \frac{1}{3}x\). Finally the optimisation equation will be the total investment return. This is given by the sum of the investments in each bank with the appropriate yields. That is
+\[
+Y = 0.07x + 0.08y + 0.12(12-x-y) = 1.44-0.05x-0.04y.
+\]</p>
+<p>So, simplifying these constraints, the system we seek to maximise is \(Y = {@opt@}\) subject to,
+\[ 
+\begin{align*} 
+&amp; {@c1@}
+\\ 
+&amp;{@c2@}
+\\ 
+&amp;{@c3@}
+\\
+&{@c4@}
+\end{align*}
+\]
+ </p>
+
+<p>We need to find the corner points of the feasibility region so we could plot the lines 
+\[
+\begin{align*} 
+&amp; {@eqn1@}
+\\ 
+&amp;{@eqn2@}
+\\ 
+&amp;{@eqn3@}
+\\
+&{@eqn4@}
+\\
+&{@eqn5@}
+\end{align*}
+\] 
+on the same graph and then read off the coordinates of the corner points, or we could solve each pair of equations simultaneously.</p>
+
+<p>In this case we can see that the potential coordinates of the corner points are 
+\[
+(9,3), (12,0), (10,0) \mbox{ and } (7.5,2.5)
+\]
+So to find the maximum and minimum with respect to the constraints above, we insert these coordinates into the optimisation equation. Doing this, we see that the maximum possible return is {@ta1@}, when we invest \(£7500\) in bank A, \(£2500\) in bank B and \(£2000\) in bank C</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[opt: 1.44-0.05*x-0.04*y;
+
+c1: y >= -x +10;
+c2: y <= -x + 12
+c3:  y <= (1/3)*x
+c4: x >= 0;
+c5: y>=0;
+
+eqn1: y = -x +10;
+eqn2: y = -x + 12
+eqn3: y = (1/3)*x;
+eqn4: x = 0;
+eqn5: y = 0;
+
+ta1: 965;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Y={@opt@}, \(\implies\) max: {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2012880931</deployedseed>
+    <deployedseed>770550139</deployedseed>
+    <deployedseed>1315763451</deployedseed>
+    <deployedseed>1684112419</deployedseed>
+    <deployedseed>2027515226</deployedseed>
+    <deployedseed>1914856479</deployedseed>
+    <deployedseed>18892084</deployedseed>
+    <deployedseed>435110064</deployedseed>
+    <deployedseed>662603083</deployedseed>
+    <deployedseed>1676942476</deployedseed>
+    <deployedseed>2142576133</deployedseed>
+    <deployedseed>157049362</deployedseed>
+    <deployedseed>268039299</deployedseed>
+    <deployedseed>606934062</deployedseed>
+    <deployedseed>826711999</deployedseed>
+    <deployedseed>1486184118</deployedseed>
+    <deployedseed>493483011</deployedseed>
+    <deployedseed>96677740</deployedseed>
+    <deployedseed>1860488467</deployedseed>
+    <deployedseed>1433655302</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ss[1]-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

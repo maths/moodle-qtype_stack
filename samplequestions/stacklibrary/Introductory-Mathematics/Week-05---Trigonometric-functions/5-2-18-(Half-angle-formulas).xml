@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.18 (Half angle formulas)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> Half-angle formulae </h3>
+
+<p>If we replace \(x\) by \(\dfrac{x}{2}\) and, consequently \(2x\) by \(x\) in the double angle formula, we obtain 
+\[
+\sin x\equiv 2\sin\left(\dfrac{x}{2}\right)\cos\left(\dfrac{x}{2}\right) 
+\]</p>
+<br/>
+<p>Similarly for the cosine:
+\[
+\cos x\equiv 2\cos^2\left(\dfrac{x}{2}\right)-1
+\]</p>
+
+<p>These are examples of <b>half-angle formulae</b>. </p>
+
+<p>We can obtain a half-angle formula for \(\tan x\) as well. Replacing \(x\) by <span \(\dfrac{x}{2}\) and \(2x\) by \(x\) in the double angle formula for \(\tan\) we obtain:
+\[
+\tan x \equiv \dfrac{2\tan\left(\dfrac{x}{2}\right)}{1-\tan^2\left(\dfrac{x}{2}\right)}
+\]
+<h4>Key Point<br></h4>
+<p>If <span class="math inline">\(t= \tan\left(\dfrac{A}{2}\right)\)</span> then <br>\(\sin a = \dfrac{2t}{1+t^2}\)
+<br> \(\cos A= \dfrac{1-t^2}{1+t^2}\)
+<br>\(\tan A= \dfrac{2t}{1-t^2}\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

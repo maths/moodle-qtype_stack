@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.1.16 (Formal counting)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction to formal counting</h1>
+
+<p>Now that we are familiar with the notions of permutations and combinations, we will end this section by looking at the formal abstracted versions of these ideas. We will see that we can represent a binomial coefficient as the number of choices of elements from a se and from this we can build the idea of counting, permutations and combinations that we have seen in the previous sections.</p>
+<br/>
+<p>Example</p>
+
+<p>Using the digits \(1,2,\dots, 9\) how many even two digit numbers are there with two different digits?</p>
+
+<p>Solution</p>
+
+<p>Firstly, note that we require even numbers so our first step is to choose the second digit of the two digit number, which must come from the set \(\{2,4,6,8\}\). We can therefore choose this digit in four different ways. The second step is for us to then choose the first digit. Well there are nine choices for the first digit as well. So the number of even two digit numbers are there with two different digits is given by \(4 \times 9 = 36\).</p>
+<br/>
+<p>Recall that if a set \(S\) has \(n\) elements then the number of different arrangements of the set \(S\) is given by \(n!\). With this we ca formally define the binomial coefficients as follows.</p>
+<p>Let \(n\) be a positive integer and let \(r\) be an integer such that \(0 \leq r \leq n\). Then we define the <b>binomial coefficient</b> 
+\[
+{n}\choose{r}
+\]
+"n choose r" as the number of subsets of \(\{1,2,\dots, n\}\) that have \(r\) elements.
+</p>
+<p>For example, the 2-element subsets of the set \(\{1,2,3\}\) are \(\{1,2\}, \{1,3\}, \{2,3\}\). Therefore there are three two element subsets so \(n=3, r=2\) and 
+\[
+{3 \choose 2} = 3.
+\]
+This is the exact definition of the binomial coefficients that we have already met. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

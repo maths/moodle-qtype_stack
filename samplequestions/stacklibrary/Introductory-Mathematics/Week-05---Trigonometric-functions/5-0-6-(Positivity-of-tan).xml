@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>5.0.6 (Positivity of tan)</text>
+    </name>
+    <questiontext format="html">
+      <text>In which quadrants is \( \tan \theta \) positive?</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>false</shuffleanswers>
+    <answernumbering>123</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="50" format="html">
+      <text>Quadrant 1: \(0 \leq \theta \leq 90^\circ\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="-50" format="html">
+      <text>Quadrant 2: \(90^\circ \leq \theta \leq 180^\circ \)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="50" format="html">
+      <text>Quadrant 3: \( 180^\circ \leq \theta \leq 270^\circ \)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="-50" format="html">
+      <text>Quadrant 4: \( 270^\circ \leq \theta \leq 360^\circ \)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

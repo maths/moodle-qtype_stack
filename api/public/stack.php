@@ -133,7 +133,7 @@ require_login();
         </div>
         <?php echo stack_string('api_choose_q')?>:
         <?php
-        $files = stack_question_library::get_file_list('../../samplequestions/*');
+        $files = stack_question_library::get_file_list('../../samplequestions/stacklibrary/*');
         function render_directory($dirdetails) {
             echo '<div style="margin-left: 30px;">';
             foreach ($dirdetails as $file) {
@@ -193,7 +193,7 @@ require_login();
       </div>
     </div>
     <br>
-
+    <? readfile(__DIR__ . '/stackfooter.html') ?>
   </body>
   <script>
     const yamlEditor = CodeMirror.fromTextArea(document.getElementById("xml"),

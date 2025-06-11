@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.0.8 (How to write a proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Writing a proof</h1>
+
+<p>Writing a proof is not a straight-forward skill. It is something that must be practiced and honed. Think of it as learning to write a story in a different language. There are several reasons for this difficulty. We have to learn the language of proof, we have to carefully organise our statements and check that they follow logically from each other. This is not a trivial task, even once we have a greater experience of proof.</p>
+
+<p>There are several things that we need to be careful of when writing proof. First of all, as we will see in a later section, there are several different methods of proof, there is no one layout that every proof takes. Often a proof is written in an order that is different to the order in which we thought each step up. For example, it is quite common to work backwards from a conclusion to a hypothesis when we are creating a proof. However, it would make no sense to <i>write</i> a proof like this because it would break the requirement that each statement must follow logically from the previous one. It is a common mistake to write a proof down in the order we thought of it. This mean we will have written all the right steps but in the wrong order. This is not a correct proof. It is often useful, therefore to plan out the structure of a proof before it is written. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.1.19 (Cosine vs sine rule)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Cosine or sine rule</h3>
+
+<p>When faced with a problem regarding the angles of a triangle, one of the key issues is deciding whether to use the sine rule or cosine rule to solve it. Which rule you use is dependent on the information about the triangle we are given. The following should help you remember which rules to use. </p>
+<br/>
+<p>Use the <i>sine rule</i> when given:</p>
+
+<ul style="list-style: none;">
+<li>One side and an included angle.</li>
+<li>Two sides and a non-included angle.</li>
+</ul>
+
+<p>Be aware that in the second case here, there is an ambiguous case when the smaller of the two given sides is opposite the given angle.</p>
+
+<p>Use the <i>cosine rule</i> when given:</p>
+
+<ul style="list-style: none;">
+<li>Three sides.</li>
+<li>Two sides and an included angle</li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

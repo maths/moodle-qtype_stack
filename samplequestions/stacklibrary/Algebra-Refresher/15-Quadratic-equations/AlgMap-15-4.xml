@@ -105,6 +105,7 @@ ta2:-b/(2*a)-sqrt(b^2-4*a*c)/(2*a);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans</name>

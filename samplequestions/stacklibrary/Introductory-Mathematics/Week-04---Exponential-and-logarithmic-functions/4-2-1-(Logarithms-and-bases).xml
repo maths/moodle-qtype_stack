@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.1 (Logarithms and bases)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Logarithms</h1>
+
+<p>So far this week we have seen that in special cases we can solve exponential equations algebraically or by using graphical solutions. However, more commonly we require the use of <b>logarithms</b> in order to solve such equations. The most common kinds of logarithms are those to base \(10\), written \(\log_{10}\) (or just simply \(\log\)) and those to base \(e\), written \(\log_{e}\) or more usually \(\ln\) (called <b>natural logarithms</b>). We will begin by looking at base \(10\) logarithms.</p>
+
+<p>Suppose that we have the equation \(y = 10^x\). In this case we say that \(x\) is the <b>logarithm in base \(10\)</b> of \(y\). Therefore we can see that in some sense, the log of base ten of a positive number is the power that we must raise \(10\) to in order to get that number. For example \(\log_{10}(1000) = \log(1000) = 3\) and \(\log_{10}(100) = \log(100) = 2\). We can also take logs of decimals, for example \(\log(0.01) = -2\) since \(10^{-2} = 0.01\). So more generally, we can see that 
+\[
+\log_{10}(a) = c \iff 10^c = a.
+\]
+Notice that this definition gives us a way of writing any number as a power of ten, because in particular
+\[
+x = 10^{\log(x)} \mbox{ for any } x> 0.
+\]
+Note that the logs we have found above are easy to find algebraically because we dealt with integer powers of \(10\), in general, however the only way to quickly compute logs is to use a calculator. </p>
+<br/>
+<h3>Other Bases</h3>
+
+<p>In general, we need to deal with logarithms with bases other than that of \(10\). Recall that we we said a log of base \(10\) of a positive number is the power that we must raise \(10\) to in order to get that number. We can easily generalise this idea to define the <b>logarithm in base \(a\) of \(b\)</b> is the power that \(a\) must be raised to in order to obtain \(b\). For example, to find \(\log_3(9)\) we ask 'what power must \(3\) be raised to in order to get \(9\),' clearly the answer here is \(2\) because we know \(3^2=9\). This leads us to the following equivalence,
+\[
+a^x = b \iff x = \log_a(b).
+\]
+In fact, this is how we define \(\log_a(b)\). 
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

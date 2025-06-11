@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.1.17 (Proof of binomial coefficient formula)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Now that we have made the formal definition above, we are in a position to prove the formula for calculating a binomial coefficient. The argument, is essentially, an application of more clever counting.</p>
+<br/>
+<h3>Proposition</h3>
+
+<p>We can evaluate the binomial coefficient 'n choose r' as
+\[
+\frac{n!}{r!(n-r)!} = {n\choose r}
+\]</p>
+
+<h3>Solution</h3>
+
+<p>Let \(S\) be the set \(S = \{1,2,3,\dots, n\}\). Let us count the possible arrangements of \(S\) in a clever manner.</p>
+<ol>
+<li>Choose a subset of \(S\) with \(r\) elements call it T. By definition there are \({n}\choose{r}\) choices for T.</li>
+<li>Choose an arrangement of \(T\), by above, the number of arrangements is \(r!\).</li>
+<li>Choose an arrangement of the remaining elements of S. There are \(n-r\) remaining elements so there are \((n-r)!\) different arrangements.</li>
+<li>Note that the number of arrangements of \(S\) is \(n!\).</li>
+</ol>
+<p>The total number of arrangements of \(S\) has to be equal to the product of all the arrangements of the subsets we have chosen above hence
+\[
+n! = r! \times (n-r)! \times {n\choose r}.
+\]
+Rearranging this equation we get that <
+\[
+\frac{n!}{r!(n-r)!} = {n \choose r},
+\]
+and so the proof is complete.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

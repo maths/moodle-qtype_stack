@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.0.8 (Index Laws)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Index Laws</h1>
+
+<p>When \(n\) is a positive integer, the notation \(a^n\) means we multiply \(a\) by itself \(n\) times. We can use this definition to combine indices to simplify expressions. We have already seen this at a basic level when we dealt with quadratics and other polynomials. This leads us to the following set of index laws. These appear very frequently both in mathematics and outside, therefore it is essential to memorise these laws so that we can deal with them appropriately. The following are the index laws for \(m,n \in \mathbb{Z}\)</p>
+<br/>
+<ol>
+<li>\(a^m \times a^n = a^{m+n}\).</li>
+<li>\(\frac{a^m}{a^n} = a^{m-n}, \: a\not=0\).</li>
+<li>\((a^m)^n = a^{m \times n}\).</li>
+<li>\((ab)^n = a^n b^n\).</li>
+<li>\((\frac{a}{b})^n = \frac{a^n}{b^n}, \: a\not=0\).</li>
+<li>\(a^0 = 1, \: a\not=0\).</li>
+<li>\(a^{-n} = \frac{1}{a^n}\) and \(\frac{1}{a^{-n}} = a^n\). In particular, \(a^{-1} = \frac{1}{a}\), \(a \not= 0\).</li>
+</ol>
+<br/>
+<p>We can express these laws in english as follows:</p>
+<ol>
+<li>To multiply numbers with the same base, keep the base and add the indices.</li>
+<li>To divide numbers with the same base, keep the base and subtract the indices.</li>
+<li>When raising a power to another power, keep the base and multiply the indices.</li>
+<li>The power of a product is the product of the powers.</li>
+<li>The power of a quotient is the quotient of the powers.</li>
+<li>Any nonzero number raised to the power \(0\) is equal to \(1\).</li>
+<li>Any nonzero number to the power of minus one is the fraction one over that number. This is sometimes called the inverse in certain contexts.</li>
+</ol>
+<p>Note that these laws also apply to fractional powers.</p>
+<br/>
+<h3>Examples</h3>
+
+<p>Simplify the following expressions using the index laws:</p>
+
+<ol>
+<li>\(\frac{(3^5 \times 3^8)}{3^2}\).</li>
+<li>\((-\frac{2a^2}{b})^3\).</li>
+<li>\((7x^2 \times y^3)\frac{1}{x}\).</li>
+<li>\(\frac{1}{(\sqrt[4]{5})^2}\).</li>
+</ol>
+
+
+<h3>Solutions</h3>
+
+<ol>
+<li>In this case, note that each term has the same base. The numerator therefore becomes \(3^5 \times 3^8 = 3^{5 + 8} = 3^13\). We then have to divide this by \(3^2\) so we subtract the powers to obtain 
+\[
+\frac{(3^5 \times 3^8)}{3^2} = 3^11.
+\]</li>
+<li>We have
+\[
+(-\frac{2a^2}{b})^3 = -\frac{(2a^2)^3}{b^3} = \frac{(-2)^3 \times (a^2)^3}{b^3} = \frac{-8a^6}{b^3}.
+\]</li>
+<li>Write \(\frac{1}{x} = x^{-1}\) then 
+\[
+(7x^2 \times y^3)\frac{1}{x} = (7x^2 \times y^3)x^{-1} = 7xy^3.
+\]</li>
+<li>Recall that fractional powers correspond to nth roots of the base number. In this case we have 
+\[
+\frac{1}{(\sqrt[4]{5})^2} = (\sqrt[4]{5})^{-2} = (5^{\frac{1}{4}})^{-2} = 5^\frac{-2}{4} = 5^\frac{-1}{4}.
+\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

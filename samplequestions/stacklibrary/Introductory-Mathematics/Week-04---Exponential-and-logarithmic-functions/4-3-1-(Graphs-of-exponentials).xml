@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.1 (Graphs of exponentials)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Graphs of exponentials</h1>
+
+<p>In previous weeks, when we have discussed quadratics and other polynomials, we have seen that it is useful to be able to draw graphs of these functions as it gives us graphical (as well as algebraic) methods for analysing them. This is similarly true for both exponentials and logarithmic functions. We have seen that exponentiation and taking logs are inverse processes to each other. This is represented by the fact log and exponential functions are the inverse functions of each other. In this section, we will focus on plotting exponential functions.</p>
+
+<p>We have seen how to evaluate expressions like \(a^x\) when \(x\) is rational. However, if \(x\) is real but not necessarily a fraction it becomes useful to study the graphs of an exponential. We have previously met the main properties of exponential functions, so in this section we will focus on how to use these properties to plot such functions.</p>
+<p>Begin by altering the sliders below in order to see how changing the input value alters a general exponential function.</p>
+</br>
+<iframe scrolling="no" title="Exponential Sliders" src="https://www.geogebra.org/material/iframe/id/rrtt5mgs/width/1920/height/964/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="900px" height="450px" style="border:0px;"> </iframe>
+</br>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

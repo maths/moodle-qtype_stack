@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.1.2 (Example of find triangle information)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>1. Find the hypotenuse of the triangle with angle \(\theta = 36.87^\circ\), the adjacent side of length \(4\) cm and opposite side of length \(3\)cm </p>
+
+<p>2. Find the area of triangle ABC given that \(AB = 11\) cm, \(BC = 15\) cm and the angle between them is \(\theta = 28^\circ\)</p>
+
+<h3>Solution</h3>
+
+<p>1. Note that since we are given that the triangle is right angled we could use Pythagoras to obtain the hypotenuse as we know the tow other sides. In this case we have 
+\[
+3^2 + 4^2 = h^2 \implies h^2 = 25 \implies h = 5
+\]
+let us verify this using trigonometry. We know that \(\sin 36.87^\circ = \frac{4}{h}\). Therefore \(h = \frac{3}{\sin 36.87^\circ} \approx 4.999988 \approx 5\). So \(5\) is indeed the value of the hypotenuse. Note that the approximations here are simply a result of rounding error in that we took the angle to two decimal places only.</p>
+
+<p>2. recall that Area\(= \frac{1}{2}ac \sin B\). Thus we have 
+\[
+\frac{1}{2} \cdot 15 \cdot 11 \cdot \sin 28^\circ \approx 38.7 \mbox{cm}
+\]
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

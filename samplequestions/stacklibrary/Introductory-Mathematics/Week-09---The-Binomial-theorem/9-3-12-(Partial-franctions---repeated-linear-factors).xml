@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.3.12 (Partial franctions - repeated linear factors)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>One other possibility that we could have, when trying to use partial fractions is where we have a repeated linear factor e.g. an expression like \(\dfrac{2x+1}{(x-1)^2}\) . Recall that the aim of the partial fractions decomposition is to arrive at a sum of terms where the numerators are constants. We can achieve this using terms with different powers of \((x-1)\) in the denominator:
+\[
+&nbsp;\dfrac{2x+1}{(x-1)^2} = \dfrac{A}{x-1}+\dfrac{B}{(x-1)^2} = \dfrac{A(x-1)+B}{(x-1)^2}
+\]
+From this, we can easily find \(A\) and \(B\) so that \(A(x-1)+B=2x+1\) -- from the coefficient of \(x\) we see \(A=2\) and then looking at the constant term, we get \(B=3\).
+This technique works more generally. For proper rational functions with a <i>repeated linear factor</i> in the denominator, the partial fractions decomposition consists of terms whose denominators are powers of the linear factor. In particular:
+\[ 
+\dfrac{p(x)}{(x-a)^n} = \dfrac{A_1}{x-a}+\dfrac{A_2}{(x-a)^2}+\cdots+\dfrac{A_n}{(x-a)^n} 
+\]
+So for instance:</p>
+<p></p>
+<ul>
+<li>if the denominator has \((x-a)^2\) then we add terms \(\dfrac{A}{x-a}+\dfrac{B}{(x-a)^2}\).<br></li>
+<li>if the denominator has \((x-a)^3\) then we add terms \(\dfrac{A}{x-a}+\dfrac{B}{(x-a)^2}+\dfrac{C}{(x-a)^3}\).<br></li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

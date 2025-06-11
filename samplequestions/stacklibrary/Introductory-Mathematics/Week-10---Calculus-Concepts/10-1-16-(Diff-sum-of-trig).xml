@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>10.1.16 (Diff sum of trig)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the derivative of the function \( f(x) = {@f@} \).</p>
+<p>\( f'(x) = \) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We have that \(f(x) = {@f@}\), and we know that \(\frac{d}{dx}\cos(x) = -\sin(x)\) and \(\frac{d}{dx} \sin(x) = \cos(x)\).&nbsp; Therefore \[ f'(x) = {@ta1@}.\]<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>a: rand_with_prohib(-20,20,[-1,0,1]);
+b: rand_with_prohib(-20,20,[-1,0,1,a]);
+f: a*sin(x)+b*cos(x);
+ta1: diff(f,x);
+w1: -ta1;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( f(x) = {@f@} \) so \(f'(x) = {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>diff</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Diff</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>w1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1427529293</deployedseed>
+    <deployedseed>217942012</deployedseed>
+    <deployedseed>872381039</deployedseed>
+    <deployedseed>287147807</deployedseed>
+    <deployedseed>465768807</deployedseed>
+    <deployedseed>1447421154</deployedseed>
+    <deployedseed>1222070721</deployedseed>
+    <deployedseed>961803697</deployedseed>
+    <deployedseed>1162015372</deployedseed>
+    <deployedseed>1278827092</deployedseed>
+    <deployedseed>1484232426</deployedseed>
+    <deployedseed>1389180083</deployedseed>
+    <deployedseed>373100876</deployedseed>
+    <deployedseed>1256504561</deployedseed>
+    <deployedseed>1212563552</deployedseed>
+    <deployedseed>167532290</deployedseed>
+    <deployedseed>674419534</deployedseed>
+    <deployedseed>1158751000</deployedseed>
+    <deployedseed>240910183</deployedseed>
+    <deployedseed>579733656</deployedseed>
+    <deployedseed>1867252904</deployedseed>
+    <deployedseed>766291680</deployedseed>
+    <deployedseed>1355555806</deployedseed>
+    <deployedseed>1657415765</deployedseed>
+    <deployedseed>330580652</deployedseed>
+    <deployedseed>2094908991</deployedseed>
+    <deployedseed>1160919894</deployedseed>
+    <deployedseed>1407103430</deployedseed>
+    <deployedseed>708042128</deployedseed>
+    <deployedseed>1138586363</deployedseed>
+    <deployedseed>1529174685</deployedseed>
+    <deployedseed>839251462</deployedseed>
+    <deployedseed>1058919360</deployedseed>
+    <deployedseed>344482337</deployedseed>
+    <deployedseed>1167990483</deployedseed>
+    <deployedseed>1397932380</deployedseed>
+    <deployedseed>1147368328</deployedseed>
+    <deployedseed>950025123</deployedseed>
+    <deployedseed>1298714851</deployedseed>
+    <deployedseed>910046318</deployedseed>
+    <deployedseed>1234600643</deployedseed>
+    <deployedseed>218391039</deployedseed>
+    <deployedseed>1833498819</deployedseed>
+    <deployedseed>1253704482</deployedseed>
+    <deployedseed>2021762011</deployedseed>
+    <deployedseed>1160341167</deployedseed>
+    <deployedseed>1692571535</deployedseed>
+    <deployedseed>1395687990</deployedseed>
+    <deployedseed>1732198167</deployedseed>
+    <deployedseed>2144422484</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>w1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

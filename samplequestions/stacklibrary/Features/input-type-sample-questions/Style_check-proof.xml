@@ -1,282 +1,29 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="description">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
     <name>
       <text>Style check: proof.</text>
     </name>
     <questiontext format="html">
-      <text>&lt;h1&gt;Check of proof styles&lt;/h1&gt;
-
-&lt;p&gt;From STACK 4.3 we support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.&lt;/p&gt;
-
-&lt;h3&gt;&amp;lt;div class=&amp;quot;proof&amp;quot;&amp;gt;&lt;/h3&gt;
-
-&lt;p&gt;This is typical question style, from the Moodle theme, containing the following proof.&lt;/p&gt;
-&lt;div class="proof"&gt;
-&lt;p&gt;Let P(n) be the statement [...] &lt;/p&gt;
-&lt;p&gt;From which we see that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;Back to the typical Moodle style.&lt;/p&gt;
-
-&lt;h3&gt;&amp;lt;div class=&amp;quot;proof-block&amp;quot;&amp;gt;&lt;/h3&gt;
-
-&lt;p&gt;This class allows the teacher to highlight sub-components of a proof.  It is intended to be a nested sub-proof block of a main proof.&lt;/p&gt;
+      <text><![CDATA[<h1>Check of proof styles</h1><p>From STACK 4.3 we support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.</p><h3>&lt;div class=&quot;proof&quot;&gt;</h3><p>This is typical question style, from the Moodle theme, containing the following proof.</p><div class="proof"><p>Let P(n) be the statement [...] </p><p>From which we see that.</p></div><p>Back to the typical Moodle style.</p><h3>&lt;div class=&quot;proof-block&quot;&gt;</h3><p>This class allows the teacher to highlight sub-components of a proof.  It is intended to be a nested sub-proof block of a main proof.</p>
 
 This is typical question style, from the Moodle theme, containing the following proof.
-&lt;div class="proof"&gt;
+<div class="proof">
 This proof has two cases.
-&lt;div class="proof-block"&gt;
-&lt;p&gt;If n is odd then we have&lt;/p&gt;
-&lt;p&gt;[...]&lt;/p&gt;
-&lt;p&gt;and so ...&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;p&gt;If n is even then we have&lt;/p&gt;
-&lt;div class="proof-block"&gt;
-&lt;p&gt;a. even more subcases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;p&gt;b. even more subcases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;and so ...&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;From which we see that in all cases the proof holds.&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;Back to the typical Moodle style.&lt;/p&gt;
-
-&lt;h3&gt;&amp;lt;div class=&amp;quot;proof-line&amp;quot;&amp;gt;, &amp;lt;div class=&amp;quot;proof-num&amp;quot;&amp;gt;, &amp;lt;div class=&amp;quot;proof-step&amp;quot;&amp;gt;, `&amp;lt;div class=&amp;quot;proof-comment&amp;quot;&amp;gt;&lt;/h3&gt;
-
-&lt;p&gt;A typical proof consists of individual lines. Each line is numbered, so we can refer to them later.  The main "meat" of the line is the "proof step" and there is an optional comment.  The proof comment is designed for a comment, to allow an input to ask a question or to act as the second column in a two column proof.&lt;p&gt;
+<div class="proof-block"><p>If n is odd then we have</p><p>[...]</p><p>and so ...</p></div><div class="proof-block"><p>If n is even then we have</p><div class="proof-block"><p>a. even more subcases.</p></div><div class="proof-block"><p>b. even more subcases.</p></div><p>and so ...</p></div><p>From which we see that in all cases the proof holds.</p></div><p>Back to the typical Moodle style.</p><h3>&lt;div class=&quot;proof-line&quot;&gt;, &lt;div class=&quot;proof-num&quot;&gt;, &lt;div class=&quot;proof-step&quot;&gt;, `&lt;div class=&quot;proof-comment&quot;&gt;</h3><p>A typical proof consists of individual lines. Each line is numbered, so we can refer to them later.  The main "meat" of the line is the "proof step" and there is an optional comment.  The proof comment is designed for a comment, to allow an input to ask a question or to act as the second column in a two column proof.<p>
 
 Consider the following proof by induction. \(P(n)\)
-&lt;div class="proof"&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;1.&lt;/div&gt;
- &lt;div class="proof-step"&gt;Let \(P(n)\) be the statement&lt;/div&gt;
- &lt;div class="proof-comment"&gt;The first block of an induction proof must be a clear statement of the "induction hypothesis".&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;2.&lt;/div&gt;
- &lt;div class="proof-step"&gt;.... some maths ....&lt;/div&gt;
- &lt;div class="proof-comment"&gt;Notice, in this case, we have a purely algebraic induction hypothesis.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;3.&lt;/div&gt;
- &lt;div class="proof-step"&gt;Since&lt;/div&gt;
- &lt;div class="proof-comment"&gt;This block is known as the "base case".&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;4.&lt;/div&gt;
- &lt;div class="proof-step"&gt;Something profound and something else&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;5.&lt;/div&gt;
- &lt;div class="proof-step"&gt;it follows that P(1) is true.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;6.&lt;/div&gt;
- &lt;div class="proof-step"&gt;Assume that P(n) is true.&lt;/div&gt;
- &lt;div class="proof-comment"&gt;This block is known as the "induction step".&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;7.&lt;/div&gt;
- &lt;div class="proof-step"&gt;.... lots of complex working ....&lt;/div&gt;
- &lt;div class="proof-comment"&gt;We just consider the sum which occurs in P(n+1) and start to rearrange this.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;8.&lt;/div&gt;
- &lt;div class="proof-step"&gt;More working&lt;/div&gt;
- &lt;div class="proof-comment"&gt;We are assuming P(n) is true, and here we use this fact.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;9.&lt;/div&gt;
- &lt;div class="proof-step"&gt;More working.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;10.&lt;/div&gt;
- &lt;div class="proof-step"&gt;Which gives us what we want&lt;/div&gt;
- &lt;div class="proof-comment"&gt;Notice we have rearranged the algebra to give us the right hand side of P(n+1).&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;11.&lt;/div&gt;
- &lt;div class="proof-step"&gt;Hence P(n+1) is true.&lt;/div&gt;
- &lt;div class="proof-comment"&gt;This block is the conclusion of the proof.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;12.&lt;/div&gt;
- &lt;div class="proof-step"&gt;Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h3&gt;&amp;lt;div class=&amp;quot;proof-column&amp;quot;&amp;gt;, &amp;lt;div class=&amp;quot;proof-column-2&amp;quot;&amp;gt;&lt;/h3&gt;
-
-&lt;p&gt;Alternatively, you can use columns, which are fixed at a width of 48%.  The design assumes two columns and line numbers. Additionally, `proof-column-2` has a different visual style for emphasis.&lt;/p&gt;
-
-&lt;p&gt;Here is a proof of the great and wonderful theorem.&lt;/p&gt;
- &lt;div class="proof"&gt;
+<div class="proof"><div class="proof-block"><div class="proof-line"><div class="proof-num">1.</div><div class="proof-step">Let \(P(n)\) be the statement</div><div class="proof-comment">The first block of an induction proof must be a clear statement of the "induction hypothesis".</div></div><div class="proof-line"><div class="proof-num">2.</div><div class="proof-step">.... some maths ....</div><div class="proof-comment">Notice, in this case, we have a purely algebraic induction hypothesis.</div></div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">3.</div><div class="proof-step">Since</div><div class="proof-comment">This block is known as the "base case".</div></div><div class="proof-line"><div class="proof-num">4.</div><div class="proof-step">Something profound and something else</div></div><div class="proof-line"><div class="proof-num">5.</div><div class="proof-step">it follows that P(1) is true.</div></div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">6.</div><div class="proof-step">Assume that P(n) is true.</div><div class="proof-comment">This block is known as the "induction step".</div></div><div class="proof-line"><div class="proof-num">7.</div><div class="proof-step">.... lots of complex working ....</div><div class="proof-comment">We just consider the sum which occurs in P(n+1) and start to rearrange this.</div></div><div class="proof-line"><div class="proof-num">8.</div><div class="proof-step">More working</div><div class="proof-comment">We are assuming P(n) is true, and here we use this fact.</div></div><div class="proof-line"><div class="proof-num">9.</div><div class="proof-step">More working.</div></div><div class="proof-line"><div class="proof-num">10.</div><div class="proof-step">Which gives us what we want</div><div class="proof-comment">Notice we have rearranged the algebra to give us the right hand side of P(n+1).</div></div><div class="proof-line"><div class="proof-num">11.</div><div class="proof-step">Hence P(n+1) is true.</div><div class="proof-comment">This block is the conclusion of the proof.</div></div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">12.</div><div class="proof-step">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div></div></div></div><h3>&lt;div class=&quot;proof-column&quot;&gt;, &lt;div class=&quot;proof-column-2&quot;&gt;</h3><p>Alternatively, you can use columns, which are fixed at a width of 48%.  The design assumes two columns and line numbers. Additionally, `proof-column-2` has a different visual style for emphasis.</p><p>Here is a proof of the great and wonderful theorem.</p><div class="proof">
   The proof has two cases.
-  &lt;div class="proof-block"&gt;
-   &lt;div class="proof-line"&gt;
-    &lt;div class="proof-num"&gt;1.&lt;/div&gt;
-    &lt;div class="proof-column"&gt;The proof itself is in the first column.&lt;/div&gt;
-    &lt;div class="proof-column-2"&gt;The second column can contain comments, here in &lt;code&gt;proof-column-2&lt;/code&gt; style. &lt;/div&gt;
-   &lt;/div&gt;
-   &lt;div class="proof-line"&gt;
-    &lt;div class="proof-num"&gt;2.&lt;/div&gt;
-    &lt;div class="proof-column"&gt;The proof continues.&lt;/div&gt;
-    &lt;div class="proof-column-2"&gt;With further comments.&lt;/div&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class="proof-block"&gt;
-   &lt;div class="proof-line"&gt;
-    &lt;div class="proof-num"&gt;3.&lt;/div&gt;
-    &lt;div class="proof-column"&gt;The second case of the proof.&lt;/div&gt;
-    &lt;div class="proof-column"&gt;The second column can contain comments, here in &lt;code&gt;proof-column&lt;/code&gt; style. &lt;/div&gt;
-   &lt;/div&gt;
-   &lt;div class="proof-line"&gt;
-    &lt;div class="proof-num"&gt;4.&lt;/div&gt;
-    &lt;div class="proof-column"&gt;The proof continues.&lt;/div&gt;
-    &lt;div class="proof-column"&gt;With further comments.&lt;/div&gt;
-   &lt;/div&gt;
-   &lt;div class="proof-block"&gt;
-    &lt;div class="proof-line"&gt;
-     &lt;div class="proof-num"&gt;5.&lt;/div&gt;
-     &lt;div class="proof-column"&gt;The proof continues.&lt;/div&gt;
-     &lt;div class="proof-column"&gt;With further comments.&lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class="proof-line"&gt;
-     &lt;div class="proof-num"&gt;6.&lt;/div&gt;
-     &lt;div class="proof-column"&gt;The proof continues, without comment.&lt;/div&gt;
-    &lt;/div&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
-
-&lt;h3&gt;&amp;lt;div class=&amp;quot;proof-column&amp;quot;&amp;gt;&lt;/h3&gt;
-
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-column"&gt;Lines don't need to have &lt;code&gt;proof-num&lt;/code&gt; or &lt;code&gt;proof-block&lt;/code&gt;&lt;/div&gt;
- &lt;div class="proof-column"&gt;With further comments.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-column"&gt;The proof continues.&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;With further comments.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-column"&gt;This concludes the proof.&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;It is possible to use `proof-column-2` style in the first column, but this looks odd and is not recommended.  The `proof-column-2` style is intended for only the second column.  The `proof-column` style is intended to be used in both columns.&lt;/p&gt;
-
-&lt;p&gt;Consider the following proof by induction. \(P(n)\)&lt;/p&gt;
-&lt;div class="proof"&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;1.&lt;/div&gt;
- &lt;div class="proof-column"&gt;Let P(n) be the statement&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;The first block of an induction proof must be a clear statement of the "induction hypothesis".&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;2.&lt;/div&gt;
- &lt;div class="proof-column"&gt;.... some maths ....&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;Notice, in this case, we have a purely algebraic induction hypothesis.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;3.&lt;/div&gt;
- &lt;div class="proof-column"&gt;Since&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;This block is known as the "base case".&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;4.&lt;/div&gt;
- &lt;div class="proof-column"&gt;Something profound and something else&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;5.&lt;/div&gt;
- &lt;div class="proof-column"&gt;it follows that P(1) is true.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;6.&lt;/div&gt;
- &lt;div class="proof-column"&gt;Assume that P(n) is true.&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;This block is known as the "induction step".&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;7.&lt;/div&gt;
- &lt;div class="proof-column"&gt;.... lots of complex working ....&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;We just consider the sum which occurs in P(n+1) and start to rearrange this.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;8.&lt;/div&gt;
- &lt;div class="proof-column"&gt;More working&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;We are assuming P(n) is true, and here we use this fact.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;9.&lt;/div&gt;
- &lt;div class="proof-column"&gt;More working.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;10.&lt;/div&gt;
- &lt;div class="proof-column"&gt;Which gives us what we want&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;Notice we have rearranged the algebra to give us the right hand side of P(n+1).&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;11.&lt;/div&gt;
- &lt;div class="proof-column"&gt;Hence P(n+1) is true.&lt;/div&gt;
- &lt;div class="proof-column-2"&gt;This block is the conclusion of the proof.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="proof-block"&gt;
-&lt;div class="proof-line"&gt;
- &lt;div class="proof-num"&gt;12.&lt;/div&gt;
- &lt;div class="proof-column"&gt;Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;h3&gt;&amp;lt;ol class=&amp;quot;proof-steps&amp;quot;&amp;gt;&lt;/h3&gt;
-
-&lt;p&gt;This class enables ordered lists to have connected numbered statements.&lt;/p&gt;
-
-&lt;ol class="proof-steps"&gt;
-&lt;li&gt;Let A be an n by n matrix and let R be the reduced row echelon form of A.&lt;/li&gt;
-&lt;li&gt;We will show first that det(A) is not zero if and only if det(R) is not zero.&lt;/li&gt;
-&lt;li&gt;Let &lt;ol&gt;
-&lt;li&gt;E1,&lt;/li&gt;
-&lt;li&gt;E2,&lt;/li&gt;
-&lt;/ol&gt; ... Er be the elementary matrices corresponding to the elementary row operations that reduce A to R.&lt;/li&gt;
-&lt;li&gt;Then Er ... E1 A = [[input:ans1]]]&lt;/li&gt;
-&lt;li&gt;Taking determinants of both sides, we obtain: det(Er) ... det(E_1) det(A) = det(R).&lt;/li&gt;
-&lt;li&gt;The determinants of all the elementary matrices are all [[input:ansdropdown]]]&lt;/li&gt;
-&lt;li&gt;We conclude that det(A) is not zero if and only if det(R) is not zero.&lt;/li&gt;
-&lt;li&gt;Now suppose that A is invertible.
- &lt;ol class="proof-steps"&gt;
- &lt;li&gt;Then R =  [[input:ans4]]&lt;/li&gt;
- &lt;li&gt;Thus, det(R) = [[input:ans3]] and hence det(A) is not zero.&lt;/li&gt;
- &lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;Conversely, if det(A) is not zero then det(R) is not zero, so R cannot have a zero row.&lt;/li&gt;
-&lt;li&gt;Thus R = I and A is invertible as required. &lt;/li&gt;
-&lt;/ol&gt;</text>
+  <div class="proof-block"><div class="proof-line"><div class="proof-num">1.</div><div class="proof-column">The proof itself is in the first column.</div><div class="proof-column-2">The second column can contain comments, here in <code>proof-column-2</code> style. </div></div><div class="proof-line"><div class="proof-num">2.</div><div class="proof-column">The proof continues.</div><div class="proof-column-2">With further comments.</div></div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">3.</div><div class="proof-column">The second case of the proof.</div><div class="proof-column">The second column can contain comments, here in <code>proof-column</code> style. </div></div><div class="proof-line"><div class="proof-num">4.</div><div class="proof-column">The proof continues.</div><div class="proof-column">With further comments.</div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">5.</div><div class="proof-column">The proof continues.</div><div class="proof-column">With further comments.</div></div><div class="proof-line"><div class="proof-num">6.</div><div class="proof-column">The proof continues, without comment.</div></div></div></div></div><h3>&lt;div class=&quot;proof-column&quot;&gt;</h3><div class="proof-line"><div class="proof-column">Lines don't need to have <code>proof-num</code> or <code>proof-block</code></div><div class="proof-column">With further comments.</div></div><div class="proof-line"><div class="proof-column">The proof continues.</div><div class="proof-column-2">With further comments.</div></div><div class="proof-line"><div class="proof-column">This concludes the proof.</div></div><p>It is possible to use `proof-column-2` style in the first column, but this looks odd and is not recommended.  The `proof-column-2` style is intended for only the second column.  The `proof-column` style is intended to be used in both columns.</p><p>Consider the following proof by induction. \(P(n)\)</p><div class="proof"><div class="proof-block"><div class="proof-line"><div class="proof-num">1.</div><div class="proof-column">Let P(n) be the statement</div><div class="proof-column-2">The first block of an induction proof must be a clear statement of the "induction hypothesis".</div></div><div class="proof-line"><div class="proof-num">2.</div><div class="proof-column">.... some maths ....</div><div class="proof-column-2">Notice, in this case, we have a purely algebraic induction hypothesis.</div></div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">3.</div><div class="proof-column">Since</div><div class="proof-column-2">This block is known as the "base case".</div></div><div class="proof-line"><div class="proof-num">4.</div><div class="proof-column">Something profound and something else</div></div><div class="proof-line"><div class="proof-num">5.</div><div class="proof-column">it follows that P(1) is true.</div></div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">6.</div><div class="proof-column">Assume that P(n) is true.</div><div class="proof-column-2">This block is known as the "induction step".</div></div><div class="proof-line"><div class="proof-num">7.</div><div class="proof-column">.... lots of complex working ....</div><div class="proof-column-2">We just consider the sum which occurs in P(n+1) and start to rearrange this.</div></div><div class="proof-line"><div class="proof-num">8.</div><div class="proof-column">More working</div><div class="proof-column-2">We are assuming P(n) is true, and here we use this fact.</div></div><div class="proof-line"><div class="proof-num">9.</div><div class="proof-column">More working.</div></div><div class="proof-line"><div class="proof-num">10.</div><div class="proof-column">Which gives us what we want</div><div class="proof-column-2">Notice we have rearranged the algebra to give us the right hand side of P(n+1).</div></div><div class="proof-line"><div class="proof-num">11.</div><div class="proof-column">Hence P(n+1) is true.</div><div class="proof-column-2">This block is the conclusion of the proof.</div></div></div><div class="proof-block"><div class="proof-line"><div class="proof-num">12.</div><div class="proof-column">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div></div></div></div></div><h3>&lt;ol class=&quot;proof-steps&quot;&gt;</h3><p>This class enables ordered lists to have connected numbered statements.</p><ol class="proof-steps"><li>Let A be an n by n matrix and let R be the reduced row echelon form of A.</li><li>We will show first that det(A) is not zero if and only if det(R) is not zero.</li><li>Let <ol><li>E1,</li><li>E2,</li></ol> ... Er be the elementary matrices corresponding to the elementary row operations that reduce A to R.</li><li>Then Er ... E1 A = [[input:ans1]]]</li><li>Taking determinants of both sides, we obtain: det(Er) ... det(E_1) det(A) = det(R).</li><li>The determinants of all the elementary matrices are all [[input:ansdropdown]]]</li><li>We conclude that det(A) is not zero if and only if det(R) is not zero.</li><li>Now suppose that A is invertible.
+ <ol class="proof-steps"><li>Then R =  [[input:ans4]]</li><li>Thus, det(R) = [[input:ans3]] and hence det(A) is not zero.</li></ol></li><li>Conversely, if det(A) is not zero then det(R) is not zero, so R cannot have a zero row.</li><li>Thus R = I and A is invertible as required. </li></ol>]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text />
+      <text/>
     </generalfeedback>
-    <defaultgrade>0.0000000</defaultgrade>
-    <penalty>0.0000000</penalty>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
     <hidden>0</hidden>
-    <idnumber />
+    <idnumber/>
   </question>
-
-
-  </quiz>
+</quiz>

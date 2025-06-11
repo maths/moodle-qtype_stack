@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.2.4 (Cubic classification table)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The following are all the possible forms that the factorised cubic can take:</p><p></p><ol><li>\(a(x-\alpha)(x-\beta)(x-\gamma)\)</li><li>\(a(x-\alpha)^2(x-\beta)\)</li><li>\(a(x-\alpha)^3\)</li><li>\((x-\alpha)(ax^2+bx+c)\) with \(b^2-4ac&lt;0\)</li></ol><p></p><p><b></b></p><p>Complete the following table showing what a sketch of the graph might look like for each form:</p><p><iframe src="https://html5.is.ed.ac.uk/george-kinnear/wp-admin/admin-ajax.php?action=h5p_embed&amp;id=1" width="640" height="400" frameborder="0" allowfullscreen="allowfullscreen"></iframe><script src="https://html5.is.ed.ac.uk/george-kinnear/wp-content/plugins/h5p/h5p-php-library/js/h5p-resizer.js" charset="UTF-8"></script></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

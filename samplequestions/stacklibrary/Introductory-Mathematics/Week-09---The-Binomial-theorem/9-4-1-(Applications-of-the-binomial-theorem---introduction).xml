@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.4.1 (Applications of the binomial theorem - introduction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>This week we have looked at the various properties of the Binomial Theorem. Specifically we have seen how we can use the Binomial Theorem to expand bracket with both positive and negative powers. However, perhaps most importantly, we have seen how the Binomial theorem is intimately related to the ideas of counting, combinations and permutations. This is a subject within mathematics called <i>combinatorics</i> and it is is very useful in areas as different as computer science and probability. In this section we will take a look at the history of combinatorics, and the history of the binomial theorem. Then we will examine some real world uses of Binomials, specifically focussing on its use within statistics.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

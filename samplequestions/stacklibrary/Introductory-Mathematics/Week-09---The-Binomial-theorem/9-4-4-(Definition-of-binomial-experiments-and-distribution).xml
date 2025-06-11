@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text><![CDATA[9.4.4 (Definition of binomial experiments & distribution)]]></text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Binomial experiment</h3>
+
+<p>A <b>binomial experiment</b> is a statistical experiment in which:</p>
+<ul style="list-style-type:none;">
+<li>there are a fixed number of <b>independent</b>trials.</li>
+<li>there are only two possible results for each trial: <b>success</b> if some event occurs and <b>failure</b> if the event does not occur.</li>
+<li>the probability of success in each trial is the same.</li>
+</ul>
+<p>If \(X\) is the number of successes in a binomial experiment with \(n\) trials, each with probability of success \(p\), then \(X\) is called a <b>binomial random variable.</b> Note that here an <b>independent</b> trial is one where the outcome of one trial does not affect another. Thus, coin tosses are a binomial random variable but picking a coloured marble out of a bag with marbles of three colours is not a binomial random variable.</p>
+<br/>
+<p>We can extend our observations of the coin toss experiment above to see that the probability of a binomial random variable is given by the following probability function. This is a function which tells us how to work out the probability of event \(x\) occurring.</p>
+<p>Suppose that \(X\) is a binomial random variable with \(n\) independent trials and probability of success \(p\). The <b>probability function</b> of \(X\) is given by 
+\[
+p(x) = P(X = x) = {n \choose x} p^x (1-p)^{n-x}, \qquad \mbox{ where } x = 0,1,2,3,\dots
+\]
+Here, the \( {n \choose x} \) term represents the number of ways \(x\) successes can be ordered amongst the \(n\) trials and the \(p^x (1-p)^{n-x}\) is the probability of obtaining \(x\) successes and \(n-x\) failures in a particular order.</p>
+<p>The probability distribution of \(X\) is called the <b>Binomial distribution</b> and we write 
+\[
+X \sim B(n,p). 
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

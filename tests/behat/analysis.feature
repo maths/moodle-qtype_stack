@@ -33,7 +33,7 @@ Feature: Test analysis response page
       | Random (Test questions) | 1    |
 
   @javascript
-  Scenario: Analyse a question
+  Scenario: Analyse a question in Moodle ≥ 4.1
     Given the site is running Moodle version 4.1 or higher
     And I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
     And I press "Attempt quiz"
@@ -55,7 +55,7 @@ Feature: Test analysis response page
     And I should see "## prt1: 1 (100.00%); # = 1 | prt1-1-T"
 
   @javascript
-  Scenario: Analyse a question
+  Scenario: Analyse a question in Moodle ≤ 4.0
     Given the site is running Moodle version 4.0 or lower
     And I am on the "Quiz 1" "mod_quiz > View" page logged in as "student"
     And I press "Attempt quiz"

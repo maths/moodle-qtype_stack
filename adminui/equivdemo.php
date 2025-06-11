@@ -81,7 +81,7 @@ $samplearguments = $data->rawdata;
 $options = new stack_options();
 $options->set_site_defaults();
 $options->set_option('simplify', false);
-$options->set_option('multiplicationsign', 'none');
+$options->set_option('multiplicationsign', 'space');
 
 $casstrings = [];
 $i = 0;

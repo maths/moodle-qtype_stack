@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.7 (If and only if proofs)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Equivalence and exhaustion</h1>
+
+<p>In the previous section we have seen that we can prove implications of the form \(A \implies B\) by use of deductive reasoning in <i>direct proof</i>. In this section we will look at how we can prove equivalences. Recall that we say two statements \(A\) and \(B\) are equivalent (written \(A \iff B\) read \(A\) if and only if \(B\)) if both \(A \implies B\) <i>and</i> \(B \implies A\). A proof that involves proving an equivalence is sometimes called an <b>if and only if</b> proof, referencing the equivalence of the statements \(A\) and \(B\). We shall see that in order to have a valid if and only if proof we must prove <b>both</b> implications or directions.</p>
+<br/>
+
+<h3>Example</h3>
+
+<b>Lemma:</b> Suppose that \(n=10a+b\), where \(a, b \in \mathbb{Z}_+\). Prove that \(n\) is a multiple of \(9\) iff (a+b) is a multiple of \(9\).
+<div class="proof">
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step"> Notice that a positive integer being multiple of \(9\) means that it can be written in the form \(9k\), where \(k \in \mathbb{Z}\). So the above statement is saying: 
+\[
+n = 9k \iff (a+b) = 9l
+\]
+</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step">We shall prove the \("\implies"\) direction first, that is, we will show \(n = 9k \implies (a+b)  = 9l.\)</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">So, suppose that \(n = 9k\), then 
+\[
+9k = 10a+b = 9a + a + b = 9a + (a+b).
+\]
+</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">Then rearranging, we have 
+\[
+a+ b = 9k - 9a = 9(k-a).
+\]</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-step">Therefore by definition, \(a+b\) is a multiple of \(9\) and we have proved the <i>forward</i> direction (that is, we have proved that \(n = 9k \implies (a+b)  = 9l.))</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">We must now prove the reverse direction (that is, we must prove that \((a+b) = 9l \implies n = 9k\).) </div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-step">So suppose that \((a+b) = 9l\) then,
+\[
+n = 10a + b = 9a + (a + b) = 9a + 9l = 9(a+l)
+\]</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">6.</div>
+ <div class="proof-step">Hence, \(n\) is a multiple of \(9\) and we have proved the <i>reverse direction</i>. Since we have proved both directions, the proof is complete.</div>
+</div>
+</div>
+
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

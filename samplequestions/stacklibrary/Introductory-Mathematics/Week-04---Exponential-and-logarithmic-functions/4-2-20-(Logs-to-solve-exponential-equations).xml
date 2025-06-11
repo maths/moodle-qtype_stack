@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.20 (Logs to solve exponential equations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Logs as the inverse of exponentials</h1>
+
+<p>In the previous section we saw how to solve certain exponential equations algebraically by making the bases the same and equating the indices. However, it is not always easy to make the bases the same. This is when we must use logarithms to solve such equations. Begin by considering the following example.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Simplify the expression \(10^{\log x}\).</p>
+
+<h3>Solution</h3>
+
+<p>Let \(y=10^{\log x}\), then take logs (to base \(10\)) of both sides:
+\[
+\log y =\log (10^{\log x}) =(\log x)\log 10,
+\]
+where we have used: \(\log A^k=k\log A\). However, since we are using logs to base \(10\), 
+\(\log 10=1\) and so \(\log y=\log x\), which implies \(y=x\). Therefore, finally we conclude that \(10^{\log x}=x\).</p>
+<br/>
+<p>This is an important result, true for logarithms of any base. It follows from the basic definition of the logarithm. Therefore we see that raising to the power and taking logs are <b>inverse</b> operations:
+\[
+a^{\log_a x}=x,\\ \log_a(a^x) =x.
+\]
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

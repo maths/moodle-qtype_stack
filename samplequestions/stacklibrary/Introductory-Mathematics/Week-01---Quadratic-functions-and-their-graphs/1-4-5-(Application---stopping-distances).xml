@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.5 (Application - stopping distances)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Why you should never tailgate</h1>
+
+<p>A more modern application of quadratic equations is to govern breaking distances for road traffic. In this section we shall look at the mathematics behind why one should never tailgate (i.e. why you should always leave enough room between cars). We will discuss the reason behind the implementation of minimum stopping distances by highway code. Specifically, we discuss how to use a quadratic equation to compute the stopping distance of a car travelling at a given speed.</p>
+
+<p>In order to delve into this problem, we first need to recall some of the equations of motion. Note that these equations are strictly true for particles under constant acceleration where motion is in a straight line. However, it is useful to simplify real life situations to mathematical models that will give decent approximate solutions. We shall require the following equations of motion
+\[
+\begin{align}
+v = u + at \qquad (1)
+\\
+s = ut +\frac{1}{2}at^2 \qquad (2)
+\\
+s = \frac{u^2}{2a} \qquad (3)
+\end{align}
+\]
+In these equations \(u\) is the initial velocity, \(a\) is acceleration, \(v\) is final velocity, \(s\) is the distance travelled and \(t\) is time. We can see that Equation (2) is a quadratic equation as the \(t\) has a squared term. For our purposes, we can solve this equation to find the stopping distance of a car \(s\), at a given speed \(u\) after time \(t\) under constant braking (i.e under a deceleration) \(-a\). Note that we can derive equation (3) from the previous equations as follows. If the car were traveling at initial speed \(u\), and comes to a stop then \(v = 0\) under a constant deceleration \(–a\), then equation (1) becomes \(0 = u - at\) or, rearranging for \(t\) we have \(t = \frac{u}{a}\). We can then substitute this value of \(t\) into Equation (2) (replacing \(a\) with \(-a\)) to obtain
+\[
+\begin{align*}
+s &amp;= ut - \frac{1}{2}at^2
+\\
+&amp;= u \cdot \frac{u}{a} - \frac{1}{2} a \cdot \frac{u^2}{a^2}
+\\
+&amp;= \frac{u^2}{2a}.
+\end{align*}
+\]
+Therefore we have obtained Equation (3). This is also a quadratic equation, but this time it is a quadratic in \(u\) as this is the variable which appears as a squared term. We will now look at how we can solve the quadratics in Equations (2) and (3) in order to answer the questions: </p>
+<p>1.<i>How far will a car travelling at a given speed travel before coming to a complete stop once the breaks are applied?</i>
+</p>
+<br>
+<h3>Example</h3>
+Suppose that a car can come to a stop in \(6\) seconds after the brakes are applied from a speed of \(30 \: ms^{-1}\)  with a (constant) deceleration of \(5 \: ms^{-2}\) (metres per second per second). How far will the car travel before coming to a stop?
+
+<h3>Solution</h3>
+
+<p>We can use Equation (2) or Equation (3) to answer this question. We have
+\[
+t = 6 \qquad u = 30 \qquad a=-5.
+\]
+Hence substituting these values into Equation (2) ,
+\[
+\begin{align*}
+s &amp;= 30 \cdot 6 - \frac{1}{2} \cdot 5 \cdot 6^2 
+\\
+&amp;= 180 - 90
+\\
+&amp;= 90 \mbox{ metres}.
+\end{align*}
+\]
+Note that if we had used Equation (3) instead we also get
+\[
+s = \frac{30^2}{2 \cdot 5} = \frac{900}{10} = 90 \mbox{ metres}.
+\]
+In both cases we can see that the car will travel \(90\) metres after the brakes have been engaged.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -15,15 +15,14 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script provides test cases for the numerical rounding tests.
- *
- *
  * @package    qtype_stack
  * @copyright  2016 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Class
+/*
+ * This class provides fixture test cases for the numerical rounding tests.
+ */
 class stack_numbers_test_data {
 
     // In this text digits are 1-9 and 0 is not a digit.
@@ -71,24 +70,59 @@ class stack_numbers_test_data {
         ["e+4.3e21^k", 2, 2, 1, '"~,1e"', '%e+4.3^k', 'dispdp requires a real number argument.'],
     ];
 
+    // Use the format array("string", decimal places, result, errors).
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    protected static $rawdatadecimalplaces = [
+
+        // Error trapping.
+        ["3.1415", "x", "3.14", "decimalplaces cannot create a non-integer number of decimal places. Got: x\n"],
+        // No rounding.
+        ["3.1415", 2, "3.14", ''],
+        // Rounding happens.
+        ["3.1415", 3, "3.142", ''],
+        // Bankers rounding happens.  Note that 3.45->3.4 not to 3.5.
+        ["3.35", 1, "3.4", ''],
+        ["3.45", 1, "3.4", ''],
+        ["3.55", 1, "3.6", ''],
+        // Rounding to zero places gives an integer, not float.
+        ["3.0", 0, "3", ''],
+        ["3.1415", 0, "3", ''],
+        ["0.9999", 0, "1", ''],
+        // Integers always return integers, not floats.
+        ["7", 0, "7", ''],
+        ["7", 1, "7", ''],
+        ["7", 4, "7", ''],
+        // Integer returned when dps asked for, and we would have .0, i.e. it rounds to nearest integer.
+        ["0.9999", 1, "1", ''],
+        ["0.9999", 2, "1", ''],
+        ["0.9999", 4, "0.9999", ''],
+        // Decimal places evaluates its arguments.
+        ["%pi^2", 2, "9.87", ''],
+        // Negative numbers perform rounding anyway, and this returns an integer.
+        ["314.15", "-2", "300", ''],
+        ["72", "-1", "70", ''],
+        // Non-numbers return unchanged (but no error, don't recurse over the expression tree either).
+        ["314.15*x", "1", "314.15*x", ''],
+    ];
+
     // Use the format array("string", lower, upper, decimal places).
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $rawdatautils = [
 
-            // Scientific notation.
+        // Scientific notation.
         ["4.320e-3", 4, 4, 3, '"~,3e"'], // After a digit, zeros after the decimal separator are always significant.
-            // If no digits before a zero that zero is not significant even after the decimal separator.
+        // If no digits before a zero that zero is not significant even after the decimal separator.
         ["0.020e3", 2, 2, 3, '"~,1e"'],
         ["1.00e3", 3, 3, 2, '"~,2e"'],
         ["10.0e1", 3, 3, 1, '"~,2e"'],
         ["0.020E3", 2, 2, 3, '"~,1e"'],
         ["1.00E3", 3, 3, 2, '"~,2e"'],
         ["10.0E1", 3, 3, 1, '"~,2e"'],
-            // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
+        // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
         ["52435*mg", 5, 5, 0, '"~a"'],
         ["-12.00*m", 4, 4, 2, '"~,2f"'],
         ["-(12.00*m)", 4, 4, 2, '"~,2f"'],
-            // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
+        // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
         ["1030*m/s", 3, 4, 0, '"~a"'],
         ["1.23*4", 3, 3, 2, '"~,2f"'],
         ["4*3.21", 1, 1, 0, '"~a"'],
@@ -99,6 +133,11 @@ class stack_numbers_test_data {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data() {
         return self::$rawdata;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function get_raw_test_data_decimalplaces() {
+        return self::$rawdatadecimalplaces;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

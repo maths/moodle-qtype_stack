@@ -3082,11 +3082,11 @@ class stack_answertest_test_data {
         // Functionality test.
         [
             'Levenshtein', '0.9', '"Hello"', '[["Hello"], ["Goodbye"]]', 1,
-            'ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].', 'Usage tests',
+            'ATLevenshtein_true: [[1,"Hello"],[0,"Goodbye"]].', 'Usage tests',
         ],
         [
             'Levenshtein', '[0.9]', '"hello"', '[["Hello"], ["Goodbye"]]', 1,
-            'ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].', '',
+            'ATLevenshtein_true: [[1,"Hello"],[0,"Goodbye"]].', '',
         ],
         // Also tests <= in comparisons, using a fine error.
         [
@@ -3124,12 +3124,12 @@ class stack_answertest_test_data {
         [
             'Levenshtein', '0.75', 'sremove_chars(".,!?", "Good, day!")',
             '[["Hello", "Good day", "Hi"], ["Goodbye", "Bye", "Fairwell"]]',
-            1, 'ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].', '',
+            1, 'ATLevenshtein_true: [[1,"Good day"],[0.5,"Goodbye"]].', '',
         ],
         [
             'Levenshtein', '0.75', '"   good     day  "',
             '[["Hello", "Good day", "Hi"], ["Goodbye", "Bye", "Fairwell"]]',
-            1, 'ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].', '',
+            1, 'ATLevenshtein_true: [[1,"Good day"],[0.5,"Goodbye"]].', '',
         ],
         [
             'Levenshtein', '[0.75, WHITESPACE]', '"   good     day  "',

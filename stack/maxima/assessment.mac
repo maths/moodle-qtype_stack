@@ -772,22 +772,31 @@ remove_numerical_inert(ex) := block(
     return(ex)
 )$
 
-/* Write the number ex in n decimal places */
+/* Round the number ex to n decimal places.  Return either the number, or an intert form. */
 decimalplacesfun(ex, n, dispdps) := block([ex2],
     ex2:ev(float(round(10^n*float(ex))/(10^n)), lg=logbasesimp, simp),
     if dispdps then ex2:displaydp(ex2, n),
     return(ex2)
 )$
 
+/* Evaluates and rounds, but does not display trailing zeros or use inert forms. */
 decimalplaces(ex, n):= block(
-    if n=0 then return(round(ex)), 
+    if ev(not(integerp(n)),simp) then error("decimalplaces cannot create a non-integer number of decimal places. Got:", n),
+    if not(real_numberp(ex)) then return(ex),
+    /* The above is a choice.  We could throw an error instead.
+    if not(real_numberp(ex)) then error("decimalplaces requires a real number argument. Got:", ex),
+    */
+    if n=0 then return(ev(round(ex),simp)),
+    ex:decimalplacesfun(ex, n, false),
     if integerp(ex) then return(ex),
-    decimalplacesfun(ex, n, false)
+    if equal(ex,ev(round(ex),simp)) then return(ev(round(ex),simp)),
+    return(ex)
 )$
 
+/* Evaluates and rounds, and displays trailing zeros useing an inert form. */
 dispdp(ex, n) := block(
     if not(real_numberp(ex)) then error("dispdp requires a real number argument."),
-    if not(integerp(n)) then error("dispdp cannot create a non-integer number of decimal places."),
+    if ev(not(integerp(n)),simp) then error("dispdp cannot create a non-integer number of decimal places."),
     decimalplacesfun(ex, n, true)
 )$
 

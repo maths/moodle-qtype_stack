@@ -31,6 +31,7 @@ and then re-start the web server.
 Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).
 
 * STACK has been tested on Moodle 4.0 to Moodle 4.5 inclusive.
+* STACK will be available for Moodle 5.0 in a (near) future release.  Follow [issue #1496](https://github.com/maths/moodle-qtype_stack/issues/1496) for details.
 * We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
 
 Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.

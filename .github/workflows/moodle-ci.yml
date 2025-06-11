@@ -67,7 +67,7 @@ jobs:
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
-            moodle-app: false
+            moodle-app: null
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})

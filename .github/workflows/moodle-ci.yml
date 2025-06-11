@@ -32,7 +32,7 @@ jobs:
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL.
         include:
-          - php: '8.2'
+          - php: '8.4'
             moodle-branch: 'main'
             database: 'pgsql'
             maxima: 'GCL'
@@ -67,7 +67,7 @@ jobs:
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
-            moodle-app: true
+            moodle-app: false
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})

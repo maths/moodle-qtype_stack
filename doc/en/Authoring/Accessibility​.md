@@ -17,7 +17,7 @@ Please consider/check the following key points:
 * Links: Please add text to links rather than a full `https://` link, as it slows down screen reader users and makes navigation using verbal commands very difficult. However, avoid link text such as 'here' or 'read more', make each link disenable from other links on the page, and make it as clear as you can where the link leads just from the text. See [useful link text guidance](https://www.norfolk.gov.uk/article/44520/Links-and-link-text).
 * Colour:
   * do not use colour alone to convey meaning e.g. in a plot.
-  * Ensure your text has contrast levels of at least 4:5:1, this can be easily checked with the [WebAIM contrast checker](webaim.org/resources/contrastchecker/).
+  * Ensure your text has contrast levels of at least 4:5:1, this can be easily checked with the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/).
 * JSXGraphs:
   * JSXGraphs are figures so must have alternative text. To add a description to a JSXGraph, use the `description` attribute in the board setup. For example:
   `description: 'Graph of the function f(x) = x squared'`.

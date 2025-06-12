@@ -1,4 +1,5 @@
 # Binding JSXGraph states to inputs
+
 ## General considerations when building interactive graphs {#manual_binding}
 
 In general you should pay attention on how your graph reacts to the student returning to the page/question later. For example, will your graph

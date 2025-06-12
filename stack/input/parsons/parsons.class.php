@@ -23,11 +23,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../string/string.class.php');
+require_once(__DIR__ . '/../json/json.class.php');
 require_once(__DIR__ . '/../../utils.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class stack_parsons_input extends stack_string_input {
+class stack_parsons_input extends stack_json_input {
 
     /**
      * If new functionality is added to the Parson's block that require new answer functions then they should be added to

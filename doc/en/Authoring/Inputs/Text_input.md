@@ -13,6 +13,12 @@ Notes
 2.  An empty answer will be blank unless you use the `allowempty` option in which case the answer will be interpreted as an empty string, i.e. `""` rather than `EMPTYANSWER` as would be the case with other inputs.
 3.  STACK does some sanitation on students' input within strings to stop students typing in HTML code.  For example, you may find that a string <code>"a<b"</code> actually ends up in Maxima with the less-than sign inside the string changed into an html entity <code>&amp;lt;</code>, so your string inside Maxima becomes <code>"a&amp;lt;b"</code>.  In cases where string matches unexpectedly fail, look at the testing page to see what is actually being compared within the PRT and re-build the teacher's answer to match.
 
+#### JSON input ####
+
+The JSXGraph, GeoGebra and Parsons blocks return a JSON object.  When linking to a STACK input we recommend using the dedicated JSON/Geogebra/Parsons inputs rather than the string input.  String inputs will continue to work (maintaining legacy JSXGraph questions), but using the JSON input for inputs linked to JSXGraph logically indicates the expected type of string.
+
+This input gives the _teacher_ a JSON pretty print view of the JSON object for debugging.
+
 #### Notes input ####
 
 This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input is always considered as "invalid", so that any potential response tree which relies on this input will never get evaluated!

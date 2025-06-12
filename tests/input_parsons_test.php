@@ -76,7 +76,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">&quot;Hello world&quot;</span>', $state->contentsdisplayed);
+        $this->assertEquals('<pre>Hello world</pre>', $state->contentsdisplayed);
         $this->assertEquals('',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
@@ -95,8 +95,10 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('"[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]"', $state->contentsmodified);
-        $this->assertEquals('\[ \text{[{&quot;used&quot;:[[[]]],&quot;available&quot;:' .
-            '[&quot;hello&quot;,&quot;world&quot;]},0]} \]', $state->contentsdisplayed);
+        $this->assertEquals("<pre>[\n    {\n        \"used\": [\n            [\n                []\n            ]\n" .
+            "        ],\n        \"available\": [\n            \"aGVsbG8=\",\n            \"d29ybGQ=\"\n        ]\n" .
+            "    },\n    0\n]</pre>",
+            $state->contentsdisplayed);
         $this->assertEquals('',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $expected = 'sana1: "[[{\\"used\\":[[[]]],\\"available\\":[\\"hello\\",\\"world\\"]},0]]" [valid]';
@@ -119,8 +121,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('"{\"used\":[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]"',
             $state->contentsmodified);
         $this->assertEquals(
-            '<span class="stacksyntaxexample">&quot;{\&quot;used\&quot;:[[]]],\&quot;available\&quot;:' .
-            '[\&quot;aGVsbG8=\&quot;,\&quot;d29ybGQ=\&quot;]},0]]&quot;</span>', $state->contentsdisplayed);
+            '<pre>{\"used\":[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]</pre>', $state->contentsdisplayed);
         $this->assertEquals('',
             $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $expected = 'sana1: "{\"used\":[[]]],\"available\":' .
@@ -143,8 +144,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('"\'[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]]\'"', $state->contentsmodified);
         // This will fail internal evaluation in the Parson's decode filter due to the extra quotes, so will remain unhashed.
         $this->assertEquals(
-            '<span class="stacksyntaxexample">&quot;\'[[{\&quot;used\&quot;:[[[]]],\&quot;available\&quot;:' .
-            '[\&quot;aGVsbG8=\&quot;,\&quot;d29ybGQ=\&quot;]},0]]\'&quot;</span>',
+            "<pre>'[[{\\\"used\\\":[[[]]],\\\"available\\\":[\\\"aGVsbG8=\\\",\\\"d29ybGQ=\\\"]},0]]'</pre>",
              $state->contentsdisplayed
         );
     }
@@ -161,8 +161,8 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"[\\\\\"aGVsbG8=\\\\\",\\\\\"d29ybGQ=\\\\\"]"', $state->contentsmodified);
         // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed.
-        $this->assertEquals('<span class="stacksyntaxexample">&quot;[\\\\\&quot;aGVsbG8=\\\\\&quot;,' .
-            '\\\\\&quot;d29ybGQ=\\\\\&quot;]&quot;</span>', $state->contentsdisplayed);
+        $this->assertEquals('<pre>[\\\\\"aGVsbG8=\\\\\",\\\\\"d29ybGQ=\\\\\"]</pre>',
+            $state->contentsdisplayed);
     }
 
     public function test_validate_remains_hashed_if_invalid_timestamp(): void {
@@ -181,8 +181,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         // This will fail internal evaluation in the Parson's decode filter due to invalid state, so will remain unhashed.
         $this->assertEquals(
-            '<span class="stacksyntaxexample">&quot;[[{\&quot;used\&quot;:[[[]]],\&quot;available\&quot;:' .
-            '[\&quot;aGVsbG8=\&quot;,\&quot;d29ybGQ=\&quot;]},\&quot;I am invalid timestamp\&quot;]]&quot;</span>',
+            '<pre>[[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},\"I am invalid timestamp\"]]</pre>',
             $state->contentsdisplayed
         );
     }
@@ -198,8 +197,9 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"[{\"used\":[[[]]],\"available\":[\"aGVsbG8=\",\"d29ybGQ=\"]},0]"',
             $state->contentsmodified);
-        $this->assertEquals('\[ \text{[{&quot;used&quot;:[[[]]],&quot;available&quot;:'
-                . '[&quot;hello&quot;,&quot;world&quot;]},0]} \]', $state->contentsdisplayed);
+        $this->assertEquals("<pre>[\n    {\n        \"used\": [\n            [\n                []\n            ]\n" .
+            "        ],\n        \"available\": [\n            \"aGVsbG8=\",\n            \"d29ybGQ=\"\n        ]\n" .
+            "    },\n    0\n]</pre>", $state->contentsdisplayed);
     }
 
     public function test_validate_parsons_empty(): void {
@@ -223,7 +223,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('"\"\""', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">&quot;\&quot;\&quot;&quot;</span>', $state->contentsdisplayed);
+        $this->assertEquals('<pre>\"\"</pre>', $state->contentsdisplayed);
     }
 
     public function test_validate_parsons_allowempty(): void {
@@ -237,7 +237,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
         $this->assertEquals('""', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">&quot;&quot;</span>', $state->contentsdisplayed);
+        $this->assertEquals('<pre></pre>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_xss_4(): void {
@@ -248,8 +248,7 @@ final class input_parsons_test extends qtype_stack_testcase {
 
         $sa = '"<div onclick=\'dosuchandsuch\'></div>"';
         $cm = '"\"&lt;&#8203;div on&#0;click&#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
-        $cd = '<span class="stacksyntaxexample">&quot;\&quot;&lt;div on&#0;click&#0;&#61;\'dosuchandsuch\'&gt;&lt;/div&gt;' .
-            '\&quot;&quot;</span>';
+        $cd = "<pre>\\\"<div onclick='dosuchandsuch'></div>\\\"</pre>";
         $state = $el->validate_student_response(['sans1' => $sa], $options, $ta,
             new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
@@ -260,8 +259,7 @@ final class input_parsons_test extends qtype_stack_testcase {
 
         $sa = '"<div onmousemove     =\'dosuchandsuch\'></div>"';
         $cm = '"\"&lt;&#8203;div on&#0;mousemove     &#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
-        $cd = '<span class="stacksyntaxexample">&quot;\&quot;&lt;div on&#0;mousemove     ' .
-            '&#0;&#61;\'dosuchandsuch\'&gt;&lt;/div&gt;\&quot;&quot;</span>';
+        $cd = "<pre>\\\"<div onmousemove     ='dosuchandsuch'></div>\\\"</pre>";
         $state = $el->validate_student_response(['sans1' => $sa], $options, $ta,
             new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);

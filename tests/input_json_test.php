@@ -59,7 +59,7 @@ final class input_json_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', true);
         // TODO: when we drop support for PHP7.4 we should reinstate examples below with floats.
         // These cause rounding errors.
-        $state = $el->validate_student_response(['sans1' => '{"x":37 "y":30, "type":"Sphere", "err":null}'],
+        $state = $el->validate_student_response(['sans1' => '{"x":37, "y":30, "type":"Sphere", "err":null}'],
             $options, '"{}"',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);

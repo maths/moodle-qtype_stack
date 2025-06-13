@@ -230,7 +230,49 @@ As the API fills in defaults, the diff output is all that is needed to re-send t
 
 #### STACK fragments and YAML representation
 
-TODO
+**Under development** - Defaults, how they're handled and YAML layout may change.
+
+The API accepts questions is a Moodle XML format i.e. `<quiz><question type="stack"></question></quiz>`. Missing fields will be filled
+in from the `questiondefaults.yml` file. If there are no inputs or PRTs, a single one of each will be created. There will be no tests by default.  
+- Input: `name: ans1, type: algebraic,
+  tans: ta1`
+- PRT: `name: prt1`
+- node: `name: 0, answertest: AlgEquiv, sans: ans1, tans: ta1`
+
+If the API does not find XML in the required format it will attempt to interpret the file as YAML, again filling in blanks from the default
+file as with the XML. Fields are slightly different than from XML - rather than some fields having `text` and `format` children, there are
+`field` and `fieldformat` fields e.g.  
+```
+<specificfeedback>
+  <text><p>[[feedback:prt1]]</p></text>
+  <format>html</format>
+</specificfeedback>`  
+```
+becomes
+```
+specificfeedback: <p>[[feedback:prt1]]</p>
+specificfeedbackformat: html
+```
+
+NB Things get tricky with quotes around YAML fields. In the above example, the API YAML parser can handle `<p>[[feedback:prt1]]</p>`
+and `'[[feedback:prt1]]'` but `[[feedback:prt1]]` throws an error. Using the diff route on `<p>[[feedback:prt1]]</p>` returns `'<p>[[feedback:prt1]]</p>'`. Meanwhile:
+```
+specificfeedback: |-
+  [[feedback:prt2]]
+    Lorem ipsum
+```
+is returned without quotes and
+```
+specificfeedback: |-
+  [[feedback:prt2]]
+```
+is returned as
+```
+specificfeedback: '[[feedback:prt2]]'
+```
+This will undoubtedly cause confusion at some point but may be unavoidable.
+
+See [test question](../tests/fixtures/questionyml.yml) for sample YAML layout.
 
 ### Rendered CASText format
 

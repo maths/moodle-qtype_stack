@@ -405,7 +405,11 @@ final class api_controller_test extends qtype_stack_testcase {
     }
 
     public function test_diff(): void {
-
+        if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
+            $this->markTestSkipped('Symfony YAML extension is not available.');
+            return;
+        }
+        
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test2');
         $dc = new DiffController();
         $dc->__invoke($this->request, $this->response, []);

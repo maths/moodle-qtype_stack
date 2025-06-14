@@ -64,6 +64,10 @@ Some of the special blocks provide interactions which can be linked to inputs.  
 2. **GeoGebra** diagrams..
 3. **Drag and drop** problems. See [drag and drop](../../Specialist_tools/Drag_and_drop/index.md) for examples.
 
+More complex _compound inputs_ are a "meta" type of input, combining other simple input types.  These are for more advanced questions.
+
+1. **Repeat** inputs are for use with the repeat block.
+
 #### True/False inputs ####
 
 If the teacher's correct answer should leave this blank (e.g. not answered at all) then use the tag `EMPTYANSWER`. (There are some edge cases where only some inputs are used in the correct answer to a question, so not answering is correct here).  If you use the extra option `allowempty` then empty answers are considered valid, and the value of this input is `EMPTYANSWER`.

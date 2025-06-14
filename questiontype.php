@@ -532,6 +532,20 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
+        // Give compound inputs access to simple inputs.
+        $inputssimp = [];
+        $inputscomp = [];
+        foreach ($question->inputs as $name => $input) {
+            if ($input->get_simplicity() === 'simple') {
+                $inputssimp[$name] = $input;
+            } else {
+                $inputscomp[$name] = $input;
+            }
+        }
+        foreach ($inputscomp as $input) {
+            $input->add_simple_inputs($inputssimp);
+        }
+
         $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
 
         $totalvalue = 0;

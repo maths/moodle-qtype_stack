@@ -227,6 +227,19 @@ class StackQuestionLoader {
             $question->inputs[$name] = \stack_input_factory::make(
                 $inputtype, (string) $inputdata->name, (string) $inputdata->tans, $question->options, $parameters);
         }
+        // Give compound inputs access to simple inputs.
+        $inputssimp = [];
+        $inputscomp = [];
+        foreach ($question->inputs as $name => $input) {
+            if ($input->get_simplicity() === 'simple') {
+                $inputssimp[$name] = $input;
+            } else {
+                $inputscomp[$name] = $input;
+            }
+        }
+        foreach ($inputscomp as $input) {
+            $input->add_simple_inputs($inputssimp);
+        }
 
         $totalvalue = 0;
         $allformative = true;

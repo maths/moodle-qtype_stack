@@ -11,13 +11,14 @@ Done:
 
 1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
 2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
-
+3. Add in a [repeat block](../Authoring/Question_blocks/Dynamic_blocks.md) to allow a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  This static content includes some input elements.
+4. Add in a [repeat input](../Specialist_tools/Repeat/index.md) for questions where the student can control the number of separate input boxes available.
 Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.10.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.
 3. Resolve [issue #1363](https://github.com/maths/moodle-qtype_stack/issues/1363) to download students data in json format.
-4. Add in a [repeat block](../Authoring/Question_blocks/Dynamic_blocks.md) to allow a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  This static content includes some input elements.
+
 
 ## Future Adapt block development ideas
 

@@ -10,3 +10,4 @@ Topics include
 * [GeoGebra](../Specialist_tools/GeoGebra/index.md) for interactive graphics, including how to use this as an input type.
 * [Graphics](../Specialist_tools/Graphics.md) for options for including graphics.
 * [Unsorted multi input](../Specialist_tools/Unsorted_multi_input.md) explains how to have separate input boxes.
+* [Repeat blocks](../Specialist_tools/Repeat/index.md) for questions where the student can control the number of separate input boxes available.

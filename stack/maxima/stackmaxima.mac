@@ -162,6 +162,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("geometry.mac");
 load("proof.mac");
+load("repeat.mac");
 load("linearalgebra_core.mac");
 load("stackunits.mac");
 load("stacktex.lisp");

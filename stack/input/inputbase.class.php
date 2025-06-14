@@ -54,6 +54,15 @@ abstract class stack_input {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_FUNCTIONS = 16;
 
+    /*
+     * Is this input simple or compound?
+     */
+    const SIMPLICITY_SIMPLE = 'simple';
+    /*
+     * Is this input simple or compound?
+     */
+    const SIMPLICITY_COMPOUND = 'compound';
+
     /**
      * @var string the name of the input.
      * This name has two functions
@@ -149,6 +158,11 @@ abstract class stack_input {
      * @var array
      */
     protected $protectfilters = ['910_inert_float_for_display', '912_inert_string_for_display'];
+
+    /*
+     * An array of simple inputs to use.  Should be indexed by the input name.
+     */
+    protected $simpleinputs = [];
 
     /**
      * Constructor
@@ -1235,6 +1249,15 @@ abstract class stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
+        $castextprocessor, $inertdisplayform, $ilines) {
+        return $this->validation_display_baseclass($answer, $lvars, $caslines, $additionalvars, $valid,
+            $errors, $castextprocessor, $inertdisplayform, $ilines);
+    }
+
+    /**
+    * The repeat input class needs to call the validation display from algebraic, not JSON.
+    */
+    protected function validation_display_baseclass($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
                 $castextprocessor, $inertdisplayform, $ilines) {
 
         $display = stack_maxima_format_casstring(htmlentities($this->contents_to_maxima($this->rawcontents), ENT_COMPAT));
@@ -1698,6 +1721,24 @@ abstract class stack_input {
      */
     public function summarise_response($name, $state, $response) {
         return $name . ': ' . $this->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
+    }
+
+    /**
+     * Announces if the input is "simple" or compound.
+     */
+    public function get_simplicity() {
+        return self::SIMPLICITY_SIMPLE;
+    }
+
+    /**
+     * Add in simple inputs to a compound input.
+     * @param array
+     */
+    public function add_simple_inputs($inputs) {
+        if ($this->get_simplicity() === self::SIMPLICITY_SIMPLE) {
+            throw new stack_exception("Tried to update simple input as if it's compound.");
+        }
+        $this->simpleinputs = $inputs;
     }
 
     /**

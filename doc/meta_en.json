@@ -440,6 +440,11 @@
                "title":"Numerical Input - STACK Documentation",
                "description":"Information on STACK's numerical input type."
                },
+                {
+               "file":"Compound_input.md",
+               "title":"Compound Input - STACK Documentation",
+               "description":"Information on STACK's compound input type."
+               },
                {
                "file":"Text_input.md",
                "title":"Text-based inputs - STACK Documentation",
@@ -1272,6 +1277,15 @@
             "file":"Question_block.md",
             "title":"GeoGebra question block- STACK Documentation",
             "description":"Reference documentation for the GeoGebra question block."
+            }
+            ]
+        },
+        {
+       "Repeat":[
+            {
+            "file":"index.md",
+            "title":"Repeat - STACK Documentation",
+            "description":"How to create repeated inputs at the user's request."
             }
             ]
         },

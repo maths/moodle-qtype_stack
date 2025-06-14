@@ -50,6 +50,8 @@ If you expect students to use scientific notation for numbers, e.g. `3e4` (which
 
 Please read the separate documentation on [numerical rounding](Numerical_rounding.md).
 
+We also have mechanisms for keeping track of the number of significant figures. See the documentation on `dispsf(ex,n)` for detail.
+
 ## Maxima and floats with trailing zeros ##
 
 For its internal representation, Maxima always truncates trailing zeros from a floating point number.  For example, the Maxima expression `0.01000` will be converted internally to `0.01`.  Actually this is a byproduct of the process of converting a decimal input to an internal binary float, and back again.  Similarly, when a number is a "float" data type, Maxima always prints at least one decimal digit to indicate the number is a float.  For example, the floating point representation of the number ten is \(10.0\).  This does _not_ indicate significant figures, rather it indicates data type.  In situations where the number of significant figures is crucial this is problematic.

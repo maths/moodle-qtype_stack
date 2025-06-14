@@ -294,7 +294,7 @@ class stack_equiv_input extends stack_input {
 
         foreach ($contents as $index => $val) {
             // Any student input which is too long is not even parsed.
-            if (strlen($val) > $this->maxinputlength()) {
+            if (strlen($val) > $this->maxinputlength) {
                 $valid = false;
                 $errors[] = stack_string('studentinputtoolong');
                 $notes['too_long'] = true;

@@ -24,7 +24,7 @@
 repeat_encode_helper(sm, sl) := block([ex],
         if emptyp(sl) then return(sm),
         ex:first(sl),
-        if not(stringp(first(ex))) then error("repeat_encode:  the fist element of your input list must be a string, giving the name of one input."),
+        if not(stringp(first(ex))) then error("repeat_encode:  the first element of your input list must be a string, giving the name of one input."),
         if not(listp(second(ex))) then error("repeat_encode:  the second element of your linput list must be a list of expressions, giving the values of the repeated inputs."),
         repeat_encode_helper(stackmap_set(sm, first(ex), second(ex)), rest(sl))
 )$

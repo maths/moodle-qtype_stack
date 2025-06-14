@@ -126,4 +126,35 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals('[]',
             $state->contentsmodified);
     }
+
+    public function test_validate_full_input(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $el1 = stack_input_factory::make('numerical', 'ans1', 'x');
+        $simpleinputs['ans1'] = $el1;
+        $el2 = stack_input_factory::make('algebraic', 'ans2', 'x');
+        $el2->set_parameter('options', 'allowempty');
+        $simpleinputs['ans2'] = $el2;
+        $el5 = stack_input_factory::make('algebraic', 'ans5', 'x');
+        $simpleinputs['ans5'] = $el5;
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->set_parameter('sameType', true);
+        $el->add_simple_inputs($simpleinputs);
+
+        $rawinput = '{"num_copies": 3,' .
+                        '"data": [' .
+                        '{"repeat_id": "1",' .
+                        '"inputs": {"ans1": ["1", "2", "3"],"ans2": ["a", "b", ""]}},' .
+                        '{"repeat_id": "3",' .
+                        '"inputs": {"ans5": ["x^2", "x^4", "x^6"]}' .
+                        '}]}';
+
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        //var_dump($state);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+    }
 }

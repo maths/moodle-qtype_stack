@@ -91,30 +91,50 @@ class stack_repeat_input extends stack_json_input {
             $val = '[]';
         }
 
+        // Pull out from the payload all data as an array.
+        $inputs = [];
+        if ($payload !== null) {
+            // At this depth, full JSON gives an array.
+            if (is_array($payload)) {
+                foreach ($payload as $repeatid) {
+                    foreach ($this->simpleinputs as $inputname => $input) {
+                        if (property_exists($repeatid->inputs, $inputname)) {
+                            $inputs[$inputname] = $repeatid->inputs->{$inputname};
+                        }
+                    }
+                }
+            } else {
+                // We have the cut-down "data" from teacher's answers.
+                foreach ($this->simpleinputs as $inputname => $input) {
+                    if (property_exists($payload, $inputname)) {
+                        $inputs[$inputname] = $payload->{$inputname};
+                    }
+                }
+            }
+        }
+
         $states = [];
         $options = new stack_options();
         // Validate each entry separately using the simple input validation.
-        foreach ($this->simpleinputs as $inputname => $input) {
-            if ($payload !== null && property_exists($payload, $inputname)) {
-                $val = $payload->{$inputname};
-                // Val should now be an array of values.
-                $exprs = [];
-                foreach ($val as $sans) {
-                    $state = $input->validate_student_response([$inputname => $sans],
-                        $options, 'null',
-                        new stack_cas_security());
-                    if ($state->__get('status') === 'valid') {
-                        $exprs[] = $state->__get('contentsmodified');
-                    } else {
-                        $valid = false;
-                    }
-                    $errors[] = $state->__get('errors');
-                    $notes[$state->__get('note')] = true;
+        foreach ($inputs as $inputname => $val) {
+            $input = $this->simpleinputs[$inputname];
+            // Val should now be an array of values.
+            $exprs = [];
+            foreach ($val as $sans) {
+                $state = $input->validate_student_response([$inputname => $sans],
+                    $options, 'null',
+                    new stack_cas_security());
+                if ($state->__get('status') === 'valid' || $state->__get('status') === 'score') {
+                    $exprs[] = $state->__get('contentsmodified');
+                } else {
+                    $valid = false;
                 }
-                // If valid, collect together the valid modified expresssions.
-                // This is one Maxima list per input.
-                $states[$inputname] = 'repeated' . $inputname . ':[' . implode(',', $exprs) . ']';
+                $errors[] = $state->__get('errors');
+                $notes[$state->__get('note')] = true;
             }
+            // If valid, collect together the valid modified expresssions.
+            // This is one Maxima list per input.
+            $states[$inputname] = 'repeated' . $inputname . ':[' . implode(',', $exprs) . ']';
         }
 
         // Concatinate expressions into a Maxima block which defines the variables separatel.

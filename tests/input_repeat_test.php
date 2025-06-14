@@ -22,6 +22,8 @@ use stack_input;
 use stack_input_factory;
 use stack_input_state;
 use stack_options;
+use stack_ast_container;
+use stack_cas_session2;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -30,6 +32,8 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 require_once(__DIR__ . '/../stack/input/factory.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
+require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
 /**
  * Unit tests for stack_repeat_input.
@@ -156,5 +160,31 @@ final class input_repeat_test extends qtype_stack_testcase {
         //var_dump($state);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
+        $this->assertEquals('(repeatedans1:[1,2,3],repeatedans2:[a,b,EMPTYANSWER],repeatedans5:[x^2,x^4,x^6])',
+            $state->contentsmodified);
+    }
+
+    public function test_repeat_encode(): void {
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $cs = [];
+        $cs[] = 'repeat_encode([["ans1",[x^2,x^3]],["ans2",[0.5*x^2]]])';
+        $cs[] = 'repeat_encode([[ans1,[x^2,x^3]],["ans2",[0.5*x^2]]])';
+        $cs[] = 'repeat_encode([["ans1",x^3],["ans2",[0.5*x^2]]])';
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('"{\"data\":{\"ans1\":[\"x^2\",\"x^3\"],\"ans2\":[\"0.5*x^2\"]}}"',
+            $s1[0]->get_value());
+        $this->assertEquals('repeat_encode: the first element of your input list must be a string, ' .
+            'giving the name of one input.',
+            $s1[1]->get_errors());
+        $this->assertEquals('repeat_encode: the second element of your input list must be a list of expressions, ' .
+            'giving the values of the repeated inputs.',
+            $s1[2]->get_errors());
     }
 }

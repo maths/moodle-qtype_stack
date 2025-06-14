@@ -26,7 +26,7 @@ Notes,
 1. By defining variable `repeatedans1` in this way we automatically enable authors to refer to the list of answers to `ans1` in the PRTs.  We do not, however, actually use the name of `ans1` in the PRT (that answer is not used directly by students in the normal way).
 2. This is a single Maxima block which executes gives the answer lists as separate variables.
 
-## Creating the teacher's answer.
+### Creating the teacher's answer.
 
 The teacher's answer must be a valid JSON string, in a particular structure expected by the repeat input.  To create the teacher's answer use the following helper function.
 

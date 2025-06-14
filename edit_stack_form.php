@@ -270,15 +270,19 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
         /* Check if we have a new question. */
+        $doclink = html_writer::link('https://docs.stack-assessment.org/', stack_string('stackDoc_docs'),
+                ['target' => '_blank']) . ' | ' .
+            html_writer::link('https://stack-assessment.zulipchat.com/', stack_string('stackDoc_community'),
+                ['target' => '_blank']);
         if (isset($this->question->id)) {
-            $out = stack_string('runquestiontests');
+            $out = '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
                 $out = stack_string_error('questionnotdeployedyet');
             }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
                     $out, ['target' => '_blank']) . ' ' . $OUTPUT->help_icon('runquestiontests', 'qtype_stack');
-            $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
+            $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink . $doclink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
         } else {
             // Add in default question variables etc.
@@ -297,7 +301,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
             $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php', $liburlparams),
                     $out, []) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');
-            $qllink = $mform->createElement('static', 'stack_library', '', $qlibrarylink);
+            $qllink = $mform->createElement('static', 'stack_library', '', $qlibrarylink . $doclink);
             $mform->insertElementBefore($qllink, 'questionvariables');
         }
 

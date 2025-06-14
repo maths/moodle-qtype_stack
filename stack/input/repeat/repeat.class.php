@@ -165,7 +165,22 @@ class stack_repeat_input extends stack_json_input {
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
         $castextprocessor, $inertdisplayform, $ilines) {
-            return $this->validation_display_baseclass($answer, $lvars, $caslines, $additionalvars, $valid,
+
+            // Display the whole JSON object.
+            $contents = $this->rawcontents;
+            $display = stack_utils::maxima_string_to_php_string($contents[0]);
+            // Turn into a PHP stdClass object.
+            $json = json_decode($display);
+            // If we have mal-formed JSON (exactly the situation we need to debug) then we display the original.
+            if ($json !== null) {
+                $display = json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            }
+            $pdisplay = html_writer::tag('pre', $display);
+
+            // And we want to show the actual answer as a Maxima object.
+            list($valid, $errors, $display) = $this->validation_display_baseclass($answer, $lvars, $caslines, $additionalvars, $valid,
                 $errors, $castextprocessor, $inertdisplayform, $ilines);
+
+            return [$valid, $errors, $pdisplay . $display];
     }
 }

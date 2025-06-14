@@ -93,8 +93,18 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('(repeatedans1:[x^2,x^3],repeatedans2:[5])',
             $state->contentsmodified);
-        $this->assertEquals("\\[ \\left(\\left[ x^2 , x^3 \\right] , \\left[ 5 \\right] \\right) \]",
-            $state->contentsdisplayed);
+        $expected = "<pre>{\n    \"data\": {\n        \"ans1\": [\n" .
+                    "            \"x^2\",\n" .
+                    "            \"x^3\"\n" .
+                    "        ],\n" .
+                    "        \"ans2\": [\n" .
+                    "            \"5\"\n" .
+                    "        ]\n" .
+                    "    }\n" .
+                    "}</pre>" .
+                    "\\[ \\left(\\left[ x^2 , x^3 \\right] , \\left[ 5 \\right] \\right) \]";
+
+        $this->assertEquals($expected, $state->contentsdisplayed);
     }
 
     public function test_validate_invalid_input(): void {

@@ -58,7 +58,7 @@ class StackQuestionLoader {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests=false) {
         try {
-            if (strpos($xml, '<question type="stack">') !== false) {
+            if (strpos($xml, '<question type=') !== false) {
                 $xmldata = new SimpleXMLElement($xml);
             } else {
                 $xmldata = self::yaml_to_xml($xml);
@@ -635,10 +635,18 @@ class StackQuestionLoader {
         if (!self::$defaults) {
                 self::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
         }
-        if (strpos($xml, '<question type="stack">') !== false) {
+        if (strpos($xml, '<question type=') !== false) {
             $xmldata = new SimpleXMLElement($xml);
         } else {
             $xmldata = self::yaml_to_xml($xml);
+        }
+
+        if (count($xmldata->question) != 1) {
+            throw new \stack_exception("The provided XML file does not contain exactly one question element");
+        }
+
+        if (((string) $xmldata->question->attributes()->type) !== "stack") {
+            throw new \stack_exception("The provided question is not of type STACK");
         }
         $plaindata = self::xml_to_array($xmldata);
         $diff = self::obj_diff(self::$defaults['question'], $plaindata['question']);

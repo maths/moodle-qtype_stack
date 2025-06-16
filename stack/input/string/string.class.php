@@ -126,7 +126,9 @@ class stack_string_input extends stack_algebraic_input {
         if ($this->extraoptions['hideanswer']) {
             return '';
         }
-
+        if ($this->extraoptions['allowempty'] && trim($value) === '""') {
+            return stack_string('teacheranswerempty');
+        }
         $display = stack_utils::maxima_string_strip_mbox($display);
         return stack_string('teacheranswershow_disp', ['display' => $display]);
     }

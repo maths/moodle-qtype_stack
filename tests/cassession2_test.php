@@ -1352,7 +1352,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
-        
+
         foreach ($tests as $key => $test) {
             $cs = $at1->get_by_key('p'.$key);
             if ($tests[$key][3] === '') {

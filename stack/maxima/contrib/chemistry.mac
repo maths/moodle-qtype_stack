@@ -1,0 +1,48 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2025 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Chemistry functions for STACK                               */
+/*                                                              */
+/*  V1.0 June 2025                                              */
+/*                                                              */
+/****************************************************************/
+
+/* This function returns all the data associated with a particular element. */
+chem_data_all(element) := block([cdat, cname],
+    cdat:assoc(element, %_STACK_CHEM_ELEMENTS),
+    cname:assoc("Name", cdat),
+    cname:assoc(%_STACK_LANG, cname, assoc("en", cname)),
+    return(append([["Name", cname]], rest(cdat)))
+)$
+
+/* This function returns the data "dp" associated with "element". */
+chem_data(element, dp) := assoc(dp, chem_data_all(element))$
+
+/* This function returns the data "dp" associated with "element". */
+chem_data(element, dp) := assoc(dp, chem_data_all(element))$
+
+%_STACK_CHEM_ELEMENTS: [
+ ["H", [
+        ["Name", [ ["en", "hydrogen"], ["fi", "vety"] ]],
+        ["AtomicNumber", 1],
+        ["AtomicMass", 1.008]
+ ]],
+ ["He", [
+        ["Name", [ ["en", "helium"], ["fi", "helium"] ]],
+        ["AtomicNumber", 2],
+        ["AtomicMass", 4.0026]
+ ]]
+]$

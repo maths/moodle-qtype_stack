@@ -1068,6 +1068,15 @@
         "description":"This page provides advice for writing STACK questions in vector calculus."
         },
         {
+        "Chemistry":[
+            {
+            "file":"index.md",
+            "title":"Support for chemistry in STACK - STACK Documentation",
+            "description":"How to write questions for chemistry with STACK."
+            }
+            ]
+        },
+        {
         "Linear_algebra":[
              {
              "file":"index.md",

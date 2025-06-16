@@ -35,15 +35,24 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
+    /**
+     * @var array|null Default values for the question.
+     */
     public static $defaults = null;
+    /**
+     * @var array Question properties that have <text> elements in the xml.
+     */
     public const TEXTFIELDS = [
         'name', 'questiontext', 'generalfeedback', 'stackversion', 'questionvariables',
         'specificfeedback', 'questionnote',
         'questiondescription', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect',
-        'feedbackvariables', 'truefeedback', 'falsefeedback'
+        'feedbackvariables', 'truefeedback', 'falsefeedback',
     ];
+    /**
+     * @var array Question properties that can have multiple elements in the xml.
+     */
     public const ARRAYFIELDS = [
-        'input', 'prt', 'node', 'deployedseed', 'qtest', 'testinput', 'expected'
+        'input', 'prt', 'node', 'deployedseed', 'qtest', 'testinput', 'expected',
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -52,7 +61,7 @@ class StackQuestionLoader {
             if (strpos($xml, '<question type="stack">') !== false) {
                 $xmldata = new SimpleXMLElement($xml);
             } else {
-                $xmldata = StackQuestionLoader::yaml_to_xml($xml);
+                $xmldata = self::yaml_to_xml($xml);
             }
         } catch (\Exception $e) {
             throw new \stack_exception("The provided file does not contain valid XML");
@@ -83,141 +92,141 @@ class StackQuestionLoader {
 
         // Based on moodles base question type.
         $question->name = (string) $xmldata->question->name->text ?
-            (string) $xmldata->question->name->text : StackQuestionLoader::get_default('question', 'name', 'Default');
+            (string) $xmldata->question->name->text : self::get_default('question', 'name', 'Default');
         $question->questiontext = (string) $xmldata->question->questiontext->text ?
             (string) $xmldata->question->questiontext->text :
-            StackQuestionLoader::get_default(
+            self::get_default(
                 'question', 'questiontext', '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>'
             );
         $question->questiontextformat =
             (string) $xmldata->question->questiontext['format'] ? (string) $xmldata->question->questiontext['format'] :
-            StackQuestionLoader::get_default('question', 'questiontextformat', 'html');
+            self::get_default('question', 'questiontextformat', 'html');
         $question->generalfeedback =
             (string) $xmldata->question->generalfeedback->text ? (string) $xmldata->question->generalfeedback->text :
-            StackQuestionLoader::get_default('question', 'generalfeedback', '');
+            self::get_default('question', 'generalfeedback', '');
         $question->generalfeedbackformat =
             (string) $xmldata->question->generalfeedback['format'] ? (string) $xmldata->question->generalfeedback['format'] :
-            StackQuestionLoader::get_default('question', 'generalfeedbackformat', 'html');
+            self::get_default('question', 'generalfeedbackformat', 'html');
         $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade :
-            StackQuestionLoader::get_default('question', 'defaultgrade', 1.0);
+            self::get_default('question', 'defaultgrade', 1.0);
         $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty :
-            StackQuestionLoader::get_default('question', 'penalty', 0.1);
+            self::get_default('question', 'penalty', 0.1);
 
         // Based on initialise_question_instance from questiontype.php.
         $question->stackversion              =
             (string) $xmldata->question->stackversion->text ? (string) $xmldata->question->stackversion->text :
-            StackQuestionLoader::get_default('question', 'stackversion', '');
+            self::get_default('question', 'stackversion', '');
         $question->questionvariables         =
             (string) $xmldata->question->questionvariables->text ? (string) $xmldata->question->questionvariables->text :
-            StackQuestionLoader::get_default('question', 'questionvariables', 'ta1:1;');
+            self::get_default('question', 'questionvariables', 'ta1:1;');
         $question->questionnote              =
             (string) $xmldata->question->questionnote->text ? (string) $xmldata->question->questionnote->text :
-            StackQuestionLoader::get_default('question', 'questionnote', '{@ta1@}');
+            self::get_default('question', 'questionnote', '{@ta1@}');
         $question->questionnoteformat        =
             (string) $xmldata->question->questionnote['format'] ? (string) $xmldata->question->questionnote['format'] :
-            StackQuestionLoader::get_default('question', 'questionnoteformat', 'html');
+            self::get_default('question', 'questionnoteformat', 'html');
         $question->specificfeedback          =
                 (string) $xmldata->question->specificfeedback->text ?
                 (string) $xmldata->question->specificfeedback->text :
-                StackQuestionLoader::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
+                self::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
         $question->specificfeedbackformat    =
                 (string) $xmldata->question->specificfeedback['format'] ?
                 (string) $xmldata->question->specificfeedback['format'] :
-                StackQuestionLoader::get_default('question', 'specificfeedbackformat', 'html');
+                self::get_default('question', 'specificfeedbackformat', 'html');
         $question->questiondescription       =
             (string) $xmldata->question->questiondescription->text ? (string) $xmldata->question->questiondescription->text :
-            StackQuestionLoader::get_default('question', 'questiondescription', '');
+            self::get_default('question', 'questiondescription', '');
         $question->questiondescriptionformat =
                 (string) $xmldata->question->questiondescription['format'] ?
                 (string) $xmldata->question->questiondescription['format'] :
-                StackQuestionLoader::get_default('question', 'questiondescriptionformat', 'html');
+                self::get_default('question', 'questiondescriptionformat', 'html');
         if (isset($xmldata->question->prtcorrect->text)) {
             $question->prtcorrect                = (string) $xmldata->question->prtcorrect->text;
             $question->prtcorrectformat          = (string) $xmldata->question->prtcorrect['format'];
         } else {
             $question->prtcorrect =
-                StackQuestionLoader::get_default(
+                self::get_default(
                     'question', 'prtcorrect', get_string('defaultprtcorrectfeedback', 'qtype_stack', null)
                 );
-            $question->prtcorrectformat = StackQuestionLoader::get_default('question', 'prtcorrectformat', 'html');
+            $question->prtcorrectformat = self::get_default('question', 'prtcorrectformat', 'html');
         }
         if (isset($xmldata->question->prtpartiallycorrect->text)) {
             $question->prtpartiallycorrect = (string)$xmldata->question->prtpartiallycorrect->text;
             $question->prtpartiallycorrectformat = (string)$xmldata->question->prtpartiallycorrect['format'];
         } else {
             $question->prtpartiallycorrect =
-                StackQuestionLoader::get_default(
+                self::get_default(
                     'question', 'prtpartiallycorrect', get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null)
                 );
             $question->prtpartiallycorrectformat =
-                StackQuestionLoader::get_default('question', 'prtpartiallycorrectformat', 'html');
+                self::get_default('question', 'prtpartiallycorrectformat', 'html');
         }
         if (isset($xmldata->question->prtincorrect->text)) {
             $question->prtincorrect = (string)$xmldata->question->prtincorrect->text;
             $question->prtincorrectformat = (string)$xmldata->question->prtincorrect['format'];
         } else {
             $question->prtincorrect =
-                StackQuestionLoader::get_default(
+                self::get_default(
                     'question', 'prtincorrect', get_string('defaultprtincorrectfeedback', 'qtype_stack', null)
                 );
             $question->prtincorrectformat =
-                StackQuestionLoader::get_default('question', 'prtincorrectformat', 'html');
+                self::get_default('question', 'prtincorrectformat', 'html');
         }
         $question->variantsselectionseed     =
             (string) $xmldata->question->variantsselectionseed ? (string) $xmldata->question->variantsselectionseed :
-            StackQuestionLoader::get_default('question', 'variantsselectionseed', '');
+            self::get_default('question', 'variantsselectionseed', '');
         $question->compiledcache             = [];
         $question->isbroken = (array) $xmldata->question->isbroken ? self::parseboolean($xmldata->question->isbroken) :
-            StackQuestionLoader::get_default('question', 'isbroken', 0);
+            self::get_default('question', 'isbroken', 0);
         $question->options = new \stack_options();
         $question->options->set_option(
             'multiplicationsign',
             (array) $xmldata->question->multiplicationsign ?
                 (string) $xmldata->question->multiplicationsign :
-                StackQuestionLoader::get_default('question', 'multiplicationsign', get_config('qtype_stack', 'multiplicationsign'))
+                self::get_default('question', 'multiplicationsign', get_config('qtype_stack', 'multiplicationsign'))
         );
         $question->options->set_option(
             'complexno',
             (array) $xmldata->question->complexno ?
                 (string) $xmldata->question->complexno :
-                StackQuestionLoader::get_default('question', 'complexno', get_config('qtype_stack', 'complexno'))
+                self::get_default('question', 'complexno', get_config('qtype_stack', 'complexno'))
         );
         $question->options->set_option(
             'inversetrig',
             (array) $xmldata->question->inversetrig ?
                 (string) $xmldata->question->inversetrig :
-                StackQuestionLoader::get_default('question', 'inversetrig', get_config('qtype_stack', 'inversetrig'))
+                self::get_default('question', 'inversetrig', get_config('qtype_stack', 'inversetrig'))
         );
         $question->options->set_option(
             'logicsymbol',
             (array) $xmldata->question->logicsymbol ?
                 (string) $xmldata->question->logicsymbol :
-                StackQuestionLoader::get_default('question', 'logicsymbol', get_config('qtype_stack', 'logicsymbol'))
+                self::get_default('question', 'logicsymbol', get_config('qtype_stack', 'logicsymbol'))
         );
         $question->options->set_option(
             'matrixparens',
             (array) $xmldata->question->matrixparens ?
                 (string) $xmldata->question->matrixparens :
-                StackQuestionLoader::get_default('question', 'matrixparens', get_config('qtype_stack', 'matrixparens'))
+                self::get_default('question', 'matrixparens', get_config('qtype_stack', 'matrixparens'))
         );
         $question->options->set_option(
             'sqrtsign',
             (array) $xmldata->question->sqrtsign ?
                 self::parseboolean($xmldata->question->sqrtsign) :
-                (bool) StackQuestionLoader::get_default('question', 'sqrtsign', get_config('qtype_stack', 'sqrtsign'))
+                (bool) self::get_default('question', 'sqrtsign', get_config('qtype_stack', 'sqrtsign'))
         );
         $question->options->set_option(
             'simplify',
             (array) $xmldata->question->questionsimplify ?
                 self::parseboolean($xmldata->question->questionsimplify) :
-                (bool) StackQuestionLoader::get_default(
+                (bool) self::get_default(
                     'question', 'questionsimplify', get_config('qtype_stack', 'questionsimplify'))
         );
         $question->options->set_option(
             'assumepos',
             (array) $xmldata->question->assumepositive ?
                 self::parseboolean($xmldata->question->assumepositive) :
-                (bool) StackQuestionLoader::get_default(
+                (bool) self::get_default(
                     'question', 'assumepositive', get_config('qtype_stack', 'assumepositive')
                 )
         );
@@ -225,7 +234,7 @@ class StackQuestionLoader {
             'assumereal',
             (array) $xmldata->question->assumereal ?
                 self::parseboolean($xmldata->question->assumereal) :
-                (bool) StackQuestionLoader::get_default(
+                (bool) self::get_default(
                     'question', 'assumereal', get_config('qtype_stack', 'assumereal')
                 )
         );
@@ -233,13 +242,13 @@ class StackQuestionLoader {
             'decimals',
             (array) $xmldata->question->decimals ?
                 (string) $xmldata->question->decimals :
-                StackQuestionLoader::get_default('question', 'decimals', get_config('qtype_stack', 'decimals'))
+                self::get_default('question', 'decimals', get_config('qtype_stack', 'decimals'))
         );
         $question->options->set_option(
             'scientificnotation',
             (array) $xmldata->question->scientificnotation ?
                 (string) $xmldata->question->scientificnotation :
-                StackQuestionLoader::get_default(
+                self::get_default(
                     'question', 'scientificnotation', get_config('qtype_stack', 'scientificnotation')
                 )
         );
@@ -251,9 +260,9 @@ class StackQuestionLoader {
 
         if (empty($inputmap) && $question->defaultmark) {
             $defaultinput = new \SimpleXMLElement('<input></input>');
-            $defaultinput->addChild('name', StackQuestionLoader::get_default('input', 'name', 'ans1'));
-            $defaultinput->addChild('tans', StackQuestionLoader::get_default('input', 'tans', 'ta1'));
-            $inputmap[StackQuestionLoader::get_default('input', 'name', 'ans1')] = $defaultinput;
+            $defaultinput->addChild('name', self::get_default('input', 'name', 'ans1'));
+            $defaultinput->addChild('tans', self::get_default('input', 'tans', 'ta1'));
+            $inputmap[self::get_default('input', 'name', 'ans1')] = $defaultinput;
         }
 
         $requiredparams = \stack_input_factory::get_parameters_used();
@@ -261,45 +270,45 @@ class StackQuestionLoader {
             $allparameters = [
                 'boxWidth'        => (array) $inputdata->boxsize ?
                     (int) $inputdata->boxsize :
-                    StackQuestionLoader::get_default('input', 'boxsize', get_config('qtype_stack', 'inputboxsize')),
+                    self::get_default('input', 'boxsize', get_config('qtype_stack', 'inputboxsize')),
                 'insertStars'     => (array) $inputdata->insertstars ?
                     (int) $inputdata->insertstars :
-                    StackQuestionLoader::get_default('input', 'insertstars', get_config('qtype_stack', 'inputinsertstars')),
+                    self::get_default('input', 'insertstars', get_config('qtype_stack', 'inputinsertstars')),
                 'syntaxHint'      => isset($inputdata->syntaxhint) ?
                     (string) $inputdata->syntaxhint :
-                    StackQuestionLoader::get_default('input', 'syntaxhint', ''),
+                    self::get_default('input', 'syntaxhint', ''),
                 'syntaxAttribute' => (array) $inputdata->syntaxattribute ?
-                    (int) $inputdata->syntaxattribute : StackQuestionLoader::get_default('input', 'syntaxattribute', 0),
+                    (int) $inputdata->syntaxattribute : self::get_default('input', 'syntaxattribute', 0),
                 'forbidWords'     => isset($inputdata->forbidwords) ?
                     (string) $inputdata->forbidwords :
-                    StackQuestionLoader::get_default('input', 'forbidwords', get_config('qtype_stack', 'inputforbidwords')),
+                    self::get_default('input', 'forbidwords', get_config('qtype_stack', 'inputforbidwords')),
                 'allowWords'      => isset($inputdata->allowwords) ?
-                    (string) $inputdata->allowwords : StackQuestionLoader::get_default('input', 'allowwords', ''),
+                    (string) $inputdata->allowwords : self::get_default('input', 'allowwords', ''),
                 'forbidFloats'    => (array) $inputdata->forbidfloat ?
                     self::parseboolean($inputdata->forbidfloat) :
-                    (bool) StackQuestionLoader::get_default('input', 'forbidfloat', get_config('qtype_stack', 'inputforbidfloat')),
+                    (bool) self::get_default('input', 'forbidfloat', get_config('qtype_stack', 'inputforbidfloat')),
                 'lowestTerms'     => (array) $inputdata->requirelowestterms ?
                     self::parseboolean($inputdata->requirelowestterms) :
-                    (bool) StackQuestionLoader::get_default(
+                    (bool) self::get_default(
                         'input', 'requirelowestterms', get_config('qtype_stack', 'inputrequirelowestterms')
                     ),
                 'sameType'        => (array) $inputdata->checkanswertype ?
                     self::parseboolean($inputdata->checkanswertype) :
-                    (bool) StackQuestionLoader::get_default(
+                    (bool) self::get_default(
                         'input', 'checkanswertype', get_config('qtype_stack', 'inputcheckanswertype')
                     ),
                 'mustVerify'      => (array) $inputdata->mustverify ?
                     self::parseboolean($inputdata->mustverify) :
-                    (bool) StackQuestionLoader::get_default('input', 'mustverify', get_config('qtype_stack', 'inputmustverify')),
+                    (bool) self::get_default('input', 'mustverify', get_config('qtype_stack', 'inputmustverify')),
                 'showValidation'  => (array) $inputdata->showvalidation ?
                     (int) $inputdata->showvalidation :
-                    StackQuestionLoader::get_default('input', 'showvalidation', get_config('qtype_stack', 'inputshowvalidation')),
+                    self::get_default('input', 'showvalidation', get_config('qtype_stack', 'inputshowvalidation')),
                 'options'         => isset($inputdata->options) ? (string) $inputdata->options :
-                    StackQuestionLoader::get_default('input', 'options', ''),
+                    self::get_default('input', 'options', ''),
             ];
             $parameters = [];
             $inputtype = (string) $inputdata->type ? (string) $inputdata->type :
-                StackQuestionLoader::get_default('input', 'type', 'algebraic');
+                self::get_default('input', 'type', 'algebraic');
             foreach ($requiredparams[$inputtype] as $paramname) {
                 if ($paramname == 'inputType') {
                     continue;
@@ -319,20 +328,20 @@ class StackQuestionLoader {
 
         if (empty($prtmap) && $question->defaultmark) {
             $defaultprt = new \SimpleXMLElement('<prt></prt>');
-            $defaultprt->addChild('name', StackQuestionLoader::get_default('prt', 'name', 'prt1'));
+            $defaultprt->addChild('name', self::get_default('prt', 'name', 'prt1'));
             $defaultnode = $defaultprt->addChild('node');
-            $defaultnode->addChild('name', StackQuestionLoader::get_default('node', 'name', '0'));
-            $defaultnode->addChild('sans', StackQuestionLoader::get_default('node', 'sans', 'ans1'));
-            $defaultnode->addChild('tans', StackQuestionLoader::get_default('node', 'tans', 'ta1'));
-            $defaultnode->addChild('trueanswernote', StackQuestionLoader::get_default('node', 'trueanswernote', 'prt1-1-T'));
-            $defaultnode->addChild('falseanswernote', StackQuestionLoader::get_default('node', 'falseanswernote', 'prt1-1-F'));
-            $prtmap[StackQuestionLoader::get_default('prt', 'name', 'prt1')] = $defaultprt;
+            $defaultnode->addChild('name', self::get_default('node', 'name', '0'));
+            $defaultnode->addChild('sans', self::get_default('node', 'sans', 'ans1'));
+            $defaultnode->addChild('tans', self::get_default('node', 'tans', 'ta1'));
+            $defaultnode->addChild('trueanswernote', self::get_default('node', 'trueanswernote', 'prt1-1-T'));
+            $defaultnode->addChild('falseanswernote', self::get_default('node', 'falseanswernote', 'prt1-1-F'));
+            $prtmap[self::get_default('prt', 'name', 'prt1')] = $defaultprt;
         }
 
         foreach ($prtmap as $prtdata) {
             // At this point we do not have the PRT method is_formative() available to us.
             if (!isset($prtdata->feedbackstyle) || ((int) $prtdata->feedbackstyle) > 0) {
-                $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : StackQuestionLoader::get_default('prt', 'value', 1);
+                $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : self::get_default('prt', 'value', 1);
                 $allformative = false;
             }
         }
@@ -345,22 +354,22 @@ class StackQuestionLoader {
         foreach ($prtmap as $prtdata) {
             $prtvalue = 0;
             if (!$allformative) {
-                $value = $prtdata->value ? (float) $prtdata->value : StackQuestionLoader::get_default('prt', 'value', 1);
+                $value = $prtdata->value ? (float) $prtdata->value : self::get_default('prt', 'value', 1);
                 $prtvalue = $value / $totalvalue;
             }
 
             $data = new \stdClass();
             $data->name = (string) $prtdata->name;
             $data->autosimplify = (array) $prtdata->autosimplify ? self::parseboolean($prtdata->autosimplify) :
-                StackQuestionLoader::get_default('prt', 'autosimplify', true);
+                self::get_default('prt', 'autosimplify', true);
             $data->feedbackstyle = (array) $prtdata->feedbackstyle ? (int) $prtdata->feedbackstyle :
-                StackQuestionLoader::get_default('prt', 'feedbackstyle', 1);
+                self::get_default('prt', 'feedbackstyle', 1);
             $data->value = (array) $prtdata->value ? (float) $prtdata->value :
-                StackQuestionLoader::get_default('prt', 'value', 1.0);
+                self::get_default('prt', 'value', 1.0);
             $data->firstnodename = null;
 
             $data->feedbackvariables = (string) $prtdata->feedbackvariables->text ? (string) $prtdata->feedbackvariables->text :
-                StackQuestionLoader::get_default('prt', 'feedbackvariables', '');
+                self::get_default('prt', 'feedbackvariables', '');
 
             $data->nodes = [];
             foreach ($prtdata->node as $node) {
@@ -369,46 +378,46 @@ class StackQuestionLoader {
                 $newnode->nodename = (string) $node->name;
                 $newnode->description = isset($node->description) ? (string) $node->description : '';
                 $newnode->answertest = isset($node->answertest) ? (string) $node->answertest :
-                    StackQuestionLoader::get_default('node', 'answertest', 'AlgEquiv');
+                    self::get_default('node', 'answertest', 'AlgEquiv');
                 $newnode->sans = (string) $node->sans;
                 $newnode->tans = (string) $node->tans;
                 $newnode->testoptions = (string) $node->testoptions ? (string) $node->testoptions :
-                    StackQuestionLoader::get_default('node', 'testoptions', '');
+                    self::get_default('node', 'testoptions', '');
                 $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) :
-                    StackQuestionLoader::get_default('node', 'quiet', false);
+                    self::get_default('node', 'quiet', false);
 
                 $newnode->truescoremode = (array) $node->truescoremode ?
-                    (string) $node->truescoremode : StackQuestionLoader::get_default('node', 'truescoremode', '=');
+                    (string) $node->truescoremode : self::get_default('node', 'truescoremode', '=');
                 $newnode->truescore = (array) $node->truescore ?
-                (string) $node->truescore : StackQuestionLoader::get_default('node', 'truescore', '1.0');
+                (string) $node->truescore : self::get_default('node', 'truescore', '1.0');
                 $newnode->truepenalty = (array) $node->truepenalty ?
-                    (string) $node->truepenalty : StackQuestionLoader::get_default('node', 'truepenalty', null);
+                    (string) $node->truepenalty : self::get_default('node', 'truepenalty', null);
                 $newnode->truenextnode = (array) $node->truenextnode ?
-                    (string) $node->truenextnode : StackQuestionLoader::get_default('node', 'truenextnode', '-1');
+                    (string) $node->truenextnode : self::get_default('node', 'truenextnode', '-1');
                 $newnode->trueanswernote = (string) $node->trueanswernote ?
-                    (string) $node->trueanswernote : StackQuestionLoader::get_default('node', 'trueanswernote', '');
+                    (string) $node->trueanswernote : self::get_default('node', 'trueanswernote', '');
                 $newnode->truefeedback = (string) $node->truefeedback->text ?
-                    (string) $node->truefeedback->text : StackQuestionLoader::get_default('node', 'truefeedback', '');
+                    (string) $node->truefeedback->text : self::get_default('node', 'truefeedback', '');
                 $newnode->truefeedbackformat =
                     (string) $node->truefeedback['format'] ?
-                    (string) $node->truefeedback['format'] : StackQuestionLoader::get_default('node', 'truefeedbackformat', 'html');
+                    (string) $node->truefeedback['format'] : self::get_default('node', 'truefeedbackformat', 'html');
 
                 $newnode->falsescoremode = (array) $node->falsescoremode ?
-                    (string) $node->falsescoremode : StackQuestionLoader::get_default('node', 'falsescoremode', '=');
+                    (string) $node->falsescoremode : self::get_default('node', 'falsescoremode', '=');
                 $newnode->falsescore = (array) $node->falsescore ? (string) $node->falsescore :
-                    StackQuestionLoader::get_default('node', 'falsescore', '0.0');
+                    self::get_default('node', 'falsescore', '0.0');
                 $newnode->falsepenalty = (array) $node->falsepenalty ?
-                    (string) $node->falsepenalty : StackQuestionLoader::get_default('node', 'falsepenalty', null);
+                    (string) $node->falsepenalty : self::get_default('node', 'falsepenalty', null);
                 $newnode->falsenextnode = (array) $node->falsenextnode ?
-                    (string) $node->falsenextnode : StackQuestionLoader::get_default('node', 'falsenextnode', '-1');
+                    (string) $node->falsenextnode : self::get_default('node', 'falsenextnode', '-1');
                 $newnode->falseanswernote = (string) $node->falseanswernote ?
-                    (string) $node->falseanswernote : StackQuestionLoader::get_default('node', 'falseanswernote', '');
+                    (string) $node->falseanswernote : self::get_default('node', 'falseanswernote', '');
                 $newnode->falsefeedback = (string) $node->falsefeedback->text ?
-                    (string) $node->falsefeedback->text : StackQuestionLoader::get_default('node', 'falsefeedback', '');
+                    (string) $node->falsefeedback->text : self::get_default('node', 'falsefeedback', '');
                 $newnode->falsefeedbackformat =
                     (string) $node->falsefeedback['format'] ?
                     (string) $node->falsefeedback['format'] :
-                    StackQuestionLoader::get_default('node', 'falsefeedbackformat', 'html');
+                    self::get_default('node', 'falsefeedbackformat', 'html');
 
                 $data->nodes[(int) $node->name] = $newnode;
             }
@@ -430,32 +439,34 @@ class StackQuestionLoader {
                 $testinputs = [];
                 foreach ($test->testinput as $testinput) {
                     $testiname = (string) $testinput->name ? (string) $testinput->name :
-                        StackQuestionLoader::get_default('testinput', 'name', 'ans1');
+                        self::get_default('testinput', 'name', 'ans1');
                     $testivalue = (array) $testinput->value ? (string) $testinput->value :
-                        StackQuestionLoader::get_default('testinput', 'value', 'ta1');
+                        self::get_default('testinput', 'value', 'ta1');
                     $testinputs[$testiname] = $testivalue;
                 }
                 $testdescription = (array) $test->description ? (string) $test->description :
-                    StackQuestionLoader::get_default('qtest', 'description', '');
+                    self::get_default('qtest', 'description', '');
                 $testtestcase = (array) $test->testcase ? (string) $test->testcase :
-                    StackQuestionLoader::get_default('qtest', 'testcase', '1');
+                    self::get_default('qtest', 'testcase', '1');
                 $testcase = new \stack_question_test($testdescription, $testinputs, $testtestcase);
                 foreach ($test->expected as $expected) {
                     $testename = (string) $expected->name ? (string) $expected->name :
-                        StackQuestionLoader::get_default('expected', 'name', 'prt1');
+                        self::get_default('expected', 'name', 'prt1');
                     $testcase->add_expected_result($testename,
-                            new \stack_potentialresponse_tree_state(1, true,
-                                (array) $expected->expectedscore ?
-                                    (string) $expected->expectedscore :
-                                    StackQuestionLoader::get_default('expected', 'expectedscore', null),
-                                (array) $expected->expectedpenalty ?
-                                    (string) $expected->expectedpenalty :
-                                    StackQuestionLoader::get_default('expected', 'expectedpenalty', null),
-                                '', [
-                                    (array) $expected->expectedanswernote ?
-                                    (string) $expected->expectedanswernote :
-                                    StackQuestionLoader::get_default('expected', 'expectedanswernote', '1-0-T')
-                                ]));
+                        new \stack_potentialresponse_tree_state(1, true,
+                            (array) $expected->expectedscore ?
+                                (string) $expected->expectedscore :
+                                self::get_default('expected', 'expectedscore', null),
+                            (array) $expected->expectedpenalty ?
+                                (string) $expected->expectedpenalty :
+                                self::get_default('expected', 'expectedpenalty', null),
+                            '', [
+                                (array) $expected->expectedanswernote ?
+                                (string) $expected->expectedanswernote :
+                                self::get_default('expected', 'expectedanswernote', '1-0-T'),
+                            ]
+                        )
+                    );
                 }
                 $testcases[] = $testcase;
             }
@@ -488,18 +499,26 @@ class StackQuestionLoader {
         throw new \stack_exception('invalid bool value');
     }
 
+    /**
+     * Returns the default value for a question property.
+     *
+     * @param string $defaultcategory The category of the property required - question, input, prt, node, qtest.
+     * @param string $defaultname The name of the property.
+     * @param mixed $default The default value to return if not using the API.
+     * @return mixed The default value.
+     */
     public static function get_default($defaultcategory, $defaultname, $default) {
         // If we're in the STACK library in Moodle we can't load YML.
         if (!get_config('qtype_stack', 'stackapi')) {
             return $default;
         }
 
-        if (!StackQuestionLoader::$defaults) {
-            StackQuestionLoader::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
+        if (!self::$defaults) {
+            self::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
         }
 
-        if (isset(StackQuestionLoader::$defaults[$defaultcategory][$defaultname])) {
-            return StackQuestionLoader::$defaults[$defaultcategory][$defaultname];
+        if (isset(self::$defaults[$defaultcategory][$defaultname])) {
+            return self::$defaults[$defaultcategory][$defaultname];
         }
         // We could return $default here but we'd rather the default file was fixed.
         return null;
@@ -521,9 +540,9 @@ class StackQuestionLoader {
         $question = $xml->addChild('question');
         $question->addAttribute('type', 'stack');
 
-        StackQuestionLoader::array_to_xml($yaml, $question);
+        self::array_to_xml($yaml, $question);
         // Name is a special case. Has text tag but no format.
-        $name = (string) $xml->question->name ? (string) $xml->question->name : StackQuestionLoader::get_default('question', 'name', 'Default');
+        $name = (string) $xml->question->name ? (string) $xml->question->name : self::get_default('question', 'name', 'Default');
         $xml->question->name = new SimpleXMLElement('<root></root>');
         $xml->question->name->addChild('text', $name);
         return $xml;
@@ -533,11 +552,11 @@ class StackQuestionLoader {
      * Recursively converts an associative array to XML.
      */
     public static function array_to_xml($data, &$xml) {
-        foreach($data as $key => $value) {
-            if (strpos($key, 'format') !== false && in_array(str_replace('format', '', $key), StackQuestionLoader::TEXTFIELDS)) {
+        foreach ($data as $key => $value) {
+            if (strpos($key, 'format') !== false && in_array(str_replace('format', '', $key), self::TEXTFIELDS)) {
                 // Skip format attributes for text fields - they are handled with the text field below.
                 continue;
-            } else if (in_array($key, StackQuestionLoader::TEXTFIELDS)) {
+            } else if (in_array($key, self::TEXTFIELDS)) {
                 // Convert basic YAML field to node with text and format fields.
                 if ($key !== 'name') {
                     // Name is used in multiple places and sometimes has text property and sometimes not.
@@ -547,24 +566,24 @@ class StackQuestionLoader {
                     if (isset($data[$key . 'format'])) {
                         $subvalue['format'] = $data[$key . 'format'];
                     }
-                    StackQuestionLoader::array_to_xml($subvalue, $subnode);
+                    self::array_to_xml($subvalue, $subnode);
                 } else {
                     $xml->addChild($key, $value);
                 }
-            } else if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
+            } else if (in_array($key, self::ARRAYFIELDS)) {
                 // Certain fields need special handling to strip out
                 // numeric keys.
-                foreach($value as $element) {
+                foreach ($value as $element) {
                     if (is_array($element)) {
                         $subnode = $xml->addChild($key);
-                        StackQuestionLoader::array_to_xml($element, $subnode);
+                        self::array_to_xml($element, $subnode);
                     } else {
                         $xml->addChild($key, $element);
                     }
                 }
             } else if (is_array($value)) {
                 $subnode = $xml->addChild($key);
-                StackQuestionLoader::array_to_xml($value, $subnode);
+                self::array_to_xml($value, $subnode);
             } else {
                 $xml->addChild($key, $value);
             }
@@ -578,12 +597,8 @@ class StackQuestionLoader {
      * @return array The resulting array.
      */
     public static function xml_to_array($xmldata, &$output = []) {
-        foreach($xmldata as $key => $value) {
-            if ($key === 'deployedseed') {
-                // Convert deployedseed to an array of integers.
-                $x= (int) $value;
-            }
-            if (in_array($key, StackQuestionLoader::TEXTFIELDS)) {
+        foreach ($xmldata as $key => $value) {
+            if (in_array($key, self::TEXTFIELDS)) {
                 if (isset($value->text)) {
                     $output[$key] = (string) $value->text;
                 } else {
@@ -593,14 +608,14 @@ class StackQuestionLoader {
                     $output[$key . 'format'] = (string) $value->format;
                 }
             } else if ($value instanceof SimpleXMLElement && $value->count()) {
-                if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
-                    $output[$key][] = StackQuestionLoader::xml_to_array($value);
+                if (in_array($key, self::ARRAYFIELDS)) {
+                    $output[$key][] = self::xml_to_array($value);
                 } else {
                     $output[$key] = [];
-                    StackQuestionLoader::xml_to_array($value, $output[$key]);
+                    self::xml_to_array($value, $output[$key]);
                 }
             } else {
-                if (in_array($key, StackQuestionLoader::ARRAYFIELDS)) {
+                if (in_array($key, self::ARRAYFIELDS)) {
                     $output[$key][] = (string) $value;
                 } else {
                     $output[$key] = (string) $value;
@@ -610,30 +625,36 @@ class StackQuestionLoader {
         return $output;
     }
 
+    /**
+     * Detects differences between the provided XML or YAML and the default question structure.
+     *
+     * @param string $xml The XML or YAML string to compare.
+     * @return string The differences in YAML format.
+     */
     public static function detect_differences($xml) {
-        if (!StackQuestionLoader::$defaults) {
-                StackQuestionLoader::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
+        if (!self::$defaults) {
+                self::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
         }
         if (strpos($xml, '<question type="stack">') !== false) {
             $xmldata = new SimpleXMLElement($xml);
         } else {
-            $xmldata = StackQuestionLoader::yaml_to_xml($xml);
+            $xmldata = self::yaml_to_xml($xml);
         }
-        $plaindata = StackQuestionLoader::xml_to_array($xmldata);
-        $diff = StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['question'], $plaindata['question']);
+        $plaindata = self::xml_to_array($xmldata);
+        $diff = self::obj_diff(self::$defaults['question'], $plaindata['question']);
         if (!empty($plaindata['question']['input'])) {
             $diffinputs = [];
             foreach ($plaindata['question']['input'] as $input) {
                 $diffinput = [];
                 $diffinput['name'] = $input['name'];
                 $diffinput['tans'] = $input['tans'];
-                $diffinput = array_merge($diffinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['input'], $input));
+                $diffinput = array_merge($diffinput, self::obj_diff(self::$defaults['input'], $input));
                 $diffinputs[] = $diffinput;
             }
             $diff['input'] = $diffinputs;
         } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
-            $diff['input'] = [['name' => StackQuestionLoader::get_default('input', 'name', 'ans1'),
-                'tans' => StackQuestionLoader::get_default('input', 'tans', 'ta1')]];
+            $diff['input'] = [['name' => self::get_default('input', 'name', 'ans1'),
+                'tans' => self::get_default('input', 'tans', 'ta1')]];
         } else {
             $diff['input'] = [];
         }
@@ -642,23 +663,23 @@ class StackQuestionLoader {
             foreach ($plaindata['question']['prt'] as $prt) {
                 $diffprt = [];
                 $diffprt['name'] = $prt['name'];
-                $diffprt = array_merge($diffprt, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['prt'], $prt));
+                $diffprt = array_merge($diffprt, self::obj_diff(self::$defaults['prt'], $prt));
                 foreach ($prt['node'] as $node) {
                     $diffnode = [];
                     $diffnode['name'] = $node['name'];
                     $diffnode['sans'] = $node['sans'];
                     $diffnode['tans'] = $node['tans'];
-                    $diffnode = array_merge($diffnode, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['node'], $node));
+                    $diffnode = array_merge($diffnode, self::obj_diff(self::$defaults['node'], $node));
                     $diffprt['node'][] = $diffnode;
                 }
                 $diffprts[] = $diffprt;
             }
             $diff['prt'] = $diffprts;
         } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
-            $diff['prt'] = [['name' => StackQuestionLoader::get_default('prt', 'name', 'prt1'),
-                'node' => [['name' => StackQuestionLoader::get_default('node', 'name', '0'),
-                    'sans' => StackQuestionLoader::get_default('node', 'sans', 'ans1'),
-                    'tans' => StackQuestionLoader::get_default('node', 'tans', 'ta1')]]]];
+            $diff['prt'] = [['name' => self::get_default('prt', 'name', 'prt1'),
+                'node' => [['name' => self::get_default('node', 'name', '0'),
+                    'sans' => self::get_default('node', 'sans', 'ans1'),
+                    'tans' => self::get_default('node', 'tans', 'ta1')]]]];
         } else {
             $diff['prt'] = [];
         }
@@ -676,17 +697,17 @@ class StackQuestionLoader {
             foreach ($plaindata['question']['qtest'] as $test) {
                 $difftest = [];
                 $difftest['testcase'] = $test['testcase'];
-                $difftest = array_merge($difftest, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['qtest'], $test));
+                $difftest = array_merge($difftest, self::obj_diff(self::$defaults['qtest'], $test));
                 foreach ($test['testinput'] as $tinput) {
                     $difftinput = [];
                     $difftinput['name'] = $tinput['name'];
-                    $difftinput = array_merge($difftinput, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['testinput'], $tinput));
+                    $difftinput = array_merge($difftinput, self::obj_diff(self::$defaults['testinput'], $tinput));
                     $difftest['testinput'][] = $difftinput;
                 }
                 foreach ($test['expected'] as $texpected) {
                     $difftexpected = [];
                     $difftexpected['name'] = $texpected['name'];
-                    $difftexpected = array_merge($difftexpected, StackQuestionLoader::obj_diff(StackQuestionLoader::$defaults['expected'], $texpected));
+                    $difftexpected = array_merge($difftexpected, self::obj_diff(self::$defaults['expected'], $texpected));
                     $difftest['expected'][] = $difftexpected;
                 }
                 $difftests[] = $difftest;
@@ -697,22 +718,38 @@ class StackQuestionLoader {
         return $yaml;
     }
 
-    public static function obj_diff($obj1, $obj2):array {
+    /**
+     * Compares two objects and returns the differences as an array.
+     *
+     * @param object $obj1 The first object to compare.
+     * @param object $obj2 The second object to compare.
+     * @return array An associative array of differences.
+     */
+    public static function obj_diff($obj1, $obj2): array {
         $a1 = (array) $obj1;
         $a2 = (array) $obj2;
-        return StackQuestionLoader::arr_diff($a1, $a2);
+        return self::arr_diff($a1, $a2);
     }
 
-    public static function arr_diff($a1, $a2):array {
+    /**
+     * Compares two arrays and returns the differences as an associative array.
+     *
+     * @param array $a1 The first array to compare.
+     * @param array $a2 The second array to compare.
+     * @return array An associative array of differences.
+     */
+    public static function arr_diff($a1, $a2): array {
         $r = [];
         foreach ($a1 as $k => $v) {
             if (array_key_exists($k, $a2)) {
-                if (is_array($v)){
-                    $rad = StackQuestionLoader::arr_diff($v, (array) $a2[$k]);
-                    if (count($rad)) { $r[$k] = $rad; }
-                // required to avoid rounding errors due to the
-                // conversion from string representation to double
-                } else if (is_double($v)){
+                if (is_array($v)) {
+                    $rad = self::arr_diff($v, (array) $a2[$k]);
+                    if (count($rad)) {
+                        $r[$k] = $rad;
+                    }
+                    // Required to avoid rounding errors due to the
+                    // conversion from string representation to double.
+                } else if (is_double($v)) {
                     if (abs($v - $a2[$k]) > 0.000000000001) {
                         $r[$k] = $a2[$k];
                     }

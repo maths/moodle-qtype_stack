@@ -23,7 +23,6 @@
  */
 
 namespace api\dtos;
-defined('MOODLE_INTERNAL') || die();
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackDiffResponse {

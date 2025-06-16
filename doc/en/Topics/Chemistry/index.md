@@ -23,8 +23,6 @@ For pure display of chemical formula in LaTeX, the [`mhcem` package](https://mhc
 
 TODO: test and document this.
 
-TODO: write a function which gives an annotated atomic symbol in LaTeX, e.g. \(^{25}_{12}\mbox{Mg}^{2+}\).
-
 ## Using chemical data
 
 Chemical data is stored in a (large) associative array `%_STACK_CHEM_ELEMENTS` using the standard chemical symbols as keys in the array. (See [https://en.wikipedia.org/wiki/Chemical_symbol](https://en.wikipedia.org/wiki/Chemical_symbol).)
@@ -49,3 +47,6 @@ Notes.
 1. Names of elements are always given as strings.  E.g. to access data for hydrogen use `"H"`.
 2. Field names are always given as strings, e.g. `"AtomicMass"` is a string (not an atom `AtomicMass`).
 3. The utility functions filter the `"Name"` field to give the name of the element with the local language selection.  STACK uses the global `%_STACK_LANG` variable.  If no local name is defined the `"Name"` in English is returned.   If you really want _all_ the data, just use `assoc(element, %_STACK_CHEM_ELEMENTS)` rather than ` chem_data_all(element)`.
+
+TODO: write a maxima function which gives an annotated atomic symbol in LaTeX, based on the chemical data e.g. \(^{25}_{12}\mbox{Mg}^{2+}\).
+

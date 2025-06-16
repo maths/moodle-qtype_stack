@@ -1,13 +1,13 @@
 # Testing, using and maintaining questions
 
-This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
+This section of the documentation provides information on testing questions and maintaining question banks for the long term.  This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
 
 * [Creating question tests](Testing.md),
 * [Deploying variants](Deploying.md),
 * [Reporting](Reporting.md),
 * [Ensuring questions work in the future](Future_proof.md).
 
-This section of the documentation provides information on testing questions and maintaining question banks for the long term.  Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
+Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
 
     [...]/question/type/stack/adminui/index.php
 
@@ -42,6 +42,17 @@ You can bulk test all question tests on all variants of all question by using th
 STACK questions store the version of the STACK plug-in _last used_ to edit the question.  The bulk tester runs all question tests, and also checks for changes with the current STACK plug-in version.
 
 It is possible to [bulk test materials on other sites](Testing_questions_on_other_sites.md).  (Site admins will have the option to bulk test all materials, and there is also a command line bulk test option.)
+
+You can add in ``[[todo]]` blocks to the question description listing problems as a one-off process.
+
+* For the web page run the bulk-test on the chosen context, then run the page again with the option `&addtags=true` in the URL.  There is no web-form interface for this (advanced) option.
+* For the CLI use the flag `--addtags`.
+
+The purpose of adding ``[[todo]]` blocks is (1) to find questions more easily without running the whole bulk test again, (2) enabling people without the capability `qtype/stack:usediagnostictools` to find questions which we know need work.
+
+The ``[[todo]]` blocks are added for broken questions, problems with upgrade or other errors.  Missing seeds, missing tests and failing question tests.  Blocks are _not_ added for empty worked solutions.
+
+These ``[[todo]]` blocks are only added once, but it does change the DB entry for each question.  Use with care.
 
 ## Identifying STACK questions using particular blocks
 

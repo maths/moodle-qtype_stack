@@ -188,3 +188,8 @@ Create a new question.
 
 As above, include the contributed validators.  Use the extra option `validator:validate_nofunctions` in the input.
 
+# Validators and Maxima timeouts
+
+Users have reported that in some circumstances, questions using bespoke validators run into seemingly unrelated Maxima timeouts. Examples of this behaviour are discussed in [Issue #1211](https://github.com/maths/moodle-qtype_stack/issues/1121) and on the [Zulip Community chat](https://stack-assessment.zulipchat.com/#narrow/channel/384532-question-troubleshooting/topic/Bespoke.20Validators.20and.20maxima.20timeouts).
+
+It seems that this behaviour is related to calculus functions like `limit` and `integrate` in the question variables, independent of what the validator does. As a workaround, it often helps to forcefully evaluate such expressions using `ev(..., simp)`, e.g. try `c : ev(int(e^(s*x),x,0,1), simp);` instead of `c : int(e^(s*x),x,0,1);`.

@@ -169,7 +169,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(1,
             preg_match('/<p>Question<\/p><p>\[\[input:ans1\]\] \[\[validation:ans1\]\]<\/p>\n    <p>' .
                 '\[\[input:ans2\]\] \[\[validation:ans2\]\]<\/p>/s', (string) $xml->question->questiontext->text));
-       $this->assertEquals('html', (string)$xml->question->questiontext->format);
+       $this->assertEquals('html', (string)$xml->question->questiontext['format']);
+       $this->assertEquals(false, isset($xml->question->questiontext->format));
     }
 
     public function test_array_to_xml_inverse()
@@ -211,7 +212,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         StackQuestionLoader::array_to_xml($data, $xml);
         $this->assertEquals('Test', $xml->name);
         $this->assertEquals('What is 2+2?', $xml->questiontext->text);
-        $this->assertEquals('moodle', $xml->questiontext->format);
+        $this->assertEquals('moodle', $xml->questiontext['format']);
         $this->assertEquals(2, count($xml->input));
         $this->assertEquals(1, count($xml->prt));
         $this->assertEquals('prt1', $xml->prt->name);

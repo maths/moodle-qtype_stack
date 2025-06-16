@@ -564,7 +564,7 @@ class StackQuestionLoader {
                     $subnode = $xml->addChild($key);
                     $subvalue = ['text' => $value];
                     if (isset($data[$key . 'format'])) {
-                        $subvalue['format'] = $data[$key . 'format'];
+                        $subnode['format'] = $data[$key . 'format'];
                     }
                     self::array_to_xml($subvalue, $subnode);
                 } else {
@@ -604,8 +604,8 @@ class StackQuestionLoader {
                 } else {
                     $output[$key] = (string) $value;
                 }
-                if (isset($value->format)) {
-                    $output[$key . 'format'] = (string) $value->format;
+                if (isset($xmldata->$key['format'])) {
+                    $output[$key . 'format'] = (string) $xmldata->$key['format'];
                 }
             } else if ($value instanceof SimpleXMLElement && $value->count()) {
                 if (in_array($key, self::ARRAYFIELDS)) {
@@ -692,12 +692,12 @@ class StackQuestionLoader {
             $diff['prt'] = [];
         }
         if (!empty($plaindata['question']['deployedseed'])) {
-            $deployedseeds = [];
+            $deployedseed = [];
             foreach ($plaindata['question']['deployedseed'] as $seed) {
-                $deployedseeds[] = (string) $seed;
+                $deployedseed[] = (string) $seed;
             }
-            if (count($deployedseeds)) {
-                $diff['deployedseed'] = $deployedseeds;
+            if (count($deployedseed)) {
+                $diff['deployedseed'] = $deployedseed;
             }
         }
         if (!empty($plaindata['question']['qtest'])) {

@@ -55,12 +55,15 @@ The STACK service implemented in this repository provides a stateless REST-API w
 - POST /validate: Validate a user's input
 - POST /download: Serves a file for questions that have download links
 - POST /test: Run a questions tests against all deployed variants
+- POST /diff: Return a YAML dump with the difference between the submitted question and API defaults
 
 ### Render route
 
 The `POST /render` route is used to render a given question. It expects a JSON document in the post body, which must contain the following fields:
 
-- `questionDefinition`: The Moodle-XML-Export of a single STACK question.
+- `questionDefinition`: The Moodle-XML-Export of a single STACK question. For all routes, the question does not need to be complete. The API will supply defaults
+for all fields so minimum required XML is `<quiz><question type="stack"></question></quiz>`. A YAML representation of the differences between the question and the defaults
+can also be used. (See [Diff Route](#diff-route).) Any non-empty YAML will do e.g. `name: YAML Question`.
 - `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
   no seed is provided, the first deployed variant is used.
 - `renderInputs`: String. Response will include HTML renders of the inputs if value other than ''. The input divs will have the value added as a prefix to their name attribute.
@@ -70,7 +73,7 @@ The response is again a JSON document, with the following fields:
 
 - a string field `questionrender`, containing the rendered question text
 - a string field `questionsamplesolutiontext`, containing the rendered general feedback of the question
-- a string map `questionassets`, containing the assets used in the question, see [Plots/Assets](#Plots/Assets)
+- a string map `questionassets`, containing the assets used in the question, see [Plots/Assets](#plotsassets)
 - a map field `questioninputs` mapping an input name to its configuration
 - an int field `questionseed` indicating the seed used for this response
 - an int array `questionvariants` containing all variant seeds of the question
@@ -118,7 +121,7 @@ The grading route returns the following fields:
 - a map from the PRT names to floats `scoreweights`, containing the weighting for each part. `scoreweights['total']` contains the default total mark for the question. The mark for a question part is its `score[prt] * scoreweights[prt] * scoreweights['total']`.
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
-- a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets)
+- a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#plotsassets)
 - a string field `responsesummary` containing a summary of response. (See [Reporting](../doc/en/Authoring/../STACK_question_admin/Reporting.md).)
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 
@@ -213,13 +216,71 @@ Example result object:
 
 If a question has no tests, a default test will be run to check if the model answers return a score of 1.
 
+### Diff route
+
+The `POST /diff` route is used to compare a question with defaults.
+
+- `questionDefinition`: The Moodle-XML-Export of a single STACK question or a YAML diff output.
+
+The return object:
+
+- `diff`: A YAML representation of the differences between the sent question and the API defaults.
+
+As the API fills in defaults, the diff output is all that is needed to re-send the question to the API via any route.
+
+#### STACK fragments and YAML representation
+
+**Under development** - Defaults, how they're handled and YAML layout may change.
+
+The API accepts questions is a Moodle XML format i.e. `<quiz><question type="stack"></question></quiz>`. Missing fields will be filled
+in from the `questiondefaults.yml` file. If there are no inputs or PRTs, a single one of each will be created. There will be no tests by default.  
+- Input: `name: ans1, type: algebraic,
+  tans: ta1`
+- PRT: `name: prt1`
+- node: `name: 0, answertest: AlgEquiv, sans: ans1, tans: ta1`
+
+If the API does not find XML in the required format it will attempt to interpret the file as YAML, again filling in blanks from the default
+file as with the XML. Fields are slightly different than from XML - rather than some fields having `text` and `format` children, there are
+`field` and `fieldformat` fields e.g.  
+```
+<specificfeedback>
+  <text><p>[[feedback:prt1]]</p></text>
+  <format>html</format>
+</specificfeedback>`  
+```
+becomes
+```
+specificfeedback: <p>[[feedback:prt1]]</p>
+specificfeedbackformat: html
+```
+
+NB Things get tricky with quotes around YAML fields. In the above example, the API YAML parser can handle `<p>[[feedback:prt1]]</p>`
+and `'[[feedback:prt1]]'` but `[[feedback:prt1]]` throws an error. Using the diff route on `<p>[[feedback:prt1]]</p>` returns `'<p>[[feedback:prt1]]</p>'`. Meanwhile:
+```
+specificfeedback: |-
+  [[feedback:prt2]]
+    Lorem ipsum
+```
+is returned without quotes and
+```
+specificfeedback: |-
+  [[feedback:prt2]]
+```
+is returned as
+```
+specificfeedback: '[[feedback:prt2]]'
+```
+This will undoubtedly cause confusion at some point but may be unavoidable.
+
+See [test question](../tests/fixtures/questionyml.yml) for sample YAML layout.
+
 ### Rendered CASText format
 
 The API returns rendered CASText as parts of its responses in multiple places. The CASText is output as a single string in an intermediate format, which cannot be directly fed to browsers for display, and requires further processing. Applications using the API have to handle the following cases:
 
 - **Latex**: The rendered CASText can contain Latex code, which must be rendered before being displayed to the user, e.g. by MathJax. Latex blocks are always enclosed by either `\[ <latex> \]` for display mode latex, or `\( <latex> \)` for inline mode.
 - **Substitution Tokens**: The rendered CASText can contain substitution tokens, indicating where inputs, input validations or PRT feedback should be inserted. These tokens have the format `[[type:name]]`, where type can be either `feedback`, `input` or `validation`, and name corresponds to the input or PRT name. It is up to the embedding application to replace these tokens with the appropriate content, depending on the context. 
-- **Images**: The rendered CASText can contain image tags, which have to be processed as described below: [Plots/Assets](#Plots/Assets)
+- **Images**: The rendered CASText can contain image tags, which have to be processed as described below: [Plots/Assets](#plotsassets)
 
 
 ### Plots/Assets

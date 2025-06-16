@@ -86,3 +86,6 @@ The template block has two parameters, the first being a name which should be a 
 
 Note in the background templates are just functions with CASText values. You can do the same with inline CASText and more importantly building your own functions allows you to use arguments for them and thus makes repetition with varying parameters simpler. For templates no arguments exist, for them the values come from the context where they get placed in, and must therefore be controlled though other means.
 
+## Entity escape block ##
+
+Sometimes one needs to author content that uses characters that are sensitive in HTML syntax. If one wraps that content in this block those characters will be automatically converted to HTML-entities during output. Can be very useful when including sample blocks of code, that includes certain operators. `[[entityescape]] code with some less than chars [[/entityescape]]`.

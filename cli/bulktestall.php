@@ -38,8 +38,8 @@ require_once(__DIR__ . '/../stack/bulktester.class.php');
 $start = microtime(true);
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false, 'id' => false, 'remote' => false],
-    ['h' => 'help']);
+list($options, $unrecognized) = cli_get_params(['help' => false, 'id' => false, 'remote' => false,
+    'addtags' => false], ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -47,13 +47,14 @@ if ($unrecognized) {
 }
 
 if ($options['help']) {
-    echo "This script runs all the quesion tests for all deployed versions of all
+    echo "STACK CLI bulk test.\n
+This script runs all the quesion tests for all deployed versions of all
 questions in all contexts in the Moodle site. This is intended for regression
 testing, before you release a new version of STACK to your site.\n
-Use with --id=n to start generation from question id is n.\n";
+Use with --id=n to start generation from question id is n.\n
+Use with --addtags to add [[todo]] tags to questions needing attention.\n";
     exit(0);
 }
-
 if ($options['remote']) {
     if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
         throw new dml_exception('dbdriverproblem', "Unknown driver $CFG->dblibrary/$CFG->dbtype");
@@ -105,9 +106,11 @@ foreach ($contexts as $contextid => $numstackquestions) {
     echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
     if ($partialcontext === $contextid) {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', (int) $options['id']);
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext,
+            null, 'cli', (int) $options['id'], false, (bool) $options['addtags']);
     } else {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', false);
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext,
+            null, 'cli', false, false, (bool) $options['addtags']);
     }
 
     $allpassed = $allpassed && $passed;

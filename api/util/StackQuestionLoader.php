@@ -376,7 +376,8 @@ class StackQuestionLoader {
                 $newnode = new \stdClass();
 
                 $newnode->nodename = (string) $node->name;
-                $newnode->description = isset($node->description) ? (string) $node->description : '';
+                $newnode->description = isset($node->description) ? (string) $node->description :
+                    self::get_default('node', 'description', '');
                 $newnode->answertest = isset($node->answertest) ? (string) $node->answertest :
                     self::get_default('node', 'answertest', 'AlgEquiv');
                 $newnode->sans = (string) $node->sans;

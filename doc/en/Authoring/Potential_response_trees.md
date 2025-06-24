@@ -104,12 +104,12 @@ The `[Generic feedback]` is a question level option, e.g. "Standard feedback for
 
 How PRT feedback is displayed is controlled by the PRT option `feedbackstyle` as follows.  Note the Generic feedback might include the symbol, if you retain the default.
 
-Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score ?
+Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score
 ------|--------------|--------|------------------|--------|--------------|------------------------------------------
-  0   | Formative    |  No    |  No              |  Yes   |  Yes         | No (PRT does not contribute to score)
+  0   | Formative    |  No    |  No              |  Yes   |  Yes         | PRT does not contribute to score
   1   | Standard     |  No    |  Yes             |  Yes   |  Yes         | Respects quiz setting
-  2   | Compact      |  Yes   |  No              |  Yes   |  Yes         | No
-  3   | Symbol only  |  Yes   |  No              |  Yes   |  No          | No
+  2   | Compact      |  Yes   |  No              |  Yes   |  Yes         | Not shown
+  3   | Symbol only  |  Yes   |  No              |  Yes   |  No          | Not shown
 
 Note that the "Compact" PRT feedback uses `<span>` tags and not `<div>`.  This allows inclusion inline, without new paragraphs settings.  However, `<span>` tags cannot contain a block level element, such as a `<div>` or `<p>`. So, if you include a block level element in your PRT feedback then the browser may "spit this out" and misplace the feedback. Also, MathJax may not display mathematics correctly on the page when there is an HTML error such as this.  If you use the "Compact" feedback, please author only minimal PRT feedback with no block level HTML elements.
 

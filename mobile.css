@@ -985,18 +985,20 @@ h4.HELM_example:before,
 ol.HELM_parts {
     list-style: none;
     counter-reset: helm-parts;
-    float: left;
+    margin-top: 1rem;
     width: 100%;
 }
 ol.HELM_parts > li {
     counter-increment: helm-parts;
     margin-bottom: 1.5rem;
+    display: block;
 }
 
 ol.HELM_parts > li:before {
     content: "(" counter(helm-parts, lower-alpha) ")";
     margin-left: -2.2rem;
     margin-top: -0.3rem;
+    margin-right: 0.4rem;
     background: #1e92cc;
     border-radius: 0.2rem;
     color: white;
@@ -1005,8 +1007,6 @@ ol.HELM_parts > li:before {
     text-align: center;
     display: inline-block;
     box-sizing: border-box;
-    float: left;
-    clear: left;
 }
 
 ol.HELM_parts_inline {
@@ -1015,6 +1015,7 @@ ol.HELM_parts_inline {
     counter-reset: helm-parts;
     float: left;
     width: 100%;
+    margin-left: 2.5rem;
 }
 ol.HELM_parts_inline > li {
     counter-increment: helm-parts;

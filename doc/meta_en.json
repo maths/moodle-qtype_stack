@@ -704,6 +704,11 @@
         "description":"Information on maintaining questions and question banks for the longer term."
         },
         {
+        "file":"Bulk_testing.md",
+        "title":"Bulk testing STACK questions on your site - STACK Documentation",
+        "description":"Information about bulk testing STACK questions on your site."
+        },
+        {
         "file":"Deploying.md",
         "title":"Deploying - STACK Documentation",
         "description":"Information about deploying random variants in the STACK online assessment system."

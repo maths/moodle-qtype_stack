@@ -59,8 +59,9 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         $code .= "stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {";
         $code .= "add_repeat();";
         $code .= "});\n";
-
         $list[] = new MP_String($code);
+
+		$list[] = new MP_String("window.repeat_counter = 0;");
 
 		$list[] = new MP_String("function add_repeat(){\n");
 
@@ -76,6 +77,9 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				$list[] = new MP_String("');\n");
 
 				$list[] = new MP_String("  Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {\n");
+				$list[] = new MP_String("    window.repeat_counter++;\n");
+				$list[] = new MP_String("    console.log('repeat_counter: ',window.repeat_counter);\n");
+				$list[] = new MP_String("    repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
 				$list[] = new MP_String("    console.log('repeat_id: {$id}');\n");
 				$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
 				$list[] = new MP_String("    console.log('repeatcontainer_content:', repeatcontainer_content);\n");

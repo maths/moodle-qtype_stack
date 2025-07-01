@@ -56,119 +56,37 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         $list[] = new MP_String(json_encode(['type' => 'module']));
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
-		$code .= "const state_store = document.getElementById(id);\n";
-        $code .= "if (state_store.value!=''){ console.log('we need to reconstruct'); }\n";   // TODO: we need to build a js function for reconstruction the inputs
-        $code .= "});\n";
-        $code .= "stack_js.register_external_button_listener('stack-repeatbutton-". $uid . "', function() {";
+        $code .= "stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {";
         $code .= "add_repeat();";
         $code .= "});\n";
-        
 
         $list[] = new MP_String($code);
 
-		$splitrepeatid = preg_split("/[\ \n\;]+/", $this->params['repeat_ids'] ?? '');
-		$code = "";
+		$list[] = new MP_String("function add_repeat(){\n");
 
-		$code .= <<<JS
-		function getSaveState() {
-		  const raw = state_store.value;
-		  return raw ? JSON.parse(raw) : {
-			num_copies: 1,
-			data: [
-				{ repeat_id: '$id', inputs: { } }
-			]
-		  };
+		if (isset($this->params['repeat_ids'])) {
+			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
+			foreach ($splitrepeatid as &$id) {
+				$list[] = new MP_String("  const contentPromise_{$id} = stack_js.get_content('");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
+				$list[] = new MP_String("');\n");
+
+				$list[] = new MP_String("  const containerPromise_{$id} = stack_js.get_content('");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
+				$list[] = new MP_String("');\n");
+
+				$list[] = new MP_String("  Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {\n");
+				$list[] = new MP_String("    console.log('repeat_id: {$id}');\n");
+				$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
+				$list[] = new MP_String("    console.log('repeatcontainer_content:', repeatcontainer_content);\n");
+				$list[] = new MP_String("    stack_js.switch_content('");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
+				$list[] = new MP_String("', repeatcontainer_content + repeat_content);\n");
+				$list[] = new MP_String("  });\n");
+			}
 		}
 
-		function setSaveState(state) {
-		  state_store.value = JSON.stringify(state);
-		}
-
-		function updateSaveStateInput(repeat_id, name, index, value) {
-		  const state = getSaveState();
-		  const block = state.data.find(b => b.repeat_id === repeat_id);
-		  if (!block) return;
-		  if (!block.inputs[name]) block.inputs[name] = [];
-		  while (block.inputs[name].length <= index) {
-			block.inputs[name].push('');
-		  }
-		  block.inputs[name][index] = value;
-		  setSaveState(state);
-		}
-
-		function add_repeat() {
-		  const state = getSaveState();
-		  const newIndex = state.num_copies;
-		  state.num_copies++;
-
-		JS;
-
-		foreach ($splitrepeatid as $id) {
-			$contentKey = "'quid' + 'repeat_$id'";
-			$targetId = "'quid' + 'repeatcontainer_$id'";
-			$code .= <<<JS
-		  {
-			const contentPromise = stack_js.get_content($contentKey);
-			contentPromise.then((html) => {
-			  const temp = document.createElement('div');
-			  temp.innerHTML = html;
-
-			  temp.querySelectorAll('[id]').forEach(el => {
-				el.id = el.id + '_' + newIndex;
-			  });
-
-			  temp.querySelectorAll('[name]').forEach(el => {
-				const originalName = el.name;
-				const newName = originalName + '_' + newIndex;
-				el.name = newName;
-				el.setAttribute('data-repeat-index', newIndex);
-				el.value = '';
-				el.addEventListener('input', () => updateSaveStateInput('$id', originalName, newIndex, el.value));
-			  });
-
-			  const newHTML = temp.innerHTML;
-			  const container = document.getElementById($targetId);
-			  container.innerHTML += newHTML;
-
-			  const block = state.data.find(b => b.repeat_id === '$id');
-			  if (block) {
-				for (const key in block.inputs) {
-				  block.inputs[key].push('');
-				}
-			  }
-
-			  setSaveState(state);
-			});
-		  }
-
-		JS;
-		}
-
-		$code .= <<<JS
-		}
-		document.addEventListener('DOMContentLoaded', () => {
-		JS;
-
-		foreach ($splitrepeatid as $id) {
-			$selector = "'#' + 'quid' + 'repeat_$id' + ' input'";
-			$code .= <<<JS
-		  document.querySelectorAll($selector).forEach((input) => {
-			const name = input.name;
-			input.setAttribute('data-repeat-index', 0);
-			input.addEventListener('input', () => updateSaveStateInput('$id', name, 0, input.value));
-		  });
-
-		JS;
-		}
-
-		$code .= <<<JS
-		  setSaveState(getSaveState());
-		});
-		JS;
-
-		$list[] = new MP_String($code);
-
+		$list[] = new MP_String("};");
 
 
         // Now add a hidden [[iframe]] with suitable scripts.
@@ -203,9 +121,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         if (!isset($this->params['repeat_ids'])) {
             return $r;
         }
-        if (!isset($this->params['save_state'])) {
-            return $r;
-        }
         return $r;
     }
 
@@ -225,12 +140,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
         if (!array_key_exists('repeat_ids', $this->params)) {
             $errors[] = new $options['errclass']('Repeatbutton block requires a repeat_ids parameter.',
-                $options['context'] . '/' .
-                $this->position['start'] . '-' . $this->position['end']);
-            return false;
-        }
-        if (!array_key_exists('save_state', $this->params)) {
-            $errors[] = new $options['errclass']('Repeatbutton block requires a save_state parameter.',
                 $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;

@@ -78,12 +78,12 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 				$list[] = new MP_String("  Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {\n");
 				$list[] = new MP_String("    window.repeat_counter++;\n");
-				$list[] = new MP_String("    console.log('repeat_counter: ',window.repeat_counter);\n");
+				//$list[] = new MP_String("    console.log('repeat_counter: ',window.repeat_counter);\n");
 				$list[] = new MP_String("    repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
 				$list[] = new MP_String("    repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
-				$list[] = new MP_String("    console.log('repeat_id: {$id}');\n");
-				$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
-				$list[] = new MP_String("    console.log('repeatcontainer_content:', repeatcontainer_content);\n");
+				//$list[] = new MP_String("    console.log('repeat_id: {$id}');\n");
+				//$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
+				//$list[] = new MP_String("    console.log('repeatcontainer_content:', repeatcontainer_content);\n");
 				$list[] = new MP_String("    stack_js.switch_content('");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
 				$list[] = new MP_String("', repeatcontainer_content + repeat_content);\n");
@@ -131,20 +131,13 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate(&$errors=[], $options=[]): bool {
-        if (!array_key_exists('title', $this->params)) {
-            $errors[] = new $options['errclass']('Repeatbutton block requires a title parameter.', $options['context'] . '/' .
+        if (!array_key_exists('title', $this->params) || trim($this->params['title']) === '') {
+            $errors[] = new $options['errclass']('Repeatbutton block requires a non-empty title parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
-
-        if (trim($this->params['title']) === '') {
-            $errors[] = new $options['errclass']('Repeatbutton block title must be non-empty.', $options['context'] . '/' .
-                $this->position['start'] . '-' . $this->position['end']);
-            return false;
-        }
-
-        if (!array_key_exists('repeat_ids', $this->params)) {
-            $errors[] = new $options['errclass']('Repeatbutton block requires a repeat_ids parameter.',
+        if (!array_key_exists('repeat_ids', $this->params) || trim($this->params['repeat_ids']) === '') {
+            $errors[] = new $options['errclass']('Repeatbutton block requires a non-empty repeat_ids parameter.',
                 $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;

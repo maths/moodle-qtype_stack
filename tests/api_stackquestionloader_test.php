@@ -32,6 +32,7 @@ require_once(__DIR__ . '../../api/util/StackQuestionLoader.php');
 use api\util\StackQuestionLoader;
 use stack_api_test_data;
 use qtype_stack_testcase;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Add description here.
@@ -159,8 +160,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
 
     public function test_yaml_to_xml()
     {
-        if (!function_exists('yaml_parse')) {
-            $this->markTestSkipped('YAML extension is not available.');
+        if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
+            $this->markTestSkipped('Symfony YAML extension is not available.');
             return;
         }
         $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
@@ -275,32 +276,48 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         // Test the difference detection with a full question.
         $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
         $diff = StackQuestionLoader::detect_differences($yaml);
-        $diffarray = yaml_parse($diff);
-        $this->assertEquals(9, count($diffarray));
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(10, count($diffarray));
         $expected = [
             'name' => 'Test question',
             'questiontext' => "<p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>\n    <p>[[input:ans2]] [[validation:ans2]]</p>\n",
             'questionvariables' => 'ta1:1;ta2:2;',
+            'questionsimplify' => '1',
             'prtcorrect' => '<p><i class="fa fa-check"></i> Correct answer*, well done.</p>',
             'multiplicationsign' => 'cross',
             'input' => [
                 [
                     'name' => 'ans1',
+                    'type' => 'algebraic',
                     'tans' => 'ta1',
                     'boxsize' => 25,
+                    'forbidfloat' => '1',
+                    'requirelowestterms' => '0',
+                    'checkanswertype' => '0',
+                    'mustverify' => '1',
+                    'showvalidation' => '1'
                 ],
                 [
                     'name' => 'ans2',
-                    'tans' => 'ta2'
+                    'type' => 'algebraic',
+                    'tans' => 'ta2',
+                    'forbidfloat' => '1',
+                    'requirelowestterms' => '0',
+                    'checkanswertype' => '0',
+                    'mustverify' => '1',
+                    'showvalidation' => '1'
                 ]
             ],
             'prt' => [
                 [
                     'name' => 'prt1',
                     'value' => '2',
+                    'autosimplify' => '1',
+                    'feedbackstyle' => '1',
                     'node' => [
                         [
                             'name' => '0',
+                            'answertest' => 'AlgEquiv',
                             'sans' => 'ans1',
                             'tans' => 'ta1',
                             'quiet' => '1'
@@ -310,17 +327,21 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                 [
                     'name' => 'prt2',
                     'value' => '1.0000001',
+                    'autosimplify' => '1',
+                    'feedbackstyle' => '1',
                     'node' => [
                         [
                             'name' => '0',
+                            'answertest' => 'AlgEquiv',
                             'sans' => 'ans2',
                             'tans' => 'ta2',
+                            'quiet' => '0',
                             'falsescore' => '1'
                         ]
                     ]
                 ]
             ],
-            'deployedseeds' => [
+            'deployedseed' => [
                 1,
                 2,
                 3
@@ -355,11 +376,14 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             ]
         ];
         $expectedstring = "name: 'Test question'\nquestiontext: |\n  <p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>" .
-            "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nquestionvariables: 'ta1:1;ta2:2;'\nprtcorrect: '<p>" .
-            "<i class=\"fa fa-check\"></i> Correct answer*, well done.</p>'\nmultiplicationsign: cross\ninput:\n  - name: ans1\n" .
-            "    tans: ta1\n    boxsize: '25'\n  - name: ans2\n    tans: ta2\nprt:\n  - name: prt1\n    value: '2'\n    " .
-            "node:\n      - name: '0'\n        sans: ans1\n        tans: ta1\n        quiet: '1'\n  - name: prt2\n    " .
-            "value: '1.0000001'\n    node:\n      - name: '0'\n        sans: ans2\n        tans: ta2\n        falsescore: '1'\n" .
+            "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nquestionvariables: 'ta1:1;ta2:2;'\nquestionsimplify: '1'\nprtcorrect: '<p>" .
+            "<i class=\"fa fa-check\"></i> Correct answer*, well done.</p>'\nmultiplicationsign: cross\ninput:\n  - " .
+            "name: ans1\n    type: algebraic\n    tans: ta1\n    boxsize: '25'\n    forbidfloat: '1'\n    " .
+            "requirelowestterms: '0'\n    checkanswertype: '0'\n    mustverify: '1'\n    showvalidation: '1'\n  - name: " .
+            "ans2\n    type: algebraic\n    tans: ta2\n    forbidfloat: '1'\n    requirelowestterms: '0'\n    " .
+            "checkanswertype: '0'\n    mustverify: '1'\n    showvalidation: '1'\nprt:\n  - name: prt1\n    value: '2'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    " .
+            "node:\n      - name: '0'\n        answertest: AlgEquiv\n        sans: ans1\n        tans: ta1\n        quiet: '1'\n  - name: prt2\n    " .
+            "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
             "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
             "testinput:\n      - name: ans1\n      - name: ans2\n        value: ta2\n    expected:\n      - name: prt1" .
             "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n      " .
@@ -370,41 +394,69 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         // Test the difference detection with a completely default XML question.
         $blankxml = '<quiz><question type="stack"></question></quiz>';
         $expected = [
+            'name' => 'Default',
+            'questionsimplify' => '1',
             'input' => [
                 [
                     'name' => 'ans1',
-                    'tans' => 'ta1'
+                    'type' => 'algebraic',
+                    'tans' => 'ta1',
+                    'forbidfloat' => '1',
+                    'requirelowestterms' => '0',
+                    'checkanswertype' => '0',
+                    'mustverify' => '1',
+                    'showvalidation' => '1'
                 ]
             ],
             'prt' => [
-                [
-                    'name' => 'prt1',
-                    'node' => [
                         [
-                            'name' => '0',
-                            'sans' => 'ans1',
-                            'tans' => 'ta1'
+                            'name' => 'prt1',
+                            'autosimplify' => '1',
+                            'feedbackstyle' => '1',
+                            'node' => [
+                                [
+                                    'name' => '0',
+                                    'answertest' => 'AlgEquiv',
+                                    'sans' => 'ans1',
+                                    'tans' => 'ta1',
+                                    'quiet' => '0'
+                                ]
+                            ]
                         ]
-                    ]
-                ]
-            ]
+                ],
         ];
-        $diff = StackQuestionLoader::detect_differences($blankxml);
-        $diffarray = yaml_parse($diff);
-        $this->assertEquals(2, count($diffarray));
+        $diff = StackQuestionLoader::detect_differences($blankxml, null);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(4, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
 
         // Test the difference detection with an info XML question.
         $infoxml = '<quiz><question type="stack"><defaultgrade>0</defaultgrade></question></quiz>';
         $expected = [
+            'name' => 'Default',
+            'questionsimplify' => '1',
             'defaultgrade' => '0',
             'input' => [],
             'prt' => []
         ];
-        $diff = StackQuestionLoader::detect_differences($infoxml);
-        $diffarray = yaml_parse($diff);
-        $this->assertEquals(3, count($diffarray));
+        $diff = StackQuestionLoader::detect_differences($infoxml, null);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(5, count($diffarray));
 
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+
+        // Test the difference detection with an info XML question.
+        $infoxml = '<quiz><question type="stack"><defaultgrade>0</defaultgrade></question></quiz>';
+        $expected = [
+            'name' => 'Default',
+            'defaultgrade' => '0',
+            'questionsimplify' => '1',
+            'input' => [],
+            'prt' => []
+        ];
+        $diff = StackQuestionLoader::detect_differences($infoxml);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(5, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
     }
 }

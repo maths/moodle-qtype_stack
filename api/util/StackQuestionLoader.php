@@ -58,10 +58,10 @@ class StackQuestionLoader {
     /**
      * @var array Question properties are always shown in difference file even if they match the default.
      */
-        public const ALWAYS_SHOWN = [
+    public const ALWAYS_SHOWN = [
         'questionsimplify', 'type', 'tans', 'forbidfloat', 'requirelowestterms', 'checkanswertype',
         'mustverify', 'showvalidation', 'autosimplify', 'feedbackstyle', 'answertest', 'sans',
-        'quiet', 'name'
+        'quiet', 'name',
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -578,7 +578,7 @@ class StackQuestionLoader {
                 $nodekey = str_replace('format', '', $key);
                 if (!isset($xml->$nodekey)) {
                     $xml->addChild($nodekey);
-                    $xml->$nodekey['format'] = $value;
+                    $xml->{$nodekey}['format'] = $value;
                 } else {
                     continue;
                 }
@@ -635,8 +635,8 @@ class StackQuestionLoader {
                 } else {
                     $output[$key] = (string) $value;
                 }
-                if (isset($xmldata->$key['format'])) {
-                    $output[$key . 'format'] = (string) $xmldata->$key['format'];
+                if (isset($xmldata->{$key}['format'])) {
+                    $output[$key . 'format'] = (string) $xmldata->{$key}['format'];
                 }
             } else if ($value instanceof SimpleXMLElement && $value->count()) {
                 if (in_array($key, self::ARRAYFIELDS)) {
@@ -719,7 +719,7 @@ class StackQuestionLoader {
                     'answertest' => self::get_default('node', 'answertest', 'AlgEquiv'),
                     'sans' => self::get_default('node', 'sans', 'ans1'),
                     'tans' => self::get_default('node', 'tans', 'ta1'),
-                    'quiet' => self::get_default('node', 'quiet', '0'),]]]];
+                    'quiet' => self::get_default('node', 'quiet', '0'), ]]]];
         } else {
             $diff['prt'] = [];
         }
@@ -811,6 +811,12 @@ class StackQuestionLoader {
         return $r;
     }
 
+    /**
+     * Adds a CDATA section to an XML node if the value contains special characters.
+     *
+     * @param SimpleXMLElement $xml The XML node to add the CDATA to.
+     * @param string $value The value to add as CDATA.
+     */
     public static function add_cdata(&$xml, $value) {
         if (!empty($value) && htmlspecialchars($value, ENT_COMPAT) != $value) {
             $node = dom_import_simplexml($xml);

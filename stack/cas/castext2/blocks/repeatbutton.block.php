@@ -126,6 +126,9 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         if (!isset($this->params['repeat_ids'])) {
             return $r;
         }
+        if (!isset($this->params['save_state'])) {
+            return $r;
+        }
         return $r;
     }
 
@@ -138,6 +141,12 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         }
         if (!array_key_exists('repeat_ids', $this->params) || trim($this->params['repeat_ids']) === '') {
             $errors[] = new $options['errclass']('Repeatbutton block requires a non-empty repeat_ids parameter.',
+                $options['context'] . '/' .
+                $this->position['start'] . '-' . $this->position['end']);
+            return false;
+        }
+        if (!array_key_exists('save_state', $this->params) || trim($this->params['save_state']) === '') {
+            $errors[] = new $options['errclass']('Repeatbutton block requires a non-empty save_state parameter.',
                 $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;

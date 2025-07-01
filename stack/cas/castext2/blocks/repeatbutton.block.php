@@ -56,6 +56,11 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         $list[] = new MP_String(json_encode(['type' => 'module']));
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
+		$code .= "const input = document.getElementById(id);\n";
+		$code .= "window.save_state = id;\n";
+        $code .= "console.log('access_to_input. content:',input.value)\n";
+        $code .= "});\n";
         $code .= "stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {";
         $code .= "add_repeat();";
         $code .= "});\n";
@@ -81,8 +86,10 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				//$list[] = new MP_String("    console.log('repeat_counter: ',window.repeat_counter);\n");
 				$list[] = new MP_String("    repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
 				$list[] = new MP_String("    repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
+				$list[] = new MP_String("    repeat_content = repeat_content.replace(/(<input\\s+)/g, `$1onkeyup=\"console.log(this);\" `);\n");
 				//$list[] = new MP_String("    console.log('repeat_id: {$id}');\n");
-				//$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
+				$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
+				$list[] = new MP_String("    console.log('window.save_state:', document.getElementById(window.save_state).value);\n");
 				//$list[] = new MP_String("    console.log('repeatcontainer_content:', repeatcontainer_content);\n");
 				$list[] = new MP_String("    stack_js.switch_content('");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);

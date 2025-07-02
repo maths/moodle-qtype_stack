@@ -1343,7 +1343,7 @@ logical_normal(ex):=block(
     ex:subst("and", "nounand", ex),
     ex:subst("or", "nounor", ex),
     ex:subst("not", "nounnot", ex),
-    ex:if not(ev(numberp(ex), simp) or is(ex=false)) then logic_simplify(ex) else ex,
+    ex:if not(ev(numberp(ex), simp) or is(ex=false) or is(ex=none)) then logic_simplify(ex) else ex,
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
     /* %not is not an infix operator... */
@@ -1772,11 +1772,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
       if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
 
-      /* Reduce the range of options. Avoid sets, since Maxima 5.38.1 has a bug.         */
-      /* As far as resoning by equivalence is concerned, {}=[]=false=none and true=all.  */
-      if is(emptyp(SA)) or is(SA=false) then SA:none,
-      if is(SA=true) then SA:all,
-
       SA:abs_replace_eq(SA),
       SA:ev(SA, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
       exmod[ev(id, simp)]:SA,
@@ -1787,6 +1782,11 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if (logicp(SA)) then block(
           SA:ev(logic_to_poly(SA), simp)
       ),
+      /* Reduce the range of options. Avoid sets, since Maxima 5.38.1 has a bug.         */
+      /* As far as resoning by equivalence is concerned, {}=[]=false=none and true=all.  */
+      if is(emptyp(SA)) or is(SA=false) then SA:none,
+      if is(SA=true) then SA:all,
+
       exmodpoly[ev(id, simp)]:SA
   ),
 
@@ -1842,8 +1842,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           tempnote:sconcat(tempnote, "SBS: ", string(SBS), "; "),
           if (debug) then print("Solved as ", string(SAS), ", ", string(SBS)),
           if (debug) then print("ATAlgEquiv(", string(SAP), ", ", string(SBP), ");"),
-          if is(SAS=SBS) then block
-          ([FAA, FAB, PECret],
+          if is(SAS=SBS) then block([FAA, FAB, PECret],
               malrulecont:false,
               eqoutcome[ev(id, simp)]:true,
               eqoutsymb[ev(id, simp)]:EQUIVCHAR,

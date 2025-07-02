@@ -145,6 +145,14 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[false,none,all,true]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
         $newarg['narrative'] = 'Lots of false equations chained.';
         $newarg['casstring'] = "[3=0,2=sqrt(-5),2=0,2=sqrt(5),2=0,2=sqrt(-5),3=0]";
         $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
@@ -178,6 +186,30 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['section'] = 'Boolean logic arguments.';
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[true,false]";
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[true nounand false,false]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[true nounor false,false]";
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR)";
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = [];
@@ -1037,11 +1069,20 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = [];
-        $newarg['title']     = "Expand out the brackets (1)";
+        $newarg['title']     = "Increasing powers";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]";
-        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK)";
-        $newarg['outcome']   = true;
+        $newarg['casstring'] = "[x+1,stackeq((x+1)^2),stackeq((x+1)^3),stackeq((x+1))]";
+        $newarg['debuglist'] = "(EMPTYCHAR,IMPLIESCHAR,IMPLIESCHAR,IMPLIEDCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Increasing powers real";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x+1,stackeq((x+1)^2),stackeq((x+1)^3),stackeq((x+1))]";
+        $newarg['debuglist'] = "(EMPTYCHAR,IMPLIESCHAR,IMPLIESCHAR,IMPLIEDCHAR)";
+        $newarg['outcome']   = false;
+        $newarg['assumereal'] = true;
         $samplearguments[] = $newarg;
 
         $newarg = [];

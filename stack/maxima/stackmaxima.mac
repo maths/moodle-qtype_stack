@@ -233,8 +233,8 @@ make_multsgn(OPT_MULTSGN) := block(
                                    texput("nounmul", multsgnonlyfornumbers)),
     if OPT_MULTSGN = "none" then (texput("*", " ", nary),
                                    texput("nounmul", " ", nary)),
-    if OPT_MULTSGN = "space" then (texput("*", "\\, ", nary),
-                                   texput("nounmul", "\\, ", nary))
+    if OPT_MULTSGN = "space" then (texput("*", "\\,", nary),
+                                   texput("nounmul","\\, ", nary))
 );
 
 /* This only prints a multiplication sign for numbers. */

@@ -632,6 +632,11 @@ echo html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
 echo $OUTPUT->heading(stack_string('questiondescription'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $renderquestiondescription,
     ['class' => 'outcome generalfeedback']), ['class' => 'que']);
+// The description might consit only of [[todo]] blocks, which won't show up.  Show the raw form.
+if (trim($question->questiondescription) !== '') {
+    echo html_writer::tag('div', html_writer::tag('pre', $question->questiondescription,
+        ['class' => 'outcome generalfeedback']), ['class' => 'que']);
+}
 
 echo "\n";
 if ($question->stackversion == null) {

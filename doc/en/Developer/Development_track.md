@@ -11,6 +11,7 @@ Done:
 
 1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
 2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
+3. Allow the bulk tester to add `[[todo]]` blocks to the question descriptions with the `addtags` option.
 
 Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.10.0) include
 

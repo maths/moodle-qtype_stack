@@ -50,6 +50,8 @@ If you expect students to use scientific notation for numbers, e.g. `3e4` (which
 
 Please read the separate documentation on [numerical rounding](Numerical_rounding.md).
 
+We also have mechanisms for keeping track of the number of significant figures. See the documentation on `dispsf(ex,n)` for detail.
+
 ## Maxima and floats with trailing zeros ##
 
 For its internal representation, Maxima always truncates trailing zeros from a floating point number.  For example, the Maxima expression `0.01000` will be converted internally to `0.01`.  Actually this is a byproduct of the process of converting a decimal input to an internal binary float, and back again.  Similarly, when a number is a "float" data type, Maxima always prints at least one decimal digit to indicate the number is a float.  For example, the floating point representation of the number ten is \(10.0\).  This does _not_ indicate significant figures, rather it indicates data type.  In situations where the number of significant figures is crucial this is problematic.
@@ -129,7 +131,7 @@ The following commands which are relevant to manipulation of numbers are defined
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures (does perform rounding).
-| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places  (does perform rounding).
+| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places  (does perform rounding). See below.
 | `commonfaclist(l)`              | Returns the highest common factors of a list of numbers.
 | `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
 | `coeff_list(ex,v)`              | This function takes an expression \(ex\) and returns a list of coefficients of \(v\).
@@ -157,3 +159,14 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `scientific_notationp(ex)` | Determines if \(ex\) is written in the form \(a10^n\) where \(a\) is an integer or float, and \(n\) is an integer.
 
 Please note that these predicate functions need to be used with `simp:false`.  Some answer tests, including the default algebraic equivalence (`ATAlgEquiv`) always simplify their arguments.  Instead use a non-simplifying answer test such as `EqualComAss`.
+
+### Decimal places
+
+The functions `decimalplaces(x,n)` and `dispdp(x,n)` perform rounding.  See the separate notes on [numerical rounding](Numerical_rounding.md) for details.  There are some edge cases.
+
+* If `x` is not a real number (judged by `real_numberp`) then we return `ex` (without an error).
+* `n` must be an integer, otherwise we throw an error.
+* If `n` equals zero, then we round to the nearest integer with Maxima's `round` command.
+* `n` negative is possible, in which case we round. e.g. `decimalplaces(314.15,-2)` gives `300`.
+* `decimalplaces(x,n)` returns an integer if possible.  That is we don't return a float like `7.0` we return the integer `7` instead.
+* `dispdp(x,n)` returns an inert form intended to display trailing zeros (if any).  In this case `x` must be a real number, otherwise we throw an error.

@@ -91,6 +91,7 @@ sola5:argz/5-4*%pi/5;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

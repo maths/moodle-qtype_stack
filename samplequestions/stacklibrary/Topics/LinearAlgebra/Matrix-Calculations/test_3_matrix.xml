@@ -1,24 +1,24 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="stack">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
     <name>
       <text>test_3_matrix</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;Calculate \[ {@A@}.{@B@}\]&lt;/p&gt;
-&lt;p&gt; [[input:ans1]] [[validation:ans1]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>Calculate \[ {@A@}.{@B@}\]</p><p> [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text>&lt;p&gt;To multiply matrices \(A\) and \(B\) we need to remember that the \((i,j)\)th entry is the scalar product of the \(i\)th row of \(A\) with the \(j\)th column of \(B\).&lt;/p&gt;
-&lt;p&gt;\[ {@A@}.{@B@} = {@C@} = {@D@}.\]&lt;/p&gt;</text>
+      <text><![CDATA[<p>To multiply matrices \(A\) and \(B\) we need to remember that the \((i,j)\)th entry is the scalar product of the \(i\)th row of \(A\) with the \(j\)th column of \(B\).</p><p>\[ {@A@}.{@B@} = {@C@} = {@D@}.\]</p>]]></text>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>0.1000000</penalty>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
     <hidden>0</hidden>
+    <idnumber/>
     <stackversion>
-      <text />
+      <text/>
     </stackversion>
     <questionvariables>
-      <text>A:ev(rand(matrix([5,5],[5,5]))+matrix([2,2],[2,2]),simp);
+      <text><![CDATA[A:ev(rand(matrix([5,5],[5,5]))+matrix([2,2],[2,2]),simp);
 B:ev(rand(matrix([5,5],[5,5]))+matrix([2,2],[2,2]),simp);
 TA:ev(A.B,simp);
 TB:ev(A*B,simp);
@@ -26,32 +26,39 @@ BT:transpose(B);
 C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)));
 S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]));
 D:ev(C,simp);
-C:C;</text>
+C:C;]]></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text>&lt;p&gt;[[feedback:prt1]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text>\({@A@}.{@B@}={@TA@}\)</text>
     </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text>&lt;p&gt;&lt;span class="correct"&gt;Correct answer, well done.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text>&lt;p&gt;&lt;span class="partially"&gt;Your answer is partially correct.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text>&lt;p&gt;&lt;span class="incorrect"&gt;Incorrect answer.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed />
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>matrix</type>
@@ -59,94 +66,98 @@ C:C;</text>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text />
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>TA</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>1-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>1-0-F</falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>TB</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>1-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>&lt;p&gt;Remember, you don't multiply matrices by multiplying the corresponding entries! A quite different process is needed.&lt;/p&gt;</text>
+          <text><![CDATA[<p>Remember, you don't multiply matrices by multiplying the corresponding entries! A quite different process is needed.</p>]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>1-1-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>A+B</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>1-3-T</trueanswernote>
         <truefeedback format="html">
-          <text>&lt;p&gt;Please multiply the matrices. It looks like you have added them instead!&lt;/p&gt;</text>
+          <text><![CDATA[<p>Please multiply the matrices. It looks like you have added them instead!</p>]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>1-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -155,6 +166,7 @@ C:C;</text>
     <deployedseed>1167893775</deployedseed>
     <qtest>
       <testcase>1</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>TA</value>
@@ -168,6 +180,7 @@ C:C;</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>TB</value>
@@ -181,19 +194,21 @@ C:C;</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>1</value>
       </testinput>
       <expected>
         <name>prt1</name>
-        <expectedscore />
-        <expectedpenalty />
+        <expectedscore/>
+        <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>4</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>A</value>
@@ -206,6 +221,4 @@ C:C;</text>
       </expected>
     </qtest>
   </question>
-
-
-  </quiz>
+</quiz>

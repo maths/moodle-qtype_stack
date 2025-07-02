@@ -59,6 +59,7 @@ eq : (cos(b1*x)-cos(a1*x))/(sin(b1*x)+sin(a1*x));</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

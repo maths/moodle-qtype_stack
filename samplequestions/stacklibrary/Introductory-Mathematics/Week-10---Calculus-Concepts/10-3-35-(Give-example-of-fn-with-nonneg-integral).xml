@@ -28,7 +28,7 @@ JXG.Options.axis.ticks.insertTicks = false;
  var ff = board.create('functiongraph', [f,-0.3,1.3],{strokeColor:'#003399',strokeWidth:2});
  var i1 = board.create('integral', [[0,1], ff], {fillColor:'#003399',fillOpacity:0.15});
  i1.curveLeft.setAttribute({visible:false});
- /* hide the gliders */ i1.curveRight.setAttribute({visible:false});
+ i1.curveRight.setAttribute({visible:false});
  i1.label.setAttribute({visible:false});
  var xaxis = board.create('axis', [[0,0],[1,0]]);
  board.create('ticks', [xaxis, [0,1]], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
@@ -41,7 +41,7 @@ JXG.Options.axis.ticks.insertTicks = false;
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2020081700</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
       <text>f:-x+3/4;
@@ -78,6 +78,7 @@ ta3:7/8;</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -150,7 +151,7 @@ ta3:7/8;</text>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
@@ -158,7 +159,7 @@ ta3:7/8;</text>
           <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
@@ -175,7 +176,7 @@ ta3:7/8;</text>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
@@ -183,7 +184,7 @@ ta3:7/8;</text>
           <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.5000000</falsescore>
+        <falsescore>0.5</falsescore>
         <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
@@ -200,7 +201,7 @@ ta3:7/8;</text>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-3-T</trueanswernote>
@@ -208,7 +209,7 @@ ta3:7/8;</text>
           <text/>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.2000000</falsescore>
+        <falsescore>0.2</falsescore>
         <falsepenalty/>
         <falsenextnode>3</falsenextnode>
         <falseanswernote>prt1-3-F</falseanswernote>
@@ -225,7 +226,7 @@ ta3:7/8;</text>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-4-T</trueanswernote>
@@ -233,7 +234,7 @@ ta3:7/8;</text>
           <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-4-F</falseanswernote>

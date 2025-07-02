@@ -30,9 +30,7 @@ quart: (x+aa)*(x+bb)*(x+cc)*(x+dd);
 ta1:-1*aa;
 ta2:-1*bb;
 ta3:-1*cc;
-ta4: -1*dd
-
-</text>
+ta4: -1*dd</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -63,6 +61,7 @@ ta4: -1*dd
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

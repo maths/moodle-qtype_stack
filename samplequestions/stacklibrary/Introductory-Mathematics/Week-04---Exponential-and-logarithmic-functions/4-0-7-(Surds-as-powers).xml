@@ -24,8 +24,7 @@
     </stackversion>
     <questionvariables>
       <text>ta1: 2^(1/2);
-ta2: 2^(1/3);
-</text>
+ta2: 2^(1/3);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -56,6 +55,7 @@ ta2: 2^(1/3);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

@@ -29,8 +29,7 @@ L = \frac{b}{1-a} = \frac{{@bb@}}{1-{@aa@}} = {@ta1@}.
       <text>aa: 1/100*(1+rand(98));
 bb: 1+rand(50);
 
-ta1:bb/(1-aa);
-</text>
+ta1:bb/(1-aa);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -61,6 +60,7 @@ ta1:bb/(1-aa);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

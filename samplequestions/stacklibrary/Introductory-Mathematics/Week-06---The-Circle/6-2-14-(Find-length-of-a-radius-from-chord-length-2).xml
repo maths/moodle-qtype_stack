@@ -32,7 +32,7 @@ AC: 1+rand(4);
 AE: EF/2;
 
 CEsq: AE^2 + AC^2
-ta1: sqrt(CEsq) </text>
+ta1: sqrt(CEsq)</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
@@ -63,6 +63,7 @@ ta1: sqrt(CEsq) </text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

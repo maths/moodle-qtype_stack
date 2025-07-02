@@ -943,7 +943,7 @@ a.ui-button:active,
     font-size: 110%;
 }
 .HELM_exercise:before {
-    font-family: "FontAwesome";
+    font-family: "FontAwesome", "Font Awesome 6 Free";
     content: "\f040";
     padding-right: 0.5rem;
     font-size: 120%;
@@ -962,7 +962,7 @@ h4.HELM_example,
 }
 h4.HELM_example:before,
 .HELM_example:before {
-    font-family: "FontAwesome";
+    font-family: "FontAwesome", "Font Awesome 6 Free";
     content: "\f046";
     display: inline-block;
     padding-right: 0.5em;
@@ -985,18 +985,20 @@ h4.HELM_example:before,
 ol.HELM_parts {
     list-style: none;
     counter-reset: helm-parts;
-    float: left;
+    margin-top: 1rem;
     width: 100%;
 }
 ol.HELM_parts > li {
     counter-increment: helm-parts;
     margin-bottom: 1.5rem;
+    display: block;
 }
 
 ol.HELM_parts > li:before {
     content: "(" counter(helm-parts, lower-alpha) ")";
     margin-left: -2.2rem;
     margin-top: -0.3rem;
+    margin-right: 0.4rem;
     background: #1e92cc;
     border-radius: 0.2rem;
     color: white;
@@ -1005,8 +1007,6 @@ ol.HELM_parts > li:before {
     text-align: center;
     display: inline-block;
     box-sizing: border-box;
-    float: left;
-    clear: left;
 }
 
 ol.HELM_parts_inline {
@@ -1015,6 +1015,7 @@ ol.HELM_parts_inline {
     counter-reset: helm-parts;
     float: left;
     width: 100%;
+    margin-left: 2.5rem;
 }
 ol.HELM_parts_inline > li {
     counter-increment: helm-parts;
@@ -1053,7 +1054,7 @@ div.HELM_keypoint {
     color: #1e92cc;
 }
 .HELM_keypoint h4:before {
-    font-family: "FontAwesome";
+    font-family: "FontAwesome", "Font Awesome 6 Free";
     content: "\f0a9";
     padding-right: 0.5rem;
     font-size: 120%;
@@ -1233,13 +1234,13 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     cursor: pointer;
 }
 .stack-collapse-header:not(.collapsed):before {
-    font-family: FontAwesome;
+    font-family: "FontAwesome", "Font Awesome 6 Free";
     content: "\f0d7";
     font-weight: bold;
     display: inline-block;
 }
 .stack-collapse-header.collapsed:before {
-    font-family: FontAwesome;
+    font-family: "FontAwesome", "Font Awesome 6 Free";
     content: "\f0da";
     font-weight: bold;
     display: inline-block;

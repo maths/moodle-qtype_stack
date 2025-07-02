@@ -28,9 +28,7 @@ cc: rand([-3,-2,-1,1,2,3])
 cube: (x+aa)*(x+bb)*(x+cc);
 ta1:-1*aa;
 ta2:-1*bb;
-ta3:-1*cc;
-
-</text>
+ta3:-1*cc;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -61,6 +59,7 @@ ta3:-1*cc;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

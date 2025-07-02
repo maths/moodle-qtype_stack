@@ -195,6 +195,7 @@ $string['inputtypenotes'] = 'Notes';
 $string['inputtypeunits'] = 'Units';
 $string['inputtypeequiv'] = 'Equivalence reasoning';
 $string['inputtypestring'] = 'String';
+$string['inputtypejson'] = 'JSON';
 $string['inputtypenumerical'] = 'Numerical';
 $string['inputtypegeogebra'] = 'GeoGebra';
 $string['inputtypeparsons'] = 'Parsons';
@@ -587,7 +588,7 @@ $string['questiontests'] = 'Question tests';
 $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';
 $string['questiontestsdefault'] = '(Default)';
-$string['runquestiontests'] = '<i class="fa fa-wrench"></i> STACK question dashboard';
+$string['runquestiontests'] = 'STACK question dashboard';
 $string['runquestiontests_help'] = 'The dashboard runs question tests which unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.  The dashboard also has numerous other STACK specific functions.';
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['runquestiontests_auto'] = 'Automatically adding one test case assuming the teacher\'s input gets full marks.  Please check the answer note carefully.';
@@ -960,6 +961,7 @@ $string['stackBlock_jsxgraph_underdefined_dimension'] = 'When defining aspect-ra
 $string['stackBlock_jsxgraph_overdefined_dimension'] = 'When defining aspect-ratio for the JSXGraph one should only define width or height not both.';
 $string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
+$string['stackBlock_jsxgraph_unknown_style'] = 'Unknown JSXGraph style: <code>{$a->style}</code>.';
 
 $string['stackBlock_parsons_used_header']         = 'Construct your solution here:';
 $string['stackBlock_parsons_available_header']    = 'Drag from here:';
@@ -1265,6 +1267,7 @@ $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
 $string['stackDoc_licence']             = 'The STACK documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.';
 $string['stackDoc_licence_alt']         = 'Creative Commons License';
+$string['stackDoc_community']           = 'Community site';
 $string['stackDoc_AnswerTestResults']   = 'Answer test results
 
 This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.';

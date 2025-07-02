@@ -138,7 +138,7 @@ Basic reports now work.
 * Changes to preset feedback to certain answer tests which might be more appropriate for different audiences. Could a 'simplified' English language pack allow for this (future changes might allow this to be done on a question-by-question basis).
 * Check for potential issues with default correct/incorrect feedback for different languages (defaults can already be set on the server level by a Moodle administrator).
 * Metadata on language for questions.
-* Tools for languge integrity (e.g. making it easier to identify what languages are in each question).
+* Tools for language integrity (e.g. making it easier to identify what languages are in each question).
 * Making sure Maxima knows the intended language (will allow for Maxima code to choose from the available languages).
 * May want to have further discussions on how scores and penalties are handled (there is already a new feature in the latest version of STACK so that you can include functions in the "score" field.
 * DONE: Compile some more detailed release notes for new version containing common issues with questions.
@@ -146,7 +146,7 @@ Basic reports now work.
 * Accessing Moodle via an LTI connection sometimes prompts students on Macs and old PCs to login with a password (which they don't have) when they click on a quiz. This isn't a direct STACK issue, but it would be a good idea to raise this on Moodle support forums.
 * DONE:  Improve the question tests page (now "STACK question dashboard") -- make sure most useful features are highlighted. For example, make it more clear when a specific variant is being considered, and when all variants are being looked at. After an individual variant is undeployed, it still shows test information for this seed on the page, requiring a few extra clicks to switch to a different seed (though that makes it easier to restore that seed if you accidently undeploy it).
 * Forcing editor choice to prevent errors caused by editors which add in html tags (make sure it is clear to users why we do this).
-* Consider prioritising the STACK API? Documentation on this definately needs to be improved. Volunteers are probably needed to help out on this.
+* Consider prioritising the STACK API? Documentation on this definitely needs to be improved. Volunteers are probably needed to help out on this.
 * We should probably have a discussion for which individual questions are best to promote STACK.
 
 Good to document know-how and communicate this to avoid problems on updates, and to generate new suggestions. New folders can be added in doc/en -- small suggestions can go straight into master, more complete changes should be discussed with the group.

@@ -35,8 +35,7 @@ eqn: lhs = rhs;
 eqna: lhs-rhs = 0;
 
 
-ta1:(x+gg)^2 + (y+ff)^2 =  rr^2;
-</text>
+ta1:(x+gg)^2 + (y+ff)^2 =  rr^2;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -67,6 +66,7 @@ ta1:(x+gg)^2 + (y+ff)^2 =  rr^2;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

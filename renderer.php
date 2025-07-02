@@ -193,7 +193,7 @@ class qtype_stack_renderer extends qtype_renderer {
         } else {
             $links[] = html_writer::link(
                     $question->qtype->get_question_test_url($question),
-                    stack_string('runquestiontests'));
+                    '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests'));
         }
 
         return html_writer::tag('div', implode(' | ', $links), ['class' => 'questiontestslink']);

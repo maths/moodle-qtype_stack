@@ -29,8 +29,7 @@
 conj: (sqrt(3)-1);
 
 
-ta1:(sqrt(3)-1)/2;
-</text>
+ta1:(sqrt(3)-1)/2;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -61,6 +60,7 @@ ta1:(sqrt(3)-1)/2;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

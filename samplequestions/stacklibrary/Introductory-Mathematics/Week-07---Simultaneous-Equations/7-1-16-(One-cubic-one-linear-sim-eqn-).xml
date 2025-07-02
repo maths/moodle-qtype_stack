@@ -40,8 +40,7 @@ x2: -1;
 y2: 1;
 
 x3: 2;
-y3: 16;
-</text>
+y3: 16;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -72,6 +71,7 @@ y3: 16;
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

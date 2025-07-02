@@ -440,11 +440,11 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
-        $this->assertEquals('x\,y', $s1[0]->get_display());
-        $this->assertEquals('x\,y\,z', $s1[1]->get_display());
-        $this->assertEquals('x\,\left(y\,z\right)', $s1[2]->get_display());
+        $this->assertEquals('x y', $s1[0]->get_display());
+        $this->assertEquals('x y z', $s1[1]->get_display());
+        $this->assertEquals('x \left(y z\right)', $s1[2]->get_display());
         // Notice the associativity of Maxima suppresses the extra explicit brackets here.
-        $this->assertEquals('x\,y\,z', $s1[3]->get_display());
+        $this->assertEquals('x y z', $s1[3]->get_display());
     }
 
     public function test_multiplication_option_cross(): void {
@@ -525,12 +525,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
-        $this->assertEquals('2 x', $s1[0]->get_display());
-        $this->assertEquals('2 3 x', $s1[1]->get_display());
-        $this->assertEquals('3 5^2', $s1[2]->get_display());
-        $this->assertEquals('3 x^2', $s1[3]->get_display());
-        $this->assertEquals('x \left(-y\right)', $s1[4]->get_display());
-        $this->assertEquals('3 \left(-4\right) x \left(-y\right)', $s1[5]->get_display());
+        $this->assertEquals('2\,x', $s1[0]->get_display());
+        $this->assertEquals('2\,3\,x', $s1[1]->get_display());
+        $this->assertEquals('3\,5^2', $s1[2]->get_display());
+        $this->assertEquals('3\,x^2', $s1[3]->get_display());
+        $this->assertEquals('x\,\left(-y\right)', $s1[4]->get_display());
+        $this->assertEquals('3\,\left(-4\right)\,x\,\left(-y\right)', $s1[5]->get_display());
     }
 
     public function test_function_power_display(): void {
@@ -1333,6 +1333,35 @@ final class cassession2_test extends qtype_stack_testcase {
             } else {
                 $this->assertFalse($cs->get_valid());
                 $this->assertEquals($test[6], $cs->get_errors('implode'));
+            }
+        }
+    }
+
+    public function test_numerical_decimalplaces(): void {
+
+        $tests = stack_numbers_test_data::get_raw_test_data_decimalplaces();
+        $s1 = [];
+        foreach ($tests as $key => $test) {
+            $s1[] = stack_ast_container::make_from_teacher_source('p'.$key.':decimalplaces('.$test[0].', '.$test[1] .')',
+                '', new stack_cas_security(), []);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($at1->get_valid());
+        $at1->instantiate();
+
+        foreach ($tests as $key => $test) {
+            $cs = $at1->get_by_key('p'.$key);
+            if ($tests[$key][3] === '') {
+                // No errors.
+                $this->assertTrue($cs->get_valid());
+                $this->assertEquals($test[2], $cs->get_value());
+            } else {
+                $this->assertFalse($cs->get_valid());
+                $this->assertEquals($test[3], $cs->get_errors('implode'));
             }
         }
     }

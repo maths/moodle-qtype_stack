@@ -1011,9 +1011,9 @@ final class castext_test extends qtype_stack_testcase {
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
-    public function test_disp_mult_blank(): void {
+    public function test_disp_mult_space(): void {
 
-        $a2 = ['make_multsgn("blank")', 'b:x*y', 'c:apply("nounmul", [x,y])'];
+        $a2 = ['make_multsgn("space")', 'b:x*y', 'c:apply("nounmul", [x,y])'];
         $s2 = [];
         foreach ($a2 as $s) {
             $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1027,6 +1027,28 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assertEquals('\({x\, y}\), \({x\, y}\)', $at1->get_rendered());
+    }
+
+    /**
+     * Add description here.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_disp_mult_none(): void {
+
+        $a2 = ['make_multsgn("none")', 'b:x*y'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = castext2_evaluatable::make_from_source('{@b@}', 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({x y}\)', $at1->get_rendered());
     }
 
     /**
@@ -1892,6 +1914,22 @@ final class castext_test extends qtype_stack_testcase {
 
         $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
         $this->assertTrue($at2->get_valid());
+    }
+
+    /**
+     * Basic test the jsxgraph block validation.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_jsxgraph_validation(): void {
+        $st = '[[jsxgraph style="inerror"]]' .
+            'var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});' .
+            'var p = board.create(\'point\', [4, 3]);' .
+            'stack_jxg.bind_point(stateRef, p);' .
+            'stateInput.style.display = \'none\';' .
+            '[[/jsxgraph]]';
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Unknown JSXGraph style: <code>inerror</code>.', $at2->get_errors(true));
     }
 
     /**

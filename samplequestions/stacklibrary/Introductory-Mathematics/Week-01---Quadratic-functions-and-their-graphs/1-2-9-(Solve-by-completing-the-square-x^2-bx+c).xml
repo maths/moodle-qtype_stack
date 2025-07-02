@@ -38,8 +38,7 @@
 cc:rand_with_prohib(-9,9,[0]);
 quad:x^2+bb*x+cc;
 ta1:(x+bb/2)^2+cc-(bb/2)^2;
-ta2: solve(quad,x);
-]]></text>
+ta2: solve(quad,x);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -70,6 +69,7 @@ ta2: solve(quad,x);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 142504  -->
   <question type="stack">
     <name>
       <text>Proof odd-iff-square-odd</text>
@@ -38,7 +37,7 @@ Can you see the differences between these proofs?
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2025012100</text>
     </stackversion>
@@ -131,7 +130,8 @@ It has been modified to show how to give partial credit in proofs.  In particula
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>parsons</type>
@@ -139,16 +139,16 @@ It has been modified to show how to give partial credit in proofs.  In particula
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -161,28 +161,27 @@ It has been modified to show how to give partial credit in proofs.  In particula
 
 /* How close are they to proving just one part of the iff? */
 [pd1, saa1]:proof_assessment(sa, proof_alternatives(proof1));
-[pd2, saa2]:proof_assessment(sa, proof_alternatives(proof2));
-</text>
+[pd2, saa2]:proof_assessment(sa, proof_alternatives(proof2));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>pd</sans>
         <tans>0</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -191,15 +190,15 @@ It has been modified to show how to give partial credit in proofs.  In particula
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>GTE</answertest>
         <sans>1</sans>
         <tans>pd1</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.3</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
@@ -207,24 +206,24 @@ It has been modified to show how to give partial credit in proofs.  In particula
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>GTE</answertest>
         <sans>1</sans>
         <tans>pd2</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.3</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-3-T</trueanswernote>
         <truefeedback format="html">
@@ -232,11 +231,11 @@ It has been modified to show how to give partial credit in proofs.  In particula
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -303,5 +302,4 @@ It has been modified to show how to give partial credit in proofs.  In particula
       </expected>
     </qtest>
   </question>
-
 </quiz>

@@ -89,6 +89,7 @@ tasum3:none;</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ratio1</name>
@@ -492,7 +493,7 @@ tasum3:none;</text>
       </expected>
     </qtest>
     <qtest>
-      <testcase>3</testcase>
+      <testcase>2</testcase>
       <description/>
       <testinput>
         <name>ratio1</name>

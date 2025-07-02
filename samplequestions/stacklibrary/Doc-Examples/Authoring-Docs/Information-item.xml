@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 17  -->
   <question type="stack">
     <name>
       <text>STACK information item</text>
@@ -17,12 +16,12 @@ The purpose of this question is to illustrate an edge case where there are no in
 <p>For example \[ {@p2@}={@p1@}\]]]></text>
     </questiontext>
     <generalfeedback format="moodle_auto_format">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>0</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2025030700</text>
     </stackversion>
@@ -30,17 +29,16 @@ The purpose of this question is to illustrate an edge case where there are no in
       <text>n1:rand(5)+5;
 n2:rand(5)+5;
 p1:(x-n1)^2+n2;
-p2:expand(p1);
-</text>
+p2:expand(p1);</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
     <questionnote format="html">
       <text>{@p2=p1@}</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -62,10 +60,10 @@ p2:expand(p1);
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <deployedseed>957266243</deployedseed>
     <deployedseed>588971379</deployedseed>
     <deployedseed>2067323478</deployedseed>
   </question>
-
 </quiz>

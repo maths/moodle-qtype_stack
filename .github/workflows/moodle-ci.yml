@@ -97,12 +97,14 @@ jobs:
           coverage: none
 
       - name: Validate composer.json and composer.lock
+        if: ${{ fromJSON(matrix.php) >= 8 }}
         run: |
           cd plugin/api
           composer validate
 
       - name: Cache Composer packages
         id: composer-cache
+        if: ${{ fromJSON(matrix.php) >= 8 }}
         uses: actions/cache@v3
         with:
           path: vendor
@@ -111,6 +113,7 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Install Dependencies
+        if: ${{ fromJSON(matrix.php) >= 8 }}
         run: |
           cd plugin/api
           composer install

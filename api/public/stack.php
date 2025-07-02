@@ -191,7 +191,7 @@ require_login();
           </div>
         </div>
         <div id="stackapi_difference" class="col-lg-10" style="display: none">
-            <h2>Difference from default:</h2>
+            <h2>YAML representation based on API defaults:</h2>
             <div id="difference" class="feedback" style="white-space: pre;"></div>
           </div>
         </div>

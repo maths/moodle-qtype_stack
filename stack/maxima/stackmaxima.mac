@@ -223,7 +223,8 @@ make_complexJ(OPT_COMPLEXJ) := block(
 
 /* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
-    if not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})) then error("make_multsgn received un-supported option: ", OPT_MULTSGN),
+    if ev(not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})), simp) 
+        then error("make_multsgn received un-supported option: ", OPT_MULTSGN),
     if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
     if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
     if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),

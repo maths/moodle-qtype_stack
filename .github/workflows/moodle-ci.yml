@@ -113,7 +113,7 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Install Dependencies
-        if: ${{ fromJSON(matrix.php) >= 8 }}
+        if: ${{ fromJSON(matrix.php) >= 8.2 }}
         run: |
           cd plugin/api
           composer install

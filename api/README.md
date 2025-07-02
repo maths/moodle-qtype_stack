@@ -226,7 +226,31 @@ The return object:
 
 - `diff`: A YAML representation of the differences between the sent question and the API defaults.
 
-As the API fills in defaults, the diff output is all that is needed to re-send the question to the API via any route.
+As the API fills in defaults, the diff output is all that is needed to re-send the question to the API via any route. There is a minimum definition returned by the diff route even if fields match the default. The example below is for a default question with a single input, PRT and node but fields will be shown for every input, prt and node in a more complex question.
+
+```
+name: Default
+questionsimplify: '1'
+input:
+  - name: ans1
+    type: algebraic
+    tans: ta1
+    forbidfloat: '1'
+    requirelowestterms: '0'
+    checkanswertype: '0'
+    mustverify: '1'
+    showvalidation: '1'
+prt:
+  - name: prt1
+    autosimplify: '1'
+    feedbackstyle: '1'
+    node:
+      - name: '0'
+        answertest: AlgEquiv
+        sans: ans1
+        tans: ta1
+        quiet: '0'
+```
 
 #### STACK fragments and YAML representation
 

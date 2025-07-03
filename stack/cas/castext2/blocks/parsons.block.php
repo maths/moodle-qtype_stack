@@ -84,6 +84,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
+            } else if ($key === 'mathjax') {
+                $mathjaxversion = $value;
             } else if ($key === 'columns') {
                 $columns = $value;
             } else if ($key === 'rows') {
@@ -543,14 +545,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input'
-                    && $key !== 'clone' && $key !== 'columns' && $key !== 'rows' &&
+                    && $key !== 'clone' && $key !== 'mathjax' && $key !== 'columns' && $key !== 'rows' &&
                     $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width' && $key !== 'log') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height',
+                        'overridejs', 'input', 'clone', 'mathjax', 'columns', 'rows', 'transpose', 'item-height',
                         'item-width', 'log',
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [

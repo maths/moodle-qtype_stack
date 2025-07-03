@@ -100,7 +100,6 @@ Functionality and styling can be customised through the use of block parameters.
 10. `rows` : string containing an integer `"m"`. How many horizontal answer lists to display. By default, this is not used. If it is specified and `columns` is _not_ specified, this will change to a grid-format with multiple horizontal answer lists of unspecified width. If both `columns` and `rows` are specified then this will provide a fixed length and width grid format, where items can be dragged to any position in the grid in any order. You cannot specify `rows` without specifying `columns`.
 11. `transpose` : `"true"` or `"false"`; `"false"` by default. While the student is able to re-orient between vertical and horizontal as they wish, the default on load is for columns to be vertical. If you wish them to default to being horizontal, then pass `transpose="true"`.
 12. `log` : `"true"` or `"false"`; `"false"` by default. When set to `"true"` the student's will contain their entire drag-and-drop move history for that attempt, along with the timestamp (number of seconds since 00:00 GMT 01/01/1970) of that move.
-13. `mathjax` : `"2"` or `"3"`; `"2"` by default. Which version of MathJax to use in order to render LaTeX within items. Since this is `"2"` by default, you must specify `mathjax = "3"` inside the block header in order to use MathJax 3.
 
 ## Sortable options
 

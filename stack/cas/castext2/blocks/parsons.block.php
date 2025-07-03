@@ -61,7 +61,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $clone = 'false';
 
         // MathJax version 
-        $mathjax_version = stack_get_mathjax_jsdlivr_or_cloudflare_version();
+        $mathjax_version = stack_get_mathjax_version();
         $mathjax_version_major = explode(".", $mathjax_version)[0];
 
         // Number of available columns.
@@ -482,7 +482,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Check MathJax version has been parsed correctly
-        $mathjax_version_major = explode(".", stack_get_mathjax_jsdlivr_or_cloudflare_version())[0];
+        $mathjax_version_major = explode(".", stack_get_mathjax_version())[0];
         if (!$mathjax_version_major === "2" || !$mathjax_version_major === "3") {
             $valid = false;
             $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [

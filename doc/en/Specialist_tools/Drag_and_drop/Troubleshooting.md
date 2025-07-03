@@ -16,6 +16,19 @@ and a superset of
 
 For technical reasons this is one error that we are unable to validate currently.
 
+## LaTeX rendering
+
+The Parsons block typesets LaTeX within draggable items asynchronously, and the way that MathJax handles this changes between 
+versions 2.X and 3.X. 
+The Parsons block therefore needs to be told which of these versions to expect. 
+The current default is MathJax 2.
+If, instead, you wish to use MathJax 3, then this must be specified in the block header as follows.
+```
+[[parsons input="ans1" mathjax="3"]]
+{ ... }
+[[/parsons]]
+```
+
 ## State
 
 The state of the problem at any given point in time during question answer takes on the following format:

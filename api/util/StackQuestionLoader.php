@@ -398,12 +398,16 @@ class StackQuestionLoader {
                 $newnode->nodename = (string) $node->name;
                 $newnode->description = isset($node->description) ? (string) $node->description :
                     self::get_default('node', 'description', '');
+                self::parse_answertest($node);
                 $newnode->answertest = isset($node->answertest) ? (string) $node->answertest :
                     self::get_default('node', 'answertest', 'AlgEquiv');
-                $newnode->sans = (string) $node->sans;
-                $newnode->tans = (string) $node->tans;
+                $newnode->sans = isset($node->sans) ? (string) $node->sans :
+                    self::get_default('node', 'sans', 'ans1');
+                $newnode->tans = isset($node->tans) ? (string) $node->tans :
+                    self::get_default('node', 'tans', 'ta1');   
                 $newnode->testoptions = isset($node->testoptions) ? (string) $node->testoptions :
                     self::get_default('node', 'testoptions', '');
+                self::parse_answertest($newnode);       
                 $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) :
                     self::get_default('node', 'quiet', false);
 
@@ -496,6 +500,21 @@ class StackQuestionLoader {
         return ['question' => $question, 'testcases' => $testcases];
     }
 
+    /**
+     * Splits an answertest string into its components and adds the fields to the node.
+     * @param mixed $node
+     * @return void
+     */
+    public static function parse_answertest(&$node) {
+        if (substr($node->answertest, 0, 2) === 'AT') {
+            [$answertest, $sans, $tans, $testoptions] = self::split_answertest($node->answertest);
+            $node->answertest = substr($answertest, 2);
+            $node->sans = $sans;
+            $node->tans = $tans;
+            $node->testoptions = $testoptions;
+        }
+    }
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function handlefiles(\SimpleXMLElement $files) {
         $data = [];
@@ -540,6 +559,20 @@ class StackQuestionLoader {
 
         if (isset(self::$defaults[$defaultcategory][$defaultname])) {
             return self::$defaults[$defaultcategory][$defaultname];
+        }
+        if ($defaultcategory === 'node'
+                && in_array($defaultname, ['sans', 'tans', 'testoptions'])) {
+            $answertest = self::get_default('node', 'answertest', '');
+            if (substr($answertest, 0, 2) === 'AT') {
+                [$answertest, $sans, $tans, $testoptions] = self::split_answertest($answertest);
+                if ($defaultname === 'sans') {
+                    return $sans;
+                } else if ($defaultname === 'tans') {
+                    return $tans;
+                } else if ($defaultname === 'testoptions') {
+                    return $testoptions;
+                }
+            }
         }
         // We could return $default here but we'd rather the default file was fixed.
         return null;
@@ -706,20 +739,46 @@ class StackQuestionLoader {
                 $diffprt = self::obj_diff(self::$defaults['prt'], $prt);
                 foreach ($prt['node'] as $node) {
                     $diffnode = self::obj_diff(self::$defaults['node'], $node);
+                    if (substr($diffnode['answertest'], 0, 2) === 'AT') {
+                        unset($diffnode['sans']);
+                        unset($diffnode['tans']);
+                        unset($diffnode['testoptions']); 
+                    }
+                    if (substr(self::get_default('node', 'answertest', 'AlgEquiv'), 0, 2) === 'AT' &&
+                            substr($diffnode['answertest'], 0, 2) !== 'AT') {
+                        // This occurs if answertest set in XML but summary in defaults.
+                        // We need to build a summary from supplied XML fields and default summary.
+                        $diffanswertest = isset($node['answertest']) ?
+                            'AT' . $node['answertest'] : self::split_answertest(self::get_default('node', 'answertest', 'AlgEquiv'))[0];
+                        $diffsans = isset($node['sans']) ? $node['sans'] : self::get_default('node', 'sans', 'ans1');
+                        $difftans = isset($node['tans']) ? $node['tans'] : self::get_default('node', 'tans', 'ta1');
+                        $difftestoptions = isset($node['testoptions']) ?
+                            $node['testoptions'] : self::get_default('node', 'testoptions', '');
+                        $diffnode['answertest'] =
+                            "{$diffanswertest}({$diffsans},{$difftans}" .
+                            ($difftestoptions !== '' ? ",{$difftestoptions}" : '') . ')';
+                        unset($diffnode['sans']);
+                        unset($diffnode['tans']);
+                        unset($diffnode['testoptions']);
+                    }
+
                     $diffprt['node'][] = $diffnode;
                 }
                 $diffprts[] = $diffprt;
             }
             $diff['prt'] = $diffprts;
         } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
+            $prtnode = ['name' => self::get_default('node', 'name', '0'),
+                    'answertest' => self::get_default('node', 'answertest', 'AlgEquiv'),];
+            if (substr($prtnode['answertest'], 0, 2) !== 'AT') {
+                $prtnode['sans'] = self::get_default('node', 'sans', 'sans');
+                $prtnode['tans'] = self::get_default('node', 'tans', 'tans');
+            }
+            $prtnode['quiet'] = self::get_default('node', 'quiet', '0');
             $diff['prt'] = [['name' => self::get_default('prt', 'name', 'prt1'),
                 'autosimplify' => self::get_default('prt', 'autosimplify', '1'),
                 'feedbackstyle' => self::get_default('prt', 'feedbackstyle', '1'),
-                'node' => [['name' => self::get_default('node', 'name', '0'),
-                    'answertest' => self::get_default('node', 'answertest', 'AlgEquiv'),
-                    'sans' => self::get_default('node', 'sans', 'ans1'),
-                    'tans' => self::get_default('node', 'tans', 'ta1'),
-                    'quiet' => self::get_default('node', 'quiet', '0'), ]]]];
+                'node' => [$prtnode]]];
         } else {
             $diff['prt'] = [];
         }
@@ -825,5 +884,49 @@ class StackQuestionLoader {
         } else {
             $xml[0] = $value;
         }
+    }
+
+        /**
+     * Split a string into a 4-item array such that:
+     * 'AAAA(X(X,X)XX, YYY, ZZZ, WWW)'
+     * becomes:
+     * [0] => 'AAAA'
+     * [1] => 'X(X,X)XX'
+     * [2] => 'YYY'
+     * [3] => 'ZZZ, WWW'
+     * @param string $answertest
+     * @return array
+     */
+    public static function split_answertest($answertest) {
+        $result = [];
+        $firstbracketpos = strpos($answertest, '(');
+        $result[] = substr($answertest, 0, $firstbracketpos);
+        $testprops = substr($answertest, $firstbracketpos + 1, strrpos($answertest, ')') - $firstbracketpos - 1);
+        $bracketlevel = 0;
+        $current = '';
+        $count = 0;
+        $len = strlen($testprops);
+        for ($i = 0; $i < $len; $i++) {
+            $char = $testprops[$i];
+            if ($char === '(') {
+                $bracketlevel++;
+                $current .= $char;
+            } else if ($char === ')') {
+                $bracketlevel--;
+                $current .= $char;
+            } else if ($char === ',' && $bracketlevel === 0 && $count < 2) {
+                $result[] = trim($current);
+                $current = '';
+                $count++;
+            } else {
+                $current .= $char;
+            }
+        }
+        $result[] = trim($current);
+        // Ensure always 4 items.
+        while (count($result) < 4) {
+            $result[] = '';
+        }
+        return $result;
     }
 }

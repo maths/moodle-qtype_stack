@@ -401,13 +401,13 @@ class StackQuestionLoader {
                 self::parse_answertest($node);
                 $newnode->answertest = isset($node->answertest) ? (string) $node->answertest :
                     self::get_default('node', 'answertest', 'AlgEquiv');
+                self::parse_answertest($newnode);
                 $newnode->sans = isset($node->sans) ? (string) $node->sans :
                     self::get_default('node', 'sans', 'ans1');
                 $newnode->tans = isset($node->tans) ? (string) $node->tans :
-                    self::get_default('node', 'tans', 'ta1');   
+                    self::get_default('node', 'tans', 'ta1');
                 $newnode->testoptions = isset($node->testoptions) ? (string) $node->testoptions :
                     self::get_default('node', 'testoptions', '');
-                self::parse_answertest($newnode);       
                 $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) :
                     self::get_default('node', 'quiet', false);
 
@@ -554,7 +554,7 @@ class StackQuestionLoader {
         }
 
         if (!self::$defaults) {
-            self::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
+            self::$defaults = Yaml::parseFile(__DIR__ . '/../questiondefaults.yml');
         }
 
         if (isset(self::$defaults[$defaultcategory][$defaultname])) {
@@ -586,7 +586,7 @@ class StackQuestionLoader {
      * @throws \stack_exception If the YAML string is invalid.
      */
     public static function yaml_to_xml($yamlstring) {
-        $yaml = yaml_parse($yamlstring);
+        $yaml = Yaml::parse($yamlstring);
         if (!$yaml) {
             throw new \stack_exception("The provided file does not contain valid YAML or XML.");
         }
@@ -697,7 +697,7 @@ class StackQuestionLoader {
      */
     public static function detect_differences($xml) {
         if (!self::$defaults) {
-                self::$defaults = yaml_parse_file(__DIR__ . '/../questiondefaults.yml');
+                self::$defaults = Yaml::parseFile(__DIR__ . '/../questiondefaults.yml');
         }
         if (strpos($xml, '<question type=') !== false) {
             $xmldata = new SimpleXMLElement($xml);
@@ -742,7 +742,7 @@ class StackQuestionLoader {
                     if (substr($diffnode['answertest'], 0, 2) === 'AT') {
                         unset($diffnode['sans']);
                         unset($diffnode['tans']);
-                        unset($diffnode['testoptions']); 
+                        unset($diffnode['testoptions']);
                     }
                     if (substr(self::get_default('node', 'answertest', 'AlgEquiv'), 0, 2) === 'AT' &&
                             substr($diffnode['answertest'], 0, 2) !== 'AT') {

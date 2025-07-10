@@ -298,6 +298,25 @@ This will undoubtedly cause confusion at some point but may be unavoidable.
 
 See [test question](../tests/fixtures/questionyml.yml) for sample YAML layout.
 
+#### Answer test summary
+
+Additionally you can supply answer tests for your questions in a summary format when using YAML:
+```
+ATanswertest(sans,tans,testoptions)
+```
+The diff route will return the answer tests in the same format as supplied. If none are supplied it will
+use the format of the default file.
+
+If using summary format in the default file, do so like this:
+```
+  answertest: ATAlgEquiv(ans1,ta1)
+  # sans, tans, testoptions will not be used but need to be here for diff compatibility
+  # with questions which have them rather than the summary answertest.
+  sans:
+  tans:
+  testoptions:
+```
+
 ### Rendered CASText format
 
 The API returns rendered CASText as parts of its responses in multiple places. The CASText is output as a single string in an intermediate format, which cannot be directly fed to browsers for display, and requires further processing. Applications using the API have to handle the following cases:

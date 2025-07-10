@@ -51,6 +51,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('test_3_matrix', $question->name);
         $this->assertEquals('<p><span class="correct">Correct answer, well done.</span></p>', $question->prtcorrect);
         $this->assertEquals('html', $question->prtcorrectformat);
+        // $x = $question->prts['prt1']->get_nodes_summary()[0];
         $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->truenextnode);
         $this->assertEquals('1-0-T ', $question->prts['prt1']->get_nodes_summary()[0]->trueanswernote);
         $this->assertEquals(10, $question->prts['prt1']->get_nodes_summary()[0]->truescore);
@@ -129,8 +130,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
     public function test_question_loader_base_question(): void {
         global $CFG;
         $xml = stack_api_test_data::get_question_string('empty');
-        $ql = new StackQuestionLoader();
-        $question = $ql->loadXML($xml)['question'];
+        $question = StackQuestionLoader::loadXML($xml)['question'];
         $this->assertEquals('Default', $question->name);
         $this->assertEquals('Correct answer, well done.', $question->prtcorrect);
         $this->assertEquals('html', $question->prtcorrectformat);
@@ -156,6 +156,63 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                 get_config('qtype_stack', 'inputcheckanswertype'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
+    }
+
+        public function test_loadxml_summary_default(): void {
+        if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
+            $this->markTestSkipped('Symfony YAML extension is not available.');
+            return;
+        }
+        set_config('stackapi', true, 'qtype_stack');
+        StackQuestionLoader::$defaults = Yaml::parseFile(__DIR__ . '/fixtures/questiondefaultssugar.yml');
+        $questionyaml = file_get_contents(__DIR__ . '/fixtures/questionymlpartial.yml');
+        $question = StackQuestionLoader::loadxml($questionyaml)['question'];
+
+        // Check prt fields.
+        $this->assertCount(2, $question->prts);
+        $prt1 = $question->prts['prt1'];
+        $prt2 = $question->prts['prt2'];
+        $this->assertCount(1, $prt1->get_nodes_summary());
+        $this->assertEquals('0', (string) $prt1->get_nodes_summary()[0]->nodename);
+        $this->assertEquals('', (string) $prt1->get_nodes_summary()[0]->description);
+        $this->assertEquals('ATDiff(ans1,ta1,ev(1,simp))', (string) $prt1->get_nodes_summary()[0]->answertest);
+        $this->assertEquals(true, $prt1->get_nodes_summary()[0]->quiet);
+        $this->assertEquals('=', (string) $prt1->get_nodes_summary()[0]->truescoremode);
+
+        $this->assertCount(1, $prt2->get_nodes_summary());
+        $this->assertEquals('0', (string) $prt2->get_nodes_summary()[0]->nodename);
+        $this->assertEquals('ATAlgEquiv(ans1,ta2)', (string) $prt2->get_nodes_summary()[0]->answertest);
+        $this->assertEquals(false, (string) $prt2->get_nodes_summary()[0]->quiet);
+        $this->assertEquals('1', (string) $prt2->get_nodes_summary()[0]->falsescore);
+        set_config('stackapi', false, 'qtype_stack');
+    }
+
+
+    public function test_loadxml_summary(): void {
+        if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
+            $this->markTestSkipped('Symfony YAML extension is not available.');
+            return;
+        }
+
+        $questionyaml = file_get_contents(__DIR__ . '/fixtures/questionymlpartial.yml');
+        $question = StackQuestionLoader::loadxml($questionyaml)['question'];
+
+        // Check prt fields.
+        $this->assertCount(2, $question->prts);
+        $prt1 = $question->prts['prt1'];
+        $prt2 = $question->prts['prt2'];
+        $this->assertCount(1, $prt1->get_nodes_summary());
+        $this->assertEquals('0', (string) $prt1->get_nodes_summary()[0]->nodename);
+        $this->assertEquals('', (string) $prt1->get_nodes_summary()[0]->description);
+        $this->assertEquals('ATDiff(ans1,ta1,ev(1,simp))', (string) $prt1->get_nodes_summary()[0]->answertest);
+        $this->assertEquals(true, $prt1->get_nodes_summary()[0]->quiet);
+        $this->assertEquals('=', (string) $prt1->get_nodes_summary()[0]->truescoremode);
+
+        $this->assertCount(1, $prt2->get_nodes_summary());
+        $this->assertEquals('0', (string) $prt2->get_nodes_summary()[0]->nodename);
+        $this->assertEquals('ATAlgEquiv(ans1,ta2)', (string) $prt2->get_nodes_summary()[0]->answertest);
+        $this->assertEquals(false, (string) $prt2->get_nodes_summary()[0]->quiet);
+        $this->assertEquals('1', (string) $prt2->get_nodes_summary()[0]->falsescore);
     }
 
     public function test_yaml_to_xml()
@@ -391,7 +448,29 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             " '0.0000000'\n        expectedanswernote: 2-0-T\n";
         $this->assertStringContainsString($expectedstring, $diff);
         $this->assertEqualsCanonicalizing($expected, $diffarray);
+
+        // Check results when using answertest summary in defaults.
+        set_config('stackapi', true, 'qtype_stack');
+        StackQuestionLoader::$defaults = Yaml::parseFile(__DIR__ . '/fixtures/questiondefaultssugar.yml');
+        $diff = StackQuestionLoader::detect_differences($yaml);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(10, count($diffarray));
+        $expected['prt'][0]['node'][0] = [
+                            'name' => '0',
+                            'answertest' => 'ATAlgEquiv(ans1,ta1)',
+                            'quiet' => '1',
+        ];
+        $expected['prt'][1]['node'][0] = [
+                            'name' => '0',
+                            'answertest' => 'ATAlgEquiv(ans2,ta2)',
+                            'quiet' => '0',
+                            'falsescore' => '1',
+        ];
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+        set_config('stackapi', true, 'qtype_stack');
+
         // Test the difference detection with a completely default XML question.
+        StackQuestionLoader::$defaults = null;
         $blankxml = '<quiz><question type="stack"></question></quiz>';
         $expected = [
             'name' => 'Default',
@@ -430,6 +509,20 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(4, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
 
+        // Check results when using answertest summary in defaults.
+        StackQuestionLoader::$defaults = Yaml::parseFile(__DIR__ . '/fixtures/questiondefaultssugar.yml');
+        set_config('stackapi', true, 'qtype_stack');
+        $diff = StackQuestionLoader::detect_differences($blankxml);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(4, count($diffarray));
+        $expected['prt'][0]['node'][0] = [
+                            'name' => '0',
+                            'answertest' => 'ATAlgEquiv(ans1,ta1)',
+                            'quiet' => '0',
+        ];
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+        set_config('stackapi', false, 'qtype_stack');
+
         // Test the difference detection with an info XML question.
         $infoxml = '<quiz><question type="stack"><defaultgrade>0</defaultgrade></question></quiz>';
         $expected = [
@@ -458,5 +551,69 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $diffarray = Yaml::parse($diff);
         $this->assertEquals(5, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
+
+        // Check results when using answertest summary in defaults.
+        set_config('stackapi', true, 'qtype_stack');
+        StackQuestionLoader::$defaults = Yaml::parseFile(__DIR__ . '/fixtures/questiondefaultssugar.yml');
+        $diff = StackQuestionLoader::detect_differences($infoxml);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(5, count($diffarray));
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+        set_config('stackapi', false, 'qtype_stack');
+    }
+
+        public function test_split_answertest_basic(): void {
+        $input = 'ATAlgEquiv(x^2+2x+1, (x+1)^2, 1, ignoreorder)';
+        $expected = [
+            'ATAlgEquiv',
+            'x^2+2x+1',
+            '(x+1)^2',
+            '1, ignoreorder',
+        ];
+        $this->assertEquals($expected, StackQuestionLoader::split_answertest($input));
+    }
+
+    public function test_split_answertest_nested_parentheses(): void {
+        $input = 'ATTest(foo(bar, baz), qux, quux, corge)';
+        $expected = [
+            'ATTest',
+            'foo(bar, baz)',
+            'qux',
+            'quux, corge',
+        ];
+        $this->assertEquals($expected, StackQuestionLoader::split_answertest($input));
+    }
+
+    public function test_split_answertest_missing_items(): void {
+        $input = 'ATTest(foo)';
+        $expected = [
+            'ATTest',
+            'foo',
+            '',
+            '',
+        ];
+        $this->assertEquals($expected, StackQuestionLoader::split_answertest($input));
+    }
+
+    public function test_split_answertest_extra_commas(): void {
+        $input = 'ATTest(foo, bar, baz, qux, quux)';
+        $expected = [
+            'ATTest',
+            'foo',
+            'bar',
+            'baz, qux, quux',
+        ];
+        $this->assertEquals($expected, StackQuestionLoader::split_answertest($input));
+    }
+
+    public function test_split_answertest_spaces(): void {
+        $input = 'ATTest( foo ( bar ), baz , qux )';
+        $expected = [
+            'ATTest',
+            'foo ( bar )',
+            'baz',
+            'qux',
+        ];
+        $this->assertEquals($expected, StackQuestionLoader::split_answertest($input));
     }
 }

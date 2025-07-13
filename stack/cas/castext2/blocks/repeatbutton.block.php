@@ -82,35 +82,29 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		if (isset($this->params['repeat_ids'])) {
 			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
 			foreach ($splitrepeatid as &$id) {
-				$list[] = new MP_String("  const contentPromise_{$id} = stack_js.get_content('");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
-				$list[] = new MP_String("');\n");
-				
-				$list[] = new MP_String("let repeatid='");
+				$list[] = new MP_String("let repeat_id='");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
 				$list[] = new MP_String("';\n");
-				$list[] = new MP_String("console.log('mrkneu2',repeatid);");
 
-				$list[] = new MP_String("  const containerPromise_{$id} = stack_js.get_content('");
+				$list[] = new MP_String("let repeatcontainer_id='");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
-				$list[] = new MP_String("');\n");
+				$list[] = new MP_String("';\n");
 
-				$list[] = new MP_String("  Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {\n");
-				$list[] = new MP_String("    window.repeat_counter++;\n");
-				//$list[] = new MP_String("    console.log('repeat_counter: ',window.repeat_counter);\n");
-				$list[] = new MP_String("    repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
-				$list[] = new MP_String("    repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
-				$list[] = new MP_String("    repeat_content = repeat_content.replace(/(<input\\s+)/g, `$1class=\"repeatable-input\" `);\n");
-				//$list[] = new MP_String("    console.log('repeat_id: {$id}');\n");
-				$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
-				$list[] = new MP_String("    console.log('window.save_state:', document.getElementById(window.save_state).value);\n");
-				//$list[] = new MP_String("    console.log('repeatcontainer_content:', repeatcontainer_content);\n");
-				$list[] = new MP_String("    const switchPromise = stack_js.switch_content('");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
-				$list[] = new MP_String("', repeatcontainer_content + repeat_content);\n");
-				$list[] = new MP_String("setTimeout(()=>{console.log('anzahl4',document.querySelectorAll('.repeatable-input').length)},1000);");
-				//$list[] = new MP_String("    console.log('füge event hinzu',document.querySelectorAll('.repeatable-input').length);document.querySelectorAll('.repeatable-input').forEach(inp => inp.addEventListener('keyup', function(){console.log(this.value)} ));\n");
-				$list[] = new MP_String("  });\n");
+				$code = <<<JS
+				const contentPromise_{$id} = stack_js.get_content(repeat_id);
+				const containerPromise_{$id} = stack_js.get_content(repeatcontainer_id);
+
+				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
+					window.repeat_counter++;
+					repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
+					repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
+					console.log('repeat_content 2:', repeat_content);
+					console.log('window.save_state:', document.getElementById(window.save_state).value);
+					const switchPromise = stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
+				});
+				JS;
+
+				$list[] = new MP_String($code);
 			}
 		}
 

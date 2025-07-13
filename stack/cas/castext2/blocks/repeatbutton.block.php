@@ -67,6 +67,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 			});
 			window.save_state = id;
 			console.log('starte init_repeat');
+			init_repeat();
 		});
 		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
 			add_repeat();
@@ -90,21 +91,17 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				$code = <<<JS
 				const contentPromise_{$id} = stack_js.get_content(repeat_id);
 				contentPromise_{$id}.then((repeat_content) => {
-					let input_ids = [];
-					let id_regex = /id=([\"'])(.*?)\1/g;
-					let match;
-					while ((match = id_regex.exec(repeat_content)) !== null) {
-						input_ids.push(match[2]);
-					}
 
-					// jetzt speichern
+					const tempContainer = document.createElement('div');
+					tempContainer.innerHTML = repeat_content;
+					
+					const input_ids = [...tempContainer.querySelectorAll('input')].map(input => input.id);
+					
 					window.repeat_input_ids = window.repeat_input_ids || {};
 					window.repeat_input_ids[{$id}] = input_ids;
 
-					console.log('IDs für {$id}:', input_ids);
-					console.log('Alle:', window.repeat_input_ids);
-
-					// und kannst danach noch das Content einsetzen etc.
+					console.log('Mit DOM gefundene IDs für {$id}:', input_ids);
+					console.log('Alle gespeicherten IDs:', window.repeat_input_ids);
 				});
 
 				JS;
@@ -138,8 +135,8 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 					window.repeat_counter++;
 					repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
 					repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
-					console.log('repeat_content 2:', repeat_content);
-					console.log('window.save_state:', document.getElementById(window.save_state).value);
+					//console.log('repeat_content 2:', repeat_content);
+					//console.log('window.save_state:', document.getElementById(window.save_state).value);
 					const switchPromise = stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
 				});
 				JS;

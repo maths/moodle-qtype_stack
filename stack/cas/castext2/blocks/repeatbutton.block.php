@@ -55,16 +55,25 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         $list[] = new MP_String('script');
         $list[] = new MP_String(json_encode(['type' => 'module']));
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
-		$code .= "const input = document.getElementById(id);\n";
-		$code .= "window.save_state = id;\n";
-        $code .= "console.log('access_to_input. content:',input.value)\n";
-        $code .= "});\n";
-        $code .= "stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {";
-        $code .= "add_repeat();";
-        $code .= "});\n";
-        $list[] = new MP_String($code);
+		$stackjs_url = stack_cors_link('stackjsiframe.min.js');
+		$save_state = $this->params['save_state'];
+
+		$code = <<<JS
+		import {stack_js} from '{$stackjs_url}';
+		stack_js.request_access_to_input('{$save_state}', true).then((id) => {
+			let input = document.getElementById(id);
+			input.addEventListener('change', function(){
+				console.log('input save_state', id, this.value);
+			});
+			window.save_state = id;
+			console.log('access_to_input. content:', input.value);
+		});
+		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
+			add_repeat();
+		});
+		JS;
+
+		$list[] = new MP_String($code);
 
 		$list[] = new MP_String("window.repeat_counter = 0;");
 
@@ -76,6 +85,11 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				$list[] = new MP_String("  const contentPromise_{$id} = stack_js.get_content('");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
 				$list[] = new MP_String("');\n");
+				
+				$list[] = new MP_String("let repeatid='");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
+				$list[] = new MP_String("';\n");
+				$list[] = new MP_String("console.log('mrkneu2',repeatid);");
 
 				$list[] = new MP_String("  const containerPromise_{$id} = stack_js.get_content('");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
@@ -86,19 +100,22 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				//$list[] = new MP_String("    console.log('repeat_counter: ',window.repeat_counter);\n");
 				$list[] = new MP_String("    repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
 				$list[] = new MP_String("    repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=$1repeat_{$id}_\${window.repeat_counter}_$2$1`);\n");
-				$list[] = new MP_String("    repeat_content = repeat_content.replace(/(<input\\s+)/g, `$1onkeyup=\"console.log(this);\" `);\n");
+				$list[] = new MP_String("    repeat_content = repeat_content.replace(/(<input\\s+)/g, `$1class=\"repeatable-input\" `);\n");
 				//$list[] = new MP_String("    console.log('repeat_id: {$id}');\n");
 				$list[] = new MP_String("    console.log('repeat_content:', repeat_content);\n");
 				$list[] = new MP_String("    console.log('window.save_state:', document.getElementById(window.save_state).value);\n");
 				//$list[] = new MP_String("    console.log('repeatcontainer_content:', repeatcontainer_content);\n");
-				$list[] = new MP_String("    stack_js.switch_content('");
+				$list[] = new MP_String("    const switchPromise = stack_js.switch_content('");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
 				$list[] = new MP_String("', repeatcontainer_content + repeat_content);\n");
+				$list[] = new MP_String("setTimeout(()=>{console.log('anzahl4',document.querySelectorAll('.repeatable-input').length)},1000);");
+				//$list[] = new MP_String("    console.log('füge event hinzu',document.querySelectorAll('.repeatable-input').length);document.querySelectorAll('.repeatable-input').forEach(inp => inp.addEventListener('keyup', function(){console.log(this.value)} ));\n");
 				$list[] = new MP_String("  });\n");
 			}
 		}
 
 		$list[] = new MP_String("};");
+		
 
 
         // Now add a hidden [[iframe]] with suitable scripts.

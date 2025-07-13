@@ -66,7 +66,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				console.log('input save_state', id, this.value);
 			});
 			window.save_state = id;
-			console.log('access_to_input. content:', input.value);
+			console.log('starte init_repeat');
 		});
 		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
 			add_repeat();
@@ -77,6 +77,46 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 		$list[] = new MP_String("window.repeat_counter = 0;");
 
+		// function init_repeat()
+		$list[] = new MP_String("function init_repeat(){\n");
+
+		if (isset($this->params['repeat_ids'])) {
+			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
+			foreach ($splitrepeatid as &$id) {
+				$list[] = new MP_String("let repeat_id='");
+				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
+				$list[] = new MP_String("';\n");
+
+				$code = <<<JS
+				const contentPromise_{$id} = stack_js.get_content(repeat_id);
+				contentPromise_{$id}.then((repeat_content) => {
+					let input_ids = [];
+					let id_regex = /id=([\"'])(.*?)\1/g;
+					let match;
+					while ((match = id_regex.exec(repeat_content)) !== null) {
+						input_ids.push(match[2]);
+					}
+
+					// jetzt speichern
+					window.repeat_input_ids = window.repeat_input_ids || {};
+					window.repeat_input_ids[{$id}] = input_ids;
+
+					console.log('IDs für {$id}:', input_ids);
+					console.log('Alle:', window.repeat_input_ids);
+
+					// und kannst danach noch das Content einsetzen etc.
+				});
+
+				JS;
+
+				$list[] = new MP_String($code);
+			}
+		}
+
+		$list[] = new MP_String("};");
+		// end function init_repeat()
+
+		// function add_repeat()
 		$list[] = new MP_String("function add_repeat(){\n");
 
 		if (isset($this->params['repeat_ids'])) {
@@ -109,6 +149,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		}
 
 		$list[] = new MP_String("};");
+		// end function add_repeat()
 		
 
 

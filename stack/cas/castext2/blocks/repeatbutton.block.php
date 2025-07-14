@@ -65,6 +65,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 			if(input.value=="") {
 				init_repeat(input);
 		    }
+		    // TODO Add else branch for reconstructing from json
 		});
 		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
 			add_repeat();
@@ -134,10 +135,17 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
 					window.repeat_counter++;
-					repeat_content = repeat_content.replace(/id=([\\\"'])(.*?)\\1/g, `id=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
+					
+				const tempContainer = document.createElement('div');
+				tempContainer.innerHTML = repeat_content;
+				tempContainer.querySelectorAll('[id]').forEach(el => {
+					el.id = 'repeat_${id}_'+window.repeat_counter+'_'+el.id';
+					// TODO Update entry of el.id.split('_')[1] in save_state json
+					// TODO add change event listener
+				});
+				repeat_content = tempContainer.innerHTML;
+					
 					repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
-					//console.log('repeat_content 2:', repeat_content);
-					//console.log('window.save_state:', document.getElementById(window.save_state).value);
 					const switchPromise = stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
 				});
 				JS;

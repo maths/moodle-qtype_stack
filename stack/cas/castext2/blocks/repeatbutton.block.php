@@ -62,12 +62,9 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		import {stack_js} from '{$stackjs_url}';
 		stack_js.request_access_to_input('{$save_state}', true).then((id) => {
 			let input = document.getElementById(id);
-			input.addEventListener('change', function(){
-				console.log('input save_state', id, this.value);
-			});
-			window.save_state = id;
-			console.log('starte init_repeat');
-			init_repeat();
+			if(input.value=="") {
+				init_repeat(input);
+		    }
 		});
 		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
 			add_repeat();
@@ -76,10 +73,11 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 		$list[] = new MP_String($code);
 
-		$list[] = new MP_String("window.repeat_counter = 0;");
+		$list[] = new MP_String("window.repeat_counter = 0;\n");
 
 		// function init_repeat()
-		$list[] = new MP_String("function init_repeat(){\n");
+		$list[] = new MP_String("function init_repeat(state){\n");
+		$list[] = new MP_String("let input_ids = [];let new_ids;let promises = [];");
 
 		if (isset($this->params['repeat_ids'])) {
 			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
@@ -89,26 +87,29 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				$list[] = new MP_String("';\n");
 
 				$code = <<<JS
-				const contentPromise_{$id} = stack_js.get_content(repeat_id);
-				contentPromise_{$id}.then((repeat_content) => {
-
-					const tempContainer = document.createElement('div');
-					tempContainer.innerHTML = repeat_content;
-					
-					const input_ids = [...tempContainer.querySelectorAll('input')].map(input => input.id);
-					
-					window.repeat_input_ids = window.repeat_input_ids || {};
-					window.repeat_input_ids[{$id}] = input_ids;
-
-					console.log('Mit DOM gefundene IDs für {$id}:', input_ids);
-					console.log('Alle gespeicherten IDs:', window.repeat_input_ids);
-				});
-
+				promises.push(
+					stack_js.get_content(repeat_id).then((repeat_content) => {
+						const tempContainer = document.createElement('div');
+						tempContainer.innerHTML = repeat_content;
+						new_ids = [...tempContainer.querySelectorAll('input')].map(input => input.id.split('_')[1]);
+						input_ids.push(...new_ids);					
+					})
+				);
 				JS;
-
 				$list[] = new MP_String($code);
 			}
 		}
+		$code = <<<JS
+		Promise.all(promises).then(() => {
+			let data_obj = {};
+			input_ids.forEach(id => {
+				data_obj[id] = [];
+			});
+			state.value = JSON.stringify({data:data_obj});
+			state.dispatchEvent(new Event('change'));
+		});
+		JS;
+		$list[] = new MP_String($code);
 
 		$list[] = new MP_String("};");
 		// end function init_repeat()

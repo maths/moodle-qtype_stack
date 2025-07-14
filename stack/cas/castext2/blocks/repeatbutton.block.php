@@ -107,6 +107,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 			});
 			state.value = JSON.stringify({data:data_obj});
 			state.dispatchEvent(new Event('change'));
+			add_repeat();
 		});
 		JS;
 		$list[] = new MP_String($code);
@@ -145,6 +146,8 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 						window.state_input.dispatchEvent(new Event('change'));
 						el.id = 'repeat_${id}_'+count+'_'+el.id;
 						el.name = 'repeat_${id}_'+count+'_'+el.name;
+						el.classList.add('repeatable-input');
+
 						// TODO add change event listener
 					});
 					repeat_content = tempContainer.innerHTML;
@@ -159,8 +162,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 		$list[] = new MP_String("};");
 		// end function add_repeat()
-		
-
 
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([

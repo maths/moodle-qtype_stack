@@ -1080,7 +1080,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Increasing powers real";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x+1,stackeq((x+1)^2),stackeq((x+1)^3),stackeq((x+1))]";
-        $newarg['debuglist'] = "(EMPTYCHAR,IMPLIESCHAR,IMPLIESCHAR,IMPLIEDCHAR)";
+        $newarg['debuglist'] = "(ASSUMEREALVARS,EQUIVCHARREAL,EQUIVCHARREAL,EQUIVCHARREAL)";
         $newarg['outcome']   = false;
         $newarg['assumereal'] = true;
         $samplearguments[] = $newarg;

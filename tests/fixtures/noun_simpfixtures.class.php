@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This script tests CAS functions in noun_simp.mac and verifies the results.
  * @package    qtype_stack
  * @copyright  2025 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,29 +25,29 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 
-/*
+/**
  * This script tests CAS functions in noun_simp.mac and verifies the results.
  */
 class stack_noun_simp_test_data {
 
-    /*
+    /**
      * String, as typed into the question variables or sandbox.
      */
     const RAWSTRING     = 0;
-    /*
+    /**
     * Location of the "simp:true" sub-array.
     */
     const SIMPTRUE      = 1;
-    /*
+    /**
      * Location of the "simp:true" sub-array.
      */
     const SIMPFALSE     = 2;
 
-    /*
+    /**
      * Location of the "simp:true" sub-array.
      */
     const VALUE         = 0;
-    /*
+    /**
      * Location of the "simp:true" sub-array.
      */
     const DISPLAYTEX    = 1;
@@ -70,7 +71,7 @@ class stack_noun_simp_test_data {
         ['a nounmul b',
             ['a nounmul b', 'a\cdot b'],
             ['a nounmul b', 'a\cdot b']],
-        ['a nounadd b nounmul c', 
+        ['a nounadd b nounmul c',
             ['a nounadd b nounmul c', 'a+b\cdot c'],
             ['a nounadd b nounmul c', 'a+b\cdot c']],
         ['a nounmul b nounadd c',
@@ -87,7 +88,7 @@ class stack_noun_simp_test_data {
         ['a nounadd b nounpow (c nounadd d)',
             ['a nounadd b nounpow (c nounadd d)', 'a+b^{c+d}'],
             ['a nounadd b nounpow (c nounadd d)', 'a+b^{c+d}']],
-        // Prefix notation
+        // Prefix notation.
         ['"nounadd"(a,b)',
             ['a nounadd b', 'a+b'],
             ['a nounadd b', 'a+b']],
@@ -102,14 +103,14 @@ class stack_noun_simp_test_data {
             ['a nounmul b nounmul c', 'a\cdot b\cdot c']],
     ];
 
-    /*
-    * Provide all the test data.
-    */
+    /**
+     * Provide all the test data.
+     */
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
-       /*
+       /**
         * Create an individual test.
         * @array $data Raw data line.
         * @string $simpvalue Value of Maxima simp variable to use with test.
@@ -132,7 +133,7 @@ class stack_noun_simp_test_data {
         return $test;
     }
 
-    /*
+    /**
     * Actually run the test.
     */
     public static function run_test($test) {

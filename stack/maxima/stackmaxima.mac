@@ -234,7 +234,7 @@ make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "none" then (texput("*", " ", nary),
                                    texput("nounmul", " ", nary)),
     if OPT_MULTSGN = "space" then (texput("*", "\\,", nary),
-                                   texput("nounmul","\\, ", nary))
+                                   texput("nounmul","\\,", nary))
 );
 
 /* This only prints a multiplication sign for numbers. */

@@ -105,7 +105,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		Promise.all(promises).then(() => {
 			let data_obj = {};
 			input_ids.forEach(id => {
-				data_obj[id] = [""];
+				data_obj[id] = [];
 			});
 			state.value = JSON.stringify({data:data_obj});
 			state.dispatchEvent(new Event('change'));
@@ -141,17 +141,16 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 					const tempContainer = document.createElement('div');
 					tempContainer.innerHTML = repeat_content;
 					tempContainer.querySelectorAll('input').forEach(el => {
-						console.log('el.id',el.id);
-					//	el.id = 'repeat_${id}_'+window.repeat_counter+'_'+el.id;
+						let base_id = el.id.split('_')[1];
+						let count = state['data'][base_id].length+1;
+						state['data'][base_id].push("");
+						window.state_input.value = JSON.stringify(state);
+						window.state_input.dispatchEvent(new Event('change'));
+						el.id = 'repeat_${id}_'+count+'_'+el.id;
 						// TODO Update entry of el.id.split('_')[1] in save_state json
 						// TODO add change event listener
 					});
 					repeat_content = tempContainer.innerHTML;
-					
-					console.log("window.state_input.value",window.state_input.value);
-					window.state_input.value = String(window.repeat_counter);
-					window.state_input.dispatchEvent(new Event('change'));
-					console.log("window.state_input.value",window.state_input.value);
 					
 					repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
 					const switchPromise = stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);

@@ -103,7 +103,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		Promise.all(promises).then(() => {
 			let data_obj = {};
 			input_ids.forEach(id => {
-				data_obj[id] = [];
+				data_obj[id] = [""];
 			});
 			state.value = JSON.stringify({data:data_obj});
 			state.dispatchEvent(new Event('change'));

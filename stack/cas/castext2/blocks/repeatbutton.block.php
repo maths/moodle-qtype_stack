@@ -75,8 +75,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 		$list[] = new MP_String($code);
 
-		$list[] = new MP_String("window.repeat_counter = 0;\n");
-
 		// function init_repeat()
 		$list[] = new MP_String("function init_repeat(state){\n");
 		$list[] = new MP_String("let input_ids = [];let new_ids;let promises = [];");
@@ -136,7 +134,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				const containerPromise_{$id} = stack_js.get_content(repeatcontainer_id);
 
 				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
-					window.repeat_counter++;
 					
 					const tempContainer = document.createElement('div');
 					tempContainer.innerHTML = repeat_content;
@@ -147,12 +144,11 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 						window.state_input.value = JSON.stringify(state);
 						window.state_input.dispatchEvent(new Event('change'));
 						el.id = 'repeat_${id}_'+count+'_'+el.id;
-						// TODO Update entry of el.id.split('_')[1] in save_state json
+						el.name = 'repeat_${id}_'+count+'_'+el.name;
 						// TODO add change event listener
 					});
 					repeat_content = tempContainer.innerHTML;
 					
-					repeat_content = repeat_content.replace(/name=([\\\"'])(.*?)\\1/g, `name=\$1repeat_{$id}_\${window.repeat_counter}_\$2\$1`);
 					const switchPromise = stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
 				});
 				JS;

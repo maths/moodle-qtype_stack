@@ -153,7 +153,7 @@ class stack_parsons_input extends stack_json_input {
     }
 
     /**
-     * Gets the necessary arguments to supply to `match_display` according to whether `headers` vs. number of columns 
+     * Gets the necessary arguments to supply to `match_display` according to whether `headers` vs. number of columns
      * are used, or `index` vs. number of rows are used in the model answer.
      */
     private function get_match_display_args($value) {

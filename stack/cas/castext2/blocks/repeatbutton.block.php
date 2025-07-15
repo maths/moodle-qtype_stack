@@ -145,8 +145,8 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 						state['data'][base_id].push("");
 						window.state_input.value = JSON.stringify(state);
 						window.state_input.dispatchEvent(new Event('change'));
-						el.id = 'repeat_${id}_'+count+'_'+el.id;
-						new_ids.push(el.id);
+						el.id = el.id+'_repeat_${id}_'+count;
+						new_ids.push(el.id.split('_')[1]+'_repeat_${id}_'+count);
 						el.name = 'repeat_${id}_'+count+'_'+el.name;
 					});
 					repeat_content = tempContainer.innerHTML;
@@ -155,13 +155,22 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 					
 					// TODO: The access to the inputs does not work.
 					new_ids.forEach(new_id => {
-						console.log('new id:',new_id);
+						console.log('new id :',new_id);
 						
 						stack_js.request_access_to_input(new_id, true).then((id) => {
 							console.log('access',id);
 							let input = document.getElementById(id);
 							input.addEventListener('change', function() {
 								console.log('new id input_changed:', this.value);
+								let state = JSON.parse(window.state_input.value);
+								let parts = this.id.split('_');
+								let base_id = parts[0];
+								let count = parts[parts.length-1];
+								console.log('split',base_id,count);
+								console.log('state',state['data'][base_id]);
+								state['data'][base_id][count-1] = this.value;
+								window.state_input.value = JSON.stringify(state);
+								window.state_input.dispatchEvent(new Event('change'));
 							});
 						});
 						

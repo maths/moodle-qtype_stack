@@ -138,6 +138,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 					
 					const tempContainer = document.createElement('div');
 					tempContainer.innerHTML = repeat_content;
+					let new_ids = [];
 					tempContainer.querySelectorAll('input').forEach(el => {
 						let base_id = el.id.split('_')[1];
 						let count = state['data'][base_id].length+1;
@@ -145,14 +146,26 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 						window.state_input.value = JSON.stringify(state);
 						window.state_input.dispatchEvent(new Event('change'));
 						el.id = 'repeat_${id}_'+count+'_'+el.id;
+						new_ids.push(el.id);
 						el.name = 'repeat_${id}_'+count+'_'+el.name;
-						el.classList.add('repeatable-input');
-
-						// TODO add change event listener
 					});
 					repeat_content = tempContainer.innerHTML;
 					
-					const switchPromise = stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
+					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
+					
+					// TODO: The access to the inputs does not work.
+					new_ids.forEach(new_id => {
+						console.log('new id:',new_id);
+						
+						stack_js.request_access_to_input(new_id, true).then((id) => {
+							console.log('access',id);
+							let input = document.getElementById(id);
+							input.addEventListener('change', function() {
+								console.log('new id input_changed:', this.value);
+							});
+						});
+						
+					});
 				});
 				JS;
 

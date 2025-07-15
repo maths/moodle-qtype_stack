@@ -116,7 +116,7 @@ class stack_parsons_input extends stack_json_input {
     }
 
     /**
-     * The model answer for a grid question is an array of three elements [ta, steps, x, y], where
+     * The model answer for a grid question is an array of four elements [ta, steps, x, y], where
      * technically `x` and `y` can be anything. The docs recommend to use `headers` as `x` and `index` as `y`
      * so that they can be included in the display. However authors are not required to even define their own
      * `headers` or `index` parameter, and may fall back on the default headers or not need an index. In this case

@@ -24,6 +24,11 @@ Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stac
 
 1. Add in a "counter" option to the button.  If set to true, then the value of the counter changes from true/false to the number of times the button has been pressed.
 
+## Future equivalence reasoning development track.
+
+1. Allow bespoke validation (actually quite difficult).
+2. Specify a variable to solve for.  E.g.  `a*x=0`, currently needs `a=0 or x=0`, but when solving for `x` we have just `x=0`.
+
 ## Future Parson's block development track
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?

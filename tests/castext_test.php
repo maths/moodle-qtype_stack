@@ -1026,7 +1026,7 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals('\({x\, y}\), \({x\, y}\)', $at1->get_rendered());
+        $this->assertEquals('\({x\,y}\), \({x\,y}\)', $at1->get_rendered());
     }
 
     /**

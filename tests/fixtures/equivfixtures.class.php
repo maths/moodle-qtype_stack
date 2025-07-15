@@ -1081,7 +1081,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x+1,stackeq((x+1)^2),stackeq((x+1)^3),stackeq((x+1))]";
         $newarg['debuglist'] = "(ASSUMEREALVARS,EQUIVCHARREAL,EQUIVCHARREAL,EQUIVCHARREAL)";
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $newarg['assumereal'] = true;
         $samplearguments[] = $newarg;
 

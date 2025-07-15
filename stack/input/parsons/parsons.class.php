@@ -93,6 +93,102 @@ class stack_parsons_input extends stack_json_input {
     }
 
     /**
+     * The model answer for a grouping question is an array of three elements [ta, steps, x], where
+     * technically `x` can be anything. The docs recommend to use `headers` as `x` so that they can be
+     * included in the display. However authors are not required to even define their own `headers` parameter,
+     * and may fall back on the default. In this case they are recommended to use the number of columns.
+     * This function detects which version they are using between these.
+     */
+    private static function detect_grouping_model_answer_type($in) {
+        $decode = json_decode($in);
+        if (!is_array($decode) || count($decode) !== 3) {
+            return stack_string('inputtypeparsons_incorrect_model_ans');;
+        }
+        $third = $decode[2];
+        if (gettype($third) === "integer") {
+            return "cols";
+        }
+        else if (is_array($third)) {
+            return "header";
+        } else {
+            return stack_string('inputtypeparsons_incorrect_model_ans');
+        }
+    }
+
+    /**
+     * The model answer for a grid question is an array of three elements [ta, steps, x, y], where
+     * technically `x` and `y` can be anything. The docs recommend to use `headers` as `x` and `index` as `y`
+     * so that they can be included in the display. However authors are not required to even define their own
+     * `headers` or `index` parameter, and may fall back on the default headers or not need an index. In this case
+     * they are recommended to use the number of columns and rows respectively.
+     * This function detects which version they are using between these.
+     */
+    private static function detect_grid_model_answer_type($in) {
+        $decode = json_decode($in);
+        if (!is_array($decode) || count($decode) === 3) {
+            return stack_string('inputtypeparsons_incorrect_model_ans');;
+        }
+        $third = $decode[2];
+        $fourth = $decode[3];
+        if (gettype($third) === "integer") {
+            if (gettype($fourth) === "integer") {
+                return "cols_rows";
+            } else if (is_array($fourth)) {
+                return "cols_index";
+            } else {
+                return stack_string('inputtypeparsons_incorrect_model_ans');
+            }
+        }
+        else if (is_array($third)) {
+            if (gettype($fourth) === "integer") {
+                return "header_rows";
+            } else if (is_array($fourth)) {
+                return "header_index";
+            } else {
+                return stack_string('inputtypeparsons_incorrect_model_ans');
+            }
+        } else {
+            return stack_string('inputtypeparsons_incorrect_model_ans');
+        }
+    }
+
+    /**
+     * Gets the necessary arguments to supply to `match_display` according to whether `headers` vs. number of columns 
+     * are used, or `index` vs. number of rows are used in the model answer.
+     */
+    private function get_match_display_args($value) {
+        $decoded = json_decode($value);
+        if (!is_array($decoded) || count($decoded) < 3) {
+            return "error";
+        }
+        if (count($decoded) === 3) {
+            $type = $this::detect_grouping_model_answer_type($value);
+            if ($type === 'cols') {
+                $args = array_slice($decoded, 0, 3);
+            } else if ($type === 'header') {
+                $args = array_merge(array_slice($decoded, 0, 2), [count($decoded[2])], [$decoded[2]]);
+            } else {
+                return "error";
+            }
+        } else if (count($decoded) === 4) {
+            if ($this::detect_grid_model_answer_type($value) === 'cols_rows') {
+                $args = array_slice($decoded, 0, 3);
+            } else if ($this::detect_grid_model_answer_type($value) === 'cols_index') {
+                $args = array_merge(array_slice($decoded, 0, 3), [range(1, $decoded[2])], [$decoded[3]]);
+            } else if ($this::detect_grid_model_answer_type($value) === 'header_rows') {
+                $args = array_merge(array_slice($decoded, 0, 2), [count($decoded[2])], [$decoded[2]]);
+            } else if ($this::detect_grid_model_answer_type($value) === 'header_index') {
+                $args = array_merge(array_slice($decoded, 0, 2), [count($decoded[2])], [$decoded[2]], [$decoded[3]]);
+            } else {
+                return "error";
+            }
+        } else {
+            return "error";
+        }
+        return $args;
+    }
+
+    /**
      * Filters to apply for display in validate_contents
      * @var array
      */
@@ -227,13 +323,16 @@ class stack_parsons_input extends stack_json_input {
         if ($this->extraoptions['hideanswer']) {
             return '';
         }
-
-        // For matching problems just hide the answer display.
         if (!$this->is_proof_question($value)) {
-            return '';
+            $args = $this->get_match_display_args($value);
+            if ($args === "error") {
+                $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
+                return;
+            }
+            $ta = 'apply(match_display, ' . json_encode($args) . ')';
+        } else {
+            $ta = 'apply(proof_display, ' . $value . ')';
         }
-
-        $ta = 'apply(proof_display, ' . $value . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();

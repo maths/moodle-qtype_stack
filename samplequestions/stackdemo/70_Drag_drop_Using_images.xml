@@ -7,7 +7,7 @@
     </name>
     <questiontext format="moodle_auto_format">
       <text><![CDATA[<p>Drag the items to match up the functions with their derivatives. </p>
-[[parsons input="ans1" columns="3" rows="2"]]
+[[parsons input="ans1" columns="3" rows="2" item-height="230" item-width="230"]]
 {
     "steps" : {#match_encode(steps)#},
     "headers" : {#headers#},
@@ -92,7 +92,7 @@ ta: [
     <input>
       <name>ans1</name>
       <type>parsons</type>
-      <tans>[ta, steps, 3, 2]</tans>
+      <tans>[ta, steps, headers, 2]</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -105,7 +105,7 @@ ta: [
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options>hideanswer</options>
+      <options></options>
     </input>
     <prt>
       <name>prt1</name>
@@ -153,7 +153,7 @@ tans: match_set_row(ta);</text>
       <description>Test case assuming the teacher's input gets full marks.</description>
       <testinput>
         <name>ans1</name>
-        <value>apply(match_answer,[ta, steps, 3])</value>
+        <value>apply(match_answer,[ta, steps, headers])</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -167,7 +167,7 @@ tans: match_set_row(ta);</text>
       <description></description>
       <testinput>
         <name>ans1</name>
-        <value> 	apply(match_answer,[wa, steps, 3])</value>
+        <value> 	apply(match_answer,[wa, steps, headers])</value>
       </testinput>
       <expected>
         <name>prt1</name>

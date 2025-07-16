@@ -268,4 +268,20 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals($cm, $state->contentsmodified);
         $this->assertEquals($cd, $state->contentsdisplayed);
     }
+
+    public function test_match_display(): void {
+        $ta = '"[[[\"1\", \"2\"], [\"3\", \"4\", \"5\"], [\"6\"]], [[\"1\", \"one\"], [\"2\", \"two\"], [\"3\", \"three\"], 
+        [\"4\", \"four\"], [\"5\", \"five\"], [\"6\", \"six\"]], 3]"';
+        $el = stack_input_factory::make('parsons', 'ans1', $ta);
+        $this->assertEquals('',
+                $el->get_teacher_answer_display($ta, ''));
+    }
+
+    public function test_invalid_matching_ta(): void {
+        $ta = '"[[[\"1\", \"2\"], [\"3\", \"4\", \"5\"], [\"6\"]], [[\"1\", \"one\"], [\"2\", \"two\"], [\"3\", \"three\"], 
+        [\"4\", \"four\"], [\"5\", \"five\"], [\"6\", \"six\"]], 3, 5, 10]"';
+        $el = stack_input_factory::make('parsons', 'ans1', $ta);
+        $state = $el->get_teacher_answer_display($ta, '');
+        $this->assertEquals('Invalid state for Parson\'s input.', $state->errors);
+    }
 }

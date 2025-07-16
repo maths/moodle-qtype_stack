@@ -229,7 +229,7 @@ function stack_get_mathjax_url(): string {
  * This function will return the version number as a string, e.g. "3.2.2" or "2.7.7".
  * It does so by looking for matches of the form "mathjax@<version>" or "mathjax/<version>" in the URL.
  * If the version cannot be determined, it returns "2.7.9".
- * 
+ *
  */
 function stack_get_mathjax_version() : string {
     $url = stack_get_mathjax_url();
@@ -238,7 +238,6 @@ function stack_get_mathjax_version() : string {
     if (preg_match('/mathjax@(\d+(?:\.\d+)*)/i', $url, $matches)) {
         return $matches[1];
     }
-
 
     if (preg_match('/mathjax\/(2\.\d+(?:\.\d+)*)/i', $url, $matches)) {
         return $matches[1];

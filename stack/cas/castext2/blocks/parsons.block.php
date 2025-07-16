@@ -60,9 +60,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Whether to have all keys in available list cloned.
         $clone = 'false';
 
-        // MathJax version 
-        $mathjax_version = stack_get_mathjax_version();
-        $mathjax_version_major = explode(".", $mathjax_version)[0];
+        // MathJax version.
+        $mathjaxversion = stack_get_mathjax_version();
+        $mathjaxversionmajor = explode(".", $mathjaxversion)[0];
 
         // Number of available columns.
         $columns = null;
@@ -171,7 +171,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Identify default proof mode based on block header params
+        // Identify default proof mode based on block header params.
         // Note that proof mode behaves the same as the general mode, but we just
         // need to redefine columns.
         $proofmode = ($columns === null && $rows === null);
@@ -360,13 +360,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items())' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
-        $code .= ($mathjax_version_major === "2") ?
+        $code .= ($mathjaxversionmajor === "2") ?
             'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' :
             'var mathJaxPromise = MathJax.typesetPromise();';
 
         // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
-            $code .= ($mathjax_version_major === "2") ?
+            $code .= ($mathjaxversionmajor === "2") ?
                 'MathJax.Hub.Queue(() => {
                     stackSortable.resize_grid_items();
                     stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
@@ -482,8 +482,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Check MathJax version has been parsed correctly
-        $mathjax_version_major = explode(".", stack_get_mathjax_version())[0];
-        if (!$mathjax_version_major === "2" || !$mathjax_version_major === "3") {
+        $mathjaxversionmajor = explode(".", stack_get_mathjax_version())[0];
+        if (!$mathjaxversionmajor === "2" || !$mathjaxversionmajor === "3") {
             $valid = false;
             $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
                 'mjversion' => '2, 3',

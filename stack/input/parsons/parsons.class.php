@@ -107,8 +107,7 @@ class stack_parsons_input extends stack_json_input {
         $third = $decode[2];
         if (gettype($third) === "integer") {
             return "cols";
-        }
-        else if (is_array($third)) {
+        } else if (is_array($third)) {
             return "header";
         } else {
             return stack_string('inputtypeparsons_incorrect_model_ans');
@@ -138,8 +137,7 @@ class stack_parsons_input extends stack_json_input {
             } else {
                 return stack_string('inputtypeparsons_incorrect_model_ans');
             }
-        }
-        else if (is_array($third)) {
+        } else if (is_array($third)) {
             if (gettype($fourth) === "integer") {
                 return "header_rows";
             } else if (is_array($fourth)) {

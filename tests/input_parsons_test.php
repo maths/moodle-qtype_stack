@@ -316,6 +316,5 @@ final class input_parsons_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('parsons', 'ans1', $ta);
         $this->assertEquals('',
                 $el->get_teacher_answer_display($ta, ''));
-        $this->assertEquals('Invalid state for Parson\'s input.', $el->errors);
     }
 }

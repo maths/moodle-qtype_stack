@@ -273,7 +273,49 @@ final class input_parsons_test extends qtype_stack_testcase {
         $ta = '[[["1", "2"], ["3", "4", "5"], ["6"]], [["1", "one"], ["2", "two"], ["3", "three"], 
         ["4", "four"], ["5", "five"], ["6", "six"]], 3]';
         $el = stack_input_factory::make('parsons', 'ans1', $ta);
+        $this->assertEquals('<table border="1"><tr><th style="text-align:center;">1</th><th style="text-align:center;">2</th>' .
+                '<th style="text-align:center;">3</th></tr><tr><td>one</td><td>three</td><td>six</td></tr><tr><td>two</td>' . 
+                '<td>four</td><td></td></tr><tr><td></td><td>five</td><td></td></tr></table>',
+                $el->get_teacher_answer_display($ta, ''));
+    }
+
+    public function test_match_display_with_headers(): void {
+        $ta = '[[["1", "2"], ["3", "4", "5"], ["6"]], [["1", "one"], ["2", "two"], ["3", "three"], 
+        ["4", "four"], ["5", "five"], ["6", "six"]], ["First header", "Second header", "Third header"]]';
+        $el = stack_input_factory::make('parsons', 'ans1', $ta);
+        $this->assertEquals('<table border="1"><tr><th style="text-align:center;">First header</th><th style="text-align:center;">Second header</th>' .
+                '<th style="text-align:center;">Third header</th></tr><tr><td>one</td><td>three</td><td>six</td></tr><tr><td>two</td>' . 
+                '<td>four</td><td></td></tr><tr><td></td><td>five</td><td></td></tr></table>',
+                $el->get_teacher_answer_display($ta, ''));
+    }
+
+    public function test_match_display_with_index(): void {
+        $ta = '[[["1", "2"], ["3", "4", "5"], ["6"]], [["1", "one"], ["2", "two"], ["3", "three"], 
+        ["4", "four"], ["5", "five"], ["6", "six"]], ["First header", "Second header", "Third header"], ["First index", "Second index", "Third index", "Fourth index"]]';
+        $el = stack_input_factory::make('parsons', 'ans1', $ta);
+        $this->assertEquals('<table border="1"><tr><th style="text-align:center;">First index</th><th style="text-align:center;">First header</th>' . 
+                '<th style="text-align:center;">Second header</th><th style="text-align:center;">Third header</th></tr><tr>' . 
+                '<td>Second index</td><td>one</td><td>three</td><td>six</td></tr><tr><td>Third index</td><td>two</td>' . 
+                '<td>four</td><td></td></tr><tr><td>Fourth index</td><td></td><td>five</td><td></td></tr></table>',
+                $el->get_teacher_answer_display($ta, ''));
+    }
+
+    public function test_match_display_with_grid_no_index(): void {
+        $ta = '[[["1", "2"], ["3", "4", "5"], ["6"]], [["1", "one"], ["2", "two"], ["3", "three"], 
+        ["4", "four"], ["5", "five"], ["6", "six"]], ["First header", "Second header", "Third header"], 3]';
+        $el = stack_input_factory::make('parsons', 'ans1', $ta);
+        $this->assertEquals('<table border="1"><tr><th style="text-align:center;">First header</th><th style="text-align:center;">Second header</th>' .
+                '<th style="text-align:center;">Third header</th></tr><tr><td>one</td><td>three</td><td>six</td></tr><tr><td>two</td>' . 
+                '<td>four</td><td></td></tr><tr><td></td><td>five</td><td></td></tr></table>',
+                $el->get_teacher_answer_display($ta, ''));
+    }
+
+    public function test_match_display_invalid(): void {
+        $ta = '[[["1", "2"], ["3", "4", "5"], ["6"]], [["1", "one"], ["2", "two"], ["3", "three"], 
+        ["4", "four"], ["5", "five"], ["6", "six"]], ["First header", "Second header", "Third header"], 3, "Should not be here"]';
+        $el = stack_input_factory::make('parsons', 'ans1', $ta);
         $this->assertEquals('',
                 $el->get_teacher_answer_display($ta, ''));
+        $this->assertEquals('Invalid state for Parson\'s input.', $el->errors);
     }
 }

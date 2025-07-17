@@ -6,26 +6,6 @@ This is reference documentation for the equivalence reasoning input.
 
 This input type enables us to capture and evaluate student's line-by-line reasoning.
 
-Reasoning by equivalence is is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, are replaced by an equivalent until a "solved" form is reached.  Reasoning by equivalence is very common in elementary mathematics.  It is either the entire task (such as when solving a quadratic) or it is an important part of a bigger problem.  E.g. proving the induction step is often achieved by reasoning by equivalence.
-
-There are two modes:  (i) solving equations, and (ii) re-writing equivalent expressions.
-
-An example of solving a quadratic equation is shown below.
-\[\begin{array}{cc} \  & x^2-x=30 & \\
-\color{green}{\Leftrightarrow} & x^2-x-30=0 & \\
-\color{green}{\Leftrightarrow} & \left(x-6\right)\cdot \left(x+5\right)=0 \\
-\color{green}{\Leftrightarrow} & x-6=0\lor x+5=0 \\
-\color{green}{\Leftrightarrow} & x=6\lor x=-5
-\end{array}\]
-
-An example of working with equivalent expressions is shown below.
-\[\begin{array}{lll} & x^2-x-30& \\
-\color{green}{\checkmark} & =x^2-2\cdot \left(\frac{1}{2}\right)\cdot x-30& \\
-\color{green}{\checkmark} & =x^2-2\cdot \left(\frac{1}{2}\right)\cdot x+{\left(\frac{1}{2}\right)}^2-{\left(\frac{1}{2}\right)}^2-30 & \\
-\color{green}{\checkmark} & ={\left(x-\frac{1}{2}\right)}^2-{\left(\frac{11}{2}\right)}^2& \\
-\color{green}{\checkmark}&=\left(x-6\right)\cdot \left(x+5\right)
-\end{array}\]
-
 ## How do students use this input?
 
 [Instructions for students](../../Students/Equivalence_reasoning.md).
@@ -48,8 +28,6 @@ It certainly can't be something wrong such as `x=1 and x=2` which is often seen 
 Note that students may not take square roots of both sides of an equation.  This will be rejected because it is not equivalent!  Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  This will probably not correspond to students' expectations, and may take a bit of getting used to.
 
 But should students really use logical connectives?  Yes, I (CJS) believe they should but to require this from the input type now would be too big a step for students and their teachers. Students are already being expected to use connectives such as `and` and `or` correctly.  The input type uses these connectives and in the future options may be added to this input type which require students to be explicit about logical connectives, especially when we add support for implication in addition to equivalence.  As we gain confidence in teaching with equivalence reasoning, we will add more options to this input type.
-
-__If you have strong views on how this input type should behave, please contact the developers.__
 
 ## Validation and correctness
 

@@ -1685,7 +1685,6 @@ texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(PLUSC, "\\color{red}{\\cdots +c\\quad ?}");
-texput(EQUIVZERO, "\\color{red}{0\\quad\\text{(?)}}");
 /* Here we add tags.  These are for localisation.  Dealt with on the PHP side in cassession -> instantiate. */
 texput(SAMEROOTS, "\\color{green}{\\text{!SAMEROOTS!}}");
 texput(ANDOR, "\\color{red}{\\text{!ANDOR!}}");
@@ -2345,9 +2344,6 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
             error("disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".")
         )
     ),
-    /* Only add in EQUIVZERO when we don't have equational reasoning and when we do have more than one line. */
-    if stack_eval_arg_equivalence_reasoningp(A[3]) then
-        exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
     /* Turn "and" opertors into displayed ones. */
     exnew:maplist(lambda([ex2], if safe_op(ex2)="nounand" then apply(argumentand, args(ex2)) else ex2), A[3]),
     /* Add in the natural domain information. */

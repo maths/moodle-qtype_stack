@@ -633,6 +633,7 @@ $string['variants'] = 'Variants';
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
 $string['equivfirstline'] = 'You have used the wrong first line in your argument!';
+$string['equivmixedreasoning']  = 'When reasoning by equivalence either (i) rewrite expressions, or (ii) rewrite equations step by step.  You appear to mix both, which is invalid.';
 
 // Support scripts: CAS chat, healthcheck, etc.
 $string['all'] = 'All';

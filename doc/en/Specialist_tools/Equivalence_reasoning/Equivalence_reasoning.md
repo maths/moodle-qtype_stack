@@ -22,6 +22,11 @@ An example of solving a quadratic equation is shown below.
 \color{green}{\Leftrightarrow} & x=6\lor x=-5
 \end{array}\]
 
+STACK has predicates to determine which form of reasoning is used.  The predicate is applied to the list of expressions.
+
+1. `stack_eval_arg_equivalence_reasoningp(ex)`
+2. `stack_eval_arg_equation_reasoningp(ex)`
+
 ## Equivalent expressions
 
 Working with equivalent expressions is relatively straightforward.

@@ -231,6 +231,22 @@ final class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals('missingLeftBracket', $state->note);
     }
 
+    public function test_validate_student_response_invalid_mixed(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6=0,(x-2)*(x-3)=0]');
+        $el->set_parameter('showValidation', 3);
+        $state = $el->validate_student_response(['sans1' => "x^2-5*x+6=0\n (x-2)*(x-3)"], $options,
+            '[x^2-5*x+6=0,(x-2)*(x-3)=0]', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('[x^2-5*x+6 = 0,(x-2)*(x-3)]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr \color{red}{\Rightarrow}&\left(x-2\right)\cdot ' .
+            '\left(x-3\right)& \cr \end{array} \]<p>When reasoning by equivalence either (i) rewrite expressions, ' .
+            'or (ii) rewrite equations step by step.  You appear to mix both, which is invalid.</p>',
+            $state->contentsdisplayed);
+        $this->assertEquals('equivmixedreasoning', $state->note);
+    }
+
     public function test_validate_student_response_with_equiv(): void {
 
         $options = new stack_options();
@@ -727,17 +743,17 @@ final class input_equiv_test extends qtype_stack_testcase {
         $options->set_option('multiplicationsign', 'space');
         $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
         // This long example also tests a switch from equational reasoning to equivalence reasoning and back again.
-        $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are not forbidden!\"\nx^2-1=0\n(x-1)*(x+1)=0\n\"Comment 2\"\n".
+        $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are not forbidden!\"\nx^2-1\n(x-1)*(x+1)\n\"Comment 2\"\n".
             "x^2-1\n=(x-1)*(x+1)";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
         $el->set_parameter('options', 'comments');
         $state = $el->validate_student_response(['sans1' => $sa], $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[x^2-1,stackeq((x-1)*(x+1)),"Comments are not forbidden!",x^2-1 = 0,(x-1)*(x+1) = 0,'.
+        $this->assertEquals('[x^2-1,stackeq((x-1)*(x+1)),"Comments are not forbidden!",x^2-1,(x-1)*(x+1),'.
                 '"Comment 2",x^2-1,stackeq((x-1)*(x+1))]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2-1& \cr \color{green}{\checkmark}&=\left(x-1\right)\,\left(x+1\right)&'.
-                ' \cr &\text{Comments are not forbidden!}& \cr &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)'.
-                '\,\left(x+1\right)=0& \cr &\text{Comment 2}& \cr &x^2-1& \cr \color{green}{\checkmark}'.
+                ' \cr &\text{Comments are not forbidden!}& \cr &x^2-1& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)'.
+                '\,\left(x+1\right)& \cr &\text{Comment 2}& \cr &x^2-1& \cr \color{green}{\checkmark}'.
                 '&=\left(x-1\right)\,\left(x+1\right)& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);

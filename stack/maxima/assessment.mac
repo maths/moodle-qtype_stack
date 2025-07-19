@@ -302,44 +302,44 @@ variablep(ex) := atom(ex) and not(real_numberp(ex)) and not(ex=%i) and not(strin
 
 /* Determines if we are using an equation. */
 equationp(ex) := block(
-   if atom(ex) then return(false),
-   if "="= op(ex) then return(true),
-   return(false)
+    if atom(ex) then return(false),
+    if "="= op(ex) then return(true),
+    return(false)
 )$
 
 /* Determines if we are using a function. */
 functionp(ex) := block(
-   if atom(ex) then return(false),
-   if ":="= op(ex) then return(true),
-   return(false)
+    if atom(ex) then return(false),
+    if ":="= op(ex) then return(true),
+    return(false)
 )$
 
 /* Determines if we are using an inequality. */
 inequalityp(ex) := block(
-   if atom(ex) then return(false),
-   if ">" = op(ex) or "<" = op(ex) or ">=" = op(ex) or "<=" = op(ex) then return(true),
-   if "and" = op(ex) or "or" = op(ex) or "not" then return(true),
-   return(false)
+    if atom(ex) then return(false),
+    if ">" = op(ex) or "<" = op(ex) or ">=" = op(ex) or "<=" = op(ex) then return(true),
+    if "and" = op(ex) or "or" = op(ex) or "not" then return(true),
+    return(false)
 )$
 
 /* Determines if ex looks like a basic mathematical expression. */
 expressionp(ex) := block(
- if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) or stringp(ex) then
-    return(false),
- return(true)
+    if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) or stringp(ex) then
+        return(false),
+    return(true)
 );
 
 /* Checks that an expression is a polynomial. */
 polynomialpsimp(ex):= block([v],
-  v:listofvars(ex),
-  if is(v=[]) then return(simp_numberp(ex)),
-  polynomialp(ex, v)
+    v:listofvars(ex),
+    if is(v=[]) then return(simp_numberp(ex)),
+    polynomialp(ex, v)
 )$
 
 calculusp(ex) := block(
-   if atom(ex) then return(false),
-   if "diff" = op(ex) or "noundiff" = op(ex) or "int" = op(ex) or "nounint" = op(ex) then return(true),
-   return(false)
+    if atom(ex) then return(false),
+    if "diff" = op(ex) or "noundiff" = op(ex) or "int" = op(ex) or "nounint" = op(ex) then return(true),
+    return(false)
 )$
 
 
@@ -361,11 +361,11 @@ alias(ln, log);
 alias(lg, logbase);
 
 lgtex(ex) := block([n, b],
-  b:10,
-  if length(args(ex)) = 1 then n:first(args(ex)),
-  if length(args(ex)) = 2 then (n:first(args(ex)), b:second(args(ex))),
-  oldsimp:simp,
-  return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
+    b:10,
+    if length(args(ex)) = 1 then n:first(args(ex)),
+    if length(args(ex)) = 2 then (n:first(args(ex)), b:second(args(ex))),
+    oldsimp:simp,
+    return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
 )$
 texput(lg, lgtex);
 
@@ -1163,10 +1163,10 @@ recurse_userfunctionp(ex):= block([op1],
 
 /* We can try to evaluate matrices here, but anything else is out. */
 numerical_not_expressionp(ex) := block(
- /* Noun calculus operations get evaluated, which throws an erros. */
- if listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) or stringp(ex) or calculusp(ex) then
-    return(true),
- return(false)
+    /* Noun calculus operations get evaluated, which throws an erros. */
+    if listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) or stringp(ex) or calculusp(ex) then
+        return(true),
+    return(false)
 );
 
 /* This function takes two expressions.
@@ -1282,20 +1282,20 @@ logic_edgep(ex) := block(
 
 /* A predicate to decide if we have a logical expression. */
 logicp(ex) := block(
-  if logic_edgep(ex) then return(true),
-  if safe_op(ex) = "nounand" then return(true),
-  if safe_op(ex) = "nounor" then return(true),
-  if safe_op(ex) = "nounnot" then return(true),
-  if safe_op(ex) = "and" then return(true),
-  if safe_op(ex) = "or" then return(true),
-  if safe_op(ex) = "not" then return(true),
-  if safe_op(ex) = "nor" then return(true),
-  if safe_op(ex) = "nand" then return(true),
-  if safe_op(ex) = "xor" then return(true),
-  if safe_op(ex) = "xnor" then return(true),
-  if safe_op(ex) = "implies" then return(true),
-  if op_usedp(ex, STACKpmOPT) then return(true),
-  return(false)
+    if logic_edgep(ex) then return(true),
+    if safe_op(ex) = "nounand" then return(true),
+    if safe_op(ex) = "nounor" then return(true),
+    if safe_op(ex) = "nounnot" then return(true),
+    if safe_op(ex) = "and" then return(true),
+    if safe_op(ex) = "or" then return(true),
+    if safe_op(ex) = "not" then return(true),
+    if safe_op(ex) = "nor" then return(true),
+    if safe_op(ex) = "nand" then return(true),
+    if safe_op(ex) = "xor" then return(true),
+    if safe_op(ex) = "xnor" then return(true),
+    if safe_op(ex) = "implies" then return(true),
+    if op_usedp(ex, STACKpmOPT) then return(true),
+    return(false)
 )$
 
 free_of_logicp(ex) := block([logicops, logiconsts, res, k],
@@ -2384,6 +2384,34 @@ stack_eval_arg_equivalence_reasoningp(L) := block(
     return(true)
 )$
 
+/* A predicate to decide if we have re-writing equivalent expressions.          */
+/* Two choices.                                                                 */
+/* (1) Everything is an expression or logical statement.                        */
+/* (2) We start with an equation and then use stackeq throughout.               */
+/* Strings are permitted for comments.                                          */
+stack_eval_arg_expression_reasoningp(ex) := block(
+    /* (1) Everything is an expression or logical statement. */
+    if all_listp(lambda([ex2], expressionp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
+        return(true),
+    /* (2.1) We start with an equation. */
+    if not(equationp(first(ex))) then return(false),
+    /* (2.2) Use stackeq throughout. */
+    if is(length(ex)=1) then return(false),
+    if all_listp(lambda([ex2], is(safe_op(ex2)="stackeq") or is(safe_op(ex2)="stacklet")), rest(ex)) then return(true),
+    return(false)
+)$
+
+/* A predicate to decide if we have re-writing equivalent equations.            */
+/* Strings are permitted for comments.                                          */
+stack_eval_arg_equation_reasoningp(ex) := block(
+    if all_listp(lambda([ex2], equationp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
+        return(true),
+    return(false)
+)$
+
+/* Are us using one of two forms of reasoning?                                  */
+stack_eval_arg_validationp(ex) := stack_eval_arg_expression_reasoningp(ex) or stack_eval_arg_equation_reasoningp(ex)$
+
 /* This modifies stack_eval_arg to create something which can be displayed. */
 disp_stack_eval_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A],
     A:stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist),
@@ -2413,13 +2441,6 @@ stack_disp_arg([exs]) := block([A],
     if length(exs)>2 then showdomain:third(exs),
     A:stack_eval_equiv_arg(ex, showlogic, showdomain, false, false),
     return(second(A))
-)$
-
-check_stack_eval_arg(ex) := block([ret],
-    /* Evaluate the argument.      */
-    if length(ex)<2 then return(true),
-    ret:stack_eval_equiv_arg(ex, false, false, false, false),
-    return(first(ret))
 )$
 
 /* An answer test based on equivalence reasoning. */

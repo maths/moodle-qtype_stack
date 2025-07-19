@@ -65,9 +65,11 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 			window.state_input = input;
 			if(input.value=="") {
 				init_repeat(input);
-		    }
-		    // TODO Add else branch for reconstructing from json
+		    } else {
+				construct_repeat();
+			}
 		});
+		window.repeat_ids = new Set();
 		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
 			add_repeat();
 		});
@@ -115,66 +117,90 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		$list[] = new MP_String("};");
 		// end function init_repeat()
 
+		// function construct_repeat()
+		$code = <<<JS
+		function construct_repeat(){
+			let state = JSON.parse(window.state_input.value);
+			console.log('state',state);
+			const count = state.data[Object.keys(state.data)[0]].length;
+			console.log('count',count);
+			const promises = [];
+			for (let i = 0; i < count-1; i++) {
+				promises.push(add_repeat());
+			}
+			Promise.all(promises).then(() => {
+				console.log('repeat_ids (Array)', [...window.repeat_ids]);
+				[...window.repeat_ids].forEach((el) => {
+					let id = el.split('_')[0];
+					let repeat_count = parseInt(el.split('_').at(-1), 10);
+					let val = state['data'][id]?.[repeat_count];
+					console.log(el, id, repeat_count, val);
+				});
+			});
+
+
+		};
+		JS;
+		$list[] = new MP_String($code);
+		// end function construct_repeat()
+
 		// function add_repeat()
-		$list[] = new MP_String("function add_repeat(){\n");
-		$list[] = new MP_String("let state = JSON.parse(window.state_input.value);\n");
+		$list[] = new MP_String("function add_repeat() {");
+		$list[] = new MP_String("return new Promise((resolve) => {");
+		$list[] = new MP_String("let state = JSON.parse(window.state_input.value);");
 
 		if (isset($this->params['repeat_ids'])) {
 			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
 			foreach ($splitrepeatid as &$id) {
 				$list[] = new MP_String("let repeat_id='");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
-				$list[] = new MP_String("';\n");
+				$list[] = new MP_String("';");
 
 				$list[] = new MP_String("let repeatcontainer_id='");
 				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
-				$list[] = new MP_String("';\n");
+				$list[] = new MP_String("';");
 
 				$code = <<<JS
 				const contentPromise_{$id} = stack_js.get_content(repeat_id);
 				const containerPromise_{$id} = stack_js.get_content(repeatcontainer_id);
 
 				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
-					
-					const tempContainer = document.createElement('div');
+					let tempContainer = document.createElement('div');
 					tempContainer.innerHTML = repeat_content;
-					let new_ids = [];
+
 					tempContainer.querySelectorAll('input').forEach(el => {
 						let base_id = el.id.split('_')[1];
-						let count = state['data'][base_id].length+1;
+						let count = state['data'][base_id].length + 1;
 						state['data'][base_id].push("");
 						window.state_input.value = JSON.stringify(state);
 						window.state_input.dispatchEvent(new Event('change'));
-						el.id = el.id+'_repeat_${id}_'+count;
-						new_ids.push(el.id.split('_')[1]+'_repeat_${id}_'+count);
-						el.name = 'repeat_${id}_'+count+'_'+el.name;
+
+						el.id = el.id + '_repeat_{$id}_' + count;
+						window.repeat_ids.add(el.id.split('_')[1] + '_repeat_{$id}_' + count);
+						el.name = el.name + '_repeat_{$id}_' + count;
 					});
+
 					repeat_content = tempContainer.innerHTML;
-					
 					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
-					
-					// TODO: The access to the inputs does not work.
-					new_ids.forEach(new_id => {
-						console.log('new id :',new_id);
-						
+
+					window.repeat_ids.forEach(new_id => {
 						stack_js.request_access_to_input(new_id, true).then((id) => {
-							console.log('access',id);
 							let input = document.getElementById(id);
-							input.addEventListener('change', function() {
-								console.log('new id input_changed:', this.value);
-								let state = JSON.parse(window.state_input.value);
-								let parts = this.id.split('_');
-								let base_id = parts[0];
-								let count = parts[parts.length-1];
-								console.log('split',base_id,count);
-								console.log('state',state['data'][base_id]);
-								state['data'][base_id][count-1] = this.value;
-								window.state_input.value = JSON.stringify(state);
-								window.state_input.dispatchEvent(new Event('change'));
-							});
+							if (input) {
+								input.addEventListener('change', function () {
+									let state = JSON.parse(window.state_input.value);
+									let parts = this.id.split('_');
+									let base_id = parts[0];
+									let count = parts[parts.length - 1];
+									state['data'][base_id][count - 1] = this.value;
+									window.state_input.value = JSON.stringify(state);
+									window.state_input.dispatchEvent(new Event('change'));
+								});
+							}
 						});
-						
 					});
+
+					resolve(); // <-- Promise aufgelöst, wenn alles getan wurde
 				});
 				JS;
 
@@ -182,7 +208,9 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 			}
 		}
 
-		$list[] = new MP_String("};");
+		$list[] = new MP_String("});"); // Ende von new Promise
+		$list[] = new MP_String("};");  // Ende von add_repeat()
+
 		// end function add_repeat()
 
         // Now add a hidden [[iframe]] with suitable scripts.

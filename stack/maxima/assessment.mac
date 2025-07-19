@@ -1685,7 +1685,6 @@ texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(PLUSC, "\\color{red}{\\cdots +c\\quad ?}");
-texput(EQUIVZERO, "\\color{red}{0\\quad\\text{(?)}}");
 /* Here we add tags.  These are for localisation.  Dealt with on the PHP side in cassession -> instantiate. */
 texput(SAMEROOTS, "\\color{green}{\\text{!SAMEROOTS!}}");
 texput(ANDOR, "\\color{red}{\\text{!ANDOR!}}");
@@ -1736,6 +1735,34 @@ stacklettex(ex):=block(
 );
 texput(stacklet, stacklettex);
 
+/* A predicate to decide if we have re-writing equivalent expressions.          */
+/* Two choices.                                                                 */
+/* (1) Everything is an expression or logical statement.                        */
+/* (2) We start with an equation and then use stackeq throughout.               */
+/* Strings are permitted for comments.                                          */
+stack_eval_arg_expression_reasoningp(ex) := block(
+    /* (1) Everything is an expression or logical statement. */
+    if all_listp(lambda([ex2], expressionp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
+        return(true),
+    /* (2.1) We start with an equation. */
+    if not(equationp(first(ex))) then return(false),
+    /* (2.2) Use stackeq throughout. */
+    if is(length(ex)=1) then return(false),
+    if all_listp(lambda([ex2], is(safe_op(ex2)="stackeq") or is(safe_op(ex2)="stacklet")), rest(ex)) then return(true),
+    return(false)
+)$
+
+/* A predicate to decide if we have re-writing equivalent equations.            */
+/* Strings are permitted for comments.                                          */
+stack_eval_arg_equation_reasoningp(ex) := block(
+    if all_listp(lambda([ex2], equationp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
+        return(true),
+    return(false)
+)$
+
+/* Are we using one of two forms of reasoning?                                  */
+stack_eval_arg_validationp(ex) := stack_eval_arg_expression_reasoningp(ex) or stack_eval_arg_equation_reasoningp(ex)$
+
 /* This function actually evaluates the correctness of an argument "ex".                       */
 /* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
 /* Display, fitness to a model and other functions are separate, and all rely on this.         */
@@ -1768,7 +1795,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   exnatdomain:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote:""],
       SA:exmod[ev(id, simp)],
-      if stack_eval_arg_equivzerop(ex) then SA:SA=0,
       if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
       if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
 
@@ -1932,7 +1958,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                      )
             ),
 
-
           if (malrulecont) then block
           (
               ATres:ev(ATAlgEquiv(SAP, SBP), simp),
@@ -1956,7 +1981,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                 eqoutsymb[ev(id, simp)]:PECret,
                 tempnote:sconcat(tempnote, " | EquateCoeffs | ", string(PECret))
                 ),
-
 
               /* Deal with special cases with assume_pos. */
               if assume_pos then block
@@ -2022,7 +2046,34 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   var:first(ATIntGetVar(SB)),
                   ATres:ev(ATAlgEquiv(SA, diff(SB, var)), simp),
                   if (debug) then print("Calculated ATInt ", string(ATres)),
-                  if second(ATres) then block(
+                  if second(ATres) then block(/* A predicate to decide if we have re-writing equivalent expressions.          */
+/* Two choices.                                                                 */
+/* (1) Everything is an expression or logical statement.                        */
+/* (2) We start with an equation and then use stackeq throughout.               */
+/* Strings are permitted for comments.                                          */
+stack_eval_arg_expression_reasoningp(ex) := block(
+    /* (1) Everything is an expression or logical statement. */
+    if all_listp(lambda([ex2], expressionp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
+        return(true),
+    /* (2.1) We start with an equation. */
+    if not(equationp(first(ex))) then return(false),
+    /* (2.2) Use stackeq throughout. */
+    if is(length(ex)=1) then return(false),
+    if all_listp(lambda([ex2], is(safe_op(ex2)="stackeq") or is(safe_op(ex2)="stacklet")), rest(ex)) then return(true),
+    return(false)
+)$
+
+/* A predicate to decide if we have re-writing equivalent equations.            */
+/* Strings are permitted for comments.                                          */
+stack_eval_arg_equation_reasoningp(ex) := block(
+    if all_listp(lambda([ex2], equationp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
+        return(true),
+    return(false)
+)$
+
+/* Are we using one of two forms of reasoning?                                  */
+stack_eval_arg_validationp(ex) := stack_eval_arg_expression_reasoningp(ex) or stack_eval_arg_equation_reasoningp(ex)$
+                  
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:INTCHAR(var),
@@ -2345,9 +2396,6 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
             error("disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".")
         )
     ),
-    /* Only add in EQUIVZERO when we don't have equational reasoning and when we do have more than one line. */
-    if stack_eval_arg_equivalence_reasoningp(A[3]) then
-        exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
     /* Turn "and" opertors into displayed ones. */
     exnew:maplist(lambda([ex2], if safe_op(ex2)="nounand" then apply(argumentand, args(ex2)) else ex2), A[3]),
     /* Add in the natural domain information. */
@@ -2366,55 +2414,24 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     return([res, ret, note])
 )$
 
-/* A predicate to decide if we should equate to zero. */
-stack_eval_arg_equivzerop(ex) := block(
-   if is(ex=true) or is(ex=false) then return(false),
-   if emptyp(ex) or is(ex=all) then return(false),
-   if expressionp(ex) and not(stringp(ex)) then return(true),
-   return(false)
-)$
-
-/* A predicate to distinguish between equational reasoning and equivalence reasoning. */
-/* Reasoning by equivalence uses equivalence of equations.  Equational reasoning is a chain of =s. */
-stack_eval_arg_equivalence_reasoningp(L) := block(
-    if is(length(L<=1)) then return(false),
-    if op_usedp(L, stackeq) then return(false),
-    /* We use the rest of the list because we could have an answer like "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]". */
-    if all_listp(lambda([ex], expressionp(ex) or is(safe_op(ex)="stackeq")), rest(L)) then return(false),
-    return(true)
-)$
-
-/* A predicate to decide if we have re-writing equivalent expressions.          */
-/* Two choices.                                                                 */
-/* (1) Everything is an expression or logical statement.                        */
-/* (2) We start with an equation and then use stackeq throughout.               */
-/* Strings are permitted for comments.                                          */
-stack_eval_arg_expression_reasoningp(ex) := block(
-    /* (1) Everything is an expression or logical statement. */
-    if all_listp(lambda([ex2], expressionp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
-        return(true),
-    /* (2.1) We start with an equation. */
-    if not(equationp(first(ex))) then return(false),
-    /* (2.2) Use stackeq throughout. */
-    if is(length(ex)=1) then return(false),
-    if all_listp(lambda([ex2], is(safe_op(ex2)="stackeq") or is(safe_op(ex2)="stacklet")), rest(ex)) then return(true),
-    return(false)
-)$
-
-/* A predicate to decide if we have re-writing equivalent equations.            */
-/* Strings are permitted for comments.                                          */
-stack_eval_arg_equation_reasoningp(ex) := block(
-    if all_listp(lambda([ex2], equationp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
-        return(true),
-    return(false)
-)$
-
-/* Are us using one of two forms of reasoning?                                  */
-stack_eval_arg_validationp(ex) := stack_eval_arg_expression_reasoningp(ex) or stack_eval_arg_equation_reasoningp(ex)$
-
-/* This modifies stack_eval_arg to create something which can be displayed. */
+/* This modifies stack_eval_arg to create something which can be displayed.
+   This function is called by the input type.
+*/
 disp_stack_eval_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A],
     A:stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist),
+    return(second(A))
+)$
+
+/* This modifies stack_eval_arg to create something which can be displayed.
+   Recommended for use by teachers, since this can just accept a list of expressions.
+*/
+stack_disp_arg([exs]) := block([A],
+    ex:first(exs),
+    showlogic:true,
+    if length(exs)>1 then showlogic:second(exs),
+    showdomain:true,
+    if length(exs)>2 then showdomain:third(exs),
+    A:stack_eval_equiv_arg(ex, showlogic, showdomain, false, false),
     return(second(A))
 )$
 
@@ -2430,17 +2447,6 @@ stack_equiv_find_step(ex, exl) := block(
   if safe_op(ex)="stackeq" then ex:first(args(ex)),
   exl:maplist(lambda([ex2], if safe_op(ex2)="stackeq" then first(args(ex2)) else ex2), exl),
   sublist_indices(exl, lambda([ex2], second(ATEqualComAss(ex, ex2))))
-)$
-
-/* This modifies stack_eval_arg to create something which can be displayed. */
-stack_disp_arg([exs]) := block([A],
-    ex:first(exs),
-    showlogic:true,
-    if length(exs)>1 then showlogic:second(exs),
-    showdomain:true,
-    if length(exs)>2 then showdomain:third(exs),
-    A:stack_eval_equiv_arg(ex, showlogic, showdomain, false, false),
-    return(second(A))
 )$
 
 /* An answer test based on equivalence reasoning. */

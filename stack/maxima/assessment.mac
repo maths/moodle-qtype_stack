@@ -2046,34 +2046,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   var:first(ATIntGetVar(SB)),
                   ATres:ev(ATAlgEquiv(SA, diff(SB, var)), simp),
                   if (debug) then print("Calculated ATInt ", string(ATres)),
-                  if second(ATres) then block(/* A predicate to decide if we have re-writing equivalent expressions.          */
-/* Two choices.                                                                 */
-/* (1) Everything is an expression or logical statement.                        */
-/* (2) We start with an equation and then use stackeq throughout.               */
-/* Strings are permitted for comments.                                          */
-stack_eval_arg_expression_reasoningp(ex) := block(
-    /* (1) Everything is an expression or logical statement. */
-    if all_listp(lambda([ex2], expressionp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
-        return(true),
-    /* (2.1) We start with an equation. */
-    if not(equationp(first(ex))) then return(false),
-    /* (2.2) Use stackeq throughout. */
-    if is(length(ex)=1) then return(false),
-    if all_listp(lambda([ex2], is(safe_op(ex2)="stackeq") or is(safe_op(ex2)="stacklet")), rest(ex)) then return(true),
-    return(false)
-)$
-
-/* A predicate to decide if we have re-writing equivalent equations.            */
-/* Strings are permitted for comments.                                          */
-stack_eval_arg_equation_reasoningp(ex) := block(
-    if all_listp(lambda([ex2], equationp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
-        return(true),
-    return(false)
-)$
-
-/* Are we using one of two forms of reasoning?                                  */
-stack_eval_arg_validationp(ex) := stack_eval_arg_expression_reasoningp(ex) or stack_eval_arg_equation_reasoningp(ex)$
-                  
+                  if second(ATres) then block(
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:INTCHAR(var),

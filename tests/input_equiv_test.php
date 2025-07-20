@@ -599,7 +599,7 @@ final class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll} &\log_{3}\left(x+17\right)-2=\log_{3}\left(2\,x\right)&'.
                 '{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}'.
                 '&\log_{3}\left(x+17\right)-\log_{3}\left(2\,x\right)=2&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}'.
-                '\cr \color{green}{\Leftrightarrow}&\log_{3}\left(\frac{x+17}{2\,x}\right)=2& \cr \color{green}{\log(?)}'.
+                '\cr \color{green}{\Leftrightarrow}&\log_{3}\left(\frac{x+17}{2\,x}\right)=2& \cr \color{green}{\Leftrightarrow}'.
                 '&\frac{x+17}{2\,x}=3^2&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr '.
                 '\color{green}{\Leftrightarrow}&x+17=18\,x'.
                 '& \cr \color{green}{\Leftrightarrow}&17\,x=17& \cr \color{green}{\Leftrightarrow}&x=1& \cr \end{array} \]',

@@ -1256,7 +1256,7 @@ abstract class stack_input {
 
         // Guard clause at this point.
         if (!$valid) {
-            return [$valid, $errors, $display];
+            return [$valid, $errors, $display, $notes];
         }
 
         // The "novars" option is only used by the numerical input type.

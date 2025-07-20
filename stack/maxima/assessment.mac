@@ -330,10 +330,10 @@ expressionp(ex) := block(
 );
 
 /* Checks that an expression is a polynomial. */
-polynomialpsimp(ex):= block([v],
-    v:listofvars(ex),
-    if is(v=[]) then return(simp_numberp(ex)),
-    polynomialp(ex, v)
+polynomialpsimp(ex):= block([_v],
+    _v:listofvars(ex),
+    if is(_v=[]) then return(simp_numberp(ex)),
+    ev(polynomialp(ex, _v), simp)
 )$
 
 calculusp(ex) := block(
@@ -1343,6 +1343,7 @@ logical_normal(ex):=block(
     ex:subst("and", "nounand", ex),
     ex:subst("or", "nounor", ex),
     ex:subst("not", "nounnot", ex),
+    if emptyp(listofvars(ex)) then ex:ev(ex,simp),
     ex:if not(ev(numberp(ex), simp) or is(ex=false) or is(ex=none)) then logic_simplify(ex) else ex,
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
@@ -1568,6 +1569,8 @@ factor_bag(ex) := block(
   if equationp(ex) then ex:ev(lhs(ex)-rhs(ex), simp),
   if not(polynomialp(ex, listofvars(ex))) then return([ex]),
   ex:ev(factor(ex), simp),
+  print(ex),
+  if is(safe_op(ex)="-") then ex:first(args(ex)),
   /* If we have division here, by a numerical constant being pulled out, we ignore the constant. */
   if safe_op(ex) = "/" then
       if ev(is(listofvars(second(args(ex)))=[]), simp) then ex:first(args(ex)),
@@ -1741,6 +1744,10 @@ texput(stacklet, stacklettex);
 /* (2) We start with an equation and then use stackeq throughout.               */
 /* Strings are permitted for comments.                                          */
 stack_eval_arg_expression_reasoningp(ex) := block(
+    /* (0) Never solve inequalities this way. */
+    if op_usedp(ex, ">") or op_usedp(ex, ">=") or op_usedp(ex, "<") or op_usedp(ex, "<=") then return(false),
+    /* Never have equations after the first line. */
+    if op_usedp(rest(ex), "=") then return(false),
     /* (1) Everything is an expression or logical statement. */
     if all_listp(lambda([ex2], expressionp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
         return(true),
@@ -1754,16 +1761,145 @@ stack_eval_arg_expression_reasoningp(ex) := block(
 
 /* A predicate to decide if we have re-writing equivalent equations.            */
 /* Strings are permitted for comments.                                          */
-stack_eval_arg_equation_reasoningp(ex) := block(
-    if all_listp(lambda([ex2], equationp(ex2) or logicp(ex2) or stringp(ex2) or is(safe_op(ex2)="stacklet")), ex) then
-        return(true),
-    return(false)
-)$
+stack_eval_arg_equation_reasoningp(ex) := all_listp(lambda([ex2], 
+        equationp(ex2) or inequalityp(ex2) or realsetp(ex2) or logicp(ex2) or stringp(ex2) or
+        is(safe_op(ex2)="stacklet") or is(safe_op(ex2)="#")), 
+    ex)$
 
 /* Are we using one of two forms of reasoning?                                  */
 stack_eval_arg_validationp(ex) := stack_eval_arg_expression_reasoningp(ex) or stack_eval_arg_equation_reasoningp(ex)$
 
-/* This function actually evaluates the correctness of an argument "ex".                       */
+/* This function actually evaluates the correctness of an _expression_ argument "ex".          */
+/* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
+/* Each line of the matrix is as follows:                                                      */
+/* [equiv?, symbol, expression, note].                                                         */
+/* Where                                                                                       */
+/* Boolean: equiv is whether this line is equivalent to the **previous** line. Line 1 is true. */
+/* Expr: symbol, is a symbol which may or may not be displayed.                                */
+/* Expr: expression, is the line of the argument.                                              */
+/* String: note is some deugging information.                                                  */
+stack_eval_arg_expression(ex) := block([eqoutcome, eqoutsymb, eqoutnote, exnatdomain, exmod, res, id, SA, SB],
+
+    if debug then print("stack_eval_arg_expression"),
+
+    if not(listp(ex)) then error("stack_eval_arg_equation expects to receive a list."),
+    if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], EMPTYCHAR, ""])),
+    if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), EMPTYCHAR, ""])),
+    /* Set up empty rows to hold the answer. */
+    /*   return(matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote)) */
+    eqoutcome:makelist(false, length(ex)),
+    eqoutsymb:makelist(QMCHAR, length(ex)),
+    eqoutnote:makelist("", length(ex)),
+    exnatdomain:makelist(EMPTYCHAR, length(ex)),
+    eqoutcome[1]:null,
+    eqoutsymb[1]:EMPTYCHAR,
+    if assume_pos then eqoutsymb[1]:ASSUMEPOSVARS,
+    if assume_real then eqoutsymb[1]:ASSUMEREALVARS,
+    if assume_pos and assume_real then eqoutsymb[1]:ASSUMEPOSREALVARS,
+    /* STAGE A: Loop and sort out expressions. */
+    exmod:copy(ex),
+    if debug then print("Original steps: ", exmod),
+
+    for id:1 thru length(ex) step 1 do block([SA],
+        SA:exmod[ev(id, simp)],
+        if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
+        if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
+        SA:abs_replace_eq(SA),
+        SA:ev(SA, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
+        if logicp(SA) then SA:logical_normal(SA),
+        exmod[ev(id, simp)]:SA
+    ),
+
+    if debug then print("Modified steps: ", exmod),
+
+    /* Deal with special case when 1st line is an equation. */
+    if equationp(first(exmod)) then block([SA, SB, res],
+        SA:lhs(first(exmod)), 
+        SB:rhs(first(exmod)),
+        if debug then print("Step 1 with SA=", SA, " and SB=", SB),
+        res:ATAlgEquiv(SA, SB),
+        eqoutcome[1]:second(res),
+        eqoutnote[1]:third(res),
+        if (second(res)) then eqoutsymb[1]:CHECKMARK
+                         else eqoutsymb[1]:QMCHAR,
+        exmod[1]:SB
+    ),
+
+    /* STAGE B: Loop and check adjacent expressions for equivalence. */
+    for id:2 thru length(ex) step 1 do block([SA, SB, res, ids],
+        ids:ev(id, simp),
+        SA:exmod[ev(ids-1, simp)],
+        SB:exmod[ids],
+
+        /* Work back to find the previous real expression. */
+        if safe_op(SA) = "stacklet" and is(id>2) then block([k1, k2, l:[]],
+            k1:ev(id-1,simp),
+            ev(for k2:(id-1) step -1 while (is(k2>1) and is(safe_op(exmod[k2]) = "stacklet")) do block(
+                eqoutsymb[k1]:EMPTYCHAR,
+                eqoutcome[k1]:true,
+                l:append([first(args(exmod[k2]))=second(args(exmod[k2]))], l),
+                k1:k2
+            ), simp),
+            if (debug) then print("Detected stacklet.  Going back to line ", string(ev(k1-1, simp))),
+            if (debug) then print("Got lets: ", string(l)),
+            SA:ev(exmod[ev(k1-1,simp)], l)
+        ),
+        if debug then print("Step", ev(id, simp), "with SA=", SA, " and SB=", SB),
+
+        /* Do we have comments? */
+        if stringp(SA) or stringp(SB) then block(
+            eqoutsymb[ev(ids, simp)]:EMPTYCHAR,
+            eqoutcome[ev(ids, simp)]:unknown
+        ) else block(
+            res:ATAlgEquiv(SA, SB),
+            eqoutcome[ids]:second(res),
+            eqoutnote[ids]:third(res),
+            if second(res) then eqoutsymb[ids]:CHECKMARK,
+
+            /* If we've not established equivalence, then try calculus. */
+            if not(second(res)) and is(stack_calculus=true) then block([SAN, SBN, SAD, SBD, var, ATres],
+                /* (C0) Implicit calculus operations. */
+                if (debug) then print("** Inferring Calculus **"),
+                var:last(sort(listofvars(SA))),
+                SAN:ev(SA, nouns, simp),
+                SAD:ev(diff(SAN,var), simp),
+                SBN:ev(SB, nouns, simp),
+                SBD:ev(diff(SBN,var), simp),
+                if (debug) then print("Calculated values as SA->", string(SAN), ", SB->", string(SBN)),
+                if (debug) then print("Calculated derivatives as SA->", string(SAD), ", SB->", string(SBD), " wrt ", var),
+                ATres:ev(ATAlgEquiv(SAD, SB), simp),
+                if second(ATres) then block(
+                    malrulecont:false,
+                    eqoutcome[ev(id, simp)]:true,
+                    eqoutsymb[ev(id, simp)]:DIFFCHAR(var),
+                    tempnote:sconcat(tempnote, " | Differentiated ")
+                ) else (
+                    ATres:ev(ATAlgEquiv(SA, SBD), simp),
+                    if second(ATres) then block(
+                        malrulecont:false,
+                        eqoutcome[ev(id, simp)]:true,
+                        eqoutsymb[ev(id, simp)]:INTCHAR(var),
+                        tempnote:sconcat(tempnote, " | Integrated ")
+                    ) else (
+                    /* Check if a constant of integration is missing? */
+                    ATres:ev(ATAlgEquiv(SAD, SBD), simp),
+                    if second(ATres) then block(
+                        malrulecont:false,
+                        eqoutcome[ev(id, simp)]:true,
+                        eqoutsymb[ev(id, simp)]:INTCHAR(var),
+                        tempnote:sconcat(tempnote, " | IntegratedConst ")
+                        )
+                    )
+                )
+            )
+        )
+
+    ),
+    return(transpose(matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote)))
+)$
+
+
+/* This function actually evaluates the correctness of an _equation_ argument "ex".            */
 /* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
 /* Display, fitness to a model and other functions are separate, and all rely on this.         */
 /* Each line of the matrix is as follows:                                                      */
@@ -1773,11 +1909,15 @@ stack_eval_arg_validationp(ex) := stack_eval_arg_expression_reasoningp(ex) or st
 /* Expr: symbol, is a symbol which may or may not be displayed.                                */
 /* Expr: expression, is the line of the argument.                                              */
 /* String: note is some deugging information.                                                  */
-stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, exnatdomain, SA, SAL, SB, SBL, malrulecont],
-  if not(listp(ex)) then error("stack_eval_arg expects to receive a list."),
+stack_eval_arg_equation(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, exnatdomain, SA, SAL, SB, SBL, malrulecont],
+
+  if debug then print("stack_eval_arg_equation"),
+
+  if not(listp(ex)) then error("stack_eval_arg_equation expects to receive a list."),
   if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], EMPTYCHAR, ""])),
   if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), EMPTYCHAR, ""])),
   /* Set up empty rows to hold the answer. */
+  /*   return(matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote)) */
   eqoutcome:makelist(false, length(ex)),
   eqoutsymb:makelist(QMCHAR, length(ex)),
   eqoutnote:makelist("", length(ex)),
@@ -1795,7 +1935,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   exnatdomain:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote:""],
       SA:exmod[ev(id, simp)],
-      if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
       if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
 
       SA:abs_replace_eq(SA),
@@ -1901,7 +2040,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
                FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
                if (debug) then print("** Checking assume_real with: ", string(FAA), ", ", string(FAB), " **"),
-               if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and length(listofvars(FAA))=1 and length(listofvars(FAB))=1) then block(
+               if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and is(length(listofvars(FAA))=1) and is(length(listofvars(FAB))=1)) then block(
                   FAA:ev(solve(FAA), simp),
                   FAB:ev(solve(FAB), simp),
                   if (debug) then print("Solved as ", string(FAA), ", ", string(FAB)),
@@ -1914,7 +2053,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                     eqoutcome[ev(id, simp)]:true,
                     eqoutsymb[ev(id, simp)]:EQUIVCHARREAL
                     )
-                )
+                ),
+                if (debug) then print("End Checking assume_real,")
              )
            else
            /* Check for subsets.  */
@@ -2265,29 +2405,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if (debug) then print("Outcome: ", eqoutcome[ev(id, simp)]),
       if (debug) then print("Note: ", eqoutnote[ev(id, simp)])
   ),
-  /* Equational reasoning where the first line is an equation, and then every line starts with =s. */
-  if equationp(ex[1]) and all_listp(lambda([ex2], is(safe_op(ex2)="stackeq")), rest(ex)) then block(
-      eqoutnote[1]:sconcat(eqoutnote[1], "A=B, =C, ..."),
-      if second(ATAlgEquiv(lhs(ex[1]), rhs(ex[1]))) then block(
-          eqoutcome[1]:true,
-          eqoutsymb[1]:CHECKMARK
-      ) else block(
-          eqoutcome[1]:false,
-          eqoutsymb[1]:QMCHAR
-      ),
-      if second(ATAlgEquiv(rhs(ex[1]), first(args(ex[2])))) then block(
-          eqoutcome[2]:true,
-          eqoutsymb[2]:CHECKMARK
-      ) else block(
-          eqoutcome[2]:false,
-          eqoutsymb[2]:QMCHAR
-      )
-  ),
-  /* Optimize symbols when equational reasoning. */
-  for k:1 thru length(ex) step 1 do block(
-      if is(safe_op(ex[ev(k,simp)])="stackeq") and is(eqoutsymb[ev(k,simp)]=EQUIVCHAR) then
-          eqoutsymb[ev(k,simp)]:CHECKMARK
-  ),
   /* Display natural domains. */
   if showdomain then block(
     for k:1 thru length(ex) step 1 do block([natdom],
@@ -2336,12 +2453,22 @@ stack_eval_arg_solver(ex) := block([ex2, ex3, errc],
       return(ev(logical_normal(ex), simp))
 )$
 
-/* This modifies stack_eval_arg to create something which can be displayed. */
-stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],
-    /* Evaluate the argument.      */
-    A:transpose(stack_eval_arg(ex)),
+/* This wraps stack_eval_arg. */
+stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([resA, k, ret, res, exnew, note],
+    /* Guard clauses for trivial cases. */
+    if emptyp(ex) then resA:matrix([true, EMPTYCHAR, [], EMPTYCHAR, ""]) else
+                       resA:transpose(matrix(append([true], makelist(false, ev(length(ex)-1,simp))),
+                                          makelist(EMPTYCHAR, length(ex)),
+                                          ex,
+                                          makelist(EMPTYCHAR, length(ex)),
+                                          makelist("", length(ex)))),
+    /* Evaluate the argument. */
+    if is(length(ex)>1) then 
+      if stack_eval_arg_expression_reasoningp(ex) then resA:stack_eval_arg_expression(ex) else
+      if stack_eval_arg_equation_reasoningp(ex) then resA:stack_eval_arg_equation(ex),
     /* Decide if the overall argument is true. */
-    res:first(A),
+    resA:transpose(resA),
+    res:first(resA),
     /* Remove first entry when this has not been set. */
     if first(res)=null then res:rest(res),
     if elementp(unknown, setify(res)) then
@@ -2350,12 +2477,12 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     else
         res:apply("and", res),
     /* If in debug mode check if we have what we expect. */
-    eqoutsymb:A[2],
+    eqoutsymb:resA[2],
     /* Modify input expressions for implied equivalence to zero. */
-    exnew:A[3],
+    exnew:resA[3],
     /* Unit test the eval_arg code. */
     if listp(debuglist) then block([simp, eqoutsymb, k],
-        eqoutsymb:A[2],
+        eqoutsymb:resA[2],
         if is(length(eqoutsymb)=length(debuglist)) then block([simp],
             simp:true,
             for k:2 thru length(eqoutsymb) step 1 do block([ATres, SA, SB],
@@ -2370,12 +2497,12 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
         )
     ),
     /* Turn "and" opertors into displayed ones. */
-    exnew:maplist(lambda([ex2], if safe_op(ex2)="nounand" then apply(argumentand, args(ex2)) else ex2), A[3]),
+    exnew:maplist(lambda([ex2], if safe_op(ex2)="nounand" then apply(argumentand, args(ex2)) else ex2), resA[3]),
     /* Add in the natural domain information. */
-    ret:append([exnew], [A[4]]),
+    ret:append([exnew], [resA[4]]),
     /* If we are not showing logical connectives, then suppress them. */
     if showlogic then ret:append([eqoutsymb], ret),
-    if equivdebug then ret:append(ret, [A[5]]),
+    if equivdebug then ret:append(ret, [resA[5]]),
     /* Switch off matrix brackets. */
     lmxchar:"",
     ret:apply(matrix, ret),
@@ -2383,7 +2510,7 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     ret:apply(argument, args(ret)),
     /* Construct a separate note. The note should be the same length as the argument, so normally has "EMPTYCHAR" as the first entry.*/
     /* If we return a list, then the PHP unpacking side now has problems, but we want to encapsulate the note as a single object, without | characters */
-    note:sconcat("(", simplode(second(A), ","), ")"),
+    note:sconcat("(", simplode(second(resA), ","), ")"),
     return([res, ret, note])
 )$
 
@@ -2423,7 +2550,7 @@ stack_equiv_find_step(ex, exl) := block(
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquiv([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+ATEquiv([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, Ares, AnswerNote, FeedBack, assume_pos:false],
     SA:first(ex),
     SB:second(ex),
     SO:[],
@@ -2452,16 +2579,16 @@ ATEquiv([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote, Fee
         (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATEquiv_SB_not_list"))),
 
     /* Actually perform the test.  */
-    A:stack_eval_equiv_arg(SA, true, true, false, false),
-    AnswerNote:third(A),
-    FeedBack:stack_disp(second(A), "d"),
+    Ares:stack_eval_equiv_arg(SA, true, true, false, false),
+    AnswerNote:third(Ares),
+    FeedBack:stack_disp(second(Ares), "d"),
 
-    ret:[true, first(A), AnswerNote, FeedBack],
+    ret:[true, first(Ares), AnswerNote, FeedBack],
     return(ret)
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquivFirst([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+ATEquivFirst([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, Ares, AnswerNote, FeedBack, assume_pos:false],
     SA:first(ex),
     SB:second(ex),
     SO:[],
@@ -2498,10 +2625,10 @@ ATEquivFirst([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote
          return([false, false, "ATEquivFirst_SA_wrong_start", StackAddFeedback("", "ATEquivFirst_SA_wrong_start", stack_disp(first(SB), "i"))]),
 
     /* Actually perform the test.  */
-    A:stack_eval_equiv_arg(SA, true, true, false, false),
-    AnswerNote:third(A),
-    FeedBack:stack_disp(second(A), "d"),
+    Ares:stack_eval_equiv_arg(SA, true, true, false, false),
+    AnswerNote:third(Ares),
+    FeedBack:stack_disp(second(Ares), "d"),
 
-    ret:[true, first(A), AnswerNote, FeedBack],
+    ret:[true, first(Ares), AnswerNote, FeedBack],
     return(ret)
 )$

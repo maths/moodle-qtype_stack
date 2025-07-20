@@ -1126,7 +1126,7 @@ final class castext_test extends qtype_stack_testcase {
      */
     public function test_disp_equiv_natural_domain(): void {
 
-        $a2 = ['ta:[1/(x-1)+1/(x+1),2*x/(x^2-1)]'];
+        $a2 = ['ta:[1/(x-1)+1/(x+1)=0,2*x/(x^2-1)=0]'];
         $s2 = [];
         foreach ($a2 as $s) {
             $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1141,18 +1141,20 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals('\[ {\begin{array}{lll} &\frac{1}{x+1}+\frac{1}{x-1}&' .
+        $this->assertEquals('\[ {\begin{array}{lll} &\frac{1}{x+1}+\frac{1}{x-1}=0&' .
             '{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}\cr \color{green}' .
-            '{\Leftrightarrow}&\frac{2\cdot x}{x^2-1}&{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}' .
-            '\cr \end{array}} \] \[ {\begin{array}{lll}\frac{1}{x+1}+\frac{1}{x-1}&' .
-            '{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}\cr \frac{2\cdot x}{x^2-1}&{\color{blue}' .
+            '{\Leftrightarrow}&\frac{2\cdot x}{x^2-1}=0&{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}' .
+            '\cr \end{array}} \] \[ {\begin{array}{lll}\frac{1}{x+1}+\frac{1}{x-1}=0&' .
+            '{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}\cr \frac{2\cdot x}{x^2-1}=0&{\color{blue}' .
             '{{x \not\in {\left \{-1 , 1 \right \}}}}}\cr \end{array}} \] ' .
-            '\[ {\begin{array}{lll} &\frac{1}{x+1}+\frac{1}{x-1}& \cr \color{green}{\Leftrightarrow}&' .
-            '\frac{2\cdot x}{x^2-1}& \cr \end{array}} \] ' .
-            '\[ {\begin{array}{lll}\frac{1}{x+1}+\frac{1}{x-1}& \cr \frac{2\cdot x}{x^2-1}& \cr \end{array}} \]',
+            '\[ {\begin{array}{lll} &\frac{1}{x+1}+\frac{1}{x-1}=0& \cr \color{green}{\Leftrightarrow}&' .
+            '\frac{2\cdot x}{x^2-1}=0& \cr \end{array}} \] ' .
+            '\[ {\begin{array}{lll}\frac{1}{x+1}+\frac{1}{x-1}=0& \cr \frac{2\cdot x}{x^2-1}=0& \cr \end{array}} \]',
             $at1->get_rendered());
     }
 
+        
+    
     /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex

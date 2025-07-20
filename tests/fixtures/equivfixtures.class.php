@@ -854,10 +854,18 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['title']     = "";
-        $newarg['narrative'] = 'This it needs the rule A=B <=> e^A=e^B.';
+        $newarg['narrative'] = '';
         $newarg['casstring'] = "[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2," .
                "(x+17)=18*x,17*x=17,x=1]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVLOG,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg((x+17)/(-2*x),2)=3,(x+17)/(-2*x)=2^3,(x+17)=2^3*(-2*x),x+17=-16*x,17*x=-17,x=-1]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1091,6 +1099,15 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[8=x^3,2=x,x=2,x^3=8]";
         $newarg['debuglist'] = "(ASSUMEREALVARS,EQUIVCHARREAL,EQUIVCHAR,EQUIVCHARREAL)";
+        $newarg['outcome']   = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Symmetry III";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[16=x^4,#pm#2=x,x^4=16,x=#pm#2]";
+        $newarg['debuglist'] = "(ASSUMEREALVARS,EQUIVCHARREAL,EQUIVCHARREAL,EQUIVCHARREAL)";
         $newarg['outcome']   = true;
         $newarg['assumereal'] = true;
         $samplearguments[] = $newarg;
@@ -1373,6 +1390,14 @@ class stack_equiv_test_data {
                 "2*x^3-9*x^2+10*x-3,stackeq((x-1)*(2*x^2-7*x+3)),stackeq((x-1)*(2*x-1)*(x-3))]";
         $newarg['debuglist']  = "(EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK,EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK)";
         $newarg['outcome']    = 'unknown';
+        $samplearguments[]    = $newarg;
+
+        $newarg = [];
+        $newarg['title']      = "Subtitution needs a previous expression.";
+        $newarg['narrative']  = 'Note, that "stacklet" only makes the subsitution in _previous_ expressions.';
+        $newarg['casstring']  = "[stacklet(x,1),1-x=(x+1)^(1/5),0=2^(1/5)]";
+        $newarg['debuglist']  = "(EMPTYCHAR,QMCHAR,QMCHAR)";
+        $newarg['outcome']    = false;
         $samplearguments[]    = $newarg;
 
         $newarg = [];

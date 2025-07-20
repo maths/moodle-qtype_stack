@@ -355,6 +355,7 @@ alias(ln, log);
    log_a(x) is log to the base a.
    ln(x) is the natural logarithm.
    lg(x) is log to the base 10.
+   lg(x,n) is log to the base n.
 */
 
 /* This over generalises lg to have two arguments, taking the 2nd to be the base. */
@@ -373,6 +374,13 @@ texput(lg, lgtex);
 logbasesimp([ex]) := block(
   if length(ex) = 1 then return(radcan(log(first(ex))/log(10))),
   if length(ex) = 2 then return(radcan(log(first(ex))/log(second(ex)))),
+  error("STACK function 'lg' must have one or two arguments only.")
+)$
+
+/* Make simple substituion. */
+logbaserem([ex]) := block(
+  if length(ex) = 1 then return(log(first(ex))/log(10)),
+  if length(ex) = 2 then return(log(first(ex))/log(second(ex))),
   error("STACK function 'lg' must have one or two arguments only.")
 )$
 
@@ -1805,7 +1813,7 @@ stack_eval_arg_expression(ex) := block([eqoutcome, eqoutsymb, eqoutnote, exnatdo
         if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
         if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
         SA:abs_replace_eq(SA),
-        SA:ev(SA, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
+        SA:ev(SA, lg=logbaserem, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
         if logicp(SA) then SA:logical_normal(SA),
         exmod[ev(id, simp)]:SA
     ),
@@ -1938,7 +1946,7 @@ stack_eval_arg_equation(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, 
       if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
 
       SA:abs_replace_eq(SA),
-      SA:ev(SA, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
+      SA:ev(SA, lg=logbaserem, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2)),
       exmod[ev(id, simp)]:SA,
       exmodsolve[ev(id, simp)]:stack_eval_arg_solver(SA),
 

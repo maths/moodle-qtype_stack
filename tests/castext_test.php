@@ -1153,8 +1153,6 @@ final class castext_test extends qtype_stack_testcase {
             $at1->get_rendered());
     }
 
-        
-    
     /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex

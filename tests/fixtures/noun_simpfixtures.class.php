@@ -110,13 +110,12 @@ class stack_noun_simp_test_data {
         return self::$rawdata;
     }
 
-       /**
-        * Create an individual test.
-        * @array $data Raw data line.
-        * @string $simpvalue Value of Maxima simp variable to use with test.
-        */
-     public static function test_from_raw($data, $simpvalue) {
-
+    /**
+     * Create an individual test.
+     * @array $data Raw data line.
+     * @string $simpvalue Value of Maxima simp variable to use with test.
+     */
+    public static function test_from_raw($data, $simpvalue) {
         $test = new stdClass();
         $test->rawstring        = $data[self::RAWSTRING];
         $test->simp             = $simpvalue;

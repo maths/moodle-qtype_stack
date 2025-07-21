@@ -41,33 +41,7 @@ The internal result is a *list* of expressions (equations or inequalities).
 
 ### Validation symbols and their meaning
 
-Validation typically gives immediate feedback using symbols.
-
-* \(\color{green}{\Leftrightarrow}\) is used to indicate the following _equation_ is equivalent to the previous one.
-  E.g. \[\begin{array}{cc} \  & x^2-x-30=0 & \\ \color{green}{\Leftrightarrow} & \left(x-6\right)\cdot \left(x+5\right)=0\end{array}\]
-* \(\color{green}{\checkmark}\) is use to indicate the following _expression_ is equivalent to the previous one.
-  E.g. \[\begin{array}{lll} & x^2-x-30& \\ \color{green}{\checkmark}&=\left(x-6\right)\cdot \left(x+5\right)\end{array}\]
-* \(\color{red}{?}\) is used to indicate one expression is not equivalent to the next (equation or expression).
-* \(\color{green}{\text{(Same roots)}}\) is used to indicate the same set of roots, without multiplicity.  There is no easy way to deal with multiplicity of roots.
-  E.g. \[{\begin{array}{lll} &x^2-6\,x=-9& \cr \color{green}{\Leftrightarrow}&{\left(x-3\right)}^2=0& \cr \color{green}{\text{(Same roots)}}&x-3=0& \cr \color{green}{\Leftrightarrow}&x=3& \cr \end{array}}\]
-* \(\color{red}{\Rightarrow}\) and \(\color{red}{\Leftarrow}\) are used when the solution sets of expressions are subsets. Let \(P\) be the solution set of \(p(x)=0\) and \(Q\) be the solution set of \(q(x)=0\) and \(P\subset Q\) then we write \(p(x) \color{red}{\Rightarrow} q(x)\).
-  E.g. \[{\begin{array}{lll} &x+1& \cr \color{red}{\Rightarrow}&={\left(x+1\right)}^2& \cr \color{red}{\Rightarrow}&={\left(x+1\right)}^3& \cr \color{red}{\Leftarrow}&=x+1& \cr \end{array}}\]
-* \(\color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}\) is used when solving over the reals (see the option `assume_real`).
-  E.g. \[{\begin{array}{lll}\color{blue}{(\mathbb{R})}&x+1& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&={\left(x+1\right)}^2& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&={\left(x+1\right)}^3& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&=x+1& \cr \end{array}}\]
-* \(\color{blue}{\text{Assume +ve vars}}\) is used when solving over the positive reals (see the option `assume_pos`).
-  E.g. \[\begin{array}{lll}\color{blue}{\text{Assume +ve vars}}&\left(x-7\right)\cdot \left(x+1\right)=0& \cr \color{green}{\Leftrightarrow}&x=7\,{\text{ or }}\, x=-1& \cr \color{green}{\Leftrightarrow}&x=7& \cr \end{array}\]
-* \( \color{green}{\log(?)} \) is used when equivalence is established using the rule \( A=B \Leftrightarrow e^A=e^B\).
-  E.g. \[ \begin{array}{lll} &\log_{3}\left(\frac{x+17}{2\cdot x}\right)=2& \cr \color{green}{\log(?)}&\frac{x+17}{2\cdot x}=3^2&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr \color{green}{\Leftrightarrow}&x=1& \cr \end{array}\]
-
-Other symbols are used to give feedback of various kinds.
-
-* \(\color{red}{\text{Missing assignments}}\) is used when students forget to write a variable.
-  E.g. \[{\begin{array}{lll} &x=1\,{\text{ or }}\, x=2& \cr \color{red}{\text{Missing assignments}}&x=1\,{\text{ or }}\, 2& \cr \end{array}}\]
-* \(\color{red}{\text{and/or confusion!}}\) is used when students use and/or incorrectly.
-  E.g. \[{\begin{array}{lll} &x=1\,{\text{ or }}\, x=2& \cr \color{red}{\text{and/or confusion!}}&\left\{\begin{array}{l}x=1\cr x=2\cr \end{array}\right.& \cr \end{array}}\]
-* \(\color{blue}{\int\ldots\mathrm{d}x}\) and \(\) are used when we infer students have performed calculus operations (see the option `calculus`).
-  E.g. \[{\begin{array}{lll} &x^2+1& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{x^3}{3}+x& \cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&x^2+1& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{x^3}{3}+x+c& \cr \end{array}}\]
-
+Validation typically gives immediate feedback using symbols, which are documented in the [mathematics of equivalence reasoning](Equivalence_reasoning.md) page.
 
 ## Example use cases for this input type
 

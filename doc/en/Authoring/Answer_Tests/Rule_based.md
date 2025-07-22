@@ -41,7 +41,7 @@ The teacher must supply an option consisting of a list of the following rule nam
 
 | Name              | Rule                                                                                   |
 |-------------------|----------------------------------------------------------------------------------------|
-| (`ALG_TRANS`)     | _Always included_                                                                      |
+| (`ALG_TRANS`)     | _Included by default_                                                                 |
 | `assAdd`          | Associativity of addition                                                              |
 | `assMul`          | Associativity of multiplication                                                        |
 | `comAdd`          | Commutativity of addition                                                              |
@@ -73,6 +73,9 @@ The teacher must supply an option consisting of a list of the following rule nam
 | `intAdd`          | Perform addition on integers                                                           |
 | `intMul`          | Perform multiplication on integers                                                     |
 | `intPow`          | Perform exponentiation when both arguments are integers                                |
+|                    |                                                                                        |
+| `ratAdd`          | Add any integer fractions in a sum                                                     | 
+| `ratLow`          | Write a fraction \(a/b\) in lowest terms. \(a\) and \(b\) must be integers             | 
 | Other             |                                                                                        |
 | `intFac`          | Factor integers (incompatible with `intMul`)                                           |
 | `negDist`         | Distribute only `UNARY_MINUS` over a sum (incompatible with `negOrd`)                  |

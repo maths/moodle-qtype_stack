@@ -206,3 +206,28 @@ b+UNARY_MINUS nounmul 3 nounmul a$
 
 negOrd(b+UNARY_MINUS nounmul a+c);
 UNARY_MINUS nounmul (UNARY_MINUS nounmul b+a+UNARY_MINUS nounmul c)$
+
+intRatp(7);
+false$
+intRatp(UNARY_MINUS);
+false$
+intRatp(UNARY_RECIP(b));
+false$
+intRatp(UNARY_MINUS nounmul UNARY_RECIP(b));
+false$
+intRatp(UNARY_RECIP(1));
+true$
+intRatp(UNARY_RECIP(7));
+true$
+intRatp(UNARY_MINUS nounmul UNARY_RECIP(7));
+true$
+intRatp(1 nounmul UNARY_RECIP(1));
+true$
+intRatp(1 nounmul UNARY_RECIP(7));
+true$
+intRatp(5 nounmul UNARY_RECIP(7));
+true$
+intRatp(UNARY_MINUS nounmul 5 nounmul UNARY_RECIP(7));
+true$
+intRatp(3 nounmul 5 nounmul UNARY_RECIP(7));
+false$

@@ -117,32 +117,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		$list[] = new MP_String("};");
 		// end function init_repeat()
 
-		// function construct_repeat_old()
-		$code = <<<JS
-		async function construct_repeat_old(){
-			let state = JSON.parse(window.state_input.value);
-			console.log('state',state);
-			const count = state.data[Object.keys(state.data)[0]].length;
-			console.log('count',count);
-			const promises = [];
-			for (let i = 0; i < count-1; i++) {
-				await add_repeat();
-			};
-
-			console.log('repeat_ids (Array)', [...window.repeat_ids]);
-			[...window.repeat_ids].forEach((el) => {
-				let id = el.split('_')[0];
-				let repeat_count = parseInt(el.split('_').at(-1), 10);
-				let val = state['data'][id]?.[repeat_count];
-				console.log(el, id, repeat_count, val);
-			});
-
-
-		};
-		JS;
-		$list[] = new MP_String($code);
-		// end function construct_repeat_old()
-
 		// function construct_repeat()
 		$list[] = new MP_String("function construct_repeat() {");
 		$list[] = new MP_String("let state = JSON.parse(window.state_input.value);");
@@ -170,17 +144,17 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 						tempContainer.innerHTML = repeat_content;
 						tempContainer.querySelectorAll('input').forEach(el => {
 							let base_id = el.id.split('_')[1];
+							let val = state['data'][base_id][num-1];
 							el.id = el.id + '_repeat_{$id}_' + num;
+							window.repeat_ids.add(el.id.split('_')[1] + '_repeat_{$id}_' + num);
 							el.name = el.name + '_repeat_{$id}_' + num;
-							el.value = state['data'][base_id][num-1];
-							console.log(`setze \${el.id} auf \${el.value}!`);
+							el.setAttribute("value", val);
 						});
 						new_content += tempContainer.innerHTML;
 					};
 					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + new_content);					
 					window.repeat_ids.forEach(new_id => {
 						stack_js.request_access_to_input(new_id, true).then((id) => {
-							console.log('construct access to',id);
 							let input = document.getElementById(id);
 							if (input) {
 								input.addEventListener('change', function () {

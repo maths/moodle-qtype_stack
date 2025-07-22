@@ -165,21 +165,22 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
 					const count = state.data[Object.keys(state.data)[0]].length;
 					let new_content = "";
-					for (let num = 1; num < count; num++) {
+					for (let num = 1; num <= count; num++) {
 						let tempContainer = document.createElement('div');
 						tempContainer.innerHTML = repeat_content;
 						tempContainer.querySelectorAll('input').forEach(el => {
 							let base_id = el.id.split('_')[1];
-							el.id = el.id + '_repeat_{$id}_' + count;
-							el.name = el.name + '_repeat_{$id}_' + count;
-							el.value = state['data'][base_id][num];
-							console.log(`setze \${el.id} auf \${el.value}.`);
+							el.id = el.id + '_repeat_{$id}_' + num;
+							el.name = el.name + '_repeat_{$id}_' + num;
+							el.value = state['data'][base_id][num-1];
+							console.log(`setze \${el.id} auf \${el.value}!`);
 						});
 						new_content += tempContainer.innerHTML;
 					};
 					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + new_content);					
 					window.repeat_ids.forEach(new_id => {
 						stack_js.request_access_to_input(new_id, true).then((id) => {
+							console.log('construct access to',id);
 							let input = document.getElementById(id);
 							if (input) {
 								input.addEventListener('change', function () {

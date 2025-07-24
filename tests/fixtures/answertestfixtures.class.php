@@ -2450,6 +2450,8 @@ class stack_answertest_test_data {
         ],
         ['NumRelative', '0.1', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '', ''],
         ['NumRelative', '0.1', '{0,1,2}', '{0,1,2}', 1, '', ''],
+        ['NumRelative', '0.01', '{-1,2,3}', '{-1,2,3}', 1, '', ''],
+        ['NumRelative', '0.01', '{-1.1,2,3}', '{-1,2,3}', 0, 'ATNumerical_wrongentries: TA/SA=[-1.0], SA/TA=[-1.1].', ''],
         // What happens with floating point complex numbers?
         // This is rejected as not a real number.
         ['NumRelative', '0.1', '0.99*%i', '%i', 0, 'ATNumerical_SA_not_number.', 'Complex numbers'],
@@ -2478,6 +2480,8 @@ class stack_answertest_test_data {
             'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', '',
         ],
         ['NumAbsolute', '0.1', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '', ''],
+        ['NumAbsolute', '0.01', '{-1,2,3}', '{-1,2,3}', 1, '', ''],
+        ['NumAbsolute', '0.01', '{-1.1,2,3}', '{-1,2,3}', 0, 'ATNumerical_wrongentries: TA/SA=[-1.0], SA/TA=[-1.1].', ''],
 
         ['NumSigFigs', '', '3.141', '3.1415927', -1, 'STACKERROR_OPTION.', 'Basic tests'],
         ['NumSigFigs', '3', '1/0', '3', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''],

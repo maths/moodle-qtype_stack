@@ -231,7 +231,7 @@ function stack_get_mathjax_url(): string {
  * If the version cannot be determined, it returns "2.7.9".
  *
  */
-function stack_get_mathjax_version() : string {
+function stack_get_mathjax_version(): string {
     $url = stack_get_mathjax_url();
     $host = parse_url($url, PHP_URL_HOST);
 

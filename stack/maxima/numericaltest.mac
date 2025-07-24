@@ -125,7 +125,7 @@ Returns all of the above + a feedback list.
 All arguments 1-2 are ordered lists of floats, smallest to largest.
 
 Want sa to lie between
-(ta-tol,ta+tol) or (ta-ta*tol,ta+ta*tol) depending on "ABSOLUTE" or "RELATIVE" (respectively)
+(ta-tol,ta+tol) or (ta-|ta*tol|,ta+|ta*tol|) depending on "ABSOLUTE" or "RELATIVE" (respectively)
 ****************************************************/
 num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1, f2],
   /* If we've run out of answers */
@@ -143,9 +143,9 @@ num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1
        (f1:ev(float(sa-ta+tol),simp),
         f2:ev(float(abs(sa-ta)-abs(tol)), simp))
   else
-       (f1:ev(float(sa-ta*(1-tol)),simp),
+       (f1:ev(float(sa-ta+abs(ta*tol)),simp),
         f2:ev(float(abs(sa-ta)-abs(ta*tol)), simp)),
-  /*print([sa,ta,f1,f2]),*/
+  print([sa,ta,f1,f2]),
   if is(f1<0) then return(num_compare_helper(rest(sal), tal, missing, append([sa], excessive), tol, type)),
   if is(f2<=0)
       then return(num_compare_helper(rest(sal), rest(tal), missing, excessive, tol, type)),

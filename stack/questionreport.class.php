@@ -154,6 +154,7 @@ class stack_question_report {
      *  ]
      */
     public $notesummary = [];
+    public $jsonsummary = [];
     /**
      * @var object StdClass Data formatted for questionreport.mustache.
      */
@@ -314,10 +315,18 @@ class stack_question_report {
             $this->prtreportinputs[$variant] = $qprts;
 
             foreach ($vdata as $attemptsummary => $num) {
+                $summaryobject = new StdClass();
+                $summaryobject->seed = '';
+                $summaryobject->inputs = [];
+                $summaryobject->prts = [];
                 $inputvals = [];
                 $rawdat = explode(';', $attemptsummary);
                 foreach ($rawdat as $data) {
                     $data = trim($data);
+                    if (strpos($data, 'Seed: ') === 0) {
+                        $summaryobject->seed = trim(substr($data, 6));
+                        continue;
+                    }
                     foreach ($qinputs as $input => $notused) {
                         if (substr($data, 0, strlen($input . ':')) === $input . ':') {
                             // Tidy up inputs by (i) trimming status and whitespace, and (2) removing input name.
@@ -352,6 +361,10 @@ class stack_question_report {
                             } else {
                                 $inputtotals[$input] = $num;
                             }
+                            $inputobject = new StdClass();
+                            $inputobject->value = $datas;
+                            $inputobject->status = $status;
+                            $summaryobject->inputs[$input] = $inputobject;
                         }
                     }
                     foreach ($qprts as $prt => $notused) {
@@ -383,9 +396,35 @@ class stack_question_report {
                             } else {
                                 $this->prtreportsummary[$prt][$datas] = $num;
                             }
+                            $prtobject = new StdClass();
+                            $prtobject->score = '';
+                            $prtobject->note = '';
+                            $prtobject->isformative = false;
+                            if (strpos($datas, '!') === 0) {
+                                $prtobject->note = '!';
+                            }
+                            if (strpos($datas, '[RUNTIME_') === 0) {
+                                $prtobject->score = $datas;
+                            } else if (strpos($datas, '# =') === 0){
+                                $parts = explode('|', $datas);
+                                $formativepos = strpos($parts[0], ' [formative]');
+                                if ($formativepos !== false) {
+                                    $prtobject->isformative = true;
+                                    $parts[0] = substr($parts[0], 0, $formativepos);
+                                }
+                                $prtobject->score = trim(substr($parts[0], 3));
+                                unset($parts[0]);
+                                if (count($parts)) {
+                                    $prtobject->note = trim(implode(' | ', $parts));
+                                }
+                            } else {
+                                $prtobject->note = $datas;
+                            }
+                            $summaryobject->prts[$prt] = $prtobject;
                         }
                     }
                 }
+                $this->jsonsummary[] = json_encode($summaryobject);
             }
         }
     }
@@ -460,6 +499,7 @@ class stack_question_report {
         $this->outputdata->variants = $this->format_variants();
         $this->outputdata->inputs = $this->format_inputs();
         $this->outputdata->rawdata = $this->format_raw_data();
+        $this->outputdata->jsondata = $this->format_json_data();
     }
 
     /**
@@ -719,6 +759,16 @@ class stack_question_report {
             }
         }
         $output->rawdata = $sumout;
+        return $output;
+    }
+
+    public function format_json_data(): object {
+        $output = new StdClass();
+        $sumout = '';
+        foreach ($this->jsonsummary as $jdata) {
+            $sumout .= $jdata . "\n";
+        }
+        $output->jsondata = $sumout;
         return $output;
     }
 

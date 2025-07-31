@@ -60,38 +60,18 @@ function report($d) {
                     $a[] = [$fpath, 'L', 'Filename exceeds limit of ' . MAX_FILENAME_LENGTH . ' characters.'];
                 }
 
-                $allowedcharsregex = '~[^' . preg_quote(
-                    '0123456789.qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-_', '~'
-                    ) . ']~u';
+                $badcharacters = '/[\/\\\?\%\'*:|"<> $!\`&]/'; // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
 
                 $matches = [];
                 // Check for permitted characters.
-                if (preg_match_all($allowedcharsregex, $f, $matches)) {
+                if (preg_match_all($badcharacters, $f, $matches)) {
                     $invalidchars = [];
-                    foreach ($matches as $match) {
+                    foreach ($matches[0] as $match) {
                         $badchar = $match[0];
                         if (!array_key_exists($badchar, $invalidchars)) {
                             switch ($badchar) {
                                 case " ":
                                     $invalidchars[$badchar] = "[SPACE]";
-                                    break;
-                                case "\n":
-                                    $invalidchars[$badchar] = "\\n";
-                                    break;
-                                case "\r":
-                                    $invalidchars[$badchar] = "\\r";
-                                    break;
-                                case "\t":
-                                    $invalidchars[$badchar] = "\\t";
-                                    break;
-                                case "\v":
-                                    $invalidchars[$badchar] = "\\v";
-                                    break;
-                                case "\e":
-                                    $invalidchars[$badchar] = "\\e";
-                                    break;
-                                case "\f":
-                                    $invalidchars[$badchar] = "\\f";
                                     break;
                                 default:
                                     $invalidchars[$badchar] = $badchar;

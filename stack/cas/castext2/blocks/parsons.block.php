@@ -481,7 +481,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             ]);
         }
 
-        // Check MathJax version has been parsed correctly
+        // Check MathJax version has been parsed correctly.
         $mathjaxversionmajor = explode(".", stack_get_mathjax_version())[0];
         if (!$mathjaxversionmajor === "2" || !$mathjaxversionmajor === "3") {
             $valid = false;
@@ -489,7 +489,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 'mjversion' => '2, 3',
             ]);
         }
-  
+
         // Check value of transpose is only "true" or "false".
         if (array_key_exists('transpose', $this->params)) {
             if (!in_array($this->params['transpose'], ['true', 'false'])) {

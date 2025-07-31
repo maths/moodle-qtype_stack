@@ -5,15 +5,9 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.10.0
+## Version 4.11.0
 
-Done:
-
-1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
-2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
-3. Allow the bulk tester to add `[[todo]]` blocks to the question descriptions with the `addtags` option.
-
-Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.10.0) include
+Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.11.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.

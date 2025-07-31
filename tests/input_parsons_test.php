@@ -288,7 +288,7 @@ final class input_parsons_test extends qtype_stack_testcase {
         $this->assertEquals('<table border=\'1\'><tr><th style=\'text-align:center;\'>First header</th>' .
                 '<th style=\'text-align:center;\'>Second header</th>' .
                 '<th style=\'text-align:center;\'>Third header</th></tr><tr><td>one</td><td>three</td>' .
-                '<td>six</td></tr><tr><td>two</td>' . 
+                '<td>six</td></tr><tr><td>two</td>' .
                 '<td>four</td><td></td></tr><tr><td></td><td>five</td><td></td></tr></table>',
                 $el->get_teacher_answer_display($ta, ''));
     }

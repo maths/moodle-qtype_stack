@@ -110,6 +110,45 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">
+  <td class="cell c0"><td colspan="6">Logic</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>true</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLogic_True.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>false</pre></td>
+  <td class="cell c3"><pre>false</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATLogic_True.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>true</pre></td>
+  <td class="cell c3"><pre>false</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>false</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="notes">
   <td class="cell c0"><td colspan="6">Predicates</td></td>
 </tr>
 <tr class="pass">
@@ -437,6 +476,144 @@ i/15))</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>%e^(%i*t)</pre></td>
+  <td class="cell c3"><pre>cos(t)+%i*sin(t)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>%e^(%i*t)</pre></td>
+  <td class="cell c3"><pre>%i*sin(t)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>%e^(%i*200*t)</pre></td>
+  <td class="cell c3"><pre>%e^(%i*199*t)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>%i*sin(3*k)+cos(3*k)</pre></td>
+  <td class="cell c3"><pre>%e^(3*%i*k)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>%i*(3*cos(k)^2*sin(k)-sin(k)^3
+)-3*cos(k)*sin(k)^2+cos(k)^3</pre></td>
+  <td class="cell c3"><pre>%e^(3*%i*k)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>%i*(3*cos(k)^2*sin(k)-sin(k)^3
+)-3*cos(k)*sin(k)^2+cos(k)^3</pre></td>
+  <td class="cell c3"><pre>%e^(7*%i*k)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(k-3)*%e^(31*%i*k)</pre></td>
+  <td class="cell c3"><pre>F(k-3)*%e^(30*%i*k)+F(k+3)*%e^
+(30*%i*k)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(k-3)*%e^(31*%i*k)</pre></td>
+  <td class="cell c3"><pre>(algebraic_equivalence_trigexp
+andp:false,F(k-3)*%e^(300*%i*k
+)+F(k+3)*%e^(300*%i*k))</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(k)*sin(1000*k)</pre></td>
+  <td class="cell c3"><pre>(algebraic_equivalence_trigexp
+andp:false,F(k)*cos(1000*x))</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(-%i*k^3*%e^(800*%i*k)*F(k+3)-
+%i*F(k-3)*k^3*%e^(800*%i*k))/2</pre></td>
+  <td class="cell c3"><pre>(algebraic_equivalence_trigexp
+andp:false,-(%i*F(k-3)*k^3*%e^
+(800*%i*k))/2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(k)*%e^(1000*k)</pre></td>
+  <td class="cell c3"><pre>(algebraic_equivalence_factorp
+:false,F(k)*%e^(1000*x))</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(k)*%e^(1000*k)</pre></td>
+  <td class="cell c3"><pre>F(k)*%e^(1000*k)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sum(sin(n*x/6)*exp(-7*n^2*t/36
+),n,1,inf)</pre></td>
+  <td class="cell c3"><pre>%e^-(112*t)*sin(4*x)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(xi)</pre></td>
+  <td class="cell c3"><pre>int(f(x)*%e^(-i*x*xi), x, -inf
+, inf)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Infinity</td></td>
 </tr>
@@ -538,6 +715,15 @@ i/15))</pre></td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)</pre></td>
   <td class="cell c3"><pre>sqrt(x^2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(assume(a&gt;0),a*sqrt(5))</pre></td>
+  <td class="cell c3"><pre>sqrt(5*a^2)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
@@ -1014,6 +1200,15 @@ x^12+1862860800000*x^11+762392
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(-1)^n*cos(x)^n</pre></td>
+  <td class="cell c3"><pre>(-cos(x))^n</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x#pm#y)</pre></td>
   <td class="cell c3"><pre>cos(x)*cos(y)-(#pm#sin(x)*sin(
 y))</pre></td>
@@ -1398,7 +1593,7 @@ i/10)</pre></td>
   <td class="cell c2"><pre>log((x+1)/(1-x))</pre></td>
   <td class="cell c3"><pre>-log((1-x)/(x+1))</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0</td>
+  <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="pass">
@@ -1410,6 +1605,15 @@ i/10)</pre></td>
 /(x+1))))</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>log((x+1)/(1-x))</pre></td>
+  <td class="cell c3"><pre>-log((1-x)/(x+2))</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">
@@ -3229,6 +3433,15 @@ inf &lt;= x)</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6">ATFunction_arguments_different. ATFunction_true.</td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-30*F</pre></td>
+  <td class="cell c3"><pre>6*F(l-5*x)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Inequalities</td></td>
 </tr>
@@ -4396,15 +4609,6 @@ _make(m/s)),NULLNUM=1)</pre></td>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
-  <td class="cell c2"><pre>(-1)^n*cos(x)^n</pre></td>
-  <td class="cell c3"><pre>(-cos(x))^n</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">-3</td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(sqrt(108)+10)^(1/3)-(sqrt(108
 )-10)^(1/3)</pre></td>
   <td class="cell c3"><pre>2</pre></td>
@@ -4812,6 +5016,47 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
   <td class="cell c3"><pre>diff(y,x,2)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>int(f(x)*%e^(-i*x*xi), x, -inf
+, inf)</pre></td>
+  <td class="cell c3"><pre>int(f(x)*%e^(-i*x*xi), x, -inf
+, inf)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c2"><pre>int(f(t)*%e^(-i*t*xi), t, -inf
+, inf)</pre></td>
+  <td class="cell c3"><pre>int(f(x)*%e^(-i*x*xi), x, -inf
+, inf)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">-3</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(xi)</pre></td>
+  <td class="cell c3"><pre>int(f(x)*%e^(-i*x*xi), x, -inf
+, inf)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>F(xi)^(-25*xi^2*t)</pre></td>
+  <td class="cell c3"><pre>t</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">

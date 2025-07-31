@@ -7,6 +7,8 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.11.0
 
+Done:
+
 1. Add in support for [chemical data](../Specialist_tools/Chemistry/index.md).
 
 Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.11.0) include

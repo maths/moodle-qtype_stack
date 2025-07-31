@@ -225,7 +225,7 @@ class stack_question_report {
                     $summary[$qattempt->variant][$rsummary] = 1;
                 }
             }
-            $usersummary[$qattempt->userid][] = ['attempt' => $qattempt->attempt, 'summary' => $rsummary, 'numtries' => $qattempt->num_tries,'state' => $qattempt->try_state];
+            $usersummary[$qattempt->userid][] = ['attempt' => $qattempt->attempt, 'qnum' => $qattempt->question_num, 'summary' => $rsummary, 'numtries' => $qattempt->num_tries,'state' => $qattempt->try_state];
             $jsonsummary[] = ['id' => $qattempt->questionusageid, 'slot' => $qattempt->slot];
         }
 
@@ -250,9 +250,11 @@ class stack_question_report {
             'coursecontextid' => $this->coursecontextid,
             'quizcontextid' => $this->quizcontextid,
             'questionid' => (int) $this->question->id,
+            'questionid2' => (int) $this->question->id,
             'quizid' => (int) $this->quizid,
+            'quizid2' => (int) $this->quizid,
         ];
-        $query = "SELECT qa.id, qa.variant, qa.responsesummary, u.id as userid, qa.questionusageid, qa.slot
+        $query = "SELECT qa.id, qa.variant, qa.responsesummary, u.id as userid, qa.questionusageid, qa.slot, ud.attempt, ud.question_num, ud.num_tries, ud.try_state
                     FROM {question_attempts} qa
                     LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
                     /* attach another copy of qas to those rows with the most recent timecreated,
@@ -266,6 +268,33 @@ class stack_question_report {
                     LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
                     INNER JOIN {role_assignments} ra ON ra.userid = u.id
                     INNER JOIN {role} r ON r.id = ra.roleid
+                    LEFT JOIN (
+                        SELECT 
+                            qa.id,
+                            quiza.attempt, 
+                            qa.slot AS question_num,
+                            qa.questionsummary AS question,
+                            COUNT(qasd.name) AS num_tries,
+                            GROUP_CONCAT(qas.state SEPARATOR ', ') AS try_state
+                        FROM {quiz} qz
+                        JOIN {course} cs ON cs.id = qz.course
+                        JOIN {quiz_attempts} quiza ON  qz.id  = quiza.quiz
+                        JOIN {question_usages} qu ON  qu.id  = quiza.uniqueid
+                        JOIN {question_attempts} qa ON qa.questionusageid = qu.id
+                        JOIN {question_attempt_steps} qas ON qas.questionattemptid = qa.id
+                        LEFT JOIN {question_attempt_step_data} qasd ON qasd.attemptstepid = qas.id
+                        WHERE qz.id = :quizid2 AND qasd.name = '-submit'
+                        AND qa.questionid IN
+                                                (
+                                                    SELECT qv.questionid
+                                                        FROM {question_versions} qv_original
+                                                        JOIN {question_versions} qv ON
+                                                                qv.questionbankentryid = qv_original.questionbankentryid
+                                                    WHERE qv_original.questionid = :questionid2
+                                                )
+                        GROUP BY quiza.userid, quiza.attempt, qa.slot
+                        ORDER BY quiza.userid, quiza.attempt, qa.slot
+                    ) as ud ON qas_last.questionattemptid = ud.id
                 WHERE qas_prev.timecreated IS NULL
                     /* Check responses are the correct quiz and made by students */
                     AND qu.component = 'mod_quiz'
@@ -766,7 +795,9 @@ class stack_question_report {
         foreach ($this->usersummary as $user => $udata) {
             $sumout .= "## User: " . $user . " Attempts: " . count($udata) . "\n";
             foreach ($udata as $attempt) {
-                $sumout .= $attempt['attempt']. ' ' . $attempt['numtries'] . ' ' . $attempt['state'] . "\n";
+                if ($attempt['state']) {
+                    $sumout .= $attempt['attempt'] . ' ' . $attempt['qnum'] . ' ' . $attempt['numtries'] . ' ' . $attempt['state'] . "\n";
+                }
             }
         }
         $output->userdata = $sumout;

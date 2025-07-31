@@ -152,7 +152,13 @@
       <a class="nav-link" href="#inputs-pane" id="inputs-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="inputs-pane" aria-selected="false">{{#str}} inputs, qtype_stack {{/str}}</a>
     </li>
     <li class="nav-item" role="presentation">
+      <a class="nav-link" href="#userdata-pane" id="userdata-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="userdata-pane" aria-selected="false">{{#str}} userdata, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
       <a class="nav-link" href="#rawdata-pane" id="rawdata-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="rawdata-pane" aria-selected="false">{{#str}} rawdata, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="#jsondata-pane" id="jsondata-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="jsondata-pane" aria-selected="false">{{#str}} jsondata, qtype_stack {{/str}}</a>
     </li>
   </ul>
 
@@ -218,9 +224,17 @@
       <h3>{{#str}} basicreportinputsummary, qtype_stack {{/str}}</h3>
       <pre>{{inputs.inputs}}</pre>
     </div>
+    <div class="tab-pane mt-3" id="userdata-pane" role="tabpanel" aria-labelledby="userdata-tab">
+      <h3>{{#str}} userdata, qtype_stack {{/str}}</h3>
+      <pre>{{userdata.userdata}}</pre>
+    </div>
     <div class="tab-pane mt-3" id="rawdata-pane" role="tabpanel" aria-labelledby="rawdata-tab">
       <h3>{{#str}} basicreportraw, qtype_stack {{/str}}</h3>
       <pre>{{rawdata.rawdata}}</pre>
+    </div>
+    <div class="tab-pane mt-3" id="jsondata-pane" role="tabpanel" aria-labelledby="jsondata-tab">
+      <h3>{{#str}} jsondata, qtype_stack {{/str}}</h3>
+      <pre>{{jsondata.jsondata}}</pre>
     </div>
   </div>
 </div>

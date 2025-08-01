@@ -186,7 +186,9 @@ class qtype_stack_edit_form extends question_edit_form {
     protected function definition() {
         parent::definition();
         $mform = $this->_form;
-
+        if (method_exists('MoodleQuickForm', 'set_sticky_footer')) {
+            $mform->set_sticky_footer('updatebuttonar');
+        }
         $fixdollars = $mform->createElement('checkbox', 'fixdollars',
                 stack_string('fixdollars'), stack_string('fixdollarslabel'));
         $mform->insertElementBefore($fixdollars, 'buttonar');

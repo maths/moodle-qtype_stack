@@ -48,11 +48,11 @@ final class editform_test_class extends \qtype_stack_edit_form {
             // which creates the category if it doesn't exist is 5.0 onwards.
             $category = question_get_default_category($quizcontext->id, true);
             if (!$category) {
-                $category = $category = question_make_default_categories([$quizcontext]);
+                $category = question_make_default_categories([$quizcontext]);
             }
         } else {
             // Deprecated from 5.0.
-            $category = $category = question_make_default_categories([$quizcontext]);
+            $category = question_make_default_categories([$quizcontext]);
         }
         $fakequestion = new \stdClass();
         $fakequestion->qtype = 'stack';
@@ -74,6 +74,20 @@ final class editform_test_class extends \qtype_stack_edit_form {
             $contexts = new \question_edit_contexts($quizcontext);
         }
         parent::__construct(new \moodle_url('/'), $fakequestion, $category, $contexts);
+    }
+
+    /**
+     * Public override of parent function to allow access.
+     * @param mixed $field
+     * @param mixed $text
+     * @param mixed $format
+     * @param mixed $itemid
+     * @param mixed $filearea
+     * @return array
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
+     */
+    public function prepare_text_field($field, $text, $format, $itemid, $filearea = '') {
+        return parent::prepare_text_field($field, $text, $format, $itemid, $filearea);
     }
 
 }
@@ -120,5 +134,44 @@ final class editform_test extends \advanced_testcase {
         $this->assertEquals(['prt1' => 1],
                 $qtype->get_prt_names_from_question(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK));
+    }
+
+    public function test_text_format(): void {
+        $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        // No script. Leave format alone.
+        $data = $form->prepare_text_field('questiontext', 'hello', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_HTML, $data['format']);
+        // Scripts of different types. Set input to plain.
+        $data = $form->prepare_text_field('questiontext', 'hello<script>there</script>', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello[[javascript]]there[[/javascript]]', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello[[geogebra]]there[[/geogebra]]', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello<jsxgraph>there</jsxgraph>', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello[[jsxgraph]]there[[/jsxgraph]]', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello<geogebra>there</geogebra>', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello[[script]]there[[/script]]', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello<=there', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'hello=>there', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_PLAIN, $data['format']);
+        // No script. Leave format alone.
+        $data = $form->prepare_text_field('questiontext', '=hello>', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_HTML, $data['format']);
+        $data = $form->prepare_text_field('questiontext', 'script', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_HTML, $data['format']);
+        // Format already set to something other than HTML. Leave alone.
+        $data = $form->prepare_text_field('questiontext', 'hello<=there', FORMAT_MARKDOWN, 1);
+        $this->assertEquals(FORMAT_MARKDOWN, $data['format']);
+        // User editor preference set. Leave format alone.
+        set_user_preference('htmleditor', 'bob', null);
+        $data = $form->prepare_text_field('questiontext', 'hello<=there', FORMAT_HTML, 1);
+        $this->assertEquals(FORMAT_HTML, $data['format']);
     }
 }

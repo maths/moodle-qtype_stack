@@ -66,7 +66,7 @@ In practice it is very helpful to have some kind of multiplication sign displaye
 \[ xe^x \text{ and } x\,e^x\]
 is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\cdot e^x\) neatly solves this problem.
 
-Internally the display of multiplication signs is controlled by the STACK function `make_multsgn(ex)`, where the argument can be one of the strings `"cross"`, `"dot"`, `"onum"`, `"space"` or `"blank"`.  This can be switched part-way through a session. E.g. consider the following castext.
+Internally the display of multiplication signs is controlled by the STACK function `make_multsgn(ex)`, where the argument can be one of the strings `"cross"`, `"dot"`, `"onum"`, `"space"` or `"none"`.  This can be switched part-way through a session. E.g. consider the following castext.
 
     Default: {@a*b@}.
     Switch to cross: {@(make_multsgn("cross"), a*b)@}.

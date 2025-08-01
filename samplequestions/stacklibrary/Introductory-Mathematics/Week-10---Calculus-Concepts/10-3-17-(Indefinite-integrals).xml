@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.3.17 (Indefinite integrals)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Indefinite integrals</h3>
+
+<p>Remember that any function we can differentiate tells us about a corresponding antiderivative. For example, \(\dfrac{d}{dx}\left(x^2\right)=2x\) so we know \(x^2\) is an antiderivative of \(2x\). However, notice that we also have&nbsp;\(\dfrac{d}{dx}\left(x^2+1\right)=2x\). So \(x^2+1\) is also an antiderivative of \(2x\). In fact, if \(F(x)\) is an antiderivative of \(f(x)\) then so is \(F(x)+C\) where \(C\) is any constant. We can see this because differentiating both \(F(x)\) and \(F(x)+C\) gives \(f(x)\).</p><p>The second version of the Fundamental Theorem of Calculus tells us how antiderivatives are related to definite integrals. Due to of this connection, we also talk about indefinite integrals which are defined as follows:</p>
+<br/>
+<p>The <b>indefinite integral</b> \(\displaystyle\int f(x)\,dx=F(x)+C\) means \(F'(x)=f(x)\). It represents the most general antiderivative of \(f\), so must always include an arbitrary constant (usually denoted \(+C\)).</p>
+<br/>
+<p>Note that:</p>
+
+<ul>
+<li><p>we say that \(f(x)\) is the <b>integrand.</b><br></p></li>
+<li><p><span>The \(dx\) is very important because it indicates the variable we are integrating with respect to.<br></span></p></li>
+<li><p>the function \(F\) is often just referred to as the <b>integral </b>of \(f\).</p></li>
+</ul>
+<br/>
+<p>The notation is very similar for definite and indefinite integrals -- the only difference is whether we attach limits to the integral sign. However, notice that&nbsp;the result of an indefinite integral is a <i>function</i>, whereas the definite integral gives a <i>number</i>.</p>
+<br/>
+<h3>Example</h3>
+<p>Returning to the example above, we can write the indefinite integral</p><p>\[ \int 2x\;dx = x^2+C \] to represent the fact that \(x^2+C\) is the most general antiderivative of \(2x\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

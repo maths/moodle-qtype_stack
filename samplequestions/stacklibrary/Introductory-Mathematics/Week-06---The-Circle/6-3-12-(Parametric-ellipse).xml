@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>6.3.12 (Parametric ellipse)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find a parametric representation \(x=f(t), y = g(t)\), of the equation \(\frac{x^2}{{@a@}^2} + \frac{y^2}{{@b@}^2} = {@r@}^2\).&nbsp; Your answers should be expressed in terms of a variable \(t\).&nbsp; <br></p><p>(Hint: if \(f(t)\) and \(g(t)\) satisfy the equation, what do the functions \(f(t)/{@a@}\) and \(g(t)/{@b@}\) satisfy?)</p><p>\(x(t) = \) [[input:ans1]]; [[validation:ans1]]</p><p>\(y(t) = \) [[input:ans2]]. [[validation:ans2]]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The functions \(f(t) = {@x@}\) and \(g(t) = {@y@}\) satisfy \begin{align*}\frac{\left({@x@} \right)^2}{{@a@}^2} + \frac{\left({@y@}\right)^2}{{@b@}^2} &amp; = \frac{{@r@}^2{@a@}^2 \cos^2(t)}{{@a@}^2} + \frac{{@r@}^2{@b@}^2 \sin^2(t)}{{@b@}^2}\\ &amp; = {@r@}^2\left(\cos^2(t) + \sin^2(t)\right) \\ &amp;= {@r@}^2,\end{align*}so these are parametric representations of the equation. If you decide to plot this function, you would see that this equation is actually the equation of an ellipse.<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>p:rand_range(-10,10,1);
+q:rand_range(-10,10,1);
+a:2+rand(4);
+b:rand_with_prohib(2,5,[a]);
+r:rand_with_prohib(2,10,[p,q]);
+x: a*r*cos(t);
+xda:r*cos(t);
+y:b*r*sin(t);
+ydb:r*sin(t);
+ta1:x
+ta2:y</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\frac{x^2}{{@a@}^2} + \frac{y^2}{{@b@}^2} = {@r@}^2\) has \(x(t) = {@x@}\) amd \(y(t) = {@y@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>dist:ans1^2/a^2 + ans2^2/b^2</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>dist</sans>
+        <tans>r^2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>530459040</deployedseed>
+    <deployedseed>963027948</deployedseed>
+    <deployedseed>668352222</deployedseed>
+    <deployedseed>2110953256</deployedseed>
+    <deployedseed>666772268</deployedseed>
+    <deployedseed>742490948</deployedseed>
+    <deployedseed>876630489</deployedseed>
+    <deployedseed>603694744</deployedseed>
+    <deployedseed>1001737957</deployedseed>
+    <deployedseed>716433799</deployedseed>
+    <deployedseed>258958078</deployedseed>
+    <deployedseed>209799286</deployedseed>
+    <deployedseed>530634127</deployedseed>
+    <deployedseed>1696805990</deployedseed>
+    <deployedseed>1697176544</deployedseed>
+    <deployedseed>818707940</deployedseed>
+    <deployedseed>704334955</deployedseed>
+    <deployedseed>1496304474</deployedseed>
+    <deployedseed>650751177</deployedseed>
+    <deployedseed>2087984505</deployedseed>
+    <deployedseed>848849708</deployedseed>
+    <deployedseed>1590699947</deployedseed>
+    <deployedseed>175530835</deployedseed>
+    <deployedseed>1146095676</deployedseed>
+    <deployedseed>1801208376</deployedseed>
+    <deployedseed>632094163</deployedseed>
+    <deployedseed>462676573</deployedseed>
+    <deployedseed>117896952</deployedseed>
+    <deployedseed>893690682</deployedseed>
+    <deployedseed>89142980</deployedseed>
+    <deployedseed>1871885975</deployedseed>
+    <deployedseed>1094924575</deployedseed>
+    <deployedseed>1355969860</deployedseed>
+    <deployedseed>1207442162</deployedseed>
+    <deployedseed>977403249</deployedseed>
+    <deployedseed>2110343745</deployedseed>
+    <deployedseed>1726255091</deployedseed>
+    <deployedseed>1840895235</deployedseed>
+    <deployedseed>616394566</deployedseed>
+    <deployedseed>1505158651</deployedseed>
+    <deployedseed>650979629</deployedseed>
+    <deployedseed>768757048</deployedseed>
+    <deployedseed>872140819</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

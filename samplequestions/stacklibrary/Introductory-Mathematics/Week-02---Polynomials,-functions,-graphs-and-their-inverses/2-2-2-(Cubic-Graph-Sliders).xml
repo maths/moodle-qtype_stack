@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.2.2 (Cubic Graph Sliders)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Move the sliders below to see what effect changing the coefficients in the cubic equation \(y = ax^3 + bx^2 +cx + d\) has on the shape of the curve.</p>
+
+<iframe scrolling="no" title="Cubic Graph Slider" src="https://www.geogebra.org/material/iframe/id/mhcqqck6/width/1680/height/934/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="800px" height="450px" style="border:0px;"> </iframe>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.2 (Example of finding limits)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>The deer population in a forest is estimated to drop by \(7⋅3%\) each year. Each year, \(20\) deer are introduced to the forest. The initial deer population is \(200\).</p>
+
+<ol type="a">
+<li>How many deer will there be in the forest after \(3\) years?</li>
+<li> What is the long term effect on the population?</li>
+</ol>
+
+<h3>Solution</h3>
+
+<ol type="a">
+<li>To answer this question, we find the values of \(u_1,u_2,u_3\) from the recurrence relation as we have seen previously. In this case we have
+\[
+\begin{align*}
+&u_{n+1} = 0.927u_n + 20;
+\\
+&u_0 = 200
+\\
+&u_1 = 0.927 \cdot 200 + 20 =205.4
+\\
+&u_2 = 0.927 \cdot 205.4 + 20 =210.4058
+\\
+&u_3 = 0.927 \cdot 210.4058 + 20 = 215.0461.
+\end{align*}
+\]
+Thus, there are \(215\) deer after three years.</li>
+<li>In order to see what the overall long term effect on the deer population is, we have to calculate the limit of the sequence. Firstly, note that a limit exists because 
+\[
+-1 < 0.927 < 1.
+\]
+Therefore we can calculate the limit as
+\[
+L= \frac{b}{1-a} = \frac{20}{1-0.927} = 273.97
+\]
+to 2 d.p. This tells us that the deer population will settle around \(273\).
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

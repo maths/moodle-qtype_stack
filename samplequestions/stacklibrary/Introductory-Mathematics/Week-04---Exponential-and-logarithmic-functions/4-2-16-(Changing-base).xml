@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.16 (Changing base)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Change of base formula</h1>
+
+<p>It is sometimes required to express the logarithm with respect to one base in terms of a logarithm with respect to another base.</p>
+<p>Now \(b=a^x\) implies \(\log_a b=x\) where we have used logs to base \(a\). If for some reason we want to use another base, \(p\) say, then we do as follows.</p> 
+<p>We take logs to base \(p\) of both sides of \(b=a^n\), which gives
+\(\log_p(b)= \log_p(a^n)=n\log_pa\) (using one of the logarithm laws), so \(n=\dfrac{\log_p(b)}{\log_p(a)}\). But we also have 
+\(\log_ab=n\).</p>
+<p>Therefore, we conclude \(\log_ab=\dfrac{\log_p(b)}{\log_p(a)}.\) This is the rule to be used when converting logarithms from one base to another.
+\[
+\log_ab=\dfrac{\log_p(b)}{\log_p(a)}.
+\]
+In particular for base \(10\) and natural logs: 
+\[
+\log_ab=\dfrac{\log (b)}{\log (a)} \qquad \mbox { and } \qquad \log_ab=\dfrac{\ln (b)}{\ln (a)}.
+\]
+</p>
+<br/>
+<h3>Example</h3>
+
+<p>Use the change of base formula to change the base of \(\log_3(7)\) to base \(10\) and base \(e\), thus evaluate this log.
+
+<h3>Solution</h3>
+
+<p>Using the formula changing to base \(10\) we have,
+\[
+\log_37=\dfrac{\log 7}{\log 3}=\dfrac{0.8450980}{0.4771212}=1.7712437
+\] 
+Alternatively, 
+\[
+\log_37=\dfrac{\ln 7}{\ln 3}=\dfrac{1.9459101}{1.0986123}=1.7712437
+\]
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

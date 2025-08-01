@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>4.3.16 (Exponential growth of a function)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>A function \(f(x)\) grows exponentially and is such that \(f(0)=1\) and \(f({@pp@})={@aa@}\). Find the exponential curve that fits through these points. Assume the function is \(f(x)=e^{kx}\) where \(k\) is to be determined from the given information. Find the value of \(k\) up to 3 d.p.</p><p>Hint: First try values \(&nbsp;{@dd11@},{@dd12@},&nbsp;{@dd13@} \)<br></p><p>\(k\)=[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>In this case we can use natural logarithms to extract the value of \(k\). In this case we have
+\[
+f(0) = 1 \implies 1 = e^{k\cdot 0} \implies 1 = 1 \qquad \text{and} \qquad f({@pp@}) = {@aa@} \implies {@aa@} = e^{{@pp@} k}
+\]
+We can rearrange the second of these equations to get our value of \(k\). 
+Taking natural logs we have 
+\[
+\ln({@aa@}) = {@pp@} k \implies k = \frac{\ln({@aa@})}{{@pp@}} = {@taa@}.
+\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022071300</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand(10)+2;
+pp: rand(4)+2;
+dd11: decimalplaces(float(log(aa)/pp-0.1),1);
+dd12: decimalplaces(float(log(aa)/pp),1);
+dd13: decimalplaces(float(log(aa)/pp+0.1),1);
+dd2: decimalplaces(log(aa)/pp,2);
+dd3: decimalplaces(log(aa)/pp,3)
+
+ta1:log(aa)/pp;
+taa: decimalplaces(ta1,3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( k={@dd3@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>dd3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>dd3</tans>
+        <testoptions>0.002</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>511534</deployedseed>
+    <deployedseed>947266297</deployedseed>
+    <deployedseed>258390501</deployedseed>
+    <deployedseed>293798269</deployedseed>
+    <deployedseed>2069362390</deployedseed>
+    <deployedseed>698713867</deployedseed>
+    <deployedseed>582475146</deployedseed>
+    <deployedseed>253970447</deployedseed>
+    <deployedseed>175773255</deployedseed>
+    <deployedseed>798094320</deployedseed>
+    <deployedseed>405306082</deployedseed>
+    <deployedseed>561553934</deployedseed>
+    <deployedseed>828661223</deployedseed>
+    <deployedseed>1727442373</deployedseed>
+    <deployedseed>1763625350</deployedseed>
+    <deployedseed>75313759</deployedseed>
+    <deployedseed>1442312979</deployedseed>
+    <deployedseed>267682325</deployedseed>
+    <deployedseed>1878477374</deployedseed>
+    <deployedseed>635091528</deployedseed>
+    <deployedseed>1722007391</deployedseed>
+    <deployedseed>1424496830</deployedseed>
+    <deployedseed>971397515</deployedseed>
+    <deployedseed>1932146405</deployedseed>
+    <deployedseed>122299727</deployedseed>
+    <deployedseed>1910958705</deployedseed>
+    <deployedseed>2137832658</deployedseed>
+    <deployedseed>566538151</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dd3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dd3-0.1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

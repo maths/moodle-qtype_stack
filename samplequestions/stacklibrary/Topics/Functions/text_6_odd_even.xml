@@ -1,50 +1,56 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="stack">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
     <name>
       <text>text_6_odd_even</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;1. Give an example of an odd function by typing an expression which represents it. \(f_1(x)=\) [[input:ans1]]. [[validation:ans1]] [[feedback:odd]]&lt;/p&gt;
-&lt;p&gt;2. Give an example of an even function. \(f_2(x)=\) [[input:ans2]]. [[validation:ans2]] [[feedback:even]]&lt;/p&gt;
-&lt;p&gt;3. Give an example of a function which is odd and even. \(f_3(x)=\) [[input:ans3]]. [[validation:ans3]] [[feedback:oddeven]]&lt;/p&gt;
-&lt;p&gt;4. Is the answer to 3. unique? [[input:ans4]] (Or are there many different possibilities.) [[validation:ans4]] [[feedback:unique]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>1. Give an example of an odd function by typing an expression which represents it. \(f_1(x)=\) [[input:ans1]]. [[validation:ans1]] [[feedback:odd]]</p><p>2. Give an example of an even function. \(f_2(x)=\) [[input:ans2]]. [[validation:ans2]] [[feedback:even]]</p><p>3. Give an example of a function which is odd and even. \(f_3(x)=\) [[input:ans3]]. [[validation:ans3]] [[feedback:oddeven]]</p><p>4. Is the answer to 3. unique? [[input:ans4]] (Or are there many different possibilities.) [[validation:ans4]] [[feedback:unique]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text>&lt;p&gt;This question really tests the mathematical properties of the expression given. In the case of an odd function we seek to establish that \[ f(x)+f(-x)=0\] and in the case of an even function that \[ f(x)-f(-x)=0.\]&lt;/p&gt;</text>
+      <text><![CDATA[<p>This question really tests the mathematical properties of the expression given. In the case of an odd function we seek to establish that \[ f(x)+f(-x)=0\] and in the case of an even function that \[ f(x)-f(-x)=0.\]</p>]]></text>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
+    <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden>0</hidden>
+    <idnumber/>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
     <questionvariables>
-      <text />
+      <text/>
     </questionvariables>
     <specificfeedback format="html">
-      <text />
+      <text/>
     </specificfeedback>
-    <questionnote>
-      <text />
+    <questionnote format="html">
+      <text/>
     </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text>&lt;p&gt;&lt;span class="correct"&gt;Correct answer, well done.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text>&lt;p&gt;&lt;span class="incorrect"&gt;Your answer is partially correct.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="incorrect">Your answer is partially correct.</span></p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text>&lt;p&gt;&lt;span class="partially"&gt;Incorrect answer.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="partially">Incorrect answer.</span></p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed />
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -52,16 +58,16 @@
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <input>
       <name>ans2</name>
@@ -70,16 +76,16 @@
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <input>
       <name>ans3</name>
@@ -88,16 +94,16 @@
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <input>
       <name>ans4</name>
@@ -106,46 +112,48 @@
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <prt>
       <name>even</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>sa:ans2-subst(x=-x,ans2);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>sa</sans>
         <tans>0</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>even-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>even-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text>&lt;p&gt;Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]&lt;/p&gt;</text>
+          <text><![CDATA[<p>Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -153,31 +161,33 @@
       <name>odd</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>sa:subst(x=-x,ans1)+ans1;</text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>sa</sans>
         <tans>0</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>odd-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>odd-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text>&lt;p&gt;Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]&lt;/p&gt;</text>
+          <text><![CDATA[<p>Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -185,56 +195,59 @@
       <name>oddeven</name>
       <value>2.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>sa1:subst(x=-x,ans3)+ans3;
 sa2:ans3-subst(x=-x,ans3);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>sa1</sans>
         <tans>0</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.5000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>ODD</trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>oddeven-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text>&lt;p&gt;Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]&lt;/p&gt;</text>
+          <text><![CDATA[<p>Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]</p>]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>sa2</sans>
         <tans>0</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>EVEN</trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>oddeven-1-F </falseanswernote>
         <falsefeedback format="html">
-          <text>&lt;p&gt;Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]&lt;/p&gt;</text>
+          <text><![CDATA[<p>Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -242,36 +255,39 @@ sa2:ans3-subst(x=-x,ans3);</text>
       <name>unique</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text />
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans4</sans>
         <tans>true</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>unique-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>unique-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
     </prt>
     <qtest>
       <testcase>1</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>x^3</value>
@@ -315,6 +331,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>x^2</value>
@@ -357,6 +374,4 @@ sa2:ans3-subst(x=-x,ans3);</text>
       </expected>
     </qtest>
   </question>
-
-
-  </quiz>
+</quiz>

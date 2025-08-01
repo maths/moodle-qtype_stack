@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.3.14 (General partial fractions)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>We have seen how to find the partial fractions decomposition for rational functions where the denominator is made up of distinct linear factors, or a single repeated linear factor. Clearly, these are not all of the possibilities?</p><p>In fact, there are some other cases to consider. If we fully factorise the denominator, there are four possible kinds of term which can arise:</p>
+
+<ul><li><p>Distinct linear factor, e.g. \((x+1)\)</p></li>
+<li><p>Repeated linear factor, e.g. \((x+1)^3\)</p></li>
+<li><p>Distinct quadratic factor, e.g. \((x^2+1)\)</p></li>
+<li><p>Repeated quadratic factor, e.g. \((x^2+1)^2\)</p></li>
+</ul>
+
+<p>Note that the quadratic factors will only remain if their discriminant is negative, otherwise we could have factorised them into linear factors.</p>
+<br/>
+<h3>Partial Fraction Decomposition</h3>
+
+<p>To construct the partial fraction decomposition for a rational function, fully factorise the denominator then for each factor, add terms as follows:</p><table style="text-align: center; margin-left:auto; margin-right:auto;" cellpadding="10" border="1" bordercolor="#3a87ad">
+<thead>
+<tr style="background: #c1ddea">
+<th scope="col">Type of factor</th>
+<th scope="col" style="min-width: 10em;">&nbsp; Form of factor&nbsp;&nbsp;</th>
+<th scope="col" style="min-width: 22em;">&nbsp; Partial fractions to add&nbsp;&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Distinct linear factor</td>
+<td>\((x-a)\)</td>
+<td>\(\dfrac{A}{x-a}\)</td>
+</tr>
+<tr>
+<td>Repeated linear factor</td>
+<td>\((x-a)^n\)</td>
+<td>\(\dfrac{A_1}{(x-a)}+\dfrac{A_2}{(x-a)^2}+\cdots+\dfrac{A_n}{(x-a)^n}\)</td>
+</tr>
+<tr>
+<td>Distinct quadratic factor</td>
+<td>\((ax^2+bx+c)\)</td>
+<td>\(\dfrac{Ax+B}{(ax^2+bx+c)}\)</td>
+</tr>
+<tr>
+<td>Repeated quadratic factor</td>
+<td>\((ax^2+bx+c)^n\)</td>
+<td>\(\dfrac{A_1x+B_1}{(ax^2+bx+c)}+\cdots+\dfrac{A_nx+B_n}{(ax^2+bx+c)^n}\)</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<h3>Examples</h3>
+<ul>
+<li><p>\(\dfrac{x^2-x+2}{x(x-1)^2}\) will have partial fractions in the form \(\dfrac{A}{x} + \dfrac{B}{x-1}+ \dfrac{C}{(x-1)^2}\).</p></li>
+<li><p>\(\dfrac{4x-1}{(x+1)^2(x^2+3)}\) will have partial fractions in the form \(\dfrac{A}{x+1}+\dfrac{B}{(x+1)^2}+\dfrac{Cx+D}{x^2+3}\).</p></li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

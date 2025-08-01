@@ -131,7 +131,7 @@ intMul(2*3);
 intMul(2*x*3);
 6*x$
 intMul(UNARY_MINUS nounmul 2 nounmul UNARY_MINUS nounmul 6);
-12 nounmul UNARY_MINUS nounmul UNARY_MINUS$
+12$
 
 intPow(2^3);
 8$

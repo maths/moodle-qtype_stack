@@ -14,6 +14,10 @@ The option `aspect-ratio` combined with the ability to use relative dimensions a
 
 If no size is defined the default is to have `width="500px" height="400px"` and these are also the dimensions used if values are missing and no `aspect-ratio` has been defined.
 
+You can control the CSS style with the `style` attribute.  This loads CSS files from the `corsscripts/jsxgraphstyles` directory.  For example, if you would like to remove the default visible boundary box around the graph then choose `style='empty'`.  This loads `corsscripts/jsxgraphstyles/empty.css` in place of the default `corsscripts/jsxgraph.min.css`.  Currently supported styles are
+
+1. `empty`:  This is identical to the default style, except the visible boundary box is removed.
+
 ## Automatic identifier for the div-element
 
 As initialisation of the JSXGraph board requires you to give it a reference to the div-element that will contain the graph you will need to know what that id is. With the JSXGraph-block that identifier is present in a variable named `divid`. Since, 4.3.3 we also provide that same identifier in a variable named `BOARDID` to match the behaviour of the JSXGraph Moodle filter. We generate that identifier automatically to allow one to have multiple plots even multiple copies of the same question on the same page without anyone having to worry about accidental identifier clashing.

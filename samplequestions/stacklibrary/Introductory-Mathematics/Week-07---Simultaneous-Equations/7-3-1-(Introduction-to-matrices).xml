@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.1 (Introduction to matrices)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Matrices</h1>
+
+<p>So far, we have seen how to solve simultaneous equations consisting of linear equations and polynomials. However, it turns out that we can extend this idea to larger systems of equations. For example how would we solve a set of three linear equations simultaneously? It turns out that this question is, in general, hard to solve. Solving three linear equations simultaneously is the beginning of the topic of <b>linear algebra</b> which is a large and important topic within mathematics. In order to study three linear simultaneous equations we often use <b>matrices</b> to study and encode information about linear equations. In this section we will introduce matrices, describe how they correspond to systems of linear equations and examine how we can manipulate matrices in order to solve such systems. </p>
+<br/>
+<p>Let us suppose that we wish to examine the following systems of three <i>linear</i> equations:
+\[
+\begin{align*}
+&a_1x_1+a_2x_2 + a_3x_3 = y_1
+\\
+&a_4x_1+a_5x_2 +a_6x_3 = y_2
+\\
+&a_7x_1+a_8x_2 +a_9x_3 = y_3,
+\end{align*}
+\]
+where every \(a_i\) is a constant and the \(x_j\) and \(y_j\) are variables. Here, notice that each of the three equations are linear because the variables all appear to a maximum power of \(1\). These equations are complex to consider and actually, the main information we are interested in, are the values of the coefficients \(a_i\). Therefore we can seek a way to simplify the information encoded in these equations. We do this by use of <i>matrices</i>. A <b>matrix</b> is an array of numbers arranged in a rectangular pattern into rows and columns. For example each of the following are matrices
+\[
+\begin{bmatrix}
+1 & 0 & 0
+\\
+0 & 1 & 0
+\\
+0 & 0& 1
+\end{bmatrix},
+
+\begin{bmatrix}
+1 
+\\
+2
+\\
+3
+\end{bmatrix},
+
+\begin{bmatrix}
+1 & -67 & 23
+\end{bmatrix}.
+\]
+</p>
+<br/>
+<p>Notce that we can have matrices that consist of only one row or one column. These are called <b>vectors</b> (think of co-ordinates on a graph). Matrices are useful for studying our system of equations above because we will see that we can write the above system in terms of matrices as 
+\[
+\begin{bmatrix}
+a_1 & a_2 & a_3
+\\
+a_4 & a_5 & a_6
+\\
+a_7 & a_8& a_9
+\end{bmatrix}
+\begin{bmatrix}
+x_1 
+\\
+x_2
+\\
+x_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+y_1 
+\\
+y_2
+\\
+y_3
+\end{bmatrix},
+\]
+then we can study the properties of the system of equations by examining the corresponding matrices. Therefore we must learn how to manipulate and use matrices. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>PT.9.9 (General term of binomial 2)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>In the expansion of \({@expr@}\) find the coefficient of \(x^{@rr@}\).</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Recall that the general ((r+1)th) term in the binomial expansion of \((x+y)^n\) is 
+\[
+T_{r+1} = {n \choose r} x^{n-r} y^r.
+\]
+In this case we have 
+\[
+T_{{@rr+1@}} = {{@nn@} \choose {@rr@}} {@aa@}^{{@nn@}-{@rr@}} {@bb@}^{@rr@} x^{@rr@}.
+\]
+So the coefficient we require is \({{@nn@} \choose {@rr@}} {@aa@}^{@nn@} {@bb@}^{@rr@} =\){@ta1@}</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:1+rand(5);
+bb: 1+rand(5);
+nn:2+rand(12);
+rr: 1+rand(6);
+
+expr: (aa+bb*x)^nn;
+
+ta1: binomial(nn, rr)*aa^(nn-rr)*bb^rr</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(x^{@rr@}\) coefficient of {@expr@} is \({{@nn@} \choose {@rr@}} {@aa@}^{@nn@} {@bb@}^{@rr@} =\){@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>900383067</deployedseed>
+    <deployedseed>1552607092</deployedseed>
+    <deployedseed>1301931485</deployedseed>
+    <deployedseed>528855956</deployedseed>
+    <deployedseed>2136429929</deployedseed>
+    <deployedseed>133144499</deployedseed>
+    <deployedseed>1979896482</deployedseed>
+    <deployedseed>1887065464</deployedseed>
+    <deployedseed>1262616398</deployedseed>
+    <deployedseed>1124569592</deployedseed>
+    <deployedseed>796018173</deployedseed>
+    <deployedseed>685169967</deployedseed>
+    <deployedseed>498211849</deployedseed>
+    <deployedseed>1724303980</deployedseed>
+    <deployedseed>1232280382</deployedseed>
+    <deployedseed>1914047597</deployedseed>
+    <deployedseed>814752093</deployedseed>
+    <deployedseed>1103557282</deployedseed>
+    <deployedseed>907666180</deployedseed>
+    <deployedseed>1128950578</deployedseed>
+    <deployedseed>1581630263</deployedseed>
+    <deployedseed>775367965</deployedseed>
+    <deployedseed>58584632</deployedseed>
+    <deployedseed>668769412</deployedseed>
+    <deployedseed>1676829017</deployedseed>
+    <deployedseed>1744310611</deployedseed>
+    <deployedseed>1792012480</deployedseed>
+    <deployedseed>268524769</deployedseed>
+    <deployedseed>1373422823</deployedseed>
+    <deployedseed>985423777</deployedseed>
+    <deployedseed>2126371439</deployedseed>
+    <deployedseed>1062746585</deployedseed>
+    <deployedseed>918704119</deployedseed>
+    <deployedseed>2129885904</deployedseed>
+    <deployedseed>1794587543</deployedseed>
+    <deployedseed>1668554489</deployedseed>
+    <deployedseed>1455292246</deployedseed>
+    <deployedseed>812961838</deployedseed>
+    <deployedseed>374938592</deployedseed>
+    <deployedseed>2074598458</deployedseed>
+    <deployedseed>1148971585</deployedseed>
+    <deployedseed>196764748</deployedseed>
+    <deployedseed>1747951642</deployedseed>
+    <deployedseed>1321454321</deployedseed>
+    <deployedseed>1919344674</deployedseed>
+    <deployedseed>233433274</deployedseed>
+    <deployedseed>1418721029</deployedseed>
+    <deployedseed>744905483</deployedseed>
+    <deployedseed>47263232</deployedseed>
+    <deployedseed>356604559</deployedseed>
+    <deployedseed>1858491680</deployedseed>
+    <deployedseed>1747101578</deployedseed>
+    <deployedseed>362726723</deployedseed>
+    <deployedseed>2099732540</deployedseed>
+    <deployedseed>193010679</deployedseed>
+    <deployedseed>1520953593</deployedseed>
+    <deployedseed>551522321</deployedseed>
+    <deployedseed>232225291</deployedseed>
+    <deployedseed>1779419600</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

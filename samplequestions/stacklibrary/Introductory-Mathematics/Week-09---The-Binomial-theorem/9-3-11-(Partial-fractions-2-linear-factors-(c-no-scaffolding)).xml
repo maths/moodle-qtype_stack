@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.3.11 (Partial fractions 2 linear factors (c: no scaffolding))</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the partial fractions decomposition of&nbsp;\(\dfrac{@ratFnNum@}{@ratFnDen@}\).<br></p><p>[[input:ans1]][[validation:ans1]][[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To find partial fractions for \(\dfrac{@ratFnNum@}{@ratFnDen@}\), we want to find \(A\) and \(B\) so that</p><p>\[\begin{eqnarray*} {@ratFn@} &amp;=&amp; {@partialFractionsForm@} \\ &amp;=&amp; \frac{A({@x-b@})+B({@x-a@})}{{@ratFnDen@}} \end{eqnarray*}\]</p><p>Evaluating the numerators when {@x=a@} gives {@(a-b)*'A=ev(ratFnNum,x=a)@} so \(A={@A@}\).</p><p>Similarly, {@x=b@} gives {@(b-a)*'B=ev(ratFnNum,x=b)@} so \(B={@B@}\).</p><p></p><p>Putting&nbsp;\(A={@A@}\) and&nbsp;\(B={@B@}\) into \(\displaystyle{@partialFractionsForm@} \) gives</p><p>\[{@ta1@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>ordergreat(A,B);
+denRoots:rand([[-5,-4],[-5,-1],[-5,3],[-4,-3],[-4,1],[-4,4],[-3,-1],[-3,3],[-2,-1],[-2,3],[-1,1],[-1,4],[1,3],[2,3],[3,4]]);
+a:denRoots[1];
+b:denRoots[2];
+partialFractionsForm:A/(x-a)+B/(x-b);
+A:rand_with_prohib(-5,5,[0]);
+B:rand_with_prohib(-5,5,[0,A,-A]);
+partialFractions:ev(partialFractionsForm);
+ratFnNum:ev(expand(A*(x-b)+B*(x-a)),simp); /* or: num(ratsimp(partialFractions)); */
+ratFnDen:(x-a)*(x-b);
+ratFn:ratFnNum/ratFnDen;
+ta1:partialFractions;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@ratFn=ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>PartFrac</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>334159091</deployedseed>
+    <deployedseed>315017884</deployedseed>
+    <deployedseed>916972311</deployedseed>
+    <deployedseed>1209741718</deployedseed>
+    <deployedseed>2111120578</deployedseed>
+    <deployedseed>2041883239</deployedseed>
+    <deployedseed>1846829376</deployedseed>
+    <deployedseed>674662050</deployedseed>
+    <deployedseed>880846011</deployedseed>
+    <deployedseed>1148569104</deployedseed>
+    <deployedseed>387037822</deployedseed>
+    <deployedseed>660834951</deployedseed>
+    <deployedseed>52658441</deployedseed>
+    <deployedseed>939881703</deployedseed>
+    <deployedseed>1592668590</deployedseed>
+    <deployedseed>744514556</deployedseed>
+    <deployedseed>646695274</deployedseed>
+    <deployedseed>1418446892</deployedseed>
+    <deployedseed>1018003269</deployedseed>
+    <deployedseed>313136500</deployedseed>
+    <deployedseed>417249581</deployedseed>
+    <deployedseed>1597526519</deployedseed>
+    <deployedseed>28159696</deployedseed>
+    <deployedseed>1313897624</deployedseed>
+    <deployedseed>1794676753</deployedseed>
+    <deployedseed>2118543800</deployedseed>
+    <deployedseed>492000093</deployedseed>
+    <deployedseed>1879866059</deployedseed>
+    <deployedseed>1254774682</deployedseed>
+    <deployedseed>2130134691</deployedseed>
+    <deployedseed>331236569</deployedseed>
+    <deployedseed>774662869</deployedseed>
+    <deployedseed>660658551</deployedseed>
+    <deployedseed>1491723308</deployedseed>
+    <deployedseed>1807259095</deployedseed>
+    <deployedseed>1858767120</deployedseed>
+    <deployedseed>514481448</deployedseed>
+    <deployedseed>234334923</deployedseed>
+    <deployedseed>1028455529</deployedseed>
+    <deployedseed>1020525076</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ratFn</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

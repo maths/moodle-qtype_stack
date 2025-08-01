@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.7 (General Method)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>General Case</h3>
+
+<p>We can apply the same process as above to factorise a general quadratic. Recall that the standard form of a quadratic is \(ax^2 + bx + c = 0\). In this case, we need to find two numbers which multiply to get \(ac\) and sum to get \(b\). That is, we need to find \(m, n\) such that 
+\[
+m \cdot n = a\cdot c \qquad \mbox{ and } \qquad m+ n = b.
+\]
+Then the process follows in the same way as the previous example. We will look at this in more detail in the next section.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

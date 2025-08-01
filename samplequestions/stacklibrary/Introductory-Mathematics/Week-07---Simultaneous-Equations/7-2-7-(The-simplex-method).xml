@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.7 (The simplex method)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>The simplex method</h1>
+<p>So far we have introduced the graphical method of solving linear programming problems. This is a very efficient way of solving such questions when we can plot the problem on a two dimensional graph. All the feasible solutions in the graphical method lie within the feasible area on the graph and we test the corner points of the feasible area for the optimal solution by substituting these values into the optimisation function. However, if the number of variables increases from two, it becomes ever more difficult to plot such problems, therefore the graphical method becomes a less efficient way to solve these problems. In this case we turn to a method called the <strong>simplex method</strong> which is essentially a systematic version of the methods we have seen so far to check each corner of the feasible region. The steps of the algorithm are given below, we will then illustrate this further by way of an example.</p>
+<ol>
+<li>Insert slack variables.</li>
+<li>Rewrite the optimisation function.</li>
+<li>Write the initial simplex tableau.</li>
+<li>Find pivot element.</li>
+<li>Perform the pivot operation</li>
+<li>Are there any negative indicators? If so repeat steps 4. and 5. until they are gone. Otherwise we are done.</li>
+</ol>
+<p>The simplex method begins with a linear programming optimisation problem in <em>standard form</em>. An optimisation problem is in <strong>standard form</strong> is it seeks to <em>maximise</em> the optimisation function (or objective function) \(z = c_1x_1 + \cdots c_n x_n\) subject to the constraints \[ \begin{align*} &amp;a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n \leq b_1 \\ &amp;a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n \leq b_2 \vdots \\ &amp;a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n \leq b_m \end{align*} \] where \(x_i \geq 0 \) and \(b_i \geq 0\).</p>
+<p>Notice that these form a system of simultaneous linear equations all are in the form where the left hand side is <em>less than</em> or equal to the right hand side. In the next section we will look at how we can use matrices to solve such systems. However let us now illustrate the meaning of each of these steps by way of the following example.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

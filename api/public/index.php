@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * STACK API main landing page.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -51,5 +51,5 @@ $app->post('/test', TestController::class);
 $app->post('/grade', GradingController::class);
 $app->post('/validate', ValidationController::class);
 $app->post('/download', DownloadController::class);
-
+$app->redirect('/{page}', '/sample.php', 301);
 $app->run();

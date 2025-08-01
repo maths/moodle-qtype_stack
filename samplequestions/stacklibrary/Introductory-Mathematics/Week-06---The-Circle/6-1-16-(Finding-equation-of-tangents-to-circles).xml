@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.16 (Finding equation of tangents to circles)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Finding equation of tangent to a circle</h3>
+
+<p>If the point of contact between a circle and a tangent is known, then the
+equation of the tangent can be calculated. If a line is a tangent to a circle, then a radius will meet the tangent at right angles, therefore we have that \(\mbox{gradient}_{radius} \times \mbox{gradient}_{tangent} = -1\). Note that the gradient of this radius can be calculated, since the centre and point of contact are known. The equation of the tangent can then be found using the equation \(y - b = m(x - a)\), where \((a,b)\) is the coordinates of the point where the tangent meets the circle, and where \(m\) is the gradient of the tangent. Let us consider the following example.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Find the equation of the tangent to the circle with equation \(x^2 + y^2 + 6x -10y +17 = 0\) at the point (-2,1).</p>
+
+<h3>Solution</h3>
+
+<p>First let us find the centre of the circle by converting the given equation to centre-radius form. This gives 
+\[
+x^2 + y^2 + 6x -10y +17 = 0 \implies (x+3)^2 + (y-5)^2 = 17.  
+\]
+From this we get that the centre of the circle is \((-3,5)\). The gradient of the radius from the centre to the point P is then given by 
+\[
+m_{radius} = \frac{1 - 5}{-2-(-3)} = \frac{-4}{1} = -4.
+\]
+Thus, since \(m_{radius} \times m_{tangent} = -1\) we have \(m_{tan} = \frac{1}{4}\). Thus the equation of the tangent is 
+\[
+y - b = m(x-a) \implies y - 1 = \frac{1}{4}(x +2) \implies 4y - x = 6. 
+\]
+This is the equation of the tangent. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

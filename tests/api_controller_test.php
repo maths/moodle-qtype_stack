@@ -168,6 +168,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertContains(1167893775, $this->output->questionvariants);
         $this->assertEquals(3, count($this->output->questionvariants));
         $this->assertEquals(0, count($this->output->iframes));
+        $this->assertEquals(false, $this->output->isinteractive);
     }
 
     public function test_render_specified_seed(): void {
@@ -190,6 +191,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-2-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-3-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
+        $this->assertEquals(false, $this->output->isinteractive);
     }
 
     public function test_render_iframes(): void {
@@ -198,6 +200,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertEquals(1, count($this->output->iframes));
+        $this->assertEquals(true, $this->output->isinteractive);
     }
 
     public function test_render_download(): void {
@@ -206,6 +209,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertMatchesRegularExpression('/javascript\:download\(\'data.csv\'\, 1\)/s', $this->output->questionrender);
+        $this->assertEquals(true, $this->output->isinteractive);
     }
 
     public function test_validation(): void {
@@ -247,6 +251,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertEquals('<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>', $this->output->questionrender);
+        $this->assertEquals(false, $this->output->isinteractive);
         $vc = new ValidationController();
         $vc->__invoke($this->request, $this->response, []);
         $this->assertStringContainsString('Your last answer was interpreted as follows:', $this->output->validation);

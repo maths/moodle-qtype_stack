@@ -202,7 +202,8 @@ echo $OUTPUT->heading($title);
 if ($questionid) {
 
     $qtype = new qtype_stack();
-    $qtestlink = html_writer::link($qtype->get_question_test_url($question), stack_string('runquestiontests'),
+    $qtestlink = html_writer::link($qtype->get_question_test_url($question),
+        '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests'),
         ['class' => 'nav-link']);
     echo html_writer::tag('nav', $qtestlink, ['class' => 'nav']);
 

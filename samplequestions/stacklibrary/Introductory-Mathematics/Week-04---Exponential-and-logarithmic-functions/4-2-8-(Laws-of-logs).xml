@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.8 (Laws of logs)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Laws of logarithms</h1>
+
+<p>We have seen that we can define a logarithm to any base by the equivalence
+\[
+a^x = b \iff x = \log_a(b).
+\]
+We have also seen that we can combine indices of real numbers using the index laws that we met in the previous section. In fact, we can use this equivalence to state versions of the index laws but for logarithms.</p>
+
+<p>Each index law has an equivalent logarithm law, true for any base, listed as follows:</p>
+
+<table style="width:100%">
+<thead>
+<tr>
+<th>The laws of logarithms</th>
+<th>The laws of indices</th>
+</tr>
+</thead>
+<tbody>
+<tr><td></td><td></td></tr>
+<tr>
+<td>Product rule: \(\log_a(AB) = \log_aA + \log_aB\)</td> <td>\(a^{A}a^B = a^{A+B} \)</td>
+</tr>
+<tr>
+<td>Quotient rule: \(\log_a \left( \dfrac{A}{B} \right) = \log_aA - \log_aB \)</td> <td>\(\dfrac{a^A}{a^B} = a^{A-B}\)</td>
+</tr>
+<tr>
+<td>Power rule: \(\log_a(A^k) = k\log_aA\)</td> <td>\((a^A)^k = a^{kA}\)</td>
+</tr>
+<tr>
+<td>\(\log_a(a^A) = A\)</td> <td>\(a^{\log_aA} = A\)</td>
+</tr>
+<tr> 
+<td> \(\log_aa = 1\)</td> <td>\(a^1 = a\)</td>
+</tr>
+<tr>
+<td>\(\log_a1 = 0\) </td> <td> \(a^0 = 1\)</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<p>Let us now prove the product, quotient and power rules.</p>
+<br/>
+<h3><b>Proof:</b></h3>
+</br>
+<p><b>Product rule:</b></p>
+<p> Let \(x = \log_a (A)\), then by the definition of log we have that \(a^x = A\). Similarly let \(y = \log_a (B)\), then by the definition of log we have that \(a^y = B\).</p>
+<p>Now note that 
+\[
+a^x \cdot a^y = AB = a^{x+y}.
+\]
+Now taking logs by definition we have 
+\[
+\log_a(AB) = x+y = \log_a (A) + \log_a (B).
+\]</p>
+<br/>
+<p><b>Quotient rule:</b></p>
+<p> Let \(x = \log_a (A)\), then by the definition of log we have that \(a^x = A\). Similarly let \(y = \log_a (B)\), then by the definition of log we have that \(a^y = B\).
+Now note that 
+\[
+\frac{a^x}{a^y} = \frac{A}{B} = a^{x-y}.
+\]
+Then taking logs we have 
+\[
+\log_a(\frac{A}{B}) = x - y = \log_a (A) - \log_a (B)
+\]</p>
+</br>
+<p><b>Power rule:</b></p>
+<p> Let \(x = \log_a (A^k)\), then by the definition of log we have that \(a^x = A^k\). Similarly let \(y = \log_a (A)\), then by the definition of log we have that \(a^y = A\).
+Now,
+\[
+a^x = A^k = (a^y)^k = a^{yk}.
+\]
+Thus ,
+\[
+x = yk \implies \log_a (A^k) =  k \cdot\log_a (B)
+\]
+</p>
+</br>
+<p> Perhaps the most useful log law is the product rule. This read that "the log of a product is the sum of logs." This illustrates one of the major advantages of using logarithms. They transform a product of numbers (a relatively difficult operation) to a sum of numbers (a relatively easy operation).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

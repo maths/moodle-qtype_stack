@@ -18,7 +18,7 @@ Reference documentation for contributed libraries.
 5. [Eigenvalue/vector functions](Eigen.md) in contributed `eigenlib.mac`.
 6. [Matrix factorisations](Matrix_factorisation.md) in contributed `matrixfactorizations.mac`
 
-If using an earlier version of STACK than 4.9.0, 2. through 6. above require an extra inclusion (see [here](Linear_algebra_core.md)).
+If using an earlier version of STACK than 4.9.0, 2. through 6. above require an extra inclusion (see the [linear algebra page](Linear_algebra_core.md)).
 
 ## Solving systems of linear equations
 

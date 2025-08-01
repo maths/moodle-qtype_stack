@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.3.11 (Fundamental theorem of calculus)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Fundamental theorem of calculus</h1>
+
+<p>We now come to the most important theorem in this course. It is the bedrock upon which all of differential calculus is built because it allows us a way of computing integrals without reference to Riemann sums. This is called <b>The Fundamental Theorem of Calculus</b> and it is stated as follows:</p>
+<br/>
+<h3>Version 1:</h3>
+
+<p>If&nbsp; \(\displaystyle A(x)=\int_a^x f(t)\,dt\)&nbsp; then&nbsp; \(A'(x)=f(x)\).</p>
+<br/>
+<p>Why is this a big deal? The amazing thing here is that the derivative is involved. Why should that have anything to do with finding the area under a curve? This theorem tells us that differentiation is the inverse (in some sense) or integration, and vice versa. You can see now, why we need the concept of the antiderivative. The Fundamental theorem tells us that the area function (i.e. the integral \(A(x)\)) is an antiderivative of the function f(x). We will not prove this theorem here, however if you're interested, a quick internet search will yield endless amounts of useful articles on the topic. In addition any calculus textbook will have a statement of this result. It transpires that we can also state the Fundamental Theorem of Calculus in a different but equivalent way:</p>
+<br/>
+<h3>Version 2:</h3>
+
+<p>If \(f(x)=G'(x)\) (i.e. \(G\) is an antiderivative of \(f\)) then \[ \int_a^b f(x)\,dx=G(b)-G(a). \]</p>
+
+<p>This will help us to perform integration calculations. Both formulations of the theorem are equivalent, but sometime this second form is given the name The Evaluation Theorem. It is a direct result of the Fundamental Theorem. We are now in a position to use these results to calculate some definite integrals.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -114,4 +114,13 @@ class stack_cas_castext2_reveal extends stack_cas_castext2_block {
     public function validate_extract_attributes(): array {
         return [];
     }
+
+    /**
+     * Is this an interactive block?
+     * If true, we can't generate a static version.
+     * @return bool
+     */
+    public function is_interactive(): bool {
+        return true;
+    }
 }

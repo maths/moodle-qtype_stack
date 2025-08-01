@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.1.11 (Combinations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Combinations</h1>
+
+<p>Permutations are not the only way we can formally make a selection of a set of objects. We can also use <i>combinations</i>. In the previous problems, when we were dealing with permutations, we were putting objects into some order. But what if the order doesn't matter? In this case we use <i>combinations</i>.</p>
+<br/>
+<p>A <b>combination</b> is a selection of objects without regard to order.</p>
+<p>Suppose we had five objects A,B,C,D,E and suppose that we need to select three objects from the five. In this case the ordering of our selections doesn't matter, nor does the ordering of the objects that we do not select. So in this case, the total number of combinations is
+\[
+\mbox{combinations} = \frac{5!}{3!2!} = 10
+\]
+the numerator comes from the fact there are \(5!\) ways to order the 5 objects. Since we don't care about the order if the other objects, we divide through by the 3! and 2!,, representing the fact the order of the items selected doesn't matter, and the fact the order of the items not selected doesn't matter. We can calculate the number of combinations of \(n\) distinct symbols taken \(r\) at a time by
+\[
+nCr = \frac{n!}{n!(n-r)!} \mbox{ for } n,r \in \mathbb{Z}_+, r \leq n
+\].
+This calculation should be familiar to you as this is the calculation we use to find the entries of Pascal's triangle, i.e. the number of possible combinations is given by the binomial coefficient \({n}\choose{r}\). Recall that this is read as "n choose r" as it is the number of ways to choose r objects from n where order doesn't matter.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

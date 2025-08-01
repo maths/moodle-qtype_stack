@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.3.18 (Divergence test 2)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Let 
+\[
+a_n = \frac{{@aa1@}n^2 + {@aa2@}n}{{@bb1@}n^3-{@bb2@}}.
+\] 
+Is the following statement true?</p>
+
+<p>The series \(\sum\limits_{n=1}^\infty a_n\) converges by the divergence test. [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Recall that the divergence test tells us that if \(\lim\limits_{n\to\infty} a_n \not=0\) then \(\sum\limits_{n=1}^\infty a_n\) diverges. So calculating this limit here we have 
+\[
+\frac{{@aa1@}n^2 + {@aa2@}n}{{@bb1@}n^3-{@bb2@}} = \frac{{@aa1@} + \frac{{@aa2@}}{n}}{{@bb1@}n-\frac{{@bb2@}}{n^3}}
+\]
+Thus, \(\lim\limits_{n \to \infty} a_n = \frac{{@aa1@}}{{@bb1@}n} = 0\), so the divergence test is passed, therefore we need more information to decide if this series diverges.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[aa1: 1+rand(10);
+aa2: 1+rand(10);
+bb1: 1+rand(10);
+bb2: 1+rand(10);
+
+tac1:[[A, false, "A. true"],  [B, false, "B. false"], [C, true, "C. we cannot tell"]];
+taa1:C;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(a_n = \frac{{@aa1@}n^2 + {@aa2@}n}{{@bb1@}n^2-{@bb2@}}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>tac1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>taa1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2078245682</deployedseed>
+    <deployedseed>1478519063</deployedseed>
+    <deployedseed>1617571875</deployedseed>
+    <deployedseed>489768511</deployedseed>
+    <deployedseed>1269077479</deployedseed>
+    <deployedseed>513678624</deployedseed>
+    <deployedseed>486960432</deployedseed>
+    <deployedseed>28991854</deployedseed>
+    <deployedseed>320668461</deployedseed>
+    <deployedseed>1058632565</deployedseed>
+    <deployedseed>453505912</deployedseed>
+    <deployedseed>2005572010</deployedseed>
+    <deployedseed>1021441427</deployedseed>
+    <deployedseed>271947419</deployedseed>
+    <deployedseed>680180321</deployedseed>
+    <deployedseed>806467677</deployedseed>
+    <deployedseed>635883970</deployedseed>
+    <deployedseed>1238756609</deployedseed>
+    <deployedseed>697734669</deployedseed>
+    <deployedseed>506218644</deployedseed>
+    <deployedseed>1986379593</deployedseed>
+    <deployedseed>740544636</deployedseed>
+    <deployedseed>1945296998</deployedseed>
+    <deployedseed>506018329</deployedseed>
+    <deployedseed>1665713845</deployedseed>
+    <deployedseed>570485972</deployedseed>
+    <deployedseed>718451611</deployedseed>
+    <deployedseed>1223662115</deployedseed>
+    <deployedseed>854332576</deployedseed>
+    <deployedseed>1881884364</deployedseed>
+    <deployedseed>1700081363</deployedseed>
+    <deployedseed>1572078975</deployedseed>
+    <deployedseed>9220588</deployedseed>
+    <deployedseed>2007978622</deployedseed>
+    <deployedseed>1495791299</deployedseed>
+    <deployedseed>741324274</deployedseed>
+    <deployedseed>936120482</deployedseed>
+    <deployedseed>524725831</deployedseed>
+    <deployedseed>1935901403</deployedseed>
+    <deployedseed>1027844240</deployedseed>
+    <deployedseed>1111736914</deployedseed>
+    <deployedseed>1510146668</deployedseed>
+    <deployedseed>492170720</deployedseed>
+    <deployedseed>149565736</deployedseed>
+    <deployedseed>1691322876</deployedseed>
+    <deployedseed>293754829</deployedseed>
+    <deployedseed>1545275756</deployedseed>
+    <deployedseed>905727126</deployedseed>
+    <deployedseed>507043416</deployedseed>
+    <deployedseed>1656233494</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>C</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>A</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.16 (Sum of AP given terms)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>What is the sum of the first {@nval@} terms of the arithmetic progression \({@S4@}+\ldots\)?&nbsp;</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We have \(S_n=\dfrac{n(\text{first term} + \text{last term})}{2}\). We know \(n={@nval@}\) and the first term is \(a={@aval@}\), so all we need to do is work out the last term. The common difference is \(d={@dval@}\), so the last term will be \[u_{@nval@}=a+({@nval@}-1)d={@last_term@}.\]</p><p>Thus \[&nbsp;S_{@nval@}&nbsp;= \frac{{@nval@}({@aval@} + {@last_term@})}{2}={@sum_n@}.\]</p><p>Alternatively, you may choose to remember that the sum \(S_{n}\) of an arithmetic progression of \(n\) terms, first term \(a\) and common difference \(d\), is \(S_n=\frac{n}{2}(2a+(n-1)d)\). Here \(a={@aval@}\) and \(d={@dval@}\) so \(S_{@nval@}={@sum_n@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[a_magnitude:rand(8)+2;
+a_sign:1;
+aval: ev(a_magnitude*a_sign,simp);      /*first term of the sequence */
+d_magnitude:rand(8)+1;
+d_sign:2*rand(2)-1;
+dval: ev(d_magnitude*d_sign, simp);      /* common difference */
+nval:ev((rand(9)+19), simp)
+nvalm1:ev((nval-1), simp);
+
+an: aval+(n-1)*dval           /* arithmetic sequence formula*/
+N:5
+S1:ev(makelist(k,k,1, N),simp)
+S2:maplist(lambda([ex],ev(an,n=ex)),S1)
+S3:ev(S2,simp)
+S4: apply("+",S3)
+
+two_sumn: ev((nval*(2*aval+nvalm1*dval)),simp);
+sum_n: ev(two_sumn/2,simp);
+
+
+ sum_a_not_two_a: ev(nval*(aval+nvalm1*dval)/2,simp);
+ sum_nd: ev(nval*(2*aval+nval*dval)/2,simp);
+ factor2: ev( (2*a+(n-1)*d),simp);
+ nfactora: ev( n*(a+(n-1)*d),simp);
+ nfactord:n*(2*a+n*d);
+ nfactor2:n*factor2;
+ half_factor2:factor2/2;
+ term_n: ev( (aval + (nval-1)*dval),simp);
+
+last_term:ev(aval+(nval-1)*dval,simp);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Here \(a={@aval@}\) and \(d={@dval@}\) so \(S_{@nval@}={@sum_n@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>sum_n</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>+</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>sum_n</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>SEQ-ASM-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>SEQ-ASM-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>term_n</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>TERM_N</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>This is term {@nval@}, not the sum of the first {@nval@} terms.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>SEQ-ASM-1-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>sum_n/nval</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>MISSING_FACTOR_N</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The sum of the first \(n\) terms of an arithmetic progression is \[\frac{@nfactor2@}{2},\] where \(a\) is the first term and \(d\) is the common difference. Here \(a = {@aval@}\) and \(d = {@dval@}\). Your answer is \[{@half_factor2@}.\]</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>SEQ-ASM-2-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>sum_a_not_two_a</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>A_NOT_2A</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The sum of the first \(n\) terms of an arithmetic progression is \[\frac{@nfactor2@}{2},\] where \(a\) is the first term and \(d\) is the common difference. Here \(a = {@aval@}\) and \(d = {@dval@}\). Your answer is \[\frac{@nfactora@}{2}.\]</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>SEQ-ASM-3-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>sum_nd</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>SUM_N_NOT_N_MINUS1</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The sum of the first \(n\) terms of an arithmetic progression is \[\frac{@nfactor2@}{2}\] where \(a\) is the first term and \(d\) is the common difference. Here \(a = {@aval@}\) and \(d = {@dval@}\). Your answer is \[\frac{@nfactord@}{2}\mbox{.}\]</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>SEQ-ASM-4-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>two_sumn</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>NO_DIVIDE_BY_TWO</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The sum of the first \(n\) terms of an arithmetic progression is \[\frac{@nfactor2@}{2},\]</p>
+ <p>where \(a\) is the first term and \(d\) is the common difference. Here \(a = {@aval@}\) and \(d = {@dval@}\). Your answer is {@nfactor2@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>SEQ-ASM-5-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>190937011</deployedseed>
+    <deployedseed>327125861</deployedseed>
+    <deployedseed>1341197256</deployedseed>
+    <deployedseed>845568803</deployedseed>
+    <deployedseed>1114299684</deployedseed>
+    <deployedseed>1027171909</deployedseed>
+    <deployedseed>482025029</deployedseed>
+    <deployedseed>868643863</deployedseed>
+    <deployedseed>100100099</deployedseed>
+    <deployedseed>1155957703</deployedseed>
+    <deployedseed>923090715</deployedseed>
+    <deployedseed>128021562</deployedseed>
+    <deployedseed>380203883</deployedseed>
+    <deployedseed>1143899892</deployedseed>
+    <deployedseed>1929608891</deployedseed>
+    <deployedseed>1374519793</deployedseed>
+    <deployedseed>1394016402</deployedseed>
+    <deployedseed>1873338067</deployedseed>
+    <deployedseed>1561391232</deployedseed>
+    <deployedseed>1616670436</deployedseed>
+    <deployedseed>1319019856</deployedseed>
+    <deployedseed>2135112603</deployedseed>
+    <deployedseed>1577972940</deployedseed>
+    <deployedseed>1270511928</deployedseed>
+    <deployedseed>760293658</deployedseed>
+    <deployedseed>515516334</deployedseed>
+    <deployedseed>493092238</deployedseed>
+    <deployedseed>1314051409</deployedseed>
+    <deployedseed>359165404</deployedseed>
+    <deployedseed>1096556359</deployedseed>
+    <deployedseed>1363783479</deployedseed>
+    <deployedseed>1470374101</deployedseed>
+    <deployedseed>287815233</deployedseed>
+    <deployedseed>2126564675</deployedseed>
+    <deployedseed>1189255336</deployedseed>
+    <deployedseed>479130779</deployedseed>
+    <deployedseed>123464958</deployedseed>
+    <deployedseed>1769075732</deployedseed>
+    <deployedseed>228472643</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sum_n</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>SEQ-ASM-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>term_n</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>TERM_N</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(sum_n/nval,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>MISSING_FACTOR_N</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sum_a_not_two_a</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>A_NOT_2A</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sum_nd</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>SUM_N_NOT_N_MINUS1</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>6</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>two_sumn</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>NO_DIVIDE_BY_TWO</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

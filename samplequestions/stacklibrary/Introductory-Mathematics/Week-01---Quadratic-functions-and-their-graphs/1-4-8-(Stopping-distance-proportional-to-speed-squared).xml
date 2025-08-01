@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.8 (Stopping distance proportional to speed squared)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>How does stopping distance increase with speed?</h3>
+
+<p>It is interesting to see to what extent an increase in speed affects the stopping distance of a car once the brakes have been applied. In order to investigate this more closely, notice that since we have assumed the deceleration of the car is constant, Equation (3) can be written as \(s = c\cdot u^2\), where \(c\) is a constant (equal to \(\frac{1}{2a}\)). Therefore the stopping distance \(s\) is proportional to the initial speed of the car, squared. What does this mean in practice? Let us consider the following example.</p>
+<br/>
+<h3>Example</h3>
+
+<p>If a car is travelling at \(5 \: ms^{-1}\) and the stopping distance is \(15 \: m\), under the same conditions what would be the stopping distance of the car if it were travelling at \(10 \: ms^{-1}\)?</p>
+
+<h3>Solution</h3>
+
+<p>Consider the equation \(s = c u^2\). This tells us that the stopping distance is proportional to the speed squared. We are given that \(15 = c\cdot 5^2\). When the car is travelling at  \(10 \: ms^{-1}\) the stopping distance has doubled, therefore \(s = c\cdot (5\cdot 2)^2 = 5^2 \cdot 2^2 = c 5^2 \cdot 4\). Therefore up to some constant the stopping distance quadruples when the speed is doubled!</p>
+
+<p>If instead we had trebled the speed, the increase in stopping distance would be proportional to \(3^2 = 9\), so the stopping distance would be nine times as big! This quadratic equation precisely explains why a small increase in speed makes for a large increase in stopping distance. This is why speed on roads is limited around hazardous ares such as schools and why if you were on a motorway, travelling quickly, you should always leave an appropriate gap between vehicles.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

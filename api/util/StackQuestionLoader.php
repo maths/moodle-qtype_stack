@@ -121,7 +121,7 @@ class StackQuestionLoader {
         $question->variantsselectionseed     =
             (string) $xmldata->question->variantsselectionseed ? (string) $xmldata->question->variantsselectionseed : '';
         $question->compiledcache             = [];
-
+        $question->isbroken = (array) $xmldata->question->isbroken ? self::parseboolean($xmldata->question->isbroken) : 0;
         $question->options = new \stack_options();
         $question->options->set_option(
             'multiplicationsign',

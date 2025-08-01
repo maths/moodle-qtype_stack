@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.3.8 (Proof of partial fractions for two linear factors)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In order to be able to use partial fractions in this way, we need to know that such a decomposition always exists. Fortunately we can prove this as follows.</p>
+<br/>
+<p>Suppose we want to write the partial fractions decomposition for \(\dfrac{mx+c}{(x-a)(x-b)}\).</p>
+<br/>
+<p><b>Lemma:</b> We can always find \(A\) and \(B\) such that&nbsp;\(\dfrac{mx+c}{(x-a)(x-b)}=\dfrac{A}{x-a}+\dfrac{B}{x-b}\).</p>
+<br/>
+<p><b>Proof:</b></p>
+<p>Combining the right-hand side into a single term, we need:
+\[
+\dfrac{mx+c}{(x-a)(x-b)}=\dfrac{A(x-b)+B(x-a)}{(x-a)(x-b)}=\dfrac{(A+B)x-Ab-Ba}{(x-a)(x-b)}
+\]
+so by comparing the numerators we see that \(A\) and \(B\) must satisfy
+\[
+\begin{eqnarray*} 
+A+B&amp;=&amp;m \\ 
+-Ab-Ba&amp;=&amp;c 
+\end{eqnarray*}
+\]
+Solving this system of equations, we find
+\[ 
+A= -\dfrac{am+c}{b-a},\quad B=\dfrac{bm+c}{b-a}
+\]
+So we can always find&nbsp;\(A\) and \(B\) to make this work, provided that \(a-b\neq0\).</p>
+<br/>
+<p>Note that this proof tells us nothing about the case where \(a=b\), that is, w e have only shown, so far that a partial fraction decomposition exists for a fraction with two linear, distinct factors in its denominator. In fact, we can form partial fractions for a wider range of rational functions, which we will see shortly.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

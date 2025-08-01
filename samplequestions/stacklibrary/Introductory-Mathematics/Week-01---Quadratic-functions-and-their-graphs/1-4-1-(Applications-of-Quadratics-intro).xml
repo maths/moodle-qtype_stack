@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.1 (Applications of Quadratics intro)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>During the material this week we have examined some of the most common techniques for dealing with quadratic equations and their graphs. However it is reasonable to ask why any of this is useful? Quadratic equations have been studied since antiquity and arise in a wide variety of real life applications, some of which we have already mentioned. The aim of this section is to motivate our study of quadratics by explaining why they are useful to a number of  different areas. We will begin this section by giving some of the background and history behind some of the techniques we have met in this week. Then we will examine two applications of quadratic equations, one modern and one older, namely the solution to the golden ratio problem and then the quadratics behind road safety. 
+<br/>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

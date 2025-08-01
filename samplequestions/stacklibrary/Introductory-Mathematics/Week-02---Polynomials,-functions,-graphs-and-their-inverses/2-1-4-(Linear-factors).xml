@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.1.4 (Linear factors)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Linear Factors</h3>
+
+<p>It is useful to note the following result regarding linear factors.</p>
+<p>\((x-a)\) is a linear factor of the polynomial \(P(x)\) if and only if there exists a polynomial \(Q(x)\) such that \(P(x) = (x-a)Q(x)\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

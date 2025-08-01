@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.5 (Sigma notation examples)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+<ol type = "a">
+<li>Write \(3+4+5+6+7+8+9\) using sigma notation.</li>
+<li> Write \(4+9+16+\cdots+100\) using sigma notation.</li>
+</ol>
+
+<b>Solution</b>
+
+<ol type = "a">
+<li>There are 7 terms so we could use \(\displaystyle\sum_{n=1}^7\). We want the first term to be 3, so we should add up \(n+2\) each time, i.e.
+\[ 
+\sum_{n=1}^7 (n+2) = 3+4+5+6+7+8+9. 
+\]</li>
+<li>Note that these are all squares, so of the form \(n^2\). We start with \(n=2\) and end up with \(n=10\), so we have
+\[ 
+\sum_{n=2}^{10} n^2 = 4+9+16+\cdots+100. 
+\]
+What if we wanted to start with \(n=1\) instead? We would also need to change the end number and the formula:
+\[ 
+\sum_{n=1}^9 (n+1)^2 = 4+9+16+\cdots+100. 
+\]
+As this example shows, there is no unique way to write a sum using sigma notation.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

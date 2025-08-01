@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.0.7 (Example of solving two linear simultaneous equations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Solve the following sets of simultaneous equations.</p>
+<ol type = "a">
+<li>
+\[
+\begin{align}
+&y = x-3 \:\;\:\;\: (1)
+\\
+&2x+ 3y = 11\:\;\:\;\: (2)
+\end{align}
+\]</li>
+<li>
+\[
+\begin{align}
+&5x - 2y = 7 \:\;\:\;\: (1)
+\\
+& 3x+ 2y = 17 \:\;\:\;\: (2)
+\end{align}
+\]</li>
+</ol>
+
+<h3>Solution</h3>
+
+<ol type = "a">
+<li>We will proceed here by substitution because we can see that the first equation has \(y\) as a subject. So we substitute \(y = x-3\) into the second equation to get 
+\[
+2x + 3y = 2x + 3(x-3) = 2x + 3x - 9 = 5x - 9 = 11.
+\]
+Therefore \(5x =20\) and so \(x =4\). Substituting this into the first equation we can find that \(y = x - 3 = 4 - 3 = 1\). So the solution to the simultaneous equations is 
+\[
+x = 4 \mbox{ and } y = 1.
+\]</li>
+<li>In this case we proceed by elimination because neither \(x\) nor \(y\) is the subject of either of the equations. Notice that if we add the two equations together we will eliminate the \(y\) terms. So we have 
+\[
+(1) + (2) = 5x -2y + 3x + 2y = 7+17.
+\]
+That is \( 8x = 24\) and so \(x = 3\). Substituting this into equation (1) gives
+\[
+5x - 2y = 7 \implies 15 - 2y = 7 \implies 2y = 8 \implies y=4.
+\]
+Therefore, the solution to the simultaneous equations is
+\[
+x = 3 \mbox{ and } y = 4.
+\]</li>
+</ol>
+</br>
+
+<p>Note that once we have obtained the solutions to the simultaneous equations we can check that they are really the solutions by substituting the values for \(x\) and \(y\) into the simultaneous equations to check that they hold. Also note that although there are preferences about when we use elimination vs substitution we can use either method on any sets of two linear simultaneous equations. Algebraically, the methods are essentially doing the same thing so deciding between them is largely a question of speed and efficiency.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

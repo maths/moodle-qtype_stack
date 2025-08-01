@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.0.20 (Addition of multiples of 180)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Finding angles</h3>
+
+<p>As we have seen, we can use the unit circle to define the familiar trigonometric functions in greater generality. It also has the benefit that we can obtain the following identities by rotating anticlockwise around the xy-plane. This yields the following identities:</p>
+<ol>
+<p>\(\sin(180^\circ - \theta) = \sin \theta\).</p>
+<p>\(\sin(360^\circ - \theta) = -\sin \theta\)</p>
+<p>\(\cos(180^\circ - \theta) = -\cos \theta\)</p>
+<p>\(\cos(360^\circ - \theta) = \cos \theta\)</p>
+</ol>
+<p>We can use these identities to find the solutions to trigonometric equations similar to the following examples.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Find the two angles on the unit circle with \(0 \leq \theta \leq 360^\circ\), such that:</p>
+<ol>
+<li>\(\cos \theta =  \frac{1}{3}\).</li>
+<li>\(\sin \theta = \frac{3}{4}\).</li>
+</ol>
+
+<h3>Solution</h3>
+
+<p>Firstly we can perform inverse cosine (denoted either by \(\cos^{-1}\) or \(\arccos\)) on the initial equation to obtain \(\cos^{-1} \frac{1}{3} = \theta \approx 70.5^\circ\). Then, we can use the identities above to find the other solutions. We have 
+\[
+\theta \approx 70.5^\circ \mbox{ or } 360^\circ - 70.5^\circ = 289.5^\circ.
+\]</p>
+<p>For the second equation we can do similarly. Apply the inverse sine function on both sides to obtain \(sin^{-1} \frac{3}{4} = \theta \approx 48.6^\circ\). Again., we can use the above identities to find the other solutions. Note that this time we use the fact that \(\sin(180^\circ - \theta) = \sin \theta\). Hence we have
+\[
+\theta \approx 48.6^\circ \mbox{ or } 180^\circ - 48.6^\circ = 131.4^\circ
+\]</p>
+<br/>
+<p>Note that if \(\cos \theta, \sin \theta, \tan \theta\) are positive, then your calculator will give the value of \(\theta\) in the domain \(0^\circ < \theta < 90^\circ\) (i.e. in the first quadrant). If  \(\sin \theta\) or \(\tan \theta\) is negative then your calculator will give the value of \(\theta\) in the domain \(-90^\circ < \theta < 90^\circ\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

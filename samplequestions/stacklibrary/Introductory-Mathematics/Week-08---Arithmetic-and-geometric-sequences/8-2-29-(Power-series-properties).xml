@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.29 (Power series properties)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Power series</h3>
+<p>So far the examples we have considered have been about summing sequences of numbers. But it is also possible to think about summing sequences of algebraic expressions, for example</p><p>\[ 1+x+x^2+x^3+\cdots. \]</p>
+
+<p>A <b>power series</b> is a series of the form \[\sum_{n=0}^\infty c_nx^n=c_0+c_1x+c_2x^2+c_3x^3+\cdots\] where \(x\) is a variable and the coefficients \(c_n\) are constants.</p>
+
+<p>The issue here is that depending on the value of \(x\), such a series may or may not converge. So, we will often want to know the set of \(x\) values for which the power series converges.</p>
+<br/>
+<p>Many of the examples we will meet rely on the formula for a geometric series. Recall that 
+\[
+\sum\limits_{n=0}^\infty ar^n = \frac{a}{1-r}\mbox{ where } -1< r < 1
+\]
+if \(r\) is outside these limits, then the series diverges. Also, if we take \(a = 1, r = x\) this series becomes 
+\[
+\sum\limits_{n=0}^\infty x^n = \frac{1}{1-x}\mbox{ where } -1< x < 1.
+\]
+Therefore if we had the function \(f(x) = \frac{1}{1-x}\) then we can represent this function with the power series \(\sum\limits_{n=0}^\infty x^n\).
+ </p>
+<br/>
+<h3>Example</h3>
+
+<p>Express \(\dfrac{1}{2+x}\) as a power series. For which \(x\) does the series converge?</p>
+
+<h3>Solution</h3>
+
+<p>We have \(\dfrac{1}{2+x}=\dfrac{1}{2-(-x)}=\dfrac{1/2}{1-(-x/2)}\). So \(a=\frac12\) and \(r=-\frac{x}{2}\).So written as a power series,&nbsp;
+\[
+\dfrac{1}{2+x}=\sum_{k=0}^\infty ar^k =\sum_{k=0}^\infty \frac12\left(-\frac12x\right)^k.
+\]
+The series converges if \(|r|&lt;1\), hence when&nbsp;\(\left|-\frac12x\right|&lt;1\). This gives \[\begin{align*}\left|-\tfrac12\right|\left|x\right|&amp;&lt;1 \\ \tfrac12|x|&amp;&lt;1 \\ |x|&amp;&lt;2,\end{align*}\] thus \(-2&lt;x&lt;2\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

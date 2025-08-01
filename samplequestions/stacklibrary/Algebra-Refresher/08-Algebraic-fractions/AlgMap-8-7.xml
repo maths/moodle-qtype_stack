@@ -54,6 +54,7 @@ ta:ev(ratsimp((a*v)/c+(b*v)/d),simp);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans</name>

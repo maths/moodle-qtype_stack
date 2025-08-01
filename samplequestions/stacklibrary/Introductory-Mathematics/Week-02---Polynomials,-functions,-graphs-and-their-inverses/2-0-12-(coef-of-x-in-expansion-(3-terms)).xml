@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.0.12 (coef of x in expansion (3 terms))</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>What is the coefficient of \(x\) in the expansion of \( ({@p1@}) ({@p2@}) ({@p3@}) \)?<br> <br>[[input:ans]] [[validation:ans]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We expand the expression:<br></p><p>\[ {@p@} = {@expand(p)@}\]</p>
+<p>So the coefficient of \(x\) is {@ta@}.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>a: rand_with_prohib(-4,4,[0]);
+b: rand_with_prohib(-4,4,[0]);
+c: rand_with_prohib(-4,4,[0]);
+d: rand_with_prohib(-4,4,[0]);
+p1: x+1
+p2: a*x+b;
+p3: c*x+d;
+p: p1*p2*p3
+
+ta: a*d+b*c+b*d
+w1: a*c</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( ({@p1@}) ({@p2@}) ({@p3@}) = {@expand(p)@},\) coefficient of \(x\) is {@ta@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>expand</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>1-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans</sans>
+        <tans>w1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is the coefficient of \(x^3\)&nbsp; and not of \(x\).&nbsp;</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1964625570</deployedseed>
+    <deployedseed>881344937</deployedseed>
+    <deployedseed>359860718</deployedseed>
+    <deployedseed>707520445</deployedseed>
+    <deployedseed>621575117</deployedseed>
+    <deployedseed>2077548136</deployedseed>
+    <deployedseed>861796825</deployedseed>
+    <deployedseed>1573907859</deployedseed>
+    <deployedseed>33635984</deployedseed>
+    <deployedseed>744192210</deployedseed>
+    <deployedseed>275609035</deployedseed>
+    <deployedseed>1960465918</deployedseed>
+    <deployedseed>136927300</deployedseed>
+    <deployedseed>126271348</deployedseed>
+    <deployedseed>2002615140</deployedseed>
+    <deployedseed>57830225</deployedseed>
+    <deployedseed>1372468869</deployedseed>
+    <deployedseed>1142941678</deployedseed>
+    <deployedseed>910774836</deployedseed>
+    <deployedseed>2045957853</deployedseed>
+    <deployedseed>804829447</deployedseed>
+    <deployedseed>1826096195</deployedseed>
+    <deployedseed>579997361</deployedseed>
+    <deployedseed>1828244198</deployedseed>
+    <deployedseed>2054713505</deployedseed>
+    <deployedseed>1947853177</deployedseed>
+    <deployedseed>802762543</deployedseed>
+    <deployedseed>1448316867</deployedseed>
+    <deployedseed>1652590232</deployedseed>
+    <deployedseed>1551287642</deployedseed>
+    <deployedseed>964154371</deployedseed>
+    <deployedseed>1411417426</deployedseed>
+    <deployedseed>809799585</deployedseed>
+    <deployedseed>288645445</deployedseed>
+    <deployedseed>272457057</deployedseed>
+    <deployedseed>1800862734</deployedseed>
+    <deployedseed>990469260</deployedseed>
+    <deployedseed>527552656</deployedseed>
+    <deployedseed>1736781661</deployedseed>
+    <deployedseed>1595939015</deployedseed>
+    <deployedseed>1403708282</deployedseed>
+    <deployedseed>1604872421</deployedseed>
+    <deployedseed>98541847</deployedseed>
+    <deployedseed>1953411477</deployedseed>
+    <deployedseed>1268983867</deployedseed>
+    <deployedseed>1254325321</deployedseed>
+    <deployedseed>751056517</deployedseed>
+    <deployedseed>1323128723</deployedseed>
+    <deployedseed>1877062242</deployedseed>
+    <deployedseed>1179456956</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans</name>
+        <value>w1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

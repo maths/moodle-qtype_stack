@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.4.2 (History of cubics)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>History of cubic equations</h3>
+
+<p>As with quadratic equations the study of other polynomials can be traced back to the ancient Egyptians and Greeks. Their interest in these was purely geometric (as there was no notion of algebra at this point in time). The Greeks discovered certain methods to solve certain cubic equations but didd not consider general cubics, because of their primarily geometric focus.</p>
+</br>
+<p>The study of cubics was greatly furthered by the Persian mathematician Omar Khayyam (1048-1131 C.E.) he not only provided the first examples of cubic equations with more than one solution, he also provided solutions to a wide variety of cubic equations. However, his breakthroughs were limited by the idea that all algebra was a representation of geometry (so he didn't believe in things like negative numbers as these have no physical manifestation). Khayyam wished to try to approximate the solutions to cubics but he deployed geometric techniques to do this, which limited the cubics that he considered. He also dismissed quartic equations as he could find no representation of them in a three-dimensional space. This meant that he did not managed to find the general solution to a cubic. However many of these ideas were transported back to Europe, specifically renaissance Italy, which is where a full algebraic solution to a general cubic would be developed.</p>
+<br/>
+<p>One of the earliest steps in obtaining the first full algebraic solution of a cubic was from an Italian mathematician called Scipione del Ferro (1465-1526) who solved the cubic equation 
+\[
+x^3 + px=q.
+\] 
+However, he kept his discovery a secret and only passed the solution on to his student Antonio Fiore. In \(1530\), another Italian named Tartaglia claimed a solution to two cubics. This led to a contest between Tartaglia and Fiore, such contests were common during the renaissance as a symbol of status for prominent mathematicians. Tartaglia won this contest which led him to catch the eye of Gerolamo Cardano (1501-1576). Cardano realised that Tartaglia's success could only have been done with a formula to solve the general cubic, but Tartaglia refused to divulge the secret to his success. This led to a series of disagreements between the two due to refusing to share credit. Eventually Tartaglia was forced to flee Venice in disgrace after he lost a challenge to Cardano's student Lodovico Ferrari.</p>
+<br/>
+<p>Ferrari was catapulted to fame as he had proved that he had greater knowledge of polynomials than any other mathematician at the time. In fact he also furthered this work and published a formula for the general solution of a quartic equation, alongside the solution of a general cubic in Ars Magna. The general formulas for solving cubic and quartic equations are more complicated to use than the quadratic formula so are used less often. As an interesting note, there is no 'general formula' for solving polynomials with degrees higher than \(4\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.2.15 (Radius and area)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Radius and area</h1>
+
+<p>We should all be familiar with the concept of the radius and area of a circle. The idea of this section is to remind you of how to calculate the area of a circle as well as go through some examples relating to these concepts. Recall that if we have a circle of radius \(r\) then its area is given by 
+\[
+\mbox{Area} = A = \pi r^2.
+\]</p>
+<br/>
+<h3>Example</h3>
+
+<p>Given that the circumference of a circle is \(18\pi\)cm find its area.</p>
+
+<h3>Solution</h3>
+
+<p>Recall that the circumference of a circle is given by \(2\pi r\). Here we have \(36\pi = 2 \pi r\) and so rearranging gives \(r = 9\). The area of a circle is given by \(A = \pi r^2\) and so here we have 
+\[
+A = \pi \cdot (9)^2 = 81\pi.
+\]
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

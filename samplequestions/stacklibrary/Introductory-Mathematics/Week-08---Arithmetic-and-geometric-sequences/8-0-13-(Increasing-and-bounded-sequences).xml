@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.0.13 (Increasing and bounded sequences)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Increasing and bounded sequences</h3>
+
+<p>Along with whether a sequence is convergent or divergent, there are several other types of behaviour that a sequence may have that it is important for us to recognise.  The first of which is whether a sequence is increasing or decreasing. The formal definition of these terms is as follows.</p>
+<br/>
+<p>The sequence \(u_1, u_2, u_3, \ldots\) is said to be:</p>
+<ul>
+<li><b>increasing </b>if \(u_{n+1}&gt;u_n\) for all \(n\), and</li>
+<li><b> decreasing </b>if \(u_{n+1}&lt;u_n\) for all \(n\).</li>
+</ul>
+<p>Note that a sequence can be neither increasing nor decreasing -- for example \(u_n=(-1)^n\) is alternating between \(+1\) and \(-1\) so is not consistently increasing or decreasing. We will see that a sequence is often easier to understand if it is increasing or decreasing.</p>
+<br/>
+<p>The second property of sequences we are interested is whether the sequence is bounded. We define this formally as follows.</p>
+<br/>
+<p>The sequence \(u_1, u_2, u_3, \ldots\) is said to be:
+<ul>
+<li><b>bounded above</b> if there is a number \(M\) such that \(u_{n}\leq M\) for all \(n\), and</li>
+<li><b>bounded below</b> if there is a number \(m\) such that \(u_{n}\geq m\) for all \(n\).</li>
+</ul>
+<p>If the sequence is bounded above and below, then we say it is <b>bounded</b>. Otherwise, we say it is <b>unbounded</b>. Returning to the example&nbsp;\(u_n=(-1)^n\), this sequence is bounded because we can take \(M=1\) for an upper bound, and \(m=-1\) for a lower bound.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

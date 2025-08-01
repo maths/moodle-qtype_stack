@@ -617,6 +617,9 @@ class stack_utils {
      * @return array of placeholdernames.
      */
     public static function extract_placeholders($text, $type) {
+        if (!$text) {
+            return [];
+        }
         preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
                 $text, $matches);
         return $matches[1];
@@ -1059,7 +1062,7 @@ class stack_utils {
     public static function unhash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
         if (!is_array($decodedlist)) {
-            return stack_string('invalid_json');;
+            return stack_string('invalid_json');
         }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {
@@ -1102,7 +1105,7 @@ class stack_utils {
     public static function hash_parsons_string($listofjsons) {
         $decodedlist = json_decode($listofjsons);
         if (!is_array($decodedlist)) {
-            return stack_string('invalid_json');;
+            return stack_string('invalid_json');
         }
         foreach ($decodedlist as $key => $json) {
             foreach ($decodedlist[$key][0]->used as $i => $row) {

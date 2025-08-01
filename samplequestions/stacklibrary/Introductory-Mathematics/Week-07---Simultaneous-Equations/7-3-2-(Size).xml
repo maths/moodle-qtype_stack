@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.2 (Size)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Matrix size</h3>
+
+<p>Matrices can be of any size as long as the entries form a rectangular array. We say that an <b>\(m \times n\)</b> matrix is a matrix with \(m\) rows and \(n\) columns. For example
+\[
+\begin{bmatrix}
+1 & 2 
+\\
+3 & 4
+\\
+5& 6
+\end{bmatrix}
+\]
+is a \(3 \times 2\) matrix because it has three rows and two columns. A matrix which has a size of \(1 \times n\) is called a <b>row vector</b> because it is a matrix consisting of one row. Similarly, a matrix of size \(n \times 1\) is called a <b>column vector</b> because it is a matrix consisting of one column. The entries of a matrix are called the <b>elements</b> of the matrix, most often these will be numbers.<p>
+<br/>
+<p>A matrix that has the same number of rows as columns is called a <b>square matrix</b>, these are one of the most important types of matrices.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

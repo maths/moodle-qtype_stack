@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.0.5 (Recurrence relations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Recurrence relations</h3>
+
+<p>As mentioned above, we often wish to define sequences in terms of a formula so that we can evaluate any given terms of the sequence without having to compute all of the previous terms. However, another way to define a sequence is with a <i>recurrence relation</i>. A <b>recurrence relation</b> is a rule which defines each term of a sequence using previous terms recursively. For example consider the recurrence relation
+\[
+u_{n+1} = u_n + 3, \: u_0=4.
+\]
+This tells us that the first term (which is \(u_0\)) is \(4\) and that every term is \(3\) more than the previous one, this means that this recurrence relation defines the sequence  
+\[
+4,7,10,13,\cdots.
+\]
+Notice that with a recurrence relation, we need to work out all earlier terms
+in the sequence before we can find a particular term, so in some sense it may be less useful than a formula for the sequence. The recurrence relation above is of the form \(u_{n+1} = a u_n + b \), where \(a,b \in \mathbb{R}\) and \(u_0\) is specified. Recurrence relations of this type are called <b>linear recurrence relations</b> as the equation is a linear one, note that in order to properly define a recurrence relation, we must specify \(u_0\).
+</p>
+<br/>
+<p>If we know that a sequence is defined by a linear recurrence relation of the form \(u_{n+1} = au_n +b\) and we know three consecutive terms of the sequence, then we can find the values of \(a\) and \(b\). This is done easily by forming two equations and solving them simultaneously. Consider the following example.</p>
+<br/>
+<h3>Example</h3>
+
+<p>A sequence is defined by \(u_{n+1} = au_n +b\) with \(u_1 = 4, u_2 = 3.6\) and \(u_3 = 2.04\). What is the recurrence relation of the sequence?</p>
+
+<h3>Solution</h3>
+
+<p>We need to find the values of \(a\) and \(b\). Begin by forming two equations, using the terms of the sequence that we are given:
+\[
+u_2 = au_1 + b \implies 3.6 = 4a+b \:\:\: (1) \qquad \mbox{and} \qquad u_3 = au_2 + b \implies 2.04 = 3.6a + b. \:\:\: (2)
+\]
+We can then take (1) - (2) to eliminate \(b\) to obtain 
+\[
+1.56 = 0.4a \implies a = 3.9.
+\]
+Substituting this back into equation (1) gives \(4 \cdot 3.9 + b =3.6 \implies b = -12\) . Therefore the recurrence relation is 
+\[
+u_{n+1} = 3.9u_n -12.
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

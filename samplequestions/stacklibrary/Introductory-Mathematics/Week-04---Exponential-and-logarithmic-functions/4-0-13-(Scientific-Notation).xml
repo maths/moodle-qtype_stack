@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.0.13 (Scientific Notation)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Scientific notation</h3>
+
+<p>It is often necessary or useful to use very large or very small numbers such as \(78000000\) and \(0.00000034\). <strong>Scientific notation</strong> can be used to express such numbers in a more concise form. Each number is written in the form \( a\times 10^n\) where \(a\) is a number between \(1\) and \(10\).</p>
+
+<p>We can make use of the following facts:</p>
+<ul><li>\(10=10^1, \quad 100=10^2, \quad 1000=10^3\) and so on,</li>
+<li>\( 0.1=10^{-1},\quad 0.01=10^{-2},\quad 0.001=10^{-3}\) and so on. </li>
+</ul>
+<p>For example,</p>
+<ul> 
+<li>the number \(5000\) can be written \(5\times 1000=5\times 10^3\),</li>
+ <li>the number \(403\) can be written \(4.03\times 100=4.03\times 10^2\),</li>
+ <li>the number \(0.009\) can be written \(9\times 0.001=9\times 10^{-3}\).</li>
+</ul>
+<p>Furthermore, to multiply a number by \(10^n\) the decimal point is moved \(n\) places to the right if \(n\) is a positive integer, and \(n\) places to the left if \(n\) is a negative integer. (If necessary additional zeros are inserted to make up the required number of digits before the decimal point.) Many scientific constants are given in this form so it is useful to understand how this works.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

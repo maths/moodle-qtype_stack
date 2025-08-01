@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.14 (Derivatives of exp and log)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Derivatives of exponentials</h3>
+
+<p>Suppose \(f(x) = a^x\) for some constant \(a&gt;0\).&nbsp; Now the variable \(x\) is in the power, not the base, so our usual formula for differentiating powers of \(x\) does not apply: the functions \(x^2\) and \(2^x\) are two very different functions.&nbsp; How then can we differentiate this function \(f\)?&nbsp; Let us consider the definition of the derivative.&nbsp; Using the laws of indices, we have that 
+\[
+\begin{align*}
+f'(x) = \lim_{h \to 0}\frac{f(x+h) - f(x)}{h} 
+&amp;= \lim_{h \to 0}\frac{a^{x+h} - a^x}{h}\\
+&amp;= \lim_{h \to 0}\frac{a^x a^h - a^x}{h} \\
+&amp;= \lim_{h \to 0}\frac{a^x ( a^h - 1)}{h} \\
+&amp;= a^x \lim_{h \to 0}\frac{a^h - 1}{h}.
+\end{align*}
+\]
+Here we have been able to move the \(a^x\) outside the limit, because it does not depend on \(h\), which is the variable in which the limit is taken.&nbsp; The point is that the value of this limit of difference quotients depends on the value of the limit 
+\[
+\lim_{h \to 0}\frac{a^h - 1}{h},
+\] 
+which we notice is exactly the definition of the value of the derivative of \(f\) at \(0\):
+\[
+f'(0) = \lim_{h \to 0}\frac{f(0+h)-f(0)}{h} = \lim_{h \to 0}\frac{a^{0+h} - a^0}{h} = \lim_{h \to 0}\frac{a^h - 1}{h}.
+\]
+So in general, for \(f(x)=a^x\) we have that
+\[
+f'(x) = a^x f'(0) = f(x)f'(0),
+\] 
+where \(f'(0)\) is a fixed value that depends only on the value of our base \(a\).&nbsp; This in particular gives a rigorous demonstration of a characteristic feature of exponential growth: that the rate of change (the derivative) depends on the value of the function itself.&nbsp; Thus (unregulated) population size typically behaves exponentially, since the larger a population, the faster it grows, since there are more individuals reproducing.</p>
+<br/>
+<p>The number \(e \approx 2.71828\) which met met in detail in week 4, satisfies 
+\[
+\lim_{h \to 0}\frac{e^h - 1}{h} = 1.
+\]
+In fact this is one way to define the value \(e\).&nbsp; So for the natural exponential function \(y = e^x\), we have \(\dfrac{dy}{dx} = e^x\).&nbsp; In other words, the derivative is equal to the function itself.</p>
+\[ 
+\mbox{Suppose } f(x) = e^x. \mbox{ Then } f'(x) = e^x = f(x).
+\]
+</p>
+<br/>
+<h3>Derivative of the logarithm</h3>
+
+<p>The natural logarithm \(f(x) = \ln (x)\) is defined to be the inverse of the exponential function \(e^x\).&nbsp; Since \(e^x\) only produces positive numbers, \(\ln(x)\) is only defined for positive numbers, and is defined such that the equation 
+\[
+e^{\ln(x)} = x
+\] 
+holds for all \(x&gt; 0\).
+<p>
+\[
+\mbox{Suppose } f(x) = \ln(x). \mbox{ Then } f'(x) = 1/x.
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

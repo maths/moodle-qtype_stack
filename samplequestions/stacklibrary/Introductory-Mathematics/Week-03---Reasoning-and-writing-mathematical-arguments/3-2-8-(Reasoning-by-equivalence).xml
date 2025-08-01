@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.8 (Reasoning by equivalence)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Reasoning by equivalence</h3>
+
+<p>In addition to the idea of proving an equivalence of statements using an <i>if and only if</i> proof, the notion of equivalence is also important when reasoning inside a proof. We shall now introduce the formal idea of <b>reasoning by equivalence</b>, which you will have done previously, even if you may not have heard this term.</p>
+
+<p>Reasoning by equivalence begins with performing calculations. The mathematics we learn in school, is primarily concerned with performing calculations, since they have the advantage of generally being easier to check than reasoning written in full mathematical language. When we perform calculations or solve equations we often use <i>reasoning by equivalence</i>, which is the formal name for 'doing the same thing to both sides of an equation'. Reasoning by equivalence requires deduction at each step and at each step the converse must also be true. This is intimately related to the idea of </p>
+<br/>
+<h3>Example</h3>
+
+<p>Find the solutions of \((x+1)^3 = x^3 + 1\).</p>
+
+<h3>Solution</h3>
+
+<p>We could solve this equation by performing the following series of equivalent statements.</p>
+<p>\((x+1)^3 = x^3 + 1\)</p>
+<p>\(\iff x^3 + 3x^2 + 3x + 1 = x^3 + 1\)</p>
+<p>\(\iff 3x^2 + 3x = 0\)</p>
+<p>\(\iff 3x(x+1) = 0\)</p>
+<p>\(\iff x = 0 \vee x = -1\).</p>
+
+<p>We can see here that passing from each line happens by using some form of algebraic manipulation. The '\(\iff\)' symbol on each line is the formal way of saying that each calculation is logically equivalent- this is often omitted in school. Often this kind of reasoning is done under the umbrella of 'simplifying' algebraic expressions. The chain of reasoning that we have in our example relies on two facts:</p>
+<ol>
+<li>two equations are equivalent if they have precisely the same solutions.</li>
+<li>polynomials \(p(x)\) and \(q(x)\) are equivalent if \(p(x) = q(x)\) for all \(x \in \mathbb{R}\).</li>
+</ol>
+
+<p>There are other operations which maintain equivalence of both sides - such as certain rules of logarithms for example. However, we much be careful of when performing certain operations. For example taking square roots of both sides of an equation does not maintain equivalence, because there are always two roots to consider. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

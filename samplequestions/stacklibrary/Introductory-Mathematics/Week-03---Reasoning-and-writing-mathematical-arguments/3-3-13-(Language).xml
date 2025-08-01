@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.13 (Language)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>The language of mathematics</h3>
+
+<p>We have seen that one of the major difficulties we encounter with proof, is understanding the symbols and language of the logic that is employed in mathematical arguments. It is important you understand the definitions of all of the symbols that we use. Specifically, not that the if and only if symbol '\(\iff\)' is <b>not</b> the same as an equals symbol \('='\). The equals symbol represents equality between two sides of a calculation, whereas the iff symbol represents logical equality between statements.</p>
+
+<p>In addition to this, we should note that the implies symbol "\(\implies\)" should only be used between two statements. Remember that we consider a statement to be a sentence which is either true or false (but not both at once). So the implies symbol does not mean the same thing as the equals symbol. For example, '4+5' is not a statement because it cannot be assigned a truth value. As such writing \(4 + 5 \implies 9\) is a misuse of the symbol. This sentence makes no sense. Therefore it is important to be precise with the symbols used in your arguments. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

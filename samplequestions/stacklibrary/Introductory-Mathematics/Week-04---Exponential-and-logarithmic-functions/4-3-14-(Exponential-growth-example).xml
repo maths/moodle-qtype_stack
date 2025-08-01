@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.14 (Exponential growth example)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>In order to understand how this can affect us in the real world let us consider the following more concrete examples.</p>
+</br>
+<h3>Example</h3>
+
+<p>Suppose that we have a population of \(100\) rabbits, which is increasing at a rate of \(20\%\) per week. Therefore if \(P_n\) is the rabbit population after \(n\) weeks we have:</p>
+<ul style="list-style: none;">
+<li>\(P_0 = 100\).</li>
+<li>\(P_1 = P_0 \cdot 1.2 = 100 \cdot 1.2\).</li>
+<li>\(P_2 = P_1 \cdot 1.2 = 100 \cdot 1.2^2\).</li>
+<li>and so on \(\cdots\).</li>
+</ul>
+
+<p>Thus we can see that \(P_n = P_0 \cdot 1.2 = 100 \cdot 1.2^n\), for \(n \ in \mathbb{Z}\) which is a <i>geometric sequence</i> which we will examine in more detail in week 8. For now, let us note that whilst the population of rabbits must be an integer we would expect the population to grow continuously throughout the year, rather than in big discrete jumps. Therefore we would expect that we could estimate the population at a given time by the corresponding exponential function \(P(n) = P(0) \cdot 1.2 = 100 \cdot 1.2^n\), \(n \in \mathbb{R}\).</p>
+<br/>
+
+<h3>Example</h3>
+
+<p>A scientist is examining a plague of weeds. She notices that the area affected by the weeds is given by \(A(n) = 1000 \cdot 1.15^n\) metres squared, where \(n\) is the number of weeks after the initial observation.</p>
+<ol type="a">
+<li>What is the initial affected area?</li>
+<li>What is the affected area after \(5\) weeks?</li>
+</ol>
+
+<h3>Solution</h3>
+
+<ol type="a">
+<li>The initial affected area corresponds to the value \(A(0)\) which is
+\[
+A(0) = 1000 \cdot (1.15)^0 = 1000 \cdot 1 = 1000
+\]</li>
+<li>This corresponds to the value \(A(5)\) which is 
+\[
+A(5) = 1000 \cdot (1.15)^5 =  2011 \mbox{ to } 4.s.f.
+\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

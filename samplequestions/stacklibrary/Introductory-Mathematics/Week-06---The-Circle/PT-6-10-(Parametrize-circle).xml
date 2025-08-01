@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>PT.6.10 (Parametrize circle)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find a parametric representation \(x=f(t)\), \(y = g(t)\) of the circle of radius \({@r@}\) and centre \( ({@p@}, {@q@})\). Your answers should be in terms of a variable \(t\).</p>
+<p>\( x= f(t) =\) [[input:ans1]]; [[validation:ans1]]</p>
+<p>\( y = g(t) = \) [[input:ans2]]. [[validation:ans2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We recall that the functions \(x=\cos(t)\) and \(y = \sin(t)\) parametrize the unit circle.  To parametrize a circle of raidus \({@r@}\), we multiply by \({@r@}\) and consider \(x = {@r*cos(t)@}\) and \(y = {@r*sin(t)@}\).  To consider this circle centred at \(({@p@}, {@q@})\), we simply translate the two functions appropriately: thus we consider \(x = {@x@} \) and \(y = {@y@}\).</p>
+<p>The functions \(f(t) = {@x@} \) and \(g(t) = {@y@}\) satisfy \begin{align*} {@(f(t)-p)^2@}+{@(g(t)-q)^2@}  &amp;= \left({@r@} \cos(t)\right)^2 + \left({@r@} \sin(t)\right)^2 \\ &amp;= {@r@}^2 \cos^2(t) + {@r@}^2 \sin^2(t) \\ &amp;= {@r@}^2 \left(\cos^2 (t) + \sin^2(t)\right) \\ &amp;={{@r@}^2}.\end{align*}So a parametric representation of the circle is \(x= {@x@}, y = {@y@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>p:rand_range(-10,10,1);
+q:rand_with_prohib(-10,10,[p]);
+r:rand_with_prohib(2,10,[p,q]);
+x:p + r*cos(t);
+xmp:r*cos(t);
+y:q+ r*sin(t);
+ymq:r*sin(t);
+ta1:x
+ta2:y</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Centre  ({@p@}, {@q@}) and radius {@r@} has \(({@ta1@}, {@ta2@})\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>dist:(ans1-p)^2 + (ans2-q)^2;
+swap:(ans1-q)^2+(ans2-p)^2;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>dist</sans>
+        <tans>r^2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>dist</sans>
+        <tans>r^4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have parametrized the circle of radius {@r^2@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>swap</sans>
+        <tans>r^2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have parametrized the circle of radius {@r@} centred at \(({@q@},{@p@})\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>232849889</deployedseed>
+    <deployedseed>1355379628</deployedseed>
+    <deployedseed>1454551856</deployedseed>
+    <deployedseed>778009981</deployedseed>
+    <deployedseed>2122413414</deployedseed>
+    <deployedseed>9327372</deployedseed>
+    <deployedseed>1553813911</deployedseed>
+    <deployedseed>1854340948</deployedseed>
+    <deployedseed>539604740</deployedseed>
+    <deployedseed>1268521819</deployedseed>
+    <deployedseed>1317471992</deployedseed>
+    <deployedseed>2002641790</deployedseed>
+    <deployedseed>1860223760</deployedseed>
+    <deployedseed>341769399</deployedseed>
+    <deployedseed>455039073</deployedseed>
+    <deployedseed>1606608497</deployedseed>
+    <deployedseed>530391632</deployedseed>
+    <deployedseed>963242630</deployedseed>
+    <deployedseed>2093462883</deployedseed>
+    <deployedseed>2051574167</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>p+r^2*cos(t)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>q+r^2*sin(t)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>q+r*cos(t)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>p+r*sin(t)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

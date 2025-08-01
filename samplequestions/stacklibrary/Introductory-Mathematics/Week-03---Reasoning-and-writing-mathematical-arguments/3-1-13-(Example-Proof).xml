@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.1.13 (Example Proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Prove the statement: "if \(a = b\) then \(a^2 = b^2\)."</p>
+
+<h3>Solution</h3>
+
+<p>Converting this into our symbolism, we wish to show the implication \(a = b \implies a^2 = b^2\). In this case \(a=b\) is the hypothesis and \(a^2 = b^2\) is the conclusion.</p>
+<p>So we begin by taking the equation \(a = b\) and multiplying both sides of the equation by \(a\) to get \(a^2 = ab\).</p>
+<p>This tells us that \(a = b \implies a^2 = ab\). Now we do the same thing, but this time we multiply by \(b\) to get \(ab = b^2\). This tells us that \(a = b \implies ab = b^2\).Hence we have 
+\[
+a = b \implies a^2 = ab \qquad \mbox{ and } \qquad a = b \implies ab = b^2,
+\]
+Therefore, combining these two statements give that \(a = b \implies a^2 = b^2\).
+Therefore assuming that \(a=b\) allows us to deduce that \(a^2 = b^2\). The proof is complete. 
+</p>
+<br/>
+<p>Note that this proof probably goes into more detail than is strictly necessary, however the purpose here is to show that we have to be very careful and precise when constructing a proof.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

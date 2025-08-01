@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.5 (Derivative rules)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Derivative rules</h1>
+
+<p>In practice, we do not always calculate derivatives by first principals. In general it is time consuming and limit manipulation can often be fraught with difficulties. Luckily, rather than performing these calculations for every derivative we require, we use the first principals arguments to prove derivative rules for more general functions. We will see how to prove these rules in this section, then in the next we will look at how they can be used to quickly calculate derivatives. We will begin by finding the derivative of a constant.</p>
+<br/>
+<h3>Derivative of a constant</h3>
+
+<p>Suppose \(f(x) = c\) for all \(x\), where \(c\) is a constant.  Then \(f'(x) = 0\) for all \(x\).</p>
+
+<h3>Proof</h3>
+<p>Using the definition of the derivative we have that \begin{align*}<br>f'(x)&nbsp; &amp;= \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}<br>&nbsp;=\lim_{h \to 0} \frac{c -c}{h}&nbsp; = \lim_{h \to 0} \frac{0}{h} = \lim_{h \to 0}0 = 0.\end{align*}
+<br/>
+<h3>Derivative of the identity function</h3>
+
+<p>Suppose \(f(x) = x\) is the identity function.  Then \(f'(x) = 1\) for all \(x\).</p>
+
+<h3>Proof</h3>
+
+<p>Using the definition of the derivative we have that 
+\[
+f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h} = \lim_{h \to 0}\frac{ (x+h) - x}{h} = \lim_{h \to 0}\frac{h}{h} = \lim_{h \to 0}1 = 1.
+\]</p>
+<br/>
+<h3>Derivative of powers</h3>
+
+<p>Suppose \(f(x) = x^n\) where \(n \in \mathbb{R}\). Then \(f'(x) = nx^{n-1}\).</p>
+<br/>
+<p>We are not going to prove this here, the proof is mathematically involved and uses a type of proof called <b>induction</b>. This is probably the most important differentiation rule. We can remember it by saying that we "multiply by the power and subtract one from the power."</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

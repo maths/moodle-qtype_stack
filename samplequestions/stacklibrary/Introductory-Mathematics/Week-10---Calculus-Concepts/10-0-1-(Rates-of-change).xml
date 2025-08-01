@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.0.1 (Rates of change)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Rates of change</h1>
+
+<p>Now that we are in the final the final week of the course, we introduce, perhaps, the most important topic that we have studied so far. In this section we will discuss the beginnings of differential calculus. You may be familiar with some basic derivatives and integrals from school. However, in this course, we will introduce the calculus concepts from first principals and then generalise our discussion to explain how and why we can calculate derivatives and integrals. We will introduce the derivative as the method to find the gradient of curves, before discussing the formal definition of both the derivative and integral function. Finally, we will also examine, what the calculus definitions mean in terms of the geometry of curves. Our discussion will begin with the idea of a <i>rate of change</i>.</p>
+<br/>
+<p>We will explore the idea of the derivative as being the rate of change of a function. The derivative will allow us to formulate explicitly an expression for how a function is changing over time. For example, suppose two population sizes are given by the formulae \(S_1 = 30e^{2 t}\) and \(S_2 = 2e^{10t}\) at time \(t\).&nbsp; Which population is growing faster initially?&nbsp; Is there a point at which the populations are growing at the same rate? The study of derivatives allows us to answer questions of this form, for a large selection of curves.</p>
+<br/>
+<p>A <b>rate</b> is a comparison between two quantities (often with different units). In some cases we have a <i>constant</i> rate of change. For example suppose that we were filling a swimming pool from the water from a hose, and suppose the volume of water in the swimming pool is recorded in the table below.</p>
+<br/>
+<table style="text-align: center; margin-left:auto; margin-right:auto;" cellpadding="10" bordercolor="#3a87ad" border="1" width="50%">
+<thead>
+<tr style="background: #c1ddea">
+<th style="min-width: 100px" scope="col">Time (seconds)</th>
+<th style="min-width: 100px" scope="col">Volume (litres)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>15</td>
+</tr>
+<tr>
+<td>2</td>
+<td>30</td>
+</tr>
+<tr>
+<td>3</td>
+<td>45</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<p>Notice that at each stage the volume goes up by \(15\), so it increases by the same amount each time so this is a <b>constant rate of change</b>. What is the graph of this table? Well if we plot it we can see that it is a straight line with y-intercept of \(0\). The gradient is given by 
+\[
+m = \frac{15}{1} = 15.
+\]
+The gradient of the line gives the rate of change. In this case we see that the gradient is a constant, this corresponds to the fact we have a constant rate of change.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

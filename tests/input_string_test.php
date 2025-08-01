@@ -33,7 +33,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
- * Unit tests for stack_algebra_input.
+ * Unit tests for stack_string_input.
  *
  * @package    qtype_stack
  * @copyright  2018 The University of Edinburgh.
@@ -190,6 +190,8 @@ final class input_string_test extends qtype_stack_testcase {
         // Note here the student has used string quotes which are respected.
         $this->assertEquals('"\"\""', $state->contentsmodified);
         $this->assertEquals('\[ \text{&quot;&quot;} \]', $state->contentsdisplayed);
+        $this->assertEquals('This input can be left blank.',
+            $el->get_teacher_answer_display('""', '""'));
     }
 
     public function test_validate_string_string_allowempty(): void {

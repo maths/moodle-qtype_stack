@@ -191,7 +191,7 @@ if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
 
-/* Issue #615 suggests we make matrix multiplication much more promenent. 
+/* Issue #615 suggests we make matrix multiplication much more promenent.
    This is possible, but would be confused with notation for Hadamard product.
 
    texput(".","\\circ ",infix);
@@ -223,11 +223,13 @@ make_complexJ(OPT_COMPLEXJ) := block(
 
 /* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
+    if ev(not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})), simp) 
+        then error("make_multsgn received un-supported option: ", OPT_MULTSGN),
     if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
     if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
     if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),
-    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary),
-    if OPT_MULTSGN = "space" then texput("*", " ", nary)
+    if OPT_MULTSGN = "none" then texput("*", " ", nary),
+    if OPT_MULTSGN = "space" then texput("*", "\\,", nary)
 );
 
 /* This only prints a multiplication sign for numbers. */
@@ -326,7 +328,7 @@ make_arccos(OPT_ACOS) := block(
        ?tex\-setup(?cdr([?%acsch, "{\\rm acsch}"])),
        ?tex\-setup(?cdr([?%acoth, "{\\rm acoth}"]))
     ),
-    if OPT_ACOS = "arccos-arcosh" then block(
+    if OPT_ACOS = "arsinh" then block(
        ?tex\-setup(?cdr([?%asin, "\\arcsin "])),
        ?tex\-setup(?cdr([?%acos, "\\arccos "])),
        ?tex\-setup(?cdr([?%atan, "\\arctan "])),
@@ -1626,7 +1628,7 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAl, SBl, ZM],
     ZM:setdifference(SA, SB),
     if not(emptyp(ZM)) then
       FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(ZM, "d")),
-    return([true, false, StackAddNote("","ATSet_wrongentries"), FeedBack])
+    return([true, false, StackAddNote("", "ATSet_wrongentries"), FeedBack])
 )$
 
 /* Note, this test (ATSets not ATSet as above) gives much more detailed feedback
@@ -1981,9 +1983,8 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
     rd:rationalized(SA),
     if not(is(rd=true)) then block(
             mark:false,
-            fbn:"ATLowestTerms_not_rat",
-            FeedBack: StackAddFeedback(FeedBack, fbn, stack_disp(rd, "d")),
-            AnswerNote:StackAddNote(AnswerNote, fbn)
+            FeedBack:StackAddFeedback(FeedBack, "ATLowestTerms_not_rat", stack_disp(rd, "d")),
+            AnswerNote:StackAddNote(AnswerNote, "ATLowestTerms_not_rat")
     ),
     return([validity, mark, AnswerNote, FeedBack])
 )$
@@ -2124,9 +2125,9 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
 
     /* Are all list elements not atoms? */
     if ev(all_listp(atom, SA), simp) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
     if ev(all_listp(atom, SB), simp) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
 
     /* Are all list elements equations? */
     if ev(not all_listp(equationp, SA), simp) then
@@ -2150,9 +2151,9 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
 
     /* Is each expression a polynomial? */
     if not all_listp(polynomialpsimp, S1) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_poly_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_poly_eq_list")),
     if not all_listp(polynomialpsimp, S2) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_poly_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_poly_eq_list")),
 
     /*
     At this point have two lists of polynomials. We now check whether the
@@ -2190,10 +2191,10 @@ ATSysEquivVars(S1,S2):=block([XA,XB],
     XA: setify(listofvars(S1)),
     XB: setify(listofvars(S2)),
     if subsetp(XA,XB) then
-        return(StackBasicReturn(true,false,"ATSysEquiv_SA_missing_variables")),
+        return(StackBasicReturn(true, false, "ATSysEquiv_SA_missing_variables")),
     if subsetp(XB,XA) then
-        return(StackBasicReturn(true,false,"ATSysEquiv_SA_extra_variables")),
-    return(StackBasicReturn(true,false,"ATSysEquiv_SA_wrong_variables"))
+        return(StackBasicReturn(true, false, "ATSysEquiv_SA_extra_variables")),
+    return(StackBasicReturn(true, false, "ATSysEquiv_SA_wrong_variables"))
 )$
 
 /*
@@ -2210,7 +2211,7 @@ ATSysEquivGrob(GA, GB, SA, varlist) := block([retl, ret, kloop],
     /* Is the student's system underdetermined? */
 
     if poly_grobner_subsetp(GA,GB,varlist) then
-        return(StackBasicReturn(true,false,"ATSysEquiv_SA_system_underdetermined")),
+        return(StackBasicReturn(true, false, "ATSysEquiv_SA_system_underdetermined")),
 
     /*
         Given that the student's system is neither underdetermined nor equal to
@@ -2225,7 +2226,7 @@ ATSysEquivGrob(GA, GB, SA, varlist) := block([retl, ret, kloop],
         else
             ret:append(ret,[texcolor("red", SA[ev(kloop, simp)])])),
 
-    return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", stack_disp(ret, "d"))])
+    return([true, false, StackAddNote("", "ATSysEquiv_SA_system_overdetermined"), StackAddFeedback("", "ATSysEquiv_SA_system_overdetermined", stack_disp(ret, "d"))])
 )$
 
 /*****************************************************************/
@@ -2635,7 +2636,7 @@ ATSingleFrac(SA, SB) := block(
         if algebraic_equivalence(SA,SB) then
             return([true,true,"",""])
         else
-            return(StackBasicReturn(true,false,"ATSingleFrac_ret_exp")),
+            return(StackBasicReturn(true, false, "ATSingleFrac_ret_exp")),
 
     /* Ignore minus signs. */
     SAA:SA,
@@ -2860,16 +2861,16 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
 
     /* Check for algebraic equivalence */
     if cform and ae then
-        return([true,true,StackAddNote("","ATCompSquare_true"),""]),
+        return([true,true,StackAddNote("", "ATCompSquare_true"),""]),
 
     if cform then
-        return([true,false,StackAddNote("","ATCompSquare_true_not_AlgEquiv"),StackAddFeedback("","ATCompSquare_not_AlgEquiv")]),
+        return([true,false,StackAddNote("", "ATCompSquare_true_not_AlgEquiv"), StackAddFeedback("", "ATCompSquare_not_AlgEquiv")]),
 
     if not(ae) then
-        return([true,false,StackAddNote("","ATCompSquare_false_not_AlgEquiv"),""]),
+        return([true,false,StackAddNote("", "ATCompSquare_false_not_AlgEquiv"),""]),
 
-    AnswerNote:concat("ATCompSquare_false",AnswerNote),
-    return([true,false,StackAddNote("",AnswerNote),StackAddFeedback("",AnswerNote)])
+    AnswerNote:concat("ATCompSquare_false", AnswerNote),
+    return([true, false, StackAddNote("", AnswerNote), StackAddFeedback("", AnswerNote)])
     )$
 
 /*********************/
@@ -3268,14 +3269,14 @@ hasAddConst(expr, vars) := block([othervars, const, deriv, allvariables, strict]
     if debug then print(["Variables in expression: ", othervars]),
 	for var in vars do othervars : delete(var,othervars),
     if debug then print(["Remaining variables after deletion: ", othervars]),
-    
+
 
     /* check number of candidates, should be exactly 1 */
     if length(othervars) = 0 then
         return([false, "ATAddConst_noconst"]),
     if length(othervars) > 1 then
         return([false, "ATAddConst_severalconst"]),
-    
+
     /* if there is one candidate, check if it's exactly additive or something else */
     const : othervars[1],
     deriv : ev(diff(expr,const), simp),
@@ -3508,4 +3509,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025040100$
+stackmaximaversion:2025073100$

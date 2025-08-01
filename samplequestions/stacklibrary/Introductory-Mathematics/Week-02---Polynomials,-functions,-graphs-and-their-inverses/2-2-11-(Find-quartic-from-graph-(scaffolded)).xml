@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.2.11 (Find quartic from graph (scaffolded))</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Here is the graph of a quartic:</p>
+
+<p style="text-align: center;"></p><div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='250px' height='250px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB#}, axis: true, showCopyright: false, showNavigation:false});
+  var f = board.jc.snippet('{#q#}', true, 'x', true);
+  board.create('functiongraph', [f,{#BB[1]#},{#BB[3]#}],{strokeColor:'#003399',strokeWidth:2});
+  var xaxis = board.create('axis', [[0,0],[1,0]]);
+  board.create('ticks', [xaxis, {#[a1,b1,c1]#}], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
+  var yaxis = board.create('axis', [[0,0],[0,1]]);
+  board.create('ticks', [yaxis, {#[y0]#}], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [-10, 0],anchorX: 'right', anchorY: 'middle' }});
+[[/jsxgraph]]</div><p></p>
+
+<p><b>(a) </b>Which of the following is the correct form for the quartic equation shown in the graph?</p><p>[[input:ans1]][[feedback:prt1]] [[validation:ans1]]</p>
+
+
+<p><b>(b) </b>What is the value of \(k\)?</p><p>&nbsp; &nbsp; &nbsp; \(k=\) [[input:ans2]][[feedback:prt2]] [[validation:ans2]]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><b>(a) </b>The graph cuts the \(x\)-axis at \(x={@b1@}\) and \(x={@c1@}\) so the factorised form of the quartic will have single factors of \(({@x-b1@})\) and \(({@x-c1@})\).</p><p>The graph has a repeated root at \(x={@a1@}\) so there will also be a factor of \({@(x-a1)^2@}\).</p><p>So the quartic has the form \(y={@qform_withabc@}\) for some value of \(k\).</p><p><b>(b) </b>Since the quartic graph passes through the point \((0,{@y0@})\), we have</p><p>\[ {@y0@}={@(ev(qform_withabc,[x=0])),simp=false@}={@keqn@} \]</p><p>Thus \(k={@k1@}\).</p><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>qform:k*(x-a)^2*(x-b)*(x-c);
+qform_distractors:[y=k*(x+a)^2*(x+b)*(x+c), y=k*(x-a)*(x-b)*(x-c), y=k*(x+abs(a))^2*(x+abs(b))*(x+abs(c)), y=k*(x-a)*(x-b)*(x-c)*(x-y0), y=k*(x+abs(a))*(x+abs(b))*(x+abs(c))*(x+abs(y0))];
+a1:rand_with_prohib(-5,5,[0]);
+b1:rand_with_prohib(-5,5,[0,a1,a1+1,a1-1,-a1]);
+c1:rand_with_prohib(-5,5,[0,a1,a1+1,a1-1,b1,b1+1,b1-1,-a1,-b1]);
+y0:rand_with_prohib(-8,8,[a1,b1,c1,-a1,-b1,-c1]); /* make sure the quartic q-intercept has a value distinguishable from the roots */
+keqn:ev(qform,[a=a1,b=b1,c=c1,x=0]);
+k1:ev(k,solve(keqn=y0,k));
+q:ev(qform,[a=a1,b=b1,c=c1,k=k1]);
+qform_withabc:ev(qform,[a=a1,b=b1,c=c1]);
+
+mcq:multiselqndisplay([y=ev(qform,[a=a1,b=b1,c=c1])], 1, ev(qform_distractors,[a=a1,b=b1,c=c1]), 5)
+ta1:mcq[1];
+version:mcq[2];
+corr1:mcq_correct(ta1);
+incorr1:mcq_incorrect(ta1);
+
+ta2:k1;
+
+/* for the plot - find the location of the TPs to set a sensible view area */
+df:diff(q,x);
+df0:solve(df=0,x); 
+tps:map(lambda([ex],ev([ev(x,ex),ev(q,ex)],float)),df0);
+/*bounding box*/
+BBx:append(1.4*map(first,tps),[-6,6]); /* use location of TPs (with some extra padding given by the 1.4 factor) as well as default range */
+BBy:append(1.4*map(second,tps),[0.5,-0.5,y0+1,y0-1]);
+BBy:append(BBy,[-lmax(BBy)/6,-lmin(BBy)/6]) /* ensures the x-axis labels are always visible */
+BB:[lmin(BBx),lmax(BBy),lmax(BBx),lmin(BBy)];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(y= {@q@}\), \( k = {@ta2@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>radio</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>nonotanswered</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>corr1[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1814548246</deployedseed>
+    <deployedseed>1733284762</deployedseed>
+    <deployedseed>2035637589</deployedseed>
+    <deployedseed>723304010</deployedseed>
+    <deployedseed>1681911940</deployedseed>
+    <deployedseed>1118191630</deployedseed>
+    <deployedseed>1284683974</deployedseed>
+    <deployedseed>1531236170</deployedseed>
+    <deployedseed>1719582581</deployedseed>
+    <deployedseed>1349657437</deployedseed>
+    <deployedseed>1428257863</deployedseed>
+    <deployedseed>1014259807</deployedseed>
+    <deployedseed>308792447</deployedseed>
+    <deployedseed>525353402</deployedseed>
+    <deployedseed>1681842705</deployedseed>
+    <deployedseed>707946971</deployedseed>
+    <deployedseed>1015396234</deployedseed>
+    <deployedseed>994227821</deployedseed>
+    <deployedseed>1919820512</deployedseed>
+    <deployedseed>1026822416</deployedseed>
+    <deployedseed>2011987561</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>incorr1[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>-k</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

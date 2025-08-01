@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.15 (Inspection)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>A note on inspection</h3>
+
+<p>In this section we have met the term <b>solving by inspection</b>. This means to solve a mathematical problem by looking at a given expression and finding the answers in your head. To factorise a quadratic by inspection means to look at a given quadratic and decide in your head which numbers need to go in the brackets. This can lead to a much faster way to solve quadratics, which is why it is important to practice!
+It is also the reason that quadratics with leading coefficients not equal to \(1\) are considered to be more difficult to factorise. When we find the appropriate numbers to go in the brackets, we must also consider the coefficients of \(x\) in each bracket and make an appropriate division.</p> 
+<br>
+<h3>Example</h3>
+
+<p>Solve the following quadratics by factorising:</p>
+
+<ol type="a">
+<li>\(x^2 + 3x + 2 =0\).</li>
+<li>\(2x^2 +5x + 2=0\).</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol type="a">
+<li>Here, we require two numbers which multiply to get \(2\) and sum to get \(3\). By examining this in our heads we can see the numbers which work are \(1\) and \(2\). Therefore, these are the number which we enter into each bracket and we obtain
+\[
+x^2 + 3x + 2 = (x+1)(x+2) = 0,
+\]
+therefore the solutions are \(x = -1,-2\).</li>
+<li>Here, we require two numbers which multiply to get \(4\) and sum to get \(5\). By examining this in our heads we can see the numbers which work are \(4\) and \(1\).
+In this case, these are not the values we enter into each bracket, because we must consider the coefficient of \(x^2\).
+As we have a quadratic we expect it to factorise into two brackets of the form 
+\[
+2x^2 +5x + 2 =(? \cdot x + ?)(? \cdot x + ?).
+\]
+How can we obtain \(2x^2\) from two brackets? The only way is to have one bracket with an \(x\) and the other with a \(2x\). Hence, 
+\[
+2x^2 +5x + 2 =(2\cdot x + ?)(x \cdot x + ?).
+\]
+We are now in a position to insert the constant terms \(4\) and \(1\) into the brackets. However, we must be careful as the \(2x\) in the first bracket with ensure that everything in the second bracket will be doubled when the brackets are expanded. Thus we must half the constant in the second bracket to compensate for this. In this case it is easier to half the \(4\) to obtain
+\[
+2x^2 +5x + 2 =(2\cdot x + 1)(x \cdot x + 2) =0.
+\]
+Hence, we have successfully factorised the quadratic and the solutions are \(x = -\frac{1}{2}\) and \(x = -2\) by applying the null factor law. 
+Remember that we can check that these are solutions by substituting them into our initial equation and checking it equals zero!</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

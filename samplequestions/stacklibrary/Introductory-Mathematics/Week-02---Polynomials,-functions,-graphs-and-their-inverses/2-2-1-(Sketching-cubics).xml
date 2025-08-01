@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.2.1 (Sketching cubics)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Sketching graphs of cubics</h1>
+
+<p>In week 1 we saw how to sketch quadratic curves from their equations and how we could gain information about the equation from the curves. We can go through similar processes in order to sketch graphs of polynomials of higher degrees.</p>
+
+<p>We will begin by looking at <i>cubics</i>. Recall that a <b>cubic</b> is a polynomial of degree three, e.g. \(x^3+2x+2\). The most simple cubic equation is \(y = x^3\) and a general cubic equation has the form \(f(x) = ax^3 + bx^2 + cx + d\). As with quadratic equations we are interested in a number of key points of the graph of a cubic. We wish to find the <i>turning points</i>, <i>x-intercepts</i>, <i>y-intercepts</i> and <i>the behaviour as \(x\) approaches \(\pm \infty\)</i>. As was the case with quadratics the roots of a cubic also correspond to the \(x\)-intercepts of its graph. Using the Factor Theorem, we can take the fully factorised form of a cubic and read off its roots. This enables us to make a sketch of the graph.</p>
+
+<p> Polynomial equations, particularly of higher degrees, are difficult to solve unless they take a particularly simple form. A useful guide to the approximate values of the solutions can be obtained by sketching the polynomial, and discovering where the curve crosses the \(x\)-axis. This is why it becomes very useful to be able to accurately skecth curves such as cubics or quartics.</p>
+
+
+
+
+
+
+
+<h3>Different forms</h3>
+
+<p>We will see that it is generally most useful to have a cubic in the fully factorised form when sketching a cubic curve. In fact, different forms of cubic graph are possible, based on the factors in the fully factorised form:</p>
+<ul>
+<li><p>each linear factor will give a root, and therefore an \(x\)-intercept of the curve.</p></li>
+<li><p>any repeated linear factors will give rise to a repeated root on the graph,</p></li>
+<li><p>a quadratic factor which cannot be factorised further will mean the graph only has one real root.</p></li>
+</ul>
+<p>Another thing to look for is the sign of the leading (\(x^3\)) coefficient. This governs the behaviour of the cubic as \(x\) approaches \(\pm \infty\). If the coefficient is positive then the graph goes off to \(+\infty\) as \(x\) increases, while if it's negative the graph will go off to \(-\infty\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

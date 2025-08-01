@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.5 (Circular motion example)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>A \(900\)kg rollercoaster moving at \(10\) m/s takes a turn around a circle with a radius of \(25\)m. Determine the net force acting upon the car.</p>
+
+<h3>Solution</h3>
+
+<p>We seek to use the equations we have derived above. Here we have \(m = 900, v = 10, R = 25\). We can substitute these values into the equation \(a = \frac{v^2}{R}\) to get 
+\[
+a = \frac{v^2}{R} = \frac{10^2}{25} = 4 \mbox{ms}^{-1},
+\]
+Inputting this value into \(F = ma\) gives \(F = 900 \cdot 4 = 3600 N\). Thus the force acting on the car is \(3600N\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

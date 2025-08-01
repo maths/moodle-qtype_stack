@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.3.20 (Standard antiderivatives)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Standard antiderivatives</h3>
+
+<p>We have seen previously this week, that we can build up a repository of standard derivatives of functions, which enables us to differwentiate a wider range of functions without having to revert to first principles arguments, We can do something similar for integrations. The most important standard indefinite integrals are given in the following table.</p>
+<br/>
+<table style="text-align: center; margin-left:auto; margin-right:auto;" cellpadding="10" border="1" bordercolor="#3a87ad">
+<thead>
+<tr style="background: #c1ddea">
+<th scope="col" colspan="2">Table of indefinite integrals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+
+<td style="min-width:15em">\(\displaystyle\int x^n\,dx=\frac{x^{n+1}}{n+1}+C\quad (n\neq-1) \)</td><td style="min-width:15em">\(\displaystyle\int \frac1x\,dx=\ln(x)+C \)</td>
+</tr>
+
+<tr>
+
+<td>\(\displaystyle\int e^x\,dx=e^x+C \)<br></td><td>\(\displaystyle\int \sin(x)\,dx=-\cos(x)+C \)</td>
+</tr><tr>
+
+<td>\(\displaystyle\int \cos(x)\,dx=\sin(x)+C \)</td><td>&nbsp;\(\displaystyle\int \sec^2(x)\,dx=\tan(x)+C \)</td>
+</tr>
+</tbody>
+</table><span>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

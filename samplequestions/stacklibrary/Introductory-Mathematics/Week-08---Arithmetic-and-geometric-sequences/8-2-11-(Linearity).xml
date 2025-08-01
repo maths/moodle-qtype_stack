@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.11 (Linearity)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Linearity</h3>
+
+<p>One of the useful properties of sigma notation is that we can combine series using the property of linearity. Formally we have the following: </p>
+<br/>
+<p>If \(c\) is any constant (i.e. does not depend on \(n\)), then \[ \sum_{n=a}^{b} cx_n =c\sum_{n=a}^{b} x_n \] and \[ \sum_{n=a}^{b} (x_n+y_n)=\sum_{n=a}^{b} x_n+\sum_{n=a}^{b} y_n. \]</p>
+
+<p>Another useful property (just like when we worked with definite integrals) is that we can split a sum up into parts:</p>
+<p>If \(a,b,c\) are integers with \(a&lt;b&lt;c\) then \[\sum_{n=a}^{c} x_n=\sum_{n=a}^{b} x_n+\sum_{n=b+1}^{c} x_n.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

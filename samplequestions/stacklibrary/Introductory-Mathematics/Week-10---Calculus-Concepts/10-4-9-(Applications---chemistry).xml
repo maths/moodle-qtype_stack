@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.4.9 (Applications - chemistry)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Chemistry</h3>
+
+<p>As calculus is so important, it is not surprising that elements of its theory can be used throughout science. To end this week we will take a look at a small application to chemistry. This is by no means the only place we use calculus in science, not even the only place we use it within chemistry. However this should give you an idea of the chemical calculations we can perform using the techniques we have seen this week.</p>
+<br/>
+<p>We can use calculus in chemistry model chemical processes such as heat transfer, decay rate etc. For the sake of illustration, let us look at the radioactive decay rate of a uranium isotope. The formula for the rate of radioactive decay can be stated as 
+\[
+-\frac{dN}{dt} = N \lambda,
+\]
+where \(-\frac{dN}{dt}\) is the number of atoms decaying in a given sample, \(N\) is the size of the sample and \(\lambda\) is the decay constant. This is specific to each radioactive element. We can see that the number of atoms decaying is a sample can be thought of as the rate of change of the the atoms over time, hence why we can represent this with a derivative.Using a calculus argument we can find a formula to solve for the decay rate at any given time. Lets begin with the formula above and firstly shift the N term to the lhs and multiply by \(-1\) to get 
+\[
+\frac{1}{N} \frac{dN}{dt} =-\lambda \: dt.
+\]
+We can 'undo' the derivative by integrating over a general interval:
+\[
+\int_{N_0}^{N} = -\lambda \int_{t=0}^{t} \:dt
+\]
+Evaluating these integrals using the common antiderivatives we have seen, (recall that \(\int \frac{1}{x} \: dx = \ln(x)\)) we have:
+\[
+\ln(N) - \ln(N_0) = -\lambda t.
+\]
+We can combine the terms using log laws on the lhs to obtain \(\ln \left( \frac{N}{N_0}\right) = -\lambda t\). Raising both sides to the power of \(e\) removes the logarithms, and finally multiplying through by the constant \(N_0\) gives the formula
+\[
+N =N_0 e^{-\lambda t}.
+\]
+This is the formula for radioactive decay. If you recall, from week 4, many processes follow either exponential growth or exponential decay. We have formulated the process of exponential decay from calculus only. Similar arguments may be applied to other situations  which follow exponential processes. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

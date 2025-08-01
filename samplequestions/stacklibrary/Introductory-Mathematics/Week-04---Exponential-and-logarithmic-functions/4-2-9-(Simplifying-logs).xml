@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.9 (Simplifying logs)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>We often wish to simplify an expression involving logarithms. In order to do this we use the log laws above in order to combine logs.</p>
+<br/>
+
+<h3>Example</h3>
+<p>Simplify: \(\log_{10}2-\log_{10}4+\log_{10}(4^2)+\log_{10}(\frac{10}{4})\).</p>
+
+<h3>Solution</h3>
+<p>The third term \(\log_{10}(4^2)\) simplifies to \(2\log_{10}4\) and the last term \(\log_{10}\left(\dfrac{10}{4}\right)=\log_{10}10-\log_{10}4=1-\log_{10}4\). So the given expression equals</p>
+<p>\[\log_{10}2-\log_{10}4+2\log_{10}4+1-\log_{10}4 = \log_{10}2+1.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

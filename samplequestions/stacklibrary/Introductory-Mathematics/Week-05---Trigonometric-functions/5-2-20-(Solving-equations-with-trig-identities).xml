@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.20 (Solving equations with trig identities)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Solving equations with trig identities</h1>
+
+<p>Often, for more complicated equations involving trigonometric functions, we have to use a combination of identities to solve the problem. It is therefore a key skill to be able to understand and manipulate all of the trigonometric identities that we have seen so far. In this section we will see some examples of more complicated trigonometric problems.</p>
+<br/>
+<h3>Examples</h3>
+
+<p>Show that: </p>
+<ol type = "a">
+<li>\(\sin A + \sin B  = 2\sin \frac{A+B}{2} \cos \frac{A-B}{2}\).</li>
+<li>\(\cos A + \cos B  = 2\cos \frac{A+B}{2} \cos \frac{A-B}{2}\).</li>
+</ol>
+
+<p>These identities are sometimes called the <b>product -sum identities</b> because they convert a product of trig functions into a sum and vice versa. Whilst you don't need to memorise these identities, you may be asked questions about them and you need to be comfortable using and manipulating them.</p>
+
+<h3>Solutions</h3>
+
+<ol type = "a">
+<li>Begin with the sum identities
+\[
+\sin (x+y)\equiv\sin x\cos y+\cos x\sin y \qquad \mbox{ and } \qquad \sin (x-y)\equiv \sin x \cos y - \cos x \sin  y.
+\]
+Adding these two equations gives us
+\[
+\sin (x+y) + \sin (x-y) = \sin x\cos y+\cos x\sin y + \sin x \cos y - \cos x \sin  y = 2 \sin x \cos y.
+\]
+Let \(x + y =A\) and \(x - y = B\), then substituting this into the equation above gives
+\[
+\sin A + \sin B = 2 \sin \frac{A+B}{2} \cos \frac{A-B}{2}.
+\]
+as required.
+<li>We proceed similarly to above but we use the sum identities \(\cos(x+y)\equiv\cos x\cos y-\sin x\sin y\) and \(\cos(x-y)\equiv \cos x \cos y + \sin x \sin y\). Adding these together gives
+\[
+\cos(x+y) + \cos(x-y) = \cos x\cos y-\sin x\sin y + \cos x \cos y + \sin x \sin y = 2 \cos x \cos y.
+\]
+Let \(x + y =A\) and \(x - y = B\), then substituting this into the equation above gives
+\[
+\cos(A) + \cos(B) = 2\cos \frac{A+B}{2} \cos \frac{A-B}{2},
+\]
+as required.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

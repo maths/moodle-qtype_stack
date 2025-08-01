@@ -76,7 +76,7 @@ class stack_options {
                 'type'       => 'list',
                 'value'      => 'cos-1',
                 'strict'     => true,
-                'values'     => ['cos-1', 'acos', 'arccos', 'arccos-arcosh'],
+                'values'     => ['cos-1', 'acos', 'arccos', 'arsinh'],
                 'caskey'     => 'make_arccos',
                 'castype'    => 'fun',
             ],
@@ -333,7 +333,7 @@ class stack_options {
             'cos-1'         => "cos\xe2\x81\xbb\xc2\xb9(x)",
             'acos'          => 'acos(x)',
             'arccos'        => 'arccos(x)',
-            'arccos-arcosh' => 'arccos(x)/arcosh(x)',
+            'arsinh'        => 'arsinh(x)',
         ];
     }
 

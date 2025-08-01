@@ -27,7 +27,7 @@ or it is an important part of a bigger problem.  E.g. proving the induction step
 
 In traditional practice students work line by line rewriting an equation until it is solved.  
 This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.  
-Instructions for students are [here](../../Students/Equivalence_reasoning.md).  Some common observations about this form of reasoning are
+We have [instructions for students](../../Students/Equivalence_reasoning.md).  Some common observations about this form of reasoning are
 
 1. Students often use no logical connectives between lines.
 2. Students ignore the natural domain of an expression, e.g. in \(\frac{1}{x}\) the value \(x=0\) is excluded from the domain of definition.

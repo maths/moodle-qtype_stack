@@ -230,11 +230,6 @@ class stack_notes_input extends stack_input {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution($tavalue) {
-        return new stdClass();
-    }
-
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_api_solution_render($tadisplay, $ta) {
         return '';
     }

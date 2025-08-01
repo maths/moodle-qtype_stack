@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.2.11 (Fractional and negative powers)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Fractional and negative powers</h1>
+
+<p>You should no be more familiar with calculating expansions of binomials, However, so far, you may have noticed that we have only dealt with powers which are positive integers. This makes the calculations easier because binomials to positive integer powers expand to polynomials, which, in general, we know how to deal with. Considering the cases of fractional and negative powers, this is no longer the case. In fact, if we used a fractional or negative power, we would get an infinite number of terms in the expansion. However it turns out that we can expand the ideas discussed on the previous page to the cases of negative and fractional powers, despite the issues. We will discuss some examples of this in this section.</p>
+<br/>
+<p>Since the use of fractional powers will lead to infinite expansions, it means that if we wanted to understand the binomial theorem for more general powers, we need to understand infinite series expansions. Although we have seen some examples of infinite series in week 8, this goes beyond the scope of this course. However, there are a few cases that we can tackle. The methodology for this is similar to the way we dealt with integer powers. We note the following.</p>
+<br/>
+<p>
+Let \(n\) be a rational number (so \(n =\frac{p}{q}\), where \(p,q\) are integers), then 
+\[
+(1+x)^n = 1 + nx + \frac{n(n-1)}{2!}x^2 + \cdots = \sum\limits_{k=0}^{\infty} {n \choose k} x^k.
+\]
+This converges for \(|x| < 1\).
+</p>
+<p> In particular, we can write the following as a series
+\[
+(1+x)^{-1} = \frac{1}{x+1} = 1 + (-1)x + \frac{(-1)(-2)}{2!}x^2 + \frac{(-1)(-2)(-3)}{3!} x^3+ \cdots
+\]</p>
+<p>Lets see how we can use these results to expand binomials of fractional powers.</p>
+
+<h3>Examples</h3>
+
+<p>Use the results above to find the first three terms in the expansions of the following:</p>
+
+<ol type="a">
+<li>\({3}\sqrt{1-2x}\).</li>
+<li>\(\sqrt{1+2x}\).</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol type="a">
+<li>Notice that we can write this expression as 
+\[
+{3}\sqrt{1-2x} = (1-2x)^{\frac{1}{3}}.
+\]
+At this point, the method is the same that we used for integer powers, so using the expansions above with \(n=\frac{1}{3}\) and \(-2x\) in place of \(x\) we have
+\[
+\begin{align*}
+(1-2x)^{\frac{1}{3}} &= 1 + \frac{1}{3}(-2x) + \frac{1}{3} \left( \frac{-2}{3} \right) (-2x)^2 \frac{1}{2!} + \frac{1}{3} \left( \frac{-2}{3} \right)\left( \frac{-5}{3} \right) (-2x)^3 \frac{1}{3!} + \cdots
+\\
+&= 1 - \frac{2x}{3} - \frac{4x^2}{9} - \frac{40x^3}{81}.
+\end{align*}
+\]
+Finally, we need to see where this converges. We have used \(-2x\) in place of \(x\), so The series converges for \(-1 < -2x < 1\), i.e. it converges for \(-\frac{1}{2} < x < \frac{1}{2}\).</li>
+<li>Here we can write \(\sqrt{1+2x} = (1+2x)^\frac{1}{2}\), then proceeding as in part a. we have 
+\[
+\begin{align*}
+(1+2x)^\frac{1}{2} &= 1 +  \frac{1}{2} \left( \frac{-1}{2} \right) \frac{1}{2!} (2x)^2 + \frac{1}{2} \left( \frac{-1}{2} \right) \left( \frac{-3}{2} \right) \frac{1}{3!} (2x^3)
+\\
+&= 1 + x - \frac{x^2}{2} + \cdots.
+\end{align*}
+This also converges for \(-\frac{1}{2} < x < \frac{1}{2}\).
+\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

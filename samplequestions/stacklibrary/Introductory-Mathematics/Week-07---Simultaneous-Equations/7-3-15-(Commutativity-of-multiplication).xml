@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.15 (Commutativity of multiplication)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>When can we multiply matrices?</h3>
+
+<p>As we have seen with the addition and subtraction of matrices, we cannot necessarily add or subtract <i>any</i> two matrices. The same is true of matrices. We cannot multiply <i>any</i> two matrices. They have to be of a certain size. Specifically to perform a matrix multiplication, the number of columns of the first matrix has to equal the number of rows of the second matrix. This is because if we didn't have this, we would again be left with entries of either matrix which we have no way of combining meaningfully. In these cases the matrix multiplication is <i>not defined</i>.</p>
+<br/>
+<p>In general, to multiply an \(m \times n\) matrix by an \(n \times p\) matrix, the \(n\) must have the same value in each case and the result is a matrix of size \(m \times p\).</p>
+<br/>
+<p>It we return to our earlier multiplication we had: 
+\[ 
+\begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 
+\end{bmatrix} \times 
+\begin{bmatrix} 
+7 & 8 
+\\
+9 & 10
+\\
+11 & 12
+\end{bmatrix} = 
+\begin{bmatrix} 
+58 &amp; 64
+\\ 
+139 &amp; 154
+\end{bmatrix}.
+\]
+In this case we can see that the first matrix is a \(2 \times 3\) and the second is a \(3 \times 2\) matrix. So the number of rows in the first matrix is the same as the number of columns in the second, therefore performing a multiplication is a valid operation in this case. The resulting matrix is a \(2 \times 2\) matrix.</p>
+<br/>
+<p>Now let us consider the matrix multiplication above, but in the reverse order. That is, how do we perform the multiplication:
+\[
+\begin{bmatrix} 
+7 & 8 
+\\
+9 & 10
+\\
+11 & 12
+\end{bmatrix} \times \begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 
+\end{bmatrix}?
+\] 
+We, from the discussion above to multiply two matrices, they must be of size \(m \times n\) and \(n \times p\), where the values of \(n\) are the same and the resulting matrix is of size \(m \times p\). Well in this multiplication we have an \((3 \times 2) \times (2 \times 3)\) matrix so we can perform this multiplication as well, note that we would expect the resulting matrix to be a \(3 \times 3\) matrix. So performing this multiplication we have
+\[
+\begin{bmatrix} 
+7 & 8 
+\\
+9 & 10
+\\
+11 & 12
+\end{bmatrix} \times \begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 
+\end{bmatrix} = \begin{bmatrix}
+59 & 54 & 69
+\\
+49 & 68 & 87
+\\
+59 & 82 & 105 
+\end{bmatrix}.
+\]
+So, we can see that in this case, we indeed obtain a \(3 \times 3\) matrix. But think some more. What has this calculation shown us? Well we have seen that it we multiply the matrices in one order we get a different answer to if we multiply them in the reverse order. This is clearly unusual, if we have the numbers \(4\) and \(5\) then we can see that \(4 \times 5 = 5 \times 4 =20\). With matrices in general this no longer holds. In other words if we have two matrices \(A\) and \(B\) then \(AB \not = BA\), we say that matrix multiplication is <b>non-commutative</b>.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

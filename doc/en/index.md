@@ -19,7 +19,7 @@ This is the official user documentation for STACK.
 
 Documentation for question authors, including:
 
-* An [authoring quick start guide](AbInitio/Authoring_quick_start_1.md), which can be used in conjunction with the "Getting started with STACK" [guide](../content/2019-STACK-Guide.pdf).
+* An [authoring quick start guide](AbInitio/Authoring_quick_start_1.md), which can be used in conjunction with the "Getting started with STACK" [guide](../static/2019-STACK-Guide.pdf).
 * Reference documentation on [question authoring](Authoring/index.md), such as [answer tests](Authoring/Answer_Tests/index.md), [inputs](Authoring/Inputs/index.md), [potential response trees](Authoring/Potential_response_trees.md) and [translations](Authoring/Languages.md).
 * Detailed guides for using [specialist tools](Specialist_tools/index.md), such as drag and drop questions.
 * Information on using the [CAS Maxima](CAS/index.md) for question authoring, including [randomisation](CAS/Random.md).

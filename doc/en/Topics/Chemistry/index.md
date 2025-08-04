@@ -11,18 +11,6 @@ Developer notes:
 * Before offical release, testing can use `stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/iss1504/stack/maxima/contrib/chemistry.mac");`.  (This will not work after release!)
 * During development to load the code local to your development server use `stack_include("contribl://chemistry.mac");`
 
-## Display of chemical formula in LaTeX
-
-For pure display of chemical formula in LaTeX, the [`mhcem` package](https://mhchem.github.io/MathJax-mhchem/) is already available in MathJaX.  Here is a minial example:
-
-```
-\(\require{mhchem}\)
-\(\ce{C6H5-CHO}\),
-\(\ce{SO4^2- + Ba^2+ -> BaSO4 v}\)
-```
-
-TODO: test and document this.
-
 ## Using chemical data
 
 Chemical data is stored in a (large) associative array `%_STACK_CHEM_ELEMENTS` using the standard chemical symbols as keys in the array. (See [https://en.wikipedia.org/wiki/Chemical_symbol](https://en.wikipedia.org/wiki/Chemical_symbol).)
@@ -49,4 +37,16 @@ Notes.
 3. The utility functions filter the `"Name"` field to give the name of the element with the local language selection.  STACK uses the global `%_STACK_LANG` variable.  If no local name is defined the `"Name"` in English is returned.   If you really want _all_ the data, just use `assoc(element, %_STACK_CHEM_ELEMENTS)` rather than ` chem_data_all(element)`.
 
 TODO: write a maxima function which gives an annotated atomic symbol in LaTeX, based on the chemical data e.g. \(^{25}_{12}\mbox{Mg}^{2+}\).
+
+
+## Display of chemical formula in LaTeX
+
+For pure display of chemical formula in LaTeX, the [`mhcem` package](https://mhchem.github.io/MathJax-mhchem/) is already available in MathJaX.  Here is a minial example:
+
+```
+\(\require{mhchem}\)
+\(\ce{C6H5-CHO}\),
+\(\ce{SO4^2- + Ba^2+ -> BaSO4 v}\)
+```
+
 

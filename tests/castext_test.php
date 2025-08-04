@@ -3016,4 +3016,29 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $this->assertEquals($exp, $at1->get_rendered());
     }
+
+    /**
+     * Basic test of chemistry functionality.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_include_chemistry(): void {
+
+        $options = new stack_options();
+
+        $vars = 'stack_include("contribl://chemistry.mac");';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@chem_data("H", "Name")@}, ' .
+            '{@chem_data("H", "AtomicMass")@}, {@chem_data("H", "ElectronConfiguration")@}, ' .
+            'and {@chem_data("H", "YearDiscovered")@}.', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('Hydrogen, \({1.008}\), 1s1, and \({1766}\).',
+            $at2->get_rendered());
+    }
 }

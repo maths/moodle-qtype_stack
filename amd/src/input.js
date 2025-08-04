@@ -196,10 +196,6 @@ define([
             lastValidatedValue = val;
             var scriptCommands = [];
             validationDiv.innerHTML = extractScripts(results.message, scriptCommands);
-            // Run script commands.
-            for (var i = 0; i < scriptCommands.length; i++) {
-                eval(scriptCommands[i]);
-            }
             removeAllClasses();
             if (!results.message) {
                 validationDiv.classList.add('empty');

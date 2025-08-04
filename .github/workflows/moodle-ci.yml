@@ -58,6 +58,11 @@ jobs:
             database: 'pgsql'
             maxima: 'SBCL'
             moodle-app: true
+          - php: '8.2'
+            moodle-branch: 'MOODLE_403_STABLE'
+            database: 'pgsql'
+            maxima: 'SBCL'
+            moodle-app: true
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'pgsql'
@@ -171,7 +176,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'MOODLE_401_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'MOODLE_403_STABLE' }}
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests

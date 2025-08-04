@@ -85,6 +85,11 @@ final class subscript_test extends qtype_stack_testcase {
                 $target = $resulttrue->texsimp;
             }
             $this->assertEquals($target, $resulttrue->display);
+            $target = $resulttrue->tex;
+            if ($resulttrue->texplain != '!') {
+                $target = $resulttrue->texplain;
+            }
+            $this->assertEquals($target, $resulttrue->plaindisplay);
         }
     }
 

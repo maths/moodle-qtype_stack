@@ -65,8 +65,11 @@ $columns = [
     'tex'           => 'Expected TeX',
     'tex-display'   => 'CAS TeX',
     'display'       => 'Display',
+    'plain-tex'     => 'Plain atom TeX',
+    'plain-display' => 'Plain atom display',
     'errors'        => 'Errors',
     'notes'         => 'Notes',
+    
 ];
 
 $table = new flexible_table('stack_answertests');
@@ -115,6 +118,14 @@ foreach ($testdata as $data) {
             $class = 'fail';
             $outcome .= 'Display. ';
         }
+        $ptarget = $test->tex;
+        if ($test->texplain != '!') {
+            $ptarget = $test->texplain;
+        }
+        if ($test->plaindisplay != $ptarget) {
+            $class = 'fail';
+            $outcome .= 'Plain atoms. ';
+        }
     }
 
     $row = [
@@ -126,6 +137,8 @@ foreach ($testdata as $data) {
         'tex'           => '<pre>'.$dtarget.'</pre>',
         'tex-display'   => '<pre>'.$test->display.'</pre>',
         'display'       => format_text('\('.$test->display.'\)'),
+        'plain-tex'     => '<pre>'.$test->plaindisplay.'</pre>',
+        'plain-display' => format_text('\('.$test->plaindisplay.'\)'),
         'errors'        => $test->errors,
         'notes'         => $note,
     ];

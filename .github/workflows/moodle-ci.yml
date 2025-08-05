@@ -176,7 +176,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'MOODLE_403_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'MOODLE_500_STABLE' }}
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests

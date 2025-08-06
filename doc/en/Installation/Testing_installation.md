@@ -125,9 +125,21 @@ You can check if your web server is configured correctly using the command line 
 2. Request the MathJax file and check the response headers: `curl -I http://mymoodle.localhost/lib/mathjax/MathJax.js`
 3. Ensure that the response headers include `Access-Control-Allow-Origin: *`.
 
-To test the MathJax rendering within JSXGraph, create a new STACK question that uses JSXGraph and sets the following
-option: `JXG.Options.text.useMathJax = true;`. Preview the question and make sure that the MathJax formulas are rendered
-correctly. If not, check the developer console of your browser for any errors related to MathJax or CORS issues.
+To test the MathJax rendering within JSXGraph:
+
+1. Create a new STACK question.
+2. Add a basic JSXGraph element that makes use of MathJax rendering:
+
+    ```
+    [[jsxgraph]]
+        JXG.Options.text.useMathJax = true;
+        let board = JXG.JSXGraph.initBoard(divid);
+        board.create('text',[0,0,'This should be LaTex: \\(\\int_{\\pi}^{\\phi}x\\textrm{d}x\\)'])
+    [[/jsxgraph]]
+    ```
+3. Preview the question and make sure that the MathJax formula is rendered correctly.
+
+If the rendering fails, check the developer console of your browser for any errors related to MathJax or CORS issues.
 
 # Troubleshooting an install/upgrade
 

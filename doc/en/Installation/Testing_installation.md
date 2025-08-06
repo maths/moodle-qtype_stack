@@ -75,9 +75,7 @@ If you are using a local distribution of MathJax instead of a content-delivery-n
 that your web server is configured properly. Otherwise, advanced features that are rendered in separate iframes (e.g.,
 JSXGraph) will likely fail to render MathJax formulas.
 
-You can determine if you are using a local copy of MathJax by checking the admin setting `filter_mathjax | httpsurl`. If
-this is set to a local URL, such as `/lib/mathjax/MathJax.js`, you are using a local copy of MathJax and must ensure that
-your web server sends the correct CORS headers for the MathJax files.
+You can determine if you are using a local copy of MathJax by checking the admin setting `filter_mathjax | httpsurl`. If this is set to a local URL, such as `/lib/mathjax/MathJax.js`, you are using a local copy of MathJax and must ensure that your web server sends the correct CORS headers for the MathJax files.
 
 In order to allow MathJax to load correctly, your web server must serve a valid `Access-Control-Allow-Origin` header
 with the MathJax files. The following sections provide guidance on how to configure different web servers and confirm

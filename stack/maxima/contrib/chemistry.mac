@@ -33,6 +33,18 @@ chem_data_all(element) := block([cdat, cname, langpack],
 /* This function returns the data "dp" associated with "element". */
 chem_data(element, dp) := assoc(dp, chem_data_all(element))$
 
+/* This function returns the data "dp" associated with "element", with units. */
+chem_data_units(element, dp) := block([cunit],
+    cunit:assoc(dp, zip_with("[", %_CHEM_FIELDS, %_CHEM_UNITS)),
+    if is(cunit=null) then 
+       assoc(dp, chem_data_all(element)) 
+    else 
+       stackunits(assoc(dp, chem_data_all(element)), cunit)
+)$
+
+/* This function returns the units addociated with field "dp". */
+chem_units(dp) := assoc(dp, zip_with("[", %_CHEM_FIELDS, %_CHEM_UNITS))$
+
 /* 
    This is the order of data below.  For efficiency, we don't store all the data as nested lists with repeaed fields.
    The functions above return formatted data for use with "assoc".
@@ -43,6 +55,14 @@ chem_data(element, dp) := assoc(dp, chem_data_all(element))$
     "IonizationEnergy", "ElectronAffinity", "OxidationStates",
     "StandardState", "MeltingPoint", "BoilingPoint", "Density",
     "GroupBlock", "YearDiscovered"
+]$
+
+%_CHEM_UNITS : [
+    null, null, g*mol^(-1), null,
+    null, null, pm,
+    J, null, null,
+    null, K, K, g/cm^3,
+    null, null
 ]$
 
 /*

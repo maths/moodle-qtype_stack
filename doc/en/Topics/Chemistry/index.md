@@ -25,10 +25,12 @@ For example, the entry for `"H"`, hydrogen, is
  ]]
 ````
 
-There are two convenience functions which access this data.
+There are convenience functions which access this data.
 
-* `chem_data_all(element)` returns all the data associated with `element`.  E.g. `chem_data_all("H")`
-* `chem_data(element, dp)` returns the data `dp` associated with `element`.  E.g. `chem_data("H", "AtomicMass")`
+* `chem_units(dp)` Returns the units addociated with `dp`. E.g. `chem_units("AtomicMass")` gives `g*mol^(-1)`.
+* `chem_data_all(element)` returns all the data associated with `element`.  E.g. `chem_data_all("H")`.
+* `chem_data(element, dp)` returns the data `dp` associated with `element`.  E.g. `chem_data("H", "AtomicMass")` gives `1.008`.
+* `chem_data_units(element, dp)` returns the data `dp` associated with `element` using the `stackunits` function.  E.g. `chem_data_units("H", "AtomicMass")` gives `stackunits(1.008,g*mol^(-1))`.
 
 Notes.
 

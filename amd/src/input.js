@@ -87,6 +87,8 @@ define([
          * Called when the input contents changes. Will validate after TYPING_DELAY if nothing else happens.
          */
         function valueChanging() {
+            input.dispatchEvent(new CustomEvent('stack-validation', {
+                detail: {inputname: name, completed: false, valid: null}}));
             cancelTypingDelay();
             showWaiting();
             delayTimeoutHandle = setTimeout(valueChanged, TYPING_DELAY);
@@ -129,11 +131,13 @@ define([
             Ajax.call([{
                 methodname: 'qtype_stack_validate_input',
                 args: {qaid: qaid, name: name, input: getInputValue(), lang: language},
-                done: function(response) {
+                done: (response) => {
                     validationReceived(response);
                 },
-                fail: function(response) {
+                fail: (response) => {
                     showValidationFailure(response);
+                    input.dispatchEvent(new CustomEvent('stack-validation', {
+                        detail: {inputname: name, completed: true, valid: false}}));
                 }
             }]);
             showLoading();
@@ -156,10 +160,14 @@ define([
         function validationReceived(response) {
             if (response.status === 'invalid') {
                 showValidationFailure(response);
+                input.dispatchEvent(new CustomEvent('stack-validation', {
+                    detail: {inputname: name, completed: true, valid: false}}));
                 return;
             }
             validationResults[response.input] = response;
             showValidationResults();
+            input.dispatchEvent(new CustomEvent('stack-validation', {
+                detail: {inputname: name, completed: true, valid: true}}));
         }
 
         /**
@@ -285,6 +293,15 @@ define([
         this.getValue = function() {
             return input.value.replace(/^\s+|\s+$/g, '');
         };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            input.dispatchEvent(event);
+        };
     }
 
     /**
@@ -312,6 +329,15 @@ define([
             var raw = textarea.value.replace(/^\s+|\s+$/g, '');
             // Using <br> here is weird, but it gets sorted out at the PHP end.
             return raw.split(/\s*[\r\n]\s*/).join('<br>');
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            textarea.dispatchEvent(event);
         };
     }
 
@@ -346,6 +372,15 @@ define([
             } else {
                 return '';
             }
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            container.dispatchEvent(event);
         };
     }
 
@@ -384,6 +419,15 @@ define([
             } else {
                 return '';
             }
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            container.dispatchEvent(event);
         };
     }
 
@@ -433,6 +477,15 @@ define([
                 values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
             });
             return JSON.stringify(values);
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            container.dispatchEvent(event);
         };
     }
 

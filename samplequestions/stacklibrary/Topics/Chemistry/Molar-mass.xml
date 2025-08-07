@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 16418  -->
+<!-- question: 16420  -->
   <question type="stack">
     <name>
       <text>Chemistry sample question: Molar mass of elements</text>
@@ -13,15 +13,22 @@ Calculate the molar mass of the following substance: \(\ce{@CN@}\).</p>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[<p>\(\require{mhchem}\)
-Calculation:
+In general, the calculation is
 \[ 𝑀 = \sum_{j} 𝑁_j\, M_j\]
 where \(𝑁_j\) is the number of atoms of element \(j\) and \(M_j\) is the mass of elememnt \(j\).
 </p>
-<p>In this question we need the data \[ {@tt@} \]</p>
+<p>In this question we calculate the molar mass of \(\ce{@CN@}\), and so need the data \[ {@tt@} \]</p>
 <p>
 Molar mass of \(\ce{@CN@}\).
-\[ M = {@ta2@} = {@stack_units_nums(ta1)@} \mathrm{g}\, \mathrm{mol}^{−1}.\]
-</p>]]></text>
+\[
+M=
+[[define _first='true'/]][[foreach ex='CL']][[if test='not _first']] + [[else]][[define _first='false'/]][[/if]]
+{@second(ex)@} \times {@dispsf(chem_data(first(ex),"AtomicMass"),3)@} \mathrm{g}\, \mathrm{mol}^{−1}
+[[/foreach]]
+= {@stack_units_nums(ta1)@} \mathrm{g}\, \mathrm{mol}^{−1}.
+\]
+</p>
+]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
@@ -32,6 +39,7 @@ Molar mass of \(\ce{@CN@}\).
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/iss1504/stack/maxima/contrib/chemistry.mac");
+/* stack_include("contribl://chemistry.mac"); */
 stack_unit_si_declare(true);
 
 /* Each element must be a list of atoms and numbers. */
@@ -46,11 +54,7 @@ CL:rand(CLL);
 CN:apply(sconcat, map(lambda([ex], if is(second(ex)=1) then first(ex) else sconcat(first(ex),string(second(ex)))), CL));
 /* Calculate the final answer. */
 ta1:stackunits(dispsf(apply("+",map(lambda([ex],second(ex)*chem_data(first(ex),"AtomicMass")), CL)),3), chem_units("AtomicMass"));
-/* Calculate the worked solution line. */
-ta2:map(lambda([ex],[stack_disp(second(ex), ""), "\\times", stack_disp(dispsf(chem_data(first(ex),"AtomicMass"),3), ""), "\\mathrm{g}\\, \\mathrm{mol}^{−1}"]), CL);
-ta2:map(lambda([ex],apply(sconcat, ex)),ta2);
-ta2:simplode(ta2, " + ");
-/* Calculate the table of atomic masses. */
+/* Create a table of atomic masses of the elements used. */
 /* Get unique elements in the formula CL. */
 tt:setify(map(first, CL));
 /* Make a list of list of values. */

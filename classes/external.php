@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->libdir . '/externallib.php');
+require_once(__DIR__ . '/../stack/cas/castext2/processor.class.php');
 
 /**
  * External API for AJAX calls.
@@ -82,6 +83,7 @@ class external extends \external_api {
         $dm = new \question_engine_data_mapper();
         $qa = $dm->load_question_attempt($params['qaid']);
         $question = $qa->get_question();
+        $question->castextprocessor = new \castext2_qa_processor($qa);
 
         $input = $question->inputs[$name];
         $state = $question->get_input_state($params['name'], $params['input'], true);

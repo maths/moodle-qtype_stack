@@ -199,6 +199,9 @@ window.addEventListener("message", (e) => {
             // We simply throw everything away and replace with the message.
             document.body.replaceChildren(div);
         }
+
+        // 3. Also report the error to the console for hidden iframes.
+        console.log("STACK-JS error: " + errmesg);
         break;
     }
 
@@ -444,6 +447,9 @@ export const stack_js = {
             // We simply throw everything away and replace with the message.
             document.body.replaceChildren(div);
         }
+
+        // 3. Also report the error to the console for hidden iframes.
+        console.log("STACK-JS error: " + errmesg);
     },
 
     /**

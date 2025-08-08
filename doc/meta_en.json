@@ -1323,6 +1323,14 @@
             "description":"Reference documentation for the JSXGraph question block."
             }
             ]
+        },
+        {
+       "STACK-JS":[
+         {"file":"index.md",
+          "title":"STACK-JS: STACK <-> VLE JavaScript interface - STACK Documentation",
+          "description":"This section describes tools for writing future-proof, portable and safe JavaScript features using the JavaScript system within STACK."
+         }
+        ]
         }
       ]
       }

@@ -92,6 +92,7 @@ This function errors out if no input matching the search conditions is found, it
 
 Finally, remember that this will only trigger the callback on state change. If you use this to decide when to read something from the validation message you should probably also check if there is something to read on page load.
 
+There is an example of this in the STACK library and a description of said example [here](Validation_state_listener.md).
 
 ### Functions for content
 

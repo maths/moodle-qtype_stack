@@ -101,3 +101,8 @@ T:apply(table, append([hr], A));
 `````
 
 Then add `{@T@}` in the castext.
+
+This produces the following TeX output
+\[
+{\begin{array}{c|ccccc} \bigoplus & 0 & 1 & 2 & 3 & 4\\ \hline 0 & 0 & 1 & 2 & 3 & 4 \\ 1 & 1 & 2 & 3 & 4 & 0 \\ 2 & 2 & 3 & 4 & 0 & 1 \\ 3 & 3 & 4 & 0 & 1 & 2 \\ 4 & 4 & 0 & 1 & 2 & 3\end{array}}
+\]

@@ -10,7 +10,7 @@ Really, the `table` operator does nothing (very much like a matrix).  Like a mat
 However, there are some special rules for the tex display.
 
 1. The first row is considered to be a heading, and a horizontal line is printed after the first row.
-2. There are vertical bars between internal columns of the table.
+2. There are vertical bars between internal columns of the table (see below how to change this).
 3. There are currently no options for customising printing of borders, etc.
 4. You can highlight entries in the table using the command `texcolor("col", ex)`.  Note however, this will also underline any entries (as colour alone is poor accessibility practice.).
 
@@ -33,7 +33,24 @@ If you want to identify which entries really are different then you could do som
 
 If you find yourself manipulating tables, the above function provides a starting point.  Please ask the developers to add anything you use regularly.
 
-## Examples.
+## Changing the TeX output of tables.
+
+The TeX output of a table is controlled by the `table_tex` command.  You can re-write this in an individual question.  For example, if you only want a vertical bar after the first row use this version.
+
+`````
+table_tex(ex):= block([ret, astart],
+    astart: ev(makelist("c", k, length(first(ex))-1), simp),
+    astart: sconcat("\\begin{array}{c|", simplode(astart), "} "),
+    ret: maplist(lambda([ex2], simplode(map(lambda([ex3],stack_disp(ex3, "")), ex2), " & ")), args(ex)),
+    rest:sconcat(astart, first(ret), "\\\\ \\hline ", simplode(rest(ret), " \\\\ "), "\\end{array} ")
+);
+`````
+
+The above code does not include the `table_bool_abbreviate:true` option.  See the source code of `table_tex`.
+
+If you want to combine different formatting of tables, then you will need to define a new function such as `table2` and then have parallel `table` and `table2` commands.  Don't forget to have `texput(table2, table2_tex);` etc.
+
+## Example: evaluate a function at a number of values
 
 You can create a table via some code such as the following.  Notice the use of the list constructor function `"["` within the `zip_with` command.
 
@@ -52,3 +69,32 @@ Here we have two tables `T1` is displayed as
 and `T2` gives
 \[ {\begin{array}{c|c|c} a & b & \color{red}{\underline{a\oplus b}}\\ \hline \mathbf{F} & \mathbf{F} & \color{red}{\underline{\mathbf{F} }} \\ \mathbf{F} & \mathbf{T} & \mathbf{T} \\ \mathbf{T} & \mathbf{F} & \color{red}{\underline{\mathbf{T} }} \\ \mathbf{T} & \mathbf{T} & \color{red}{\underline{\mathbf{F} }}\end{array}} \]
 Notice in both the effect of `table_bool_abbreviate:true`. 
+
+## Example: group table of modulo arithmetic
+
+This example redefines the TeX output of the table and creates the group table of modulo arithmetic for \(n=5\).  You can adapt this for other group sizes, and for multiplication or other groups.
+
+`````
+/* Change the display of tables.                          */
+table_tex(ex):= block([ret, astart],
+    astart: ev(makelist("c", k, length(first(ex))-1), simp),
+    astart: sconcat("\\begin{array}{c|", simplode(astart), "} "),
+    ret: maplist(lambda([ex2], simplode(map(lambda([ex3],stack_disp(ex3, "")), ex2), " & ")), args(ex)),
+    rest:sconcat(astart, first(ret), "\\\\ \\hline ", simplode(rest(ret), " \\\\ "), "\\end{array} ")
+);
+
+/* Create a matrix of the entries.                        */
+texput(Bplus, "\\bigoplus");
+n:5;
+f[i,j]:=mod((i-1)+(j-1),n);
+M:genmatrix(f, n, n);
+
+/* Add an index element to the start of each table row.   */
+A:zip_with(append, makelist([k],k,0,n-1), args(M));
+/* Create a header row with first element Bplus.          */
+hr:append([Bplus], makelist(k,k,0,n-1));
+/* Add the header row and create a table.                 */
+T:apply(table, append([hr], A)); 
+`````
+
+Then add `{@T@}` in the castext.

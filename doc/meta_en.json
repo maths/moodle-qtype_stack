@@ -139,8 +139,8 @@
             },
             {
             "file":"Rule_based.md",
-            "title":"Rules based tests - STACK Documentation",
-            "description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
+            "title":"Rule-based tests - STACK Documentation",
+            "description":"STACK can test expressions belong to the same bespoke equivalence class."
             },
             {
             "file":"String.md",
@@ -362,6 +362,11 @@
             ]
             }
         ]
+        },
+        {
+        "file":"Accessibility​.md",
+        "title":"Accessibility​ for Question Authors - STACK Documentation",
+        "description":"Advice on how to make STACK questions accessible."
         },
         {
         "file":"Author_FAQ.md",
@@ -697,6 +702,11 @@
         "file":"index.md",
         "title":"Maintaining questions and question banks - STACK Documentation",
         "description":"Information on maintaining questions and question banks for the longer term."
+        },
+        {
+        "file":"Bulk_testing.md",
+        "title":"Bulk testing STACK questions on your site - STACK Documentation",
+        "description":"Information about bulk testing STACK questions on your site."
         },
         {
         "file":"Deploying.md",
@@ -1278,8 +1288,23 @@
             "description":"How to include JSXGraph into STACK."
             },
             {
+            "file":"Author_quickstart.md",
+            "title":"Authoring your first JSXGraph question - STACK Documentation",
+            "description":"How to authoring you first JSXGraph question."
+            },
+            {
+            "file":"Binding.md",
+            "title":"Binding JSXGraph states to inputs - STACK Documentation",
+            "description":"How to connect JSXGraph diagrams to STACK inputs."
+            },
+            {
+            "file":"Basic_plots.md",
+            "title":"JSXGraph Example plots - STACK Documentation",
+            "description":"A catalogue of simple and basic JSXGraph plots for STACK."
+            },
+            {
             "file":"Example_plots.md",
-            "title":"JSXGraph Example plots- STACK Documentation",
+            "title":"JSXGraph Example plots - STACK Documentation",
             "description":"A catalogue of example JSXGraph plots for STACK."
             },
             {
@@ -1288,11 +1313,28 @@
             "description":"More advanced use of JSXGraph in STACK ."
             },
             {
+            "file":"Update_with_PRTs.md",
+            "title":"Reacting to feedback from the STACK question in JSXGraph - STACK Documentation",
+            "description":"How to enable JSXGraph diagrams to update following PRT feedback."
+            },
+            {
             "file":"Question_block.md",
             "title":"JSXGraph question block- STACK Documentation",
             "description":"Reference documentation for the JSXGraph question block."
             }
             ]
+        },
+        {
+       "STACK-JS":[
+         {"file":"index.md",
+          "title":"STACK-JS: STACK <-> VLE JavaScript interface - STACK Documentation",
+          "description":"This section describes tools for writing future-proof, portable and safe JavaScript features using the JavaScript system within STACK."
+         },
+         {"file":"Validation_state_listener.md",
+          "title":"STACK-JS a cautionary example on using validation messages for data transfer - STACK Documentation",
+          "description":"This page describes a combination of multiple advanced features used together in a way that may prove to be slow."
+         }
+        ]
         }
       ]
       }

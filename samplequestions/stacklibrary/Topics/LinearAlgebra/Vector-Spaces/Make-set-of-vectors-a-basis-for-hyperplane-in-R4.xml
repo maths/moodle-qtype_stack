@@ -1,55 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 40643322  -->
   <question type="stack">
     <name>
       <text>Make set of vectors a basis for hyperplane in R4</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>
-  Consider the vector subspace that is a hyperplane in \(\mathbb{R}^4\) with the equation
-  \[
-  	{@disp_eqns([aa*w + bb*x + cc*y + dd*z = 0],[w,x,y,z])@}
-  \]
-  A fellow student has suggested to you that a suitable basis for this vector subspace would be 
-  \[
-  	{@disp_vecs@}
-  \]
-  but this is incorrect! One of these vectors should be removed and replaced with another, new vector. 
-</p>
-<p>
-  Note: all vectors are of the form \({@r(w,x,y,z)@}^T\). There is more than one possible answer to the below questions.
-</p>
+      <text><![CDATA[<p>Consider the vector subspace that is a hyperplane in \(\mathbb{R}^4\) with the equation \[ {@disp_eqns([aa*w + bb*x + cc*y + dd*z = 0],[w,x,y,z])@} \] A fellow student has suggested to you that a suitable basis for this vector subspace would be \[ {@disp_vecs@} \] but this is incorrect! One of these vectors should be removed and replaced with another, new vector.</p>
+<p>Note: all vectors are of the form \({@r(w,x,y,z)@}^T\). There is more than one possible answer to the below questions.</p>
 <ul>
-  <li>
-    The vector that should be removed is [[input:stu_remove]] [[validation:stu_remove]] [[feedback:prt_remove]]
-  </li>
-  <li>
-    A suitable replacement vector would be [[input:stu_add]] [[validation:stu_add]] [[feedback:prt_add]]<br>
-    <em>Hint: almost any vector in the subspace will do!</em>
-  </li>
+<li>The vector that should be removed is [[input:stu_remove]] [[validation:stu_remove]] [[feedback:prt_remove]]</li>
+<li>A suitable replacement vector would be [[input:stu_add]] [[validation:stu_add]] [[feedback:prt_add]]<br><em>Hint: almost any vector in the subspace will do!</em></li>
 </ul>
-[[hint title="How might I check my answer?"]]
-<p>
-  The subspace is 3-dimensional, so you need a linearly independent set of 3 vectors that all lie in the hyperplane (i.e. satisfy the given equation). If you've found such a triplet of vectors, you've got your basis!
-</p>
-[[/hint]]]]></text>
+<p>[[hint title="How might I check my answer?"]]</p>
+<p>The subspace is 3-dimensional, so you need a linearly independent set of 3 vectors that all lie in the hyperplane (i.e. satisfy the given equation). If you've found such a triplet of vectors, you've got your basis!</p>
+<p>[[/hint]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.5</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include_contrib("linearalgebra_contrib.mac");
-%_stack_preamble_end;
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("matrix.mac");
 stack_include_contrib("vectorspaces.mac");
 
@@ -84,46 +61,25 @@ sol_add: transpose(sol_add);
 disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text><![CDATA[<p>
-  Consider the hyperplane in \(\mathbb{R}^4\)
-  \[
-  	{@disp_eqns([aa*w + bb*x + cc*y + dd*z = 0],[w,x,y,z])@}
-  \]
-  A fellow student has suggested to you that a suitable basis for this vector subspace would be 
-  \[
-  	{@disp_vecs@}
-  \]
-  but this is incorrect! One of these vectors should be removed and replaced with another, new vector. 
-</p>
-<p>
-  Note: all vectors are of the form \({@r(w,x,y,z)@}^T\). Also, there may be more than one possible answer to the below questions.
-</p>
-<ul>
-  <li>
-    The vector that should be removed is {@sol_remove@}
-  </li>
-  <li>
-    A suitable replacement vector would be {@sol_add@}
-  </li>
-</ul>]]></text>
+      <text>\[ {@disp_eqns([aa*w + bb*x + cc*y + dd*z = 0],[w,x,y,z])@} \rightarrow {@sol_remove@},  {@sol_add@} \]</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -133,7 +89,8 @@ disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>stu_add</name>
       <type>matrix</type>
@@ -141,16 +98,16 @@ disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_remove</name>
@@ -159,16 +116,16 @@ disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt_add</name>
@@ -181,31 +138,31 @@ stu_subspace: append(bas,[list_matrix_entries(stu_add)]);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>subspace_equivp(stu_subspace,sol_subspace)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_add-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_add-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[[[if test="is(transpose(nn) . stu_add # 0)"]]
+          <text><![CDATA[<p>[[if test="is(transpose(nn) . stu_add # 0)"]]</p>
 <p>The vector you have added is not in the subspace.</p>
-[[else]]
+<p>[[else]]</p>
 <p>The vector you have added is linearly dependent on the other vectors, so you still do not have a spanning set.</p>
-[[/if]]]]></text>
+<p>[[/if]]</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -221,48 +178,48 @@ new_mat: mat_unblocker(matrix(new_vecs));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>length(new_vecs)</sans>
         <tans>2</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt_remove-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_remove-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">You have tried to remove a vector that isn't in the given set!&nbsp;</p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You have tried to remove a vector that isn't in the given set! </p>]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>rank(new_mat)</sans>
         <tans>2</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_remove-2-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Well done! You removed one of the linearly dependent vectors and now the remaining pair of vectors are linearly independent.&nbsp;</p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Well done! You removed one of the linearly dependent vectors and now the remaining pair of vectors are linearly independent. </p>]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_remove-2-F</falseanswernote>
         <falsefeedback format="html">
@@ -304,7 +261,7 @@ new_mat: mat_unblocker(matrix(new_vecs));</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_add</name>
         <value>matrix([0],[0],[0],[0])</value>
@@ -316,7 +273,7 @@ new_mat: mat_unblocker(matrix(new_vecs));</text>
       <expected>
         <name>prt_add</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_add-1-F</expectedanswernote>
       </expected>
       <expected>
@@ -328,7 +285,7 @@ new_mat: mat_unblocker(matrix(new_vecs));</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_add</name>
         <value>ev(transpose([1,0,0,0] - ([1,0,0,0] . nn)/(nn . nn)*nn),simp)</value>
@@ -346,10 +303,9 @@ new_mat: mat_unblocker(matrix(new_vecs));</text>
       <expected>
         <name>prt_remove</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty></expectedpenalty>
+        <expectedpenalty/>
         <expectedanswernote>prt_remove-1-F</expectedanswernote>
       </expected>
     </qtest>
   </question>
-
 </quiz>

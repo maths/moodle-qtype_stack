@@ -55,6 +55,7 @@ ta:ev((e+i)*x-(f+j)*y+(h+k)*z-7,simp);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans</name>

@@ -526,7 +526,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_natural_domain_sqrt(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 '.
                 '= 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 nounor x=-1]';
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -551,7 +551,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_natural_domain_rational(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),(x-2)*(3*x+2)=0,x=2 nounor x=-2/3]';
         $sa = "5*x/(2*x+1)-3/(x+1) = 1\n5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1)\n(x-2)*(3*x+2)=0\nx=2 or x=-2/3";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -571,7 +571,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_natural_domain_logs(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]';
         $sa = "lg(x+17,3)-2=lg(2*x,3)\nlg(x+17,3)-lg(2*x,3)=2\nlg((x+17)/(2*x),3)=2\n(x+17)/(2*x)=3^2\n(x+17)=18*x\n17*x=17\nx=1";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -594,7 +594,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_equational_reasoning(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[x^2+2*a*x,stackeq(x^2+2*a*x+a^2-a^2),stackeq((x+a)^2-a^2)]';
         $sa = "x^2+2*a*x\n= x^2+2*a*x+a^2-a^2\n= (x+a)^2-a^2";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -611,7 +611,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_equational_nontrivial_difference(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[abs(x-1/2)+abs(x+1/2)-2,stackeq(abs(x)-1)]';
         $sa = "abs(x-1/2)+abs(x+1/2)-2\n= abs(x)-1";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -628,7 +628,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_equation_then_equational(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]';
         $sa = "(x-1)^2=(x-1)*(x-1)\n=x^2-2*x+1";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -646,7 +646,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_equation_then_equational_1(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+2)]';
         $sa = "(x-1)^2=(x-1)*(x-1)\n= x^2-2*x+2";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -663,7 +663,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_equation_then_equational_2(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
         $sa = "(x-2)^2=(x-1)*(x-1)\n= x^2-2*x+1";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -705,7 +705,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_forbid_comments(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
         $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are forbidden normally\"\nx^2-1=0\n(x-1)*(x+1)=0";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
@@ -724,7 +724,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_comments(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
         // This long example also tests a switch from equational reasoning to equivalence reasoning and back again.
         $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are not forbidden!\"\nx^2-1=0\n(x-1)*(x+1)=0\n\"Comment 2\"\n".
@@ -759,7 +759,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_surds(): void {
 
         $options = new stack_options();
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
         $ta = '[sqrt((x-3)*(x-5)),stackeq(x^2-8*x+15)]';
         $sa = "sqrt((x-3)*(x-5))\n=sqrt(x-3)*sqrt(x-5)";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);

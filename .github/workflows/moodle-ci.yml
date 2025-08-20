@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:14
+        image: postgres:15
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -31,40 +31,33 @@ jobs:
       fail-fast: false
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL.
-        # As of Sept 2024, SBCL is not working.
         include:
-          - php: '8.2'
+          - php: '8.4'
             moodle-branch: 'main'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
+          - php: '8.4'
+            moodle-branch: 'MOODLE_500_STABLE'
+            database: 'pgsql'
+            maxima: 'GCL'
+            moodle-app: true
+          - php: '8.2'
+            moodle-branch: 'MOODLE_500_STABLE'
+            database: 'pgsql'
+            maxima: 'SBCL'
+            moodle-app: true
+          # Edinburgh is planning to run the setup below for 2025-26.
           - php: '8.2'
             moodle-branch: 'MOODLE_405_STABLE'
-            database: 'pgsql'
-            maxima: 'GCL'
-            moodle-app: true
-          - php: '8.2'
-            moodle-branch: 'MOODLE_404_STABLE'
-            database: 'pgsql'
-            maxima: 'GCL'
-            moodle-app: true
-          - php: '8.1'
-            moodle-branch: 'MOODLE_403_STABLE'
-            database: 'pgsql'
-            maxima: 'GCL'
-            moodle-app: true
-          # Edinburgh is planning to run the setup below for 2024-25.
-          - php: '7.4'
-            moodle-branch: 'MOODLE_401_STABLE'
             database: 'mariadb'
             maxima: 'GCL'
-          # App CI currently broken for PHP 7.4 - Issue MOBILE-4694.
-            moodle-app: null
+            moodle-app: true
           - php: '7.4'
-            moodle-branch: 'MOODLE_400_STABLE'
+            moodle-branch: 'MOODLE_401_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
-            moodle-app: null
+            moodle-app: true
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})
@@ -195,7 +188,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'MOODLE_401_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'MOODLE_500_STABLE' }}
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests

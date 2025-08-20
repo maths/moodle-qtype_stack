@@ -185,7 +185,7 @@ oodbye&quot;]]</pre></td>
 oodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].</td>
+  <td class="cell c6">ATLevenshtein_true: [[1,"Hello"],[0,"Goodbye"]].</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
@@ -195,7 +195,7 @@ oodbye&quot;]]</pre></td>
 oodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>[0.9]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].</td>
+  <td class="cell c6">ATLevenshtein_true: [[1,"Hello"],[0,"Goodbye"]].</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
@@ -331,7 +331,7 @@ e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].</td>
+  <td class="cell c6">ATLevenshtein_true: [[1,"Good day"],[0.5,"Goodbye"]].</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
@@ -344,7 +344,7 @@ e&quot;, &quot;Fairwell&quot;]
 ]</pre></td>
   <td class="cell c4"><pre>0.75</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].</td>
+  <td class="cell c6">ATLevenshtein_true: [[1,"Good day"],[0.5,"Goodbye"]].</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>

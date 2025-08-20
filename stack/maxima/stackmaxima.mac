@@ -223,11 +223,13 @@ make_complexJ(OPT_COMPLEXJ) := block(
 
 /* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
+    if ev(not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})), simp) 
+        then error("make_multsgn received un-supported option: ", OPT_MULTSGN),
     if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
     if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
     if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),
-    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary),
-    if OPT_MULTSGN = "space" then texput("*", " ", nary)
+    if OPT_MULTSGN = "none" then texput("*", " ", nary),
+    if OPT_MULTSGN = "space" then texput("*", "\\,", nary)
 );
 
 /* This only prints a multiplication sign for numbers. */
@@ -3507,4 +3509,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025042500$
+stackmaximaversion:2025080100$

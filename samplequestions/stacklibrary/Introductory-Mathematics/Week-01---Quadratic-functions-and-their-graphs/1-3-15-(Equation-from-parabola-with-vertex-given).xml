@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.3.15 (Equation from parabola with vertex given)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Find the equation of the parabola with turning point \(({@-dd@},{@ee@})\) given that it also passes through the point \((0, {@ff@})\)</p>
+<p>\(y=\)[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Since we are given the turning point of the parabola, and using completing the square we have that the equation must be of the form 
+\[
+y = {@quad1@}.
+\]
+Substituting the \(x\) and \(y\) values from the other point into this equation then rearranging gives 
+\[
+{@ff@} = a \cdot (0+{@dd@})^2+{@ee@} \implies a = {@aa@}.
+\]
+Hence the equation of the quadratic is 
+\[
+y = {@ta1@}
+\] </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>dd: 1+rand (5);
+ee: 1+ rand(10);
+ff: rand(10);
+
+quad1: a*(x+dd)^2+ee;
+quad2: ev(quad1,x=0);
+
+bb: solve(quad2=ff,a);
+aa: map(rhs,bb)[1];
+
+ta1: aa*(x+dd)^2+ee;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>827452697</deployedseed>
+    <deployedseed>885967807</deployedseed>
+    <deployedseed>710397285</deployedseed>
+    <deployedseed>2069722676</deployedseed>
+    <deployedseed>621569161</deployedseed>
+    <deployedseed>1790966408</deployedseed>
+    <deployedseed>1241586149</deployedseed>
+    <deployedseed>230139630</deployedseed>
+    <deployedseed>1146175032</deployedseed>
+    <deployedseed>1747732545</deployedseed>
+    <deployedseed>1546324939</deployedseed>
+    <deployedseed>1692889003</deployedseed>
+    <deployedseed>398692133</deployedseed>
+    <deployedseed>1292573594</deployedseed>
+    <deployedseed>1080064282</deployedseed>
+    <deployedseed>912009754</deployedseed>
+    <deployedseed>516137934</deployedseed>
+    <deployedseed>1852786143</deployedseed>
+    <deployedseed>71574037</deployedseed>
+    <deployedseed>2011085113</deployedseed>
+    <deployedseed>1767118727</deployedseed>
+    <deployedseed>1703227462</deployedseed>
+    <deployedseed>846477485</deployedseed>
+    <deployedseed>1447169254</deployedseed>
+    <deployedseed>238147222</deployedseed>
+    <deployedseed>458136540</deployedseed>
+    <deployedseed>1161015141</deployedseed>
+    <deployedseed>1385293419</deployedseed>
+    <deployedseed>1381693113</deployedseed>
+    <deployedseed>66302478</deployedseed>
+    <deployedseed>1350288907</deployedseed>
+    <deployedseed>212920562</deployedseed>
+    <deployedseed>715266741</deployedseed>
+    <deployedseed>138382833</deployedseed>
+    <deployedseed>1306343475</deployedseed>
+    <deployedseed>1702047518</deployedseed>
+    <deployedseed>652670551</deployedseed>
+    <deployedseed>43752829</deployedseed>
+    <deployedseed>1309821793</deployedseed>
+    <deployedseed>574395549</deployedseed>
+    <deployedseed>473315207</deployedseed>
+    <deployedseed>2112136201</deployedseed>
+    <deployedseed>506055647</deployedseed>
+    <deployedseed>1576980220</deployedseed>
+    <deployedseed>183210420</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>expand(ta1)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>aa*(x-dd)^2-ee-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

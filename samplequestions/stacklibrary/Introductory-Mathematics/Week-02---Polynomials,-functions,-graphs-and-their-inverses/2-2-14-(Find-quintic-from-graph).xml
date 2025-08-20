@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.2.14 (Find quintic from graph)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the equation of the quintic shown in the graph:</p>
+
+<p style="text-align: center;"></p><div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='250px' height='250px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB#}, axis: true, showCopyright: false, showNavigation:false});
+  var f = board.jc.snippet('{#q#}', true, 'x', true);
+  board.create('functiongraph', [f,{#BB[1]#},{#BB[3]#}],{strokeColor:'#003399',strokeWidth:2});
+  var xaxis = board.create('axis', [[0,0],[1,0]]);
+  board.create('ticks', [xaxis, {#[a1,b1,c1]#}], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
+  var yaxis = board.create('axis', [[0,0],[0,1]]);
+  board.create('ticks', [yaxis, {#[y0]#}], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [-10, 0],anchorX: 'right', anchorY: 'middle' }});
+[[/jsxgraph]]</div><p></p>
+
+<p>\(y=\) [[input:ans1]][[feedback:prt1]] [[validation:ans1]]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The graph cuts the \(x\)-axis at \(x={@b1@}\) and&nbsp;\(x={@c1@}\) so the factorised form of the quartic will have single factors of \(({@x-b1@})\) and \(({@x-c1@})\).</p><p>The graph has a root which is a point of inflection at \(x={@a1@}\) so there will also be a factor of \({@(x-a1)^3@}\).</p><p>So the quintic has the form \(y={@qform_withabc@}\) for some value of \(k\).</p><p>Since the quintic graph passes through the point \((0,{@y0@})\), we have</p><p>\[ {@y0@}={@(ev(qform_withabc,[x=0])),simp=false@}={@keqn@} \]</p><p>Thus \(k={@k1@}\).</p><p>Therefore the graph has equation \(y={@(ev(qform_withabc,[k=k1])),simp=false@}\).</p><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>qform:k*(x-a)^3*(x-b)*(x-c);
+a1:rand_with_prohib(-5,5,[0]);
+b1:rand_with_prohib(-5,5,[0,a1,a1+1,a1-1,-a1,a1+2,a1-2]); /* if the roots are too close together it can be hard to see the behaviour */
+c1:rand_with_prohib(-5,5,[0,a1,a1+1,a1-1,-a1,a1+2,a1-2,b1]);
+y0:rand_with_prohib(-8,8,[0,a1,b1,-a1,-b1,c1,-c1]); /* make sure the quartic q-intercept has a value distinguishable from the roots */
+keqn:ev(qform,[a=a1,b=b1,c=c1,x=0]);
+k1:ev(k,solve(keqn=y0,k));
+q:ev(qform,[a=a1,b=b1,c=c1,k=k1]);
+qform_withabc:ev(qform,[a=a1,b=b1,c=c1]);
+
+ta1:q;
+
+/* for the plot - find the location of the TPs to set a sensible view area */
+df:diff(q,x);
+df0:solve(df=0,x); 
+tps:map(lambda([ex],ev([ev(x,ex),ev(q,ex)],float)),df0);
+/*bounding box*/
+BBx:append(1.2*map(first,tps),[-6,6]); /* use location of TPs (with some extra padding given by the 1.2 factor) as well as default range */
+BBy:append(1.2*map(second,tps),[1,-1,1.2*y0,-abs(y0)/4]);
+BBy:append(BBy,[-lmax(BBy)/6,-lmin(BBy)/6]) /* ensures the x-axis labels are always visible */
+BB:[lmin(BBx),lmax(BBy),lmax(BBx),lmin(BBy)];
+/* note - the PRT is used to prevent the y-range being too big */
+BByratio:abs(BB[2])/(abs(BB[2])+abs(BB[4]));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(y= {@qform_withabc@}\), \( k = {@k1@} \) {#BB#} {#BByratio#}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>5</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>GT</answertest>
+        <sans>BByratio</sans>
+        <tans>0.9</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T-badgraph</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Warning! The y-range is too big so the graph will look wonky!<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>GT</answertest>
+        <sans>0.15</sans>
+        <tans>BByratio</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Warning! The y-range is unbalanced so the graph will look wonky!<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>0</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1643064147</deployedseed>
+    <deployedseed>1126910668</deployedseed>
+    <deployedseed>221993191</deployedseed>
+    <deployedseed>1323088155</deployedseed>
+    <deployedseed>657025211</deployedseed>
+    <deployedseed>528432101</deployedseed>
+    <deployedseed>1913041665</deployedseed>
+    <deployedseed>762501666</deployedseed>
+    <deployedseed>457118635</deployedseed>
+    <deployedseed>1317016098</deployedseed>
+    <deployedseed>417526570</deployedseed>
+    <deployedseed>1418697714</deployedseed>
+    <deployedseed>341058273</deployedseed>
+    <deployedseed>797843548</deployedseed>
+    <deployedseed>1885088113</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>qform_withabc</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

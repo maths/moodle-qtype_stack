@@ -1,37 +1,34 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="stack">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
     <name>
       <text>log-two-three-irrational</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;Prove: {@thm@}&lt;/p&gt;
-&lt;p&gt;Drag those strings needed to construct a correct proof.&lt;/p&gt;
+      <text><![CDATA[<p>Prove: {@thm@}</p><p>Drag those strings needed to construct a correct proof.</p>
 [[parsons input="ans1" height="650px"]]
 {# parsons_encode(proof_steps) #}
-[[/parsons ]]
-&lt;p&gt;(You can drag to re-order or remove strings.  Double tap to add at the end, or remove.)
-
-&lt;p&gt;[[input:ans1]] [[validation:ans1]]&lt;/p&gt;</text>
+[[/parsons ]]<p>(You can drag to re-order or remove strings.  Double tap to add at the end, or remove.)<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text />
+      <text/>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>0.1000000</penalty>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber />
+    <idnumber/>
     <stackversion>
       <text>2024092500</text>
     </stackversion>
     <questionvariables>
-      <text>stack_include_contrib("prooflib.mac");
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
 stack_include_contrib("proofsamples/log-two-three-irrational.mac");
 ta:proof_ans;
 /* wrong_steps are now part of the .mac file, as is some narrative. */
 proof_steps:append(proof_steps,wrong_steps);
 proof_steps:random_permutation(proof_steps);
 
-tal:proof_alternatives(ta);</text>
+tal:proof_alternatives(ta);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -40,19 +37,19 @@ tal:proof_alternatives(ta);</text>
       <text>{@map(first, proof_steps)@}</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text />
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text>&lt;span style="font-size: 1.5em; color:green;"&gt;&lt;i class="fa fa-check"&gt;&lt;/i&gt;&lt;/span&gt; Correct answer, well done.</text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text>&lt;span style="font-size: 1.5em; color:orange;"&gt;&lt;i class="fa fa-adjust"&gt;&lt;/i&gt;&lt;/span&gt; Your answer is partially correct.</text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text>&lt;span style="font-size: 1.5em; color:red;"&gt;&lt;i class="fa fa-times"&gt;&lt;/i&gt;&lt;/span&gt; Incorrect answer.</text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -62,7 +59,8 @@ tal:proof_alternatives(ta);</text>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed />
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>parsons</type>
@@ -70,16 +68,16 @@ tal:proof_alternatives(ta);</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords />
-      <allowwords />
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>0</mustverify>
       <showvalidation>0</showvalidation>
-      <options />
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
@@ -92,23 +90,23 @@ tal:proof_alternatives(ta);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description />
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>pd</sans>
         <tans>0</tans>
-        <testoptions />
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -141,6 +139,4 @@ tal:proof_alternatives(ta);</text>
       </expected>
     </qtest>
   </question>
-
-
-  </quiz>
+</quiz>

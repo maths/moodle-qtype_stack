@@ -1,54 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 40643329  -->
   <question type="stack">
     <name>
       <text>Orthogonally diagonalise a matrix with a repeated eigenvalue</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>
-  Orthogonally diagonalise the matrix 
-  \[
-  	A = {@AA@}.
-  \]
-  That is, find and orthogonal matrix \(Q\) and diagonal matrix \(D\) such that \(QDQ^T = A\).
-</p>
-<p>
-  The eigenspaces of \(A\) are:
-  \[
-  	E_{{@L2/ss@}} = \operatorname{span}\left({@v3@}\right),\qquad
-  	E_{{@L1/ss@}} = \operatorname{span}\left({@v1@}, {@v2@}\right)
-  \]
-</p>
-<div>
-  \(Q = \) [[input:stu_Q]] [[validation:stu_Q]]
-</div>
-<div>
-  \(D = \) [[input:stu_D]] [[validation:stu_D]]
-</div>
-[[feedback:prt_QDQT]]
-<br>
-[[hint title="How might I check my answer?"]]
-<p>
-  If your \(Q\) is orthogonal (check that \(Q^TQ = I\) and \(Q\) is square), your \(D\) is diagonal, and \(QDQ^T = A\) then your answer must be correct!
-</p>
-[[/hint]]]]></text>
+      <text><![CDATA[<p>Orthogonally diagonalise the matrix \[ A = {@AA@}. \] That is, find and orthogonal matrix \(Q\) and diagonal matrix \(D\) such that \(QDQ^T = A\).</p>
+<p>The eigenspaces of \(A\) are: \[ E_{{@L2/ss@}} = \operatorname{span}\left({@v3@}\right),\qquad E_{{@L1/ss@}} = \operatorname{span}\left({@v1@}, {@v2@}\right) \]</p>
+<div>\(Q = \) [[input:stu_Q]] [[validation:stu_Q]]</div>
+<div>\(D = \) [[input:stu_D]] [[validation:stu_D]]</div>
+<p>[[feedback:prt_QDQT]] <br>[[hint title="How might I check my answer?"]]</p>
+<p>If your \(Q\) is orthogonal (check that \(Q^TQ = I\) and \(Q\) is square), your \(D\) is diagonal, and \(QDQ^T = A\) then your answer must be correct!</p>
+<p>[[/hint]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.5</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2025042500</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Can be deleted if using STACK 4.9.0 or later: */
-stack_include_contrib("linearalgebra_contrib.mac");
-%_stack_preamble_end;
-
+      <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("matrix.mac");
 stack_include_contrib("rand_matrix.mac");
 
@@ -66,44 +42,28 @@ v1: expand(scale_nicely(col(sol_Q,1)));
 v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)));]]></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text></text>
+      <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text><![CDATA[<p>
-  Orthogonally diagonalise the matrix 
+      <text>Orthogonally diagonalise the matrix 
   \[
-  	A = {@AA@}.
-  \]
-  That is, find and orthogonal matrix \(Q\) and diagonal matrix \(D\) such that \(QDQ^T = A\).
-</p>
-<p>
-  The eigenspaces of \(A\) are:
-  \[
-  	E_{{@L2/ss@}} = \operatorname{span}\left({@v3@}\right),\qquad
-  	E_{{@L1/ss@}} = \operatorname{span}\left({@v1@}, {@v2@}\right)
-  \]
-</p>
-<div>
-  \(Q = {@sol_Q@}\)
-</div>
-<div>
-  \(D = {@sol_D@}\)
-</div>]]></text>
+  	A = {@AA@} \rightarrow {@sol_Q@}, {@sol_D@} 
+  \]</text>
     </questionnote>
     <questiondescription format="html">
-      <text></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -113,7 +73,8 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed></variantsselectionseed>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>stu_D</name>
       <type>matrix</type>
@@ -121,16 +82,16 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <input>
       <name>stu_Q</name>
@@ -139,16 +100,16 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options></options>
+      <options/>
     </input>
     <prt>
       <name>prt_QDQT</name>
@@ -156,27 +117,27 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>orth_matrixp(stu_Q)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt_QDQT-1-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) is orthogonal, good job!&nbsp;</p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) is orthogonal, good job! </p>]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>1</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>prt_QDQT-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -185,15 +146,15 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
       </node>
       <node>
         <name>1</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>diagp(stu_D)</sans>
         <tans>true</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt_QDQT-2-T</trueanswernote>
         <truefeedback format="html">
@@ -201,36 +162,36 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>1</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt_QDQT-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(D\) is not diagonal.&nbsp;</p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(D\) is not diagonal. </p>]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
-        <description></description>
+        <description/>
         <answertest>AlgEquiv</answertest>
         <sans>radcan(stu_Q . stu_D . transpose(stu_Q))</sans>
         <tans>AA</tans>
-        <testoptions></testoptions>
+        <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt_QDQT-3-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(D\) satisfy \(QDQ^T = A\), good job!&nbsp;</p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(D\) satisfy \(QDQ^T = A\), good job! </p>]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_QDQT-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(D\) do not satisfy \(QDQ^T = A\).<br></p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(D\) do not satisfy \(QDQ^T = A\).</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -263,7 +224,7 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description></description>
+      <description/>
       <testinput>
         <name>stu_D</name>
         <value>matrix([L1/ss,0,0],[0,L2/ss,0],[0,0,L1/ss])</value>
@@ -280,5 +241,4 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
       </expected>
     </qtest>
   </question>
-
 </quiz>

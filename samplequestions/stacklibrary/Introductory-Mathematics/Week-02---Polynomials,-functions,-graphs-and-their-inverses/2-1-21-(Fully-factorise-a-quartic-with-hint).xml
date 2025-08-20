@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.1.21 (Fully factorise a quartic with hint)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Fully factorise the polynomial \(p(x)={@p@}\), given that {@x=r4@} is a root.</p><p>\(p(x)=\) [[input:ans1]][[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Since {@x=r4@} is a root, {@ev((x-r4),simp)@} is a factor. Thus</p><p>\[ p(x)=({@ev((x-r4),simp)@})({@cubicterm@}) \]</p><p>By inspection, the cubic term has {@x=r2@} as a root, so taking out {@ev((x-r2),simp)@} as a factor,</p><p>\[ \begin{eqnarray*} p(x)&amp;=&amp;({@ev((x-r4),simp)@})({@ev((x-r2),simp)@})({@quadraticterm@}) \\ &amp;=&amp; {@ta1@} \end{eqnarray*} \]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>r1:rand([1,2,3,4]);
+rdenom1:[2,3,2,3][r1]; /* so that gcd(r1,rdenom1)=1 */
+r2:1;
+r3:ev(-1*rand([1,2,3,4]),simp);
+r4:rand_with_prohib(-3,3,[0]);
+p:ev(expand((rdenom1*x-r1)*(x-r2)*(x-r3)*(x-r4)),simp);
+cubicterm:ev(expand((rdenom1*x-r1)*(x-r2)*(x-r3)),simp);
+quadraticterm:ev(expand((rdenom1*x-r1)*(x-r3)),simp);
+ta1: ev((x-r4)*(x-r2)*(rdenom1*x-r1)*(x-r3),simp);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]<br></p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@p=ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>818488836</deployedseed>
+    <deployedseed>1547841165</deployedseed>
+    <deployedseed>473959684</deployedseed>
+    <deployedseed>793762440</deployedseed>
+    <deployedseed>475527203</deployedseed>
+    <deployedseed>844935586</deployedseed>
+    <deployedseed>420509846</deployedseed>
+    <deployedseed>1973847681</deployedseed>
+    <deployedseed>1354048280</deployedseed>
+    <deployedseed>892462394</deployedseed>
+    <deployedseed>2063600908</deployedseed>
+    <deployedseed>317074267</deployedseed>
+    <deployedseed>1105723140</deployedseed>
+    <deployedseed>1516601331</deployedseed>
+    <deployedseed>1414942307</deployedseed>
+    <deployedseed>750861644</deployedseed>
+    <deployedseed>1982792956</deployedseed>
+    <deployedseed>42185743</deployedseed>
+    <deployedseed>1985606816</deployedseed>
+    <deployedseed>1533301693</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>(x-r4)*cubicterm</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>rdenom1*(x-r4)*(x-r2)*(x-r1/rdenom1)*(x-r3)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

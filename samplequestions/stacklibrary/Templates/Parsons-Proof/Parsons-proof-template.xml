@@ -5,7 +5,8 @@
       <text>Parsons' proof template</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>{@thm@}</p>
+      <text><![CDATA[<p>Prove the following theorem.</p>
+<p><b>Theorem:</b> {@thm@}</p>
 [[parsons input="ans1"]]
 {# parsons_encode(proof_steps) #}
 [[/parsons ]]
@@ -94,6 +95,7 @@ It also demonstrates how to create sample Parsons problems.  In particular, how 
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

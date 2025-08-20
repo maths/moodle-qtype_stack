@@ -76,6 +76,10 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'x1', 'x_1', 0, '', 'See docs on subscripts and different atoms.'],
         ['AlgEquiv', '', 'x_1', 'x[1]', 0, '', ''],
         ['AlgEquiv', '', 'x[1]', 'x1', 0, '', ''],
+        ['AlgEquiv', '', 'true', 'true', 1, 'ATLogic_True.', 'Logic'],
+        ['AlgEquiv', '', 'false', 'false', 1, 'ATLogic_True.', ''],
+        ['AlgEquiv', '', 'true', 'false', 0, '', ''],
+        ['AlgEquiv', '', 'false', 'true', 0, '', ''],
         ['AlgEquiv', '', 'integerp(3)', 'true', 1, 'ATLogic_True.', 'Predicates'],
         ['AlgEquiv', '', 'integerp(3.1)', 'true', 0, '', ''],
         ['AlgEquiv', '', 'integerp(3)', 'false', 0, '', ''],
@@ -1215,6 +1219,8 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[noncomMul,intMul]', '2*a*3', 'a*6', 1, '', ''],
         ['EqualComAssRules', '[noncomMul,intMul]', 'a*6', '6*a', 1, '', ''],
         ['EqualComAssRules', '[noncomMul,intMul]', 'A^2+2*A*B+B^2', 'B^2+A*2*B+A^2', 1, '', ''],
+        ['EqualComAssRules', '[intPow]', '2^3', '8', 1, '', ''],
+        ['EqualComAssRules', '[intPow]', '2*2*2', '8', 0, '', ''],
         // This next example is parsing rules.  In Maxima ev(a/b/c, simp)=a/(b*c).
         [
             'EqualComAssRules', '[testdebug,ID_TRANS]', 'a/b/c', 'a/(b*c)', 0,
@@ -1271,6 +1277,21 @@ class stack_answertest_test_data {
         ],
         ['EqualComAssRules', '[ID_TRANS,sqrtRem]', '1/sqrt(3)', '1/3^(1/2)', 1, '', ''],
         ['EqualComAssRules', '[ID_TRANS,sqrtRem]', '1/sqrt(3)', '3^(-1/2)', 0, '', ''],
+        ['EqualComAssRules', '[onePow]', '1^x', '1', 1, '', ''],
+        ['EqualComAssRules', '[onePow]', '(2-1)^x', '1', 0, '', ''],
+        ['EqualComAssRules', '[idPow]', 'x^1', 'x', 1, '', ''],
+        ['EqualComAssRules', '[idPow]', 'x^(2-1)', 'x', 0, '', ''],
+        ['EqualComAssRules', '[zPow]', 'x^0', '1', 1, '', ''],
+        ['EqualComAssRules', '[zPow]', 'x^(1-1)', '1', 0, '', ''],
+        ['EqualComAssRules', '[zeroPow]', '0^x', '0', 1, '', ''],
+        ['EqualComAssRules', '[zeroPow]', '(1-1)^x', '0', 0, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x*y/1', 'x*y', 1, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x/1', 'x', 1, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x/1', 'x*1', 0, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x+y/1', 'x+y', 1, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x*y/(1*a)', 'x*y/a', 0, '', ''],
+        ['EqualComAssRules', '[oneMul]', 'x*y/(1*a)', 'x*y/a', 1, '', ''],
+        ['EqualComAssRules', '[oneMul]', 'x*y/(1*a)', 'x*y/a', 1, '', ''],
 
         ['CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''],
         ['CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''],
@@ -2429,6 +2450,8 @@ class stack_answertest_test_data {
         ],
         ['NumRelative', '0.1', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '', ''],
         ['NumRelative', '0.1', '{0,1,2}', '{0,1,2}', 1, '', ''],
+        ['NumRelative', '0.01', '{-1,2,3}', '{-1,2,3}', 1, '', ''],
+        ['NumRelative', '0.01', '{-1.1,2,3}', '{-1,2,3}', 0, 'ATNumerical_wrongentries: TA/SA=[-1.0], SA/TA=[-1.1].', ''],
         // What happens with floating point complex numbers?
         // This is rejected as not a real number.
         ['NumRelative', '0.1', '0.99*%i', '%i', 0, 'ATNumerical_SA_not_number.', 'Complex numbers'],
@@ -2457,6 +2480,8 @@ class stack_answertest_test_data {
             'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', '',
         ],
         ['NumAbsolute', '0.1', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '', ''],
+        ['NumAbsolute', '0.01', '{-1,2,3}', '{-1,2,3}', 1, '', ''],
+        ['NumAbsolute', '0.01', '{-1.1,2,3}', '{-1,2,3}', 0, 'ATNumerical_wrongentries: TA/SA=[-1.0], SA/TA=[-1.1].', ''],
 
         ['NumSigFigs', '', '3.141', '3.1415927', -1, 'STACKERROR_OPTION.', 'Basic tests'],
         ['NumSigFigs', '3', '1/0', '3', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''],
@@ -3061,11 +3086,11 @@ class stack_answertest_test_data {
         // Functionality test.
         [
             'Levenshtein', '0.9', '"Hello"', '[["Hello"], ["Goodbye"]]', 1,
-            'ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].', 'Usage tests',
+            'ATLevenshtein_true: [[1,"Hello"],[0,"Goodbye"]].', 'Usage tests',
         ],
         [
             'Levenshtein', '[0.9]', '"hello"', '[["Hello"], ["Goodbye"]]', 1,
-            'ATLevenshtein_true: [[1.0,"Hello"],[0.0,"Goodbye"]].', '',
+            'ATLevenshtein_true: [[1,"Hello"],[0,"Goodbye"]].', '',
         ],
         // Also tests <= in comparisons, using a fine error.
         [
@@ -3103,12 +3128,12 @@ class stack_answertest_test_data {
         [
             'Levenshtein', '0.75', 'sremove_chars(".,!?", "Good, day!")',
             '[["Hello", "Good day", "Hi"], ["Goodbye", "Bye", "Fairwell"]]',
-            1, 'ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].', '',
+            1, 'ATLevenshtein_true: [[1,"Good day"],[0.5,"Goodbye"]].', '',
         ],
         [
             'Levenshtein', '0.75', '"   good     day  "',
             '[["Hello", "Good day", "Hi"], ["Goodbye", "Bye", "Fairwell"]]',
-            1, 'ATLevenshtein_true: [[1.0,"Good day"],[0.5,"Goodbye"]].', '',
+            1, 'ATLevenshtein_true: [[1,"Good day"],[0.5,"Goodbye"]].', '',
         ],
         [
             'Levenshtein', '[0.75, WHITESPACE]', '"   good     day  "',

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.8 (Find upper lim and expr 2)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Write the following sum using sigma notation.</p><p>\( {@ev(p,k=1)@}+{@ev(p,k=2)@}+{@ev(p,k=3)@}+\cdots+{@ev(p,k=ul)@} = \displaystyle\sum_{k=1}^m \) [[input:ans1]] [[validation:ans1]]</p><p>
+where \(m=\)[[input:ans2]] [[validation:ans2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Counting the terms we see that there should be {@ul@} terms, thus \(m = {@ul@}\) and the general term should be 
+\[
+\displaystyle\sum_{k={@ll@}}^m {@p@}.
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022071300</text>
+    </stackversion>
+    <questionvariables>
+      <text>ul:10+rand(10);
+a:rand([1,2,3,4]);
+p:a*k+rand_with_prohib(-2,2,[-a,-2*a,-3*a]) /* this prevents the k=1,2,3 term being 0 */
+ta:sum(p,k,1,ul)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( {@ev(p,k=1)@}+{@ev(p,k=2)@}+{@ev(p,k=3)@}+\cdots+{@ev(p,k=ul)@}=\sum_{k=1}^{@ul@} {@p@}.\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>p</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>2</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ul</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>p</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have correctly given the formula for the general term, well done.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have evaluated the sum. &nbsp;The question asks you to write the sum in "sigma" notation. &nbsp;This means you need to give a formula for each term in the sum. &nbsp;Look carefully and try to spot a pattern.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You have not correctly found the formula for each term in the sum.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ul</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have the correct value for \(m\), well done.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your value for the upper limit, \(m\), is incorrect.&nbsp;<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2050826205</deployedseed>
+    <deployedseed>989447408</deployedseed>
+    <deployedseed>179479883</deployedseed>
+    <deployedseed>1304553067</deployedseed>
+    <deployedseed>73069518</deployedseed>
+    <deployedseed>1913395881</deployedseed>
+    <deployedseed>1146559667</deployedseed>
+    <deployedseed>57350113</deployedseed>
+    <deployedseed>1115619584</deployedseed>
+    <deployedseed>355962943</deployedseed>
+    <deployedseed>2103713328</deployedseed>
+    <deployedseed>411797085</deployedseed>
+    <deployedseed>1301031082</deployedseed>
+    <deployedseed>641493657</deployedseed>
+    <deployedseed>1698636791</deployedseed>
+    <deployedseed>95591728</deployedseed>
+    <deployedseed>898487428</deployedseed>
+    <deployedseed>1586864572</deployedseed>
+    <deployedseed>299425816</deployedseed>
+    <deployedseed>808711462</deployedseed>
+    <deployedseed>1038936155</deployedseed>
+    <deployedseed>553445443</deployedseed>
+    <deployedseed>1311023354</deployedseed>
+    <deployedseed>722794106</deployedseed>
+    <deployedseed>1899605026</deployedseed>
+    <deployedseed>472072605</deployedseed>
+    <deployedseed>755397652</deployedseed>
+    <deployedseed>402464077</deployedseed>
+    <deployedseed>846815365</deployedseed>
+    <deployedseed>91921900</deployedseed>
+    <deployedseed>1487639123</deployedseed>
+    <deployedseed>368992844</deployedseed>
+    <deployedseed>497845713</deployedseed>
+    <deployedseed>1510612448</deployedseed>
+    <deployedseed>20837812</deployedseed>
+    <deployedseed>1978608922</deployedseed>
+    <deployedseed>1647122173</deployedseed>
+    <deployedseed>13650021</deployedseed>
+    <deployedseed>1081902120</deployedseed>
+    <deployedseed>17278873</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>p</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ul</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>m-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>p-1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ul</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

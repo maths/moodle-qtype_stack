@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.1.17 (Which geo seq are converging?)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="noindent">Which of the following geometric sequences converge to a limit?</p>  
+ [[input:ans1]] [[validation:ans1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p class="noindent">In order for the geometric sequence to converge to a limit, we need \(-1&lt;r\leq1\). This is because:</p><p class="noindent"></p><ul><li>if \(|r|&gt;1\) then the terms are increasing in absolute value as \(n\) increases,</li><li>if \(r=-1\) then the terms are alternating between \(a\) and \(-a\),</li><li>if \(|r|&lt;1\) then the terms are getting closer to 0 in magnitude (hence converging to 0),</li><li>if \(r=1\) then the sequence is constant (hence converging to \(a\)).</li></ul><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>k:rand([2,3,5]);
+[a1,a2,a3,a4]:makelist(rand_with_prohib(-7,7,[0]),i,1,4);
+simp:false;
+corbase:[u_n=a1*(1/k)^(n-1),u_n=a3*(-1/k)^(n-1),u_n=a4*(1)^(n-1)];
+wrongbase:[u_n=a2*(k)^(n-1),u_n=a2*(-k)^(n-1)];
+mcq:multiselqnalpha(corbase, 3, wrongbase, 2);
+ta1:mcq[1];
+version:mcq[2];
+corr1:mcq_correct(ta1);
+incorr1:mcq_incorrect(ta1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{#version#}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>cross</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>checkbox</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(corr1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1488593294</deployedseed>
+    <deployedseed>45695047</deployedseed>
+    <deployedseed>1426782990</deployedseed>
+    <deployedseed>2074836467</deployedseed>
+    <deployedseed>110940688</deployedseed>
+    <deployedseed>176967060</deployedseed>
+    <deployedseed>340515486</deployedseed>
+    <deployedseed>1438312967</deployedseed>
+    <deployedseed>643413789</deployedseed>
+    <deployedseed>1512382980</deployedseed>
+    <deployedseed>898684540</deployedseed>
+    <deployedseed>167238727</deployedseed>
+    <deployedseed>953254914</deployedseed>
+    <deployedseed>1408583752</deployedseed>
+    <deployedseed>1283313471</deployedseed>
+    <deployedseed>39256614</deployedseed>
+    <deployedseed>1196361679</deployedseed>
+    <deployedseed>781675783</deployedseed>
+    <deployedseed>840780089</deployedseed>
+    <deployedseed>1535082627</deployedseed>
+    <deployedseed>798604320</deployedseed>
+    <deployedseed>2010380623</deployedseed>
+    <deployedseed>1437500122</deployedseed>
+    <deployedseed>1147416010</deployedseed>
+    <deployedseed>825233482</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>incorr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sort([incorr1[1],corr1[1]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[corr1[1]]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

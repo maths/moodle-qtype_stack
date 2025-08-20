@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.1.5 (Which are arith seqs?)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="noindent">Which of the following could be arithmetic sequences?</p>  
+ [[input:ans1]] [[validation:ans1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p class="noindent">For an arithmetic sequence, the difference between
+\( u_{1}\) and
+\( u_{2}\)
+
+will be the same as every difference of successive terms. So we need to find
+\( u_{2}- u_{1}\) and check that
+this is the same as \( u_{3}- u_{2}\),
+\( u_{4}- u_{3}\) and
+\( u_{5}- u_{4}\). If any
+of these have a different value, then the sequence is definitely not arithmetic. If they are all the
+same then then sequence could be arithmetic. </p><p class="noindent">Note that for the example involving logarithms, we need to do a bit of simplifying using the laws of logs to really be sure!</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[a : rand_range(2,5);
+b : rand_range(0,1);
+lnd : rand_range(2,3);
+lna : ( if (lnd=2) then rand_range(2,6) else rand_range(2,3));
+lndiff : rand_range(2,5);
+pid : rand_range(-1,1,2)*rand_range(2,4);
+fracdenom:rand_range(6,8,2);
+fracstep:rand_range(2,3);
+fracstart:rand_range(1,2);
+sgnpower:rand_range(1,2);
+/* pairs of the form [T, F] */
+piseq:[ makelist(Pi+(i+1)*(pid),i,0,3), makelist(Pi+(i+1)*(pid)+(i^2+i)/2,i,0,3)];
+lnseq:[ makelist(ln((lna)*(lnd)^i),i,0,3), makelist(ln((lna)+(lnd)*i),i,0,3) ];
+fracseq:[ makelist(((fracstep)*i-(fracstart))/(fracdenom),i,0,3), makelist(((fracstep)*(i^2+i)/2-(fracstart))/(fracdenom),i,0,3)];
+sgnseq:[ makelist(-(a)+(lnd)*i,i,0,3), makelist((-1)^((sgnpower)+i),i,0,3) ];
+allpairs:[piseq,lnseq,fracseq,sgnseq];
+/* select one of the Fs and the rest Ts 
+wrongopt:rand(4);
+mcq:makelist([ allpairs[i][(if (i=wrongopt) then 2 else 1)], ev(i=wrongopt,pred)  ],i,1,4);*/
+/* select two of the Fs and the rest Ts */
+wrongopts:rand_selection([1,2,3,4],2);
+mcq:makelist([ allpairs[i][(if member(i,wrongopts) then 2 else 1)], not(member(i,wrongopts))  ],i,1,4);
+unlab:random_permutation(mcq);
+talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(unlab)), simp);
+mcqlab:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", stack_disp(ex2[1], "id"))]), talab, unlab);
+ta1:maplist(lambda([ex],[ex[1],ex[2],ssubst("","\\left[",ssubst(", \\ldots","\\right]",ex[3]))]),mcqlab);
+version:unlab;
+/*corbase:map(first,allpairs);
+wrongbase:map(second,allpairs);
+mcq:multiselqnalpha(corbase, 2, wrongbase, 2);
+ta1:maplist(lambda([ex],[ex[1],ex[2],ssubst("","\\left[",ssubst(", \\ldots","\\right]",ex[3]))]),mcq[1]);
+version:mcq[2];*/
+corr1:mcq_correct(ta1);
+incorr1:mcq_incorrect(ta1);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{#version#}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>checkbox</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(corr1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1246515114</deployedseed>
+    <deployedseed>133085774</deployedseed>
+    <deployedseed>517991779</deployedseed>
+    <deployedseed>1749825903</deployedseed>
+    <deployedseed>165634050</deployedseed>
+    <deployedseed>259918743</deployedseed>
+    <deployedseed>356801647</deployedseed>
+    <deployedseed>1134640410</deployedseed>
+    <deployedseed>1444392640</deployedseed>
+    <deployedseed>403679144</deployedseed>
+    <deployedseed>669431081</deployedseed>
+    <deployedseed>945322726</deployedseed>
+    <deployedseed>507539623</deployedseed>
+    <deployedseed>145828542</deployedseed>
+    <deployedseed>243519637</deployedseed>
+    <deployedseed>487616259</deployedseed>
+    <deployedseed>345713147</deployedseed>
+    <deployedseed>1257199508</deployedseed>
+    <deployedseed>1230476446</deployedseed>
+    <deployedseed>1721476521</deployedseed>
+    <deployedseed>1836179508</deployedseed>
+    <deployedseed>1168069752</deployedseed>
+    <deployedseed>2054236168</deployedseed>
+    <deployedseed>1946572749</deployedseed>
+    <deployedseed>1310843525</deployedseed>
+    <deployedseed>20284132</deployedseed>
+    <deployedseed>1822983793</deployedseed>
+    <deployedseed>1544655063</deployedseed>
+    <deployedseed>697600698</deployedseed>
+    <deployedseed>75742673</deployedseed>
+    <deployedseed>1204243838</deployedseed>
+    <deployedseed>2025805634</deployedseed>
+    <deployedseed>644975429</deployedseed>
+    <deployedseed>1256724103</deployedseed>
+    <deployedseed>1215819954</deployedseed>
+    <deployedseed>871182248</deployedseed>
+    <deployedseed>349197738</deployedseed>
+    <deployedseed>156068890</deployedseed>
+    <deployedseed>202784134</deployedseed>
+    <deployedseed>945745804</deployedseed>
+    <deployedseed>1358908687</deployedseed>
+    <deployedseed>1070086383</deployedseed>
+    <deployedseed>1554502416</deployedseed>
+    <deployedseed>1394303918</deployedseed>
+    <deployedseed>1904834150</deployedseed>
+    <deployedseed>755858767</deployedseed>
+    <deployedseed>49528218</deployedseed>
+    <deployedseed>1756137932</deployedseed>
+    <deployedseed>1035728066</deployedseed>
+    <deployedseed>1898760374</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>incorr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sort([incorr1[1],corr1[1]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[corr1[1]]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

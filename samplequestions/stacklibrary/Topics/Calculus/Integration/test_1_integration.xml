@@ -1,19 +1,21 @@
-<?xml version='1.0' encoding='utf-8'?>
-<quiz><question type="stack">
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
     <name>
       <text>test_1_integration</text>
     </name>
     <questiontext format="html">
-      <text>&lt;p&gt;Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text>&lt;p&gt;We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]&lt;/p&gt;</text>
+      <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>0.1000000</penalty>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
     <hidden>0</hidden>
+    <idnumber/>
     <stackversion>
-      <text />
+      <text/>
     </stackversion>
     <questionvariables>
       <text>n:rand(5)+3;
@@ -23,29 +25,36 @@ p:(v-a)^n;
 ta:(v-a)^(n+1)/(n+1);</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text>&lt;p&gt;[[feedback:prt1]]&lt;/p&gt;</text>
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text>\(\int {@p@} d{@v@} = {@ta@}\)</text>
     </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text>&lt;p&gt;&lt;span class="correct"&gt;Correct answer, well done.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text>&lt;p&gt;&lt;span class="partially"&gt;Your answer is partially correct.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text>&lt;p&gt;&lt;span class="incorrect"&gt;Incorrect answer.&lt;/span&gt;&lt;/p&gt;</text>
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
-    <variantsselectionseed />
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -53,26 +62,28 @@ ta:(v-a)^(n+1)/(n+1);</text>
       <boxsize>20</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint />
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords>int</forbidwords>
-      <allowwords />
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options />
+      <options/>
     </input>
     <prt>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text />
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description/>
         <answertest>Int</answertest>
         <sans>ans1</sans>
         <tans>ta</tans>
@@ -80,19 +91,19 @@ ta:(v-a)^(n+1)/(n+1);</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty />
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>1-0-T </trueanswernote>
         <truefeedback format="html">
-          <text />
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty />
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>1-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text />
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -100,6 +111,7 @@ ta:(v-a)^(n+1)/(n+1);</text>
     <deployedseed>1001758021</deployedseed>
     <qtest>
       <testcase>1</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>ta+c</value>
@@ -113,6 +125,7 @@ ta:(v-a)^(n+1)/(n+1);</text>
     </qtest>
     <qtest>
       <testcase>2</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>ta</value>
@@ -126,6 +139,7 @@ ta:(v-a)^(n+1)/(n+1);</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>n*(v-a)^(n-1)</value>
@@ -139,6 +153,7 @@ ta:(v-a)^(n+1)/(n+1);</text>
     </qtest>
     <qtest>
       <testcase>4</testcase>
+      <description/>
       <testinput>
         <name>ans1</name>
         <value>(v-a)^(n+1)</value>
@@ -151,6 +166,4 @@ ta:(v-a)^(n+1)/(n+1);</text>
       </expected>
     </qtest>
   </question>
-
-
-  </quiz>
+</quiz>

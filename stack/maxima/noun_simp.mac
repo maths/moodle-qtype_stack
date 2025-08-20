@@ -445,9 +445,18 @@ zPowp(ex):= block(
 )$
 zPow(ex) := if zPowp(ex) then 1 else ex$
 
-/* UNARY_RECIP(1) -> 1 (intended to be used with other rules). */
-oneDivp(ex):= if safe_op(ex)="UNARY_RECIP" and part(ex, 1)=1 then true else false$
-oneDiv(ex) := if oneDivp(ex) then 1 else ex$
+/* UNARY_RECIP(1) -> 1 and x/1 -> x. */
+oneDivp(ex):= block(
+    if safe_op(ex)="UNARY_RECIP" and is(part(ex, 1)=1) then return(true),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
+    not(emptyp(sublist(args(ex), lambda([ex], is(ex=UNARY_RECIP(1))))))
+)$
+oneDiv(ex) := block([l1],
+    if safe_op(ex)="UNARY_RECIP" and is(part(ex, 1)=1) then return(1),
+    l1:sublist(args(ex), lambda([ex], not(is(ex=UNARY_RECIP(1))))),
+    if length(l1)=1 then return(first(l1)),
+    apply(op(ex),l1)
+)$
 
 /*****************************************/
 
@@ -588,7 +597,7 @@ divDivProdp(ex):= block(
 )$
 divDivp(ex):= block([ex2],
     if safe_op(ex)="UNARY_RECIP" then return(divDivProdp(part(ex,1))),
-    if not(safe_op(ex)="*" or safe_op(ex)="nunmul") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     ex2:sublist(args(ex),lambda([ex3], safe_op(ex3)="UNARY_RECIP")),
     if emptyp(ex2) then return(false),
     ex2:map(first,ex2),
@@ -697,11 +706,11 @@ intMul(ex) := block([a1, a2],
 
 intPowp(ex):= block(
     if not(safe_op(ex)="^" or safe_op(ex)="nounpow") then return(false),
-    if integerp(part((ex),1)) and part((ex),1)#0 and integerp(part((ex),2)) and part((ex),2)#0 then return(true) else return(false)
+    if integerp(part((ex),1)) and not(is(part((ex),1)=0)) and integerp(part((ex),2)) and not(is(part((ex),2)=0)) then return(true) else return(false)
 )$
 intPow(ex) := block([a1, a2], 
     if intPowp(ex)=false then return(ex),
-    ev(ex, simp)
+    ev(subst("^", "nounpow", ex), simp)
 )$
 
 intFacp(ex):= integerp(ex)$

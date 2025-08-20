@@ -95,11 +95,12 @@ wa: [
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>parsons</type>
-      <tans>[ta, steps, 3, 2]</tans>
+      <tans>[ta, steps, headers, 2]</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -160,7 +161,7 @@ tans: match_set_row(ta);</text>
       <description>Test case assuming the teacher's input gets full marks.</description>
       <testinput>
         <name>ans1</name>
-        <value>apply(match_answer,[ta, steps, 3])</value>
+        <value>apply(match_answer,[ta, steps, headers])</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -188,7 +189,7 @@ tans: match_set_row(ta);</text>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>apply(match_answer,[ta2, steps, 3])</value>
+        <value>apply(match_answer,[ta2, steps, headers])</value>
       </testinput>
       <expected>
         <name>prt1</name>

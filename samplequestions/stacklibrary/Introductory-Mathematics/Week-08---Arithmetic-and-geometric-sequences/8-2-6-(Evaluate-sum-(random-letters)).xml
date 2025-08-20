@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.6 (Evaluate sum (random letters))</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Evaluate: \( \displaystyle\sum_{{@letter@}={@lower@}}^{@upper@} \left({@expr@}\right).\)</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\[ \sum_{{@letter@}={@lower@}}^{@upper@} {@expr@}= {@(apply("+",terms)),simp=false@}={@ta@}. \]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>lower:0+rand(7)
+upper:lower+4+rand(3)
+/* sum does not evaluate the summation index, so we keep it generic at this point, then substitute it for a randomised letter afterwards */
+expr1:rand([rand([1,2,3,4])*letter,letter-1,letter^2,(letter-1)^2])
+ta:sum(expr1,letter,lower,upper)
+letter:rand([j,k,n,m])
+expr:ev(expr1);
+terms:makelist(ev(expr1,letter=val),val,lower,upper);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\( \sum_{{@letter@}={@lower@}}^{@upper@} {@expr@} = {@(apply("+",terms)),simp=false@}= {@ta@}.\)]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>symi</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>sum,+</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>698017318</deployedseed>
+    <deployedseed>1969261379</deployedseed>
+    <deployedseed>1306317078</deployedseed>
+    <deployedseed>698968318</deployedseed>
+    <deployedseed>1519524731</deployedseed>
+    <deployedseed>1262506761</deployedseed>
+    <deployedseed>300966757</deployedseed>
+    <deployedseed>1229497599</deployedseed>
+    <deployedseed>962369144</deployedseed>
+    <deployedseed>975148340</deployedseed>
+    <deployedseed>1689857503</deployedseed>
+    <deployedseed>24216882</deployedseed>
+    <deployedseed>979150406</deployedseed>
+    <deployedseed>374123545</deployedseed>
+    <deployedseed>1549813870</deployedseed>
+    <deployedseed>1223642545</deployedseed>
+    <deployedseed>1005031209</deployedseed>
+    <deployedseed>969825262</deployedseed>
+    <deployedseed>442629309</deployedseed>
+    <deployedseed>154129170</deployedseed>
+    <deployedseed>1886932007</deployedseed>
+    <deployedseed>1943415176</deployedseed>
+    <deployedseed>341024324</deployedseed>
+    <deployedseed>1389653605</deployedseed>
+    <deployedseed>1158909955</deployedseed>
+    <deployedseed>701866667</deployedseed>
+    <deployedseed>1558813276</deployedseed>
+    <deployedseed>1674701992</deployedseed>
+    <deployedseed>596665525</deployedseed>
+    <deployedseed>1625590146</deployedseed>
+    <deployedseed>293751000</deployedseed>
+    <deployedseed>670704171</deployedseed>
+    <deployedseed>1569540553</deployedseed>
+    <deployedseed>1371603534</deployedseed>
+    <deployedseed>1813630357</deployedseed>
+    <deployedseed>984003377</deployedseed>
+    <deployedseed>1135573362</deployedseed>
+    <deployedseed>809384020</deployedseed>
+    <deployedseed>1208596192</deployedseed>
+    <deployedseed>1699176531</deployedseed>
+    <deployedseed>954895002</deployedseed>
+    <deployedseed>1429311694</deployedseed>
+    <deployedseed>620360737</deployedseed>
+    <deployedseed>1536716630</deployedseed>
+    <deployedseed>594890750</deployedseed>
+    <deployedseed>1180937112</deployedseed>
+    <deployedseed>420527859</deployedseed>
+    <deployedseed>333833985</deployedseed>
+    <deployedseed>1467994223</deployedseed>
+    <deployedseed>1633349678</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

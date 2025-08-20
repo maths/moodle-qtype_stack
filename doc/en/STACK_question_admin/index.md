@@ -1,13 +1,14 @@
 # Testing, using and maintaining questions
 
-This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
+This section of the documentation provides information on testing questions and maintaining question banks for the long term.  This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
 
 * [Creating question tests](Testing.md),
 * [Deploying variants](Deploying.md),
 * [Reporting](Reporting.md),
 * [Ensuring questions work in the future](Future_proof.md).
+* [Bulk testing](Bulk_testing.md) and [Bulk testing on other sites](Testing_questions_on_other_sites.md).
 
-This section of the documentation provides information on testing questions and maintaining question banks for the long term.  Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
+Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
 
     [...]/question/type/stack/adminui/index.php
 
@@ -32,16 +33,6 @@ The foundation of long-term maintenance is testing.  ___We strongly recommend al
 Encourage question authors to [future proof](../STACK_question_admin/Future_proof.md) their materials.
 
 We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz, or on upgrade.
-
-## Bulk testing STACK questions on your site
-
-You can bulk test all question tests on all variants of all question by using the bulk-test script.  This is available from the question setting page or from the "adminui" page
-
-    [...]/question/type/stack/adminui/index.php
-
-STACK questions store the version of the STACK plug-in _last used_ to edit the question.  The bulk tester runs all question tests, and also checks for changes with the current STACK plug-in version.
-
-It is possible to [bulk test materials on other sites](Testing_questions_on_other_sites.md).  (Site admins will have the option to bulk test all materials, and there is also a command line bulk test option.)
 
 ## Identifying STACK questions using particular blocks
 

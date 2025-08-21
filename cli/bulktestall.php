@@ -82,11 +82,11 @@ if ($options['id']) {
     foreach ($contexts as $contextid => $numstackquestions) {
         $testcontext = context::instance_by_id($contextid);
 
-        $categories = qbank_managecategories\helper::question_category_options([$context]);
+        $categories = qbank_managecategories\helper::question_category_options([$testcontext]);
         $categories = reset($categories);
         foreach ($categories as $key => $category) {
             list($categoryid) = explode(',', $key);
-            $questions = $bulktester->get_stack_questions($categoryid);
+            $questions = $bulktester->stack_questions_in_category($categoryid);
             if (array_key_exists($options['id'], $questions)) {
                 $found = true;
                 $partialcontext = $contextid;

@@ -58,32 +58,44 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "974": {
             "id": "974",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3F . '"
+            "responsesummary": "' . RESPONSE3F . '",
+            "questionusageid": "12",
+            "slot": "1"
         },
         "975": {
             "id": "975",
             "variant": "1",
-            "responsesummary": "' . RESPONSE1F . '"
+            "responsesummary": "' . RESPONSE1F . '",
+            "questionusageid": "12",
+            "slot": "1"
         },
         "988": {
             "id": "988",
             "variant": "5",
-            "responsesummary": "' . RESPONSE5F . '"
+            "responsesummary": "' . RESPONSE5F . '",
+            "questionusageid": "12",
+            "slot": "1"
         },
         "989": {
             "id": "989",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3TF . '"
+            "responsesummary": "' . RESPONSE3TF . '",
+            "questionusageid": "12",
+            "slot": "1"
         },
         "990": {
             "id": "990",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3TT . '"
+            "responsesummary": "' . RESPONSE3TT . '",
+            "questionusageid": "12",
+            "slot": "1"
         },
         "995": {
             "id": "990",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3TT . '"
+            "responsesummary": "' . RESPONSE3TT . '",
+            "questionusageid": "12",
+            "slot": "1"
         }
     }';
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -219,12 +231,16 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "974": {
             "id": "974",
             "variant": "3",
-            "responsesummary": "' . MULTRESPONSE3TTFT . '"
+            "responsesummary": "' . MULTRESPONSE3TTFT . '",
+            "questionusageid": "12",
+            "slot": "1"
         },
         "975": {
             "id": "975",
             "variant": "1",
-            "responsesummary": "' . MULTRESPONSE1TNNN . '"
+            "responsesummary": "' . MULTRESPONSE1TNNN . '",
+            "questionusageid": "12",
+            "slot": "1"
         }
     }';
 

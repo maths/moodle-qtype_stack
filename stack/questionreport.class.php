@@ -236,7 +236,6 @@ class stack_question_report {
 
         $this->summary = $summary;
         $this->usersummary = $usersummary;
-        $this->jsonsummary = $jsonsummary;
     }
 
     /**
@@ -774,13 +773,22 @@ class stack_question_report {
     public function format_user_data(): object {
         $output = new StdClass();
         $sumout = '';
+
         foreach ($this->usersummary as $user => $udata) {
+            if ($udata !== []) {
+                $maxattempt = max(array_column($udata, 'attempt'));
+                $maxqnum = max(array_column($udata, 'qnum'));
+                $maxtries = max(array_column($udata, 'numtries'));
+            }
             $sumout .= "## User: " . $user . " Attempts: " . count($udata) . "\n";
             foreach ($udata as $attempt) {
                 if ($attempt['state']) {
-                    $sumout .= $attempt['attempt'] . ' ' . $attempt['qnum'] . ' ' . $attempt['numtries'] . ' ' . $attempt['state'] . "\n";
+                    $sumout .= 'Attempt: ' . str_pad($attempt['attempt'], strlen((string) $maxattempt)) .
+                        ' QNum: ' . str_pad($attempt['qnum'], strlen((string) $maxqnum)) .
+                        ' Tries: ' . str_pad($attempt['numtries'], strlen((string) $maxtries)) . ' State: ' . $attempt['state'] . "\n";
                 }
             }
+            $sumout .= "\n";
         }
         $output->userdata = $sumout;
         return $output;

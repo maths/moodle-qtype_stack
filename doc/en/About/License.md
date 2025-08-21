@@ -2,7 +2,7 @@
 
 The STACK source code is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).
 
-The STACK documentation, contained in the [source code](https://github.com/maths/moodle-qtype_stack) subdirectories of `doc/`,  is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
+The STACK documentation, contained in the [source code](https://github.com/maths/moodle-qtype_stack) subdirectories of `doc/`,  is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/), except those files in `doc/static` which have their own licences explicitly within the files themselves.
 
 The STACK sample questions and materials, contained in the subdirectories of <tt>samplequestions/</tt>, is Licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 

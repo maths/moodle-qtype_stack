@@ -2,7 +2,7 @@
 
 ## Introduction and use
 
-This is a markdown copy of a summary of *a pocket map of algebreic manipulation* by Tony Barnard. The original PDF summary is available as a [PDF](../../../content/Barnard.pdf) and the [TeX source code](../../../content/Barnard.tex).
+This is a markdown copy of a summary of *a pocket map of algebreic manipulation* by Tony Barnard. The original PDF summary is available as a [PDF](../../../static/Barnard.pdf) and the [TeX source code](../../../static/Barnard.tex).
 
 The numbering of sections in this document coresponds to the numbering of questions and quizzes in the questions in the library.
 

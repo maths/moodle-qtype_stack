@@ -128,6 +128,17 @@ echo '<hr />';
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
 echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
     stack_maths::configured_output_name()));
+if ($config->mathsdisplay === 'mathjax') {
+    $mathjaxurl = get_config('filter_mathjaxloader', 'httpsurl');
+    echo html_writer::tag('p', stack_string('healthcheckmathsmathjaxurl',
+        html_writer::tag('tt', $mathjaxurl)));
+    // Check if we are using the CDN.
+    if (strpos($mathjaxurl, 'cdn.') === false) {
+        echo html_writer::tag('p', stack_string('testsuiteknownfail') . ' ' .
+            stack_string('healthcheckmathsmathjaxloc'));
+    }
+}
+
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
 echo html_writer::tag('dt', stack_string('texdisplaystyle'));

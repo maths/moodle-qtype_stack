@@ -127,9 +127,7 @@ tdag: [
 
 1. Each key used in the teacher's proof must occur in the student's list.  Missing keys (i.e. steps) will be flagged.
 2. Only keys used in the teacher's proof should occur in the student's list.  Extra keys (i.e. steps) will be flagged.
-3. For each list, we check that the keys occur in the specified order in the student's proof.  E.g.
-  * in the first list `["S1", "S2"]` we check that `"S1"` comes before `"S2"` in the student's proof.
-  * in the second list `["S2", "S3", "S5"]` we check that `"S2"` comes before `"S3"`, and `"S3"` comes before `"S4"`.  Note, by allowing lists with more than two keys we reduce the complexity of expressing long chains of steps.
+3. For each list, we check that the keys occur in the specified order in the student's proof.  E.g in the first list `["S1", "S2"]` we check that `"S1"` comes before `"S2"` in the student's proof. In the second list `["S2", "S3", "S5"]` we check that `"S2"` comes before `"S3"`, and `"S3"` comes before `"S4"`.  Note, by allowing lists with more than two keys we reduce the complexity of expressing long chains of steps.
 4. We do _not_ specify that nothing can be between steps.  That's a separate property which this test does not establish.  (Separate tools are needed to establish, e.g. "No other steps should occur between X and Y".)
 
 Hence, we could also write this graph as follows.

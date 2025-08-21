@@ -58,6 +58,10 @@ define([
     /* A flag to disable certain things. */
     let DISABLE_CHANGES = false;
 
+    /* For validation state change events, lists of IFRAMES listening
+     * particular inputs.
+     */
+    let VALIDATION_STATE_EVENT = {};
 
     /**
      * Returns an element with a given id, if an only if that element exists
@@ -370,7 +374,7 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.4.0'
+            version: 'STACK-JS:1.5.0'
         };
 
         switch (msg.type) {
@@ -537,6 +541,84 @@ define([
             //    and let it know the initial value.
             if (!(msg.src in INPUTS[input.id])) {
                 IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+
+            break;
+        case 'track-validation-state':
+            // 1. Find the input.
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+            if (input === null) {
+                // Requested something that is not available.
+                response.type = 'error';
+                response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                return;
+            }
+
+            // 2. Add listener for validation state changes of this input.
+            if (input.id in VALIDATION_STATE_EVENT) {
+                if (msg.src in VALIDATION_STATE_EVENT[input.id]) {
+                    // DO NOT BIND TWICE!
+                    return;
+                }
+                if (input.type !== 'radio' && input.type !== 'checkbox') {
+                    VALIDATION_STATE_EVENT[input.id].push(msg.src);
+                } else if (input.type === 'radio') {
+                    let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id].push(msg.src);
+                    }
+                } else if (input.type === 'checkbox') {
+                    let radgroup = document.querySelectorAll('input[type=checkbox][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id].push(msg.src);
+                    }
+                }
+            } else {
+                if (input.type !== 'radio' && input.type !== 'checkbox') {
+                    VALIDATION_STATE_EVENT[input.id] = [msg.src];
+                } else if (input.type === 'radio') {
+                    let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id] = [msg.src];
+                    }
+                } else if (input.type === 'checkbox') {
+                    let radgroup = document.querySelectorAll('input[type=checkbox][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id].push(msg.src);
+                    }
+                }
+                if (input.type !== 'radio' && input.type !== 'checkbox') {
+                    input.addEventListener('stack-validation', (e) => {
+                        let resp = {
+                            version: 'STACK-JS:1.5.0',
+                            type: 'validation-state',
+                            name: msg.name,
+                            valid: e.detail.valid,
+                            completed: e.detail.completed
+                        };
+                        for (let tgt of VALIDATION_STATE_EVENT[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                } else {
+                    input.closest('.answer').addEventListener('stack-validation', (e) => {
+                        let resp = {
+                            version: 'STACK-JS:1.5.0',
+                            type: 'validation-state',
+                            name: msg.name,
+                            valid: e.detail.valid,
+                            completed: e.detail.completed
+                        };
+                        for (let tgt of VALIDATION_STATE_EVENT[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                }
             }
 
             break;

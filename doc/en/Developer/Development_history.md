@@ -2,6 +2,14 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.10.0
+
+Released July 2025.
+
+1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
+2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
+3. Allow the bulk tester to add `[[todo]]` blocks to the question descriptions with the `addtags` option.
+
 ## Version 4.9.1
 
 Released April 2025.

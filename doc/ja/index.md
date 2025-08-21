@@ -19,7 +19,7 @@ STACKは，数学，科学，および関連分野のための，世界をリー
 
 問題作成のドキュメントには以下のものが含まれています：
 
-* [問題作成クイック・スタート・ガイド](AbInitio/index.md)："STACKこと始め" [ガイド](../content/2019-STACK-Guide.pdf)と一緒に利用できます．
+* [問題作成クイック・スタート・ガイド](AbInitio/index.md)："STACKこと始め" [ガイド](../static/2019-STACK-Guide.pdf)と一緒に利用できます．
 * 様々な[問題作成トピック](../en/Authoring/index.md)に関する情報:[評価関数](../en/Authoring/Answer_Tests/index.md), [入力](../en/Authoring/Inputs.md), [ポテンシャル・レスポンス・ツリー](../en/Authoring/Potential_response_trees.md)，[翻訳](../en/Authoring/Languages.md).
 * [FAQ](../en/Authoring/Author_FAQ.md).
 * [数式処理システムMaxima](../en/CAS/index.md)に関する情報：[ランダム化](../en/CAS/Random.md), [グラフ作成](../en/Plots/index.md), [数式簡略化](../en/CAS/Simplification.md)．

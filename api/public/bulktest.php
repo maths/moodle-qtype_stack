@@ -121,10 +121,10 @@ require_login();
               // Add to general erros and give up.
               const json = JSON.parse(http.responseText);
               if (json.message) {
-                resultDiv.innerHTML = '<p class="feedback failed">' + json.error + ' - JSON: ' + http.responseText + '</p>';
+                resultDiv.innerHTML = '<p class="feedback failed">' + json.message + '</p>';
                 const parentDivEl = document.getElementById(filepath);
                 parentDivEl.appendChild(resultDiv);
-                generalErrorArray.push(filepath);
+                generalErrorArray.push({'filepath': filepath, 'message': json.message});
               } else {
                 let resultHtml = '<h3 class="question-title">' + json.name + '</h3>';
                 resultDiv.setAttribute('id', json.name);
@@ -208,7 +208,7 @@ require_login();
               resultDiv.innerHTML += '<br><br>';
               document.getElementById('errors').appendChild(resultDiv);
               document.getElementById('errors').removeAttribute('hidden');
-              generalErrorArray.push(filepath);
+              generalErrorArray.push({'filepath': filepath, 'message': e.message});
             }
 
             // Remove current request from pending array
@@ -243,15 +243,15 @@ require_login();
                 [generalErrorArray, 'general-error'],
         ]
         for (const update of displayUpdate) {
-          const targetTitle = document.getElementById(update[1] + '-title')
+          const targetTitle = document.getElementById(update[1] + '-title');
+          const targetDiv = document.getElementById(update[1]);
+          targetDiv.innerHTML = '';
           if (update[0].length === 0) {
             targetTitle.setAttribute('hidden', true);
             continue;
           }
           overallPass = false;
           targetTitle.removeAttribute('hidden');
-          const targetDiv = document.getElementById(update[1]);
-          targetDiv.innerHTML = '';
           const listEl = document.createElement('ul');
           for (const issue of update[0]) {
             const itemEl = document.createElement('li');
@@ -267,10 +267,10 @@ require_login();
           }
           listEl.replaceChildren(...Array.from(listEl.children).sort((a,b) => a.innerHTML.localeCompare(b.innerHTML)));
           targetDiv.appendChild(listEl);
-          document.getElementById('overall-result').innerHTML = (overallPass) ?
-              '<div class="feedback passed"><?php echo stack_string('stackInstall_testsuite_pass')?></div><br>' :
-              '<div class="feedback failed"><?php echo stack_string('stackInstall_testsuite_fail')?></div><br>';
         }
+        document.getElementById('overall-result').innerHTML = (overallPass) ?
+            '<div class="feedback passed"><?php echo stack_string('stackInstall_testsuite_pass')?></div><br>' :
+            '<div class="feedback failed"><?php echo stack_string('stackInstall_testsuite_fail')?></div><br>';
       }
 
       /**
@@ -349,7 +349,7 @@ require_login();
           resultDiv.innerHTML += '<p class="feedback failed">' + filepath + ': ' + errorNode.innerHTML + '</p><br><br>';
           document.getElementById('errors').appendChild(resultDiv);
           document.getElementById('errors').removeAttribute('hidden');
-          generalErrorArray.push(filepath);
+          generalErrorArray.push({'filepath': filepath, 'message': errorNode.innerHTML});
           return;
         }
         let questions = xmlDoc.getElementsByTagName("question");

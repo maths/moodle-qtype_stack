@@ -22,6 +22,8 @@ use test_question_maker;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../stack/questionreport.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+global $CFG;
+require_once($CFG->dirroot . '/mod/quiz/tests/quiz_question_helper_test_trait.php');
 
 define ('RESPONSETS', '# = 0 | thing1_true | prt1-1-T');
 define ('RESPONSEFS1', '# = 0 | thing1_yuck | prt1-1-F');
@@ -48,6 +50,7 @@ define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: 11 [score]; ans2: vv [valid
  * @covers \stack_question_report
  */
 final class responseanalysis_test extends qtype_stack_testcase {
+    use \quiz_question_helper_test_trait;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $report;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -454,7 +457,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function set_question(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
         $this->report->summary = $this->summary;
         $this->report->questionnotes = $this->notes;
@@ -466,7 +469,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function set_question_mult(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
         $this->report->summary = $this->summarymult;
         $this->report->questionnotes = $this->notes;
@@ -478,7 +481,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_create_summary(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['load_summary_data', 'run_report'])
+            ->onlyMethods(['load_summary_data', 'run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
         $this->report->expects($this->any())
             ->method("load_summary_data")
@@ -490,7 +493,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_collate(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question, 2, 1])->getMock();
         $this->report->summary = $this->summary;
         $this->report->questionnotes = $this->notes;
@@ -571,7 +574,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_create_summary_multiple(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['load_summary_data', 'run_report'])
+            ->onlyMethods(['load_summary_data', 'run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
         $this->report->expects($this->any())
             ->method("load_summary_data")
@@ -583,7 +586,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_collate_multiple(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->setMethods(['run_report'])
+            ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
         $this->report->summary = $this->summarymult;
         $this->report->questionnotes = $this->notes;
@@ -678,5 +681,97 @@ final class responseanalysis_test extends qtype_stack_testcase {
             "; unique: " . RESPONSETS . "\n\n# 1 (1)\n1 (100.00%); Seed: 123456789; ans1: 11 [score]; ans2: vv [valid]; " .
             "ans3: ii [invalid]; ans4: zz; odd: # = 0 | thing1_true | prt1-1-T; even: !; oddeven: !; unique: !\n";
         $this->assertEquals($expected, $rawdata);
+    }
+
+    public function test_quiz_selection(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $course = $this->getDataGenerator()->create_course();
+        $contextid = \context_course::instance($course->id)->id;
+        // For Moodle 5 this will be in a question bank module.
+        $qcategory = $generator->create_question_category(
+            ['contextid' => $contextid]);
+        $user = $this->getDataGenerator()->create_user();
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $user->id, $contextid);
+        $this->setUser($user);
+        $q = $generator->create_question('shortanswer', null,
+                        ['name' => 'QNAME1', 'category' => $qcategory->id]);
+        $q2 = $generator->create_question('shortanswer', null,
+                        ['name' => 'QNAME2', 'category' => $qcategory->id]);
+
+        $quizgenerator = new \testing_data_generator();
+        $quizgenerator = $quizgenerator->get_plugin_generator('mod_quiz');
+
+        $quiz1 = $quizgenerator->create_instance(['course' => $course->id,
+            'name' => 'QUIZNAME1', 'questionsperpage' => 0,
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+        $quiz2 = $quizgenerator->create_instance(['course' => $course->id,
+            'name' => 'QUIZNAME2', 'questionsperpage' => 0,
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+        $quiz3 = $quizgenerator->create_instance(['course' => $course->id,
+            'name' => 'QUIZNAME3', 'questionsperpage' => 0,
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+
+        $quiz1contextid = \context_module::instance($quiz1->cmid)->id;
+        $quiz1qcategory = $generator->create_question_category(
+            ['contextid' => $quiz1contextid]);
+        $q3 = $generator->create_question('shortanswer', null,
+            ['name' => 'QNAME2', 'category' => $quiz1qcategory->id]);
+
+        // No questions added to quizzes.
+        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $qcategory->contextid);
+        $this->assertEquals(0, count($quizzes));
+        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $qcategory->contextid);
+        $this->assertEquals(0, count($quizzes));
+        $quizzes = stack_question_report::get_relevant_quizzes($q3->id, $quiz1contextid);
+        $this->assertEquals(0, count($quizzes));
+
+        // Quiz 1: Add q1. Add q3 as part of random selection.
+        \quiz_add_quiz_question($q->id, $quiz1);
+        global $CFG;
+        if ($CFG->version > 2023042411) {
+            $this->add_random_questions($quiz1->id, 0, $quiz1qcategory->id, 1);
+        } else {
+            \quiz_add_random_questions($quiz1, 0, $quiz1qcategory->id, 1, false);
+        }
+        // Quiz 2: Add q1 and q2.
+        \quiz_add_quiz_question($q->id, $quiz2);
+        \quiz_add_quiz_question($q2->id, $quiz2);
+        // Quiz 3: Add q1 and q2 as part of random selection.
+        if ($CFG->version > 2023042411) {
+            $this->add_random_questions($quiz3->id, 0, $qcategory->id, 1);
+        } else {
+            \quiz_add_random_questions($quiz3, 0, $qcategory->id, 1, false);
+        }
+
+        if (class_exists('\mod_quiz\quiz_settings')) {
+            $quizobj1 = \mod_quiz\quiz_settings::create($quiz1->id);
+            $quizobj2 = \mod_quiz\quiz_settings::create($quiz2->id);
+            $quizobj3 = \mod_quiz\quiz_settings::create($quiz3->id);
+        } else {
+            $quizobj1 = \quiz::create($quiz1->id);
+            $quizobj2 = \quiz::create($quiz2->id);
+            $quizobj3 = \quiz::create($quiz3->id);
+        }
+        \mod_quiz\structure::create_for_quiz($quizobj1);
+        \mod_quiz\structure::create_for_quiz($quizobj2);
+        \mod_quiz\structure::create_for_quiz($quizobj3);
+        $quizzes = stack_question_report::get_relevant_quizzes($q->id, $qcategory->contextid);
+        $quiznames = array_column($quizzes, 'name');
+        $this->assertEquals(3, count($quizzes));
+        $this->assertEquals(true, in_array('QUIZNAME1', $quiznames));
+        $this->assertEquals(true, in_array('QUIZNAME2', $quiznames));
+        $this->assertEquals(true, in_array('QUIZNAME3', $quiznames));
+        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $qcategory->contextid);
+        $quiznames = array_column($quizzes, 'name');
+        $this->assertEquals(2, count($quizzes));
+        $this->assertEquals(true, in_array('QUIZNAME2', $quiznames));
+        $this->assertEquals(true, in_array('QUIZNAME3', $quiznames));
+        $quizzes = stack_question_report::get_relevant_quizzes($q3->id, $quiz1contextid);
+        $this->assertEquals(1, count($quizzes));
+        $quiznames = array_column($quizzes, 'name');
+        $this->assertEquals(true, in_array('QUIZNAME1', $quiznames));
     }
 }

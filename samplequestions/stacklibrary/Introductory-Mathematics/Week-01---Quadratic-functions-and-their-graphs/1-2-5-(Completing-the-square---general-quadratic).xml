@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.5 (Completing the square - general quadratic)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Solving a general quadratic</h1>
+
+<p>It is possible to use the method of completing the square to solve a general quadratic \(y = ax^2 + bx + c\). So far, we have encountered examples where the leading coefficient of the quadratic is \(1\). However, it is not much more difficult to deal with a quadratic where \(a \not=1\). </p>
+<br>
+<h3>Example</h3>
+
+<p>Solve the quadratic \(2x^2 + 12x + 4=0\) by completing the square.</p>
+<br>
+<h3>Solution</h3>
+
+<p>We can immediately deal with the leading coefficient by dividing all the terms through by \(2\) to obtain
+\[
+x^2 + 6x + 2 = 0.
+\]
+Now we have a similar problem to those we have seen previously. We complete the square by adding and subtracting \(\frac{b}{2}^2 = 3^2 = 9\), (or equivalently adding \(\frac{b}{2}^2\) to both the LHS and RHS).
+\[
+\begin{eqnarray*}
+x^2 + 6x + 2 + 9 - 9 &amp;= x^2 + 6x + 9 + 2 - 9 
+\\
+&amp;= (x+3)^2 -7 
+\\ 
+&amp;= 0.
+\end{eqnarray*}
+\]
+At this point we can add \(7\) to both sides, then proceed by taking square roots.
+\[
+(x+3)^2 = 7 \implies x+ 3 = \pm \sqrt{7} \implies x = -3 \pm \sqrt{7}.
+\]
+Therefore the solutions to the quadratic are \(x = -3 + \sqrt{7}\) and \(x = -3 - \sqrt{7}.\)
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

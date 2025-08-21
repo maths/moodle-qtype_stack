@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.1.2 (Example of calculating permutations)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Examples</h3>
+
+<ol type="a">
+<li>How many ways could the first 5 weeks of this course have been arranged?</li>
+<li>A license plate begins with three letters. If the possible letters are A, B, C, D and E, how many different permutations of the letters can be made if no letter is used more than once?</li>
+</ol>
+
+<h3>Solution</h3>
+
+<ol type="a">
+<li>Recall that the number of ways of counting \(n\) objects, is given by \(n\) factorial. Here we have \(n=5\) so
+\[
+5!=5\times4\times3\times2\times1=120.
+\]</li>
+<li>For the first letter, there are 5 possible choices. After that letter is chosen, there are 4 possible choices. Finally, there are 3 possible choices for the last letter. Therefore the total number of choices is 
+\[
+5 × 4 × 3 = 60.
+\]
+Alternatively, we could use the permutation formula. Here we have \(n = 5\) and we need to choose \(r = 3\) letters. Thus the total number of permutations of the letters is 
+\[
+P(5,3)=\frac{}{}
+\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

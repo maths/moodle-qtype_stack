@@ -363,7 +363,7 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreStart
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('multiplicationsign', 'space');
 
         $el = stack_input_factory::make('radio', 'ans1', '[[1+2,true],[2*x,false]]', $options, []);
         $el->adapt_to_model_answer('[[1+2,true],[2*x,false]]');

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.0.22 (More useful trig functions)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>More useful trig functions</h3>
+
+<p>So far we have seen how to define the functions \(\sin, \cos \tan\) using the unit circle. However there are some other trigonometric functions that prove to be useful. These are defined as follows (in the cases where their respective denominators are nonzero).</p>
+\[
+\sec \theta = \frac{1}{\cos \theta} \qquad \csc \theta = \frac{1}{\sin \theta} \qquad \cot \theta = \frac{1}{\tan x} = \frac{\cos x}{\sin x}.
+\]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

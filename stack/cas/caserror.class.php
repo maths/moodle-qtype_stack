@@ -138,6 +138,8 @@ class stack_cas_error {
                 if (count($parts) > 2) {
                     if ($parts[3] === 'a') {
                         $interpreted['field'] = 'tans';
+                    } else if ($parts[3] === 'sh') {
+                        $interpreted['field'] = 'syntaxhint';
                     } else {
                         $interpreted['field'] = $parts[3];
                     }

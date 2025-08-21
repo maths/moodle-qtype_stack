@@ -23,15 +23,18 @@ Unless you want to discuss something confidential with the developers, please do
 
 * Readme.md
 * Check docs 
- * [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
- * Execute `php cli/answertests_docs.php` to update the static docs about answertests.
- * Execute `doc/maintenance.php` to search for broken links etc.
+  - [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
+  - Execute `php cli/answertests_docs.php` to update the static docs about answertests.
+  - Execute `doc/maintenance.php` to search for broken links etc.
+* Run `php cli/stacklibrarycheck.php` to check filenames in the stacklibrary do not have special characters, particularly `'` (which breaks the .zip download in the plugin directory!)
 * Run `php cli/unicode_data_process.php` to update unicode mappings.
 * Run `php cli/ast_test_generator.php` to confirm if auto-generated tests have not changed.
 * Run Maxima unit tests of contributed packages by re-defining `stacklocation` and running `s_test_case.mac` in the sandbox.  E.g.
 
+````
     stacklocation:"/var/www/html/m40/question/type/stack"$
     load("s_test_case.mac");
+````
 
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
@@ -71,12 +74,12 @@ Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.6.0".
+E.g. "v4.10.0".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.6.0 -m "Update version number for the 4.6.0 release."`
+ * Linux: `git tag -a v4.10.0 -m "Update version number for the 4.10.0 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 

@@ -1,7 +1,7 @@
 version: "4.0"
 services:
   maxima:
-    image: mathinstitut/goemaxima:2025012100-latest
+    image: mathinstitut/goemaxima:2025080100-latest
     tmpfs:
       - "/tmp"
     restart: unless-stopped
@@ -15,7 +15,7 @@ services:
     read_only: true
   stack:
     # Location of published STACK API image goes here.
-    image: stackmaths/stackapi:2025012100-latest
+    image: stackmaths/stackapi:2025080100-latest
     restart: unless-stopped
     ports:
       - '3080:80'

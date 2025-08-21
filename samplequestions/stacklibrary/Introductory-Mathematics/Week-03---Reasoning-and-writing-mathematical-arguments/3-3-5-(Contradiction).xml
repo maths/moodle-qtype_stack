@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.5 (Contradiction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Contradiction</h1>
+
+<p>Another method of <i>indirect</i> proof is called <b>proof by contradiction</b>. This is rather different than a proof by contrapositive. Proof by contradiction is called <i>Reductio ad absurdum</i> in Latin, which translates to "reduction to absurdity." A proof by contradiction, possesses a somewhat more difficult logical structure. </p>
+
+<p>Suppose that we want to prove the implication \(A \implies B\). In a proof by contradiction, we being by assuming that the conclusion is false and show that this assumption leads to an absurd or contradictory conclusion. For example we could end up with a statement like \(0=1\) which would clearly indicate that our initial assumption was wrong. There are some difficulties with a proof by contradiction. For example, we often don't know the contradiction we are aiming for will be. It can often be surprising where an argument breaks! Secondly, there is no in built check for correctness. What this means is that we may end up with a contradiction in our argument, simply by making a mistake in our reasoning, <i>not</i> because we have a valid proof by contradiction. However, despite these issues, proof by contradiction can prove to be a very useful tool and many famous proofs use a contradiction argument.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

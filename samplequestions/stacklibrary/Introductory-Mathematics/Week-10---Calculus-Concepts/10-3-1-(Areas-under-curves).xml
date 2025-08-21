@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>10.3.1 (Areas under curves)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Area under a curve</h1>
+
+<p>In this section we proceed to discuss integration. This is explicitly linked with the idea of finding areas under curves.</p>
+
+<p>We are all familiar with finding the area of shapes like triangles, rectangles and circles. But how can we go about finding areas which are more complicated, e.g. the area under the curve \(y=x^2\)?</p>
+<br/>
+<p>For the function \(f(x)=x^2\), let's find the area under the curve \(y=f(x)\) between \(x=0\) and \(x=6\):</p><p style="text-align: center;"></p><div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='300px' height='200px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+var brd = JXG.JSXGraph.initBoard(divid, {axis:true, boundingbox:[-3,40,8,-10], showCopyright: false, showNavigation:false});
+var leftEndpoint = function(){return 0;};
+var rightEndpoint = function(){return 6;};
+var f = function(x){ return x*x; };
+var plot = brd.create('functiongraph',[f,-3, 6.5],{strokeColor:'#003399',strokeWidth:3});
+var i1 = brd.create('integral', [[0,6], plot], {fillColor:'#003399',fillOpacity:0.15});
+i1.curveLeft.setAttribute({visible:false}); 
+i1.curveRight.setAttribute({visible:false});
+i1.label.setAttribute({visible:false});
+var xaxis = brd.create('axis', [[0,0],[1,0]]);
+brd.create('ticks', [xaxis, [leftEndpoint(),rightEndpoint()]], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
+[[/jsxgraph]]</div><p></p>
+
+<p>The idea here is to approximate the area by rectangles. We can use \(n\) rectangles of width \(\dfrac{6}{n}\). For the height of the rectangles, we try two different options:</p>
+
+<ol>
+<li><p><b>Left sums</b> - the height is the value of \(f(x)\) when \(x\) is the left edge of the rectangle.</p></li>
+<li><p><b>Right sums</b>&nbsp;- the height is the value of \(f(x)\) when \(x\) is the right edge of the rectangle.</p></li>
+</ol>
+<br/>
+<p>You can use the following applet to explore how these approximations change as you increase the value of \(n\):</p>
+<br/>
+<p style="text-align: center;"></p><div style="margin-left:1em;margin-right:auto;">[[jsxgraph width='550px' height='360px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+var brd = JXG.JSXGraph.initBoard(divid, {axis:true, boundingbox:[-0.5,40,8,-10], showCopyright: false, showNavigation:false});
+var s = brd.create('slider',[[1,-5],[4,-5],[3,3,100]],{name:'n',snapWidth:1,precision:0});
+var leftEndpoint = function(){return 0;};
+var rightEndpoint = function(){return 6;};
+var f = function(x){ return x*x; };
+var plot = brd.create('functiongraph',[f,-0.5, 6.5],{strokeColor:'#003399',strokeWidth:3});
+var xaxis = brd.create('axis', [[0,0],[1,0]]);
+brd.create('ticks', [xaxis, [leftEndpoint(),rightEndpoint()]], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
+  
+ 
+var rs = brd.create('riemannsum',[f, 
+    function(){ return s.Value();}, "right",
+    function(){return leftEndpoint();}, 
+    function(){return rightEndpoint();}
+    ], 
+    {fillColor:'#CC0000', fillOpacity:0.15, strokeColor: '#CC0000'});
+
+var ls = brd.create('riemannsum',[f, 
+    function(){ return s.Value();}, "left",
+    function(){return leftEndpoint();}, 
+    function(){return rightEndpoint();}
+    ], 
+    {fillColor:'#003399', fillOpacity:0.3, strokeColor: '#003399'});
+
+var lsval = brd.create('text', [5.5,-5,function(){ return 'Left Sum = '+ (JXG.Math.Numerics.riemannsum(f,s.Value(),"left",leftEndpoint(),rightEndpoint())).toFixed(4); }]);
+var rsval = brd.create('text', [5.5,-8,function(){ return 'Right Sum = '+(JXG.Math.Numerics.riemannsum(f,s.Value(),"right",leftEndpoint(),rightEndpoint())).toFixed(4); }]);
+      
+var showLeft = brd.create('checkbox', [0.5, 30, ' Show Left Sums'],{checked:'true'});
+var showRight = brd.create('checkbox', [0.5, 27, ' Show Right Sums'],{checked:'true'});
+
+JXG.addEvent(showLeft.rendNodeCheckbox, 'change', function() {
+    if (this.Value()) {
+        ls.setAttribute({visible:"true"});
+        lsval.setAttribute({visible:"true"});
+    } else {
+        ls.setAttribute({visible:"false"});
+        lsval.setAttribute({visible:"false"});
+    }
+}, showLeft);
+
+JXG.addEvent(showRight.rendNodeCheckbox, 'change', function() {
+    if (this.Value()) {
+        rs.setAttribute({visible:"true"});
+        rsval.setAttribute({visible:"true"});
+    } else {
+        rs.setAttribute({visible:"false"});
+        rsval.setAttribute({visible:"false"});
+    }
+}, showRight);
+[[/jsxgraph]]</div><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text>.</text>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text/>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+  </question>
+</quiz>

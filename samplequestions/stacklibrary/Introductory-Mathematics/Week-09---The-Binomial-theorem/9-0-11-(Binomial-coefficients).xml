@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.0.11 (Binomial coefficients)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Binomial coefficients</h1>
+
+<p>Now that we are familiar with Pascal's triangle, we can proceed to introduce binomial coefficients. There are several different definitions of a binomial coefficient and we will see how we can obtain these definitions via combinatorial arguments. For now we will just say that binomial coefficients are the numbers \({n}\choose{k}\) that make up the entries of Pascal's triangle. These numbers can be calculated by the following formula
+\[
+nCr = {n\choose r} = \frac{n!}{r!(n-r)!}.
+\]</p>
+<br/>
+<h3>Examples</h3>
+
+<p>Calculate the following binomial coefficients</p>
+<ol type="a">
+<li>\({12}\choose{4}\)</li>
+<li>\({n}\choose{0}\)</li>
+<li>\({n}\choose{1}\)</li>
+<li>\({n}\choose{n}\)</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol type="a">
+<li>We input the required values into the formula above, so we have
+\[
+{12}\choose{4}  
+\]
+\[
+=\frac{12!}{4!8!} = \frac{479001600}{24 \times 40320} = \frac{479001600}{967680} = 495.
+\]</li>
+<li>Here we have 
+\[
+{n}\choose{0} 
+\]
+\[
+= \frac{n!}{0!(n-0!)} = \frac{n!}{n!} = 1.
+\]
+So any binomial coefficient of the form \({n}\choose{0}\) evaluates to \(1\)</li>
+<li>Here we have 
+\[
+{n}\choose{1} 
+\]
+\[
+=\frac{n!}{1!(n-1!)} = \frac{n!}{(n-1)!} = \frac{n \times n-1 \times n-2 \times \cdots \times 1}{ n-1 \times n-2 \times \cdots \times 1} = n.
+\]
+Thus any binomial coefficient of the form \({n}\choose{1}\) evaluates to the top number \(n\).</li>
+<li>Here we have 
+\[
+{n}\choose{n} 
+\]
+\[
+=\frac{n!}{n!(n-n)!} = 0! = 1. 
+\]
+Thus any binomial coefficient of the form \({n}\choose{n}\) evaluates to \(1\) also.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

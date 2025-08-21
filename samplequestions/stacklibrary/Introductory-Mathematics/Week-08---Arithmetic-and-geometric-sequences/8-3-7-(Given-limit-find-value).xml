@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.3.7 (Given limit find value)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that a sequence is defined by the recurrence relation 
+\[
+u_{n+1} = ku_n + {@cc@}k.
+\]
+Given that the limit of the sequence is \({@lim@}\) what is the value of \(k\)?
+<p>k=[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Recall that a sequence given by a recurrence relation \(u_{n+1} = {@aa@}u_n + {@bb@}\) has a limit if \(-1 < a < 1\) given by 
+\[
+\frac{b}{1-a} = \frac{{@cc@}k}{1-k} = {@lim@}.
+\]
+Hence, rearranging we obtain \(k = {@ta1@}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>lim: 10+rand(30);
+cc: 1+rand(9);
+ta1:lim/(cc+lim);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(u_{n+1} = ku_n + {@cc@}k \implies k = {@ta1@}.\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>847591747</deployedseed>
+    <deployedseed>686300982</deployedseed>
+    <deployedseed>215349042</deployedseed>
+    <deployedseed>2038280885</deployedseed>
+    <deployedseed>1011836672</deployedseed>
+    <deployedseed>712174081</deployedseed>
+    <deployedseed>741713226</deployedseed>
+    <deployedseed>1738773692</deployedseed>
+    <deployedseed>2000820937</deployedseed>
+    <deployedseed>765265569</deployedseed>
+    <deployedseed>940733028</deployedseed>
+    <deployedseed>1179797679</deployedseed>
+    <deployedseed>257173455</deployedseed>
+    <deployedseed>1874178942</deployedseed>
+    <deployedseed>1295722867</deployedseed>
+    <deployedseed>1984167584</deployedseed>
+    <deployedseed>535681644</deployedseed>
+    <deployedseed>1515152337</deployedseed>
+    <deployedseed>144931430</deployedseed>
+    <deployedseed>445972427</deployedseed>
+    <deployedseed>1077414052</deployedseed>
+    <deployedseed>1212183527</deployedseed>
+    <deployedseed>2127235899</deployedseed>
+    <deployedseed>1209332581</deployedseed>
+    <deployedseed>1368366615</deployedseed>
+    <deployedseed>469046414</deployedseed>
+    <deployedseed>1615765167</deployedseed>
+    <deployedseed>1522786663</deployedseed>
+    <deployedseed>1887111367</deployedseed>
+    <deployedseed>402657294</deployedseed>
+    <deployedseed>184898478</deployedseed>
+    <deployedseed>1963590749</deployedseed>
+    <deployedseed>1170084188</deployedseed>
+    <deployedseed>40248338</deployedseed>
+    <deployedseed>1447645100</deployedseed>
+    <deployedseed>679287762</deployedseed>
+    <deployedseed>1200002751</deployedseed>
+    <deployedseed>890485710</deployedseed>
+    <deployedseed>1112335482</deployedseed>
+    <deployedseed>1990331206</deployedseed>
+    <deployedseed>30935798</deployedseed>
+    <deployedseed>1333845483</deployedseed>
+    <deployedseed>427935408</deployedseed>
+    <deployedseed>656753348</deployedseed>
+    <deployedseed>1823897229</deployedseed>
+    <deployedseed>1294374727</deployedseed>
+    <deployedseed>523640394</deployedseed>
+    <deployedseed>329349444</deployedseed>
+    <deployedseed>781427438</deployedseed>
+    <deployedseed>1316024490</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

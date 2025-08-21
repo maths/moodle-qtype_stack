@@ -2,6 +2,41 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.10.0
+
+Released July 2025.
+
+1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
+2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
+3. Allow the bulk tester to add `[[todo]]` blocks to the question descriptions with the `addtags` option.
+
+## Version 4.9.1
+
+Released April 2025.
+
+Remove special charaters in filenames (which break the .zip download).
+
+## Version 4.9.0
+
+Released March 2025.
+
+1. Introduce `ta` as the default teacher's answer in the question variables, and use this in the input and default prt.
+2. Support `allowempty` for dropdown, radio and checkbox inputs.
+3. Add in the `space` option, i.e. `make_multsgn("space")` in the [options](../Authoring/Question_options.md).
+4. Convert input "syntax hint" to castext.
+5. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../Topics/Linear_algebra/Random_Matrices.md) documentation for details.
+6. Add in a substantial library for dealing with [linear algebra problems](../Topics/Linear_algebra/index.md).
+7. Load Maxima's `eigen` library.
+8. The API now accepts moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
+9. Remove support for the `win` platform (which hasn't been tested for many years).  See [issue #1379](https://github.com/maths/moodle-qtype_stack/issues/1379).
+10. Add in the [adapt block](../Authoring/Question_blocks/Dynamic_blocks.md) and associated dynamic blocks.
+
+## Version 4.8.5
+
+Released March 2025.
+
+Bring forward bug fixes to include in an official release.
+
 ## Version 4.8.3
 
 Released January 2025.

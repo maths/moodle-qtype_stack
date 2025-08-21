@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.0.22 (Limits of a sequence)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Limits of a sequence</h1>
+
+<p>We have briefly met the notion of the <i>limit</i> of a sequence when defining convergence of a sequence. We use limits in terms of infinite sequences and series because the sequence never stops, so we cannot find the 'final' term, however, it is often useful to deal with the limits instead. The notion of a limit is a very important one within mathematics. We will see in week 10, how this definition is the cornerstone of differential calculus. The branch of mathematics called analysis is often involved with finding various limits of different mathematical structures. There are formal definition of a limit which go beyond the scope of this course. Instead we will here focus on finding the limit of sequences. We will revisit this topic in a later section when we discuss infinite series and sequences.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.4.1 (Applications of sequences and series - introduction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>This week we have introduced sequences and series. Specifically we have detailed how to calculate the formula of sequences and series, as well as recurrence relations and the notion of a limit of a sequence. In addition, we introduced the idea of geometric and arithmetic series and examined their  properties. Now that we have been introduced to many ideas relating to mathematical sequences and series, in this section we will go through the history of mathematical development in this topic. In addition we will then look at some of the most interesting historical problems relating to infinite series. We will discuss the search for a solution to the Riemann hypothesis, sequences in nature and we will look at Zeno's paradox, which is a problem that richly demonstrates the counterintuitive nature of series.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

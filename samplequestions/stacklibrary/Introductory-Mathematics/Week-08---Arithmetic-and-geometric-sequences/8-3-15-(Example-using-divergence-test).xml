@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.15 (Example using divergence test)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Do the following series converge or diverge?
+<ol type="a">
+<li>\(\sum\limits_{n=1}^\infty \frac{n^2 - 1}{n^2+n}\)</li>
+<li>\(\sum\limits_{n=1}^\infty \frac{n - 1}{n^2+n}\)</li>
+</ol>
+
+<h3>Solution</h3>
+
+<ol type="a">
+<li>We use the divergence test. Here we have 
+\[
+\lim\limits_{n \to \infty} \frac{n^2 - 1}{n^2+n} = \lim\limits_{n \to \infty} \frac{1-\frac{1}{n^2}}{1+\frac{1}{n}}=1 \not=0. 
+\]
+Therefore by the divergence test the series diverges.</li>
+<li>We proceed similarly with this series
+\[
+\lim\limits_{n \to \infty} \frac{n - 1}{n^2+n} = \lim\limits_{n \to \infty} \frac{1 - \frac{1}{n}}{n + 1} = \lim\limits_{n \to \infty} \frac{1}{n+1} \to 0 \mbox{ as } n \to \infty.
+\]
+Therefore the series passes the divergence test but notice that this does <b>not</b> tell us that the initial series converges. It tells us that we need more information to decide.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

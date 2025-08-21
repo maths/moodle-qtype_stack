@@ -162,6 +162,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("geometry.mac");
 load("proof.mac");
+load("linearalgebra_core.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
@@ -177,6 +178,7 @@ if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 load("trigrat.lisp");
 load("trigtools");
 load("diag");
+load("eigen");
 
 load("sregex");
 load("numericaltest.mac");
@@ -189,7 +191,7 @@ if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
 
-/* Issue #615 suggests we make matrix multiplication much more promenent. 
+/* Issue #615 suggests we make matrix multiplication much more promenent.
    This is possible, but would be confused with notation for Hadamard product.
 
    texput(".","\\circ ",infix);
@@ -221,10 +223,13 @@ make_complexJ(OPT_COMPLEXJ) := block(
 
 /* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
+    if ev(not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})), simp) 
+        then error("make_multsgn received un-supported option: ", OPT_MULTSGN),
     if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
     if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
     if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),
-    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary)
+    if OPT_MULTSGN = "none" then texput("*", " ", nary),
+    if OPT_MULTSGN = "space" then texput("*", "\\,", nary)
 );
 
 /* This only prints a multiplication sign for numbers. */
@@ -323,7 +328,7 @@ make_arccos(OPT_ACOS) := block(
        ?tex\-setup(?cdr([?%acsch, "{\\rm acsch}"])),
        ?tex\-setup(?cdr([?%acoth, "{\\rm acoth}"]))
     ),
-    if OPT_ACOS = "arccos-arcosh" then block(
+    if OPT_ACOS = "arsinh" then block(
        ?tex\-setup(?cdr([?%asin, "\\arcsin "])),
        ?tex\-setup(?cdr([?%acos, "\\arccos "])),
        ?tex\-setup(?cdr([?%atan, "\\arctan "])),
@@ -1623,7 +1628,7 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAl, SBl, ZM],
     ZM:setdifference(SA, SB),
     if not(emptyp(ZM)) then
       FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(ZM, "d")),
-    return([true, false, StackAddNote("","ATSet_wrongentries"), FeedBack])
+    return([true, false, StackAddNote("", "ATSet_wrongentries"), FeedBack])
 )$
 
 /* Note, this test (ATSets not ATSet as above) gives much more detailed feedback
@@ -1978,9 +1983,8 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
     rd:rationalized(SA),
     if not(is(rd=true)) then block(
             mark:false,
-            fbn:"ATLowestTerms_not_rat",
-            FeedBack: StackAddFeedback(FeedBack, fbn, stack_disp(rd, "d")),
-            AnswerNote:StackAddNote(AnswerNote, fbn)
+            FeedBack:StackAddFeedback(FeedBack, "ATLowestTerms_not_rat", stack_disp(rd, "d")),
+            AnswerNote:StackAddNote(AnswerNote, "ATLowestTerms_not_rat")
     ),
     return([validity, mark, AnswerNote, FeedBack])
 )$
@@ -2121,9 +2125,9 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
 
     /* Are all list elements not atoms? */
     if ev(all_listp(atom, SA), simp) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
     if ev(all_listp(atom, SB), simp) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
 
     /* Are all list elements equations? */
     if ev(not all_listp(equationp, SA), simp) then
@@ -2147,9 +2151,9 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
 
     /* Is each expression a polynomial? */
     if not all_listp(polynomialpsimp, S1) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_poly_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_poly_eq_list")),
     if not all_listp(polynomialpsimp, S2) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_poly_eq_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_poly_eq_list")),
 
     /*
     At this point have two lists of polynomials. We now check whether the
@@ -2187,10 +2191,10 @@ ATSysEquivVars(S1,S2):=block([XA,XB],
     XA: setify(listofvars(S1)),
     XB: setify(listofvars(S2)),
     if subsetp(XA,XB) then
-        return(StackBasicReturn(true,false,"ATSysEquiv_SA_missing_variables")),
+        return(StackBasicReturn(true, false, "ATSysEquiv_SA_missing_variables")),
     if subsetp(XB,XA) then
-        return(StackBasicReturn(true,false,"ATSysEquiv_SA_extra_variables")),
-    return(StackBasicReturn(true,false,"ATSysEquiv_SA_wrong_variables"))
+        return(StackBasicReturn(true, false, "ATSysEquiv_SA_extra_variables")),
+    return(StackBasicReturn(true, false, "ATSysEquiv_SA_wrong_variables"))
 )$
 
 /*
@@ -2207,7 +2211,7 @@ ATSysEquivGrob(GA, GB, SA, varlist) := block([retl, ret, kloop],
     /* Is the student's system underdetermined? */
 
     if poly_grobner_subsetp(GA,GB,varlist) then
-        return(StackBasicReturn(true,false,"ATSysEquiv_SA_system_underdetermined")),
+        return(StackBasicReturn(true, false, "ATSysEquiv_SA_system_underdetermined")),
 
     /*
         Given that the student's system is neither underdetermined nor equal to
@@ -2222,7 +2226,7 @@ ATSysEquivGrob(GA, GB, SA, varlist) := block([retl, ret, kloop],
         else
             ret:append(ret,[texcolor("red", SA[ev(kloop, simp)])])),
 
-    return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", stack_disp(ret, "d"))])
+    return([true, false, StackAddNote("", "ATSysEquiv_SA_system_overdetermined"), StackAddFeedback("", "ATSysEquiv_SA_system_overdetermined", stack_disp(ret, "d"))])
 )$
 
 /*****************************************************************/
@@ -2632,7 +2636,7 @@ ATSingleFrac(SA, SB) := block(
         if algebraic_equivalence(SA,SB) then
             return([true,true,"",""])
         else
-            return(StackBasicReturn(true,false,"ATSingleFrac_ret_exp")),
+            return(StackBasicReturn(true, false, "ATSingleFrac_ret_exp")),
 
     /* Ignore minus signs. */
     SAA:SA,
@@ -2857,16 +2861,16 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
 
     /* Check for algebraic equivalence */
     if cform and ae then
-        return([true,true,StackAddNote("","ATCompSquare_true"),""]),
+        return([true,true,StackAddNote("", "ATCompSquare_true"),""]),
 
     if cform then
-        return([true,false,StackAddNote("","ATCompSquare_true_not_AlgEquiv"),StackAddFeedback("","ATCompSquare_not_AlgEquiv")]),
+        return([true,false,StackAddNote("", "ATCompSquare_true_not_AlgEquiv"), StackAddFeedback("", "ATCompSquare_not_AlgEquiv")]),
 
     if not(ae) then
-        return([true,false,StackAddNote("","ATCompSquare_false_not_AlgEquiv"),""]),
+        return([true,false,StackAddNote("", "ATCompSquare_false_not_AlgEquiv"),""]),
 
-    AnswerNote:concat("ATCompSquare_false",AnswerNote),
-    return([true,false,StackAddNote("",AnswerNote),StackAddFeedback("",AnswerNote)])
+    AnswerNote:concat("ATCompSquare_false", AnswerNote),
+    return([true, false, StackAddNote("", AnswerNote), StackAddFeedback("", AnswerNote)])
     )$
 
 /*********************/
@@ -3049,7 +3053,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
                 (rawmk:true, ansnote:StackAddNote("", "ATInt_const_int_condone"))
         else if freeof(log, SA) or freeof(log, SB) then
             if ATIntWeirdConstp(ex, var) then
-                (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
+                (rawmk:false, fb:StackAddFeedback(StackAddFeedback("", "ATInt_weirdconst"), "seekhelp"), ansnote:StackAddNote("", "ATInt_weirdconst"))
             else if constint and listofvars(ex)=[var] then
                      (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
                  else
@@ -3062,7 +3066,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
         else if freeof(var, ex) and not(ATIntWeirdConstp(ex, var)) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true_differentconst"))
         else
-            (rawmk:acceptformal, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
+            (rawmk:acceptformal, fb:StackAddFeedback(StackAddFeedback("", "ATInt_EqFormalDiff"), "seekhelp"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
     ) else /* Check for the special cases where the buggy rule is true. */
        if ev(algebraic_equivalence(SAa, ev(diff(SBd, var), simp)), simp) and ev(algebraic_equivalence(exp(x), SBd), simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
@@ -3073,7 +3077,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
             (rawmk:false, fb:StackAddFeedback(fb, "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
+            (rawmk:false, fb:StackAddFeedback(StackAddFeedback("", "ATInt_logabs_inconsistent"), "seekhelp"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
     lSAv:listofvars(SA),
     lSAv:listofvars(SA),
     lSBv:listofvars(SB),
@@ -3154,6 +3158,144 @@ ATIntGetVar(ex):= block(
     if safe_op(ex)="int" then return([second(args(ex))]),
     flatten(map(ATIntGetVar, args(ex)))
 );
+
+/********************************************************************/
+/* An answer test for antiderivative questions.                     */
+/********************************************************************/
+
+ATAntidiff(sa, sb, so) := block([var, sbdisp],
+    simp:false,
+    /* How to display the teacher's answer? */
+    sbdisp:[],
+
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(sb, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_TAns"), ""]),
+    SOO:errcatch(ev(so, simp, nouns)),
+    if (is(SOO=[STACKERROR]) or is(SOO=[])) then
+        return([false, false, StackAddNote("", "ATAntidiff_STACKERROR_Opt"), ""]),
+
+    /* We always simplify the teacher's answer. */
+    sb:first(SBB),
+
+    var:first(SOO),
+    /* The options field should be exactly a variable and nothing else */
+    if not(is(variablep(var))) then return(StackBasicReturn(false, false, "ATAntidiff_STACKERROR_Opt")),
+
+    /* If we haven't explicitly got a displayed expression for feedback then generate one. */
+    if equal(sbdisp, []) then
+        sbdisp:ev(diff(sb, var), simp),
+
+    /* Calculate derivatives */
+    SAd:ev(diff(sa, var), simp),
+    SBd:ev(diff(sb, var), simp),
+    if debug then print([SAa, SBd]),
+    if debug then print(["Derivatives : ", SAd, SBd]),
+    if ev(algebraic_equivalence(SAd, SBd), simp) then return([true, true, StackAddNote("", "ATAntidiff_true"), ""]),
+
+    /* Did the student differentiate instead of integrating? */
+    SABd : ev(fullratsimp(sa - ev(diff(SBd, var), simp)), simp),
+    if debug then print(["Simplified difference:", SABd]),
+    if ev(diff(SABd,var),simp)=0 and ev(algebraic_equivalence(exp(x), SBd), simp)#true then return(StackBasicReturn(false, false, "ATAntidiff_diff")),
+
+    /* if not, we fail the test generically */
+    return([false, false, StackAddNote("", "ATAntidiff_generic"), StackAddFeedback("", "ATAntidiff_generic",stack_disp(SBd, "d"), stack_disp(var, "i"), stack_disp(SAd, "d") ) ])
+)$
+
+/********************************************************************/
+/* An answer test to check for an additive constant.                */
+/* Given an expression sa and a list of variables so in the options,*/
+/* it checks if exactly one other variable is contained additively, */
+/* like "+C". The main use case for this are Antiderivative tasks.  */
+/* This answer test ignores the teacher answer completely.          */
+/********************************************************************/
+
+ATAddConst(sa, sb, so) := block([oldsimp, SAresult, SAnote, SBresult, SBnote],
+    simp: false,
+
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_SAns"), ""]),
+    /*SBB:errcatch(ev(sb, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_TAns"), ""]),*/
+    SOO:errcatch(ev(so, simp, nouns)),
+    if (is(SOO=[STACKERROR]) or is(SOO=[])) then
+        return([false, false, StackAddNote("", "ATAddConst_STACKERROR_Opt"), ""]),
+
+    SA : first(SAA),
+    /*SB : first(SBB),*/
+    SOvars : first(SOO),
+
+    /* did the teacher do this correctly? */
+    /*[SBresult, SBnote] : hasAddConst(SB,SOVars),
+    if not(SBresult) then return([false, false, StackAddNote("", concat("ATAddConst_TAns. ", SBnote)), ""]),*/
+
+    /* did the student do this correctly? */
+    [SAresult, SAnote] : hasAddConst(SA,SOvars),
+    if not(SAresult) then return(StackBasicReturn(false, false, SAnote)),
+
+    return(StackBasicReturn(true, true, SAnote))
+)$
+
+/* This function dows the actual checking described above. */
+/* returns a true/false mark and the name of an answer note. */
+hasAddConst(expr, vars) := block([othervars, const, deriv, allvariables, strict],
+    strict: true,
+    /* is this a list of variables? If just one variable is given, listify. */
+    if debug then print(["Variables: ", vars]),
+
+    if not(is(listp(vars))) then vars : [vars],
+
+    if debug then print(["Listified variables: ", vars]),
+    if member(NONSTRICT, vars) then (
+        if debug then print(["Found NONSTRICT option"]),
+        strict : false,
+        vars : delete(NONSTRICT, vars)
+    ),
+    allvariables : true,
+    for var in vars do block (
+        if debug then print(["Variable: ", var,is(variablep(var))]),
+        if not(is(variablep(var))) then allvariables : false
+    ),
+    if not(allvariables) then return([false, "ATAddConst_Opt"]),
+    if debug then print(["All list entries are variables"]),
+
+	/* build list of candidates for constants: othervars */
+	othervars : listofvars(expr),
+    if debug then print(["Variables in expression: ", othervars]),
+	for var in vars do othervars : delete(var,othervars),
+    if debug then print(["Remaining variables after deletion: ", othervars]),
+
+
+    /* check number of candidates, should be exactly 1 */
+    if length(othervars) = 0 then
+        return([false, "ATAddConst_noconst"]),
+    if length(othervars) > 1 then
+        return([false, "ATAddConst_severalconst"]),
+
+    /* if there is one candidate, check if it's exactly additive or something else */
+    const : othervars[1],
+    deriv : ev(diff(expr,const), simp),
+    if debug then print(["Derivative by the constant: ", deriv]),
+    if strict then (
+        if debug then print(["Checking strictly "]),
+        if algebraic_equivalence(deriv,1) then
+            return([true, "ATAddConst_true"])
+        else return([false, "ATAddConst_generic"])
+    )
+    else
+    (
+        if debug then print(["Checking NON-strictly "]),
+        if emptyp(delete(const,listofvars(deriv))) then
+            return([true, "ATAddConst_true"])
+        else return([false, "ATAddConst_generic"])
+    )
+
+)$
 
 /********************************************************************/
 /* An answer test for differentiation questions.                    */
@@ -3367,4 +3509,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025012200$
+stackmaximaversion:2025080100$

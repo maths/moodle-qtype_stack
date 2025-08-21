@@ -134,6 +134,18 @@ If you must (and you risk an infinite loop of course....) you can use Maxima's `
     q:1;
     for k while not(is(primep(q))) do block(q:rand(98)+1);
 
+## Structured random matrices
+
+STACK has a contributed library for creating structured random matrices.  The code is online in the [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/rand_matrix.mac)
+
+To use this library you must load it into the question variables.
+
+* To use the local copy on your server: `stack_include("rand_matrix.mac");`
+* To use the latest code from github: `stack_include_contrib("rand_matrix.mac");`
+
+See documentation on [inclusions](../Authoring/Inclusions.md) for more detail of these functions.
+
+Then you can create random matrices, e.g. to generate a \(3\times 3\) invertible matrix use `{@rand_invertible(3)@}`.
 
 ## See also
 

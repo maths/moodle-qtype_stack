@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.3.12 (Example of calculating a definite integral)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Evaluate the following integral 
+\[
+\int_{0}^{1} 8x^3 \: \mbox{dx}
+\]</p>
+
+<h3>Solution</h3>
+
+<p>To take the derivative of a power, we subtract the power by 1 and multiply by that new power. Reversing this, to get the anti-derivative, we add one to the power then divide by that new power. Hence an antiderivative of \(8x^3\) is
+\[
+\frac{8x^4}{4} = 2x^4.
+\] 
+Note that we can always check these answers by differentiating the antiderivative, to check it is the same as what we started with. In this case 
+\[
+\frac{d}{dx}\left( 2x^4 \right) = 4 \cdot 2 x^3 = 8x^3,
+\]
+so we have found the correct antiderivative. Now using the Fundamental Theorem of Calculus we have:
+\[
+\begin{align*}
+\int_{0}^{1} 8x^3 \: \mbox{dx} &= \left[ 2x^4\right]_0^1 \qquad \mbox{using the antiderivative}
+\\
+&= (2 \cdot (1)^4) - (2 \cdot (0)^4) \qquad \mbox{substituting the upper and lower limits into the antiderivative}
+\\
+&= 2 - 0
+\\
+&= 2.
+\end{align*}
+\]
+Thus the value of the integral is 2, or in other words the area underneath the curve \(f(x = 8x^3)\) between the values \(x = 0\) and \(x = 1\) is 2. </p>
+<br>
+<p>Notice here that the variable we integrate with respect to is an \(x\). This is standard notation, but other letter could be used. The dx term at the end of the integral is vital (in fact if this is omitted the integral doesn't make sense) and it tells us precisely which variable we should integrate with. Thus in general
+\[
+\int_{a}^{b} f(x) \: \mbox{dx} \ne \int_{a}^{b} f(x) \: \mbox{dt}
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

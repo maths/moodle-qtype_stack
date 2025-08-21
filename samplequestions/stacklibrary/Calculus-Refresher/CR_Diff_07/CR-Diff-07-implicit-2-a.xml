@@ -5,22 +5,22 @@
       <text>CR-Diff-07-implicit-2.a</text>
     </name>
     <questiontext format="html">
-      <text>Find \(\frac{dy}{dx}\) where \({@p@}=0\) using implicit differentiation.
-
-[[input:ans1]] [[validation:ans1]]</text>
+      <text><![CDATA[<p>Find \(\frac{dy}{dx}\), where \({@p@}=0\), using implicit differentiation:</p>
+<p>\(\displaystyle \frac{d{@v@}}{dx} = \) [[input:ans1]]. [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text>Differentiating implicitly we obtain:
-\[ -\frac{1}{2}{@sin(2*x)@}-\frac{1}{2}\frac{dy}{dx}{@sec(2*y)^2@} = 0. \]
-Re-arranging we obtain:
-\[ \frac{dy}{dx} = {@ans@}. \]</text>
+      <text>Differentiating implicitly, we obtain \[ -\frac{1}{2}{@sin(2*x)@}-\frac{1}{2}\frac{dy}{dx}{@sec(2*y)^2@} = 0.\]
+Rearranging, we find \[ \frac{dy}{dx} = {@ans@}. \]
+In this case we can use the general trig identity \(\sec^2(w)=\tan^2(w)+1\), and use the condition from the question  \({\cos \left( 2\cdot x \right)=\tan \left( 2\cdot y \right)}\) as follows:
+\[\sec^2(2\cdot y)=\tan^2(2\cdot y)+1=\cos^2 \left( 2\cdot x \right)+1.\]
+Hence we can re-write the derivative purely as a function of \(x\) in the form \[ \frac{dy}{dx} = {@ans@} = {@tans1@}\]</text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2025012100</text>
     </stackversion>
     <questionvariables>
       <text>p:cos(2*x)-tan(2*y);
@@ -30,7 +30,8 @@ ta:subst(YP,('diff(yfun(x),x,1)),ta);
 dum1:yfun(x) := y;
 ta:ev(ta);
 ta:solve(ta=0,YP);
-ans:rhs(ta[1]);</text>
+ans:rhs(ta[1]);
+tans1:-sin(2*x)/(cos(2*x)^2+1);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -56,12 +57,13 @@ ans:rhs(ta[1]);</text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
-    <multiplicationsign>dot</multiplicationsign>
+    <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -98,7 +100,7 @@ ans:rhs(ta[1]);</text>
         <testoptions>v</testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-0-T </trueanswernote>
@@ -106,7 +108,7 @@ ans:rhs(ta[1]);</text>
           <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>Result-0-F </falseanswernote>
@@ -123,20 +125,43 @@ ans:rhs(ta[1]);</text>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>Your answer is the negative of what it should be.
-
-Have you mislaid a sign?</text>
+          <text>Have you mislaid a sign?</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>Alternative solution not depending on \(y\)</description>
+        <answertest>Diff</answertest>
+        <sans>ans1</sans>
+        <tans>tans1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
         <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
-        <falseanswernote>Result-1-F </falseanswernote>
+        <falseanswernote>Result-3-F</falseanswernote>
         <falsefeedback format="html">
           <text/>
         </falsefeedback>
@@ -167,8 +192,40 @@ Have you mislaid a sign?</text>
         <name>Result</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>Result-1-T </expectedanswernote>
+        <expectedanswernote>Result-1-T</expectedanswernote>
       </expected>
     </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>tans1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Simply wrong.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>skill quiz</text>
+</tag>
+    </tags>
   </question>
 </quiz>

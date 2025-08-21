@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Give Eigenvalue Multiplicities</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The matrix \[ A = {@AA@} \] has 2 eigenvalues, \(\lambda_1 = {@L1@}\) and \(\lambda_2 = {@L2@}\), and characteristic polynomial \(p(\lambda) = {@factor(charpoly(AA,lambda))@}\).</p>
+<ol type="a">
+<li>
+<p>Find the algebraic and geometric multiplicity of each eigenvalue.</p>
+<ul>
+<li>
+<p>\(\lambda_1 = {@L1@}\) has algebraic multiplicity [[input:stu_alg1]] and geometric multiplicity [[input:stu_geo1]]. [[validation:stu_alg1]] [[validation:stu_geo1]] [[feedback:prt_1]]</p>
+</li>
+<li>
+<p>\(\lambda_2 = {@L2@}\) has algebraic multiplicity [[input:stu_alg2]] and geometric multiplicity [[input:stu_geo2]]. [[validation:stu_alg2]] [[validation:stu_geo2]] [[feedback:prt_2]]</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Is \(A\) diagonalisable? [[input:stu_diag]] [[validation:stu_diag]] [[feedback:prt_diag]]</p>
+</li>
+<li>
+<p>Is \(A\) invertible? [[input:stu_invert]] [[validation:stu_invert]] [[feedback:prt_invert]]</p>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.5</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_linear_algebra_declare(true);
+stack_include_contrib("eigenlib.mac");
+stack_include_contrib("matrix.mac");
+
+[aa,cc,ee]: rand_selection([-2,-1,0,1,2],3);
+[cc,gg]: random_permutation([cc,0]);
+bb: 1 + aa*cc;
+ff: 1 + ee*gg;
+PP: matrix([1,0,0],[aa,1,0],[bb,cc,1]) . matrix([1,ee,ff],[0,1,gg],[0,0,1]);
+[L1,L2]: rand_selection([-3,-2,-1,0,1,2,3],2);
+JJ: rand([
+  matrix([L1,1,0],[0,L1,0],[0,0,L2]),
+  matrix([L1,0,0],[0,L2,1],[0,0,L2]),
+  matrix([L1,0,0],[0,L1,0],[0,0,L2]),
+  matrix([L1,0,0],[0,L2,0],[0,0,L2])
+]);
+
+AA: simplify(PP . JJ . invert(PP));
+
+sol_alg1: alg_mult(AA,L1);
+sol_geo1: geo_mult(AA,L1);
+sol_alg2: alg_mult(AA,L2);
+sol_geo2: geo_mult(AA,L2);
+
+sol_diag: diagonalizablep(AA);
+sol_diag: [["Yes",sol_diag],["No",not(sol_diag)]];
+sol_invert: invertiblep(AA);
+sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@AA@} = {@PP@}{@JJ@}{@simplify(invert(PP))@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>stu_alg1</name>
+      <type>numerical</type>
+      <tans>sol_alg1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_alg2</name>
+      <type>numerical</type>
+      <tans>sol_alg2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_diag</name>
+      <type>dropdown</type>
+      <tans>sol_diag</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_geo1</name>
+      <type>numerical</type>
+      <tans>sol_geo1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_geo2</name>
+      <type>numerical</type>
+      <tans>sol_geo2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_invert</name>
+      <type>dropdown</type>
+      <tans>sol_invert</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_1</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>stu_alg1</sans>
+        <tans>sol_alg1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt_1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>stu_geo1</sans>
+        <tans>sol_geo1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_2</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>stu_alg2</sans>
+        <tans>sol_alg2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt_2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>stu_geo2</sans>
+        <tans>sol_geo2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_diag</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>String</answertest>
+        <sans>stu_diag</sans>
+        <tans>first(mcq_correct(sol_diag))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_diag-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_diag-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_invert</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>String</answertest>
+        <sans>stu_invert</sans>
+        <tans>first(mcq_correct(sol_invert))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_invert-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_invert-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1601467438</deployedseed>
+    <deployedseed>50726241</deployedseed>
+    <deployedseed>1859762113</deployedseed>
+    <deployedseed>2100950543</deployedseed>
+    <deployedseed>842530757</deployedseed>
+    <deployedseed>1248626355</deployedseed>
+    <deployedseed>703522023</deployedseed>
+    <deployedseed>729031373</deployedseed>
+    <deployedseed>1559069625</deployedseed>
+    <deployedseed>960331966</deployedseed>
+    <deployedseed>69798163</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>stu_alg1</name>
+        <value>sol_alg1</value>
+      </testinput>
+      <testinput>
+        <name>stu_alg2</name>
+        <value>sol_alg2</value>
+      </testinput>
+      <testinput>
+        <name>stu_diag</name>
+        <value>first(mcq_correct(sol_diag))</value>
+      </testinput>
+      <testinput>
+        <name>stu_geo1</name>
+        <value>sol_geo1</value>
+      </testinput>
+      <testinput>
+        <name>stu_geo2</name>
+        <value>sol_geo2</value>
+      </testinput>
+      <testinput>
+        <name>stu_invert</name>
+        <value>first(mcq_correct(sol_invert))</value>
+      </testinput>
+      <expected>
+        <name>prt_1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_2-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_diag</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_diag-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_invert</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_invert-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>stu_alg1</name>
+        <value>3-sol_alg1</value>
+      </testinput>
+      <testinput>
+        <name>stu_alg2</name>
+        <value>3-sol_alg2</value>
+      </testinput>
+      <testinput>
+        <name>stu_diag</name>
+        <value>first(mcq_incorrect(sol_diag))</value>
+      </testinput>
+      <testinput>
+        <name>stu_geo1</name>
+        <value>3-sol_geo1</value>
+      </testinput>
+      <testinput>
+        <name>stu_geo2</name>
+        <value>3-sol_geo2</value>
+      </testinput>
+      <testinput>
+        <name>stu_invert</name>
+        <value>first(mcq_incorrect(sol_invert))</value>
+      </testinput>
+      <expected>
+        <name>prt_1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_diag</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_diag-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_invert</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_invert-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

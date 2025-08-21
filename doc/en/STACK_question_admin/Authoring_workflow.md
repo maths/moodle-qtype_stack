@@ -97,6 +97,7 @@ Tags are a comma separated list of strings.  Whitespace will be trimmed from the
 * Tags can represent a user (e.g. using their name, username) to alert an issue is for them to resolve.
 * Tags can represent a stage in an agreed workflow, e.g. "draft", "for review", "stage 2".
 * Tags can represent an issue, e.g. "iss1231" to remind authors to update the question when a fix to a bug/issue finally goes live on a production server.
+* Tags can be added automatically to the question description by the [bulk test script](Bulk_testing.md) where a question requires attention.
 
 It is entirely up to individual users to decide on what and how to use tags.
 
@@ -110,8 +111,8 @@ Any logged-in user can navigate to the URL
     
 on the moodle site.  This page will list
 
-1. Any courses in which they are teacher.
-2. Any questions in that course which contain STACK questions with `[[todo]]` blocks.
+1. Any contexts for which they have moodle capability `moodle/question:editall`.
+2. Any questions in that context which contain STACK questions with `[[todo]]` blocks.
 3. Questions which contain `[[todo]]` blocks are arranged into groups by tag, and additionally there is a list of questions with `[[todo]]` blocks without any tags.
 
 Notice that, by design, any teachers on the course can see all tags. The purpose of the `[[todo]]` block is _not_ to provide a private list of tickets for an individual user to address.  Rather, it is a public list of tags.  In this way, if users choose to use tags to flag issues for users, every teacher can see outstanding tags including those intended for them and those raised by them for someone else.

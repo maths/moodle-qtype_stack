@@ -42,7 +42,7 @@ Please see the [troubleshooting](Troubleshooting.md) page for known issues and h
 Please follow the examples below to understand how the components work.  Then we provide two tools.
 
 1. Advice on workflow for [authoring Parson's problems](../../Topics/Proof/Proof_Parsons_workflow.md).
-2. Template questions in the [STACK question library](../../STACK_question_admin/Sample_questions.md#STACK_library), under `Topics\Parsons-proof-template.xml` which you can load and use immediately.
+2. Template questions in the [STACK question library](../../STACK_question_admin/Library/index.md), under `Topics\Parsons-proof-template.xml` which you can load and use immediately.
 
 ## Example 1: a minimal Parson's question
 
@@ -54,7 +54,7 @@ It shows the proof that _\(\log_2(3)\) is irrational_.
 Define the following question variables:
 
 ````
-stack_include("contribl://prooflib.mac");
+stack_include_contrib("prooflib.mac");
 
 proof_steps: [
     ["assume", "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
@@ -126,6 +126,16 @@ The student's answer will be a _JSON string_, but we need to interpret which of 
 
 Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to confirm the student's answer is the same as the teacher's answer.
 
+### Adding a test case
+
+On the STACK question dashboard, add in a test case.  Test case construction requires use of a special function `parsons_answer` to mock up the input from a Parsons block (with hashing) and send to the testing code what a correct response from the user would look like.  The test case should look like
+
+````
+parsons_answer(ta, proof_steps)
+````
+
+In general, you need to provide a list of tags in place of `ta`, and the `proof_steps` array.
+
 ## Example question 2: a proof with interchangeable block order
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
@@ -133,7 +143,7 @@ The following Parson's question is an _if and only if_ proof, containing two blo
 ### Question variables
 
 ````
-stack_include("contribl://prooflib.mac");
+stack_include_contrib("prooflib.mac");
 
 ta: proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"), proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));
 
@@ -231,10 +241,30 @@ Can you see the differences between these proofs?
 
 We have much more sophisticated [general assessment tools](../../Topics/Proof/Proof_assessment.md) for establishing the edit distance between the student's and teacher's proof and providing feedback on how to correct a partially correct proof.  These are documented elsewhere.
 
+### Adding a test case
+
+On the STACK question dashboard, add in a test case.  Test case construction requires use of a special function `parsons_answer` to mock up the input from a Parsons block (with hashing) and send to the testing code what a correct response from the user would look like.  The test case should look like
+
+````
+parsons_answer(ta, proof_steps)
+````
+
+In general, you need to provide a list of tags in place of `ta`, and the `proof_steps` array.
+
 ## Legacy versions
 
 Old versions of the parsons block (before 2024072500) used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
 `parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`, and used the `String` input type. Legacy versions of questions are still 
-supported and should function as previously, so long as the `String` input type is used. However it is strongly recommended to update questions to use the new functions.
-These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
-also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+supported and should function as previously, so long as the `String` input type is used. 
+
+It is strongly recommended to update questions to use the new functions. These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+
+Upgrading Parsons questions:
+
+1. Parsons blocks should use the `parsons_encode` function to create the JSON needed to go to the `[[parsons]]` block.  E.g.`[[parsons input="ans1"]]{# parsons_encode(proof_steps) #}[[/parsons ]]`
+2. The Input type field should be Parsons. The Model answer field should be a list `[ta, proof_steps]`.
+3. The feedback variables use the `parsons_encode` function, e.g. `sa:parsons_decode(ans1);`
+4. Test cases (question tests) are constructed using `parsons_answer(ta, proof_steps)`.
+
+The `parsons_encode`, `parsons_decode` and `parsons_answer` deal with the hash, as does choosing the "Parsons" input type.
+

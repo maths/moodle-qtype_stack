@@ -69,6 +69,76 @@ For example you may be evaluating the latest release of STACK on a test server, 
 like to know if the upgrade will break any of your existing questions.
 (And you don't want to do a lot of exporting and importing.)
 
+## Using a local MathJax installation with JSXGraph
+
+If you are using a local distribution of MathJax instead of a content-delivery-network (CDN), you will need to make sure
+that your web server is configured properly. Otherwise, advanced features that are rendered in separate iframes (e.g.,
+JSXGraph) will likely fail to render MathJax formulas.
+
+You can determine if you are using a local copy of MathJax by checking the admin setting `filter_mathjax | httpsurl`. If this is set to a local URL, such as `/lib/mathjax/MathJax.js`, you are using a local copy of MathJax and must ensure that your web server sends the correct CORS headers for the MathJax files.
+
+In order to allow MathJax to load correctly, your web server must serve a valid `Access-Control-Allow-Origin` header
+with the MathJax files. The following sections provide guidance on how to configure different web servers and confirm
+that the configuration works.
+
+### Configuring Apache
+
+Apache allows setting the CORS headers via your web server configuration or via an `.htaccess` file. Using the web
+server configuration is preferred and described here.
+
+1. Activate the `headers` module if it is not already enabled: `a2enmod headers`
+2. Add the following to the Apache configuration for your Moodle `VirtualHost`:
+
+    ```
+    <Directory /var/www/moodle/lib/mathjax/>
+       Header set Access-Control-Allow-Origin "*"
+    </Directory>
+   ```
+3. Check that your configuration is valid: `apachectl configtest`
+4. Reload the Apache configuration: `systemctl reload apache2` (or similar)
+
+**Note:** Replace `/lib/mathjax/` with the actual path to your MathJax files if it differs.
+
+### Configuring Nginx
+
+With nginx, you can add the CORS header directly via your web server configuration through a designated location block.
+
+1. Add the following to the nginx configuration that serves your Moodle site:
+
+    ```
+    location /lib/mathjax/ {
+        add_header 'Access-Control-Allow-Origin' '*';
+    }
+    ```
+2. Check that your configuration is valid: `nginx -t`
+3. Reload the nginx configuration: `nginx -s reload` (or similar)
+
+**Note:** Replace `/lib/mathjax/` with the actual path to your MathJax files if it differs.
+
+### Testing CORS headers
+
+You can check if your web server is configured correctly using the command line utility `curl`.
+
+1. Determine the URL of your MathJax installation. Example: `http://mymoodle.localhost/lib/mathjax/MathJax.js`
+2. Request the MathJax file and check the response headers: `curl -I http://mymoodle.localhost/lib/mathjax/MathJax.js`
+3. Ensure that the response headers include `Access-Control-Allow-Origin: *`.
+
+To test the MathJax rendering within JSXGraph:
+
+1. Create a new STACK question.
+2. Add a basic JSXGraph element that makes use of MathJax rendering:
+
+    ```
+    [[jsxgraph]]
+        JXG.Options.text.useMathJax = true;
+        let board = JXG.JSXGraph.initBoard(divid);
+        board.create('text',[0,0,'This should be LaTex: \\(\\int_{\\pi}^{\\phi}x\\textrm{d}x\\)'])
+    [[/jsxgraph]]
+    ```
+3. Preview the question and make sure that the MathJax formula is rendered correctly.
+
+If the rendering fails, check the developer console of your browser for any errors related to MathJax or CORS issues.
+
 # Troubleshooting an install/upgrade
 
 When you upgrade, the STACK plugin will try to automatically recreate the optimised Maxima image.  Occasionally this will not work and you will need to troubleshoot why.
@@ -162,4 +232,4 @@ The very last step is to use the CAS cache.
 
     qtype_stack | casresultscache = Cache in the database
 
-This should be a working server, using the optimised image.  Please consider using the Maxima Pool for production sites, putting Maxima onto another server completely. 
+This should be a working server, using the optimised image.  Please consider using the Maxima Pool for production sites, putting Maxima onto another server completely.

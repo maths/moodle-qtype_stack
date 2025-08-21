@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.1.12 (Implications)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>The importance of implication.</h1>
+
+<p>Implications are a very important tool when constructing mathematical proofs. We primarily deal with implications when we wish to deduce one thing from another and therefore they are some of the most common connectives used in proof. Let \(A\) and \(B\) be two statements. For the implication \(A \implies B\) we start with statement \(A\) and then deduce the statement \(B\). In this case statement \(A\) is called the <b>hypothesis</b> and \(B\) is called the <b>conclusion</b>. In English there are many words we use to show an implication, e.g. implies, thus, hence, thus, therefore etc. </p>
+
+<p>A statement of the form if \(A\) then \(B\) is called a <b>conditional</b> statement. For example the statement "If \(x\)" is even then \(x^2\) is even is a conditional. The conditional statement \(A \implies B\) tells us that if \(A\) is true then \(B\) is also true. The <b>converse</b> of this implication is \(B \implies A\). Note that whilst the implication \(A \implies B\) may be true the converse may not be true. Note that this means we say two statements are equivalent if the implication \(A \implies B\) is true and its converse is true. For example the statement "if \(x=2\) then \(x^2 = 4\)" is true however its converse "if \(x^2 = 4\) then x = 2" is false becuase in this case \(x = 2\) or \(x = -2\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

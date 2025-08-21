@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.2.11 (Linear programming cabinets 1)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that you need to buy some cabinets. You know that Cabinet X costs £\({@f1@}\) per unit, requires \({@g1@}\) square feet of floor space, and holds \({@g2@}\) cubic feet of files. Cabinet Y costs £\({@f2@}\) per unit, requires {@g2@} square feet of floor space, and holds {@d2@} cubic feet of files. You have been given £\({@f3@}\) for this purchase, though you don't have to spend that much. The office has room for no more than \({@g3@}\) square feet of cabinets. How many of which model should you buy, in order to maximize storage volume?</p>
+
+<p>maximum = [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Note that we can form an equation from the costs, and an equation from the space requirements. Let \(x\) be the number of cabinet \(X\) purchased, \(y\) be the number of cabinet \(Y\) purchased. Then the optimisation equation is the volume equation, i.e. we seek to maximise \(V = {@opt@}\) subject to the constraints
+\[ 
+\begin{align*} 
+&amp; \mbox{cost}: {@c1@}
+\\ 
+&amp;\mbox{space}:{@c2@}
+\\ 
+&amp;{@c3@}
+\\
+&{@c4@}
+\end{align*}
+\]
+ </p>
+
+<p>We need to find the corner points of the feasibility region so we could plot the lines 
+\[
+\begin{align*} 
+&amp; {@eqn1@}
+\\ 
+&amp;{@eqn2@}
+\\ 
+&amp;{@eqn3@}
+\\
+&{@eqn4@}
+\end{align*}
+\] 
+on the same graph and then read off the coordinates of the corner points, or we could solve each pair of equations simultaneously.</p>
+
+<p>In this case we can see that the potential coordinates of the corner points are 
+\[
+({@aa1@},{@aa2@}), \qquad ({@bb1@},{@bb2@}) \qquad ({@cc1@},{@cc2@}), \qquad ({@dd1@},{@dd2@}), \qquad \mbox{and } ({@ee1@},{@ee2@}).
+\]
+However, note that the points \(({@cc1@},{@cc2@}) \mbox{ and } ({@dd1@},{@dd2@})\) lie outside of the feasibility region.
+So to find the maximum and minimum with respect to the constraints above, we insert these coordinates into the optimisation equation. This gives us:
+\[
+\begin{align*}
+&({@aa1@},{@aa2@}): z ={@aa@}
+\\
+&({@bb1@},{@bb2@}): z = {@bb@}
+\\
+&({@ee1@},{@ee2@}): z = {@ee@}
+\end{align*}
+\]
+Hence the maximum is {@ta1@}.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[d1: 8;
+d2: 12;
+
+f1: 10+ rand([10,20,30,40]);
+f2: 20;
+f3: 100+ rand([10,20,30,40]);
+
+g1: 24+ rand([4,8,12,16,20]);
+g2: 8;
+g3: 64+ rand([8,16,24,32,40]);
+
+h1: f1/f2;
+h2: f3/f2;
+
+i1: g1/g2;
+i2: g3/g2;
+
+opt: d1*x +d2*y;
+
+c1: f1*x+ f2*y <= f3
+c2: g1*x+g2*y <= g3;
+c3: x >= 0;
+c4: y>=0;
+
+eqn1: y = -h1*x + h2;
+eqn2: y = -i1*x + i2;
+eqn3: x = 0;
+eqn4: y = 0;
+
+aa1:solve([eqn1,eqn2],[x,y])[1][1];
+aa2:solve([eqn1,eqn2],[x,y])[1][2];
+
+bb1:solve([eqn1,eqn3],[x,y])[1][1];
+bb2:solve([eqn1,eqn3],[x,y])[1][2];
+
+cc1:solve([eqn1,eqn4],[x,y])[1][1];
+cc2:solve([eqn1,eqn4],[x,y])[1][2];
+
+dd1:solve([eqn2,eqn3],[x,y])[1][1];
+dd2:solve([eqn2,eqn3],[x,y])[1][2];
+
+ee1:solve([eqn2,eqn4],[x,y])[1][1];
+ee2:solve([eqn2,eqn4],[x,y])[1][2];
+
+aa: ev(opt, aa1,aa2);
+bb: ev(opt, bb1,bb2);
+cc: ev(opt, cc1,cc2);
+dd: ev(opt, dd1,dd2);
+ee: ev(opt, ee1,ee2);
+
+ll: [aa,bb,ee];
+ss: sort (ll, 'orderlessp)
+
+ta1: ss[3];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>z={@opt@}, {@aa@}, {@bb@}, {@cc@}, {@dd@}, {@ee@} \(\implies\) max: {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2012880931</deployedseed>
+    <deployedseed>770550139</deployedseed>
+    <deployedseed>1315763451</deployedseed>
+    <deployedseed>1684112419</deployedseed>
+    <deployedseed>2027515226</deployedseed>
+    <deployedseed>1914856479</deployedseed>
+    <deployedseed>18892084</deployedseed>
+    <deployedseed>435110064</deployedseed>
+    <deployedseed>662603083</deployedseed>
+    <deployedseed>1676942476</deployedseed>
+    <deployedseed>2142576133</deployedseed>
+    <deployedseed>157049362</deployedseed>
+    <deployedseed>268039299</deployedseed>
+    <deployedseed>606934062</deployedseed>
+    <deployedseed>826711999</deployedseed>
+    <deployedseed>1486184118</deployedseed>
+    <deployedseed>493483011</deployedseed>
+    <deployedseed>96677740</deployedseed>
+    <deployedseed>1860488467</deployedseed>
+    <deployedseed>1433655302</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ss[1]-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

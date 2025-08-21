@@ -23,10 +23,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../string/string.class.php');
+require_once(__DIR__ . '/../json/json.class.php');
+require_once(__DIR__ . '/../../utils.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class stack_parsons_input extends stack_string_input {
+class stack_parsons_input extends stack_json_input {
 
     /**
      * If new functionality is added to the Parson's block that require new answer functions then they should be added to
@@ -48,12 +49,19 @@ class stack_parsons_input extends stack_string_input {
     private static function answer_function($in) {
         if (self::is_proof_question($in)) {
             return ["parsons_answer", $in];
-        } else if (count(json_decode($in)) === 3) {
+        }
+        $decode = json_decode($in);
+        if (!is_array($decode)) {
+            return ["error", ""];
+        }
+        if (count($decode) === 3) {
             // In this case input looks like `[ta, steps, 3]` and only the first two are needed for `group_answer`.
             return ["group_answer", json_encode(array_slice(json_decode($in), 0, 2))];
-        } else if (count(json_decode($in)) === 4) {
+        } else if (count($decode) === 4) {
             // In this case input looks like `[ta, steps, 3, 2]` and only the first three are needed for `match_answer`.
             return ["match_answer", json_encode(array_slice(json_decode($in), 0, 3))];
+        } else {
+            return ["error", ""];
         }
     }
 
@@ -69,21 +77,137 @@ class stack_parsons_input extends stack_string_input {
      * @return array
      */
     private static function answer_function_testcase($ta) {
-        if (count(explode(",", $ta)) === 2) {
-            return ["parsons_answer", $ta];
-        } else if (count(explode(",", $ta)) === 3) {
-            return ["group_answer", implode(",", array_slice(explode(",", $ta), 0, 2)) . "]"];
-        } else if (count(explode(",", $ta)) === 4) {
-            return ["match_answer", implode(",", array_slice(explode(",", $ta), 0, 3)) . "]"];
+        if (!stack_utils::is_array_string($ta)) {
+            return ["error", ""];
         }
+        $ex = explode(",", $ta);
+        if (count($ex) === 2) {
+            return ["parsons_answer", $ta];
+        } else if (count($ex) === 3) {
+            return ["group_answer", implode(",", array_slice(explode(",", $ta), 0, 2)) . "]"];
+        } else if (count($ex) === 4) {
+            return ["match_answer", implode(",", array_slice(explode(",", $ta), 0, 3)) . "]"];
+        } else {
+            return ["error", ""];
+        }
+    }
+
+    /**
+     * The model answer for a grouping question is an array of three elements [ta, steps, x], where
+     * technically `x` can be anything. The docs recommend to use `headers` as `x` so that they can be
+     * included in the display. However authors are not required to even define their own `headers` parameter,
+     * and may fall back on the default. In this case they are recommended to use the number of columns.
+     * This function detects which version they are using between these.
+     */
+    private static function detect_grouping_model_answer_type($in) {
+        $decode = json_decode($in);
+        if (!is_array($decode) || count($decode) !== 3) {
+            return stack_string('inputtypeparsons_incorrect_model_ans');;
+        }
+        $third = $decode[2];
+        if (gettype($third) === "integer") {
+            return "cols";
+        } else if (is_array($third)) {
+            return "header";
+        } else {
+            return stack_string('inputtypeparsons_incorrect_model_ans');
+        }
+    }
+
+    /**
+     * The model answer for a grid question is an array of four elements [ta, steps, x, y], where
+     * technically `x` and `y` can be anything. The docs recommend to use `headers` as `x` and `index` as `y`
+     * so that they can be included in the display. However authors are not required to even define their own
+     * `headers` or `index` parameter, and may fall back on the default headers or not need an index. In this case
+     * they are recommended to use the number of columns and rows respectively.
+     * This function detects which version they are using between these.
+     */
+    private static function detect_grid_model_answer_type($in) {
+        $decode = json_decode($in);
+        if (!is_array($decode) || count($decode) === 3) {
+            return stack_string('inputtypeparsons_incorrect_model_ans');;
+        }
+        $third = $decode[2];
+        $fourth = $decode[3];
+        if (gettype($third) === "integer") {
+            if (gettype($fourth) === "integer") {
+                return "cols_rows";
+            } else if (is_array($fourth)) {
+                return "cols_index";
+            } else {
+                return stack_string('inputtypeparsons_incorrect_model_ans');
+            }
+        } else if (is_array($third)) {
+            if (gettype($fourth) === "integer") {
+                return "header_rows";
+            } else if (is_array($fourth)) {
+                return "header_index";
+            } else {
+                return stack_string('inputtypeparsons_incorrect_model_ans');
+            }
+        } else {
+            return stack_string('inputtypeparsons_incorrect_model_ans');
+        }
+    }
+
+    /**
+     * Gets the necessary arguments to supply to `match_display` according to whether `headers` vs. number of columns
+     * are used, or `index` vs. number of rows are used in the model answer.
+     */
+    private function get_match_display_args($value) {
+        $decoded = json_decode($value);
+        if (!is_array($decoded) || count($decoded) < 3) {
+            return "error";
+        }
+        if (count($decoded) === 3) {
+            $type = $this::detect_grouping_model_answer_type($value);
+            if ($type === 'cols') {
+                $args = array_slice($decoded, 0, 3);
+            } else if ($type === 'header') {
+                $args = array_merge(array_slice($decoded, 0, 2), [count($decoded[2])], [$decoded[2]]);
+            } else {
+                return "error";
+            }
+        } else if (count($decoded) === 4) {
+            if ($this::detect_grid_model_answer_type($value) === 'cols_rows') {
+                $args = array_slice($decoded, 0, 3);
+            } else if ($this::detect_grid_model_answer_type($value) === 'cols_index') {
+                $args = array_merge(array_slice($decoded, 0, 3), [range(1, $decoded[2])], [$decoded[3]]);
+            } else if ($this::detect_grid_model_answer_type($value) === 'header_rows') {
+                $args = array_merge(array_slice($decoded, 0, 2), [count($decoded[2])], [$decoded[2]]);
+            } else if ($this::detect_grid_model_answer_type($value) === 'header_index') {
+                $args = array_merge(array_slice($decoded, 0, 2), [count($decoded[2])], [$decoded[2]], [$decoded[3]]);
+            } else {
+                return "error";
+            }
+        } else {
+            return "error";
+        }
+        return $args;
     }
 
     /**
      * Filters to apply for display in validate_contents
      * @var array
      */
-    protected $protectfilters = ['909_parsons_decode_state_for_display', '910_inert_float_for_display',
+    protected $protectfilters = ['908_parsons_decode_state_for_display', '910_inert_float_for_display',
         '912_inert_string_for_display', ];
+
+    /**
+     * Make sure we have a valid JSON object we can really decode.
+     * @see stack_input::extra_validation()
+     */
+    protected function extra_validation($contents) {
+        $validation = $contents[0];
+        if ($validation === 'EMPTYANSWER') {
+            $validation = '';
+        }
+
+        if (!stack_utils::validate_parsons_string($validation)) {
+            return stack_string('parsons_got_unrecognised_value');
+        }
+        return '';
+    }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -139,16 +263,20 @@ class stack_parsons_input extends stack_string_input {
         // Get the relevant Maxima function and arguments.
         [$answerfun, $args] = $this::answer_function($in);
 
+        if ($answerfun === 'error') {
+            $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
+            return [];
+        }
+
         // Extract actual correct answer from the steps.
         $ta = 'apply(' . $answerfun . ',' . $args . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
         $value = json_decode($cs->get_value());
-
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
-            return;
+            return [];
         }
 
         /* We replace the dummy `0` timestamp coming from Maxima with the actual
@@ -165,6 +293,10 @@ class stack_parsons_input extends stack_string_input {
      */
     public function get_teacher_answer_testcase() {
         [$answerfun, $args] = self::answer_function_testcase($this->teacheranswer);
+        if ($answerfun === 'error') {
+            $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
+            return [];
+        }
         $ta = 'apply(' . $answerfun . ',' . $args . ')';
         return $ta;
     }
@@ -174,7 +306,10 @@ class stack_parsons_input extends stack_string_input {
      * We unhash here to provide meaningful information in response history for authors.
      */
     public function summarise_response($name, $state, $response) {
-        $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
+        $display = $state->contents[0];
+        if ($state->status !== 'invalid') {
+            $display = stack_utils::unhash_parsons_string_maxima($state->contents[0]);
+        }
         return $name . ': ' . $display . ' [' . $state->status . ']';
     }
 
@@ -186,13 +321,16 @@ class stack_parsons_input extends stack_string_input {
         if ($this->extraoptions['hideanswer']) {
             return '';
         }
-
-        // For matching problems just hide the answer display.
         if (!$this->is_proof_question($value)) {
-            return '';
+            $args = $this->get_match_display_args($value);
+            if ($args === "error") {
+                $this->errors[] = stack_string('inputtypeparsons_incorrect_model_ans');
+                return;
+            }
+            $ta = 'apply(match_display, ' . json_encode($args) . ')';
+        } else {
+            $ta = 'apply(proof_display, ' . $value . ')';
         }
-
-        $ta = 'apply(proof_display, ' . $value . ')';
         $cs = stack_ast_container::make_from_teacher_source($ta);
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
@@ -225,7 +363,7 @@ class stack_parsons_input extends stack_string_input {
      * @return bool
      */
     private static function is_proof_question($in) {
-        return substr($in, 1, 5) === 'proof';
+        return substr(trim($in), 1, 5) === 'proof';
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

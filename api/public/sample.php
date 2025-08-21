@@ -27,7 +27,7 @@ require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
 require_once(__DIR__ . '/../../stack/questionlibrary.class.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
-$files = stack_question_library::get_file_list('../../samplequestions/stacklibrary/Topics/*');
+$files = stack_question_library::get_file_list('../../samplequestions/stackdemo/*');
 
 $questions = [];
 foreach ($files->children as $file) {
@@ -117,7 +117,7 @@ foreach ($files->children as $file) {
             <span style="display: flex; align-items: center; font-size: 20px">
               <span style="display: flex; align-items: center;">
                 <img src="logo_large.png" style="height: 50px;">
-                <span style="font-size: 50px;"><b>STACK </b></span>
+                <span style="font-size: 50px;"><b>STACK API demonstration</b></span>
               </span>
               &nbsp;| Online assessment
             </span>
@@ -127,7 +127,6 @@ foreach ($files->children as $file) {
         <div class="col-lg-9">
           <p>
             STACK is the world-leading open-source online assessment system for mathematics and STEM.
-            It is available for Moodle, ILIAS and as an integration through LTI.
           </p>
           <p>
             This page allows you to try some STACK questions. Click on the name of a question in the menu to view it.
@@ -138,8 +137,12 @@ foreach ($files->children as $file) {
           <p>
             STACK questions can have random variants. If these are available for a question, you can click 'Next Variant' to see another.
           </p>
-          <a>
-            For more information on STACK, visit <a href="https://stack-assessment.org/">the STACK community page</a>.
+          <p>
+            STACK is also available for direct integration in Moodle, ILIAS and through LTI.
+            For more information visit <a href="https://stack-assessment.org/">the STACK community page</a>.
+          </p>
+          <p>
+            There is also a <a href="/stack.php">library of STACK questions</a> on this demo site.
           </p>
           <hr>
         </div>
@@ -160,8 +163,8 @@ foreach ($files->children as $file) {
                 <br>
                 <div id="output" class="formulation"></div>
                 <br>
-                <input type="button" onclick="answer()" class="btn btn-primary" value="<?php echo stack_string('api_submit')?>"/>
-                <input type="button" onclick="toggleAnswer(this)" class="btn btn-primary" value="<?php echo stack_string('api_display_correct')?>"/>
+                <input type="button" onclick="answer()" class="btn btn-primary noninfo" value="<?php echo stack_string('api_submit')?>"/>
+                <input type="button" onclick="toggleAnswer(this)" class="btn btn-primary noninfo" value="<?php echo stack_string('api_display_correct')?>"/>
                 <input id="stackapi_variant" type="button" onclick="advanceVariant()" class="btn btn-primary" value="<?php echo stack_string('api_advance_variant')?>"/>
                 <span id="stackapi_spinner" class="spinner-border text-primary align-middle" role="status" style="margin-left: 10px;">
                   <span class="sr-only">Loading...</span>
@@ -174,15 +177,27 @@ foreach ($files->children as $file) {
                 <div id="generalfeedback"></div>
               </div>
               <div id="stackapi_correct" style="display: none">
-                <h2><?php echo stack_string('api_correct')?>:</h2>
-                <div id="formatcorrectresponse" class="feedback"></div>
+                <div class="noninfo">
+                  <h2><?php echo stack_string('api_correct')?>:</h2>
+                  <div id="formatcorrectresponse" class="feedback"></div>
+                </div>
               </div>
+            </div>
+            <div class="col-lg-9">
+              <hr />
+              <p style="font-size: 0.875em;color:gray;">
+                The STACK source code, including this API, is Licensed under the GNU General Public, License Version 3.
+                Documentation, sample questions and materials, are licensed under Creative Commons Attribution-ShareAlike 4.0 International.
+                See the <a href="https://docs.stack-assessment.org/en/About/License/">STACK licence</a> page for full details.
+              </p>
+              <? readfile(__DIR__ . '/stackfooter.html') ?>
             </div>
           </div>
         </div>
         <br>
       </div>
     </div>
+
   </body>
   <script type="text/javascript">
     <?php

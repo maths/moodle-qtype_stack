@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.4.4 (Example of solving force problem)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p> Suppose that the position of a particle at time \(t\) is given by \(x(t)=4t^3 -2t\). What is the force on the object at time \(t=1\) if the mass of the particle is \(3\)kg</p>
+ 
+<h3>Solution</h3>
+
+<p>We have \(x(t)=4t^3 -2t\), so differentiating this gives us the velocity \(v(t) = 12t^2 -2\). Differentiating again gives us acceleration \(a(t) = 24t\). Now, using the second law of motion we have 
+\[
+F = m \frac{d^2x}{dt} = 3(24t) = 72t. 
+\]
+thus when \(t=3\) the force is given by \(216N\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

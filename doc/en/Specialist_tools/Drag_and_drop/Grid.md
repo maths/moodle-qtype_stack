@@ -36,7 +36,7 @@ You will use the `"<ID>"` string to write solutions and assess student inputs; t
 For our example, the _Question variables_ field looks as follows.
 
 ```
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 
 steps : [
   ["f", "\\(y = x^2\\)"],
@@ -91,8 +91,12 @@ A question note is required due to the random permutation of `steps`. We use:
 ### Input: ans1
 
 1. The _Input type_ field should be **Parsons**.
-2. The _Model answer_ field should be a list `[ta, steps, 3, 2]` containing the teacher answer, all possible steps, the number of columns, 
-and the number of rows.
+2. The _Model answer_ field should be a list with four elements. It should be one of the following:
+  - `[ta, steps, headers, index]` : if you have specified the `headers` _and_ `index` in your `parsons` block.
+  - `[ta, steps, headers, rows]` : if you have specified the `headers` only in your `parsons` block, where `rows` is the number of rows (e.g., `[ta, steps, headers, 2]`)
+  - `[ta, steps, cols, index]` : if you have specified the `index` only in your `parsons` block, where `cols` is the number of columns (e.g., `[ta, steps, 2, index]`)
+  - `[ta, steps, cols, rows]` : if you are specifying neither of `headers` nor `index` in your parsons block.
+2. The _Model answer_ field should be a list with three elements. If you are specifying the `headers` parameter, then you should use `[ta, steps, headers]`, where `ta` is the teacher answer and `steps` is the array containing key-string pairs of all possible steps. Otherwise, use `[ta, steps, cols]`, where `cols` is the number of columns (e.g., `[ta, steps, 3]`). 
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
 
@@ -128,8 +132,9 @@ This item should appear in the index and not in the header.
 ### Question variables 
 
 The question variables with an index is as follows.
+
 ```
-stack_include("contribl://matchlib.mac");
+stack_include_contrib("matchlib.mac");
 
 steps : [
   ["dfdx", "\\(y' = 2x\\)"],

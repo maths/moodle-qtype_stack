@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.21 (Sum GP where num terms is not given)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the sum of the geometric progression \[{@u1@} {@u2@}+{@u3@}-\cdots {@u_fin@}.\]</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are given the geometric progression \({@u1@} {@u2@}+{@u3@}-\cdots {@u_fin@}\).<br></p><p>We notice that \( u_1=a = {@a1@}\) and \( r = {@r@}.\)</p><p></p><p>We know that \( u_n= ar^{n-1}.\) In our case \( {@u_fin@} = {@a1@} ({@r@})^{n-1}\) so \(n= {@n_val@}.\)</p>Using the formula \( S_n = \dfrac{a(1-r^n)}{1-r}\) for the sum of the first \(n\) terms, the sum of the first {@n_val@} terms is \[ S_{@n_val@} = \dfrac{a(1-r^n)}{1-r}= {@ta1@}.\]<p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>a: rand([3,2,5])
+b: rand([2,3])
+r: -a/b
+n_val: rand([6,8,10,12,14])
+p: rand(2)+2
+a1: b^p/(a^(p+1))
+un(n):= a1*r^(n-1)
+u1: un(1)
+u2: un(2)
+u3: un(3)
+u_fin: un(n_val)
+
+ta1: a1*(1-r^n_val)/(1-r)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>r= {@r@}, sequence \({@u1@} {@u2@}+{@u3@}-\cdots {@u_fin@}\), sum = {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>+, *</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1693720432</deployedseed>
+    <deployedseed>2103227599</deployedseed>
+    <deployedseed>192529033</deployedseed>
+    <deployedseed>1323882179</deployedseed>
+    <deployedseed>1854259499</deployedseed>
+    <deployedseed>457389071</deployedseed>
+    <deployedseed>1298599083</deployedseed>
+    <deployedseed>909028387</deployedseed>
+    <deployedseed>127545203</deployedseed>
+    <deployedseed>823949315</deployedseed>
+    <deployedseed>1341373098</deployedseed>
+    <deployedseed>608911557</deployedseed>
+    <deployedseed>2114918462</deployedseed>
+    <deployedseed>1026751337</deployedseed>
+    <deployedseed>754060405</deployedseed>
+    <deployedseed>2110849967</deployedseed>
+    <deployedseed>449467302</deployedseed>
+    <deployedseed>2085627772</deployedseed>
+    <deployedseed>246903007</deployedseed>
+    <deployedseed>2140433728</deployedseed>
+    <deployedseed>921748443</deployedseed>
+    <deployedseed>1169364233</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

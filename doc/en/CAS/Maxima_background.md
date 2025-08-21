@@ -43,8 +43,8 @@ The absolute value function in Maxima is entered as `abs()`.  STACK also permits
 
 STACK also redefined a small number of functions
 
-* The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented [here](Maxima_plot.md).  This ensures your image files are available on the server.
-* The random number command `random` is not used in STACK questions.  Use the command `rand` instead, which is documented [here](Random.md).  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
+* The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented on the [Maxima plot page](Maxima_plot.md).  This ensures your image files are available on the server.
+* The random number command `random` is not used in STACK questions.  Use the command [`rand`](Random.md) instead.  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
 
 ## Parts of Maxima expressions {#Parts_of_Maxima_expressions}
 
@@ -85,14 +85,13 @@ By default, the list does not contain multiplicities. If the list should contain
 | `zip_with_matrix(f,A,B)`       | This function applies the binary function \(f\) to two matrices \(A\) and \(B\) returning a matrix.  An example is given in adding matrices to [show working](Matrix.md#Showing_working).| `coeff_list(ex,v)`              | This function takes an expression `ex` and returns a list of coefficients of `v`.
 | `coeff_list_nz(ex,v)`           | This function takes an expression `ex` and returns a list of nonzero coefficients of `v`.
 | `divthru(ex)`                   | Takes an algebraic fraction, e.g. \((x^4-1)/(x+2)\) and divides through by the denominator, to leave a polynomial and a proper fraction. Useful in feedback, or steps of a calculation.
-| `stack_strip_percent(ex,var)`   | Removes any variable beginning with the `%` character from `ex` and replace them with variables from `var`.  Useful for use with solve, ode2 etc.  [Solve and ode2](../Topics/Differential_equations.md#Solve_and_ode2).
+| `stack_strip_percent(ex,var)`   | Removes any variable beginning with the `%` character from `ex` and replace them with variables from `var`.  Useful for use with solve, ode2 etc.  [Solve and ode2](../Topics/Differential_equations/Assessing_Responses.md#Solve_and_ode2).
 | `exdowncase(ex)`                | Takes the expression `ex` and substitutes all variables for their lower case version (cf `sdowncase(ex)` in Maxima).  This is very useful if you don't care if a student uses the wrong case, just apply this function to their answer before using an [answer test](../Authoring/Answer_Tests/index.md).  Note, of course, that `exdowncase(X)-x=0.`
 | `stack_reset_vars`              | Resets constants, e.g. \(i\), as abstract symbols, see [Numbers](Numbers.md).
 | `safe_op(ex)`                   | Returns the operation of the expression as a string.  Atoms return an empty string (rather than throwing an error as does `op`).
 | `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed square form.
 | `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
 | `unary_minus_sort(ex)`          | Tidies up the way unary minus is represented within expressions when `simp:false`.  See also [simplification](Simplification.md).
-| `texboldatoms(ex)`              | Displays all non-numeric atoms in bold.  Useful for vector questions.
 
 ## Assignment ## {#assignment}
 
@@ -219,7 +218,6 @@ You can then plot this using
 
 # Maxima "gotcha"s! #
 
-  * See the section above on [assignment](Maxima_background.md#assignment).
   * Maxima does not have a `degree` command for polynomials.  We define one via the `hipow` command.
   * Matrix multiplication is the dot, e.g. `A.B`. The star `A*B` gives element-wise multiplication.
   * The atoms `a1` and `a_1` are not considered to be algebraically equivalent.

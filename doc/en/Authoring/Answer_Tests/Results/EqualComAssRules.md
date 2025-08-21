@@ -132,6 +132,193 @@ Add]</pre></td>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a+b</pre></td>
+  <td class="cell c3"><pre>b+a</pre></td>
+  <td class="cell c4"><pre>[zeroAdd]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a+(b+c)</pre></td>
+  <td class="cell c3"><pre>(a+b)+c</pre></td>
+  <td class="cell c4"><pre>[zeroAdd]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*b</pre></td>
+  <td class="cell c3"><pre>b*a</pre></td>
+  <td class="cell c4"><pre>[zeroAdd]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*(b*c)</pre></td>
+  <td class="cell c3"><pre>(a*b)*c</pre></td>
+  <td class="cell c4"><pre>[zeroAdd]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a+b</pre></td>
+  <td class="cell c3"><pre>b+a</pre></td>
+  <td class="cell c4"><pre>[noncomAdd]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a+(b+c)</pre></td>
+  <td class="cell c3"><pre>(a+b)+c</pre></td>
+  <td class="cell c4"><pre>[noncomAdd]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(-a*b)</pre></td>
+  <td class="cell c3"><pre>(-b)*(-a)</pre></td>
+  <td class="cell c4"><pre>[noncomMul]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*b</pre></td>
+  <td class="cell c3"><pre>b*a</pre></td>
+  <td class="cell c4"><pre>[noncomMul]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*(b*c)</pre></td>
+  <td class="cell c3"><pre>(a*b)*c</pre></td>
+  <td class="cell c4"><pre>[noncomMul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-a*b</pre></td>
+  <td class="cell c3"><pre>b*-a</pre></td>
+  <td class="cell c4"><pre>[noncomMul]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-a/b</pre></td>
+  <td class="cell c3"><pre>a/-b</pre></td>
+  <td class="cell c4"><pre>[noncomMul]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>A^2+A*B+A*B+B^2</pre></td>
+  <td class="cell c3"><pre>B^2+A*B+B*A+A^2</pre></td>
+  <td class="cell c4"><pre>[noncomMul]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*2*b*3</pre></td>
+  <td class="cell c3"><pre>2*3*b*a</pre></td>
+  <td class="cell c4"><pre>[noncomMul]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*2*b*3</pre></td>
+  <td class="cell c3"><pre>2*3*b*a</pre></td>
+  <td class="cell c4"><pre>[noncomMul,comM
+ulNum]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*2*b*3</pre></td>
+  <td class="cell c3"><pre>2*3*a*b</pre></td>
+  <td class="cell c4"><pre>[noncomMul,comM
+ulNum]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*2*b*3</pre></td>
+  <td class="cell c3"><pre>6*b*a</pre></td>
+  <td class="cell c4"><pre>[noncomMul,comM
+ulNum]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*2*-b*3</pre></td>
+  <td class="cell c3"><pre>-2*3*b*a</pre></td>
+  <td class="cell c4"><pre>[noncomMul,comM
+ulNum]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*2*-b*3</pre></td>
+  <td class="cell c3"><pre>-2*3*a*b</pre></td>
+  <td class="cell c4"><pre>[noncomMul,comM
+ulNum]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(-a*b)</pre></td>
+  <td class="cell c3"><pre>(-b)*(-a)</pre></td>
+  <td class="cell c4"><pre>[noncomMul,comM
+ulNum]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(-a*b)</pre></td>
+  <td class="cell c3"><pre>(-a)*(-b)</pre></td>
+  <td class="cell c4"><pre>[noncomMul,comM
+ulNum]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[testdebug,zero
@@ -163,6 +350,36 @@ Add]</pre></td>
   <td class="cell c2"><pre>1*a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[oneMul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1*a</pre></td>
+  <td class="cell c3"><pre>a*1</pre></td>
+  <td class="cell c4"><pre>[oneMul,noncomM
+ul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0*a</pre></td>
+  <td class="cell c3"><pre>0</pre></td>
+  <td class="cell c4"><pre>[zeroMul,noncom
+Mul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*0</pre></td>
+  <td class="cell c3"><pre>0</pre></td>
+  <td class="cell c4"><pre>[zeroMul,noncom
+Mul]</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
@@ -293,9 +510,29 @@ vDiv,divCancel]
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(-a)</pre></td>
+  <td class="cell c3"><pre>a</pre></td>
+  <td class="cell c4"><pre>[negNeg,noncomM
+ul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(-(-a))</pre></td>
   <td class="cell c3"><pre>-a</pre></td>
   <td class="cell c4"><pre>[negNeg]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(-(-a))</pre></td>
+  <td class="cell c3"><pre>-a</pre></td>
+  <td class="cell c4"><pre>[negNeg,noncomM
+ul]</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
@@ -308,6 +545,35 @@ vDiv,divCancel]
 eg]</pre></td>
   <td class="cell c5">0</td>
   <td class="cell c6">ATEqualComAssRules (AlgEquiv-false).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(-b)*(-a)</pre></td>
+  <td class="cell c3"><pre>a*b</pre></td>
+  <td class="cell c4"><pre>[negNeg]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(-b)*(-a)</pre></td>
+  <td class="cell c3"><pre>a*b</pre></td>
+  <td class="cell c4"><pre>[negNeg,noncomM
+ul]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(-b)*(-a)</pre></td>
+  <td class="cell c3"><pre>b*a</pre></td>
+  <td class="cell c4"><pre>[negNeg,noncomM
+ul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
@@ -636,8 +902,8 @@ l]</pre></td>
   <td class="cell c3"><pre>21*x*x</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
 RANS,intMul]</pre></td>
-  <td class="cell c5">0</td>
-  <td class="cell c6">ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul 21 nounmul x nounmul x,21 nounmul x nounmul x].</td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEqualComAssRules: [21 nounmul x nounmul x,21 nounmul x nounmul x].</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
@@ -647,6 +913,64 @@ RANS,intMul]</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,intMu
 l,negNeg]</pre></td>
   <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>2*a*3</pre></td>
+  <td class="cell c3"><pre>6*a</pre></td>
+  <td class="cell c4"><pre>[noncomMul,intM
+ul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>2*a*3</pre></td>
+  <td class="cell c3"><pre>a*6</pre></td>
+  <td class="cell c4"><pre>[noncomMul,intM
+ul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a*6</pre></td>
+  <td class="cell c3"><pre>6*a</pre></td>
+  <td class="cell c4"><pre>[noncomMul,intM
+ul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>A^2+2*A*B+B^2</pre></td>
+  <td class="cell c3"><pre>B^2+A*2*B+A^2</pre></td>
+  <td class="cell c4"><pre>[noncomMul,intM
+ul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>2^3</pre></td>
+  <td class="cell c3"><pre>8</pre></td>
+  <td class="cell c4"><pre>[intPow]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>2*2*2</pre></td>
+  <td class="cell c3"><pre>8</pre></td>
+  <td class="cell c4"><pre>[intPow]</pre></td>
+  <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">
@@ -874,5 +1198,140 @@ em]</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,sqrtR
 em]</pre></td>
   <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1^x</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"><pre>[onePow]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(2-1)^x</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"><pre>[onePow]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^1</pre></td>
+  <td class="cell c3"><pre>x</pre></td>
+  <td class="cell c4"><pre>[idPow]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^(2-1)</pre></td>
+  <td class="cell c3"><pre>x</pre></td>
+  <td class="cell c4"><pre>[idPow]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^0</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"><pre>[zPow]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^(1-1)</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"><pre>[zPow]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0^x</pre></td>
+  <td class="cell c3"><pre>0</pre></td>
+  <td class="cell c4"><pre>[zeroPow]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(1-1)^x</pre></td>
+  <td class="cell c3"><pre>0</pre></td>
+  <td class="cell c4"><pre>[zeroPow]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x*y/1</pre></td>
+  <td class="cell c3"><pre>x*y</pre></td>
+  <td class="cell c4"><pre>[oneDiv]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x/1</pre></td>
+  <td class="cell c3"><pre>x</pre></td>
+  <td class="cell c4"><pre>[oneDiv]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x/1</pre></td>
+  <td class="cell c3"><pre>x*1</pre></td>
+  <td class="cell c4"><pre>[oneDiv]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x+y/1</pre></td>
+  <td class="cell c3"><pre>x+y</pre></td>
+  <td class="cell c4"><pre>[oneDiv]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x*y/(1*a)</pre></td>
+  <td class="cell c3"><pre>x*y/a</pre></td>
+  <td class="cell c4"><pre>[oneDiv]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x*y/(1*a)</pre></td>
+  <td class="cell c3"><pre>x*y/a</pre></td>
+  <td class="cell c4"><pre>[oneMul]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x*y/(1*a)</pre></td>
+  <td class="cell c3"><pre>x*y/a</pre></td>
+  <td class="cell c4"><pre>[oneMul]</pre></td>
+  <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr></tbody></table></div>

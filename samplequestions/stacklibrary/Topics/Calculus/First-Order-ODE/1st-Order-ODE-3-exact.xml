@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1st-Order-ODE-3-exact</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Solve the following differential equation \[ {@ode@}=0.\] Enter your answer as an explicit function \(y(x)\).</p><p>\(y(x)=\) [[input:ans1]] [[validation:ans1]] </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are trying to solve \({@ode@}=0\). First we check if this equation is exact. It is already written in the form \[ p(x,y)\cdot \dot{y}(x) + q(x,y) =0.\] Here \( p(x,y) = {@p@}\) and \(q(x,y) = {@q@}.\) Assume that \(h(x,y)=c\) gives an implicit function, which satisfies this equation. Then \[ \frac{\mathrm{d}h}{\mathrm{d}x}=\frac{\partial h}{\partial y}\cdot \frac{\mathrm{d}y}{\mathrm{d}x}+\frac{\partial h}{\partial x}=0\] and so \[ \frac{\partial h}{\partial y} = p(x,y), \quad \frac{\partial h}{\partial x}=q(x,y).\] Differentiating once further we have \[ \frac{\partial p}{\partial x} = \frac{\partial^2 h}{\partial x\partial y}=\frac{\partial q}{\partial y}.\] Note that this condition on \(p\) and \(q\) is necessary and sufficient for the ODE to be exact. \[ \frac{\partial p}{\partial x} = {@diff(p,x)@}\] and \[\frac{\partial q}{\partial y} = {@diff(q,y)@}.\] Since these are equal the ODE is exact. Now we try to find the function \(h(x,y)\). \[ h_1 = \int q(x,y)\mathrm{d}x + c_1(y) = \int {@q@}\mathrm{d}x + c_1(y) = {@int(q,x)@}+ c_1(y),\] \[ h_2 = \int p(x,y)\mathrm{d}y + c_2(x) = \int {@p@}\mathrm{d}y + c_2(x) = {@int(p,y)@}+c_2(x).\] Notice here that \(c_1\) and \(c_2\) are arbitrary functions of integration. Equating these two expressions to find these functions we ultimately get \[ h(x,y) = {@h@}\] The solution to the ODE is therefore \[ {@h@}=c\] where \(c\) is an arbitrary constant of integration. In this case we can solve for \(y\) to get an explicit solution, giving \[ y(x) = {@ta@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>/* NOTE: make sure any randoms don't break the solve in the second line... */
+h:x*y+(rand(5)+2)*x^2
+ta:rhs(first(solve(h+c=0,y)))
+p:diff(h,y)
+q:diff(h,x)
+ode:p*'diff(y,x)+q</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(h(x,y)=\) {@h@} giving {@ode@} and solution {@ta@}.</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>3.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sa1 : subst(y=ans1,ode);
+sa2 : ev(sa1,nouns);
+l:listofvars(ans1)</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>member(y,listofvars(ans1))</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer should be an explicit function, but yours appears to depend on \(y\)!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa2</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not satisfy the differential equation:</p><p>\[ \left({@p@}\right)\frac{\mathrm{d}y}{\mathrm{d}x}+\left({@q@}\right)=\left({@p@}\right){\times}\left({@diff(ans1,x)@}\right) +{@q@} = {@sa2@} = {@expand(sa2)@}.\] </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>length(l)</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.5000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should have an arbitrary constant, but does not.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1151396001</deployedseed>
+    <deployedseed>1523168427</deployedseed>
+    <deployedseed>978880811</deployedseed>
+    <deployedseed>1993545210</deployedseed>
+    <deployedseed>1533657032</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>rhs(first(solve(h=0,y)))</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>h+c</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.13 (Convergence tests)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Convergence tests</h1>
+
+<p>As we have mentioned previously, not every series converges. In general, it is an important question to decide whether a given infinite series converges or diverges. It is not always straightforward to answer these questions. For this reason there are a number of <i>convergence tests</i> that we use in order to determine if a series has a limit. In this section we will introduce some of the most common tests for convergence along with some examples of how we can apply them.</p>
+<br/>
+<h3>The tests</h3>
+
+<ol>
+<li><b>Divergence test:</b> If \(\lim_{n \to \infty} a_n \not= 0\) then \(\sum\limits_{n=1}^\infty a_n\) is divergent. </li>
+<li><b>Comparison test 1:</b> If \(a_n, b_n\) are positive sequences and \(a_n \leq b_n\) for all \(n\) and \(\sum b_n\) is convergent, then \(\sum a_n\) is convergent.</li>
+<li><b>Comparison test 2:</b> If \(a_n, b_n\) are positive sequences and \(a_n \geq b_n\) for all \(n\) and \(\sum b_n\) is divvergent, then \(\sum a_n\) is divergent.</li>
+<li><b>Limit comparison test:</b> If \(a_n, b_n\) are positive sequences and if \(\lim\limits_{n \to \infty} \frac{a_n}{b_n}=c > 0\) (and \(c\) is finite), then \(\sum a_n\) and \(\sum b_n\) either both converge or both diverge.</li>
+</ol>
+<br/>
+<h3>Recognisable series</h3>
+
+<p>Many series that we have met fall in to one of several basic types. It is important to be able to recognise these types because they can lead us to decide which strategies would be appropriate to use when examining the series.</p>
+<ol>
+<li><b>Geometric series:</b> This is a series of the form \(\sum\limits_{n=1}^\infty ar^{n-1}\). It is convergent is \(|r| < 1\) and divergent otherwise.</li>
+<li><b>p-series:</b> This is a series of the form \(\sum\limits_{n=1}^\infty \frac{1}{n^p}\). It is convergent if \(p>1\) and divergent if \(p \leq 1\).</li>
+</ol>
+<p>We will now see how we can use these tests to determine the convergence of series.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

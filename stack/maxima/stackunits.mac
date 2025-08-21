@@ -400,7 +400,7 @@ stackunitstex(ex) := block([a, b, c, astr, bstr],
   b:second(args(ex)),
   if scientific_notationp(a) then make_multsgn("cross"),
   astr:tex1(a),
-  if scientific_notationp(a) then make_multsgn("blank"),
+  if scientific_notationp(a) then make_multsgn("space"),
   if not(atom(a)) and safe_op(a)="+" and not(is(b=NULLUNITS)) then 
     astr:sconcat("\\left( ", astr, "\\right)"),
   if length(args(ex))=3 then

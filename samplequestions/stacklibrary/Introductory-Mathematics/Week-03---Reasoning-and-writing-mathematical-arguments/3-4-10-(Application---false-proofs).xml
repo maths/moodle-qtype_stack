@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.10 (Application - false proofs)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Mathematical Fallacy</h1>
+
+<p>Sometimes, doing mathematics can lead to certain kinds of mistaken proof, that is proofs which look correct but actually contain an error in either logic or calculation. These are illustrations of <b>mathematical fallacy</b>. There is a difference between a mathematical fallacy and a simple mistake. A mathematical fallacy is so called because it contains some element of concealment or deception in the presentation of the proof. For example, this may be a division by zero which is hidden simply by algebraic notation. In the rest of this section we will examine some common mathematical fallacies.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

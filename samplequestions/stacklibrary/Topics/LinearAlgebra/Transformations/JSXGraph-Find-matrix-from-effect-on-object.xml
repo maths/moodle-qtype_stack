@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>JSXGraph-Find-matrix-from-effect-on-object</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>[[jsxgraph width="500px" height="500px"]]
+  var brd = JXG.JSXGraph.initBoard(divid, {boundingbox:[-12,12,12,-12], axis:true,showCopyright: false});
+  var poly0 = brd.create('polygon',{#points0#},{name:"P",withLabel:true,color:'#00ff00',vertices: {size:1}});
+  var poly1 = brd.create('polygon',{#points1#},{name:"Q",withLabel:true,vertices: {size:1}});
+  brd.update();
+[[/jsxgraph]] </p>
+<p>Find the matrix \(A\) of the linear transformation \(T_A:\mathbb{R}^2\to\mathbb{R}^2\) that maps (green) image \(P\) to (yellow) \(Q\).</p>
+\(A=\) [[input:ans1]] [[validation:ans1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[We can look at the image of the unit vectors to get
+\[A = {@Ta@}\]
+For example, below we can see that \[ {@transpose(matrix([0,1]))@} \rightarrow {@transpose(matrix(c2))@}\]
+This becomes the second column of the matrix representing the transformation.
+[[jsxgraph width="500px" height="500px"]]
+  var brd = JXG.JSXGraph.initBoard(divid, {boundingbox:[-12,12,12,-12], axis:true,showCopyright: false});
+  var poly0 = brd.create('polygon',{#points0#},{name:"P",withLabel:true,color:'#00ff00',vertices: {size:1}});
+  var poly1 = brd.create('polygon',{#points1#},{name:"Q",withLabel:true,vertices: {size:1}});
+  var v1 = brd.create("point", [0, 1], { size: 3, name: "v1", fixed: true });
+  var v2 = brd.create("point", {#c2#}, { size: 3, name: "v1", fixed: true });
+  var w1 = brd.create("line", [[0, 0], v1], {
+    straightFirst: false,
+    straightLast: false,
+    lastArrow: true
+  });
+  var w2 = brd.create("line", [[0, 0], v2], {
+    straightFirst: false,
+    straightLast: false,
+    lastArrow: true
+  });
+  brd.update();
+[[/jsxgraph]]
+Similar reasoning can be used to show that 
+\[ {@transpose(matrix([1,0]))@} \rightarrow {@transpose(matrix(c1))@}\]
+This becomes the first column of the matrix representing the transformation.
+
+In this example, {@transpose(matrix([1,0]))@} is not a point in the diagram \(P\), so it's harder to see directly.  However we do see that 
+\[ {@v2@} \rightarrow {@Ta.v2@}\]
+\[ {@transpose(matrix([a,b],c2))@}{@v2@} = {@transpose(matrix([a,b],c2)).v2@}= {@Ta.v2@}\]
+From this we can see that \(b={@Ta[2,1]@}\) and \(a={@Ta[1,1]@}\).]]></text>
+    </generalfeedback>
+    <defaultgrade>2</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024112000</text>
+    </stackversion>
+    <questionvariables>
+      <text>Ta1:matrix([0,-2],[1,0]);
+Ta2:matrix([0,-1],[2,0]);
+Ta3:matrix([0,2],[-1,0]);
+Ta4:matrix([0,1],[-2,0]);
+Ta:rand([Ta1, Ta2, Ta3, Ta4]);
+points0:[[0,1],[1,1],[1,2],[2,2],[2,3],[1,3],[1,4],[2,4],[2,5],[0,5]];
+points1:map(lambda([ex], transpose(Ta.transpose(matrix(ex)))), points0);
+points1:map(first,map(args,points1));
+/* Columns of the matrix. */
+c1:first(transpose(Ta));
+c2:second(transpose(Ta));
+/* Extra point needed in the worked solution. */
+v2:transpose([2,2]);
+/* Wrong way round. */
+W1:invert(Ta);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@Ta@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>Ta</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>showpts:false;
+if all_listp(real_numberp,flatten(args(ans1))) then showpts:true;
+pointsS:map(lambda([ex], transpose(ans1.transpose(matrix(ex)))), points0);
+pointsS:map(first,map(args,pointsS));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>Ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Ta.ans1</sans>
+        <tans>matrix([1,0],[0,1])</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>It looks as if you have gone from \(Q\) to \(P\) by mistake!  This is backwards.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[[[ if test='showpts' ]]
+The effect of {@ans1@} on the shape \(P\) is shown below. 
+[[jsxgraph width="500px" height="500px"]]
+  var brd = JXG.JSXGraph.initBoard(divid, {boundingbox:[-12,12,12,-12], axis:true,showCopyright: false});
+  var poly0 = brd.create('polygon',{#points0#},{name:"P",withLabel:true,color:'#00ff00',vertices: {size:1}});
+  var poly1 = brd.create('polygon',{#pointsS#},{name:"Q",withLabel:true,vertices: {size:1}});
+  brd.update();
+[[/jsxgraph]] 
+[[ else ]]
+Some of your entries appear to not be real numbers!
+[[/ if]]]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1690292555</deployedseed>
+    <deployedseed>38635940</deployedseed>
+    <deployedseed>1982340062</deployedseed>
+    <deployedseed>324989462</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>Ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Inverse transformation</description>
+      <testinput>
+        <name>ans1</name>
+        <value>W1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Just always wrong...</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(Ta^2,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

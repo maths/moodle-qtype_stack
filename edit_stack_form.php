@@ -44,11 +44,11 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
     /** @var string the default variables for a new question. */
-    const DEFAULT_QUESTION_VARIABLES = 'ta:?;';
+    const DEFAULT_QUESTION_VARIABLES = 'ta1:?;';
     /** @var string the default note for a new question. */
-    const DEFAULT_QUESTION_NOTE = '{@ta@}';
+    const DEFAULT_QUESTION_NOTE = '{@ta1@}';
     /** @var string the default variable name for the teacher's answer. */
-    const DEFAULT_TEACHER_ANSWER = 'ta';
+    const DEFAULT_TEACHER_ANSWER = 'ta1';
     /** @var string the default input name. */
     const DEFAULT_INPUT = 'ans1';
 
@@ -77,6 +77,7 @@ class qtype_stack_edit_form extends question_edit_form {
      * Patch up data from the database before a user edits it in the form.
      */
     public function set_data($question) {
+        global $USER;
         if (!empty($question->questiontext)) {
             $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
         }
@@ -98,7 +99,34 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
+        $feedbackstring = optional_param('cas', '', PARAM_RAW);
+        if ($feedbackstring) {
+            $question->generalfeedback = $feedbackstring;
+        }
+
+        // See prepare_text_field() for explanation of swapping formats.
+        $editorpreference = get_user_preferences('htmleditor', '', $USER);
+        if ($editorpreference === '') {
+            if ((!isset($question->questiontextformat) || $question->questiontextformat == FORMAT_HTML)
+                        && isset($question->questiontext) && $this->search_for_scripts($question->questiontext)) {
+                $question->questiontextformat = FORMAT_PLAIN;
+            }
+            if ((!isset($question->generalfeedbackformat) || $question->generalfeedbackformat == FORMAT_HTML)
+                        && isset($question->generalfeedback) && $this->search_for_scripts($question->generalfeedback)) {
+                $question->generalfeedbackformat = FORMAT_PLAIN;
+            }
+        }
+
         parent::set_data($question);
+        // If the question is broken we run validation when the form is loaded to display errors.
+        // We have to temporarily remove the broken flag from the form to stop the validation
+        // being by-passed.
+        if (!empty($this->question->options->isbroken)) {
+            $mform = $this->_form;
+            $mform->setDefault('isbroken', 0);
+            $this->is_validated();
+            $mform->setDefault('isbroken', 1);
+        }
     }
 
     /**
@@ -158,11 +186,18 @@ class qtype_stack_edit_form extends question_edit_form {
     protected function definition() {
         parent::definition();
         $mform = $this->_form;
-
+        if (method_exists('MoodleQuickForm', 'set_sticky_footer')) {
+            $mform->set_sticky_footer('updatebuttonar');
+        }
         $fixdollars = $mform->createElement('checkbox', 'fixdollars',
                 stack_string('fixdollars'), stack_string('fixdollarslabel'));
         $mform->insertElementBefore($fixdollars, 'buttonar');
         $mform->addHelpButton('fixdollars', 'fixdollars', 'qtype_stack');
+        $isbroken = $mform->createElement('checkbox', 'isbroken',
+                stack_string('isbroken'), stack_string('isbrokenlabel'));
+        $mform->setDefault('isbroken', (!empty($this->question->options->isbroken) ? 1 : 0));
+        $mform->insertElementBefore($isbroken, 'buttonar');
+        $mform->addHelpButton('isbroken', 'isbroken', 'qtype_stack');
         $mform->closeHeaderBefore('fixdollars');
 
         // There is no un-closeHeaderBefore, so fake it.
@@ -211,10 +246,14 @@ class qtype_stack_edit_form extends question_edit_form {
         $prtnames = $qtype->get_prt_names_from_question($this->get_current_question_text(),
                 $this->get_current_specific_feedback());
 
-        // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
+        if (isset($this->question->id)) {
+            $question = question_bank::load_question($this->question->id);
+            $warnings = implode("<br />", $question->validate_warnings());
+        }
         if (get_class(editors_get_preferred_editor()) !== 'textarea_texteditor') {
-            $warnings = '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
+            $warnings = ($warnings) ? $warnings . '<br />' : $warnings;
+            $warnings .= '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
         }
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
@@ -233,15 +272,19 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
         /* Check if we have a new question. */
+        $doclink = html_writer::link('https://docs.stack-assessment.org/', stack_string('stackDoc_docs'),
+                ['target' => '_blank']) . ' | ' .
+            html_writer::link('https://stack-assessment.zulipchat.com/', stack_string('stackDoc_community'),
+                ['target' => '_blank']);
         if (isset($this->question->id)) {
-            $out = stack_string('runquestiontests');
+            $out = '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
                 $out = stack_string_error('questionnotdeployedyet');
             }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
                     $out, ['target' => '_blank']) . ' ' . $OUTPUT->help_icon('runquestiontests', 'qtype_stack');
-            $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
+            $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink . $doclink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
         } else {
             // Add in default question variables etc.
@@ -260,7 +303,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
             $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php', $liburlparams),
                     $out, []) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');
-            $qllink = $mform->createElement('static', 'stack_library', '', $qlibrarylink);
+            $qllink = $mform->createElement('static', 'stack_library', '', $qlibrarylink . $doclink);
             $mform->insertElementBefore($qllink, 'questionvariables');
         }
 
@@ -478,7 +521,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
-        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 30]);
         $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
@@ -488,10 +531,13 @@ class qtype_stack_edit_form extends question_edit_form {
         // Set a default for the new question.
         if ($inputname === self::DEFAULT_INPUT) {
             $mform->setDefault($inputname . 'modelans', self::DEFAULT_TEACHER_ANSWER);
+        } else {
+            // Default for all parts of an input required in order to save a broken question.
+            $mform->setDefault($inputname . 'modelans', '');
         }
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), ['size' => 3]);
-        $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
+        $mform->setDefault($inputname . 'boxsize', (int) $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
         $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in',
@@ -502,9 +548,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
         $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons'] );
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons'] );
 
-        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 30]);
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->setDefault($inputname . 'syntaxhint', '');
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
@@ -523,35 +569,35 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
         $mform->hideIf($inputname . 'forbidwords', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']);
 
         $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), ['size' => 20]);
         $mform->setType($inputname . 'allowwords', PARAM_RAW);
         $mform->setDefault($inputname . 'allowwords', '');
         $mform->addHelpButton($inputname . 'allowwords', 'allowwords', 'qtype_stack');
         $mform->hideIf($inputname . 'allowwords', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
         $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
         $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
         $mform->hideIf($inputname . 'forbidfloat', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 stack_string('requirelowestterms'));
         $mform->setDefault($inputname . 'requirelowestterms', $this->stackconfig->inputrequirelowestterms);
         $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
         $mform->hideIf($inputname . 'requirelowestterms', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes', 'parsons']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 stack_string('checkanswertype'));
         $mform->setDefault($inputname . 'checkanswertype', $this->stackconfig->inputcheckanswertype);
         $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
         $mform->hideIf($inputname . 'checkanswertype', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea', 'equiv', 'string', 'notes', 'parsons']);
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea', 'equiv', 'string', 'json', 'notes', 'parsons']);
 
         $mform->addElement('selectyesno', $inputname . 'mustverify',
                 stack_string('mustverify'));
@@ -565,7 +611,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
         $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
-        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 20]);
+        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 30]);
+        $mform->setDefault($inputname . 'options', '');
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
@@ -634,6 +681,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('submit', $prtname . 'nodeadd', stack_string('addanothernode'));
         $mform->registerNoSubmitButton($prtname . 'nodeadd');
+        $mform->addElement('text', $prtname . 'nodeaddnum', stack_string('nodeaddnum'), ['size' => 3]);
+        $mform->setType($prtname . 'nodeaddnum', PARAM_INT);
+        $mform->setDefault($prtname . 'nodeaddnum', 1);
     }
 
     /**
@@ -765,6 +815,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $opt = $question->options;
 
         $question->questionvariables     = $opt->questionvariables;
+        $vars   = optional_param('maximavars', '', PARAM_RAW);
+        if ($vars) {
+            $question->questionvariables = $vars;
+        }
         $question->variantsselectionseed = $opt->variantsselectionseed;
         $question->questionnote          = $this->prepare_text_field('questionnote',
                                             $opt->questionnote, $opt->questionnoteformat, $question->id);
@@ -789,6 +843,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
         $question->assumereal            = $opt->assumereal;
+        $question->isbroken              = $opt->isbroken;
 
         return $question;
     }
@@ -806,7 +861,8 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($question->inputs as $inputname => $input) {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
-            $question->{$inputname . 'boxsize'}            = $input->boxsize;
+            // Cast to int required to avoid erroneous validation messages on loading a broken question.
+            $question->{$inputname . 'boxsize'}            = (int) $input->boxsize;
             // TO-DO: remove this when we delete it from the DB.
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
@@ -918,6 +974,16 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array in the format needed by the form.
      */
     protected function prepare_text_field($field, $text, $format, $itemid, $filearea = '') {
+        // If user editor preference is set to default and the format of the field is the
+        // default (HTML) and the text (probably) contains scripts, this is likely to be bad.
+        // The question will break if saved as the HTML text editor will make substitutions.
+        // Switch format to plain text. User can switch format back to HTML if they really
+        // want to.
+        global $USER;
+        $preference = get_user_preferences('htmleditor', '', $USER);
+        if ($preference === '' && $format == FORMAT_HTML && $this->search_for_scripts($text)) {
+            $format = FORMAT_PLAIN;
+        }
         if ($filearea === '') {
             $filearea = $field;
         }
@@ -933,13 +999,59 @@ class qtype_stack_edit_form extends question_edit_form {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
-
         $qtype = new qtype_stack();
-        return $qtype->validate_fromform($fromform, $errors);
+        $allerrors = $qtype->validate_fromform($fromform, $errors, $this->question);
+        $mustconfirm = (array_search(stack_string('youmustconfirm'), $allerrors) === false) ? false : true;
+        // Add not saved warning but only when attempting to save, not on loading question.
+        // Moodle errors and confirmation issues will always be on save as question cannot be saved and thus
+        // cannot be loaded in this state even if marked as broken. If there are STACK issues, we only flag
+        // if question is not marked as broken and it's a submit.
+        if ($errors || $mustconfirm ||
+                ($allerrors && empty($fromform['isbroken']) && !empty(optional_param_array('questiontext', [], PARAM_RAW)))) {
+            $errortext = stack_string('notsaved') . '<br>';
+            if ($errors) {
+                $errortext .= stack_string_error('moodleerrors') . '<br>';
+            }
+            if ($mustconfirm) {
+                $errortext .= stack_string_error('mustconfirm') . '<br>';
+            }
+            if (empty($fromform['isbroken']) && $allerrors != $errors) {
+                $errortext .= stack_string_error('stackerrors') . '<br>';
+            }
+
+            $allerrors['versioninfo'] = isset($allerrors['versioninfo']) ?
+                $errortext . ' ' . $allerrors['versioninfo'] : $errortext;
+        }
+        // Ignore STACK-specific validation if question is marked as broken unless
+        // a confirmation is required.
+        // Moodle validation errors always returned.
+        if (empty($fromform['isbroken'])) {
+            return $allerrors;
+        } else {
+            if ($errors || $mustconfirm) {
+                return $allerrors;
+            } else {
+                // This is going to be [].
+                return $errors;
+            }
+        }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function qtype() {
         return 'stack';
     }
+
+    /**
+     * Check whether some text contains JSXgraph, GeoGebra or scripts.
+     * @param string|null $text
+     * @return bool
+     */
+    public function search_for_scripts($text) {
+        if (!$text) {
+            return false;
+        }
+        return preg_match("/<\/jsxgraph>|\[\[jsxgraph|\[\[geogebra|<\/geogebra>|<script|\[\[javascript|\[\[script|<=|=>/i", $text);
+    }
+
 }

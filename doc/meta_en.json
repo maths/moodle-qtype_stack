@@ -139,8 +139,8 @@
             },
             {
             "file":"Rule_based.md",
-            "title":"Rules based tests - STACK Documentation",
-            "description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
+            "title":"Rule-based tests - STACK Documentation",
+            "description":"STACK can test expressions belong to the same bespoke equivalence class."
             },
             {
             "file":"String.md",
@@ -243,6 +243,16 @@
                 "file":"Int.md",
                 "title":"Test cases for ATInt - STACK Documentation",
                 "description":"Automatically generated test cases for the Int answer test."
+                },
+                {
+                "file":"AddConst.md",
+                "title":"Test cases for AddConst - STACK Documentation",
+                "description":"Automatically generated test cases for the AddConst answer test."
+                },
+                {
+                "file":"Antidiff.md",
+                "title":"Test cases for ATInt - STACK Documentation",
+                "description":"Automatically generated test cases for the Antidiff answer test."
                 },
                 {
                 "file":"GT.md",
@@ -352,6 +362,11 @@
             ]
             }
         ]
+        },
+        {
+        "file":"Accessibility​.md",
+        "title":"Accessibility​ for Question Authors - STACK Documentation",
+        "description":"Advice on how to make STACK questions accessible."
         },
         {
         "file":"Author_FAQ.md",
@@ -689,6 +704,11 @@
         "description":"Information on maintaining questions and question banks for the longer term."
         },
         {
+        "file":"Bulk_testing.md",
+        "title":"Bulk testing STACK questions on your site - STACK Documentation",
+        "description":"Information about bulk testing STACK questions on your site."
+        },
+        {
         "file":"Deploying.md",
         "title":"Deploying - STACK Documentation",
         "description":"Information about deploying random variants in the STACK online assessment system."
@@ -729,11 +749,6 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
-        "file":"Sample_questions.md",
-        "title":"STACK Sample Questions",
-        "description":"Sample questions for the STACK question type."
-        },
-        {
         "file":"Testing.md",
         "title":"Testing - STACK Documentation",
         "description":"Information on testing a STACK question."
@@ -757,6 +772,20 @@
         "file":"Authoring_workflow.md",
         "title":"Workflow - STACK Documentation",
         "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
+        },
+       {
+       "Library":[
+        {
+        "file":"index.md",
+        "title":"STACK question library - STACK Documentation",
+        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        },
+        {
+        "file":"Algebra_refresher.md",
+        "title":"Algebra refresher question library - STACK Documentation",
+        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        }
+        ]
         }
       ]
       },
@@ -1024,11 +1053,6 @@
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
         },
         {
-        "file":"Linear_algebra.md",
-        "title":"Linear Algebra - STACK Documentation",
-        "description":"Information on working with linear algebra in a STACK question."
-        },
-        {
         "file":"Propositional_Logic.md",
         "title":"Propositional Logic - STACK Documentation",
         "description":"Support for propositional logic, using Maxima's logic package."
@@ -1047,6 +1071,65 @@
         "file":"Vector_Calculus.md",
         "title":"Vector Calculus - STACK Documentation",
         "description":"This page provides advice for writing STACK questions in vector calculus."
+        },
+        {
+        "Linear_algebra":[
+             {
+             "file":"index.md",
+             "title":"Linear Algebra - STACK Documentation",
+             "description":"Information on working with linear algebra in a STACK question."
+             },
+             {
+            "file":"Answer_tests.md",
+            "title":"Answer tests for matrices - STACK Documentation",
+            "description":"Information assessment of matrices with answer tests."
+            },
+            {
+            "file":"Linear_algebra_core.md",
+            "title":"Vector/matrix functions defined by STACK in the core code - STACK Documentation",
+            "description":"Reference documentation for vector/matrix functions defined by STACK in the core code."
+            },
+            {
+            "file":"Random_Matrices.md",
+            "title":"Random Matrices - STACK Documentation",
+            "description":"Information on creating structured random matrices."
+            },
+            {
+            "file":"Matrix_factorisation.md",
+            "title":"Matrix factorisation functions - STACK Documentation",
+            "description":"Reference documentation for contributed library for matrix factorisation functions."
+            },
+            {
+            "file":"Matrix_library.md",
+            "title":"Matrix manipulation and matrix predicate functions for STACK - STACK Documentation",
+            "description":"Reference documentation for contributed library library for matrix manipulation and matrix predicate functions for STACK."
+            },
+            {
+            "file":"Vector_geometry.md",
+            "title":"Vector geometry functions for STACK - STACK Documentation",
+            "description":"Reference documentation for contributed library for vector geometry functions."
+            },
+            {
+            "file":"Vector_space.md",
+            "title":"Vector space functions for STACK - STACK Documentation",
+            "description":"Reference documentation for contributed library for vector space functions."
+            },
+            {
+            "file":"Eigen.md",
+            "title":"Eigenvalue/vector functions - STACK Documentation",
+            "description":"Reference documentation for contributed library for eigenvector/value functions.."
+            },
+            {
+            "file":"Random_Matrices.md",
+            "title":"Random Matrices - STACK Documentation",
+            "description":"Information on creating structured random matrices."
+            },
+            {
+            "file":"Vectors.md",
+            "title":"Vectors - STACK Documentation",
+            "description":"Information on using vectors in STACK."
+            }
+        ]
         },
         {
        "Proof":[
@@ -1081,7 +1164,31 @@
             "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
             }
           ]
-      }
+          },
+          {
+          "Differential_equations":[
+            {
+            "file":"index.md",
+            "title":"Differential equations - STACK Documentation",
+            "description":"General discussion of assessment of Differential equations with STACK."
+            },
+            {
+            "file":"Assessing_Responses.md",
+            "title":"Assessment of ordinary differential equations problems",
+            "description":"Rxamples of how to assess the solutions to ordinary differential equations."
+            },
+            {
+            "file":"Notation.md",
+            "title":"CAS libraries for representing ordinary differential equations",
+            "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+            },
+            {
+            "file":"Question_Variables.md",
+            "title":"How to manipulate ordinary differential equations (ODEs)",
+            "description":"Reference documentation on how to manipulate ordinary differential equations in Maxima"
+            }
+            ]
+          }
       ]
       },
       {
@@ -1181,8 +1288,23 @@
             "description":"How to include JSXGraph into STACK."
             },
             {
+            "file":"Author_quickstart.md",
+            "title":"Authoring your first JSXGraph question - STACK Documentation",
+            "description":"How to authoring you first JSXGraph question."
+            },
+            {
+            "file":"Binding.md",
+            "title":"Binding JSXGraph states to inputs - STACK Documentation",
+            "description":"How to connect JSXGraph diagrams to STACK inputs."
+            },
+            {
+            "file":"Basic_plots.md",
+            "title":"JSXGraph Example plots - STACK Documentation",
+            "description":"A catalogue of simple and basic JSXGraph plots for STACK."
+            },
+            {
             "file":"Example_plots.md",
-            "title":"JSXGraph Example plots- STACK Documentation",
+            "title":"JSXGraph Example plots - STACK Documentation",
             "description":"A catalogue of example JSXGraph plots for STACK."
             },
             {
@@ -1191,11 +1313,28 @@
             "description":"More advanced use of JSXGraph in STACK ."
             },
             {
+            "file":"Update_with_PRTs.md",
+            "title":"Reacting to feedback from the STACK question in JSXGraph - STACK Documentation",
+            "description":"How to enable JSXGraph diagrams to update following PRT feedback."
+            },
+            {
             "file":"Question_block.md",
             "title":"JSXGraph question block- STACK Documentation",
             "description":"Reference documentation for the JSXGraph question block."
             }
             ]
+        },
+        {
+       "STACK-JS":[
+         {"file":"index.md",
+          "title":"STACK-JS: STACK <-> VLE JavaScript interface - STACK Documentation",
+          "description":"This section describes tools for writing future-proof, portable and safe JavaScript features using the JavaScript system within STACK."
+         },
+         {"file":"Validation_state_listener.md",
+          "title":"STACK-JS a cautionary example on using validation messages for data transfer - STACK Documentation",
+          "description":"This page describes a combination of multiple advanced features used together in a way that may prove to be slow."
+         }
+        ]
         }
       ]
       }

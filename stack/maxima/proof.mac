@@ -161,7 +161,7 @@ parsons_encode(steps) := block(
  * Take the hashed JSON from STACK Parson's block and return a proof function.
  */
 parsons_decode(st) := block([pf],
-  pf:first(first(stackjson_parse(st))),
+  pf:first(stackjson_parse(st)),
   pf:ev(apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used"))))),simp)
 );
 
@@ -424,3 +424,106 @@ match_answer(ans, steps, [rows]) := block([akeys, ukeys],
  * Alias for for the column-only usage `match_answer(ans_steps)` of `match_answer`.
  */
 group_answer(ans, steps) := match_answer(ans, steps);
+
+/*
+ * Like `match_transpose` this inverts the rows and columns of a match
+ * two-dimenstional array. Unlike `match_transpose`, this does not assume 
+ * the sub-arrays all have the same length, and pads missing entries 
+ * with empty strings.
+ * 
+ * It will turn `[["a", "b"], ["c", "d", "e"], ["f"]]` into 
+ * `[["a", "c", ""], ["b", "d", "f"], ["", "e", ""]]`.
+ */
+match_transpose_display(ans) := block(
+    [maxlen, result : []],
+  
+    maxlen : apply(max, map(length, ans)),
+    
+    for j:1 thru maxlen do (
+        result : endcons(
+            makelist(
+                if length(row) >= j then row[j] else "", 
+                row, ans
+            ),
+            result
+        )
+    ),
+    return(result)
+); 
+
+/*
+ * Return the step "k" from the match array "pf" wrapped in html divs, and with any narrative.
+ */
+match_getstep_html(k, pf) := block([keylist],
+    keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
+    if not(emptyp(keylist)) then return(first(keylist)),
+    k
+);
+
+/*
+ * Create the HTML for the header.
+ */
+match_header_html(header) := block(
+  [html],
+  html: "",
+  for h in header do (
+    html: sconcat(html, "<th style='text-align:center;'>", h, "</th>")
+  ),
+  return(html)
+);
+
+/*
+ * Create the HTML for the `i`th entry of the index.
+ */
+match_index_html(i, index) := block(
+  [html],
+  html: sconcat("<th>", index[i], "</th>"),
+  return(html)
+);
+
+/*
+ * Enumerate a list: `[a, b, c]` -> `[[1, a], [2, b], [3, c]]`
+ */
+match_enumerate(ans) := block(
+  enum: makelist([i, ans[i]], i, 1, length(ans)),
+  return(enum)
+);
+
+/* 
+ * Generate the HTML table for a match answer, with keys provided by 
+ * `ans`, contents provided by `steps`, header entries provided by `header`,
+ * and index given by `index`.
+ */
+match_table_html(ans, steps, header, index) := block(
+  [rows, html],
+  html: "<table border='1'><tr>",
+  if not index = [] then html: sconcat(html, match_index_html(1, index)),
+  html: sconcat(html, match_header_html(header), "</tr>"),
+  for enum in match_enumerate(match_transpose_display(ans)) do (
+    [i, row]: enum,
+    html: sconcat(html, "<tr>"),
+    if not index = [] then html: sconcat(html, match_index_html(i + 1, index)),
+    for cell in row do (
+      val: if not cell = "" then second(match_getstep_html(cell, steps)) else "",
+      html: sconcat(html, "<td>", val, "</td>")
+    ),
+    html: sconcat(html, "</tr>")
+  ),
+  html: sconcat(html, "</table>"),
+  return(html)
+);
+
+/* 
+ * Generate the assessment display for the correct answer of a matching problem.
+ * Requires only `ans`, `steps`, `cols` parameters in the minimal case, which 
+ * produces a HTML with `1`, `2`, ..., `cols` header entries, and no index.
+ * This aligns with the minimal default usage of matching drag and drop problems 
+ * in STACK. Additionally, `header` and `index` may be provided.
+ */
+match_display(ans, steps, cols, [header_index]) := block([p1, header, index],
+  if header_index = [] then [header, index]: [makelist(i, i, 1, cols), []] 
+    else if length(header_index) = 1 then [header, index]: [first(header_index), []]
+      else if length(header_index) = 2 then [header, index]: header_index else 
+        header_index = [],
+  p1: apply(match_table_html, [ans, steps, header, index]),
+  ev(p1));

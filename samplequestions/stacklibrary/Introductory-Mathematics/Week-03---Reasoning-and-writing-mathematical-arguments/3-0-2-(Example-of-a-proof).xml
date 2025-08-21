@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.0.2 (Example of a proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Example</h3>
+
+<p>Alice, Bob and Clarissa are involved at a meeting. Alice looks at Bob and Bob looks at Clarissa. Alice is married but Clarissa is not.</p> 
+<p>Is Bob married?</p>
+<p>Prove that a married person looks at an unmarried one.</p>
+
+<h3>Solution</h3>
+
+<p>We do not know if Bob is married or unmarried. Therefore we have to consider both cases in our proof.</p>
+
+<p><b>Proof:</b></p>
+<p>Note that either Bob is married or unmarried, so there are two cases.</p>
+<ol>
+<li>Bob is married: In this case then when Bob looks at Clarissa a married person is looking at an unmarried one.</li>
+<li>Bob is unmarried: In this case when Alice looks at Bob  a married person is looking at an unmarried one.</li>
+</ol>
+
+<p>In both cases a married person is looking at an unmarried one therefore a married person always looks at an unmarried one.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

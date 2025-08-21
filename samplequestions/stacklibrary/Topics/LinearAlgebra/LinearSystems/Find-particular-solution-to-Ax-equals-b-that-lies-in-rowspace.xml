@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Find particular solution to Ax = b that lies in rowspace</text>
+    </name>
+    <questiontext format="plain_text">
+      <text><![CDATA[<script src="https://apps.canterbury.ac.nz/1/math/online_resources/EMTH118/latex.js"></script>
+<p>
+  Consider the equation \(A\,{@vx@} = {@vb@}\) where
+  \[
+  	A = {@AA@},\qquad {@vb@} = {@BB@}
+  \]
+  You may use <code>c(1,2,3)</code> or <code>matrix([1],[2],[3])</code> notation in your answers.
+</p>
+<ol type="a">
+  <li>
+    <p>
+      Find the general solution to this system of equations.
+    </p>
+    <p>
+      \({@vx@} = \) [[input:stu_x]] [[validation:stu_x]] [[feedback:prt_x]]
+    </p>
+  </li>
+  <li>
+    <p>
+      Now find the unique solution \({@vx@}_r\) in the row space of \(A\).
+    </p>
+    <p>
+      <em>Hint: There are lots of ways to solve this problem! Remember that to be in the row space of \(A\), a vector must be able to be written as a linear combination of the rows of \(A\). You could use Gaussian elimination, projections, geometry, and probably others too.</em>
+    </p>
+    <p>
+      \({@vx@}_r = \) [[input:stu_xr]] [[validation:stu_xr]] [[feedback:prt_xr]]
+    </p>
+  </li>
+</ol>
+[[hint title="How might I check my answer?"]]
+<p>
+  It's easy to check whether you have found a solution to a system of equations when working with exact arithmetic; just substitute your answer into the original system of equations!. To check whether you've found the solution that lies in the row space, you can write your answer as a linear combination of the rows of the matrix. 
+</p>
+[[/hint]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The general solution is easy to find using our normal methods. Skipping the details, we get: \[ {@AB_aug@} \xrightarrow{\text{RREF}} {@AB_aug_rref@} \] which has a free variable. Setting \(x_3 = t\), the second row gives us {@AB_rref[2,2]*x_2 + AB_rref[2,3]*t = AB_rref[2,4]@}, which gives \(x_2 = {@AB_rref[2,4] - AB_rref[2,3]*t@}\). Then the first row is \({@x_1 + AB_rref[1,2]*x_2 + AB_rref[1,3]*x_3 = AB_rref[1,4]@}\) which gives \(x_1 = {@expand(AB_rref[1,4] - AB_rref[1,2]*(AB_rref[2,4] - AB_rref[2,3]*t) - AB_rref[1,3]*t)@}\). Therefore our general solution is \[ {@vx@} = {@xx@} \]</p>
+<p>To find the unique solution that lies in the row space of \(A\) we need to find \(c_1\) and \(c_2\) such that \[ {@vx@}_r = c_1{@d1@} + c_2{@d2@} \] where the two vectors above are the rows of the RREF of \(A\) and form a basis for the row space. Therefore, we are trying to find a solution to \[ {@addcol(d1,d2)@}{@matrix([c_1],[c_2])@} = {@xx@} \] Again, skipping the details, we get \[ {@ATx_aug@} \xrightarrow{\text{RREF}} {@ATx_rref_aug@} \] This only has a solution when {@first(linsolve(ATx_rref[3,3],t))@}. Substituting this value of \(t\) into our \({@vx@}\) gives \[ {@vx@}_r = {@sol_xr@} \] You may also be aware of the <em>pseudoinverse</em>, denoted as \(A^{+}\) which can shortcut this process! In this case we have \(A^{+} = {@radcan(Ap)@}\). Try multiplying \(A^{+}{@vb@}\) and checking that we get the same answer!</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_linear_algebra_declare(true);
+stack_include_contrib("matrix.mac");
+stack_include_contrib("vectorgeometry.mac");
+
+rv(ex):= rand_with_prohib(-ex,ex,[0]);
+RAb: matrix([1,0,1,3*rv(3)],[0,1,1,3*rv(3)]);
+RAb: rowop(RAb,2,1,rv(2));
+RAb: rowop(RAb,1,2,rv(2));
+BB: col(RAb,4);
+AA: submatrix(RAb,4);
+Ap: transpose(AA) . invert(AA . transpose(AA));
+sol_xr: apply(c,list_matrix_entries(radcan(Ap) . BB));
+sol_x: sol_xr + t*apply(c,list_matrix_entries(first(nullspace(AA))));
+
+AB_aug: aug(addcol(AA,BB));
+AB_rref: rref(addcol(AA,BB));
+AB_aug_rref: aug(AB_rref);
+
+xx: matrix([expand(AB_rref[1,4] - AB_rref[1,2]*(AB_rref[2,4] - AB_rref[2,3]*t) - AB_rref[1,3]*t)],[AB_rref[2,4] - AB_rref[2,3]*t],[t]);
+
+d1: transpose(first(rref(AA)));
+d2: transpose(second(rref(AA)));
+
+ATx_aug: aug(addcol(d1,d2,xx));
+ATx_rref: rref(addcol(d1,d2,xx));
+ATx_rref_aug: aug(ATx_rref);
+
+texput(vx, "\\underline{\\mathbf{x}}");
+texput(vb, "\\underline{\\mathbf{b}}");]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\({@AA@}{@vx@} = {@AA . vec_convert(sol_x)@} = {@BB@}\)<br>
+\({@vx@} = {@vx@}_r + t{@vx@}_n = {@sol_x@}\)]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>stu_x</name>
+      <type>algebraic</type>
+      <tans>sol_x</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_xr</name>
+      <type>algebraic</type>
+      <tans>sol_xr</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_x</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>stu_parts: vector_parametric_parts(stu_x);
+if not(emptyp(stu_parts)) then [cons_vec,dir_vecs,vars]: stu_parts;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>emptyp(stu_parts)</sans>
+        <tans>false</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_x-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_x-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your answer is in an unexpected form. It should be a parametric equation of the form \({@vx@} = {@vx@}_0 + t\vd\)</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>length(dir_vecs)</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt_x-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_x-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your answer has too many or too few dimensions. The general solution to this systems of equations should be a line in \(\RR^2\). </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>vector_in_spacep(first(dir_vecs),second(vector_parametric_parts(sol_x)))</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt_x-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>1</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt_x-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your direction vector is pointing in the wrong direction. </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>point_in_affine_spacep(cons_vec,vector_parametric_parts(sol_x))</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_x-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_x-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \({@vx@}_0\) is not a solution to the system of equations. </p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_xr</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>vec_convert(stu_xr)</sans>
+        <tans>vec_convert(sol_xr)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_xr-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_xr-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>721205517</deployedseed>
+    <deployedseed>1552140184</deployedseed>
+    <deployedseed>2091251086</deployedseed>
+    <deployedseed>720336210</deployedseed>
+    <deployedseed>199050334</deployedseed>
+    <deployedseed>1704703248</deployedseed>
+    <deployedseed>85628888</deployedseed>
+    <deployedseed>361321536</deployedseed>
+    <deployedseed>1812377022</deployedseed>
+    <deployedseed>982467237</deployedseed>
+    <deployedseed>1509701498</deployedseed>
+    <deployedseed>1806441827</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>stu_x</name>
+        <value>sol_x</value>
+      </testinput>
+      <testinput>
+        <name>stu_xr</name>
+        <value>sol_xr</value>
+      </testinput>
+      <expected>
+        <name>prt_x</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_x-4-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_xr</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_xr-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>stu_x</name>
+        <value>ev(first(nullspace(AA)),simp)</value>
+      </testinput>
+      <testinput>
+        <name>stu_xr</name>
+        <value>ev(2*scale_nicely(vec_convert(sol_xr)),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_x</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_x-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_xr</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_xr-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

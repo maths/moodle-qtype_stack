@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Make set of vectors a basis for hyperplane in R4</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider the vector subspace that is a hyperplane in \(\mathbb{R}^4\) with the equation \[ {@disp_eqns([aa*w + bb*x + cc*y + dd*z = 0],[w,x,y,z])@} \] A fellow student has suggested to you that a suitable basis for this vector subspace would be \[ {@disp_vecs@} \] but this is incorrect! One of these vectors should be removed and replaced with another, new vector.</p>
+<p>Note: all vectors are of the form \({@r(w,x,y,z)@}^T\). There is more than one possible answer to the below questions.</p>
+<ul>
+<li>The vector that should be removed is [[input:stu_remove]] [[validation:stu_remove]] [[feedback:prt_remove]]</li>
+<li>A suitable replacement vector would be [[input:stu_add]] [[validation:stu_add]] [[feedback:prt_add]]<br><em>Hint: almost any vector in the subspace will do!</em></li>
+</ul>
+<p>[[hint title="How might I check my answer?"]]</p>
+<p>The subspace is 3-dimensional, so you need a linearly independent set of 3 vectors that all lie in the hyperplane (i.e. satisfy the given equation). If you've found such a triplet of vectors, you've got your basis!</p>
+<p>[[/hint]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.5</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_linear_algebra_declare(true);
+stack_include_contrib("matrix.mac");
+stack_include_contrib("vectorspaces.mac");
+
+[aa,bb,cc,dd]: rand_selection_with_replacement([-3,-2,-1,1,2,3],4);
+
+nn: [aa,bb,cc,dd];
+
+found_it: false
+for ii: 1 thru 100 unless found_it do block(
+r1: rand_selection([-1,0,0,0,1,1],4),
+v1: scale_nicely(r1 - (r1 . nn)/(nn . nn)*nn),
+r2: rand_selection([-1,0,0,0,1,1],4),
+v2: scale_nicely(r2 - (r2 . nn)/(nn . nn)*nn),
+r3: rand_selection([-1,0,0,0,1,1],4),
+v3: scale_nicely(r3 - (r3 . nn)/(nn . nn)*nn),
+v1n: mat_norm(transpose(v1),inf),
+v2n: mat_norm(transpose(v2),inf),
+v3n: mat_norm(transpose(v3),inf),
+if is(rank(matrix(v1,v2,v3))=3) and is(second(sort([v1n,v2n,v3n])) < 10) then found_it: true
+);
+
+
+if is(max(v1n,v2n,v3n) = v1n) then [bas,sol_add]: [[v2,v3],v1] 
+else if is(max(v1n,v2n,v3n) = v2n) then [bas,sol_add]: [[v1,v3],v2] 
+else [bas,sol_add]: [[v1,v2],v3];
+
+vf: rand(bas)*-2;
+
+sol_remove: transpose(vf);
+sol_add: transpose(sol_add);
+
+disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@disp_eqns([aa*w + bb*x + cc*y + dd*z = 0],[w,x,y,z])@} \rightarrow {@sol_remove@},  {@sol_add@} \]</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>stu_add</name>
+      <type>matrix</type>
+      <tans>sol_add</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_remove</name>
+      <type>matrix</type>
+      <tans>sol_remove</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_add</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sol_subspace: [v1,v2,v3];
+stu_subspace: append(bas,[list_matrix_entries(stu_add)]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>subspace_equivp(stu_subspace,sol_subspace)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_add-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_add-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>[[if test="is(transpose(nn) . stu_add # 0)"]]</p>
+<p>The vector you have added is not in the subspace.</p>
+<p>[[else]]</p>
+<p>The vector you have added is linearly dependent on the other vectors, so you still do not have a spanning set.</p>
+<p>[[/if]]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_remove</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>new_vecs: listify(delete(stu_remove,disp_vecs));
+
+new_mat: mat_unblocker(matrix(new_vecs));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>length(new_vecs)</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_remove-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_remove-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You have tried to remove a vector that isn't in the given set! </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>rank(new_mat)</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_remove-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Well done! You removed one of the linearly dependent vectors and now the remaining pair of vectors are linearly independent. </p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_remove-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">The vector you removed from the set wasn't correct.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>886985268</deployedseed>
+    <deployedseed>1121725825</deployedseed>
+    <deployedseed>2040872772</deployedseed>
+    <deployedseed>1299128467</deployedseed>
+    <deployedseed>220014911</deployedseed>
+    <deployedseed>1988206224</deployedseed>
+    <deployedseed>1968153672</deployedseed>
+    <deployedseed>1253757282</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>stu_add</name>
+        <value>sol_add</value>
+      </testinput>
+      <testinput>
+        <name>stu_remove</name>
+        <value>sol_remove</value>
+      </testinput>
+      <expected>
+        <name>prt_add</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_add-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_remove</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_remove-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>stu_add</name>
+        <value>matrix([0],[0],[0],[0])</value>
+      </testinput>
+      <testinput>
+        <name>stu_remove</name>
+        <value>ev(sol_remove/(-2),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_add</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_add-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_remove</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_remove-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>stu_add</name>
+        <value>ev(transpose([1,0,0,0] - ([1,0,0,0] . nn)/(nn . nn)*nn),simp)</value>
+      </testinput>
+      <testinput>
+        <name>stu_remove</name>
+        <value>matrix([0],[0],[0],[0])</value>
+      </testinput>
+      <expected>
+        <name>prt_add</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_add-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_remove</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_remove-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

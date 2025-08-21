@@ -2,10 +2,10 @@
 <quiz>
   <question type="category">
     <category>
-      <text>top/stacklibrary/Topics</text>
+      <text>top/stacklibrary</text>
     </category>
     <info format="moodle_auto_format">
-      <text>Examples questions tied to STACK documentation topics</text>
+      <text/>
     </info>
     <idnumber/>
   </question>

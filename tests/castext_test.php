@@ -1011,9 +1011,9 @@ final class castext_test extends qtype_stack_testcase {
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
-    public function test_disp_mult_blank(): void {
+    public function test_disp_mult_space(): void {
 
-        $a2 = ['make_multsgn("blank")', 'b:x*y'];
+        $a2 = ['make_multsgn("space")', 'b:x*y'];
         $s2 = [];
         foreach ($a2 as $s) {
             $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1026,7 +1026,29 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals('\({x\, y}\)', $at1->get_rendered());
+        $this->assertEquals('\({x\,y}\)', $at1->get_rendered());
+    }
+
+    /**
+     * Add description here.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_disp_mult_none(): void {
+
+        $a2 = ['make_multsgn("none")', 'b:x*y'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = castext2_evaluatable::make_from_source('{@b@}', 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({x y}\)', $at1->get_rendered());
     }
 
     /**
@@ -1839,7 +1861,45 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
-     * Add description here.
+     * Basic test the adapt blocks compile.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_adapt_blocks(): void {
+
+        $st = '[[adapt id=\'1\']]' .
+              'Shown until the adaptbutton has been clicked.' .
+              '[[adaptbutton title=\'Click me\' hide_ids=\'1\' save_state=\'ans1\' show_ids=\'3;4\']]' .
+              '[[/adaptbutton]][[/adapt]][[adapt id=\'2\' hidden=\'true\']]' .
+              'This text is hidden if you did not press the adaptbutton.[[/adapt]]';
+
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertTrue($at2->get_valid());
+    }
+
+    /**
+     * Basic test the adapt blocks error checking.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_adapt_blocks_noid(): void {
+
+        $st = '[[adapt]]' .
+            'Shown until the adaptbutton has been clicked.' .
+            '[[adaptbutton title=\'Click me\' hide_ids=\'1\' save_state=\'ans1\' show_ids=\'3;4\' /]]' .
+            '[[/adapt]][[adapt id=\'2\' hidden=\'true\']]' .
+            'This text is hidden if you did not press the adaptbutton.[[/adapt]]';
+
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Adapt block requires a id parameter.', $at2->get_errors(true));
+    }
+
+    /**
+     * Basic test the jsxgraph blocks compile.
      * @covers \qtype_stack\stack_cas_castext2_jsxgraph
      */
     public function test_stack_jsxgraph_statestore(): void {
@@ -1853,6 +1913,22 @@ final class castext_test extends qtype_stack_testcase {
 
         $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
         $this->assertTrue($at2->get_valid());
+    }
+
+    /**
+     * Basic test the jsxgraph block validation.
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
+    public function test_stack_jsxgraph_validation(): void {
+        $st = '[[jsxgraph style="inerror"]]' .
+            'var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});' .
+            'var p = board.create(\'point\', [4, 3]);' .
+            'stack_jxg.bind_point(stateRef, p);' .
+            'stateInput.style.display = \'none\';' .
+            '[[/jsxgraph]]';
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Unknown JSXGraph style: <code>inerror</code>.', $at2->get_errors(true));
     }
 
     /**
@@ -2886,5 +2962,85 @@ final class castext_test extends qtype_stack_testcase {
         $expected = '\({\left[\begin{array}{rr} \frac{1}{2} & \frac{3}{4} \\\\ ' .
                     '-\frac{1}{2} & 2000 \end{array}\right]}\)';
         $this->assertEquals($expected, $at1->get_rendered());
+    }
+
+    /**
+     * Tests the interaction of curly brackets with tables.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_curly_table(): void {
+        $a2 = [];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+
+        $raw = '\(\{\)<table><tbody><tr><td>\({@1@}\)</td></tr></tbody></table>';
+        $exp = '\(\{\)<table><tbody><tr><td>\({1}\)</td></tr></tbody></table>';
+
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid(FORMAT_HTML));
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
+
+    /**
+     * Tests the interaction of curly brackets with tables.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_mainvar(): void {
+        $a2 = [];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = '{@expand((x+y)^3)@}, {@(declare(x,mainvar),expand((x+y)^3))@}';
+        $exp = '\({y^3+3\cdot x\cdot y^2+3\cdot x^2\cdot y+x^3}\), ' .
+               '\({x^3+3\cdot y\cdot x^2+3\cdot y^2\cdot x+y^3}\)';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
+
+    /**
+     * Tests the implode functions.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_implode(): void {
+        $a2 = ['L1:[a,b,c^2]'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = "\[ [[define _first='true'/]][[foreach ex='L1']]" .
+            "[[if test='not _first']] + [[else]][[define _first='false'/]][[/if]]" .
+            "{@ex@}[[/foreach]] \]";
+        $exp = '\[ {a} + {b} + {c^2} \]';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
     }
 }

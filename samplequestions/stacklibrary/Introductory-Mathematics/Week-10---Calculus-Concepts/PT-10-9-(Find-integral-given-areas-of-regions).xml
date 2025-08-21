@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>PT.10.9 (Find integral given areas of regions)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Regions \(A\) and \(B\) are bounded by the graph of \(f\) and the \(x\)-axis, as&nbsp;shown below.</p>
+
+<p style="text-align: center;"></p><div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='250px' height='200px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB#}, axis: true, showCopyright: false, showNavigation:false});
+  var f = board.jc.snippet('{#poly#}', true, 'x', true);
+  var ff = board.create('functiongraph', [f,{#ev(a-0.5)#},{#ev(c+0.5)#}],{strokeColor:'#003399',strokeWidth:2});
+  var i1 = board.create('integral', [{#[a,c]#}, ff], {fillColor:'#003399',fillOpacity:0.15});
+  i1.curveLeft.setAttribute({visible:false});
+  i1.curveRight.setAttribute({visible:false});
+  i1.label.setAttribute({visible:false});
+  var ptlabA = board.create('point',{#[a+1,1.2]#}, {name:'A',size:0,fixed:true, label: { offset: [0, 0],anchorX: 'middle', anchorY: 'middle' }});
+  var ptlabB = board.create('point',{#[c-0.5,1.2]#}, {name:'B',size:0,fixed:true, label: { offset: [0, 0],anchorX: 'middle', anchorY: 'middle' }});
+  var xaxis = board.create('axis', [[0,0],[1,0]]);
+  board.create('ticks', [xaxis, {#[a,b,c]#}], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -10],anchorX: 'middle', anchorY: 'top' }});
+[[/jsxgraph]]</div><p></p>
+
+<p>Region \(A\) has area {@A@} and region \(B\) has area {@B@}.<br></p><p>Find the value of \(\displaystyle\int_{@a@}^{@c@}\left(f(x)+{@lin@}\right)\,dx\)</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>First, we can break the integral up:</p><p>\[\begin{align*} \int_{@a@}^{@c@}\left(f(x)+{@lin@}\right)\,dx &amp;= \int_{@a@}^{@c@}f(x)\,dx+&nbsp;\int_{@a@}^{@c@}\left({@lin@}\right)\,dx&nbsp;\end{align*}\]<br></p><p>From the facts given in the question, we know \(\displaystyle\int_{@a@}^{@c@}f(x)\,dx={@A@}+{@B@}={@A+B@}\).</p><p>Next, we calculate the definite integral:</p><p>\[&nbsp;\begin{align*}\int_{@a@}^{@c@}\left({@lin@}\right)\,dx&nbsp;&amp;= \left[{@integrate(lin,x)@}\right]_{@a@}^{@c@} \\ &amp;= {@linIntegral@} \end{align*}\]</p><p>Thus&nbsp;\(\displaystyle\int_{@a@}^{@c@}\left(f(x)+{@lin@}\right)\,dx={@A+B@}+{@linIntegral@}={@ta1@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text>makeratio(a,b,c):=(r1:integrate((x-a)*(x-b)^2,x,a,b),r2:integrate((x-a)*(x-b)^2,x,b,c),[r1/r2,[a,b,c],r1,r2]);
+/* finding a,b,c which give nice ratios:
+allposs:create_list (makeratio(a,b,c), a, [-4,-3,-2,-1], b, a+2, 3, c, b+1,b+3);
+niceones:sublist(allposs,lambda([ex],is(ex[1]=16/11 or ex[1]=9/16)));
+niceabc:maplist(second,niceones);
+*/
+niceabc:[[-4,-2,-1],[-4,-1,1],[-4,0,2],[-4,2,5],[-3,-1,0],[-3,0,2],[-3,1,3],[-3,3,6],[-2,0,1],[-2,1,3],[-2,2,4],[-1,1,2],[-1,2,4],[-1,3,5]];
+[a,b,c]:rand(niceabc);
+poly:(x-a)*(x-b)^2;
+lin:2*x+rand_range(-2*a,10);
+areaRatio:makeratio(a,b,c)[1];
+Atrue:num(areaRatio);
+Btrue:denom(areaRatio);
+A:rand_range(Atrue-2,Atrue+2);
+B:rand_range(Btrue-2,Btrue+2);
+linIntegral:integrate(lin,x,a,c);
+ta1:A+B+linIntegral
+
+/*jsxgraph settings */
+BBx:[a-1,c+1];
+BBy:[ev(poly,[x=b])+1,ev(poly,[x=c])+1,-1];
+BBy:append(BBy,[-lmax(BBy)/6]);
+BB:[lmin(BBx),lmax(BBy),lmax(BBx),lmin(BBy)];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{#[a,b,c]#} \(\displaystyle\int_{@a@}^{@c@}\left(f(x)+{@lin@}\right)\,dx={@A+B@}+{@linIntegral@}={@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>5</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>292993750</deployedseed>
+    <deployedseed>968908093</deployedseed>
+    <deployedseed>1203839556</deployedseed>
+    <deployedseed>501606466</deployedseed>
+    <deployedseed>1841259575</deployedseed>
+    <deployedseed>1359102862</deployedseed>
+    <deployedseed>1296538940</deployedseed>
+    <deployedseed>1508833108</deployedseed>
+    <deployedseed>1468629444</deployedseed>
+    <deployedseed>510967336</deployedseed>
+    <deployedseed>429632673</deployedseed>
+    <deployedseed>1974240313</deployedseed>
+    <deployedseed>2078622546</deployedseed>
+    <deployedseed>2042568676</deployedseed>
+    <deployedseed>2049915791</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

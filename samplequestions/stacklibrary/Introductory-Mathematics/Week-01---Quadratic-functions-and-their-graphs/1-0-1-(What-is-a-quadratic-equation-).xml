@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.0.1 (What is a quadratic equation?)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Quadratic Equations</h1>
+
+<p>One important concept in mathematics is that of square numbers. A square number is a product of a whole number with itself. For example \(4 = 2 \times 2\) and \(9 = 3 \times 3\) are square numbers, whilst \(10\) is not. This terminology derives from the fact the area of a square is its side length multiplied by itself. A <b>quadratic equation</b> is an equation which deals with a variable (usually denoted by \(x\)) which has been squared. Indeed the word 'quadratic' comes from the Latin word for square!</p>
+
+<p>The graph of a quadratic function forms a curve called a parabola. Parabolas arise in a number of places in the real world. Examples include the curve mapped when throwing a projectile, the curve produced by water flowing from a fountain and parabolic reflectors to focus light. Therefore if we wish to understand these phenomena, we need to understand quadratic equations. We will examine more applications of quadratics in a later section.</p>
+
+<p>Any quadratic equation can be written in the following form: 
+\[
+ax^2 + bx + c = 0,
+\]
+where \(x\) is an unknown variable and \(a, b\) and \(c\) are constants. This form of a quadratic is called the <b>standard form</b>. 
+Note that we can allow \(b\) and/or \(c\) to be equal to zero, however \(a\) must be nonzero. In other words we must have a squared term in order for the equation be be a quadratic. 
+</p>
+
+<h3>Example</h3>
+
+<p>Which of the following are examples of a quadratic equation? 
+</p><ol type="a">
+<li>\(x^2 + 2x -4 = 0\)</li>
+<li>\(4x - x^2 = 5\)</li>
+<li>\(9x + 4 = 0\)</li>
+</ol>
+<p></p>
+
+<h3>Solution</h3>
+
+<p></p><ol type="a">
+<li>\(x^2 + 2x -4 = 0\) is a quadratic equation. It is in standard form where \(a =1, b = 2, c= -4\).</li>
+<li>\(4x - x^2 = 5\) is also a quadratic equation but it is not in standard form. However we can re-write the equation in standard form as \(-x^2 +4x - 5 = 0.\) This is now in standard form with \(a = -1, b = 4\) and \(c = -5\).</li>
+<li>\(9x + 4 = 0\) is not a quadratic equation as is doesn't have a squared term. It is a linear equation.</li>
+</ol><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

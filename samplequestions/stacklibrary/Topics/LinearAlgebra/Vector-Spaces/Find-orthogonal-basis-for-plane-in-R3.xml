@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Find orthogonal basis for plane in R3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+  Find an <strong>orthogonal</strong> basis for the following subspace:
+  \[V = \left\{{@matrix([x],[y],[z])@}:{@plane@}\right\}\]
+  Give your answer as a set of column vectors, e.g. <code>{c(1,2,3),c(2,3,4)}</code>
+</p>
+<p>
+  [[input:stu_basis]] [[validation:stu_basis]] [[feedback:prt_basis]]
+</p>
+[[hint title="How might I check my answer?"]]
+<p>
+  How many basis vectors do you need to define a plane? Make sure your answer has that many <em>linearly independent</em> vectors that both lie in the plane (i.e. satisfy the given equation). If you manage that, then you have generated a linearly independent spanning set; a basis! The only remaining check is that your basis vectors are orthogonal to each other. 
+</p>
+[[/hint]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.5</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_linear_algebra_declare(true);
+stack_include_contrib("vectorspaces.mac");
+
+ordergreat(x,y,z);
+nn: scale_nicely(rand_selection([-4,-3,-2,-1,1,2,3,4],3));
+plane: nn.[x,y,z]/signum(nn[1]) = 0;
+
+v1: scale_nicely(crossproduct(transpose(nn),matrix([1],[0],[0])));
+v2: scale_nicely(crossproduct(transpose(nn),v1));
+
+sol_basis: {
+  apply(c,list_matrix_entries(v1)),
+  apply(c,list_matrix_entries(v2))
+};
+
+validate_set_of_vecs(ex):= block(
+  if not(setp(ex)) then return("Your answer should be a set of column vectors")
+  else block(
+    set_ops: setify(map(safe_op,listify(ex))),
+    if ev(emptyp(setdifference(set_ops,{"c","r","matrix"})),simp) then return("") else return("Your answer should be a set of column vectors")
+  )
+);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@plane@} has basis {@sol_basis@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>stu_basis</name>
+      <type>algebraic</type>
+      <tans>sol_basis</tans>
+      <boxsize>30</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>validator:validate_set_of_vecs,checkvars:3</options>
+    </input>
+    <prt>
+      <name>prt_basis</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>stu_basis_l: args(stu_basis);
+simp:true;
+stu_basis_f: make_list_of_lists(stu_basis_l);
+check_form: vec_convertedp(stu_basis_f)
+check_row_vecs: member(r,get_ops(stu_basis_l));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>check_form and not(check_row_vecs)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_basis-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_basis-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr">Your answer is in an unexpected form.</p>[[if test="check_row_vecs"]]<p>You have entered one or more of your basis vectors as row vectors. Typically in linear algebra we assume that all vectors are column vectors, even in this instance where you are finding a basis for a row space.</p>[[/if]]<p></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>subspace_equivp(stu_basis_f,make_list_of_lists(sol_basis))</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt_basis-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your answer spans the plane.&nbsp;</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_basis-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your answer does not span the plane. Either you are missing one or more basis vectors, or you have included one or more vectors that do not lie in the plane.&nbsp;<br></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>lin_indp(stu_basis_f)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt_basis-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">The vectors in your answer are linearly independent, good job!<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_basis-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">The vectors in your answer are linearly dependent, so they cannot form a basis.&nbsp;<br></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>first(stu_basis_f) . second(stu_basis_f)</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_basis-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your basis is orthogonal. Well done!&nbsp;</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_basis-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your basis is not orthogonal.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>840534153</deployedseed>
+    <deployedseed>27631431</deployedseed>
+    <deployedseed>377872782</deployedseed>
+    <deployedseed>1781683844</deployedseed>
+    <deployedseed>913470859</deployedseed>
+    <deployedseed>1090745215</deployedseed>
+    <deployedseed>1618767656</deployedseed>
+    <deployedseed>199147439</deployedseed>
+    <deployedseed>849188152</deployedseed>
+    <deployedseed>1634584763</deployedseed>
+    <deployedseed>185075000</deployedseed>
+    <deployedseed>1783874352</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>stu_basis</name>
+        <value>sol_basis</value>
+      </testinput>
+      <expected>
+        <name>prt_basis</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_basis-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>stu_basis</name>
+        <value>{transpose(nn)}</value>
+      </testinput>
+      <expected>
+        <name>prt_basis</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.5000000</expectedpenalty>
+        <expectedanswernote>prt_basis-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>stu_basis</name>
+        <value>{transpose(nn),c(0,0,0)}</value>
+      </testinput>
+      <expected>
+        <name>prt_basis</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.5000000</expectedpenalty>
+        <expectedanswernote>prt_basis-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>stu_basis</name>
+        <value>ev(setify(append(args(sol_basis),[c(0,0,0)])),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_basis</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_basis-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>stu_basis</name>
+        <value>ev({v1/sqrt(v1 . v1) + v2/sqrt(v2 . v2),v1/sqrt(v1 . v1) - v2/sqrt(v2 . v2)},simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_basis</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_basis-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

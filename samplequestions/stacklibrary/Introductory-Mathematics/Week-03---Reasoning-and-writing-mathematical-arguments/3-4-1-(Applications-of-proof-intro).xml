@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.1 (Applications of proof intro)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Applications of proof</h1>
+
+<p>During the material this week we have introduced the most common types of mathematical argument. We have seen that mathematics is built upon the logic of deductive reasoning, where we form mathematical arguments from logically connected statements. This formulation of formal mathematics is incredibly useful and it has allowed mathematics to make exceptional leaps forward over the 300 years it has been studied. In this section we will look at how and why mathematics was developed in this way and we will examine some of the applications of mathematical proof. We will look at some recreational mathematics and we will examine how mathematical proof can be used to see whether certain argument are correct or not.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

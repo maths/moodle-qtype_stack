@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.5 (Adding and subtracting matrices)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Adding and subtracting matrices</h3>
+
+<p>We will now look at the ways that we can combine and manipulate matrices. We shall see that we can perform most of the usual operations with matrices as well. However there are some important caveats that we will have to take into account. Matrix addition and subtraction happen entrywise. This means that if we want to add two matrices we just have to add their corresponding entries. Similarly if we want to subtract one matrix from another, we subtract the corresponding entries in the second matrix from the first. Consider the following examples.</p>
+<br/>
+<h3>Example</h3>
+
+<p> Let 
+\[
+A = \begin{bmatrix}
+1 & 2 & 3 
+\\
+-1 & -2 & -3
+\end{bmatrix}
+\qquad \mbox{and} \qquad
+B = \begin{bmatrix}
+-4 & 3 & 1 
+\\
+1 & -2 & -5
+\end{bmatrix}.
+\]
+Calculate \(A + B\) and \(A-B\).</p>
+
+<h3>Solution</h3>
+
+<p>Addition and subtraction are performed entrywise so we have 
+\[
+A + B = \begin{bmatrix}
+1 & 2 & 3 
+\\
+-1 & -2 & -3
+\end{bmatrix} + \begin{bmatrix}
+-4 & 3 & 1 
+\\
+1 & -2 & -5
+\end{bmatrix} = \begin{bmatrix} 
+1-4 &  2+ 3 & 3+1 
+\\
+-1+1 & -2 -2 & -3-5
+\end{bmatrix} = \begin{bmatrix} 
+-3 &  5 & 4 
+\\
+0 & -4 & -8
+\end{bmatrix}.
+\]
+Similarly, we have that 
+\[
+A-B =  \begin{bmatrix}
+1 & 2 & 3 
+\\
+-1 & -2 & -3
+\end{bmatrix} - \begin{bmatrix}
+-4 & 3 & 1 
+\\
+1 & -2 & -5
+\end{bmatrix} = \begin{bmatrix} 
+1+4 &  2- 3 & 3-1 
+\\
+-1-1 & -2 +2 & -3+5
+\end{bmatrix} = \begin{bmatrix} 
+5 &  -1 & 2 
+\\
+-2 & 0 & 2
+\end{bmatrix}.
+\]
+</p>
+<br/>
+<p>Therefore adding or subtracting matrices is a process of adding and subtracting each element of the matrices in the  usual way. However, notice that in the calculations above, the matrices we wished to combine had the same size. So what happens when we have matrices of different sizes? Well in this case, we cannot add or subtract the matrices. This is because these operations are performed entrywise and if the matrices had different sizes there will always be elements of one matrix which don't have corresponding elements in the other. For example consider the matrices
+\[
+A = \begin{bmatrix}
+1 & 2 & 3 
+\\
+-1 & -2 & -3
+\end{bmatrix}
+\qquad \mbox{and} \qquad
+B = \begin{bmatrix}
+1 & 1  
+\\
+1 & -1
+\end{bmatrix}.
+\]
+In this case there is nothing that we can do to the \(-3\) and \(3\) entries of matrix \(A\) so it is not possible to add or subtract these matrices. In other words, when we have matrices \(A\) and \(B\) which have different sizes, the operations \(A+B\) and \(A-B\) are <i>not defined</i>.</p>
+<br>
+<p>Note that there is a square matrix whose entries are all zeros. This is called the <b>zero matrix</b> (for obvious reasons) and is denoted \(0_n\) where \(n\) is the number of rows (and columns) in the square matrix. It is the only matrix with the following property:</p>
+<br/>
+<p>If \(A\) is an \(n \times n\) matrix and \(0_n\) is the zero matrix of size \(n\) then:
+\[
+A + 0_n = 0_n + A = a \qquad \mbox{and} \qquad A - 0_n = A.
+\]
+So the zero matrix has the same properties as the number \(0\) when performing additions.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

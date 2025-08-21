@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="truefalse">
+    <name>
+      <text>Linearity</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>If \(y_1(x)\) and \(y_2(x)\) are both solutions of<br />\[ \frac{\mathrm{d}y}{\mathrm{d}x}=g(y,x)\]<br />then for any numbers \(c_1\) and \(c_2\) the function \(x\mapsto c_1y_1(x)+c_2y_2(x)\) is also a solution of the differential equation.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <answer fraction="0" format="moodle_auto_format">
+      <text>true</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="moodle_auto_format">
+      <text>false</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

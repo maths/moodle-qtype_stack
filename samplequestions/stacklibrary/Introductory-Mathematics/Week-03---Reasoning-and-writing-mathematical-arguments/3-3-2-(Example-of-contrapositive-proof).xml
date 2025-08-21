@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.3.2 (Example of contrapositive proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>A contrapositive proof</h3>
+
+
+<p><b>Lemma:</b> If \(a^2\) is an even number then \(a\) is even.
+<div class="proof">
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step">Let \(A\) be the statement "\(a^2\) is even" and \(B\) be the statement "\(a\) is even".</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step">We will prove the contrapositive of the statement, that is we will prove the statement (directly):
+<p>"If \(a\) is odd then \(a^2\) is odd"</p></div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">Suppose that \(a\) is odd then we can write \(a = 2k+1\), where \(k\) is some integer.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">It follows that:
+\[
+\begin{align*}
+a^2 &= (2k+1)(2k+1)
+\\
+&= (4k^2 + 2k+2k) + 1
+\\
+&= 2(2k^2 + 2k) + 1.
+\end{align*}
+\]
+</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-step">Since, \(k\) is an integer, so is \((2k^2+2k)\) is an integer and thus \(a^2\) can be written in the form \(2(\mbox{integer})+1\).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">6.</div>
+ <div class="proof-step">Hence \(a^2\) is odd and since we have proven the contrapositive of the given lemma, the proof is complete.</div>
+</div>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

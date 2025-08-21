@@ -88,15 +88,14 @@ final class api_controller_test extends qtype_stack_testcase {
             $methods[] = $method->name;
         }
         $this->request = $this->getMockBuilder(RequestInt::class)
-            ->setMockClassName('RequestTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
         // Need to use callback so data can be altered in each test.
-        $this->request->method("getParsedBody")->will($this->returnCallback(
+        $this->request->method("getParsedBody")->willReturnCallback(
             function() {
 
                 return $this->requestdata;
-            })
+            }
         );
 
         $reflection = new \ReflectionClass(ResponseInt::class);
@@ -106,8 +105,7 @@ final class api_controller_test extends qtype_stack_testcase {
         }
 
         $this->response = $this->getMockBuilder(ResponseInt::class)
-            ->setMockClassName('ResponseTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
 
         $reflection = new \ReflectionClass(StreamInt::class);
@@ -117,26 +115,25 @@ final class api_controller_test extends qtype_stack_testcase {
         }
 
         $this->result = $this->getMockBuilder(StreamInt::class)
-            ->setMockClassName('StreamInterfaceTest')
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
 
-        $this->result->expects($this->any())->method('write')->will($this->returnCallback(
+        $this->result->expects($this->any())->method('write')->willReturnCallback(
             function() {
 
                 $this->output = json_decode(func_get_args()[0]);
                 return 1;
-            })
+            }
         );
 
         // The controllers call getBody() on the response object but then call write() on the result
         // so we have to mock both. We override the write method to write to a propery of the testsuite
         // so we have something easily accessible to perform some asserts on.
-        $this->response->expects($this->any())->method('getBody')->will($this->returnCallback(
+        $this->response->expects($this->any())->method('getBody')->willReturnCallback(
             function() {
 
                 return $this->result;
-            })
+            }
         );
 
         $this->response->expects($this->any())->method('withHeader')->willReturn($this->response);
@@ -171,6 +168,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertContains(1167893775, $this->output->questionvariants);
         $this->assertEquals(3, count($this->output->questionvariants));
         $this->assertEquals(0, count($this->output->iframes));
+        $this->assertEquals(false, $this->output->isinteractive);
     }
 
     public function test_render_specified_seed(): void {
@@ -193,6 +191,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-2-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-3-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
+        $this->assertEquals(false, $this->output->isinteractive);
     }
 
     public function test_render_iframes(): void {
@@ -201,6 +200,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertEquals(1, count($this->output->iframes));
+        $this->assertEquals(true, $this->output->isinteractive);
     }
 
     public function test_render_download(): void {
@@ -209,6 +209,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertMatchesRegularExpression('/javascript\:download\(\'data.csv\'\, 1\)/s', $this->output->questionrender);
+        $this->assertEquals(true, $this->output->isinteractive);
     }
 
     public function test_validation(): void {
@@ -243,6 +244,30 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, count($this->output->iframes));
     }
 
+    public function test_default(): void {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('empty');
+        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('empty'));
+        $this->requestdata['inputName'] = 'ans1';
+        $rc = new RenderController();
+        $rc->__invoke($this->request, $this->response, []);
+        $this->assertEquals('<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>', $this->output->questionrender);
+        $this->assertEquals(false, $this->output->isinteractive);
+        $vc = new ValidationController();
+        $vc->__invoke($this->request, $this->response, []);
+        $this->assertStringContainsString('Your last answer was interpreted as follows:', $this->output->validation);
+        $this->assertStringContainsString('\[ 1 \]', $this->output->validation);
+        $gc = new GradingController();
+        $gc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(true, $this->output->isgradable);
+        $this->assertEquals(1, $this->output->score);
+        $this->assertEquals(1, $this->output->scores->prt1);
+        $this->assertEquals(1, $this->output->scores->total);
+        $this->assertEquals(1, $this->output->scoreweights->prt1);
+        $this->assertEquals(1, $this->output->scoreweights->total);
+        $this->assertEquals('[[feedback:prt1]]', $this->output->specificfeedback);
+        $this->assertStringContainsString('correct', $this->output->prts->prt1);
+    }
+
     public function test_grade_scores(): void {
 
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('multipleanswers');
@@ -271,8 +296,8 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['fileid'] = 1;
 
         $dc = $this->getMockBuilder(DownloadController::class)
-            ->setMockClassName('DownloadControllerTest')
-            ->setMethods(['set_headers'])
+            ->setMockClassName('DownloadController')
+            ->onlyMethods(['set_headers'])
             ->getMock();
 
         $dc->expects($this->any())->method('set_headers')->willReturn(true);

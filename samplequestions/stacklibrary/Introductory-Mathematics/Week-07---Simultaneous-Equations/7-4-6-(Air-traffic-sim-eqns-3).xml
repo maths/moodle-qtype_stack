@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.4.6 (Air traffic sim. eqns. 3)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that there are two aircraft travelling in our airspace. Suppose that aircraft A follows a linear path given by {@eqn1@} and the path of aircraft B is given by {@eqn2@}. Find the point at which the aircraft would crash. Give your answer as a list of equations e.g. <code>[x=2,y=2]</code></p>
+
+
+
+
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p> In order to find the point at which the two planes could crash we need to find the point of intersection between the two lines. In order to do this we need to solve the following equations simultaneously:
+\[
+\begin{align*}
+&{@eqn1@} \:\:\:\:\: (1)
+\\
+&{@eqn2@} \:\:\:\:\: (2)
+\end{align*}
+\]
+We can use either the elimination or substitution methods to do this. Either method then gives us: {@ta1@}.]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1: 1+ rand(5);
+a2: 1+ rand(5);
+a3: 1+ rand(5);
+b1: 1+ rand(5);
+b2: 1+ rand(5);
+b3: 1+ rand(5);
+
+eqn1: a1*x - a2*y= a3;
+eqn2: b1*x + b2*y= b3;
+
+ta1: solve([eqn1,eqn2],[x,y])[1];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@eqn1@},{@eqn2@} \(\implies\) {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>[x=?,y=?]</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(ta1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1996232641</deployedseed>
+    <deployedseed>1849782104</deployedseed>
+    <deployedseed>380955780</deployedseed>
+    <deployedseed>170568302</deployedseed>
+    <deployedseed>1880540708</deployedseed>
+    <deployedseed>213205342</deployedseed>
+    <deployedseed>2033505498</deployedseed>
+    <deployedseed>2124173307</deployedseed>
+    <deployedseed>484985545</deployedseed>
+    <deployedseed>2007754535</deployedseed>
+    <deployedseed>587162260</deployedseed>
+    <deployedseed>1510100424</deployedseed>
+    <deployedseed>515758576</deployedseed>
+    <deployedseed>112342782</deployedseed>
+    <deployedseed>1237386086</deployedseed>
+    <deployedseed>2039671866</deployedseed>
+    <deployedseed>95570777</deployedseed>
+    <deployedseed>2140930395</deployedseed>
+    <deployedseed>1347621208</deployedseed>
+    <deployedseed>120018339</deployedseed>
+    <deployedseed>1517447018</deployedseed>
+    <deployedseed>1343743531</deployedseed>
+    <deployedseed>1187019499</deployedseed>
+    <deployedseed>1128660956</deployedseed>
+    <deployedseed>358064151</deployedseed>
+    <deployedseed>80307039</deployedseed>
+    <deployedseed>1072422543</deployedseed>
+    <deployedseed>714470213</deployedseed>
+    <deployedseed>1171431702</deployedseed>
+    <deployedseed>2098937101</deployedseed>
+    <deployedseed>1897676554</deployedseed>
+    <deployedseed>808466703</deployedseed>
+    <deployedseed>2007265954</deployedseed>
+    <deployedseed>953678968</deployedseed>
+    <deployedseed>1260073798</deployedseed>
+    <deployedseed>980207146</deployedseed>
+    <deployedseed>1914961090</deployedseed>
+    <deployedseed>478852215</deployedseed>
+    <deployedseed>1538634164</deployedseed>
+    <deployedseed>53968395</deployedseed>
+    <deployedseed>1921895217</deployedseed>
+    <deployedseed>1212097389</deployedseed>
+    <deployedseed>1429571421</deployedseed>
+    <deployedseed>813530991</deployedseed>
+    <deployedseed>159319031</deployedseed>
+    <deployedseed>1732446604</deployedseed>
+    <deployedseed>1951921709</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

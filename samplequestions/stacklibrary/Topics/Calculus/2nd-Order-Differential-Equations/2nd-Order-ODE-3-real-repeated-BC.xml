@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2nd-Order-ODE-3-real-repeated-BC</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the general solution of \[{@n1@} \frac{\mathrm{d}^2y}{\mathrm{d}t^2} + {@n1*n2^2@} y ={@2*n1*n2@} \frac{\mathrm{d}y}{\mathrm{d}t} .\]  <br />\(y(t)\) = [[input:ans1]] [[validation:ans1]]</p><p>[[feedback:Result]]</p><p>Find the particular solution subject to \(y(0)=\){@ev(ca,t=0)@} and \( y'(0)=\){@ev(cad,t=0)@}.<br />\(y(t)\) = [[input:ans2]] [[validation:ans2]]</p><p>[[feedback:Result2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To solve the differential equation  \[{@n1@} \frac{\mathrm{d}^2y}{\mathrm{d}t^2} + {@n1*n2^2@} y ={@2*n1*n2@} \frac{\mathrm{d}y}{\mathrm{dt}} .\] <br />first write this in standard form   \[\frac{\mathrm{d}^2y}{\mathrm{d}t^2} - {@2*n2@} \frac{\mathrm{d}y}{\mathrm{d}t}+ {@n2^2@} y =0 .\] <br />Let \(y = e^{mt}\) and hence \(\frac{dy}{dt}=me^{mt}\) and \(\frac{d^2y}{dt^2} = m^2e^{mt}\). <br />Substituting for \(y\) gives \[m^2e^{mt} -{@2*n2@}e^{mt}+ {@n2^2@}me^{mt}= 0\] and dividing throughout by \(e^{mt}\) gives \[m^2 -{@2*n2@}m+{@n2^2@}=(m-{@n2@})^2=0\] which can be solved to give a repeated root \(m={@n2@}\). The solution is then of the form \(y = A{@e^(n2*t)@}+Bt{@e^(n2*t)@}\).</p><p>For the second part we evaluate \(y(0)\) and \(y'(0)\) and use the specified information to give</p><p>\[ y(0) = {@ev(correctanswer,t=0)@} = {@ev(ca,t=0)@} \]<br />\[ y'(t) = {@factor(diff(correctanswer,t))@}\]<br />so that<br />\[ y'(0) = {@ev(dcorrectanswer,t=0)@} = {@ev(cad,t=0)@}.\]<br />Solving these equations for \(A\) and \(B\) gives<br />\[ A={@AA@}, \quad B={@BB@}\]<br />so that that solution is \(y(t)={@ca@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>4</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text/>
+    </stackversion>
+    <questionvariables>
+      <text>n1:rand(8)+2
+n2:rand(3)+2
+q:n1*'diff(y(t),t,2)-2*n1*n2*'diff(y(t),t)+n1*n2^2*y(t)
+correctanswer:A*e^(n2*t)+B*t*e^(n2*t)
+dcorrectanswer:diff(correctanswer,t)
+AA:rand(2)+2
+BB:rand(2)+2
+ca:ev(correctanswer,[A=AA,B=BB])
+cad:diff(ca,t)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\({@n1@} \frac{\mathrm{d}^2y}{\mathrm{d}t^2} + {@n1*n2^2@} y ={@2*n1*n2@} \frac{\mathrm{d}y}{\mathrm{d}t}\)  gives \(y = A{@e^(n2*t)@}+Bt{@e^(n2*t)@}\) and {@ca@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>25</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>solve</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ca</tans>
+      <boxsize>25</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>p:ev(q,y(t)=ans1,nouns,fullratsimp);
+l:setify(listofvars(ans1));
+l:setdifference(l,set(t));
+l:listify(l);
+lv:length(l);
+b1:ev(ans1,t=0,fullratsimp);
+b2:ev(ans1,t=1,fullratsimp);
+m:if not(b2=0) then fullratsimp(b1/b2) else 0;
+m:float(m);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Sat-ODE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Does-Not-Sat-ODE </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[{@p@}\] which is not zero, so you must have done something wrong.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>lv</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Has-2-consts </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.5000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Wrong-#-consts </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You should have a general solution, which includes unknown constants. Your answer satisfies the differential equation, but does not have the correct number of unknown constants.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>numberp(m)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Sol-not-lin-ind </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your general solution should be a sum of two linearly independent components, but is not.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>1.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Correct </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Result2</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>dans2:diff(ans2,t)</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ev(ans2,t=0)</sans>
+        <tans>ev(ca,t=0)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>BC-y(0)-ok</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>BC-y(0)-not-ok</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy  \(y(0)=\){@ev(ca,t=0)@}.  In fact, evaluating {@ans2@} at \(t=0\) gives {@ev(ans2,t=0)@}.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ev(dans2,t=0)</sans>
+        <tans>ev(cad,t=0)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>BC-y'(0)-ok</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>BC-y'(0)-not-ok</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy  \(y'(0)=\){@ev(cad,t=0)@}.  In fact, evaluating \(\frac{\mathrm{d}y}{\mathrm{dt}}\left({@ans2@}\right)\) at \(t=0\) gives {@ev(dans2,t=0)@}.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1159279826</deployedseed>
+    <deployedseed>1269312969</deployedseed>
+    <deployedseed>738005696</deployedseed>
+    <deployedseed>193204862</deployedseed>
+    <deployedseed>48103118</deployedseed>
+    <deployedseed>1863964533</deployedseed>
+    <deployedseed>112335941</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ca</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Correct</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Result2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>BC-y'(0)-ok</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer-c</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Does-Not-Sat-ODE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>A*e^(n2*t)+B*e^(n2*t)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Sol-not-lin-ind</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>t*%e^(n*2*t)*B+%e^(n*2*t)*A</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(ca+t*%e^(n2*t),simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Does-Not-Sat-ODE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Result2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>BC-y'(0)-not-ok</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>A*e^(n2*t)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Wrong-#-consts</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Find vector parametric equation for plane given three points</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>
+Find a vector parametric equation for the plane that goes through the points \(\mathcal{P}_1 = {@p1@}\), \(\mathcal{P}_2 = {@p2@}\) and \(\mathcal{P}_3 = {@p3@}\). You may use <code>c(1,2,3)</code> notation to enter vectors in this question.
+</p>
+<div>
+\(\underline{\mathbf{r}} = \) [[input:ans1]] [[validation:ans1]]
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_linear_algebra_declare(true);
+stack_include_contrib("vectorgeometry.mac");
+
+p1: transpose(rand_selection([-4,-3,-2,-1,0,1,2,3,4],3));
+p2: scale_nicely(crossproduct(p1,transpose([1,0,0])));
+p3: scale_nicely(crossproduct(p1,transpose([0,1,1])));
+
+ta: un_vec_convert(p1) + t*un_vec_convert(p2 - p1) + s*un_vec_convert(p3 - p1);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(\mathcal{P}_1 = {@p1@}\), \(\mathcal{P}_2 = {@p2@}\) and \(\mathcal{P}_3 = {@p3@} \rightarrow {@ta@} \)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>30</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>ta_parts: vector_parametric_parts(vec_convert(ta));
+[ta_cons, ta_dirvecs, ta_vars]: ta_parts;
+check_form: linear_combinationp(ans1);
+if check_form then block(
+   sa_parts: vector_parametric_parts(vec_convert(ans1)),
+   [sa_cons, sa_dirvecs, sa_vars]: sa_parts,
+   check_form: check_form and is(length(sa_dirvecs)=2)
+);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Has the student given an answer in a form we can test?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>check_form</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer has been interpreted as \(\displaystyle {@vector_parametric_display(sa_parts)@}\)</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is in an unexpected form. A vector parametric equation for a plane should be of the form \(\underline{\mathbf{r}} = \underline{\mathbf{r}}_0 + t\,\underline{\mathbf{d}}_1 + s\,\underline{\mathbf{d}}_2\) where \(\underline{\mathbf{r}}_0\) is a point on the plane and \(\underline{\mathbf{d}}_1\) and \(\underline{\mathbf{d}}_2\) are direction vectors.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Is their fixed point on the plane in question?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>point_in_affine_spacep(sa_cons,ta_parts)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your equation contains the constant term {@sa_cons@}, which is on the plane we are looking for. Good job!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your equation contains the constant term {@sa_cons@}, which is not on the plane we are looking for.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>Is their first direction vector in the plane?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>vector_in_spacep(first(sa_dirvecs), ta_dirvecs)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your first direction vector, {@first(sa_dirvecs)@}, is in the plane. Good job!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your first direction vector, {@first(sa_dirvecs)@}, is not in the plane.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description>Is their second direction vector in the plane?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>vector_in_spacep(second(sa_dirvecs), ta_dirvecs)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your second direction vector, {@second(sa_dirvecs)@}, is in the plane. Good job!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your second direction vector, {@second(sa_dirvecs)@}, is not in the plane.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>282807773</deployedseed>
+    <deployedseed>656336350</deployedseed>
+    <deployedseed>758807757</deployedseed>
+    <deployedseed>321521302</deployedseed>
+    <deployedseed>332964272</deployedseed>
+    <deployedseed>279179472</deployedseed>
+    <deployedseed>938738021</deployedseed>
+    <deployedseed>1265048011</deployedseed>
+    <deployedseed>468223088</deployedseed>
+    <deployedseed>286698418</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(p3 + 2*Xi*(p3 - p2) - 1/pi*LL*(p2 - p1),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>p1 + p2*t + p3*s</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>matrix([0],[0],[0])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

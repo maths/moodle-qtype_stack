@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.1.14 (Term of GP from other term and ratio)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Let term \(n\) of a geometric progression be denoted \(u_{n}\). Given that \(u_{@mval@} = {@term_mval@}\) and that the common ratio is \(r={@rval@}\) then&nbsp;</p><p>\(u_{@nval@}=\) [[input:ans1]]. [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To get from&nbsp;\(u_{@mval@}\) to \(u_{@nval@}\), we multiply by \(r={@rval@}\) a total of {@nval-mval@} times.</p><p>So \(u_{@nval@}=u_{@mval@}\times{@rval@}^{@nval-mval@}={@term_nval@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>aval:2*rand(6)-5;
+ mval:rand(2)+3;
+ r_magnitude:rand(7)+1;
+ r_sign:2*rand(2)-1;
+ rval:r_sign*r_magnitude;
+ mvalminus1:mval - 1;
+ nval:mval + rand(4) + 2;
+ nvalminus1:nval - 1;
+ un:a*r^(n-1);
+ amproduct:a*rval**mvalminus1;
+ anproduct:a*r**nvalminus1;
+ mproductval:mvalminus1*dval;
+ nproductval:nvalminus1*dval;
+ term_mval:aval*rval^mvalminus1;
+ term_nval:aval*rval^nvalminus1;     /*ta*/
+ n_minus_m:nval - mval;
+ unr:term_mval*r^(n_minus_m);
+ n_minus_md:n_minus_m*d;
+ np1:nval + 1;
+
+w1: term_nval*rval;
+w2: term_mval*rval^(mval-nval)
+w3: nval*rval</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Given \(u_{@mval@} = {@sconcat(term_mval)@}\) and common ratio \({@sconcat(rval)@}\) then \(u_{@nval@}={@sconcat(term_nval)@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>term_nval</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>*</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>term_nval</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>SEQ-GEO-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>SEQ-GEO-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>w1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>TERM_N_PLUS_ONE</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is term \(u_{@np1@}\) which is \({@term_mval@}\) multiplied by \({@rval@}^{{@nval@} - {@mval@} + 1}\). In fact \(u_{@nval@}\) is \({@term_mval@}\) multiplied by \({@rval@}^{{@nval@} - {@mval@}}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>SEQ-GEO-FALSE-1</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>w2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>M_MINUS_N</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is {@term_mval@} multiplied by \({@rval@}^{{@mval@} - {@nval@}}\). In fact \(u_{@nval@}\) is {@term_mval@} multiplied by \({@rval@}^{{@nval@} - {@mval@}}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>SEQ-GEO-FALSE-2 </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>w3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>NR</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is {@nval@} multiplied by the common ratio {@rval@}. You may not be using the correct method.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>SEQ-GEO-FALSE-3</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>317446138</deployedseed>
+    <deployedseed>3562047</deployedseed>
+    <deployedseed>1523787093</deployedseed>
+    <deployedseed>523278439</deployedseed>
+    <deployedseed>1112181823</deployedseed>
+    <deployedseed>900910417</deployedseed>
+    <deployedseed>653426346</deployedseed>
+    <deployedseed>1831812695</deployedseed>
+    <deployedseed>493924236</deployedseed>
+    <deployedseed>847066961</deployedseed>
+    <deployedseed>931480506</deployedseed>
+    <deployedseed>1095027857</deployedseed>
+    <deployedseed>675656575</deployedseed>
+    <deployedseed>1768871195</deployedseed>
+    <deployedseed>174236023</deployedseed>
+    <deployedseed>1136872629</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>term_nval</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>SEQ-GEO-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>w1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>TERM_N_PLUS_ONE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>w2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>M_MINUS_N</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>w3</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>NR</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

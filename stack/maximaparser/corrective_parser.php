@@ -283,7 +283,7 @@ class maxima_corrective_parser {
          */
         // @codingStandardsIgnoreStart
         static $allowedchars =
-        '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
+        '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=#><|: -';
         // @codingStandardsIgnoreEnd
 
         $foundchar = $exception->found;

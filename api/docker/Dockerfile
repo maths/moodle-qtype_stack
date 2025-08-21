@@ -9,7 +9,7 @@ RUN composer install
 RUN composer dump-autoload --optimize
 
 #Base Image
-FROM php:8.2-apache-bullseye AS base
+FROM php:8.4.5-apache-bookworm AS base
 
 #Install required php extensions
 RUN apt-get update && \

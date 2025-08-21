@@ -59,6 +59,8 @@ safe_op(ex) := block([st],
         st:?subseq(st, 1, ev(?length(st), simp)),
     return(st)
 )$
+/* This function is called a lot, and compiling leads to a noticable performance increase. */
+compile(safe_op);
 
 get_safe_ops(ex) := setify(flatten(get_safe_ops_helper(ex)))$
 get_safe_ops_helper(ex) := if mapatom(ex) then [] else append([safe_op(ex)], maplist(get_safe_ops_helper, args(ex)))$
@@ -102,7 +104,7 @@ poly_equate_coeffsp(p1, p2) := block([lov1, lov2, poly1, andex1, andex2, numvard
     numvardiff:ev(length(lov1)-length(lov2), simp),
     /* The difference in the number of variables has to be exactly one. */
     if not(is(ev(abs(numvardiff=1),simp))) then return(false),
-    if is(length(lov1)-length(lov2)=1) then block(
+    if equal(length(lov1)-length(lov2),1) then block(
         poly1:lhs(p1)-rhs(p1),
         andex2:p2,
         vardiff:first(args(setdifference(lov1,lov2))),
@@ -137,6 +139,7 @@ op_usedp(ex, opused) := block(
    if op(ex)=opused then return(true),
    apply("or", maplist(lambda([ex2], op_usedp(ex2, opused)), args(ex)))
 )$
+compile(op_usedp)$
 
 /* Count the occurances of v in ex. 
    v can be a string (for safe_op) or atom.
@@ -181,13 +184,13 @@ select_apply([ex1]) := block([f1, ex, s1],
 /* ********************************** */
 
 /* True if and only if ex is in the list l. */
-element_listp(ex, l) := any_listp(lambda([ex2], is(ex2=ex)), l)$
+element_listp(ex, _l) := any_listp(lambda([ex2], is(ex2=ex)), _l)$
 
 /* all_listp(p,l) true if all elements of l satisfy p. */
-all_listp(p, l) := if listp(l) then apply("and", maplist(p, l)) else error("all_listp expects its argument to be a list.")$
+all_listp(_p, _l) := if listp(_l) then apply("and", maplist(_p, _l)) else error("all_listp expects its argument to be a list.")$
 
 /* any_listp(p,l) true if all elements of l satisfy p. */
-any_listp(p, l) := if listp(l) then apply("or", maplist(p, l)) else error("any_listp expects its argument to be a list.")$
+any_listp(_p, _l) := if listp(_l) then apply("or", maplist(_p, _l)) else error("any_listp expects its argument to be a list.")$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w. */
 listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
@@ -196,10 +199,10 @@ listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
 listscontain(a, b, v) := elementp(v, intersection(setify(a), setify(b)))$
 
 /* Removes the first occurance of ex from the list l. */
-removeonce(ex, l) := block(
-  if listp(l)#true or emptyp(l) then return([]),
-  if first(l)=ex then return(rest(l)),
-  append([first(l)], removeonce(ex,rest(l)))
+removeonce(ex, _l) := block(
+  if listp(_l)#true or emptyp(_l) then return([]),
+  if first(_l)=ex then return(rest(_l)),
+  append([first(_l)], removeonce(ex,rest(_l)))
 )$
 
 /* All the elements of l1, which do not occur in l2.  Removes all occurances from l1, not one at a time. */
@@ -230,8 +233,9 @@ zip_with(zf, a, b) := block(
   if not(listp(b)) then return(false),
   if emptyp(a) then return([]),
   if emptyp(b) then return([]),
-  cons(zf(first(a), first(b)),  zip_with(zf, rest(a), rest(b)))
+  cons(apply(zf, [first(a), first(b)]),  zip_with(zf, rest(a), rest(b)))
 )$
+compile(zip_with);
 
 /* Enable use of zipwith on matrices, not just lists. */
 zip_with_matrix(zfm, A, B) := block(
@@ -347,7 +351,13 @@ safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 /* ********************************** */
 alias(ln, log);
 
-/* Legacy reasons */
+/* See section 2-13.4, 2-13.5, 2-13.6 of ISO 80000-2:2019.
+   log_a(x) is log to the base a.
+   ln(x) is the natural logarithm.
+   lg(x) is log to the base 10.
+*/
+
+/* This over generalises lg to have two arguments, taking the 2nd to be the base. */
 alias(lg, logbase);
 
 lgtex(ex) := block([n, b],
@@ -762,28 +772,38 @@ remove_numerical_inert(ex) := block(
     return(ex)
 )$
 
-/* Write the number ex in n decimal places */
+/* Round the number ex to n decimal places.  Return either the number, or an intert form. */
 decimalplacesfun(ex, n, dispdps) := block([ex2],
     ex2:ev(float(round(10^n*float(ex))/(10^n)), lg=logbasesimp, simp),
     if dispdps then ex2:displaydp(ex2, n),
     return(ex2)
 )$
 
+/* Evaluates and rounds, but does not display trailing zeros or use inert forms. */
 decimalplaces(ex, n):= block(
-    if n=0 then return(round(ex)), 
+    if ev(not(integerp(n)),simp) then error("decimalplaces cannot create a non-integer number of decimal places. Got:", n),
+    if not(real_numberp(ex)) then return(ex),
+    /* The above is a choice.  We could throw an error instead.
+    if not(real_numberp(ex)) then error("decimalplaces requires a real number argument. Got:", ex),
+    */
+    if n=0 then return(ev(round(ex),simp)),
+    ex:decimalplacesfun(ex, n, false),
     if integerp(ex) then return(ex),
-    decimalplacesfun(ex, n, false)
+    if equal(ex,ev(round(ex),simp)) then return(ev(round(ex),simp)),
+    return(ex)
 )$
 
+/* Evaluates and rounds, and displays trailing zeros useing an inert form. */
 dispdp(ex, n) := block(
     if not(real_numberp(ex)) then error("dispdp requires a real number argument."),
-    if not(integerp(n)) then error("dispdp cannot create a non-integer number of decimal places."),
+    if ev(not(integerp(n)),simp) then error("dispdp cannot create a non-integer number of decimal places."),
     decimalplacesfun(ex, n, true)
 )$
 
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
 sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2, dps],
+  if matrixp(x) then return(apply(matrix,maplist(lambda([ex], sigfigsfun(ex, n, dispsigfigs)), args(x)))),
   if listp(x) then return(maplist(lambda([ex], sigfigsfun(ex, n, dispsigfigs)), x)),
   if not(real_numberp(x)) then error("sigfigsfun(x,n,d) requires a real number, or a list of real numbers, as a first argument.  Received: ", string(x)),
   if not(integerp(n)) then error("sigfigsfun(x,n,d) requires an integer as a second argument. Received: ", string(n)),
@@ -969,7 +989,13 @@ texput(binomial, binomialtex);
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
    04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
    24/02/20.  Using a lambda expression is causing an infinite loop.  Use a named function: algebraic_equivalence_zero.
+   10/04/25.  Change any_listp args to prevent an infinite loop.
+   20/04/25.  Strengthen the numerical test: numerical_not_alg_equiv by checking for numbers.
+   21/04/25.  Add option to "factor" which causes problems. E.g. try factor(%e^(10*k)-%e^(10*x)) in maxima.
 */
+
+algebraic_equivalence_factorp:true;
+algebraic_equivalence_trigexpandp:true;
 
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
@@ -1023,12 +1049,13 @@ algebraic_equivalence(SA, SB) :=
       if rat(ex)=0 then return(true)
       else return (false),
     /* Try not to expand out: factoring, but only if without floats. */
-    if not(anyfloatex(SA-SB)) then
+    if algebraic_equivalence_factorp and not(anyfloatex(SA-SB)) then
        ex:errcatch(ev(factor(SA-SB), simp))
     else
        ex:[ex],
     if ex=[] then error("algebraic_equivalence: factoring the difference of two expressions threw an error."),
     ex:ex[1],
+    if ex=0 then return(true),
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),
@@ -1045,7 +1072,8 @@ algebraic_equivalence(SA, SB) :=
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
-    trigexpand:true,
+    /* Don't always expand out trig expressions. */
+    if algebraic_equivalence_trigexpandp then trigexpand:true else trigexpand:false,
     ex:trigsimp(ex),
     if not(freeof(%i, ex)) then ex:rectform(ex),
     ex:exponentialize(ex),
@@ -1080,10 +1108,12 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if is(pval = []) then (print("STACK: ignore previous error. (2)"), return(false)),
   /* User functions without a function rule cannot be evaluated numerically */
   if recurse_userfunctionp(first(pval)) then return(false),
-  /* If we have no variables, and not a number, then bail here. */
-  if is(emptyp(lv)) and not(numberp(first(pval))) then return(false),
+  /* If not a number, then bail here. */
+  sz:errcatch(ev(float(first(pval)), simp)),
+  if is(sz = []) then (print("STACK: ignore previous error. (3)"), return(false)),
+  if not(floatnump(first(sz))) then return(false),
   pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)),
-  if is(pval = []) then (print("STACK: ignore previous error. (3)"), return(false)),
+  if is(pval = []) then (print("STACK: ignore previous error. (4)"), return(false)),
   if first(pval) then return(true),
   /* Evaluate the difference of the expressions at each variable as floats. */
   lv:zip_with("=", pvars, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(pvars))),
@@ -1092,18 +1122,22 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if recurse_predp(p1, numerical_not_expressionp) or recurse_predp(p2, numerical_not_expressionp) then return(false),
   /* Now we evaluate the difference of the expressions at each variable. */
   p1:errcatch(subst(lv, p1)),
-  if is(p1 = []) then (print("STACK: ignore previous error. (4)"), return(false)),
-  p1:errcatch(ev(float(first(p1)), lg=logbasesimp, numer_pbranch:true, simp)),
   if is(p1 = []) then (print("STACK: ignore previous error. (5)"), return(false)),
+  p1:errcatch(ev(float(first(p1)), lg=logbasesimp, numer_pbranch:true, simp)),
+  if is(p1 = []) then (print("STACK: ignore previous error. (6)"), return(false)),
   p2:errcatch(subst(lv, p2)),
-  if is(p2 = []) then (print("STACK: ignore previous error. (6)"), return(false)),
-  p2:errcatch(ev(float(first(p2)), lg=logbasesimp, numer_pbranch:true, simp)),
   if is(p2 = []) then (print("STACK: ignore previous error. (7)"), return(false)),
+  p2:errcatch(ev(float(first(p2)), lg=logbasesimp, numer_pbranch:true, simp)),
+  if is(p2 = []) then (print("STACK: ignore previous error. (8)"), return(false)),
+  /* Make sure we have a number. */
+  sz:errcatch(ev(float(first(p1)-first(p2)), simp)),
+  if is(sz = []) then (print("STACK: ignore previous error. (9)"), return(false)),
+  if not(floatnump(first(sz))) then return(false),
   /* Make the error here relative, and don't divide by zero. */
-  sz:errcatch(ev(abs(float(first(p1)-first(p2))/max(min(abs(first(p1)),abs(first(p2))),1)), simp)),
-  if is(sz = []) then (print("STACK: ignore previous error. (8)"), return(false)),
+  sz:errcatch(ev(abs(first(sz))/max(min(abs(first(p1)),abs(first(p2))),1), simp)),
+  if is(sz = []) then (print("STACK: ignore previous error. (10)"), return(false)),
   pnum:errcatch(floatnump(first(sz))),
-  if is(pnum = []) then (print("STACK: ignore previous error. (9)"), return(false)),
+  if is(pnum = []) then (print("STACK: ignore previous error. (11)"), return(false)),
   if not(first(pnum)) then return(false),
   if first(sz) > 0.0001 then true else false
 )$
@@ -1309,7 +1343,7 @@ logical_normal(ex):=block(
     ex:subst("and", "nounand", ex),
     ex:subst("or", "nounor", ex),
     ex:subst("not", "nounnot", ex),
-    ex:if not ev(numberp(ex), simp) then logic_simplify(ex) else ex,    
+    ex:if not(ev(numberp(ex), simp) or is(ex=false)) then logic_simplify(ex) else ex,
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
     /* %not is not an infix operator... */
@@ -1422,6 +1456,7 @@ count_op(ex, ops):= block([count],
     if op(ex)=ops then return(1+count),
     return(count)
 )$
+compile(count_op)$
 
 /* Replace +- with an explicit "or" version.
    If +- occurs more than once this is fundamentally ambiguous.
@@ -1581,120 +1616,6 @@ poly_about_a(ex, v, a) := block(
    return((ev(ex, ev(v)=''v-a)))
 )$
 
-/****************************/
-/* Matrix/vector operations */
-/****************************/
-
-
-/* Create an "ephemeral form" for vectors, much like stackunits. */
-texboldatoms(ex) := block(
-  if numberp(ex) then return(ex),
-  if atom(ex) then return(stackvector(ex)),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
-  apply(op(ex), maplist(texboldatoms, args(ex)))
-)$
-
-stackvectortex(ex):= block(
-  sconcat("{\\bf ", tex1(first(args(ex))), "}")
-);
-texput(stackvector, stackvectortex);
-
-/* Remove stackvectors.  Needed for dispvalue. */
-destackvector(ex):= block([argsex],
-  if mapatom(ex) then return(ex),
-  argsex:args(ex),
-  if op(ex) = stackvector then return(destackvector(argsex[1])),
-  if op(ex) = "/" then return(destackvector(argsex[1])/destackvector(argsex[2])),
-  map(destackvector, ex)
-)$
-
-/*
-  Description : forme echelonne par lignes d'une matrice rectangulaire
-    (a  coefficients dans un corps commutatif).
-  Taken from http://www.math.utexas.edu/pipermail/maxima/2007/008246.html
-*/
-
-request_rational_matrix(m, pos, fn) :=
-  if every('identity, map(lambda([s], every('ratnump,s)), args(m))) then true else
-    print("Some entries in the matrix are not rational numbers. The result might be wrong.")$
-
-rowswap(m,i,j) := block([n, p, r],
-    require_matrix(m, "first", "rowswap"),
-    require_integer(i, "second", "rowswap"),
-    require_integer(j, "third", "rowswap"),
-    n : length(m),
-    if (i < 1) or (i > n) or (j < 1) or (j > n)
-       then error("Array index out of bounds"),
-    p : copymatrix(m),
-    r : p[i],
-    p[i] : p[j],
-    p[j] : r,
-    p
-)$
-
-rowadd(m,i,j,k) := block([n,p],
-    require_matrix(m, "first", "rowadd"),
-    require_integer(i, "second", "rowadd"),
-    require_integer(j, "third", "rowadd"),
-    require_rational(k, "fourth", "rowadd"),
-    n : length(m),
-    if (i < 1) or (i > n) or (j < 1) or (j > n)
-        then error("Array index out of bounds"),
-    p : copymatrix(m),
-    p [i] : p[i] + k * p[j],
-    p
-)$
-
-rowmul(m,i,k) := block([n,p],
-    require_matrix(m, "first", "rowmul"),
-    require_integer(i, "second", "rowmul"),
-    require_rational(k, "fourth", "rowmul"),
-    n : length(m),
-    if (i < 1) or (i > n) then error("Array index out of bounds"),
-    p : copymatrix(m),
-    p [i] : k * p[i],
-    p
-)$
-
-
-rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
-  debug : 0,
-  request_rational_matrix(m," ","rref"),
-  nc: length(first(m)),
-  nr: length(m),
-  if nc = 0 or nr = 0 then
-    error ("The argument to 'rref' must be a matrix with one or more rows and columns"),
-  p:copymatrix(m),
-  ci : 1, cj : 1,
-  while (ci<=nr) and (cj<=nc) do
-  (
-    if (debug = 1) then (
-        disp(p),
-        print("curseur en ligne ",ci," et colonne ",cj)),
-    pivot_row : 0, pivot : 0,
-    for k : ci thru nr do (
-       if ( abs(p[k,cj]) > pivot ) then (
-         pivot_row : k,
-         pivot : abs(p[k,cj]))),
-         if (debug = 1) then
-       print("colonne ",cj," : pivot trouve ligne ", pivot_row,", valeur : ",pivot),
-    if (pivot = 0) then (cj : cj +1)
-    else (
-      p : rowswap(p,ci,pivot_row),
-    if (debug = 1) then      print (".. Echange : ",p),
-      p : rowmul(p,ci,1/p[ci,cj]),
-    if (debug = 1) then     print (".. Normalisation : ",p),
-      for k : 1 thru nr do (
-         if not (k=ci) then (p : rowadd(p,k,ci,-p[k,cj]))),
-      ci : ci+1, cj : cj+1)),
-  p
-)$
-
-crossproduct(a,b) := block(
-    if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("cossproduct requires matrices as arguments."),
-    if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("cossproduct requires 3*1 matrices."),
-    transpose(matrix([a[2,1]*b[3,1]-a[3,1]*b[2,1],a[3,1]*b[1,1]-a[1,1]*b[3,1],a[1,1]*b[2,1]-a[2,1]*b[1,1]]))
-)$
 
 /* ********************************** */
 /* Analysis tests                     */

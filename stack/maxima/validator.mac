@@ -20,7 +20,7 @@
 /* List of variables, without some specific tokens in. */
 stack_validate_listofvars(_exunlikelyatom) := block([lvars],
     lvars:ev(setify(listofvars(_exunlikelyatom)), simp),
-    lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
+    lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER, NULLUNITS, NULLNUM}), simp),
     lvars:ev(sort(listify(lvars)), simp)
 )$
 

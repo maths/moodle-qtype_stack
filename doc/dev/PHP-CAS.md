@@ -6,7 +6,7 @@ This document describes the design of the PHP interface to the CAS.  This interf
 
 ## CAS text
 
-CAS text is literally "computer algebra active text".  This is documented [here](../Authoring/CASText.md).  Note, that when constructing CAS text it must be able to take a CAS session as an argument to the constructor.  In this way we can use lists of variables, such as [question variables](../Authoring/Variables.md) to provide values.
+CAS text is literally "computer algebra active text".  This is documented in [/Authoring/CASText](../Authoring/CASText.md).  Note, that when constructing CAS text it must be able to take a CAS session as an argument to the constructor.  In this way we can use lists of variables, such as [question variables](../Authoring/Variables.md) to provide values.
 
 E.g. we might have :
 
@@ -24,7 +24,7 @@ This class actually calls the CAS itself.  The basic ideas is to take a list of 
 
     key:rawvalue
 
-and executes this list in a single Maxima session.  The results of this are then captures and fed back into the CAS strings so we essentially have data in the form:
+and executes this list in a single Maxima session.  The results of this are then captured and fed back into the CAS strings so we essentially have data in the form:
 
     key =>
         value
@@ -93,9 +93,45 @@ which gives a different internal structure
 
 which might best be thought of as `22/7+-(%pi)` where `-` is now a function of a single argument.
 
-In this example, the unsimplified `MQUOTIENT` and simplified `RAT SIMP` are not particularly problematic.  However, the difference between `-%pi` and `-1*%pi` is seriouly problematic.  Indeed, this kind of distinction is exactly what some
+In this example, the unsimplified `MQUOTIENT` and simplified `RAT SIMP` are not particularly problematic.  However, the difference between `-%pi` and `-1*%pi` is seriously problematic.  Indeed, this kind of distinction is exactly what some
 answer tests, e.g. `EqualComAss` and `CasEqual`, are designed to establish.  These tests will not work with a mix of simplified and unsimplified expressions, even if to the user they look completely identical!
 
 The solution to this problem is to "rinse" away any maxima internal simplification by using the Maxima `string` function to return the expression to the top level which a user would expect to type.  This process corresponds to what happend in older versions of Maxima in which expressions were routinely passed between Maxima and PHP, with the string representation being used.
 
 Some expressions (lists, matrices) are passed by reference in Maxima, so even if the teacher's answer is created without simplification in the first instance, when it is evaluated by the answer tests there is a risk of it becoming simplified when it is later compared by an answer test function.
+
+## Wrinkles: `ordlerless` and `ordergreat`
+
+The Maxima functions `ordlerless` and `ordergreat` can only be executed once.  In a Maxima desktop session try
+
+    orderless(a,b);
+    orderless(x,y);
+
+This will result in a Maxima error "orderless: reordering is not allowed.".
+
+These functions only take effect outside the current block.  Try executing the following two calls in a clean Maxima desktop session.
+
+````
+block(
+  ordergreat(a,b),
+  expand((a+b)^2)
+);
+
+expand((a+b)^2);
+````
+
+Notice that the requested ordering (`a` before `b`) is implemented once the first block is completed, only in the second command.  You might expect _both_ commands to respect the requested ordering.
+
+This is a problem in STACK.  STACK creates a block to manage execution of commands, including evaluation of the question variables, construction of castext and execution of PRTs.  Any call to these functions will therefore be inside a block containing all the other commands.
+
+STACK makes an exception for `ordlerless` and `ordergreat`.  However, the work-around means STACK only supports single and simple uses.  You must give an explicit call to these functions.  You cannot create a list of variables, and then apply `ordlerless` and `ordergreat`.  By design expressions like
+
+    apply(ordergreat, random_permuation([a,b,c]));
+
+will not work in STACK (but similar constructs will work in the desktop).
+
+See these issue
+
+* https://github.com/maths/moodle-qtype_stack/issues/1384
+* https://github.com/maths/moodle-qtype_stack/issues/1241
+* https://github.com/maths/moodle-qtype_stack/issues/1207

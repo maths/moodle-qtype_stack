@@ -288,12 +288,21 @@ class stack_varmatrix_input extends stack_input {
                         $modifiedrow[] = 'EMPTYCHAR';
                     }
                     $valid = $valid && $answer->get_valid();
-                    $errors[] = $answer->get_errors();
                     $note = $answer->get_answernote(true);
                     if ($note) {
                         foreach ($note as $n) {
                             $notes[$n] = true;
                         }
+                    }
+                    // For varmatrix with '.', use of comma needs specific feedback.
+                    if ($localoptions->get_option('decimals') === '.' &&
+                            array_key_exists('unencapsulated_comma', array_flip($note))) {
+                        $errors[] = stack_string('stackCas_unencpsulated_varmatrix');
+                        $errors[] = stack_string('stackCas_varmatrix_eg',
+                            ['bad' => stack_maxima_format_casstring($val),
+                             'good' => stack_maxima_format_casstring(str_replace(',', ' ', $val))]);
+                    } else {
+                        $errors[] = $answer->get_errors();
                     }
                 }
                 $modifiedcontents[] = $modifiedrow;
@@ -325,6 +334,7 @@ class stack_varmatrix_input extends stack_input {
             [], 'Root', '.');
         $inertform->get_valid();
 
+        $errors = array_unique($errors);
         $caslines = [];
         return [$valid, $errors, $notes, $answer, $caslines, $inertform, $caslines];
     }
@@ -447,16 +457,4 @@ class stack_varmatrix_input extends stack_input {
         }
         return $valid;
     }
-
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution($tavalue) {
-        // We clear the name, and then restore its original value,
-        // to not include the prefix in the api solution.
-        $name = $this->name;
-        $this->name = '';
-        $sol = $this->maxima_to_response_array($tavalue);
-        $this->name = $name;
-        return $sol;
-    }
-
 }

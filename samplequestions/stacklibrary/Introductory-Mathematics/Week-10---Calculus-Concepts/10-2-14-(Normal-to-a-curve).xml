@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.2.14 (Normal to a curve)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Normal to a curve</h3>
+
+<p>We have briefly met the notion of a normal before. Recall that a <b>normal</b> to a curve is a line which is perpendicular to the tangent at the point of contact. We use the fact that the gradients of perpendicular lines are negative reciprocals of each other to find the equation of a normal from the equation of the tangent we have seen above.</p>
+<br>
+<p>The gradient of the normal to a curve \(f(x)\) is given by \(-\frac{1}{f'(a)}\). Therefore the equation of a normal to the curve at \(x=a\) is 
+\[
+y = -\frac{1}{f(a)}(x-a) +f(a).
+\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

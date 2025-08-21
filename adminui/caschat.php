@@ -65,6 +65,11 @@ if (!$questionid) {
 
     // Check permissions.
     question_require_capability_on($questiondata, 'edit');
+    $editparams = $urlparams;
+    unset($editparams['questionid']);
+    unset($editparams['seed']);
+    $editparams['id'] = $question->id;
+    $questionediturl = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 }
 
 $PAGE->set_url('/question/type/stack/adminui/caschat.php', $urlparams);
@@ -197,7 +202,8 @@ echo $OUTPUT->heading($title);
 if ($questionid) {
 
     $qtype = new qtype_stack();
-    $qtestlink = html_writer::link($qtype->get_question_test_url($question), stack_string('runquestiontests'),
+    $qtestlink = html_writer::link($qtype->get_question_test_url($question),
+        '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests'),
         ['class' => 'nav-link']);
     echo html_writer::tag('nav', $qtestlink, ['class' => 'nav']);
 
@@ -244,10 +250,15 @@ $fout .= html_writer::tag('p', html_writer::tag('textarea', $string,
             ['cols' => 100, 'rows' => $stringlen, 'name' => 'cas']));
 $fout .= html_writer::start_tag('p');
 $fout .= html_writer::empty_tag('input',
-            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat')]);
+            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat'), 'formaction' => $PAGE->url]);
 if ($questionid && !$varerrs) {
     $fout .= html_writer::empty_tag('input',
-        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat')]);
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat'), 'formaction' => $PAGE->url]);
+}
+if ($questionid && !$varerrs) {
+    $fout .= html_writer::empty_tag('input',
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechatnew'),
+        'formaction' => $questionediturl, 'title' => stack_string('savechatexp')]);
 }
 $fout .= html_writer::end_tag('p');
 
@@ -255,7 +266,7 @@ $fout .= html_writer::start_tag('p') . stack_string('pslash');
 $fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash']);
 $fout .= html_writer::end_tag('p');
 
-echo html_writer::tag('form', $fout, ['action' => $PAGE->url, 'method' => 'post']);
+echo html_writer::tag('form', $fout, ['method' => 'post']);
 
 if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);

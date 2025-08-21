@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.0.17 (Which are increasing?)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="noindent">Which of the following sequences are increasing?</p>  
+ [[input:ans1]] [[validation:ans1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p class="noindent">To see if the sequence is increasing, check whether \(u_{n+1}&gt;u_n\) for every \(n\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>corbase:[u_n=n^2+n,u_n=n!,u_n=e^n,u_n=2+sqrt(n)];
+wrongbase:[u_n=e^(-n),u_n=1/n,u_n=sin(n),u_n=(-1)^n,u_n=1];
+mcq:multiselqnalpha(corbase, 2, wrongbase, 2);
+ta1:mcq[1];
+version:mcq[2];
+corr1:mcq_correct(ta1);
+incorr1:mcq_incorrect(ta1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{#version#}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>checkbox</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(corr1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.1</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>367103965</deployedseed>
+    <deployedseed>154638018</deployedseed>
+    <deployedseed>980374139</deployedseed>
+    <deployedseed>969904457</deployedseed>
+    <deployedseed>222831705</deployedseed>
+    <deployedseed>1102109914</deployedseed>
+    <deployedseed>1433047072</deployedseed>
+    <deployedseed>2043309384</deployedseed>
+    <deployedseed>7216315</deployedseed>
+    <deployedseed>1051914454</deployedseed>
+    <deployedseed>908743390</deployedseed>
+    <deployedseed>391679417</deployedseed>
+    <deployedseed>1383017676</deployedseed>
+    <deployedseed>126032196</deployedseed>
+    <deployedseed>2017954919</deployedseed>
+    <deployedseed>934010100</deployedseed>
+    <deployedseed>648804928</deployedseed>
+    <deployedseed>1470724444</deployedseed>
+    <deployedseed>1540665422</deployedseed>
+    <deployedseed>596094362</deployedseed>
+    <deployedseed>282047746</deployedseed>
+    <deployedseed>118967361</deployedseed>
+    <deployedseed>55749644</deployedseed>
+    <deployedseed>520178570</deployedseed>
+    <deployedseed>472143136</deployedseed>
+    <deployedseed>1635353997</deployedseed>
+    <deployedseed>2137890940</deployedseed>
+    <deployedseed>818802877</deployedseed>
+    <deployedseed>159569396</deployedseed>
+    <deployedseed>1607258253</deployedseed>
+    <deployedseed>954850662</deployedseed>
+    <deployedseed>330706445</deployedseed>
+    <deployedseed>98376173</deployedseed>
+    <deployedseed>1044409991</deployedseed>
+    <deployedseed>825510120</deployedseed>
+    <deployedseed>390756202</deployedseed>
+    <deployedseed>906589957</deployedseed>
+    <deployedseed>1010495471</deployedseed>
+    <deployedseed>685796254</deployedseed>
+    <deployedseed>99415109</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>incorr1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sort([incorr1[1],corr1[1]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[corr1[1]]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

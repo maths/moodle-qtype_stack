@@ -37,7 +37,7 @@ In this way, the teacher can record, within the question itself, how they expect
 3. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
 4. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.
    * Currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
-   * Scores and penalties are rounded to three decimal places for testing purposes.
+   * Scores and penalties must be floats (not, e.g. 2/3) and are rounded to three decimal places for testing purposes.
 5. Once you have added the test case, STACK will automatically validate and submit these responses and display the outcomes.
 6. You may add as many test cases are you need.  It is sensible to add in the following.
     1. The correct response.  There is a button which will copy the expression used as the "Teacher's answer" in the input as a basis for a test case to help create this test.
@@ -46,9 +46,9 @@ In this way, the teacher can record, within the question itself, how they expect
     4. Add a totally incorrect answer.
 7. If you leave the penalty field blank it will assume you mean the default penalty for the question.
 
-If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used.
+Normally test cases are constructed taking into account values of the question variables, so test-case contruction can reflect any random variants.  If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used as part of constructing the input for this test case.  However, the potential response tree _will_ have access to the question variables later.  For example, if `n:42` in the question variables then typically student's who input `n` will get a validation error.  `RAW:n` allows you to create a test case, which will be displayed as `n` but later the PRTs will pick up the question variables.  This feature is intended to test _invalid_ input rather than evaluation of test cases contructed from the random variables.  We can't have it both ways!
 
-If you start your test case with the tag `CT:` (case sensitive) then the remainder of your input will be evaluated as a castext string.  E.g. if your test case is  `CT:{#a#}{#v#}` then the castext `{#a#}{#v#}` will be evaluated, and the values of variables `a` and `v` placed next to each other to create an input string. This feature can be used to test input settings, such as insert stars, is working leading to a "score" state rather than an invalid state.
+If you start your test case with the tag `CT:` (case sensitive) then the remainder of your input will be evaluated as a castext string.  E.g. if your test case is  `CT:{#a#}{#v#}` then the castext `{#a#}{#v#}` will be evaluated, and the values of variables `a` and `v` placed next to each other to create an input string. This feature can be used to test input settings, such as insert stars, is working leading to a "score" state rather than an invalid state.  Please do not use `CT:{@a@}` which will generate LaTeX output!  For test-case construction we need to create Maxima syntax, not LaTeX.
 
 On the question testing page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
 

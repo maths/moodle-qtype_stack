@@ -55,10 +55,6 @@ abstract class stack_connection_helper {
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
 
         switch (self::$config->platform) {
-            case 'win':
-                require_once(__DIR__ . '/connector.windows.class.php');
-                $connection = new stack_cas_connection_windows(self::$config, $debuglog);
-                break;
             case 'linux':
             case 'linux-optimised':
                 require_once(__DIR__ . '/connector.linux.class.php');
@@ -216,8 +212,7 @@ abstract class stack_connection_helper {
      * @param stack_debug_log $debug log to write debug information to.
      */
     public static function warn_about_version_mismatch($debug) {
-        $warning = "WARNING: the version of the STACK-Maxima libraries used do not match the expected version. " .
-                "Please visit the STACK heathcheck page to resolve the problems.";
+        $warning = stack_string('healthchecksstackmaximawarning');
         $debug->log($warning);
         debugging($warning);
     }

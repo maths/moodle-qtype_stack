@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Compute QR factorisation of 3×2 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find a \(QR\)-factorisation for the following matrix: \[ A = {@AA@} \]</p>
+<ul>
+<li>
+<div>\(Q = \) [[input:stu_Q]] [[validation:stu_Q]]</div>
+</li>
+<li>
+<div>\(R = \) [[input:stu_R]] [[validation:stu_R]]</div>
+</li>
+</ul>
+<p>[[feedback:prt_QR]] <br>[[hint title="How might I check my answers?"]]</p>
+<p>Your \(Q\) should have orthonormal columns (check that \(Q^TQ = I\)), your \(R\) should be upper triangular, and \(QR\) should equal \(A\).</p>
+<p>[[/hint]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.5</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_linear_algebra_declare(true);
+stack_include_contrib("matrix.mac")
+stack_include_contrib("rand_matrix.mac");
+
+AA: rand_matrix_list(3,2,[-2,-1,1,2]);
+AA[rand([1,2,3]),rand([1,2])]: 0;
+a1: col(AA,1);
+a2: col(AA,2);
+
+sol_R: matrix([0,0],[0,0]);
+sol_R[1,1]: sqrt(a1.a1);
+q1: radcan(a1/sol_R[1,1]);
+sol_R[1,2]: radcan(a2.q1);
+v2: a2 - sol_R[1,2]*q1;
+sol_R[2,2]: radcan(sqrt(v2.v2));
+q2: radcan(v2/sol_R[2,2]);
+sol_Q: addcol(q1,q2);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@sol_Q@}{@sol_R@} = {@AA@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>stu_Q</name>
+      <type>varmatrix</type>
+      <tans>sol_Q</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>stu_R</name>
+      <type>varmatrix</type>
+      <tans>sol_R</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_QR</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>triup(stu_R)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_QR-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(R\) is upper triangular, good job!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>1</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt_QR-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(R\) is not upper triangular.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>orthonormal_columnsp(stu_Q)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt_QR-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) has orthonormal columns, good job!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>1</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt_QR-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) does not have orthonormal columns.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>stu_Q . stu_R</sans>
+        <tans>AA</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_QR-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(R\) multiply to \(A\). Good job! </p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_QR-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \(Q\) and \(R\) do not multiply to \(A\). </p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1838945606</deployedseed>
+    <deployedseed>2033404387</deployedseed>
+    <deployedseed>94922625</deployedseed>
+    <deployedseed>1759089518</deployedseed>
+    <deployedseed>1758846786</deployedseed>
+    <deployedseed>182798407</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>stu_Q</name>
+        <value>sol_Q</value>
+      </testinput>
+      <testinput>
+        <name>stu_R</name>
+        <value>sol_R</value>
+      </testinput>
+      <expected>
+        <name>prt_QR</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_QR-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>stu_Q</name>
+        <value>AA</value>
+      </testinput>
+      <testinput>
+        <name>stu_R</name>
+        <value>ident(2)</value>
+      </testinput>
+      <expected>
+        <name>prt_QR</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_QR-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

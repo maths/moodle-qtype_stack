@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.4.1 (Application of exponentials intro)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>During the material this week we have introduced exponential and logarithmic functions. We have seen how these functions are related to each other and how we can plot such functions. We have also examined how we can model natural growth and decay by using exponential functions. We can extract information from such functions by solving them using logarithms and in this section we will go through some examples of where such calculations are used in real life. We will see how certain financial models involve exponential growth or decay and we will examine how logarithms are used to understand large numbers and why these techniques are so important.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

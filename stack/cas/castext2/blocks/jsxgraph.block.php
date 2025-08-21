@@ -45,6 +45,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
             'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
         ],
+        'cdn-1.11.1' => [
+            'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.11.1/jsxgraph.min.css',
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.11.1/jsxgraphcore.min.js',
+        ],
         'cdn-1.10.1' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraph.min.css',
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.10.1/jsxgraphcore.min.js',
@@ -108,6 +112,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         }
         if (isset($this->params['overridejs'])) {
             $js = $this->params['overridejs'];
+        }
+
+        if (isset($this->params['style'])) {
+            $css = 'cors://jsxgraphstyles/' . $this->params['style'] . '.css';
         }
 
         $r->items[] = new MP_String(json_encode($xpars));
@@ -232,6 +240,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         &$errors = [],
         $options = []
     ): bool {
+        global $CFG;
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;
@@ -307,6 +316,20 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_jsxgraph_unknown_named_version');
         }
 
+        if (array_key_exists('style', $this->params)) {
+            $stylename = $this->params['style'];
+            if (strpos($stylename, '..') !== false
+                    || strpos($stylename, '/') !== false
+                    || strpos($stylename, '\\') !== false) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
+            } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/jsxgraphstyles/' .
+                    $stylename . '.css')) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
+            }
+        }
+
         $valids = null;
         foreach ($this->params as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
@@ -316,7 +339,8 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                         ['var' => $varname]);
                 }
             } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss') {
+                    $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss' &&
+                    $key !== 'style') {
                 $err[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
                 if ($valids === null) {
@@ -344,5 +368,14 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         }
 
         return $valid;
+    }
+
+    /**
+     * Is this an interactive block?
+     * If true, we can't generate a static version.
+     * @return bool
+     */
+    public function is_interactive(): bool {
+        return true;
     }
 }

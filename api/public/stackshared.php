@@ -53,7 +53,7 @@ require_login();
     function processNodes(res, nodes) {
         for (let i = 0; i < nodes.length; i++) {
             const element = nodes[i];
-            if (element.name.indexOf(inputPrefix) === 0 && element.name.indexOf('_val') === -1) {
+            if (element.name.indexOf(inputPrefix) === 0 && !element.name.endsWith('_val')) {
                 if (element.type === 'checkbox' || element.type === 'radio') {
                     if (element.checked) {
                         res[element.name.slice(inputPrefix.length)] = element.value;
@@ -61,6 +61,9 @@ require_login();
                 } else {
                     res[element.name.slice(inputPrefix.length)] = element.value;
                 }
+            }
+            if (element.name.endsWith('_val')) {
+                res[element.name] = element.value;
             }
         }
         return res;
@@ -89,7 +92,10 @@ require_login();
                     const inputs = json.questioninputs;
                     let correctAnswers = '';
                     // Show correct answers.
-                    for (const [name, input] of Object.entries(inputs)) {
+                    const placeholders = question.matchAll(/\[\[input:([a-zA-Z][a-zA-Z0-9_]*)\]\]/g);
+                    for (const holder of placeholders) {
+                        const name = holder[1];
+                        const input = inputs[name];
                         question = question.replace(`[[input:${name}]]`, input.render);
                         question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
                         if (input.samplesolutionrender && name !== 'remember') {
@@ -105,7 +111,7 @@ require_login();
                                 correctAnswers += `, <?php echo stack_string('api_which_typed') ?>: `;
                                 for (const [name, solution] of Object.entries(input.samplesolution)) {
                                     if (name.indexOf('_val') === -1) {
-                                        correctAnswers += `<span class='correct-answer'>${solution}</span>`;
+                                        correctAnswers += `<span class='correct-answer'>${solution.replace(/\n/g, '<br>')}</span>`;
                                     }
                                 }
                             }
@@ -117,6 +123,16 @@ require_login();
                                     correctAnswers += `<p class='correct-answer'>${input.configuration.options[solution]}</p>`;
                                 }
                             }
+                        }
+                    }
+                    const elementsRequiringInputs = document.getElementsByClassName('noninfo');
+                    if (Object.keys(inputs).length) {
+                        for (let el of elementsRequiringInputs) {
+                            el.style.display = 'inline-block';
+                        }
+                    } else {
+                        for (let el of elementsRequiringInputs) {
+                            el.style.display = 'none';
                         }
                     }
                     // Convert Moodle plot filenames to API filenames.
@@ -183,7 +199,9 @@ require_login();
                 }
             }
         };
-        http.send(JSON.stringify(collectData()));
+        const data = collectData();
+        delete data.answers;
+        http.send(JSON.stringify(data));
     }
 
     // Validate an input. Called a set amount of time after an input is last updated.
@@ -350,7 +368,7 @@ require_login();
     // Replace feedback tags in some text with an approproately named HTML div.
     function replaceFeedbackTags(text) {
         let result = text;
-        const feedbackTags = text.match(/\[\[feedback:.*\]\]/g);
+        const feedbackTags = text.match(/\[\[feedback:.*?\]\]/g);
         if (feedbackTags) {
             for (const tag of feedbackTags) {
                 // Part name is between '[[feedback:' and ']]'.
@@ -404,6 +422,7 @@ require_login();
         const data = collectData();
         data.filename = filename;
         data.fileid = fileid;
+        delete data.answers;
         http.send(JSON.stringify(data));
       }
 </script>

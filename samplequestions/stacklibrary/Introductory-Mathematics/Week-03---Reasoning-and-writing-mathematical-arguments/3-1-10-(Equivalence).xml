@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.1.10 (Equivalence)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Equivalence</h3>
+
+<p>Equivalence is perhaps the most important connective we have met so far. Much of mathematics is to establish the equivalence of seemingly disparate statements. In general we say that two statements \(A\) and \(B\) are <b>equivalent</b> if both \(A \implies B\) and \(B \implies A\). In this case, if we have a statement of the form \(A \implies B\) then the statement \(B \implies A\) is called the <b>converse</b> of the statement. We denote logical equivalence by the notion "if and only if" using the symbol \(\iff\), furthermore, this is often shortened to 'iff'. The statement \(A \iff B\) means that if one of \(A\) or \(B\) is true, then so is the other.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Decide if the following statements are equivalent:</p>
+<ol type="A">
+<li>\(x\) is an even integer.</li>
+<li>\(x\) can be written in the form \(2k\) for some \(k \in \mathbb{Z}\).</li>
+</ol>
+
+<h3>Solution</h3>
+
+<p>These statements are equivalent because by definition an even number is a number \(x\) such that we can write \(n\) in the form \(x = 2k\). Therefore \(A \implies B\). Similarly, if \(x = 2k\), then by definition \(x\) is even.</p>
+<br/>
+<p>Note that many mathematical theorems are of the form "show that statements \(A\) and \(B\) are equivalent." In other words "show that \(A \iff B\)". For proofs of this sort, in order to establish the equivalence, we have to show that \(A \implies B\) as well as the converse, \(B \implies A\). Therefore "if and only if" proofs always have two parts, the forward direction and the backwards direction.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

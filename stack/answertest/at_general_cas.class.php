@@ -57,8 +57,8 @@ class stack_answertest_general_cas extends stack_anstest {
     public function do_test() {
 
         if ('' == trim($this->sanskey->ast_to_string())) {
-            $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptySA")]);
-            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptySA")]);
+            $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptySA')]);
+            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptySA')]);
             $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty SA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -66,8 +66,8 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         if ('' == trim($this->tanskey->ast_to_string())) {
-            $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptyTA")]);
-            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptyTA")]);
+            $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptyTA')]);
+            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptyTA')]);
             $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty TA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -77,7 +77,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
             if (null == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_MissingOptions")]);
+                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string('AT_MissingOptions')]);
                 $this->atansnote    = 'STACKERROR_OPTION.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -94,7 +94,7 @@ class stack_answertest_general_cas extends stack_anstest {
             }
             if ('' == $this->atoption->ast_to_string()) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_MissingOptions")]);
+                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string('AT_MissingOptions')]);
                 $this->atansnote    = 'STACKERROR_OPTION.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;

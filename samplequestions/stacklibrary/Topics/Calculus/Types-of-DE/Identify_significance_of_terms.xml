@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="matching">
+    <name>
+      <text>Identify significance of terms</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The following differential equation models the behaviour of a damped-driven oscillator, where \(x\) is position and \(t\) is time.  <br />\[ \frac{\mathrm{d}^2 x}{\mathrm{d} t^2} + k \frac{\mathrm{d} x}{\mathrm{d} t} +\omega^2 x = p(t). \]<br />What is the physical significance of each term?</p><p> </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html">
+      <text><![CDATA[<p>Your answer is correct.</p>]]></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text><![CDATA[<p>Your answer is incorrect.</p>]]></text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(\frac{\mathrm{d}^2 x}{\mathrm{d} t^2} \)</p>]]></text>
+      <answer>
+        <text>Accelleration</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(k \frac{\mathrm{d} x}{\mathrm{d} t}\)</p>]]></text>
+      <answer>
+        <text>Friction/damping</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(\omega^2 x\) </p>]]></text>
+      <answer>
+        <text>Force</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(p(t)\)</p>]]></text>
+      <answer>
+        <text>External forcing</text>
+      </answer>
+    </subquestion>
+  </question>
+</quiz>

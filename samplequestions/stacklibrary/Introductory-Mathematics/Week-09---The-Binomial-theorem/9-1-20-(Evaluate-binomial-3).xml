@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.1.20 (Evaluate binomial 3)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Evaluate \(\displaystyle\binom{{@n@}}{{@ev(n-k,simp)@}}\) without using a calculator.<br></p><p>Note: you can enter your answer as a product of integers if you wish, e.g. <code>12*11</code> rather than <code>132</code></p><p>[[input:ans1]][[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\(\displaystyle&nbsp;\binom{{@n@}}{{@ev(n-k,simp)@}}&nbsp;= \frac{{@n@}!}{{@ev(n-k,simp)@}!{@k@}!} = \frac{{@prod2@}}{{@k@}!} = {@ta1@} \)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[n:rand_range(80,99);
+k:1+rand(10);
+kfac:k!;
+ta1:binomial(n,n-k);
+terms2:makelist(n-i,i,0,k-1);
+prod2:(simp:false,apply("*",terms2));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]<br></p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\displaystyle\binom{{@n@}}{{@ev(n-k,simp)@}}={@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>cross</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>!,binomial</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1122648666</deployedseed>
+    <deployedseed>1453771324</deployedseed>
+    <deployedseed>1384111763</deployedseed>
+    <deployedseed>629512911</deployedseed>
+    <deployedseed>1276819761</deployedseed>
+    <deployedseed>1647821531</deployedseed>
+    <deployedseed>1688692320</deployedseed>
+    <deployedseed>934455963</deployedseed>
+    <deployedseed>1368750950</deployedseed>
+    <deployedseed>437635627</deployedseed>
+    <deployedseed>2067476730</deployedseed>
+    <deployedseed>1968357411</deployedseed>
+    <deployedseed>1751497463</deployedseed>
+    <deployedseed>1285650030</deployedseed>
+    <deployedseed>1429407349</deployedseed>
+    <deployedseed>1709995569</deployedseed>
+    <deployedseed>534809052</deployedseed>
+    <deployedseed>469232997</deployedseed>
+    <deployedseed>485849067</deployedseed>
+    <deployedseed>996187235</deployedseed>
+    <deployedseed>1399976660</deployedseed>
+    <deployedseed>71472329</deployedseed>
+    <deployedseed>1215721960</deployedseed>
+    <deployedseed>1486767153</deployedseed>
+    <deployedseed>204073675</deployedseed>
+    <deployedseed>1087518747</deployedseed>
+    <deployedseed>769341206</deployedseed>
+    <deployedseed>1295452969</deployedseed>
+    <deployedseed>1765190008</deployedseed>
+    <deployedseed>839869376</deployedseed>
+    <deployedseed>367024400</deployedseed>
+    <deployedseed>2001668545</deployedseed>
+    <deployedseed>492186342</deployedseed>
+    <deployedseed>1880004086</deployedseed>
+    <deployedseed>1126657039</deployedseed>
+    <deployedseed>620117535</deployedseed>
+    <deployedseed>1528325237</deployedseed>
+    <deployedseed>1088846871</deployedseed>
+    <deployedseed>958338455</deployedseed>
+    <deployedseed>795831665</deployedseed>
+    <deployedseed>969784117</deployedseed>
+    <deployedseed>1465520228</deployedseed>
+    <deployedseed>1838830635</deployedseed>
+    <deployedseed>675105451</deployedseed>
+    <deployedseed>1551956142</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>prod2/kfac</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.2.12 (Examples of negative power binomial)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Examples</h3>
+
+<p>Find the first three terms in the expansions of the following.</p>
+
+<ol type="a">
+<li>\(\frac{2}{(1-3x)}\) for \(|x| < \frac{1}{3}\).</li>
+<li>\((2 + 3x)^{-\frac{2}{3}}\) for \(|x| < \frac{2}{3}\).</li>
+</ol>
+
+<h3>Solutions</h3>
+
+<ol type="a">
+<li>Here we write \(\frac{2}{(1-3x)} = 2(1-3x)^{-1}\). Then using the expansion formulas above we have 
+\[
+\begin{align*}
+2(1-3x)^{-1} &= 2 \left( 1 + 3x + \frac{-1(-1-1)}{2!} (-3x^2) + \frac{-1(-1-1)(-1-2)}{3!} (-3x^3)\right)
+\\
+&= 2 \left( 1 + 3x + 9x^2 + 27x^3 \right)
+\\
+&= 2 + 6x + 18x^2 + 54x^3.
+\end{align*}
+\]</li>
+<li>Here, we can write \((2 + 3x)^{-\frac{2}{3}} = 2^{-\frac{2}{3}}(1 + \frac{3x}{2})\). Thus we can use the formulas above with \(n = -\frac{2}{3}\) and we use \(\frac{3}{2} x\) in place of \(x\). So we can expand the binomial as follows:
+\[
+\begin{align*}
+2^{-\frac{2}{3}}(1 + \frac{3x}{2}) &= 2^{-\frac{2}{3}} \left(1 + (-x) + \frac{\frac{2}{3}(-\frac{2}{3}-1)}{2!} (\frac{3x}{2})^2 + \frac{\frac{-2}{3}(\frac{-2}{3}-1)(\frac{-2}{3}-2)}{3!} (\frac{3x}{2})^3 \right)
+\\
+&= 2^{-\frac{2}{3}} \left( 1 - x + \frac{5}{4} x^2 - \frac{5}{3}x^3 \right)
+\\
+&= 2^{-\frac{2}{3}} - 2^{-\frac{2}{3}}x + \frac{5 \cdot 2^{-\frac{2}{3}}}{4}x^2 - \frac{5 \cdot 2^{-\frac{2}{3}}}{3}x^3.
+\end{align*}
+\]
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -490,7 +490,7 @@ abstract class stack_input {
     }
 
     /**
-     * Add description here
+     * Returns whether a parameter is used in this input type.
      * @param string $param a settings parameter name.
      * @return bool whether this input type uses this parameter.
      */
@@ -994,6 +994,10 @@ abstract class stack_input {
         // Then ban the rest.
         $filterstoapply[] = '505_no_evaluation_groups';
 
+        if (get_class($this) === 'stack_parsons_input') {
+            $filterstoapply[] = '909_parsons_get_final_submission';
+        }
+
         // Remove scripts and other related things from string-values.
         $filterstoapply[] = '997_string_security';
 
@@ -1052,10 +1056,14 @@ abstract class stack_input {
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
-        $errors = $this->extra_validation($contents);
-        $valid = !$errors;
-        $caslines = [];
         $errors = [];
+        $valid = true;
+        $vec = $this->extra_validation($contents);
+        if ($vec !== '') {
+            $valid = false;
+            $errors[] = $vec;
+        }
+        $caslines = [];
         $notes = [];
         $ilines = [];
 
@@ -1077,7 +1085,6 @@ abstract class stack_input {
                 $notes['too_long'] = true;
                 $val = '';
             }
-
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                 [], 'Root', $this->options->get_option('decimals'));
 
@@ -1205,11 +1212,11 @@ abstract class stack_input {
                     $additionalvars['statement-qv'] = new stack_secure_loader($questionvariables['statement-qv'], 'statement');
                 }
             }
-            if ($this->extraoptions['validator']) {
+            if ((array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator'])) {
                 $additionalvars['validator'] = stack_ast_container::make_from_teacher_source(
                     $this->extraoptions['validator'].'('.$this->name.')', '', new stack_cas_security(), []);
             }
-            if ($this->extraoptions['feedback']) {
+            if ((array_key_exists('feedback', $this->extraoptions) && $this->extraoptions['feedback'])) {
                 $additionalvars['feedback'] = stack_ast_container::make_from_teacher_source(
                     $this->extraoptions['feedback'].'('.$this->name.')', '', new stack_cas_security(), []);
             }
@@ -1415,7 +1422,9 @@ abstract class stack_input {
      * @param string student's current answer to insert into the xhtml.
      * @param string $fieldname the field name to use in the HTML for this input.
      * @param bool $readonly whether the control should be displayed read-only.
-     * @param array $tavalue the value of the teacher's answer for this input.
+     * ISS1436 - As far as I can tell, only equiv input is using $tavalue
+     * and that's expecting a string not an array.
+     * @param string $tavalue the value of the teacher's answer for this input.
      * @return string HTML for this input.
      */
     abstract public function render(stack_input_state $state, $fieldname, $readonly, $tavalue);

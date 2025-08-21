@@ -63,7 +63,7 @@
 
 <div class="qtype_stack_question_library">
   <h3>{{#str}} stack_library, qtype_stack {{/str}}</h3>
-  <p><a href="{{returnlink}}">{{#pix}} i/arrow-left, core {{/pix}}{{returntext}}</a></p>
+  <p><a href="{{{returnlink}}}">{{#pix}} i/arrow-left, core {{/pix}}{{returntext}}</a></p>
   <div class="row">
     <div class="col-lg-6">
       <div class="que stack stack_library_display">
@@ -80,6 +80,9 @@
             </li>
             <li>
               {{#str}} stack_library_instructions_four, qtype_stack {{/str}}
+            </li>
+            <li>
+              {{#str}} stack_library_instructions_five, qtype_stack {{/str}}
             </li>
           </ul>
         </div>
@@ -159,10 +162,10 @@
         <b>{{#str}} stack_library_importlist, qtype_stack {{/str}}</b>
       </div>
       <div id="dashboard-link-holder" hidden>
-        {{dashboardlink}}
+        {{{dashboardlink}}}
       </div>
       <div id="quiz-link-holder" hidden>
-        {{quizlink}}
+        {{{quizlink}}}
       </div>
     </div>
   </div>

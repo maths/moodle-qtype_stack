@@ -36,10 +36,10 @@ function current_language() {
 function get_string($identifier, $component, $a = null) {
     $userlanguage = current_language();
 
+    static $string = [];
     switch ($userlanguage)
     {
         case 'de':
-            static $string = [];
             if (empty($string)) {
                 // Load en values as defaults.
                 include(__DIR__ .'/../../lang/en/qtype_stack.php');
@@ -47,7 +47,6 @@ function get_string($identifier, $component, $a = null) {
             }
             break;
         default:
-            static $string = [];
             if (empty($string)) {
                 include(__DIR__ .'/../../lang/en/qtype_stack.php');
             }

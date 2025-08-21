@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>4.2.15 (Simplify natural logs)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><span>Fully simplify the expression \( {@p@} \) by writing it as a single logarithm in simplest form.</span></p>
+<p>[[input:ans1]]&nbsp;[[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To express \( {@p@} \) as a single logarithm we need to use the laws of logarithms: \[\log(a) + \log(b) = \log(ab)\] \[n\log(a) = \log\left(a^n\right)\] Using these we have \[ {@p@} = {@logcontract(x^m)+log(y)-logcontract(log(z^n))@}\] \[ = {@log(x^m)+log(y)-log(log(z^n))@} \] \[ = {@ta@}.\]
+Note that if you write 
+\[
+{@p@} = \log (x^{@m@}yz^{@-n@})
+\]
+then this has the correct value but is not fully simplified.]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022071300</text>
+    </stackversion>
+    <questionvariables>
+      <text>ordergreat(x,y,z);
+n:rand(10)+3;
+m:rand(8)+3
+p:m*log(x)+log(y)-n*log(z)
+ta:logcontract(p)
+
+tabb: log(x^m*y*z^(-n));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@p@}={@ta@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>-</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2090923549</deployedseed>
+    <deployedseed>1422772156</deployedseed>
+    <deployedseed>895728731</deployedseed>
+    <deployedseed>757953338</deployedseed>
+    <deployedseed>1833274290</deployedseed>
+    <deployedseed>1166184319</deployedseed>
+    <deployedseed>1381172815</deployedseed>
+    <deployedseed>372824062</deployedseed>
+    <deployedseed>1329850821</deployedseed>
+    <deployedseed>1538197621</deployedseed>
+    <deployedseed>1780644068</deployedseed>
+    <deployedseed>1070456139</deployedseed>
+    <deployedseed>1757901447</deployedseed>
+    <deployedseed>1472983713</deployedseed>
+    <deployedseed>1021747893</deployedseed>
+    <deployedseed>1529483841</deployedseed>
+    <deployedseed>1174359122</deployedseed>
+    <deployedseed>475893049</deployedseed>
+    <deployedseed>1598282392</deployedseed>
+    <deployedseed>1798731917</deployedseed>
+    <deployedseed>2006440962</deployedseed>
+    <deployedseed>820409757</deployedseed>
+    <deployedseed>864862419</deployedseed>
+    <deployedseed>313589192</deployedseed>
+    <deployedseed>2097742751</deployedseed>
+    <deployedseed>2076937365</deployedseed>
+    <deployedseed>114320782</deployedseed>
+    <deployedseed>960598861</deployedseed>
+    <deployedseed>463398845</deployedseed>
+    <deployedseed>488158433</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>tabb</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

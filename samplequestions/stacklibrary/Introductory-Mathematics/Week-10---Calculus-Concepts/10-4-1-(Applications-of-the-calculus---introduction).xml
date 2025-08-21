@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.4.1 (Applications of the calculus - introduction)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Introduction</h1>
+
+<p>In this final week of the course, we have introduced the ideas behind differential calculus. We have seen how we can define differentiation from first principals using limits and we have seen how we can build integration from Riemann sums in order to find the area underneath complicated curves. This theory culminated in the statement of the Fundamental Theorem of Calculus, which tells us that integration and differentiation are the inverse processes of each other. From these seeds we can build the calculus, and use it to compute derivatives and integrals often without the need to use formal limits or sums. We will end this section with a look at the history and applications of calculus. As calculus is such an important area of mathematics, its applications cover a wide range of topics across mathematics and science. In this section we will look at the application to mechanics as well as to computer science. However these just provide a snapshot of the usefulness of calculus. Lets dive in!</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

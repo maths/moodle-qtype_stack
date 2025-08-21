@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.3.1 (Periodicity)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Periodicity of trig functions</h1>
+
+<p>So far, we have seen that we can define trigonometric functions in terms of co-ordinates moving around the unit circle. In addition, we have seen that the sine and cosine functions repeat themselves every time we add a multiple of \(360^\circ\) to them. This is called <i>periodic behaviour</i>. Periodic phenomena occur all the time in the real world, some examples include: inclement weather patterns, animal populations, tidal variations and motion of a pendulum. Therefore it is important that we gain an understanding of periodic behaviour and the mathematical functions which model it.</p>
+<br/>
+<p>We say that a function is <b>periodic with period \(p\)</b>, or <b>\(p\)-periodic</b> if \(f(x+p) = f(x)\) for all \(x\).&nbsp; The smallest number \(p\) for which this is true is called the <b>period</b> of \(f\).&nbsp; Thus the function repeats itself every \(p\) units, and so the behaviour of the function can be understood on its whole domain just by understanding it on any interval of length \(p\). Therefore a <i>periodic function</i> is a function which repeats itself over and over horizontally in intervals of the same length. The <i>period</i> therefore is the length of one repetition or cycle.One example of a periodic function is called a <b>cycloid</b> which is the curve traced out by a point on a circle as the circle rolls across a flat surface in a straight line.</p>
+<br/>
+<p>We will see that the trigonometric functions \(\cos(\theta)\) and \(\sin(\theta)\) are \(360^\circ\)-periodic.&nbsp; This is because of the fact mentioned above, that adding \(360^\circ\) to the variable \(\theta\) corresponds to making one full revolution around the origin.&nbsp; We see this in the graphs of \(\sin\) and \(\cos\): they display a wave pattern that repeats itself (looking horizontally) every \(360^\circ\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

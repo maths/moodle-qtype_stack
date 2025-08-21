@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.10 (Proof by exhaustion)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Proof by exhaustion</h3>
+
+<p>Another important proof technique is that of proof by exhaustion. Sometimes a proof can be split into a finite number of cases to check, each of which is then considered and proven separately. Since this finite list of cases then covers all possible cases, we say that it <i>exhausts</i> every possibility, hence why this style of proof is called <b>proof by exhaustion</b>. For example if we wanted to prove that the numbers \(2,3\) and \(5\) are prime, we could prove \(2\) is prime, then \(3\) then \(5\) separately. This would then cover all cases and would be a proof by exhaustion.</p>
+
+<p>Often, although there are a finite number of possible cases, that number can still be very large. Therefore, in practice these kinds of proof are often done by a computer using an algorithm, since they can perform calculations much faster than a human. However, a computer can not yet <i>reason</i> with anything like the efficiency of a human, so all is not lost yet. We should also note that in a proof by exhaustion, often the hardest part of the proof is showing precisely <i>why</i> the list of cases covered, is <i>all</i> of the possible cases.</p>
+<br/>
+<h3>Example</h3>
+
+<b>Lemma:</b> Every natural number is either even or odd. 
+<div class="proof">
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step"> Let \(n \in \mathbb{N}\) (that is, let \(n\) be a natural number). 
+</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step">Then if \(n\) is even it is divisible by two and so \(n = 2k\) for some \(k \in \mathbb{Z}\).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">If \(n\) is odd then it has remainder \(1\) when divided by \(2\). In this case, \(n = 2k+1\) for some \(k \in \mathbb{Z}\).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">As these are all the possible cases, the proof is complete.</div>
+</div>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

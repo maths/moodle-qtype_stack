@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="matching">
+    <name>
+      <text>4.3.10 (Order exp and ln)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Suppose \(1 &lt; x &lt; e\).  Put the following values in ascending numerical order: \(1, 0, x, \ln(x), \ln(\ln(x)), e, e^x\).</p>
+<p> </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Since \(x&gt;1\), we have that \(e^x &gt; e^1=e\).  Similarly since \(x &lt; e=e^1\), we have that \(\ln(x)&lt;1\).  On the other hand, since \(x&gt;1 = e^0\), we know that \(\ln(x)&gt;0\).  Since \(0&lt; \ln(x)&lt;1\), we know that \(\ln(\ln(x))&lt;0\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html">
+      <text><![CDATA[<p>Your answer is correct.</p>]]></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text><![CDATA[<p>Your answer is incorrect.</p>]]></text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <subquestion format="html">
+      <text><![CDATA[<p>1.</p>]]></text>
+      <answer>
+        <text>ln(ln(x))</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>2.</p>]]></text>
+      <answer>
+        <text>0</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>3.</p>
+<p> </p>]]></text>
+      <answer>
+        <text>ln(x)</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>4.</p>]]></text>
+      <answer>
+        <text>1</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>5.</p>
+<p> </p>]]></text>
+      <answer>
+        <text>x</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>6.</p>
+<p> </p>]]></text>
+      <answer>
+        <text>e</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>7.</p>]]></text>
+      <answer>
+        <text>e^x</text>
+      </answer>
+    </subquestion>
+  </question>
+</quiz>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.0.9 (Tips for writing proof)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Tips</h3>
+
+<p>There are certain tips that can be useful for beginning to write mathematical arguments.</p>
+
+<ol>
+<li>State what you are trying to prove. This means you will always have a clear idea of the destination you are trying to reach with your arguments.</li>
+<li>Plan the structure of your proof. This should help to avoid the problem discussed above, of statements not following from each other. It is often useful to have such a 'plan of attack'. </li>
+<li>Do not expect to write a complete proof first time. More often we need a lot of rough working before we <i>formalise</i> our arguments in order to write a neat, full proof.</li>
+<li>Mathematics is written in full sentences using good english. Mathematical symbols often mean nothing unless we have a sentence explaining them. For example consider the difference between a statement being true for only even numbers vs being true for only odd numbers. Therefore a calculation without context does not constitute a full proof.</li>
+<li>Present calculations in a manner that is easy to follow. Include enough detail to make a proof easy to check. This often depends on the experience of the writer and reader. Often in textbooks smaller steps may be missed in a proof because they are clear to the author, or are expected to be clear to the reader. When writing your own proofs, if a logical step is not clear to you then this isn't a full proof. Think about writing your argument so that you can explain it fully.</li>
+<li>It is often helpful to use diagrams or examples to illustrate different concepts within your arguments.</li>
+</ol>
+
+<p>There are a lot of different styles of proof. No one style is intrinsically better than another - it is often a case of personal preference. However, always remember that a mathematical proof is an argument designed to convince the reader that a statement is true. So it must be written in enough detail to effectively do this.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

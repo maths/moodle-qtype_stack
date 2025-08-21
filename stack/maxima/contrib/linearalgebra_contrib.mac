@@ -1,0 +1,331 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra core functions for STACK                     */
+/*                                                              */
+/*  NOTE: this functionality is included in the core code of    */
+/*  STACK 4.9.0.  It is provided here as a convenience for      */
+/*  users of earlier versions until you upgrade.                */
+/*                                                              */
+/*  V1.0 February 2025                                          */
+/*                                                              */
+/****************************************************************/
+
+/*******************************************************************************/
+/* Provides convenience functions for column and row vectors for student input */
+/*******************************************************************************/
+
+stack_linear_algebra_declare(mode) := block(
+  texput(c,
+    lambda([ex], block([ns,str,ii],
+      ns: args(ex),
+      str: ["\\begin{bmatrix} "],
+      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
+      str[length(str)]: " \\end{bmatrix}",
+      simplode(str)
+    ))
+  ),
+ texput(r,
+    lambda([ex], block([ns,str,ii],
+      ns: args(ex),
+      str: ["\\begin{bmatrix} "],
+      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
+      str[length(str)]: " \\end{bmatrix}",
+      simplode(str)
+    ))
+  ),
+  /* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
+  declare([c,r],nonscalar),
+  return(true)
+)$
+stack_linear_algebra_declare(true);
+
+/* Thank you to Georg Osang of IDEMS International    */
+/* for significant contributions to this work in 2024 */
+
+/**
+ * Converts inert functions c and r into matrices.
+ * c and r can be found in certain contrib libraries (such as vectorspaces.mac) to enable students to input vectors simply.
+ * Works on entire expressions.
+ * Returns expression unchanged if simp:true and matrices do not conform.
+ * 
+ * @param[expression] ex An expression that may contain c or r.
+ * @return[scalar expression] The expression with c and r replaced with matrices, or the original expression if matrices do not conform
+ */
+vec_convert(ex):= block([ex2],
+  ex2: errcatch(ev(ex,c = lambda([[ex]],transpose(matrix(ex))),r = lambda([[ex]],matrix(ex)))),
+  if emptyp(ex2) then return(ex) else return(first(ex2))
+);
+
+/**
+ * Given a row or column vector, convert it to c() or r() form.
+ * Intended to create model answers in instances where students
+ * are expected to use these convenience functions.
+ * Does not loop through an expression, will only work on vectors
+ * as individual objects. 
+ *
+ * @param[matrix] ex A vector; i.e. a 1xN or Mx1 matrix
+ * @return[expression] That vector as a c() or r() vector
+ */
+un_vec_convert(ex):= block([],
+  if col_vecp(ex) then ex: apply(c,list_matrix_entries(ex)) else
+  if row_vecp(ex) then ex: apply(r,list_matrix_entries(ex)),
+  return(ex)
+);
+
+/*******************************************************************************/
+/* Predicate functions for vectors                                             */
+/*******************************************************************************/
+
+/**
+ * A predicate to determine whether an expression has been converted to matrix form.
+ * 
+ * @param[expression] ex An expression that may contain c or r
+ * @return[boolean] Does the expression contain c or r?
+ */
+vec_convertedp(ex):= block([ex_ops],
+  ex_ops: get_ops(ex),
+  if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
+);
+
+/** 
+ * Predicate for determining whether a given object is an Mx1 matrix (a column vector)
+ * Note: does not consider c a column vector. Use vec_convert before col_vecp.
+ *
+ * @param[expression] ex An object that may be a matrix
+ * @return[boolean] Is the object an Mx1 matrix?
+ */
+col_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(second(matrix_size(ex))=1))
+);
+
+/** 
+ * Predicate for determining whether a given object is a 1xN matrix (a row vector)
+ * Note: does not consider r a row vector. Use vec_convert before row_vecp.
+ *
+ * @param[expression] ex An object that may be a matrix
+ * @return[boolean] Is the object a 1xN matrix?
+ */
+row_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(first(matrix_size(ex))=1))
+);
+
+/** 
+ * Predicate for determining whether a given object is a vector
+ * Note: does not consider c or r a vector. Use vec_convert before vectorp.
+ *
+ * @param[expression] ex An object that may be a matrix
+ * @return[boolean] Is the object a 1xN or Mx1 matrix?
+ */
+vectorp(ex):= col_vecp(ex) or row_vecp(ex);
+
+/** 
+ * Predicate to determine whether a matrix is diagonal.
+ * i.e. Is every off-diagonal entry equal to 0?
+ *
+ * @param[matrix] M An mxn matrix
+ * @return[boolean] Is this matrix diagonal?
+ */
+diagp(M):= block([dia,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  dia: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  for ii: 1 thru imax while dia do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru jmax while dia do block(
+      jj: ev(jj,simp),
+      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
+    )
+  ),
+  return(dia)
+);
+
+/** 
+ * Is a given object a square matrix?
+ * i.e. Does the matrix have the same number of rows as columns?
+ *
+ * @param[matrix] M a matrix
+ * @return[boolean] Is M a square matrix?
+ */
+squarep(M):= block([isSquare],
+  isSquare: false,
+  if matrixp(M) then block(
+    if is(apply("=",matrix_size(M))) then isSquare: true
+  ),
+  return(isSquare)
+);
+
+/*********************************************************************************/
+/* Functions to convert objects into standard forms                              */
+/*********************************************************************************/
+
+/* It is feasible that different institutions will prefer students to enter their answers in different ways.
+   linearalgebra_core.mac and related contrib files prefers to work with either lists of lists
+   (not distinguishing between column and row vectors) or matrices whose columns are vectors of interest.
+*/
+
+/**
+ * Takes collections of vectors and returns a list of lists.
+ * The vectors themselves may be different objects. Supported objects include:
+ * * \(1\times N\) or \(M\times 1\) matrices
+ * * Lists
+ * * Vectors using c or r notation
+ * * Sets, ntuples
+ * Other inert functions like sequence should work too, but 
+ * The collection may be a list, set, ntuple, span, or matrix
+ * If given a matrix, then returns the columns as a list, with each column also being a list.
+ *
+ * @param[] ex A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
+ * @return[list] A list of lists
+ */
+make_list_of_lists(ex):= block([op1],
+  op1: safe_op(ex),
+  if not(member(op1,["[","ntuple","{","span","matrix"])) then return(ex),
+  ex: vec_convert(ex),
+  if vectorp(ex) then return([list_matrix_entries(ex)]),
+  if is(op1="matrix") then return(args(transpose(ex))),
+  ex: args(ex),
+  if ev(not(some(lambda([ex2],nonscalarp(ex2)),ex)),simp) then return([ex]),
+  ex: map(lambda([ex2],if vectorp(ex2) then list_matrix_entries(ex2) else args(ex2)),ex),
+  return(ex)
+);
+
+/**
+ * Try to convert object to a column vector, as a maxima matrix.
+ * Supported objects include:
+ * * \(M\times 1\) matrices.
+ * * Vectors using `c` notation
+ * * Flat lists, ntuples (with entries interpreted as a column vector entries)
+ * If conversion is not possible, return matrix([null]).
+ *
+ * @param[ex] ex Input object.
+ * @return[matrix] A \(M\times 1\) matrix representing the column vector, or `matrix([null])` if input was invalid.
+ */
+convert_to_colvec(ex):= block([op1],
+  ex: vec_convert(ex),
+  if col_vecp(ex) then return(ex),
+  if vectorp(ex) then return(matrix([null])),
+  op1: safe_op(ex),
+  if member(op1,["[","ntuple"]) and not some(nonscalarp, args(ex)) then return(transpose(apply(matrix,[args(ex)]))),
+  return(matrix([null]))
+);
+
+ /**
+ * Takes a collection of vectors and return the matrix that has those vectors as columns.
+ * If the input is already a matrix, the matrix itself is returned.
+ * If the input in invalid, matrix([null]) is returned.
+ * The rationale is that further operations can still be performed on the output without
+ * crashing in the feedback variables, and we can catch this case in the first PRT node.
+ * The vectors themselves may be different objects. Supported objects include:
+ * * Mx1 matrices
+ * * Vectors using c notation
+ * * Lists, ntuples (representing a column vector)
+ * The collection may be a list, set, ntuple, span, or matrix
+ *
+ * @param[] ex A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
+ * @return[matrix] A matrix containing the input elements as columns, or matrix([null]) in case of invalid input.
+ */
+cols_to_matrix(L):=block([op1, colmat],
+  L: ev(L,simp),
+  if matrixp(L) then return(L),
+  L: cols_to_cols(L),
+  if emptyp(L) then return(matrix([null])),
+  return(ev(apply(addcol, L), simp))
+);
+
+ /**
+ * Takes a matrix and returns a list of its column vectors.
+ *
+ * @param[matrix] M 
+ * @return[list] List of Mx1 matrices (column vectors)
+ */
+matrix_to_cols(M):= ev(makelist(col(M, i), i, 1, second(matrix_size(M))), simp);
+
+ /**
+ * Convert input to a list of column vectors of the same dimension.
+ * Returns [] if the input is invalid.
+ * The vectors themselves may be different objects. Supported objects include:
+ * * Mx1 matrices
+ * * Vectors using c notation
+ * * Lists, ntuples (representing a column vector)
+ * The collection may be a list, set, ntuple, span, or matrix
+ *
+ * @param[] L A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix.
+ * @return[list] List of Mx1 matrices (column vectors), or [] in case of invalid input.
+ */
+cols_to_cols(L):=block([op1],
+    if matrixp(L) then return(matrix_to_cols(L)),
+    op1: safe_op(L),
+    if not(member(op1,["[","ntuple","{","span"])) then return([]),
+    L: map(lambda([elem], convert_to_colvec(elem)), args(L)),
+    if some(lambda([elem], is(elem = matrix([null]))), L) then return([]),
+    if is(cardinality(setify(map(length,L))) # 1) then return([]),
+    return(L)
+);
+
+/** 
+ * Solve the matrix equation Ax = b given matrix A and column vector (or list) b.
+ * Optionally will find a least squares solution
+ * Always returns a general solution if one exists, even in the least squares case
+ * If a single solution is required, use moore_penrose_pseudoinverse(A) . b instead.
+ * 
+ * @param[matrix] A An mxn matrix
+ * @param[matrix] b A mx1 matrix (or a list with m entries)
+ * @param[boolean] lstsq Optional: if given true then a least squares solution will be obtained. If false or omitted, only exact solutions obtained.
+ * @return[matrix] The general solution to Ax = b. If no solution exists and lstsq is not true, then matrix([]) is returned.
+ */
+mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
+  if emptyp(lstsq) then lstsq: false else lstsq:first(lstsq),
+  if listp(b) then b: transpose(b),
+  [m, n]: matrix_size(A),
+  if ev(is(first(matrix_size(b))#m),simp) then return(matrix([])),
+  vars: rest(stack_var_makelist(tmp,n)),
+  if lstsq then AT: transpose(A) else AT: ident(m),
+  eqns: list_matrix_entries(ev((AT . A) . transpose(vars) - (AT . b),simp)),
+  sol: map(rhs,linsolve(eqns,vars)),
+  if emptyp(sol) then return(matrix(sol)) else return(transpose(matrix(sol)))
+);
+
+/**
+ * Given a vector (or list) return the shortest possible parallel vector with integer entries.
+ * Also multiplies by -1 if all entries are negative
+ * Very nice for eigenvector problems.
+ * 
+ * @param[matrix or list] v a list or a Mx1 or matrix. Row vectors also accepted but will return transposed
+ * @return[matrix or list] v, but scaled by a constant such that all entries are the smallest possible integers
+ */
+scale_nicely(v):= block([v_op, tmp],
+  v_op: "list",
+  if vectorp(v) then (v_op: "matrix", v: list_matrix_entries(v)),
+  tmp: ev(lreduce(lambda([ex1,ex2],gcd(ex1,ex2)),v),simp),
+  if ev(is(tmp#0),simp) then v: ev(v/tmp,simp),
+  if ev(every(lambda([ex],is(signum(ex)=-1)),v),simp) then v: ev(-v,simp),
+  if is(v_op="matrix") then return(transpose(v)) else return(v)
+);
+
+/**
+ * M^+ = V.S^+.U^T 
+ * Moore-penrose pseudoinverse.
+ * Applies `moore_penrose_pseudoinverse(M)` with simplification.
+ * Most commonly used to find minimal least squares solution to Ax = b using A^+ . b
+ *
+ * @param[matrix] M
+ * @return[matrix] The moore-penrose pseudoinverse of M
+ */
+pinv(M):= block([simp:true], moore_penrose_pseudoinverse(M));
+

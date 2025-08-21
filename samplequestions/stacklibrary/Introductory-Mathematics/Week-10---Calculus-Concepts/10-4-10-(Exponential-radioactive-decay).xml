@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>10.4.10 (Exponential radioactive decay)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Suppose that a sample of a radioactive isotope has size {@N0@} atoms and a decay constant of \(\lambda = 0.0005\). How many atoms of the sample are left after \(t = {@tt@}\) seconds?Give your answer to the nearest whole atom</p>
+
+<p>N = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>The equation for radioactive decay is given by \(N =N_0 e^{-\lambda t}\). Here we have \(N_0 = {@N0@}\), \(\lambda= 0.0005\), \(t = {@tt@}\). Substituting these into the decay equation we get 
+\[N ={@ta1@}\].</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>N0: 100+rand(100);
+tt: 1+ rand(20);
+ll:0.0005
+NN: N0*exp(-ll*tt);
+
+ta1:round(NN);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[N = {@N0@} e^{-0.0005\cdot {@tt@}} = {@ta1@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1281582113</deployedseed>
+    <deployedseed>1789947998</deployedseed>
+    <deployedseed>1612117450</deployedseed>
+    <deployedseed>1876643064</deployedseed>
+    <deployedseed>1438850846</deployedseed>
+    <deployedseed>445472230</deployedseed>
+    <deployedseed>1009967731</deployedseed>
+    <deployedseed>223360879</deployedseed>
+    <deployedseed>1777365614</deployedseed>
+    <deployedseed>52856835</deployedseed>
+    <deployedseed>1762248368</deployedseed>
+    <deployedseed>1999482412</deployedseed>
+    <deployedseed>1921124601</deployedseed>
+    <deployedseed>887927488</deployedseed>
+    <deployedseed>524379301</deployedseed>
+    <deployedseed>1471458121</deployedseed>
+    <deployedseed>1665722687</deployedseed>
+    <deployedseed>1292340324</deployedseed>
+    <deployedseed>879488716</deployedseed>
+    <deployedseed>1225785849</deployedseed>
+    <deployedseed>1952819204</deployedseed>
+    <deployedseed>1612072831</deployedseed>
+    <deployedseed>1569227610</deployedseed>
+    <deployedseed>998053324</deployedseed>
+    <deployedseed>327011579</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

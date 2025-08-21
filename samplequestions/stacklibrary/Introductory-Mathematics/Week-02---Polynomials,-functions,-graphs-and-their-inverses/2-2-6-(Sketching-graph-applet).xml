@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.2.6 (Sketching graph applet)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><span>You can use this applet to practise drawing cubic graphs:</span></p><p><iframe scrolling="no" title="Sketch Cubic Graphs (Beginner)" src="https://www.geogebra.org/material/iframe/id/xDx295Wu/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/false/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe></p><p><br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

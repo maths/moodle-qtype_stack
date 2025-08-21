@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Matrix-similarity-proof-Parsons</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Prove the following theorem by dragging lines into the correct order.  (Note, you may not need to use all the lines!) </p>
+<p>{@thm@}</p>
+
+[[parsons input="ans1"]]
+{# parsons_encode(proof_steps) #}
+[[/parsons ]]
+<p style="display:none">[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>{@thm@}</p>
+{@proof_display(ta1, proof_steps)@}
+<hr/>
+<p>Just to note that in this proof the following step is <em>not</em> needed at all.</p>
+<p>"Using commutativity of matrix multiplication we get:"</p>
+<p>Indeed, in writing \[ B^3 = \left(P^{-1}AP\right)^3 \]
+\[ = \left(P^{-1}AP\right)\left(P^{-1}AP\right)\left(P^{-1}AP\right)\]
+we now use <em>associativity</em> (not commutativity) to get
+\[ = P^{-1}A\left(PP^{-1}\right)A\left(PP^{-1}\right)AP\]
+\[ = P^{-1}AIAIAP\]
+\[ = P^{-1}A^3P\]]]></text>
+    </generalfeedback>
+    <defaultgrade>4</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025042500</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_include_contrib("prooflib.mac");
+
+thm:"Let \\(A;B\\) be similar square matrices. If \\(A^3 = I\\) then \\(B^3 = I\\).";
+
+proof_steps: [
+    ["hyp",    "Assume \\(A;B\\) are similar square matrices."],
+    ["ca1",    "By definition of similarity \\(B = P^{-1}AP\\)."],
+    ["ca2",    "\\(B^3=\\left(P^{-1}AP\\right)^3\\)"],
+    ["ca3",    "\\(= P^{-1}A^3P\\)"],
+    ["ca4",    "Using hypothesis \\(A^3=I\\) we get:"],
+    ["ca5",    "\\( = P^{-1}IP\\)"],
+    ["ca6",    "\\( = I\\)"],
+    ["conc",  "Hence we have shown that \\(B^3 = I\\)."],
+    ["w1",    "Hence we have shown that \\(A^3 = I\\)."],
+    ["w2",    "Using hypothesis \\(B^3=I\\) we get:"],
+    ["w3",    "By definition of similarity \\(B = P^{-T}AP\\)."],
+    ["w4",    "Using commutativity of matrix multiplication we get:"]
+];
+proof_steps:random_permutation(proof_steps);
+
+ta1:proof("hyp","ca1","ca2","ca3","ca4","ca5","ca6","conc");
+ta2:proof("hyp","ca1","ca2","ca3","ca5","ca6","conc");
+ta3:proof("hyp","ca1","ca4","ca2","ca3","ca5","ca6","conc");
+ta4:proof("ca1","ca2","ca3","ca4","ca5","ca6","conc");
+ta5:proof("ca1","ca2","ca3","ca5","ca6","conc");
+ta6:proof("ca1","ca4","ca2","ca3","ca5","ca6","conc");
+
+/* Generate the alternative proofs. */
+tal:append(proof_alternatives(ta1),proof_alternatives(ta2),proof_alternatives(ta3),proof_alternatives(ta4),proof_alternatives(ta5),proof_alternatives(ta6));
+/* Create a set of flattened proofs. */
+tas:setify(map(proof_flatten, tal));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@map(first, proof_steps)@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>parsons</type>
+      <tans>[ta1, proof_steps]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[sa:parsons_decode(ans1);
+[pd, saa]:proof_assessment(sa, tal);
+
+/* Remove "w4" = "Using commutativity of matrix multiplication...", if used. */
+sb:apply(proof, sublist(args(sa),lambda([ex],not(is(ex="w4")))));
+[pd2, sab]:proof_assessment(sb, tal);
+
+/* Calculate the score as the number of mistakes. */
+sc:float((4-pd)/4);]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Did the student start with the hypothesis?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>first(sa)</sans>
+        <tans><![CDATA["hyp"]]></tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[You must start the proof with "Assume \(A;B\) are similar square matrices."]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>pd</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>sc</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@proof_assessment_display(saa, proof_steps)@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description><![CDATA[Did the student use "Using commutativity of matrix multiplication..."?]]></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>pd2</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>In this proof the following step is not needed at all.</p>
+<p>"Using commutativity of matrix multiplication we get:"</p>
+<p>Indeed, in writing \[ B^3 = \left(P^{-1}AP\right)^3 \]
+\[ = \left(P^{-1}AP\right)\left(P^{-1}AP\right)\left(P^{-1}AP\right)\]
+we now use <em>associativity</em> (not commutativity) to get
+\[ = P^{-1}A\left(PP^{-1}\right)A\left(PP^{-1}\right)AP\]
+\[ = P^{-1}AIAIAP\]
+\[ = P^{-1}A^3P\]]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1839968323</deployedseed>
+    <deployedseed>1172319367</deployedseed>
+    <deployedseed>430160505</deployedseed>
+    <deployedseed>1087214573</deployedseed>
+    <deployedseed>27425216</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>parsons_answer(ta1, proof_steps)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Condone missing justification</description>
+      <testinput>
+        <name>ans1</name>
+        <value>parsons_answer(ta2, proof_steps)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description><![CDATA[Student uses key "w4"]]></description>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[parsons_answer(proof("hyp","ca1","ca2","w4","ca3","ca4","ca5","ca6","conc"), proof_steps)]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>parsons_answer(ta3, proof_steps)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description>Student misses out the first step.</description>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[parsons_answer(proof("ca1","ca2","ca3","ca4","ca5","ca6","conc"), proof_steps)]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -126,7 +126,9 @@ class stack_string_input extends stack_algebraic_input {
         if ($this->extraoptions['hideanswer']) {
             return '';
         }
-
+        if ($this->extraoptions['allowempty'] && trim($value) === '""') {
+            return stack_string('teacheranswerempty');
+        }
         $display = stack_utils::maxima_string_strip_mbox($display);
         return stack_string('teacheranswershow_disp', ['display' => $display]);
     }
@@ -173,7 +175,7 @@ class stack_string_input extends stack_algebraic_input {
      * Transforms the contents array into a maxima expression.
      * Most simply take the casstring from the first element of the contents array.
      *
-     * @param array|string $in
+     * @param array|string $contents
      * @return string
      */
     public function contents_to_maxima($contents) {
@@ -184,7 +186,12 @@ class stack_string_input extends stack_algebraic_input {
         }
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    /**
+     * Make sure the input is a string wrapped in string quotes.
+     *
+     * @param string $ex
+     * @return string
+     */
     public function ensure_string($ex) {
         $ex = trim($ex);
         if (substr($ex, 0, 1) !== '"') {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.3 (Application - air traffic)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h1>Air traffic control</h1>
+
+<p>The control of air traffic is one of the most important job within the aviation industry.  With more and more goods and people travelling by plane (although clearly this trend has somewhat reversed this year) air traffic control becomes ever more important. Air traffic controllers are highly trained (including having mathematics degrees) specialists  who are responsible for guiding pilots and planes from taxi to landing throughout their flight. This is an exceptionally difficult and high-stress job, in fact many shifts for air traffic controllers last only an hour because of the intensity of the work. This is because the effect of making a calculation mistake is a plane crashing. Any time we travel by plane, we entrust the systems and people with the lives of all those aboard commercial aircraft.</p>
+<br/>
+<p> The key tasks of air traffic control are: advise pilots about nearby aircraft and hazards, issue landing and take off authorisations, monitoring and directing aircraft within an airspace and compiling information about flights and flight plans. In this section we will gain a small insight into some of these responsibilities. Perhaps it is clear intuitively where simultaneous equations come into these responsibilities, but we shall have a look at some examples more closely.</p>
+<br/>
+<h3>Example</h3>
+
+<p>Let us suppose that there are two aircraft travelling in airspace that is our responsibility to direct. We need to inform each aircraft that they are close to the other for safety reasons and we need to direct their flight paths and warn them if they could crash (if we are in an airport this is relatively likely if we do not direct the aircraft appropriately due to the volume of aeroplanes). Suppose that aircraft A follows a linear path given by \(3x-4y = -9\) and the path of aircraft B is given by \(9x +4y = 21\) Find the point at which the aircraft would crash.</p>
+
+<h3>Solution</h3>
+
+<p>Let us begin with a note about the model we have adopted for this question. Firstly, we are assuming that the planes are travelling at the same height so we can model them in 2 dimensions (on an \(x - y\) graph looking down from above) this is clearly not true as aircraft alter their heights, however it is a reasonable assumption because commercial aircraft are often limited as to what height they fly at due to factors like fuel efficiency, speed and cost. Secondly, notice that although, we begin with equations of the linear paths, in reality air traffic control would often be given bearings. However, we have seen in week 5 that actually, we can use trigonometry to obtain the flight path information as an equation as above. We assume planes are linear which is also not technically true because the earth is round the flight paths of the aircraft have to curve appropriately. However the paths are <i>locally linear</i> in the sense that we can approximate them by equations of straight lines if we zoom in on them enough. </p>
+<br/>
+<p>Now that we have persuaded ourselves that our assumptions seem reasonable, we are in a position to actually solve the problem. In order to find the point at which the two planes could crash we need to find the point of intersection between the two lines. In order to do this we need to solve the following equations simultaneously:
+\[
+\begin{align*}
+&3x-4y = -9 \:\:\:\:\: (1)
+\\
+&9x +4y = 21 \:\:\:\:\: (2)
+\end{align*}
+\]
+We can use either the elimination or substitution methods to do this. In this case I would recommend elimination. Take \((1) + (2)\) to get \(12x = 12\). Thus \(x = 1\). Rearranging (1) (or (2)) gives us \(\frac{1}{4}(3x+ 9) = y\) and so \(y = 3\). </p>
+<p>Therefore, the coordinates that the plane must avoid are \((1,3)\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

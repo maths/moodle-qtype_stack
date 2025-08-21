@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.1.13 (Division cubic over quadratic last step only)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<table style="display:inline">
+<tbody>
+<tr>
+<td style="text-align: right; min-width: 10em;">\(\dfrac{{@P@}}{{@Q@}}=\) </td><td style="text-align: left; border-bottom: 1pt solid black;">\( ({@Q@}) ({@p1@}) +({@p2@}) \)</td>
+</tr>
+<tr>
+<td style="text-align: center;">&nbsp;</td><td style="text-align: center;">\( ({@Q@}) \)</td>
+</tr><tr>
+<td style="text-align: right;">&nbsp;\(=\)</td><td style="text-align: left;">[[input:ans1]]</td>
+</tr>
+</tbody>
+</table>
+<p>[[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\( \begin{eqnarray*}&nbsp; &amp;&amp; \dfrac{{@P@}}{{@Q@}}\\ &amp;=&amp;\dfrac{@(Q*(p1)+p2),simp=false@}{({@Q@})} \\ &amp;=&amp;{@p1@}+\dfrac{@p2@}{@Q@}\end{eqnarray*}&nbsp; \)<br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>coeffsP:makelist(rand_with_prohib(-7,7,[0]),k,4);
+coeffsP[4]:1;
+coeffsP[2]:0;
+P:sum(coeffsP[k]*x^(k-1),k,1,4);
+Q:x^2+rand_with_prohib(-2,2,[0])*x+rand_with_prohib(-2,2,[0]);
+ansBits:divide(P,Q);
+p1:ansBits[1];
+p2:ansBits[2];
+ta1:ansBits[1]+ansBits[2]/Q;
+polypart:ansBits[1];
+fracpart:ansBits[2]/Q;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]<br></p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\dfrac{{@P@}}{{@Q@}}={@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>? + ( ? )/( ?)</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>polynomialp(ans1-fracpart,[x])</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not seem to be in the correct form.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1882917459</deployedseed>
+    <deployedseed>287610319</deployedseed>
+    <deployedseed>221519333</deployedseed>
+    <deployedseed>1041440563</deployedseed>
+    <deployedseed>1240199158</deployedseed>
+    <deployedseed>819366107</deployedseed>
+    <deployedseed>133430523</deployedseed>
+    <deployedseed>42251183</deployedseed>
+    <deployedseed>467802201</deployedseed>
+    <deployedseed>2099235584</deployedseed>
+    <deployedseed>724372132</deployedseed>
+    <deployedseed>574298551</deployedseed>
+    <deployedseed>1154191218</deployedseed>
+    <deployedseed>365752309</deployedseed>
+    <deployedseed>489267099</deployedseed>
+    <deployedseed>1836491109</deployedseed>
+    <deployedseed>1917181204</deployedseed>
+    <deployedseed>572687447</deployedseed>
+    <deployedseed>1572712528</deployedseed>
+    <deployedseed>1261818462</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>P/Q</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>factor(polypart)+fracpart</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

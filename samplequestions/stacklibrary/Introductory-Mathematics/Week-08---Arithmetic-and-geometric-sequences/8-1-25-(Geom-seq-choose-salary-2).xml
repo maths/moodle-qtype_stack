@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.1.25 (Geom. seq. choose salary 2)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Alice is applying for a new job. She receives two job offers.<p>
+<br/>
+<p>Offer A : £\({@starta@}\) to start followed by a guaranteed annual increase of \({@rate1a@}\) for the first \(10\) years.</p>
+<br/>
+<p>Offer B : £\({@startb@}\) to start followed by a guaranteed annual increase of \({@rate1b@}\) for the first \(10\) years.</p>
+<br/>
+<p>What is the salary of Alice in year \({@nn@}\) with each job offer?</p>
+<p>Offer A: [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
+<p>Offer B:  [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We form a geometric sequence that governs Alice's salary for both offers.</p>
+<br/> 
+<p>Offer A:</p>
+<p>In this case the first term is {@starta@} and because we are told that her salary increases by a rate of {@rate1a@}, the common ratio is \({@rate2a@}\) we can use the general formula for a geometric sequence as follows:
+\[
+u_n = ar^{n-1} = {@starta@} \cdot {@rate2a@}^{n-1}.
+\]
+We need to find Alice's salary after \(n\) years so we require \(u_{@nn@}\) which is
+\[
+u_{@nn@} = {@starta@} \cdot {@rate2a@}^{{@nn@}-1} = {@finsala@}
+\]
+Hence after {@nn@} years her salary with this offer is £{@ta1@}.</p>
+<br/>
+<p>Offer B:</p>
+<p>Similarly, the first term is {@startb@} and because we are told that her salary increases by a rate of {@rate1b@}, the common ratio is \({@rate2b@}\). Thus we can use the general formula for a geometric sequence as follows:
+\[
+u_n = ar^{n-1} = {@startb@} \cdot {@rate2b@}^{n-1}.
+\]
+We need to find Alice's salary after \(n\) years so we require \(u_{@nn@}\) which is
+\[
+u_{@nn@} = {@startb@} \cdot {@rate2b@}^{{@nn@}-1} = {@finsalb@}
+\]
+Hence after {@nn@} years her salary with this offer is £{@ta2@}.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020081700</text>
+    </stackversion>
+    <questionvariables>
+      <text>starta: 10000*(1+rand(8));
+rate1a: rand([0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09]);
+rate2a: 1+ rate1a;
+
+startb: 12000*(1+rand(8));
+rate1b: rand([0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09]);
+rate2b: 1+ rate1b;
+
+nn: 2+rand(8);
+
+finsala: starta*rate2a^(nn-1);
+ta1: round(finsala)
+
+finsalb: startb*rate2b^(nn-1);
+ta2: round(finsalb)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>starta: {@starta@}, ratea: {@rate1a@}, salarya {@ta1@};
+startb: {@startb@}, rateb: {@rate1b@}, salaryb {@ta2@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1633244215</deployedseed>
+    <deployedseed>918511620</deployedseed>
+    <deployedseed>318164024</deployedseed>
+    <deployedseed>350297588</deployedseed>
+    <deployedseed>1502875810</deployedseed>
+    <deployedseed>6185676</deployedseed>
+    <deployedseed>493818400</deployedseed>
+    <deployedseed>1324200042</deployedseed>
+    <deployedseed>1590801137</deployedseed>
+    <deployedseed>1649229874</deployedseed>
+    <deployedseed>987147305</deployedseed>
+    <deployedseed>1721742549</deployedseed>
+    <deployedseed>649318051</deployedseed>
+    <deployedseed>28588837</deployedseed>
+    <deployedseed>1497060814</deployedseed>
+    <deployedseed>1559473268</deployedseed>
+    <deployedseed>1904630389</deployedseed>
+    <deployedseed>580475721</deployedseed>
+    <deployedseed>951680566</deployedseed>
+    <deployedseed>1412801170</deployedseed>
+    <deployedseed>1593509531</deployedseed>
+    <deployedseed>1580866557</deployedseed>
+    <deployedseed>862629161</deployedseed>
+    <deployedseed>872756362</deployedseed>
+    <deployedseed>364571456</deployedseed>
+    <deployedseed>1906941183</deployedseed>
+    <deployedseed>162055951</deployedseed>
+    <deployedseed>1217762031</deployedseed>
+    <deployedseed>1912737111</deployedseed>
+    <deployedseed>1361022428</deployedseed>
+    <deployedseed>23873992</deployedseed>
+    <deployedseed>1918162732</deployedseed>
+    <deployedseed>1789212376</deployedseed>
+    <deployedseed>843098984</deployedseed>
+    <deployedseed>2033045338</deployedseed>
+    <deployedseed>168708376</deployedseed>
+    <deployedseed>883303298</deployedseed>
+    <deployedseed>689245213</deployedseed>
+    <deployedseed>1419914057</deployedseed>
+    <deployedseed>40270886</deployedseed>
+    <deployedseed>342505801</deployedseed>
+    <deployedseed>1658874517</deployedseed>
+    <deployedseed>1092581929</deployedseed>
+    <deployedseed>691604293</deployedseed>
+    <deployedseed>405347730</deployedseed>
+    <deployedseed>942568701</deployedseed>
+    <deployedseed>216262386</deployedseed>
+    <deployedseed>358548402</deployedseed>
+    <deployedseed>72175991</deployedseed>
+    <deployedseed>1970830399</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1-1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -159,7 +159,6 @@ class stack_question_report {
      *  ]
      */
     public $notesummary = [];
-    public $jsonsummary = [];
     public $usersummary = [];
     /**
      * @var object StdClass Data formatted for questionreport.mustache.
@@ -209,7 +208,6 @@ class stack_question_report {
         $result = $this->load_summary_data();
         $summary = [];
         $usersummary = [];
-        $jsonsummary = [];
         foreach ($result as $qattempt) {
             if (!array_key_exists($qattempt->variant, $summary)) {
                 $summary[$qattempt->variant] = [];
@@ -225,8 +223,10 @@ class stack_question_report {
                     $summary[$qattempt->variant][$rsummary] = 1;
                 }
             }
-            $usersummary[$qattempt->userid][] = ['attempt' => $qattempt->attempt, 'qnum' => $qattempt->question_num, 'summary' => $rsummary, 'numtries' => $qattempt->num_tries,'state' => $qattempt->try_state];
-            $jsonsummary[] = ['id' => $qattempt->questionusageid, 'slot' => $qattempt->slot];
+            $usersummary[$qattempt->userid][] = [
+                'attempt' => $qattempt->attempt, 'qnum' => $qattempt->question_num, 'summary' => $rsummary,
+                'numtries' => $qattempt->num_tries,'state' => $qattempt->try_state,
+            ];
         }
 
         foreach ($summary as $vkey => $variant) {
@@ -254,7 +254,8 @@ class stack_question_report {
             'quizid' => (int) $this->quizid,
             'quizid2' => (int) $this->quizid,
         ];
-        $query = "SELECT qa.id, qa.variant, qa.responsesummary, u.id as userid, qa.questionusageid, qa.slot, ud.attempt, ud.question_num, ud.num_tries, ud.try_state
+        $query = "SELECT qa.id, qa.variant, qa.responsesummary, u.id as userid,
+                         ud.attempt, ud.question_num, ud.num_tries, ud.try_state
                     FROM {question_attempts} qa
                     LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
                     /* attach another copy of qas to those rows with the most recent timecreated,
@@ -325,7 +326,6 @@ class stack_question_report {
     public function match_variants_and_notes(): void {
         $questionnotes = [];
         $questionseeds = [];
-        $jsonsummary = [];
         foreach (array_keys($this->summary) as $variant) {
             $question = question_bank::load_question((int) $this->question->id);
             $question->start_attempt(new question_attempt_step(), $variant);
@@ -335,15 +335,8 @@ class stack_question_report {
             $questionnotes[$variant] = stack_ouput_castext($qnotesummary);
         }
 
-        foreach ($this->jsonsummary as $qa) {
-            $quba = question_engine::load_questions_usage_by_activity($qa['id']);
-            $qa = $quba->get_question_attempt($qa['slot']);
-            $jsonsummary[] = $question->summarise_response_json($qa->get_last_qt_data());
-        }
-
         $this->questionnotes = $questionnotes;
         $this->questionseeds = $questionseeds;
-        $this->jsonsummary = $jsonsummary;
     }
 
     /**
@@ -515,7 +508,6 @@ class stack_question_report {
         $this->outputdata->variants = $this->format_variants();
         $this->outputdata->inputs = $this->format_inputs();
         $this->outputdata->rawdata = $this->format_raw_data();
-        $this->outputdata->jsondata = $this->format_json_data();
         $this->outputdata->userdata = $this->format_user_data();
     }
 
@@ -776,16 +768,6 @@ class stack_question_report {
             }
         }
         $output->rawdata = $sumout;
-        return $output;
-    }
-
-    public function format_json_data(): object {
-        $output = new StdClass();
-        $sumout = '';
-        foreach ($this->jsonsummary as $jdata) {
-            $sumout .= $jdata . "\n";
-        }
-        $output->jsondata = $sumout;
         return $output;
     }
 

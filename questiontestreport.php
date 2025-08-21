@@ -85,7 +85,8 @@ if ($quizcontext === null) {
     $outputdata->question = stack_question_report::format_question_data($question);
 } else {
     // Create analysis report.
-    $report = new stack_question_report($question, $quizcontext, $quizzes[$quizcontext]->coursecontextid, $quizzes[$quizcontext]->id);
+    $report = new stack_question_report($question, $quizcontext,
+                                        $quizzes[$quizcontext]->coursecontextid, $quizzes[$quizcontext]->id);
     $outputdata = $report->outputdata;
 }
 

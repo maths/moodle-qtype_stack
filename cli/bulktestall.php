@@ -82,14 +82,14 @@ if ($options['id']) {
         $testcontext = context::instance_by_id($contextid);
 
         if (stack_determine_moodle_version() < 400) {
-            $categories = question_category_options(array($context));
+            $categories = question_category_options(array($testcontext));
         } else {
-            $categories = qbank_managecategories\helper::question_category_options(array($context));
+            $categories = qbank_managecategories\helper::question_category_options(array($testcontext));
         }
         $categories = reset($categories);
         foreach ($categories as $key => $category) {
             list($categoryid) = explode(',', $key);
-            $questions = $bulktester->get_stack_questions($categoryid);
+            $questions = $bulktester->stack_questions_in_category($categoryid);
             if (array_key_exists($options['id'], $questions)) {
                 $found = true;
                 $partialcontext = $contextid;

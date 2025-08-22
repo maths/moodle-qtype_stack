@@ -9,6 +9,8 @@ More details of our development history are given in the [development track](../
 
 Previous developers have included
 
+* Anupama Sarjoshi
+* Sal Mercuri
 * John Beedell
 * Simon Hammond
 * Jonathan Hart
@@ -23,8 +25,6 @@ STACK is an open source project and many others have made contributions of vario
 
 # Translation of the STACK Project
 
-STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please [let us know](mailto:C.J.Sangwin@ed.ac.uk)! Likewise, if you would really like to see STACK in another language please contact us.  Details of how to add language packs, translate STACK, and forthcoming translations, are given on the [Language packs](../Developer/Language_packs.md) developers page.
-
 STACK is released in many languages, using Moodle's ATOS language system.
 
   * EN: English (British), by Chris Sangwin (and others)
@@ -35,6 +35,9 @@ STACK is released in many languages, using Moodle's ATOS language system.
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
 German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of University of Cologne, Germany.
+
+Details of how to add language packs, translate STACK, and forthcoming translations, are given on the [Language packs](../Developer/Language_packs.md) developers page.
+
 
 # Other implementations and projects
 

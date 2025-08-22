@@ -1,0 +1,6542 @@
+<!-- Ensures this only extends, not overrides, the theme. -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.stack-assessment.org/en/STACK_question_admin/Library/Algebra_refresher/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../../Specialist_tools/">
+      
+      <link rel="icon" href="../../../../../content/logo_sm.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.0.3">
+    
+    
+      
+        <title>A pocket map of algebraic manipulation - STACK Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6b71719e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../custom.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/maths/moodle-qtype_stack@master/styles.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#a-pocket-map-of-algebraic-manipulation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="">
+    <a href="../../../.." title="STACK Docs" 
+    class="md-header__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <!--Make site title permament -->
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis md-ellipsis">
+        <b>STACK Docs</b>
+      </div>
+    </div>
+     
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  </nav>
+</header>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="STACK Docs" class="md-nav__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    STACK Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        STACK
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-2" 
+      type="checkbox" id="__nav_1-2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-2" tabindex="0" aria-expanded="false">
+          AbInitio
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="AbInitio" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-2">
+          <span class="md-nav__icon md-icon"></span>
+          AbInitio
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/" class="md-nav__link">
+        Authoring quick start
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_1/" class="md-nav__link">
+        Authoring quick start 1: a minimal working question
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_2/" class="md-nav__link">
+        Authoring quick start 2: question variables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_3/" class="md-nav__link">
+        Authoring quick start 3: improving feedback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_4/" class="md-nav__link">
+        Authoring quick start 4: randomisation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_5/" class="md-nav__link">
+        Authoring quick start 5: question tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_6/" class="md-nav__link">
+        Authoring quick start 6: STACK question libaray
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_7/" class="md-nav__link">
+        Authoring quick start 7: multipart questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_8/" class="md-nav__link">
+        Authoring quick start 8: turning simplification off
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../AbInitio/Authoring_quick_start_9/" class="md-nav__link">
+        Authoring quick start 9: setting up a quiz
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-3" 
+      type="checkbox" id="__nav_1-3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-3" tabindex="0" aria-expanded="false">
+          About
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="About" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-3">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/" class="md-nav__link">
+        About the STACK Project
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/Credits/" class="md-nav__link">
+        Contributors to the STACK Project
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/License/" class="md-nav__link">
+        STACK licences
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/Logo/" class="md-nav__link">
+        The mathematics of the STACK logo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/Publications/" class="md-nav__link">
+        Publications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../About/The_philosophy_of_STACK/" class="md-nav__link">
+        Philosophy of STACK
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4" 
+      type="checkbox" id="__nav_1-4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4" tabindex="0" aria-expanded="false">
+          Authoring
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Authoring" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-4">
+          <span class="md-nav__icon md-icon"></span>
+          Authoring
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/" class="md-nav__link">
+        Authoring individual STACK questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Accessibility%E2%80%8B/" class="md-nav__link">
+        Accessibility​ for Question Authors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Author_FAQ/" class="md-nav__link">
+        Author FAQ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/CASText/" class="md-nav__link">
+        CASText
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Error_trapping/" class="md-nav__link">
+        Error trapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Errors/" class="md-nav__link">
+        Authoring validation errors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Expression_tree_display/" class="md-nav__link">
+        Trees
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Feedback/" class="md-nav__link">
+        Feedback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inclusions/" class="md-nav__link">
+        Inclusions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Languages/" class="md-nav__link">
+        Producing multilingual content
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Potential_response_trees/" class="md-nav__link">
+        Potential response trees
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_note/" class="md-nav__link">
+        Question note
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_options/" class="md-nav__link">
+        Options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Serving_out_data/" class="md-nav__link">
+        Serving out data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Tables/" class="md-nav__link">
+        Tables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Variables/" class="md-nav__link">
+        Defining variables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_17" 
+      type="checkbox" id="__nav_1-4_17" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_17" tabindex="0" aria-expanded="false">
+          Answer Tests
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Answer Tests" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-4_17">
+          <span class="md-nav__icon md-icon"></span>
+          Answer Tests
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/" class="md-nav__link">
+        Answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Calculus/" class="md-nav__link">
+        Calculus answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Equivalence/" class="md-nav__link">
+        Equivalence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Form/" class="md-nav__link">
+        Algebraic Form
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Numerical/" class="md-nav__link">
+        Numerical answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Other/" class="md-nav__link">
+        Other answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Rule_based/" class="md-nav__link">
+        Rule-based answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/String/" class="md-nav__link">
+        String matching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_17_9" 
+      type="checkbox" id="__nav_1-4_17_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_17_9" tabindex="0" aria-expanded="false">
+          Results
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Results" data-md-level="4">
+        <label class="md-nav__title" for="__nav_1-4_17_9">
+          <span class="md-nav__icon md-icon"></span>
+          Results
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/" class="md-nav__link">
+        Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/AddConst/" class="md-nav__link">
+        AddConst: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/AlgEquiv/" class="md-nav__link">
+        AlgEquiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/AlgEquivNouns/" class="md-nav__link">
+        AlgEquivNouns: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Antidiff/" class="md-nav__link">
+        Antidiff: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/CasEqual/" class="md-nav__link">
+        CasEqual: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/CompSquare/" class="md-nav__link">
+        CompSquare: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Diff/" class="md-nav__link">
+        Diff: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/EqualComAss/" class="md-nav__link">
+        EqualComAss: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/EqualComAssRules/" class="md-nav__link">
+        EqualComAssRules: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Equiv/" class="md-nav__link">
+        Equiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/EquivFirst/" class="md-nav__link">
+        EquivFirst: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Expanded/" class="md-nav__link">
+        Expanded: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/FacForm/" class="md-nav__link">
+        FacForm: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/GT/" class="md-nav__link">
+        GT: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/GTE/" class="md-nav__link">
+        GTE: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Int/" class="md-nav__link">
+        Int: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Levenshtein/" class="md-nav__link">
+        Levenshtein: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/LowestTerms/" class="md-nav__link">
+        LowestTerms: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumAbsolute/" class="md-nav__link">
+        NumAbsolute: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumDecPlaces/" class="md-nav__link">
+        NumDecPlaces: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumDecPlacesWrong/" class="md-nav__link">
+        NumDecPlacesWrong: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumRelative/" class="md-nav__link">
+        NumRelative: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/NumSigFigs/" class="md-nav__link">
+        NumSigFigs: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/PartFrac/" class="md-nav__link">
+        PartFrac: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/PropLogic/" class="md-nav__link">
+        PropLogic: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SRegExp/" class="md-nav__link">
+        SRegExp: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SameType/" class="md-nav__link">
+        SameType: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Sets/" class="md-nav__link">
+        Sets: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SigFigsStrict/" class="md-nav__link">
+        SigFigsStrict: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SingleFrac/" class="md-nav__link">
+        SingleFrac: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/String/" class="md-nav__link">
+        String: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/StringSloppy/" class="md-nav__link">
+        StringSloppy: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SubstEquiv/" class="md-nav__link">
+        SubstEquiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/SysEquiv/" class="md-nav__link">
+        SysEquiv: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Units/" class="md-nav__link">
+        Units: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsAbsolute/" class="md-nav__link">
+        UnitsAbsolute: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsRelative/" class="md-nav__link">
+        UnitsRelative: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsStrict/" class="md-nav__link">
+        UnitsStrict: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsStrictAbsolute/" class="md-nav__link">
+        UnitsStrictAbsolute: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/UnitsStrictRelative/" class="md-nav__link">
+        UnitsStrictRelative: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Answer_Tests/Results/Validator/" class="md-nav__link">
+        Validator: Answer test results
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_18" 
+      type="checkbox" id="__nav_1-4_18" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_18" tabindex="0" aria-expanded="false">
+          Inputs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Inputs" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-4_18">
+          <span class="md-nav__icon md-icon"></span>
+          Inputs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/" class="md-nav__link">
+        Inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Input_options/" class="md-nav__link">
+        Input options
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Input_syntax/" class="md-nav__link">
+        Input syntax
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Matrix_input/" class="md-nav__link">
+        Matrix inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Multiline_input/" class="md-nav__link">
+        Multiline input
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Multiple_choice_input/" class="md-nav__link">
+        Multiple choice inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Numerical_input/" class="md-nav__link">
+        Numerical input
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Inputs/Text_input/" class="md-nav__link">
+        Text-based inputs in STACK
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-4_19" 
+      type="checkbox" id="__nav_1-4_19" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-4_19" tabindex="0" aria-expanded="false">
+          Question blocks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Question blocks" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-4_19">
+          <span class="md-nav__icon md-icon"></span>
+          Question blocks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/" class="md-nav__link">
+        Question blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Conditional_blocks/" class="md-nav__link">
+        Conditional blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Dynamic_blocks/" class="md-nav__link">
+        Dynamic blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Fact_sheets/" class="md-nav__link">
+        Fact sheets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Iframe_blocks/" class="md-nav__link">
+        Iframe blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/Static_blocks/" class="md-nav__link">
+        Static blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Authoring/Question_blocks/System_blocks/" class="md-nav__link">
+        System question blocks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-5" 
+      type="checkbox" id="__nav_1-5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-5" tabindex="0" aria-expanded="false">
+          CAS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CAS" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-5">
+          <span class="md-nav__icon md-icon"></span>
+          CAS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/" class="md-nav__link">
+        Maxima and computer algebra use in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Buggy_rules/" class="md-nav__link">
+        Buggy rules
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Complex_numbers/" class="md-nav__link">
+        Complex Numbers in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Equations/" class="md-nav__link">
+        Asking students to solve equations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Geometry/" class="md-nav__link">
+        Geometry related Maxima functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Greek_letters/" class="md-nav__link">
+        The Greek Alphabet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Inequalities/" class="md-nav__link">
+        Inequalities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Matrix/" class="md-nav__link">
+        Matrices and vectors in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Maxima_background/" class="md-nav__link">
+        Introduction to Maxima for STACK users
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Maxima_plot/" class="md-nav__link">
+        Embedding Maxima-generated plots via plot(), a wrapper for Maimxa's plot2d()
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Numbers/" class="md-nav__link">
+        Numbers in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Numerical_rounding/" class="md-nav__link">
+        Numerical rounding
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Permutations/" class="md-nav__link">
+        Writing a permutation as a product of disjoint cycles
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Predicate_functions/" class="md-nav__link">
+        Predicate functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Random/" class="md-nav__link">
+        Random objects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Real_Intervals/" class="md-nav__link">
+        Real intervals and sets of real numbers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Rules/" class="md-nav__link">
+        Rules and patterns
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/STACK-Maxima_sandbox/" class="md-nav__link">
+        STACK - Maxima Sandbox
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Simplification/" class="md-nav__link">
+        Simplification &amp; ordering
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Statistics/" class="md-nav__link">
+        Statistics support in STACK.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Strings/" class="md-nav__link">
+        Maxima strings in STACK questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Subscripts/" class="md-nav__link">
+        Subscripts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../CAS/Validator/" class="md-nav__link">
+        Bespoke validators and feedback
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-6" 
+      type="checkbox" id="__nav_1-6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-6" tabindex="0" aria-expanded="false">
+          Developer
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Developer" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-6">
+          <span class="md-nav__icon md-icon"></span>
+          Developer
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/" class="md-nav__link">
+        Developers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Development_history/" class="md-nav__link">
+        STACK Development History
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Development_track/" class="md-nav__link">
+        Development track for STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Documentation/" class="md-nav__link">
+        STACK User Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Future_plans/" class="md-nav__link">
+        Future plans
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Language_packs/" class="md-nav__link">
+        Translation of the STACK Project
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Maxima_packages/" class="md-nav__link">
+        Adding support for Maxima packages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Releasing/" class="md-nav__link">
+        STACK release process notes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Releasing_ILIAS/" class="md-nav__link">
+        Releasing new ILIAS version
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/STACK-JS/" class="md-nav__link">
+        STACK-JS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Security_map/" class="md-nav__link">
+        Security map
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Syntax_numbers/" class="md-nav__link">
+        Entry of numbers in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Unit_tests/" class="md-nav__link">
+        Unit tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Developer/Website/" class="md-nav__link">
+        Updating the Online Docs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-7" 
+      type="checkbox" id="__nav_1-7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-7" tabindex="0" aria-expanded="false">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-7">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/" class="md-nav__link">
+        Installation instructions.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/API/" class="md-nav__link">
+        STACK API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/LTI/" class="md-nav__link">
+        About LTI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Mathjax/" class="md-nav__link">
+        Displaying mathematics for STACK in Moodle
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Maxima_installation/" class="md-nav__link">
+        Compiling Maxima from source.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Migration/" class="md-nav__link">
+        Migration from STACK 3.X to STACK 4.0
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Optimising_Maxima/" class="md-nav__link">
+        Optimising Maxima
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Release_notes_4_4_x/" class="md-nav__link">
+        Release notes for STACK 4.4.x
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/STACK_versions/" class="md-nav__link">
+        STACK version map
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/Testing_installation/" class="md-nav__link">
+        Testing Installation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-8" 
+      type="checkbox" id="__nav_1-8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-8" tabindex="0" aria-expanded="false">
+          Moodle
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Moodle" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-8">
+          <span class="md-nav__icon md-icon"></span>
+          Moodle
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/" class="md-nav__link">
+        STACK within the Moodle VLE.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/Import_Export/" class="md-nav__link">
+        Import and Export of STACK questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/Question_bank/" class="md-nav__link">
+        How do I find the Moodle question bank?
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Moodle/Semi-automatic_Marking/" class="md-nav__link">
+        Semi-automatic Marking
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-9" 
+      type="checkbox" id="__nav_1-9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-9" tabindex="0" aria-expanded="false">
+          Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reference" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-9">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/" class="md-nav__link">
+        Reference materials
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/Actuarial/" class="md-nav__link">
+        Notation used in actuarial work
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/HELM/" class="md-nav__link">
+        HELM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/HTML/" class="md-nav__link">
+        Most useful HTML
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Reference/Latex/" class="md-nav__link">
+        Useful LaTeX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-10" 
+      type="checkbox" id="__nav_1-10" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-10" tabindex="0" aria-expanded="true">
+          STACK question admin
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="STACK question admin" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-10">
+          <span class="md-nav__icon md-icon"></span>
+          STACK question admin
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        Testing, using and maintaining questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Advanced_reporting/" class="md-nav__link">
+        Advanced reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Authoring_workflow/" class="md-nav__link">
+        Question authoring workflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Bulk_testing/" class="md-nav__link">
+        Bulk testing STACK questions on your site
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Deploying/" class="md-nav__link">
+        Deploying
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Deploying_matched_variants/" class="md-nav__link">
+        Variant matching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Deploying_systematically/" class="md-nav__link">
+        Systematic deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Fixing_broken_questions/" class="md-nav__link">
+        I have a misbehaving STACK question in a live Moodle quiz. What should I do?
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Future_proof/" class="md-nav__link">
+        Guidelines for ensuring that a question works in the future
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Notes_about_performance/" class="md-nav__link">
+        Notes about performance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Testing/" class="md-nav__link">
+        Testing, debugging and quality control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Testing_questions_on_other_sites/" class="md-nav__link">
+        Running question tests for questions on other sites (command line)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Tidy_Tool/" class="md-nav__link">
+        Tidy Tool
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../UpgradeDefaults/" class="md-nav__link">
+        Upgrading question defaults
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-10_16" 
+      type="checkbox" id="__nav_1-10_16" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-10_16" tabindex="0" aria-expanded="true">
+          Library
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Library" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-10_16">
+          <span class="md-nav__icon md-icon"></span>
+          Library
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Question banks in the STACK question library
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          A pocket map of algebraic manipulation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        A pocket map of algebraic manipulation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-and-use" class="md-nav__link">
+    Introduction and use
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-map-of-algebraic-manipulation" class="md-nav__link">
+    The Map of Algebraic Manipulation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-combinations-of-arithmetic-operations" class="md-nav__link">
+    1 Combinations of arithmetic operations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-factorisation-of-whole-numbers" class="md-nav__link">
+    2 Factorisation of whole numbers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-addition-and-subtraction-of-fractions" class="md-nav__link">
+    3 Addition and subtraction of fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Addition and subtraction of fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-nature-of-denominators" class="md-nav__link">
+    3.1 Nature of denominators
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-mixed-numbers" class="md-nav__link">
+    3.2 Mixed numbers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-number-of-fractions" class="md-nav__link">
+    3.3 Number of fractions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-combination-of-operations" class="md-nav__link">
+    3.4 Combination of operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-special-case" class="md-nav__link">
+    3.5 Special case
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-multiplication-and-division-of-fractions" class="md-nav__link">
+    4 Multiplication and division of fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Multiplication and division of fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-nature-of-component-fractions" class="md-nav__link">
+    4.1 Nature of component fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Nature of component fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1411-mixed-numbers" class="md-nav__link">
+    14.1.1 Mixed numbers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-number-of-fractions" class="md-nav__link">
+    4.1.2 Number of fractions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-combination-of-operations" class="md-nav__link">
+    4.1.3 Combination of operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-special-case" class="md-nav__link">
+    4.1.4 Special case
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-combinations-of-arithmetic-operations-on-fractions" class="md-nav__link">
+    5 Combinations of arithmetic operations on fractions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-simplifying-algebraic-expressions" class="md-nav__link">
+    6 Simplifying algebraic expressions
+  </a>
+  
+    <nav class="md-nav" aria-label="6 Simplifying algebraic expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-collecting-like-terms" class="md-nav__link">
+    6.1 Collecting like terms
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Collecting like terms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611-linear" class="md-nav__link">
+    6.1.1 Linear
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#612-higher-orders" class="md-nav__link">
+    6.1.2 Higher orders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#613-compound-terms-non-removal-of-brackets" class="md-nav__link">
+    6.1.3 'Compound terms' (non-removal of brackets)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-powers-of-single-term-expressions" class="md-nav__link">
+    6.2 Powers of single-term expressions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-multiplying-and-dividing-single-term-expressions" class="md-nav__link">
+    6.3 Multiplying and dividing single-term expressions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-removing-brackets" class="md-nav__link">
+    7 Removing brackets
+  </a>
+  
+    <nav class="md-nav" aria-label="7 Removing brackets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-multiplying-single-term-expression-and-bracket" class="md-nav__link">
+    7.1 Multiplying single-term expression and bracket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-multiplying-two-brackets-each-with-two-terms" class="md-nav__link">
+    7.2 Multiplying two brackets, each with two terms
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 Multiplying two brackets, each with two terms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#721-linear-terms-in-a-single-letter" class="md-nav__link">
+    7.2.1 Linear terms in a single letter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#722-linear-terms-involving-more-than-one-letter" class="md-nav__link">
+    7.2.2 Linear terms involving more than one letter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#723-square-twice-product-square" class="md-nav__link">
+    7.2.3 'Square, twice product, square'
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#724-difference-of-two-squares" class="md-nav__link">
+    7.2.4 'Difference of two squares'
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-additional-features" class="md-nav__link">
+    7.3 Additional features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-algebraic-fractions" class="md-nav__link">
+    8 Algebraic fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="8 Algebraic fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-cancelling" class="md-nav__link">
+    8.1 Cancelling
+  </a>
+  
+    <nav class="md-nav" aria-label="8.1 Cancelling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#811-minus-1" class="md-nav__link">
+    8.1.1 Minus 1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-adding-and-subtracting-algebraic-fractions" class="md-nav__link">
+    8.2 Adding and subtracting algebraic fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2 Adding and subtracting algebraic fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#821-single-term-numerators-and-denominators" class="md-nav__link">
+    8.2.1 Single-term numerators and denominators
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#822-linear-expression-in-numerator-or-denominator" class="md-nav__link">
+    8.2.2 Linear expression in numerator or denominator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#823-higher-powers-orand-several-different-letters" class="md-nav__link">
+    8.2.3 Higher powers or/and several different letters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#824-combinations-of-operations" class="md-nav__link">
+    8.2.4 Combinations of operations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-multiplying-and-dividing-algebraic-fractions" class="md-nav__link">
+    8.3 Multiplying and dividing algebraic fractions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-combinations-of-arithmetic-operations-on-algebraic-fractions" class="md-nav__link">
+    8.4 Combinations of arithmetic operations on algebraic fractions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-linear-equations" class="md-nav__link">
+    9 Linear equations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-single-term-common-factors" class="md-nav__link">
+    10 Single-term common factors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-rearranging-algebraic-formulae" class="md-nav__link">
+    11 Rearranging algebraic formulae
+  </a>
+  
+    <nav class="md-nav" aria-label="11 Rearranging algebraic formulae">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-fundamental-multiplicative-equivalences" class="md-nav__link">
+    11.1 Fundamental multiplicative equivalences
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-making-a-specified-letter-the-subject-of-a-formula" class="md-nav__link">
+    11.2 Making a specified letter the subject of a formula
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-substituting-from-one-formula-into-another" class="md-nav__link">
+    11.3 Substituting from one formula into another
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-simultaneous-linear-equations" class="md-nav__link">
+    12 Simultaneous linear equations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-factorising-algebraic-expressions" class="md-nav__link">
+    13 Factorising algebraic expressions
+  </a>
+  
+    <nav class="md-nav" aria-label="13 Factorising algebraic expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-quadratic-expressions" class="md-nav__link">
+    13.1 Quadratic expressions
+  </a>
+  
+    <nav class="md-nav" aria-label="13.1 Quadratic expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1311-no-number-in-front-of-the-x2" class="md-nav__link">
+    13.1.1 No number in front of the x^2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1312-number-in-front-of-the-x2" class="md-nav__link">
+    13.1.2 Number in front of the x^2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1313-modifications-of-the-above" class="md-nav__link">
+    13.1.3 Modifications of the above
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-other-two-or-more-term-factors" class="md-nav__link">
+    13.2 Other two (or more)-term factors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-algebraic-fractions-involving-factorising" class="md-nav__link">
+    14 Algebraic fractions involving factorising
+  </a>
+  
+    <nav class="md-nav" aria-label="14 Algebraic fractions involving factorising">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#141-cancelling" class="md-nav__link">
+    14.1 Cancelling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#142-arithmetic-operations" class="md-nav__link">
+    14.2 Arithmetic operations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-quadratic-equations" class="md-nav__link">
+    15 Quadratic equations
+  </a>
+  
+    <nav class="md-nav" aria-label="15 Quadratic equations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#151-solution-by-factorising" class="md-nav__link">
+    15.1 Solution by factorising
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#152-completing-the-square-of-a-quadratic-expression" class="md-nav__link">
+    15.2 Completing the square of a quadratic expression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#153-solution-by-completing-the-square" class="md-nav__link">
+    15.3 Solution by completing the square
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#154-the-three-kinds-of-behaviour-and-corresponding-graphical-interpretation" class="md-nav__link">
+    15.4 The three kinds of behaviour and corresponding graphical interpretation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#155-simultaneous-equations-one-linear-and-one-quadratic" class="md-nav__link">
+    15.5 Simultaneous equations, one linear and one quadratic
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11" 
+      type="checkbox" id="__nav_1-11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11" tabindex="0" aria-expanded="false">
+          Specialist tools
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Specialist tools" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-11">
+          <span class="md-nav__icon md-icon"></span>
+          Specialist tools
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/" class="md-nav__link">
+        Specialist tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Graphics/" class="md-nav__link">
+        Plots and graphics in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Unsorted_multi_input/" class="md-nav__link">
+        Unsorted multi-input answers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_4" 
+      type="checkbox" id="__nav_1-11_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_4" tabindex="0" aria-expanded="false">
+          Drag and drop
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Drag and drop" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_4">
+          <span class="md-nav__icon md-icon"></span>
+          Drag and drop
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/" class="md-nav__link">
+        Drag and drop questions in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Grid/" class="md-nav__link">
+        Grid drag and drop questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Grouping/" class="md-nav__link">
+        Grouping drag and drop questions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Parsons/" class="md-nav__link">
+        Authoring Parson's problems (drag and drop) in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Question_block/" class="md-nav__link">
+        Parson's problem (drag and drop) question blocks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Drag_and_drop/Troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_5" 
+      type="checkbox" id="__nav_1-11_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_5" tabindex="0" aria-expanded="false">
+          Equivalence reasoning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Equivalence reasoning" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_5">
+          <span class="md-nav__icon md-icon"></span>
+          Equivalence reasoning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Equivalence_reasoning/" class="md-nav__link">
+        Getting started with equivalence reasoning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Equivalence_reasoning/Equivalence_assessment/" class="md-nav__link">
+        Equivalence input assessent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/Equivalence_reasoning/Equivalence_input/" class="md-nav__link">
+        Equivalence reasoning input
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_6" 
+      type="checkbox" id="__nav_1-11_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_6" tabindex="0" aria-expanded="false">
+          GeoGebra
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="GeoGebra" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_6">
+          <span class="md-nav__icon md-icon"></span>
+          GeoGebra
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/GeoGebra/" class="md-nav__link">
+        GeoGebra in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/GeoGebra/GeoGebra/" class="md-nav__link">
+        Authoring your first GeoGebra question
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/GeoGebra/Question_block/" class="md-nav__link">
+        GeoGebra question block
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-11_7" 
+      type="checkbox" id="__nav_1-11_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-11_7" tabindex="0" aria-expanded="false">
+          JSXGraph
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="JSXGraph" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-11_7">
+          <span class="md-nav__icon md-icon"></span>
+          JSXGraph
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/" class="md-nav__link">
+        JSXGraph
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Advanced_JSXGraph/" class="md-nav__link">
+        Advanced JSXGraph: stack_jxg.custom_bind
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Author_quickstart/" class="md-nav__link">
+        Authoring your first JSXGraph question
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Basic_plots/" class="md-nav__link">
+        Basic JSXGraph plots
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Binding/" class="md-nav__link">
+        Binding JSXGraph states to inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Example_plots/" class="md-nav__link">
+        Example JSXGraph plots.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Question_block/" class="md-nav__link">
+        JSXGraph question block
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Specialist_tools/JSXGraph/Update_with_PRTs/" class="md-nav__link">
+        Update with PRTs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-12" 
+      type="checkbox" id="__nav_1-12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-12" tabindex="0" aria-expanded="false">
+          Students
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Students" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-12">
+          <span class="md-nav__icon md-icon"></span>
+          Students
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/" class="md-nav__link">
+        Information for students
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Accessibility/" class="md-nav__link">
+        Accessibility
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Answer_assessment/" class="md-nav__link">
+        Answer assessment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Answer_input/" class="md-nav__link">
+        Answer input
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/Equivalence_reasoning/" class="md-nav__link">
+        Reasoning by Equivalence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Students/FAQ/" class="md-nav__link">
+        Frequently asked questions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-13" 
+      type="checkbox" id="__nav_1-13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-13" tabindex="0" aria-expanded="false">
+          Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Topics" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-13">
+          <span class="md-nav__icon md-icon"></span>
+          Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/" class="md-nav__link">
+        Mathematical topics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Curve_sketching/" class="md-nav__link">
+        Curve sketching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Discrete_mathematics/" class="md-nav__link">
+        Discrete mathematics and graph theory.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Levenshtein_distance/" class="md-nav__link">
+        Damerau-Levenshtein distance and strings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Propositional_Logic/" class="md-nav__link">
+        Propositional Logic
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Statistics/" class="md-nav__link">
+        Statistics in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Units/" class="md-nav__link">
+        Scientific Units
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Vector_Calculus/" class="md-nav__link">
+        Vector Calculus in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-13_9" 
+      type="checkbox" id="__nav_1-13_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-13_9" tabindex="0" aria-expanded="false">
+          Differential equations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Differential equations" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-13_9">
+          <span class="md-nav__icon md-icon"></span>
+          Differential equations
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Differential_equations/" class="md-nav__link">
+        Differential Equations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Differential_equations/Assessing_Responses/" class="md-nav__link">
+        Differential Equations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Differential_equations/Notation/" class="md-nav__link">
+        Differential Equations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Differential_equations/Question_Variables/" class="md-nav__link">
+        Differential Equations
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-13_10" 
+      type="checkbox" id="__nav_1-13_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-13_10" tabindex="0" aria-expanded="false">
+          Linear algebra
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Linear algebra" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-13_10">
+          <span class="md-nav__icon md-icon"></span>
+          Linear algebra
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/" class="md-nav__link">
+        Setting linear algebra questions in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Answer_tests/" class="md-nav__link">
+        Answer tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Eigen/" class="md-nav__link">
+        Eigenvalue/vector functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Linear_algebra_core/" class="md-nav__link">
+        Vector/matrix functions defined by STACK in the core code
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Matrix_factorisation/" class="md-nav__link">
+        Matrix factorisation functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Matrix_library/" class="md-nav__link">
+        Matrix manipulation and matrix predicate functions for STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Random_Matrices/" class="md-nav__link">
+        Random Matrices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Vector_geometry/" class="md-nav__link">
+        Vector geometry functions for STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Vector_space/" class="md-nav__link">
+        Vector space functions for STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Linear_algebra/Vectors/" class="md-nav__link">
+        Vectors
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1-13_11" 
+      type="checkbox" id="__nav_1-13_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1-13_11" tabindex="0" aria-expanded="false">
+          Proof
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Proof" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1-13_11">
+          <span class="md-nav__icon md-icon"></span>
+          Proof
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Proof/" class="md-nav__link">
+        Support for proof in STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Proof/Proof_CAS_library/" class="md-nav__link">
+        CAS libraries for representing text-based proofs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Proof/Proof_Parsons_workflow/" class="md-nav__link">
+        Workflow for authoring Parsons Problems
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Proof/Proof_assessment/" class="md-nav__link">
+        Assessing Parson's problems and proofs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Proof/Proof_samples/" class="md-nav__link">
+        Sample mathematical proofs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../Topics/Proof/Proof_styles/" class="md-nav__link">
+        CSS Styles for displaying proof
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+<!--Keep the rest the same-->
+  
+
+    
+      
+      
+      
+
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" 
+      type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Ja
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Ja" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Ja
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/" class="md-nav__link">
+        STACK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_2" 
+      type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" tabindex="0" aria-expanded="false">
+          AbInitio
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="AbInitio" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          AbInitio
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/" class="md-nav__link">
+        問題作成クイック・スタート
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_1/" class="md-nav__link">
+        問題作成クイック・スタート 1: 動作する最小限の問題
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_2/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド2：問題変数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_3/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド 3：フィードバックを改善する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_4/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド4：ランダム化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_5/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド5：問題のテスト
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_6/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド 6: 複数解答欄問題
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_7/" class="md-nav__link">
+        問題作成クイック・スタート 7: 数式簡略を無効化する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../../../ja/AbInitio/Authoring_quick_start_8/" class="md-nav__link">
+        問題作成クイック・スタート・ガイド 8: 問題のインポートと小テスト
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-and-use" class="md-nav__link">
+    Introduction and use
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-map-of-algebraic-manipulation" class="md-nav__link">
+    The Map of Algebraic Manipulation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-combinations-of-arithmetic-operations" class="md-nav__link">
+    1 Combinations of arithmetic operations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-factorisation-of-whole-numbers" class="md-nav__link">
+    2 Factorisation of whole numbers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-addition-and-subtraction-of-fractions" class="md-nav__link">
+    3 Addition and subtraction of fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Addition and subtraction of fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-nature-of-denominators" class="md-nav__link">
+    3.1 Nature of denominators
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-mixed-numbers" class="md-nav__link">
+    3.2 Mixed numbers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-number-of-fractions" class="md-nav__link">
+    3.3 Number of fractions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-combination-of-operations" class="md-nav__link">
+    3.4 Combination of operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-special-case" class="md-nav__link">
+    3.5 Special case
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-multiplication-and-division-of-fractions" class="md-nav__link">
+    4 Multiplication and division of fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Multiplication and division of fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-nature-of-component-fractions" class="md-nav__link">
+    4.1 Nature of component fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Nature of component fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1411-mixed-numbers" class="md-nav__link">
+    14.1.1 Mixed numbers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-number-of-fractions" class="md-nav__link">
+    4.1.2 Number of fractions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-combination-of-operations" class="md-nav__link">
+    4.1.3 Combination of operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-special-case" class="md-nav__link">
+    4.1.4 Special case
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-combinations-of-arithmetic-operations-on-fractions" class="md-nav__link">
+    5 Combinations of arithmetic operations on fractions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-simplifying-algebraic-expressions" class="md-nav__link">
+    6 Simplifying algebraic expressions
+  </a>
+  
+    <nav class="md-nav" aria-label="6 Simplifying algebraic expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-collecting-like-terms" class="md-nav__link">
+    6.1 Collecting like terms
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Collecting like terms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611-linear" class="md-nav__link">
+    6.1.1 Linear
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#612-higher-orders" class="md-nav__link">
+    6.1.2 Higher orders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#613-compound-terms-non-removal-of-brackets" class="md-nav__link">
+    6.1.3 'Compound terms' (non-removal of brackets)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-powers-of-single-term-expressions" class="md-nav__link">
+    6.2 Powers of single-term expressions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-multiplying-and-dividing-single-term-expressions" class="md-nav__link">
+    6.3 Multiplying and dividing single-term expressions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-removing-brackets" class="md-nav__link">
+    7 Removing brackets
+  </a>
+  
+    <nav class="md-nav" aria-label="7 Removing brackets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-multiplying-single-term-expression-and-bracket" class="md-nav__link">
+    7.1 Multiplying single-term expression and bracket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-multiplying-two-brackets-each-with-two-terms" class="md-nav__link">
+    7.2 Multiplying two brackets, each with two terms
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 Multiplying two brackets, each with two terms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#721-linear-terms-in-a-single-letter" class="md-nav__link">
+    7.2.1 Linear terms in a single letter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#722-linear-terms-involving-more-than-one-letter" class="md-nav__link">
+    7.2.2 Linear terms involving more than one letter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#723-square-twice-product-square" class="md-nav__link">
+    7.2.3 'Square, twice product, square'
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#724-difference-of-two-squares" class="md-nav__link">
+    7.2.4 'Difference of two squares'
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-additional-features" class="md-nav__link">
+    7.3 Additional features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-algebraic-fractions" class="md-nav__link">
+    8 Algebraic fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="8 Algebraic fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-cancelling" class="md-nav__link">
+    8.1 Cancelling
+  </a>
+  
+    <nav class="md-nav" aria-label="8.1 Cancelling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#811-minus-1" class="md-nav__link">
+    8.1.1 Minus 1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-adding-and-subtracting-algebraic-fractions" class="md-nav__link">
+    8.2 Adding and subtracting algebraic fractions
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2 Adding and subtracting algebraic fractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#821-single-term-numerators-and-denominators" class="md-nav__link">
+    8.2.1 Single-term numerators and denominators
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#822-linear-expression-in-numerator-or-denominator" class="md-nav__link">
+    8.2.2 Linear expression in numerator or denominator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#823-higher-powers-orand-several-different-letters" class="md-nav__link">
+    8.2.3 Higher powers or/and several different letters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#824-combinations-of-operations" class="md-nav__link">
+    8.2.4 Combinations of operations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-multiplying-and-dividing-algebraic-fractions" class="md-nav__link">
+    8.3 Multiplying and dividing algebraic fractions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-combinations-of-arithmetic-operations-on-algebraic-fractions" class="md-nav__link">
+    8.4 Combinations of arithmetic operations on algebraic fractions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-linear-equations" class="md-nav__link">
+    9 Linear equations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-single-term-common-factors" class="md-nav__link">
+    10 Single-term common factors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-rearranging-algebraic-formulae" class="md-nav__link">
+    11 Rearranging algebraic formulae
+  </a>
+  
+    <nav class="md-nav" aria-label="11 Rearranging algebraic formulae">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-fundamental-multiplicative-equivalences" class="md-nav__link">
+    11.1 Fundamental multiplicative equivalences
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-making-a-specified-letter-the-subject-of-a-formula" class="md-nav__link">
+    11.2 Making a specified letter the subject of a formula
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-substituting-from-one-formula-into-another" class="md-nav__link">
+    11.3 Substituting from one formula into another
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-simultaneous-linear-equations" class="md-nav__link">
+    12 Simultaneous linear equations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-factorising-algebraic-expressions" class="md-nav__link">
+    13 Factorising algebraic expressions
+  </a>
+  
+    <nav class="md-nav" aria-label="13 Factorising algebraic expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-quadratic-expressions" class="md-nav__link">
+    13.1 Quadratic expressions
+  </a>
+  
+    <nav class="md-nav" aria-label="13.1 Quadratic expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1311-no-number-in-front-of-the-x2" class="md-nav__link">
+    13.1.1 No number in front of the x^2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1312-number-in-front-of-the-x2" class="md-nav__link">
+    13.1.2 Number in front of the x^2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1313-modifications-of-the-above" class="md-nav__link">
+    13.1.3 Modifications of the above
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-other-two-or-more-term-factors" class="md-nav__link">
+    13.2 Other two (or more)-term factors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-algebraic-fractions-involving-factorising" class="md-nav__link">
+    14 Algebraic fractions involving factorising
+  </a>
+  
+    <nav class="md-nav" aria-label="14 Algebraic fractions involving factorising">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#141-cancelling" class="md-nav__link">
+    14.1 Cancelling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#142-arithmetic-operations" class="md-nav__link">
+    14.2 Arithmetic operations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-quadratic-equations" class="md-nav__link">
+    15 Quadratic equations
+  </a>
+  
+    <nav class="md-nav" aria-label="15 Quadratic equations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#151-solution-by-factorising" class="md-nav__link">
+    15.1 Solution by factorising
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#152-completing-the-square-of-a-quadratic-expression" class="md-nav__link">
+    15.2 Completing the square of a quadratic expression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#153-solution-by-completing-the-square" class="md-nav__link">
+    15.3 Solution by completing the square
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#154-the-three-kinds-of-behaviour-and-corresponding-graphical-interpretation" class="md-nav__link">
+    15.4 The three kinds of behaviour and corresponding graphical interpretation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#155-simultaneous-equations-one-linear-and-one-quadratic" class="md-nav__link">
+    15.5 Simultaneous equations, one linear and one quadratic
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="a-pocket-map-of-algebraic-manipulation">A pocket map of algebraic manipulation</h1>
+<h2 id="introduction-and-use">Introduction and use</h2>
+<p>This is a markdown copy of a summary of <em>a pocket map of algebreic manipulation</em> by Tony Barnard. The original PDF summary is available as a <a href="../../../../static/Barnard.pdf">PDF</a> and the <a href="../../../../static/Barnard.tex">TeX source code</a>.</p>
+<p>The numbering of sections in this document coresponds to the numbering of questions and quizzes in the questions in the library.</p>
+<h2 id="the-map-of-algebraic-manipulation">The Map of Algebraic Manipulation</h2>
+<p>At the heart of the secondary school algebra curriculum lies the development of skills in algebraic manipulation. This little booklet collects together for reference some of the stepping stones of experiences in the development of these basic algebraic skills.</p>
+<p>A guiding factor in the categorisation of the contents has been the splitting of an item into a range of separate cases where it was felt that these cases constituted significantly different experiences for a learner whose development in that item was at an early stage. Manipulation with numerical fractions has been dealt with fairly extensively in this sense, as it was considered that experience with a wide range of possibilities was essential in order for later progress in algebra. Similarly situations in which a sum or difference of two terms in an algebraic expression has to be mentally perceived as a single item, have been noted explicitly. On the other hand, there has been an attempt to balance the conflicting aims of comprehensiveness and conciseness. So, for example, in listing the three kinds of behaviour for the roots of a quadratic equation, it was considered unnecessary to split this further and give two different graphs for each case, relating to whether the turning point was a maximum or minimum, as this was felt to be a less significant distinction at this stage in the development. Generally speaking things have been broken down in the hope that they will be put together, and if a learner is unable to see why an item comes in so many 'different' cases, having developed to a stage where the distinctions seem insignificant, this is to be regarded as a success!</p>
+<p>This booklet is intended for use by teachers rather than by pupils. However, as well as listing the items from the pupil's viewpoint in getting to grips with what you actually do in a particular situation, the language has also been chosen with an eye on teacher-pupil dialogue. Thus practical descriptions such as ''two-term expression", ''no number in front of the <script type="math/tex">x^2</script>" and ''no factor in common with" have been used instead of technical expressions such as ''binomial", ''monic" and ''relatively prime". As an aid to describing the items, each is accompanied by at least one illustrative example. Sometimes only the 'question' has been given, sometimes the 'answer' has also been given and sometimes the 'working' has been included as well. In each case, the aim of keeping the booklet as concise as possible has been at the forefront, and the 'answer' or 'working' have been included only if it was felt that doing so would give a clearer picture of the experiences in algebraic manipulation encompassed by the item.</p>
+<p>Finally it should be emphasised that, in summarising this collection of pupil oriented steps in algebraic manipulation, there is no desire to lay out a prescribed route that everyone must follow. On the contrary it is hoped that the booklet might be thought of simply as a pocket map of the landscape.</p>
+<p>I should like to thank Ian Evans and Tom Roper for their valuable comments in the preparation of this booklet.</p>
+<p>Tony Barnard</p>
+<h2 id="1-combinations-of-arithmetic-operations">1 Combinations of arithmetic operations</h2>
+<p>
+<script type="math/tex">(+)+(+)</script>, <script type="math/tex">(+)+(-)</script>, <script type="math/tex">(-)+(+)</script>, <script type="math/tex">(-)+(-)</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">7+(-6)</script>, <script type="math/tex">5-(-9)</script>, <script type="math/tex">-6-(+4)</script>, <script type="math/tex">(-3) \times (-1)</script>,</p>
+<p>
+<script type="math/tex">(+)-(+)</script>, <script type="math/tex">(+)-(-)</script>, <script type="math/tex">(-)-(+)</script>, <script type="math/tex">(-)-(-)</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">(+2) \times (-7)</script>, <script type="math/tex">(-6) \div (+2)</script>, <script type="math/tex">(-9) \div (-3)</script>,</p>
+<p>
+<script type="math/tex">(+)\times(+)</script>, <script type="math/tex">(+)\times(-)</script>, <script type="math/tex">(-)\times(+)</script>, <script type="math/tex">(-)\times(-)</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2-3+1</script>, <script type="math/tex">-6+2+7</script>, <script type="math/tex">(4\times 3)+2</script>
+</p>
+<p>
+<script type="math/tex">(+)\div(+)</script>, <script type="math/tex">(+)\div(-)</script>, <script type="math/tex">(-)\div(+)</script>, <script type="math/tex">(-)\div(-)</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>   <script type="math/tex">4 \times(3+2)</script>, <script type="math/tex">4+(3\times 2)</script>, <script type="math/tex">3-(4\div 2)</script>.</p>
+<p>'<strong>B</strong>rackets, <strong>O</strong>f, <strong>D</strong>ivision,<strong>M</strong>ultiplication, <strong>A</strong>ddition,<strong>S</strong>ubtraction.'</p>
+<p>Powers of whole numbers   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2^3 \times 2^4 = 2^7</script>, <script type="math/tex">2^5 \div 2^2 = 2^3</script>, <script type="math/tex">(5^2)^3 = 5^6</script>, <script type="math/tex">(2 \times 3)^4 = 2^4 \times 3^4</script>.</p>
+<p>'<strong>B</strong>rackets, <strong>I</strong>ndices, <strong>D</strong>ivision, <strong>M</strong>ultiplication,<strong>A</strong>ddition, <strong>S</strong>ubtraction.'</p>
+<p>Negative and fractional powers  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2^{-1}=\frac{1}{2}</script>, <script type="math/tex">2^0 = 1</script>, <script type="math/tex">3^{-2} = \frac{1}{3^2} = \frac{1}{9}</script>, <script type="math/tex">9^\frac{1}{2} = \sqrt{9} = 3</script>, <script type="math/tex">8^\frac{1}{3} = \sqrt[3]{8} =2</script>.</p>
+<h2 id="2-factorisation-of-whole-numbers">2 Factorisation of whole numbers</h2>
+<p>Prime factorisations  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">228 = 2^2 \times 3 \times 19</script>, <script type="math/tex">1734 = 2 \times 3 \times 17^2</script>.</p>
+<p>Highest common factor  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>   HCF of <script type="math/tex">228</script> and <script type="math/tex">1734</script> is <script type="math/tex">2 \times 3 = 6</script>.</p>
+<p>Least common multiple   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  LCM of <script type="math/tex">228</script> and <script type="math/tex">1734</script> is <script type="math/tex">2^2 \times 3 \times 17^2 \times 19 = 65892</script>.</p>
+<p>Reduction of fractions to lowest terms   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{10}{18} = \frac{5}{9}</script>.</p>
+<p>Change of improper fractions to mixed fractions, and vice-versa <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{13}{5} = 2\frac{3}{5}</script>, <script type="math/tex">1\frac{7}{8} = \frac{15}{8}</script>.</p>
+<p>Products and quotients of surds 
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\sqrt{12} \times \sqrt{6} = \sqrt{2^2 \times 3} \times \sqrt{2 \times 3} = 2 \times 3 \times \sqrt{2} = 6\sqrt{2}</script>, 
+<script type="math/tex">\frac{\sqrt{108}}{\sqrt{150}} = \frac{\sqrt{2^2 \times 3^3}}{\sqrt{2 \times 3 \times 5^2}} = \sqrt{\frac{2^2 \times 3^3}{2 \times 3 \times 5^2}} = \sqrt{\frac{2 \times 3^2}{5^2}} = \frac{3\sqrt{2}}{5}.</script>
+</p>
+<h2 id="3-addition-and-subtraction-of-fractions">3 Addition and subtraction of fractions</h2>
+<h3 id="31-nature-of-denominators">3.1 Nature of denominators</h3>
+<p>Same denominator <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{4}{7} + \frac{2}{7}</script>, <script type="math/tex">\frac{5}{6} - \frac{1}{6}</script>.</p>
+<p>One denominator a multiple of the other   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{1}{4} + \frac{5}{12}</script>, <script type="math/tex">\frac{9}{10} - \frac{4}{5}</script>.</p>
+<p>Denominators having no common factor<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2}{3} + \frac{4}{7}</script>, <script type="math/tex">\frac{5}{8} - \frac{1}{3}</script>.</p>
+<p>Denominators having a common factor <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{4}{9} + \frac{1}{6}</script>, <script type="math/tex">\frac{7}{12} - \frac{3}{8}</script>.</p>
+<h3 id="32-mixed-numbers">3.2 Mixed numbers</h3>
+<p>(Addition) Fractional parts adding to less than <script type="math/tex">1</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">1\frac{3}{16} + 2\frac{3}{4} = 3\frac{15}{16}</script>
+</p>
+<p>(Addition) Fractional parts adding to greater than <script type="math/tex">1</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3\frac{1}{2} + 2\frac{2}{3} = 6\frac{1}{6}</script>
+</p>
+<p>(Subtraction) Fractional part of smaller fraction less than fractional part of greater fraction <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">4\frac{5}{6} - 2\frac{3}{4} = 2\frac{1}{12}</script>
+</p>
+<p>(Subtraction) Fractional part of smaller fraction greater than fractional part of greater fraction <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">5\frac{1}{6} - 3\frac{4}{9} = 1\frac{13}{18}</script>
+</p>
+<h3 id="33-number-of-fractions">3.3 Number of fractions</h3>
+<p>Two, three, ...  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{7}{10} + \frac{1}{4} + \frac{3}{5}</script>, <script type="math/tex">2\frac{3}{8} + 4\frac{5}{12} + 1\frac{2}{3}</script>.</p>
+<h3 id="34-combination-of-operations">3.4 Combination of operations</h3>
+<p>
+<script type="math/tex">a+b</script>, <script type="math/tex">a - b</script>, <script type="math/tex">a-b+c</script>, ...  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{5}{6} - \frac{2}{3} - \frac{1}{9}</script>, <script type="math/tex">1\frac{2}{3} - 3\frac{7}{8} + 4\frac{5}{6}</script>.</p>
+<h3 id="35-special-case">3.5 Special case</h3>
+<p>Fraction minus itself; e.g. <script type="math/tex">\frac{4}{5} - \frac{4}{5}</script>. <script type="math/tex">x - x = 0</script>, rather than <script type="math/tex">\frac{4}{5} - \frac{4}{5} = \frac{4-4}{5} = \frac{0}{5} = 0</script>.</p>
+<h2 id="4-multiplication-and-division-of-fractions">4 Multiplication and division of fractions</h2>
+<h3 id="41-nature-of-component-fractions">4.1 Nature of component fractions</h3>
+<p>Fraction times whole number which is relatively prime to the denominator <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2}{9} \times 4</script>
+</p>
+<p>Fraction times whole number which is a factor of the denominator (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3}{8} \times 4</script>
+</p>
+<p>Fraction times whole number which has a factor in common with the denominator (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{5}{12} \times 9</script>
+</p>
+<p>Fraction times fraction with no cancelling involved <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2}{7} \times \frac{3}{5}</script>
+</p>
+<p>Fraction times fraction with cancelling involved (preferably <em>before</em> multiplying)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{14}{15} \times \frac{3}{4}</script>
+</p>
+<p>Fraction divided by whole number which is a factor of the numerator <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{4}{5} \div 2</script>
+</p>
+<p>Fraction divided by whole number which has no factor in common with the numerator <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3}{4} \div 5</script>
+</p>
+<p>Fraction divided by whole number which has a factor in common with the numerator (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{4}{7} \div 6</script>
+</p>
+<p>Fraction divided by fraction with no cancelling involved <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{5}{8} \div \frac{2}{3}</script>
+</p>
+<p>Fraction divided by fraction with cancelling involved <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{6}{7} \div \frac{9}{14}</script>
+</p>
+<h4 id="1411-mixed-numbers">14.1.1 Mixed numbers</h4>
+<p>In question <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">1\frac{1}{5} \times \frac{1}{3} = \frac{2}{5}</script>, <script type="math/tex">3 \div 4\frac{1}{2} = \frac{2}{3}</script>.</p>
+<p>In answer <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{5}{16} \times 6 = 1\frac{7}{8}</script>,
+<script type="math/tex">\frac{3}{5} \div \frac{4}{7} = 1\frac{1}{20}</script>.</p>
+<p>In both question and answer <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3}{4} \times 3\frac{1}{5} = 2\frac{2}{5}</script>, <script type="math/tex">3\frac{1}{6} \div 1\frac{1}{2} = 2\frac{1}{9}</script>.</p>
+<h4 id="412-number-of-fractions">4.1.2 Number of fractions</h4>
+<p>Two, three, ...  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2}{5} \times \frac{1}{3} \times \frac{15}{16}</script>, <script type="math/tex">1\frac{1}{3} \times 2\frac{1}{4} \times 1\frac{7}{12}</script>.</p>
+<h4 id="413-combination-of-operations">4.1.3 Combination of operations</h4>
+<p>
+<script type="math/tex">a \times b</script>, <script type="math/tex">a \div b</script>, <script type="math/tex">a \times b \div c</script>, <script type="math/tex">a \div (b \times c)</script>, <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2}{3} \div \left(\frac{1}{2} \times \frac{5}{6} \right)</script>,</p>
+<p>
+<script type="math/tex">(a \div b) \times c</script>, <script type="math/tex">a \div (b \div c)</script>, <script type="math/tex">(a \div b) \div c</script>, ...  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\left(\frac{9}{10} \times 6\frac{2}{3} \right) \div 2 \frac{1}{4}</script>.</p>
+<h4 id="414-special-case">4.1.4 Special case</h4>
+<p>Fraction divided by itself; e.g. <script type="math/tex">\frac{2}{3} \div \frac{2}{3}</script>. <script type="math/tex">x \div x = 1</script> (or <script type="math/tex">\frac{x}{x} = 1</script>), rather than <script type="math/tex">\frac{2}{3} \times \frac{3}{2} = \frac{1}{1} = 1</script>.</p>
+<h2 id="5-combinations-of-arithmetic-operations-on-fractions">5 Combinations of arithmetic operations on fractions</h2>
+<p>Including fractions in which the numerator and denominator are themselves a sum or difference of two fractions.</p>
+<p>
+<script type="math/tex; mode=display">5\frac{1}{4} - \left(1\frac{1}{5} \times \frac{15}{16} \right),\ \left( \frac{3}{10} \div \frac{1}{4} \right)  + 2 \frac{1}{5},\ 3\frac{3}{8} \left(  4 \frac{2}{3} + 1\frac{3}{7}\right),</script>
+<script type="math/tex; mode=display">\left( \frac{1}{3} + \frac{1}{2}\right)  \left(  2\frac{1}{2} + 1 \frac{1}{4} \right),\ \frac{2+\frac{3}{8}}{1\frac{1}{3}+\frac{1}{4}},\ \frac{1\frac{1}{2}+\frac{2}{3}}{\frac{5}{6}},\ \frac{\frac{4}{9} + \frac{5}{6}}{\frac{5}{8} - \frac{7}{12}}.</script>
+</p>
+<p>Substituting numbers for letters <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{s^2 + 2t^2}{3 - 2t}</script> when <script type="math/tex">s = \frac{3}{8}</script> and <script type="math/tex">t = \frac{2}{5}</script>
+</p>
+<h2 id="6-simplifying-algebraic-expressions">6 Simplifying algebraic expressions</h2>
+<h3 id="61-collecting-like-terms">6.1 Collecting like terms</h3>
+<h4 id="611-linear">6.1.1 Linear</h4>
+<p>Numbers and one letter <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">6-2x-4 + 3x</script>
+</p>
+<p>Two (or more) letters <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2a + b - c + 3a - 2b</script>
+</p>
+<p>Numbers and two (or more) letters <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">5s + 3t - 1 - 2s + t - 6</script>
+</p>
+<h4 id="612-higher-orders">6.1.2 Higher orders</h4>
+<p>Numbers and terms in one letter <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 - 2x^3 + 1 - 3x^2 - 4 + x + 5x^3</script>
+</p>
+<p>Numbers and terms in two (or more) letters <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">xy^2 - y - xy + 2 + x^2 + 3xy^2 + 4y</script>
+</p>
+<h4 id="613-compound-terms-non-removal-of-brackets">6.1.3 'Compound terms' (non-removal of brackets)</h4>
+<p>
+<script type="math/tex">2(4x+1)+3(4x+1) = 5(4x+1)</script>,
+<script type="math/tex">7(a+b) - 4(a+b) = 3(a+b)</script>.</p>
+<h3 id="62-powers-of-single-term-expressions">6.2 Powers of single-term expressions</h3>
+<p>Rules of indices, mainly for particular integer values of <script type="math/tex">m</script> and <script type="math/tex">n</script>:</p>
+<p>
+<script type="math/tex">a^ma^n = a^{m+n}</script>, <script type="math/tex">a^m \div a^n = a^{m-n}</script>, <script type="math/tex">(a^m)^n = a^{mn}</script>, <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong> <script type="math/tex">(a^2)^3 = a^6</script>, <script type="math/tex">(ab)^3 = a^3b^3</script>,
+<script type="math/tex">a^0 = 1</script>, <script type="math/tex">a^{-1} = \frac{1}{a}</script>, <script type="math/tex">a^{-n} = \frac{1}{a^n}</script>,<script type="math/tex">(ab)^n = a^nb^n</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>    <script type="math/tex">\left(  \frac{1}{a} \right)  ^{-2} = a^2</script>,<script type="math/tex">(3a)^2 = 9a^2</script>, <script type="math/tex">(2a^2b)^3 = 8a^6b^3</script>.</p>
+<p>Fractional indices and surds  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a^{\frac{1}{n}} = \sqrt[n]{a}</script>, 
+<script type="math/tex">a^{\frac{m}{n}} = \sqrt[n]{a^m} = \left(  \sqrt[n]{a} \right) ^m</script>.  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\left(  2 \sqrt{a}\right)  ^4 = 16a^2</script>, <script type="math/tex">(4a)^{\frac{1}{2}} \div a^\frac{3}{2} = \frac{2}{a}</script>.</p>
+<p>Substituting numbers for letters <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a^\frac{3}{4} + b^\frac{2}{3}</script> when <script type="math/tex">a = 16</script> and <script type="math/tex">b = 27</script>,
+<script type="math/tex">\sqrt{(y^2 + z^2)x^{-1}}</script> when <script type="math/tex">x = 4</script>, <script type="math/tex">y = 6</script> and <script type="math/tex">z = 8</script>.</p>
+<h3 id="63-multiplying-and-dividing-single-term-expressions">6.3 Multiplying and dividing single-term expressions</h3>
+<p>Terms in a single letter   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a \times a \times a = a^3</script>, <script type="math/tex">b^4 \div b^2 = b^2</script>, <script type="math/tex">c^2 \div c^3 = \frac{1}{c}</script>.</p>
+<p>Terms in a single letter with numbers   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">5a \times 2a^2 = 10a^3</script>, <script type="math/tex">6b^2 \div 2b = 3b</script>.</p>
+<p>Terms involving more than one letter <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">4a \times 3b = 12ab</script>, <script type="math/tex">8a \div 2b = \frac{4a}{b}</script>, <script type="math/tex">9a^3 \div 6ab = \frac{3a^2}{b}</script>.</p>
+<h2 id="7-removing-brackets">7 Removing brackets</h2>
+<h3 id="71-multiplying-single-term-expression-and-bracket">7.1 Multiplying single-term expression and bracket</h3>
+<p>Number times linear expression in one letter <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2(3x +4)</script>, <script type="math/tex">-3(x+2)</script>.</p>
+<p>Number times linear expression in two (or more) letters   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3(a-2b)</script>, <script type="math/tex">-2(x+4y)</script>.</p>
+<p>Minus sign on its own outside bracket <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">-(x+3)</script>, <script type="math/tex">-(a-b)</script>, <script type="math/tex">-(-2x-1)</script>.</p>
+<p>Letter times linear expression in same letter   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x(x+2)</script>
+</p>
+<p>Letter times linear expression in two (or more) letters   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a(b-c)</script>
+</p>
+<p>Higher order terms <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2(1-x)</script>, <script type="math/tex">x(x^3+x)</script>.</p>
+<p>More than two terms inside bracket <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a(a^2-ab+b^2)</script>, <script type="math/tex">xy(x+y-1)</script>.</p>
+<h3 id="72-multiplying-two-brackets-each-with-two-terms">7.2 Multiplying two brackets, each with two terms</h3>
+<h4 id="721-linear-terms-in-a-single-letter">7.2.1 Linear terms in a single letter</h4>
+<p>Various types, illustrated by the following examples 
+<script type="math/tex; mode=display">
+(x+1)(x+2),\  (x+1)(x-2),\  (x-1)(x+2),\  (x-1)(x-2),\\
+(x+1)(2+x),\ (x+1)(2-x),\ (x-1)(2+x),\ (x-1)(2-x),\\
+(1+x)(x+2),\ (1+x)(x-2),\ (1-x)(x+2),\ (1-x)(x-2),\\
+(1+x)(2+x),\ (1+x)(2-x),\ (1-x)(2+x),\ (1-x)(2-x).\\
+</script>
+</p>
+<p>As above, but with one of the <script type="math/tex">x</script>s replaced by a number times <script type="math/tex">x</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">(5x + 1)(x - 2)</script>
+</p>
+<p>As above, but with both of the <script type="math/tex">x</script>s replaced by a number times <script type="math/tex">x</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">(4x - 1)(2+ 3x)</script>
+</p>
+<h4 id="722-linear-terms-involving-more-than-one-letter">7.2.2 Linear terms involving more than one letter</h4>
+<p>The same two letters in each bracket   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">(a+3b)(2a-b)</script>
+</p>
+<p>More than two different letters involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">(x+4y)(2x+3z)</script>, <script type="math/tex">(a-b)(c - d)</script>.</p>
+<h4 id="723-square-twice-product-square">7.2.3 'Square, twice product, square'</h4>
+<p>
+<script type="math/tex">(x+1)^2 = x^2+2x+1</script>,
+<script type="math/tex">(x-1)^2 = x^2 - 2x +1</script>,
+<script type="math/tex">(2x+3)^2 = 4x^2 + 12x + 9</script>,
+<script type="math/tex">(pq-r)^2 = p^2q^2 - 2pq + r^2</script>,
+<script type="math/tex">(a+b)^2 = a^2 + 2ab + b^2</script>.</p>
+<h4 id="724-difference-of-two-squares">7.2.4 'Difference of two squares'</h4>
+<p>
+<script type="math/tex">(x+2)(x-2) = x^2 - 4</script>,
+<script type="math/tex">(2x+5)(2x-5) = 4x^2 - 25</script>,
+<script type="math/tex">(xy+zt)(xy - zt) = x^2y^2 - z^2t^2</script>,
+<script type="math/tex">(a+b)(a-b) = a^2 - b^2</script>.</p>
+<h3 id="73-additional-features">7.3 Additional features</h3>
+<p>Three or more factors <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x(y+2z)(y - z)</script>
+</p>
+<p>Three or more terms inside one (or more) of the brackets <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">(x+2y+1)(x-y)</script>, <script type="math/tex">(a+b+c)^2</script>.</p>
+<p>Removing brackets and collecting like terms <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong> <script type="math/tex">x^3(x+1) - x^2(x-1)</script>, <script type="math/tex">a(b-c)-b(a-c)</script>,
+<script type="math/tex">5b(a+2) - a(3b+4)</script>, <script type="math/tex">(2x+1)^2 + (x-3)^2</script>.</p>
+<p>Involvement of surds <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\left(  \sqrt{2} - 1 \right)  \left(  \sqrt{2} + 3 \right)</script>, <script type="math/tex">\left(  1 + 2 \sqrt{2} \right)  ^2</script>,
+<script type="math/tex">\left(  \sqrt{a} - 6 \right)  \left(  \sqrt{a} + 6 \right)</script>, <script type="math/tex">\sqrt{25xy^3(x - 2y)^2}</script>.</p>
+<h2 id="8-algebraic-fractions">8 Algebraic fractions</h2>
+<h3 id="81-cancelling">8.1 Cancelling</h3>
+<p>Cancelling a number only <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2a}{4b}</script>
+</p>
+<p>Cancelling a letter only <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3a}{2a}</script>
+</p>
+<p>Leaving <script type="math/tex">1</script> or <script type="math/tex">-1</script> after cancelling   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{x}{2x} = \frac{1}{2}</script>
+</p>
+<p>Cancelling both letters and numbers   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{8ab^2}{12ab}</script>
+</p>
+<p>Cancelling a bracketed term   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{(y+1)^2}{y+1}</script>,
+<script type="math/tex">\frac{20(x-2)}{5(x-2)^3}</script>.</p>
+<h4 id="811-minus-1">8.1.1 Minus 1</h4>
+<p>Minus <script type="math/tex">1</script> in denominator   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{a}{-1} = -a</script>, <script type="math/tex">\frac{a-b}{-1} = b - a</script>, <script type="math/tex">\frac{x^2+x-2}{-1}= 2 - x - x^2</script>.</p>
+<p>Expressions of opposite sign in numerator and denominator <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{b-a}{a-b} = -1</script>
+</p>
+<h3 id="82-adding-and-subtracting-algebraic-fractions">8.2 Adding and subtracting algebraic fractions</h3>
+<p><em>Denominators numbers and numerators multiples of the same letter or
+bracketed expression</em></p>
+<p>Same denominator <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{5x}{8} + \frac{x}{8}</script>, <script type="math/tex">\frac{4(x+2)}{7} - \frac{3(x+2)}{7}</script>.</p>
+<p>One denominator a multiple of the other   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3x}{4} + \frac{x}{12}</script>
+</p>
+<p>Denominators having no common factor   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3a}{4}-\frac{2a}{5}</script>, <script type="math/tex">\frac{2(x+y)}{3}+\frac{3(x+y)}{4}</script>.</p>
+<p>Denominators having a common factor   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{5x}{6}+\frac{2x}{9}</script>
+</p>
+<h4 id="821-single-term-numerators-and-denominators">8.2.1 Single-term numerators and denominators</h4>
+<p>Same denominator   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{1}{9x}+\frac{2}{9x}</script>, <script type="math/tex">\frac{a}{5}+\frac{2b}{5}</script>.</p>
+<p>One denominator a multiple of the other   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3}{4x} + \frac{5}{8x}</script>
+</p>
+<p>Denominators having no common factor <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{1}{a} + \frac{1}{b}</script>, <script type="math/tex">\frac{a}{b}+\frac{c}{d}</script>.</p>
+<p>Denominators having a common factor <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2}{ab} + \frac{5}{bc}</script>, <script type="math/tex">\frac{7}{4x} - \frac{2}{5x}</script>, <script type="math/tex">\frac{3a}{10b}+\frac{4c}{5d}</script>.</p>
+<p>Numerical and literal fractions mixed   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{1}{2}+\frac{1}{x}</script>, <script type="math/tex">\frac{a}{b} - \frac{5}{8}</script>.</p>
+<p>Adding or subtracting <script type="math/tex">1</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{x}{y} - 1 = \frac{x-y}{y}</script>, <script type="math/tex">1+\frac{a}{b} = \frac{b+a}{b}</script>.</p>
+<h4 id="822-linear-expression-in-numerator-or-denominator">8.2.2 Linear expression in numerator or denominator</h4>
+<p>In numerators only <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2x-1}{5}+\frac{x+3}{2}</script>
+</p>
+<p>In denominators only   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3}{x-2} - \frac{4}{x+1}</script>
+</p>
+<p>In both numerator and denominator   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{2x+1}{x-3} + \frac{3x-1}{x+4}</script>
+</p>
+<h4 id="823-higher-powers-orand-several-different-letters">8.2.3 Higher powers or/and several different letters</h4>
+<p>
+<script type="math/tex; mode=display">\frac{a-c}{a+b} - \frac{a-b}{a+c},\ \frac{2}{3xy} + \frac{5}{4x^2y}.</script>
+</p>
+<h4 id="824-combinations-of-operations">8.2.4 Combinations of operations</h4>
+<p>
+<script type="math/tex; mode=display">\frac{2}{x} - \frac{3}{x^2} + \frac{4}{x^3},\ \frac{a-3}{3} + \frac{a+5}{4} - \frac{2a-1}{6}.</script>
+</p>
+<h3 id="83-multiplying-and-dividing-algebraic-fractions">8.3 Multiplying and dividing algebraic fractions</h3>
+<p>No cancelling involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{x^2}{y} \times \frac{x^3}{2}</script>, <script type="math/tex">\frac{x-1}{2} \div \frac{5}{x}</script>.</p>
+<p>(Multiplication) single-term common factor in numerator of one fraction and denominator of the other (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{4y}{3} \times \frac{15z}{8y}</script>
+</p>
+<p>(Multiplication) bracketed common factor in numerator of one fraction and denominator of the other (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{x+y}{5} \times \frac{7}{2(x+y)}</script>, <script type="math/tex">\frac{4a^2}{a-b} \times \frac{a-b}{8a}</script>.</p>
+<p>(Division) single-term common factor in numerators or in denominators (cancelling involved)   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">xy \div \frac{x}{y+1}</script>
+</p>
+<p>(Division) bracketed common factor in numerators or in denominators (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{a(a+b)}{2b^2} \div \frac{a+b}{6b^3}</script>
+</p>
+<h3 id="84-combinations-of-arithmetic-operations-on-algebraic-fractions">8.4 Combinations of arithmetic operations on algebraic fractions</h3>
+<p>Including fractions in which the numerator and denominator are themselves a sum or difference of two fractions.</p>
+<p>
+<script type="math/tex; mode=display">\frac{a}{b}\div c = \frac{a}{bc},\ \frac{a}{b \div c} = \frac{ac}{b}, \ \frac{\frac{b+1}{a}+1}{b} = \frac{a+b+1}{ab},</script>
+<script type="math/tex; mode=display">\left(  \left(  x - \frac{1}{x} \right)  ^2 + 2 \right)  \div \frac{1}{x^2} = x^4 + 1.</script>
+</p>
+<h2 id="9-linear-equations">9 Linear equations</h2>
+<p>Unknown on one side of equation   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x+2 = 11</script>, <script type="math/tex">7-2x = 3</script>.</p>
+<p>Unknown on both sides of equation   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2x+6=3-x</script>, <script type="math/tex">3x-5 = 7+9x</script>.</p>
+<p>Removal of brackets involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3(2x-1)-2(x-1)=0</script>
+</p>
+<p>Fractions involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3-x}{5} + 3 = \frac{2x+1}{10}</script>
+</p>
+<h2 id="10-single-term-common-factors">10 Single-term common factors</h2>
+<p>Common factor a number   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">8 - 2x</script>, <script type="math/tex">6x+9y</script>.</p>
+<p>Common factor a letter   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x^2 + 2x</script>, <script type="math/tex">x^2 - 4xy</script>.</p>
+<p>More than one common factor   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">5xy + 10x^2z</script>, <script type="math/tex">6abc - 8bcd</script>.</p>
+<p>More than two terms   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3xy + 6y^2 - 9y</script>
+</p>
+<p>Leaving <script type="math/tex">1</script> or <script type="math/tex">-1</script> after taking out common factor   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^3+x^2</script>, <script type="math/tex">6s^2 - s</script>.</p>
+<p>Some, but not all, terms fractions   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">P + \frac{PRT}{100}</script>
+</p>
+<p>Common given bracketed expression   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">(a-b)c + (a-b)d</script>, <script type="math/tex">x(y+1) - 2(y+1)</script>.</p>
+<h2 id="11-rearranging-algebraic-formulae">11 Rearranging algebraic formulae</h2>
+<h3 id="111-fundamental-multiplicative-equivalences">11.1 Fundamental multiplicative equivalences</h3>
+<p>Equivalence of <script type="math/tex">ab=c</script>, <script type="math/tex">b = \frac{c}{a}</script> and <script type="math/tex">a = \frac{c}{b}</script>.</p>
+<p>Equivalence of <script type="math/tex">\frac{a}{b} = \frac{c}{d}</script> and <script type="math/tex">ad = bc</script> (<em>cross multiplication</em>).</p>
+<h3 id="112-making-a-specified-letter-the-subject-of-a-formula">11.2 Making a specified letter the subject of a formula</h3>
+<p>Specified letter in one term <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">s = 2t - d\ (t)</script>
+</p>
+<p>Specified letter in two (or more) terms   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a-bx = c+dx\ (x)</script>
+</p>
+<p>Specified letter with mixed coefficients (numbers and letters)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">T= 2p+ph\ (p)</script>
+</p>
+<p>Removal of brackets involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">r^2=V(h-a)\ (a)</script>
+</p>
+<p>Fractions involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a=b+\frac{x}{c}</script>, <script type="math/tex">\frac{x}{a}+\frac{x}{b} = 2\ (x)</script>
+</p>
+<p>Removal of surds involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a=b\sqrt{x}</script>, <script type="math/tex">a= \sqrt{b+x}\ (x)</script>
+</p>
+<p>Taking square roots involved   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">z^2 = y^2 - x^2</script>, <script type="math/tex">y = \sqrt{x^2 + 4}</script>, <script type="math/tex">y = \sqrt{\frac{x^2-1}{x^2+1}}\ (x)</script>
+</p>
+<h3 id="113-substituting-from-one-formula-into-another">11.3 Substituting from one formula into another</h3>
+<p>Direct substitution of one letter <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">m = \frac{r}{s}</script>, <script type="math/tex">k = mr \rightarrow k</script> in terms of <script type="math/tex">r</script> and <script type="math/tex">s</script>
+</p>
+<p>Direct substitution of two (or more) letters <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">c=2ab</script>, <script type="math/tex">a=x+5</script>, <script type="math/tex">b = x-1 \rightarrow c</script> in terms of <script type="math/tex">x</script>;
+<script type="math/tex">r = 4p - q</script>, <script type="math/tex">p = x - 2y</script>, <script type="math/tex">q = x-5y \rightarrow r</script> in terms of <script type="math/tex">x</script> and <script type="math/tex">y</script>.</p>
+<p>Elimination of a letter from two formulae <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">k = \frac{A}{u}</script>, <script type="math/tex">L = \frac{u^2}{m} \rightarrow L</script> in terms of <script type="math/tex">A</script>, <script type="math/tex">k</script> and <script type="math/tex">m</script>;\
+<script type="math/tex">v = at</script>, <script type="math/tex">s = \frac{1}{2}at^2 \rightarrow s</script> in terms of <script type="math/tex">v</script> and <script type="math/tex">t</script>.</p>
+<h2 id="12-simultaneous-linear-equations">12 Simultaneous linear equations</h2>
+<p>Coefficients of one unknown the same in both equations (<em>Subtract one equation from the other</em>)</p>
+<ul>
+<li>
+<p>Coefficient positive <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x + 2y = 9</script>, <script type="math/tex">x+2y = 7</script>
+</p>
+</li>
+<li>
+<p>Coefficient negative <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">5x-y = 14</script>, <script type="math/tex">2x - y = 5</script>
+</p>
+</li>
+<li>
+<p>Equations given in least convenient order (<em>Subtract first from second</em>)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x+2y = 7</script>, <script type="math/tex">3x + 2y = 9</script>
+</p>
+</li>
+</ul>
+<p>Coefficient of an unknown in one equation minus its coefficient in the other (<em>Add equations</em>)<br />
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x+2y = 12</script>, <script type="math/tex">5x - 2y = 4</script>
+</p>
+<p>Coefficient of an unknown in one equation a positive multiple of its coefficient in the other (<em>Multiply and subtract</em>)<br />
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2x + 5y = 24</script>, <script type="math/tex">4x + 3y = 20</script>
+</p>
+<p>Coefficient of an unknown in one equation a negative multiple of its coefficient in the other (<em>Multiply and add</em>)<br />
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x - 2y = 7</script>, <script type="math/tex">4x + y = 13</script>
+</p>
+<p>Multiplication of both equations before adding or subtracting 
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">4x - 3y = 11</script>, <script type="math/tex">5x + 2y = 9</script>
+</p>
+<p>Prior rearrangement of equations involved <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2x = 5y + 1</script>, <script type="math/tex">5x + 3(y-6) = 0</script>
+</p>
+<p><em>Substitution method</em>  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex; mode=display">\left.
+\begin{array}{l}
+x - 2y = 1 \\
+3x + 5y = 14
+\end{array}
+\right\} \rightarrow 3(2y+1) + 5y = 14 \rightarrow 11y = 11 \rightarrow
+\left. \begin{array}{l}
+y = 1 \\
+x = 3
+\end{array}
+\right\}</script>
+</p>
+<h2 id="13-factorising-algebraic-expressions">13 Factorising algebraic expressions</h2>
+<h3 id="131-quadratic-expressions">13.1 Quadratic expressions</h3>
+<h4 id="1311-no-number-in-front-of-the-x2">13.1.1 No number in front of the <script type="math/tex">x^2</script>
+</h4>
+<p>Constant term <script type="math/tex">+</script>, <script type="math/tex">x</script>-term <script type="math/tex">+</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 + 5x +4</script>
+</p>
+<p>Constant term <script type="math/tex">+</script>, <script type="math/tex">x</script>-term <script type="math/tex">-</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 - 7x +12</script>
+</p>
+<p>Constant term <script type="math/tex">-</script>, <script type="math/tex">x</script>-term <script type="math/tex">+</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 + 3x - 10</script>
+</p>
+<p>Constant term <script type="math/tex">-</script>, <script type="math/tex">x</script>-term <script type="math/tex">-</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 - 2x - 15</script>
+</p>
+<p>'Square, twice product, square'   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 + 6x + 9</script>
+</p>
+<p>'Difference of two squares'   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 - 16</script>
+</p>
+<h4 id="1312-number-in-front-of-the-x2">13.1.2 Number in front of the <script type="math/tex">x^2</script>
+</h4>
+<p>Constant term <script type="math/tex">+</script>, <script type="math/tex">x</script>-term <script type="math/tex">+</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2x^2 + 11x +12</script>
+</p>
+<p>Constant term <script type="math/tex">+</script>, <script type="math/tex">x</script>-term <script type="math/tex">-</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">15x^2 - 13x + 2</script>
+</p>
+<p>Constant term <script type="math/tex">-</script>, <script type="math/tex">x</script>-term <script type="math/tex">+</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x^2 + x - 4</script>
+</p>
+<p>Constant term <script type="math/tex">-</script>, <script type="math/tex">x</script>-term <script type="math/tex">-</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">6x^2 - 7x - 10</script>
+</p>
+<p>'Square, twice product, square'   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">9x^2 - 12x + 4</script>
+</p>
+<p>'Difference of two squares'   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">25x^2 - 4</script>
+</p>
+<h4 id="1313-modifications-of-the-above">13.1.3 Modifications of the above</h4>
+<p>Terms not in usual order   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x+4-x^2</script>, <script type="math/tex">11x - x^2 - 30</script>, <script type="math/tex">4 - 8x + 4x^2</script>.</p>
+<p>Homogeneous in two variables   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 + xy - 6y^2</script>, <script type="math/tex">36x^2 - 49y^2</script>, <script type="math/tex">x^2 + 8xy + 16y^2</script>.</p>
+<p>Single-term factor leaving quadratic   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">3x^3 - 6x^2 - 24x</script>, <script type="math/tex">50a^3 - 18ab^2</script>.</p>
+<p>Expression in place of a single letter   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2y^2 - 2xy + 1</script>, <script type="math/tex">(a+b)^2 - (a+c)^2</script>.</p>
+<p>Fractions involved <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 - \frac{y^2}{4} = \left(  x - \frac{y}{2} \right)  \left(  x + \frac{y}{2} \right)</script>, <script type="math/tex">x^2 + 2 + \frac{1}{x^2} = \left(  x + \frac{1}{x} \right)  ^2</script>.</p>
+<h3 id="132-other-two-or-more-term-factors">13.2 Other two (or more)-term factors</h3>
+<p>Grouping   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">ab + a + b + 1 = (a+1)(b+1)</script>, <script type="math/tex">ax + ay - bx - by = (a-b)(x+y)</script>.</p>
+<p>Sum of two cubes   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^3 + y^3 = (x+y)(x^2 - xy + y^2)</script>
+</p>
+<p>Difference of two cubes   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^3 - y^3 = (x-y)(x^2 + xy + y^2)</script>
+</p>
+<p>Just for fun <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">a^3 + b^3 + c^3 - 3abc = (a+b+c)(a^2 + b^2 + c^2 - bc - ca - ab)</script>
+<script type="math/tex">= \frac{1}{2}\left(  a+b+c \right)  \left( (b-c)^2 + (c-a)^2 + (a-b)^2 \right)</script>
+</p>
+<h2 id="14-algebraic-fractions-involving-factorising">14 Algebraic fractions involving factorising</h2>
+<h3 id="141-cancelling">14.1 Cancelling</h3>
+<p>Cancelling a number only   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{9x+3}{3x}</script>, <script type="math/tex">\frac{4x^2 + 2x}{6x^2 - 10}</script>.</p>
+<p>Cancelling a letter only   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3x}{4x+5x^2}</script>, <script type="math/tex">\frac{a^2 - 2ab}{a^3 + 3a^2b + ab^2}</script>.</p>
+<p>Cancelling both letters and numbers   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{4a}{(2a)^2 - 8a}</script>, <script type="math/tex">\frac{5x^3 - 15x^2y + 10xy^2}{5x^2 + 10xy}</script>.</p>
+<p>Cancelling a two (or more)-term expression <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3a-6b}{a^2-2ab} = \frac{3(a-2b)}{a(a-2b)} = \frac{3}{a}</script>, <script type="math/tex">\frac{x^2 - 5x + 6}{3y - xy} = \frac{(x-2)(x-3)}{y(3-x)} = \frac{2-x}{y}</script>.</p>
+<h3 id="142-arithmetic-operations">14.2 Arithmetic operations</h3>
+<p>Adding and subtracting where there is a common factor in the denominators   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{1}{x^2 + 5x +6} - \frac{2}{x^2 - 4}</script>
+</p>
+<p>Multiplying where there is a common factor in the numerator of one fraction and the denominator of the other (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{6}{x^2 - 2x - 8} \times \frac{x+2}{3}</script>
+</p>
+<p>Dividing where there is a common factor in the numerators or in the denominators (cancelling involved)  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{3x}{x^2 - 1} \div \frac{5}{x+1}</script>
+</p>
+<p>Combinations of arithmetic operations <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{\frac{a+b+1}{ab} + 1}{\frac{b+1}{a}} = \frac{ab + a + b + 1}{b(b+1)} = \frac{(a+1)(b+1)}{b(b+1)} = \frac{a+1}{b}</script>,
+<script type="math/tex">\frac{\frac{a+1}{b} + 1}{\frac{a+b+1}{ab}} = \frac{a(a+1) + ab}{a+b + 1} = \frac{a(a+b + 1)}{a+b+1} = a</script>
+</p>
+<p><ins>Aside  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  </ins> The sequence <script type="math/tex">(u_n)</script>, given by <script type="math/tex">u_1 = a</script>, <script type="math/tex">u_2 = b</script>, <script type="math/tex">u_n = \frac{u_{n-1} + 1}{u_{n-2}}</script>
+<script type="math/tex">(n \geq 3)</script>, therefore repeats itself after <script type="math/tex">5</script> terms  <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>   <script type="math/tex">a</script>, <script type="math/tex">b</script>, <script type="math/tex">\frac{b+1}{a}</script>, <script type="math/tex">\frac{a+b+1}{ab}</script>, <script type="math/tex">\frac{a+1}{b}</script>, <script type="math/tex">a</script>, <script type="math/tex">b</script>, <script type="math/tex">\cdots</script>. It is an interesting exercise, beyond the scope of school algebra, to 'explain' this phenomenon!</p>
+<h2 id="15-quadratic-equations">15 Quadratic equations</h2>
+<h3 id="151-solution-by-factorising">15.1 Solution by factorising</h3>
+<p>
+<script type="math/tex">6x^2 - 11x - 2 = 0 \rightarrow (x-2)(6x+1) = 0 \rightarrow x = 2</script> or <script type="math/tex">-\frac{1}{6}</script>
+</p>
+<h3 id="152-completing-the-square-of-a-quadratic-expression">15.2 Completing the square of a quadratic expression</h3>
+<p>No number in front of the <script type="math/tex">x^2</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 + 5x + 3 = \left(  x + \frac{5}{2} \right)  ^2 - \frac{13}{4}</script>
+</p>
+<p>Number in front of the <script type="math/tex">x^2</script>
+<script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">2x^2 - 3x + 5 = 2 \left(  x - \frac{3}{4} \right)  ^2 + \frac{31}{8}</script>
+</p>
+<h3 id="153-solution-by-completing-the-square">15.3 Solution by completing the square</h3>
+<p>
+<script type="math/tex">x^2 + 5x + 3 = 0 \rightarrow x + \frac{5}{2} = \pm \frac{\sqrt{13}}{2} \rightarrow x = -\frac{5}{2} \pm \frac{\sqrt{13}}{2}</script>
+</p>
+<p>General case ('the formula')   <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">ax^2 + bx + c = 0</script>
+<script type="math/tex">(a \neq 0) \rightarrow x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</script>
+</p>
+<p>Prior rearrangement involved <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">\frac{1}{x-2} - \frac{1}{x+5} = \frac{7}{18}</script>
+</p>
+<h3 id="154-the-three-kinds-of-behaviour-and-corresponding-graphical-interpretation">15.4 The three kinds of behaviour and corresponding graphical interpretation</h3>
+<p>
+<script type="math/tex">b^2 > 4ac</script> - two roots 
+<img alt="graph of y=x^2+5x+3" src="......\content\yx25x3.svg" /></p>
+<p>
+<script type="math/tex">b^2 = 4ac</script> - one root 
+<img alt="graph of y=-x^2+4x-4" src="......\content\yx24x4.svg" /></p>
+<p>
+<script type="math/tex">b^2 < 4ac</script> - no (real) roots
+<img alt="graph of y=x^2-2x+2" src="......\content\yx22x2.svg" /></p>
+<h3 id="155-simultaneous-equations-one-linear-and-one-quadratic">15.5 Simultaneous equations, one linear and one quadratic</h3>
+<p>Direct substitution from linear equation into quadratic equation <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 + y^2 = 10</script>, <script type="math/tex">y = 2 - x</script>
+</p>
+<p>Prior rearrangement involved <script type="math/tex">\quad\rightarrow\quad</script>
+<strong>Example:</strong>  <script type="math/tex">x^2 - xy + y^2 = 13</script>, <script type="math/tex">2x - 3y = 5</script>
+</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+<footer class="md-footer">
+<div class ="md-main__inner md-grid">
+<!--Copy of primary sidebar, which collapses-->
+<div class="md-sidebar md-sidebar--primary_footer">
+
+</div>
+<!--Copy of secondary sidebar, which collapses-->
+<div class ="md-sidebar md-sidebar--secondary">
+</div>
+
+<!--Footer-->
+<div class="md-content">
+<div class="md-content__inner md-typeset">
+    <div class="row">
+    <div class="footerColumn"><a href="https://www.stack-assessment.org">
+    <img src="../../../../content/logo_large.png" width="70px" style="margin-top:1.3em;float:left;">
+    <h2 style="color:white;margin-top:1.1em!important;"><b>STACK</b></h2></a>
+    </div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/About/">
+        <h5 style="color:white;">About STACK</h5></a>
+        <a href="https://www.stack-assessment.org/Training_and_events/"><h5 style="color:white;">Training and Events</h5></a>
+        <a href="https://www.stack-assessment.org/Case_studies/"><h5 style="color:white;">Case Studies</h5></a>
+        <a href="https://stack-demo.maths.ed.ac.uk/demo/"><h5 style="color:white;">Demonstration site</h5><a></div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/Legal/PrivacyStatement/">
+        <h5 style="color:white;">Privacy statement</h5></a><a href="https://www.stack-assessment.org/Legal/Licenses/">
+        <h5 style="color:white;">Licenses</h5></a><a href="https://www.stack-assessment.org/Legal/Accessibility/">
+        <h5 style="color:white;">Accessibility</h5></a>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+  <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+  <script>
+    var __search = {
+      transform: function(query) {
+        return query
+      }
+    }
+  </script>
+
+    
+      <script src="../../../../assets/javascripts/bundle.ba449ae6.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+    
+  </body>
+</html>

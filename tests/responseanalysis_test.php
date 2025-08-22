@@ -58,32 +58,62 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "974": {
             "id": "974",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3F . '"
+            "responsesummary": "' . RESPONSE3F . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         },
         "975": {
             "id": "975",
             "variant": "1",
-            "responsesummary": "' . RESPONSE1F . '"
+            "responsesummary": "' . RESPONSE1F . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         },
         "988": {
             "id": "988",
             "variant": "5",
-            "responsesummary": "' . RESPONSE5F . '"
+            "responsesummary": "' . RESPONSE5F . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         },
         "989": {
             "id": "989",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3TF . '"
+            "responsesummary": "' . RESPONSE3TF . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         },
         "990": {
             "id": "990",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3TT . '"
+            "responsesummary": "' . RESPONSE3TT . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         },
         "995": {
             "id": "990",
             "variant": "3",
-            "responsesummary": "' . RESPONSE3TT . '"
+            "responsesummary": "' . RESPONSE3TT . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         }
     }';
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -219,12 +249,22 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "974": {
             "id": "974",
             "variant": "3",
-            "responsesummary": "' . MULTRESPONSE3TTFT . '"
+            "responsesummary": "' . MULTRESPONSE3TTFT . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         },
         "975": {
             "id": "975",
             "variant": "1",
-            "responsesummary": "' . MULTRESPONSE1TNNN . '"
+            "responsesummary": "' . MULTRESPONSE1TNNN . '",
+            "userid": "999",
+            "attempt": "1",
+            "question_num": "2",
+            "num_tries": "1",
+            "try_state": "invalid"
         }
     }';
 
@@ -458,7 +498,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function set_question(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['run_report'])
-            ->setConstructorArgs([self::$question, 2, 1])->getMock();
+            ->setConstructorArgs([self::$question, 2, 1, 1])->getMock();
         $this->report->summary = $this->summary;
         $this->report->questionnotes = $this->notes;
         $this->report->questionseeds = $this->seeds;
@@ -470,7 +510,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function set_question_mult(): void {
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['run_report'])
-            ->setConstructorArgs([self::$question2, 2, 1])->getMock();
+            ->setConstructorArgs([self::$question2, 2, 1, 1])->getMock();
         $this->report->summary = $this->summarymult;
         $this->report->questionnotes = $this->notes;
         $this->report->questionseeds = $this->seeds;
@@ -482,7 +522,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['load_summary_data', 'run_report'])
-            ->setConstructorArgs([self::$question, 2, 1])->getMock();
+            ->setConstructorArgs([self::$question, 2, 1, 1])->getMock();
         $this->report->expects($this->any())
             ->method("load_summary_data")
             ->willReturn((array)json_decode($this->sqlsummary));
@@ -494,7 +534,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['run_report'])
-            ->setConstructorArgs([self::$question, 2, 1])->getMock();
+            ->setConstructorArgs([self::$question, 2, 1, 1])->getMock();
         $this->report->summary = $this->summary;
         $this->report->questionnotes = $this->notes;
         $this->report->questionseeds = $this->seeds;
@@ -575,7 +615,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['load_summary_data', 'run_report'])
-            ->setConstructorArgs([self::$question2, 2, 1])->getMock();
+            ->setConstructorArgs([self::$question2, 2, 1, 1])->getMock();
         $this->report->expects($this->any())
             ->method("load_summary_data")
             ->willReturn((array)json_decode($this->sqlsummarymult));
@@ -587,7 +627,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['run_report'])
-            ->setConstructorArgs([self::$question2, 2, 1])->getMock();
+            ->setConstructorArgs([self::$question2, 2, 1, 1])->getMock();
         $this->report->summary = $this->summarymult;
         $this->report->questionnotes = $this->notes;
         $this->report->questionseeds = $this->seeds;

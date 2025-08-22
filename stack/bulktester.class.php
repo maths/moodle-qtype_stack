@@ -255,6 +255,10 @@ class stack_bulk_tester {
         $nogeneralfeedback = array();
         $nodeployedseeds = array();
         $failingupgrade = array();
+        $readytostart = true;
+        if ($qidstart) {
+            $readytostart = false;
+        }
 
         foreach ($categories as $currentcategoryid => $nameandcount) {
             if ($categoryid !== null && $currentcategoryid != $categoryid) {
@@ -263,11 +267,6 @@ class stack_bulk_tester {
             $questions = $this->stack_questions_in_category($currentcategoryid);
             if (!$questions) {
                 continue;
-            }
-
-            $readytostart = true;
-            if ($qidstart) {
-                $readytostart = false;
             }
 
             $qdotoutput = 0;

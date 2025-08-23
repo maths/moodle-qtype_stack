@@ -38,8 +38,7 @@ M=
       <text>2025080100</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/iss1504/stack/maxima/contrib/chemistry.mac");
-/* stack_include("contribl://chemistry.mac"); */
+      <text><![CDATA[stack_include_contrib("chemistry.mac");
 stack_unit_si_declare(true);
 
 /* Each element must be a list of atoms and numbers. */

@@ -35,6 +35,12 @@ let FETCH_PROMISES = {};
  */
 let BUTTON_CALLBACKS = {};
 
+/* Map of validation callbacks.
+ * For each input a separate list.
+ * For use with `stack_js.register_validation_state_listener`
+ */
+let VALIDATION_CALLBACKS = {};
+
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
  * the other end is ready. Although the way this has been built should
@@ -144,6 +150,13 @@ window.addEventListener("message", (e) => {
             });
         }
         break;
+    case 'validation-state':
+        if (msg.name in VALIDATION_CALLBACKS) {
+            VALIDATION_CALLBACKS[msg.name].forEach((callbackfunction) => {
+                callbackfunction(msg.completed, msg.valid, msg.name);
+            });
+        }
+        break;
     case 'xfer-content':
         if (msg.target in FETCH_PROMISES) {
             FETCH_PROMISES[msg.target](msg.content);
@@ -186,6 +199,9 @@ window.addEventListener("message", (e) => {
             // We simply throw everything away and replace with the message.
             document.body.replaceChildren(div);
         }
+
+        // 3. Also report the error to the console for hidden iframes.
+        console.log("STACK-JS error: " + errmesg);
         break;
     }
 
@@ -431,6 +447,9 @@ export const stack_js = {
             // We simply throw everything away and replace with the message.
             document.body.replaceChildren(div);
         }
+
+        // 3. Also report the error to the console for hidden iframes.
+        console.log("STACK-JS error: " + errmesg);
     },
 
     /**
@@ -529,6 +548,38 @@ export const stack_js = {
         }
 
         return data;
+    },
+
+    /**
+     * Registers a callback-function to be called when a given inputs validation state
+     * changes, i.e., when AJAX validation starts, completes or fails. The function should
+     * take three arguments: a boolean stating whether the validation is complete, second
+     * argument stating if the validation found the input valid (null signals failure to 
+     * validate or still incomplete), the third parameter is the name of the input.
+     * 
+     * Note that the name of the input does not tell you which question held the input.
+     * Setting the optional third argument to true will ensure that should the input not
+     * be found from the local question it will not be looked for elsewhere and an error
+     * will be seen.
+     * 
+     * Added in STACK-JS 1.5.0. Currently not available for matrix inputs.
+     */
+    register_validation_state_listener(name, callbackfunction, limittoquestion) {
+        let msg = {
+            version: 'STACK-JS:1.5.0',
+            type: 'track-validation-state',
+            src: FRAME_ID,
+            name: name,
+            'limit-to-question': false
+        };
+        if (limittoquestion !== undefined) {
+            msg['limit-to-question'] = limittoquestion;
+        }
+        if (!(name in VALIDATION_CALLBACKS)) {
+            VALIDATION_CALLBACKS[name] = [];
+        }
+        VALIDATION_CALLBACKS[name].push(callbackfunction);
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     }
 };
 

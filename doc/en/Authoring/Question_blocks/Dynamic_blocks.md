@@ -141,3 +141,21 @@ STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.o
 ## Parsons block ##
 
 [Drag and drop problems](../../Specialist_tools/Drag_and_drop/index.md) can be created using the [Parsons block](../../Specialist_tools/Drag_and_drop/Question_block.md).  For example this allows users (e.g. students) to assemble pre-written text into a correct order.  This block can be linked with an input to create a [Parsons problem](../../Specialist_tools/Drag_and_drop/Parsons.md) or as matching problems, such as [grid](../../Specialist_tools/Drag_and_drop/Grid.md) and [grouping](../../Specialist_tools/Drag_and_drop/Grouping.md).
+
+## JavaScript block ##
+
+This block creates a hidden [`[[iframe]]`-block](Iframe_blocks.md) with the [STACK-JS](../../Specialist_tools/STACK-JS/index.md) library already imported inside a `<script type="module">`-container. The block also supports the same input referencing attributes as the `[[jsxgraph]]`-block, you can also do input referencing through STACK-JS if that better suits your needs.
+
+```
+[[javascript input-ref-ans1="ans1ref"]]
+let input = document.getElementById(ans1ref);
+input.addEventListener("change", () => {
+  if (input.value == 'foo') {
+    stack_js.switch_content('[[quid id="messagebox"/]]', input.value + "bar");
+    stack_js.toggle_visibility('[[quid id="messagebox"/]]', true);
+  } else {
+    stack_js.toggle_visibility('[[quid id="messagebox"/]]', false);
+  }
+});
+[[/javascript]]
+```

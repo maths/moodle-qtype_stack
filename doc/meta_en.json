@@ -1332,6 +1332,18 @@
             "description":"Reference documentation for the JSXGraph question block."
             }
             ]
+        },
+        {
+       "STACK-JS":[
+         {"file":"index.md",
+          "title":"STACK-JS: STACK <-> VLE JavaScript interface - STACK Documentation",
+          "description":"This section describes tools for writing future-proof, portable and safe JavaScript features using the JavaScript system within STACK."
+         },
+         {"file":"Validation_state_listener.md",
+          "title":"STACK-JS a cautionary example on using validation messages for data transfer - STACK Documentation",
+          "description":"This page describes a combination of multiple advanced features used together in a way that may prove to be slow."
+         }
+        ]
         }
       ]
       }

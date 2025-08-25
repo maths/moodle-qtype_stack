@@ -48,7 +48,7 @@ foreach ($files->children as $file) {
     <? readfile(__DIR__ . '/stackhead.html') ?>
   </head>
   <body>
-    <? require_once(__DIR__ . '/stackshared.php'); ?>
+    <script src="stackshared.js"></script>
     <script>
     let questions = [];
     let page = 0;
@@ -102,10 +102,10 @@ foreach ($files->children as $file) {
       const status = element.style.display;
       if (status === 'block') {
         element.style.display = 'none';
-        button.value = '<?php echo stack_string('api_display_correct')?>';
+        button.value = 'Display Correct Answers';
       } else {
         element.style.display = 'block';
-        button.value = '<?php echo stack_string('api_display_correct_hide')?>';
+        button.value = 'Hide Correct Answers';
       }
     }
 
@@ -163,9 +163,9 @@ foreach ($files->children as $file) {
                 <br>
                 <div id="output" class="formulation"></div>
                 <br>
-                <input type="button" onclick="answer()" class="btn btn-primary noninfo" value="<?php echo stack_string('api_submit')?>"/>
-                <input type="button" onclick="toggleAnswer(this)" class="btn btn-primary noninfo" value="<?php echo stack_string('api_display_correct')?>"/>
-                <input id="stackapi_variant" type="button" onclick="advanceVariant()" class="btn btn-primary" value="<?php echo stack_string('api_advance_variant')?>"/>
+                <input type="button" onclick="answer()" class="btn btn-primary noninfo" value="Submit Answers"/>
+                <input type="button" onclick="toggleAnswer(this)" class="btn btn-primary noninfo" value="Display Correct Answers"/>
+                <input id="stackapi_variant" type="button" onclick="advanceVariant()" class="btn btn-primary" value="Next Variant"/>
                 <span id="stackapi_spinner" class="spinner-border text-primary align-middle" role="status" style="margin-left: 10px;">
                   <span class="sr-only">Loading...</span>
                 </span>
@@ -178,7 +178,7 @@ foreach ($files->children as $file) {
               </div>
               <div id="stackapi_correct" style="display: none">
                 <div class="noninfo">
-                  <h2><?php echo stack_string('api_correct')?>:</h2>
+                  <h2>Correct answers:</h2>
                   <div id="formatcorrectresponse" class="feedback"></div>
                 </div>
               </div>

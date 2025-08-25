@@ -89,6 +89,28 @@ jobs:
           ini-values: max_input_vars=5000
           coverage: none
 
+      - name: Validate composer.json and composer.lock
+        if: ${{ fromJSON(matrix.php) >= 8.2 }}
+        run: |
+          cd plugin/api
+          composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        if: ${{ fromJSON(matrix.php) >= 8.2 }}
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install Dependencies
+        if: ${{ fromJSON(matrix.php) >= 8.2 }}
+        run: |
+          cd plugin/api
+          composer install
+
       - name: Initialise moodle-plugin-ci
         run: |
           composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4

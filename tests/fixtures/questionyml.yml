@@ -1,0 +1,147 @@
+name: Test question
+questiontext: |
+    <p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>
+        <p>[[input:ans2]] [[validation:ans2]]</p>
+questiontextformat: html
+generalfeedback:
+generalfeedbackformat: html
+defaultgrade: 1
+penalty: 0.1
+hidden: 0
+idnumber:
+stackversion: 2025042500
+questionvariables: ta1:1;ta2:2;
+specificfeedback: <p>[[feedback:prt1]]</p>
+specificfeedbackformat: html
+questionnote: <p>{@ta1@}</p>
+questionnoteformat: html
+questiondescription:
+questiondescriptionformat: html
+questionsimplify: 1
+assumepositive: 0
+assumereal: 0
+prtcorrect: <p><i class="fa fa-check"></i> Correct answer*, well done.</p>
+prtcorrectformat: html
+prtpartiallycorrect: <p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>
+prtpartiallycorrectformat: html
+prtincorrect: <p><i class="fa fa-times"></i> Incorrect answer.</p>
+prtincorrectformat: html
+decimals: .
+scientificnotation: '*10'
+multiplicationsign: cross
+sqrtsign: 1
+complexno: i
+inversetrig: cos-1
+logicsymbol: lang
+matrixparens: '['
+isbroken: 0
+variantsselectionseed:
+deployedseed:
+  - 1
+  - 2
+  - 3
+input:
+  - name: ans1
+    type: algebraic
+    tans: ta1
+    boxsize: 25
+    strictsyntax: 1
+    insertstars: 0
+    syntaxhint:
+    syntaxattribute: 0
+    forbidwords:
+    allowwords:
+    forbidfloat: 1
+    requirelowestterms: 0
+    checkanswertype: 0
+    mustverify: 1
+    showvalidation: 1
+    options:
+  - name: ans2
+    type: algebraic
+    tans: ta2
+    boxsize: 15
+    strictsyntax: 1
+    insertstars: 0
+    syntaxhint:
+    syntaxattribute: 0
+    forbidwords:
+    allowwords:
+    forbidfloat: 1
+    requirelowestterms: 0
+    checkanswertype: 0
+    mustverify: 1
+    showvalidation: 1
+    options:
+prt:
+  - name: prt1
+    value: 2.0000000
+    autosimplify: 1
+    feedbackstyle: 1
+    feedbackvariables:
+    node:
+      - name: 0
+        description:
+        answertest: AlgEquiv
+        sans: ans1
+        tans: ta1
+        testoptions:
+        quiet: 1
+        truescoremode: =
+        truescore: 1
+        truepenalty:
+        truenextnode: -1
+        trueanswernote: prt1-1-T
+        truefeedback:
+        truefeedbackformat: html
+        falsescoremode: =
+        falsescore: 0
+        falsepenalty:
+        falsenextnode: -1
+        falseanswernote: prt1-1-F
+        falsefeedback:
+        falsefeedbackformat: html
+  - name: prt2
+    value: 1.0000001
+    autosimplify: 1
+    feedbackstyle: 1
+    feedbackvariables:
+    node:
+      - name: 0
+        description:
+        answertest: AlgEquiv
+        sans: ans2
+        tans: ta2
+        testoptions:
+        quiet: 0
+        truescoremode: =
+        truescore: 1
+        truepenalty:
+        truenextnode: -1
+        trueanswernote: prt1-1-T
+        truefeedback:
+        truefeedbackformat: html
+        falsescoremode: =
+        falsescore: 1
+        falsepenalty:
+        falsenextnode: -1
+        falseanswernote: prt1-1-F
+        falsefeedback:
+        falsefeedbackformat: html
+qtest:
+  - testcase: '1'
+    description: 'A test'
+    testinput:
+      - name: 'ans1'
+        value: 'ta1'
+      - name: 'ans2'
+        value: 'ta2'
+    expected:
+      - name: 'prt1'
+        expectedscore: '1.0000000'
+        expectedpenalty: '0.0000000'
+        expectedanswernote: '1-0-T'
+      - name: 'prt2'
+        expectedscore: '1.0000000'
+        expectedpenalty: '0.0000000'
+        expectedanswernote: '2-0-T'

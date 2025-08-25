@@ -26,6 +26,7 @@ require_once('../config.php');
 require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
+use api\controller\DiffController;
 use api\controller\GradingController;
 use api\controller\RenderController;
 use api\controller\TestController;
@@ -47,6 +48,7 @@ $errorhandler = $errormiddleware->getDefaultErrorHandler();
 $errorhandler->forceContentType("application/json");
 $errorhandler->registerErrorRenderer('application/json', ErrorRenderer::class);
 $app->post('/render', RenderController::class);
+$app->post('/diff', DiffController::class);
 $app->post('/test', TestController::class);
 $app->post('/grade', GradingController::class);
 $app->post('/validate', ValidationController::class);

@@ -41,7 +41,7 @@ require_login();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/yaml/yaml.js"></script>
   </head>
   <body>
-    <? require_once(__DIR__ . '/stackshared.php'); ?>
+    <script type="text/javascript" src="stackshared.js"></script>
     <script>
       // Create data for call to API.
       function collectData() {
@@ -97,7 +97,7 @@ require_login();
         selectQuestion.setAttribute("onchange", "setQuestion(this.value)");
         selectQuestion.id = "stackapi_question_select";
         const holder = document.getElementById("stackapi_question_select_holder");
-        holder.innerHTML = "<?php echo stack_string('api_q_select')?>: ";
+        holder.innerHTML = "Select a question: ";
         holder.appendChild(selectQuestion);
         let firstquestion = null
         for (const question of xmlDoc.getElementsByTagName("question")) {
@@ -131,7 +131,7 @@ require_login();
             </span>
           </a>
         </div>
-        <?php echo stack_string('api_choose_q')?>:
+        Choose a STACK sample file:
         <?php
         $files = stack_question_library::get_file_list('../../samplequestions/stacklibrary/*');
         function render_directory($dirdetails) {
@@ -155,39 +155,44 @@ require_login();
         render_directory($files->children);
         echo '</div>';
         ?>
-        <?php echo stack_string('api_local_file')?>:
+        Or select a file of your own:
         <input type="file" id="local-file" name="local-file" accept=".xml" onchange="getLocalQuestionFile(this.files[0])"/>
         <div id="stackapi_question_select_holder"></div>
-        <h2><?php echo stack_string('api_q_xml')?></h2>
+        <h2>Question XML</h2>
         <textarea id="xml" cols="100" rows="10"></textarea>
-        <h2><?php echo stack_string('seedx', '')?> <input id="seed" type="number"></h2>
+        <h2>Seed <input id="seed" type="number"></h2>
         <div>
-          <input type="button" onclick="send()" class="btn btn-primary" value="<?php echo stack_string('api_display')?>"/>
-          <input type="checkbox" id="readOnly" style="margin-left: 10px"/> <?php echo stack_string('api_read_only')?>
+          <input type="button" onclick="send(); diff();" class="btn btn-primary" value="Display Question"/>
+          <input type="checkbox" id="readOnly" style="margin-left: 10px"/> Read Only
         </div>
         <div id='errors'></div>
         <div id="stackapi_qtext" class="col-lg-8" style="display: none">
-          <h2><?php echo stack_string('questiontext')?>:</h2>
+          <h2>Question text:</h2>
           <div id="output" class="formulation"></div>
           <div id="specificfeedback"></div>
           <br>
           <br>
-          <input type="button" onclick="answer()" class="btn btn-primary" value="<?php echo stack_string('api_submit')?>"/>
+          <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/>
           <span id="stackapi_validity" style="color:darkred"></span>
         </div>
         <div id="stackapi_generalfeedback" class="col-lg-8" style="display: none">
-          <h2><?php echo stack_string('generalfeedback')?>:</h2>
+          <h2>General feedback:</h2>
           <div id="generalfeedback" class="feedback"></div>
         </div>
-        <h2 id="stackapi_score" style="display: none"><?php echo stack_string('score')?>: <span id="score"></span></h2>
+        <h2 id="stackapi_score" style="display: none">Score: <span id="score"></span></h2>
         <div id="stackapi_summary" class="col-lg-10" style="display: none">
           <h2><?php echo stack_string('api_response')?>:</h2>
           <div id="response_summary" class="feedback"></div>
         </div>
         <div id="stackapi_correct" class="col-lg-10" style="display: none">
-          <div class="noninfo"></div>
-            <h2><?php echo stack_string('api_correct')?>:</h2>
+          <div class="noninfo">
+            <h2>Response summary:</h2>
             <div id="formatcorrectresponse" class="feedback"></div>
+          </div>
+        </div>
+        <div id="stackapi_difference" class="col-lg-10" style="display: none">
+            <h2>YAML representation based on API defaults:</h2>
+            <div id="difference" class="feedback" style="white-space: pre;"></div>
           </div>
         </div>
       </div>

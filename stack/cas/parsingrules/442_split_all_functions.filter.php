@@ -26,6 +26,7 @@ require_once(__DIR__ . '/filter.interface.php');
 
 /**
  * AST filter that prevents any function calls, including standard functions.
+ * Currently this comes _after_ we split variable names into single characters in 410.
  */
 class stack_ast_filter_442_split_all_functions implements stack_cas_astfilter_exclusion {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -35,6 +36,7 @@ class stack_ast_filter_442_split_all_functions implements stack_cas_astfilter_ex
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
                 // Insert stars into the pattern.
                 // Probably not very sensible to end up with sin(x) -> sin*(x) but ho hum.
+                // Note, this should probably move before 410 if we every use it.
                 $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                 $nop->position['insertstars'] = true;
                 $node->parentnode->replace($node, $nop);

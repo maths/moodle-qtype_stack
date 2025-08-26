@@ -27,48 +27,39 @@ require_once(__DIR__ . '/filter.interface.php');
 /**
  * AST filter that prevents any function calls.
  */
-class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_exclusion {
+class stack_ast_filter_407_split_unknown_functions implements stack_cas_astfilter_exclusion {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $hasany = false;
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
-        $process = function($node) use (&$hasany, &$errors, $known) {
-            if ($node instanceof MP_FunctionCall && !isset($node->position['invalid'])) {
-                if ($node->name instanceof MP_Identifier &&
-                    array_key_exists($node->name->value, $known)) {
+        $process = function($node) use (&$hasany, &$errors, &$answernotes, $known) {
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
+                if (array_key_exists($node->name->value, $known)) {
                     return true;
                 }
-                $hasany = true;
                 // Insert stars into the pattern.
-                $errors[] = stack_string('stackCas_unknownFunction',
-                        [
-                            'forbid' => stack_maxima_format_casstring($node->name->toString()),
-                            'term' => stack_maxima_format_casstring($node->toString()),
-                        ]);
-                $node->position['invalid'] = true;
-                return false;
+                $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
+                $node->parentnode->replace($node, $nop);
+                if (array_search('function_stars', $answernotes) === false) {
+                    $answernotes[] = 'function_stars';
+                }
             }
             return true;
         };
 
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process, false) !== true) {
+        while ($ast->callbackRecurse($process) !== true) {
         }
         // @codingStandardsIgnoreEnd
-        if ($hasany) {
-            if (array_search('unknownFunction', $answernotes) === false) {
-                $answernotes[] = 'unknownFunction';
-            }
-        }
+
         return $ast;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function conflicts_with(string $otherfiltername): bool {
-        if ($otherfiltername === '442_split_all_functions' ||
-            $otherfiltername === '407_split_unknown_functions' ||
-            $otherfiltername === '441_split_unknown_functions') {
+        if ($otherfiltername === '542_no_functions_at_all' ||
+            $otherfiltername === '441_split_unknown_functions' ||
+            $otherfiltername === '442_split_all_functions') {
             return true;
         }
         return false;

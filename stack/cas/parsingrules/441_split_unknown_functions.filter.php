@@ -58,6 +58,7 @@ class stack_ast_filter_441_split_unknown_functions implements stack_cas_astfilte
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function conflicts_with(string $otherfiltername): bool {
         if ($otherfiltername === '542_no_functions_at_all' ||
+            $otherfiltername === '407_split_unknown_functions' ||
             $otherfiltername === '442_split_all_functions') {
             return true;
         }

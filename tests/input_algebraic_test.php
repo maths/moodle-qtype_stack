@@ -405,6 +405,18 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('3*%pi', $state->contentsmodified);
         $this->assertEquals('\[ 3\cdot \pi \]',
             $state->contentsdisplayed);
+
+        // As raised in issue #1557.
+        $el->set_parameter('insertStars', 7);
+        $state = $el->validate_student_response(['sans1' => '3ab(x+1)'], $options,
+            '7*A*B*(X+2)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | function_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('3*a*b*(x+1)', $state->contentsmodified);
+        $this->assertEquals('\[ 3\cdot a\cdot b\cdot \left(x+1\right) \]',
+            $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_too_long(): void {

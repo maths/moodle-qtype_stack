@@ -54,8 +54,7 @@ class stack_ast_filter_442_split_all_functions implements stack_cas_astfilter_ex
     public function conflicts_with(string $otherfiltername): bool {
         if ($otherfiltername === '542_no_functions_at_all' ||
             $otherfiltername === '541_no_unknown_functions' ||
-            $otherfiltername === '407_split_unknown_functions' ||
-            $otherfiltername === '441_split_unknown_functions') {
+            $otherfiltername === '407_split_unknown_functions') {
             return true;
         }
         return false;

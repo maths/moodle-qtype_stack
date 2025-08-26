@@ -202,7 +202,9 @@ function stack_cors_link(string $filename): string {
  * Gets the URL used for MathJax, might be VLE local.
  */
 function stack_get_mathjax_url(): string {
-    // TO-DO: figure out how to support VLE local with CORS.
+    // NOTE! This URL needs to point to a source that provides CORS headers
+    // suitable for sandbox iframes existing in different origin.
+    // See issue #1340.
     $mathjaxconfigurl = get_config('filter_mathjaxloader', 'httpsurl');
     if ($mathjaxconfigurl) {
         $questionpos = strpos($mathjaxconfigurl, '?');
@@ -250,6 +252,9 @@ function stack_get_mathjax_version(): string {
  * Gets the url for MathJax 3.
  */
 function stack_get_mathjax3_url() {
+    // NOTE! This URL needs to point to a source that provides CORS headers
+    // suitable for sandbox iframes existing in different origin.
+    // See issue #1340.
     return 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
 }
 

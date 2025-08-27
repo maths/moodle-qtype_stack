@@ -19,6 +19,7 @@ Done:
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.
 3. Resolve [issue #1363] to download students data in json format.
+4. Update Mathjax version to 3.2.2 to match Moodle 5+.
 
 ## Future Adapt block development ideas
 

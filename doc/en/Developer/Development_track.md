@@ -7,16 +7,15 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.11.0
 
-Done:
+Improvements in documentatin and minor bug fixes.
 
-1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
-2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
-3. Allow the bulk tester to add `[[todo]]` blocks to the question descriptions with the `addtags` option.
+1. Add in sticky footer for editing form.
+2. Add in support for [chemical data](../Specialist_tools/Chemistry/index.md).
+3. Update Mathjax version to 3.2.2 to match Moodle 5+.
 4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
-5. Add in support for [chemical data](../Specialist_tools/Chemistry/index.md).
-6. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
+5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
 
-Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.10.0) include
+Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.11.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.

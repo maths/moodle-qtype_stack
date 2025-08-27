@@ -221,7 +221,7 @@ function stack_get_mathjax_url(): string {
 
         return $url;
     } else {
-        return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        return 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?config=TeX-AMS-MML_HTMLorMML';
     }
 }
 
@@ -230,7 +230,7 @@ function stack_get_mathjax_url(): string {
  *
  * This function will return the version number as a string, e.g. "3.2.2" or "2.7.7".
  * It does so by looking for matches of the form "mathjax@<version>" or "mathjax/<version>" in the URL.
- * If the version cannot be determined, it returns "2.7.9".
+ * If the version cannot be determined, it returns the version used by moodle as default (3.2.2).
  *
  */
 function stack_get_mathjax_version(): string {
@@ -245,7 +245,7 @@ function stack_get_mathjax_version(): string {
         return $matches[1];
     }
 
-    return "2.7.9";
+    return "3.2.2";
 }
 
 /**

@@ -3805,7 +3805,7 @@
   var JSON_SCHEMA         = json;
   var CORE_SCHEMA         = core;
   var DEFAULT_SCHEMA      = _default;
-  var load                = loader.load;
+  export const load       = loader.load;
   var loadAll             = loader.loadAll;
   export const dump = dumper.dump;
   var YAMLException       = exception;

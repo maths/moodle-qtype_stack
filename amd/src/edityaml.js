@@ -30,5 +30,8 @@ export const setup = () => {
     let json = document.querySelector('#id_yamlinput').innerHTML;
     let obj = JSON.parse(json);
     let yamltext = yaml.dump(obj, { noRefs: true });
-    document.querySelector('#id_yamlinput').innerHTML = yamltext;
+    let obj2 = yaml.load(yamltext);
+    let json2 = JSON.stringify(obj2);
+    document.querySelector('#id_yamlinput').innerHTML = yamltext + '<hr><pre>' + json2 + '</pre>';
+
 };

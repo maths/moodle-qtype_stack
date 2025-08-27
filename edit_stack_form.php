@@ -77,7 +77,12 @@ class qtype_stack_edit_form extends question_edit_form {
      * Patch up data from the database before a user edits it in the form.
      */
     public function set_data($question) {
-        global $USER;
+        global $USER, $PAGE;
+        /* $PAGE->requires->js_amd_inline(
+            'require(["qtype_stack/edityaml"], '
+            . 'function(stackyaml,){stackyaml.setup();});'
+        ); */
+        $PAGE->requires->js_call_amd('qtype_stack/edityaml', 'setup');
         if (!empty($question->questiontext)) {
             $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
         }
@@ -360,6 +365,12 @@ class qtype_stack_edit_form extends question_edit_form {
             $graph = $qtype->get_prt_graph($prtname, $this->question);
             $this->definition_prt($prtname, $mform, $count, $graph, $inputnames);
         }
+
+        $mform->addElement('header', 'yamlheader', stack_string('yamlheader'));
+        $mform->addElement('textarea', 'yamlinput',
+            stack_string('yamlinput'), ['rows' => 20, 'cols' => 80]);
+        $mform->setDefault('yamlinput', json_encode($this->question->prts));
+        $mform->addHelpButton('yamlinput', 'yamlinput', 'qtype_stack');
 
         // Options.
         $mform->addElement('header', 'optionsheader', stack_string('options'));

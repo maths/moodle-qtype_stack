@@ -1,4 +1,5 @@
 
+/* eslint-disable no-unused-vars, jsdoc/require-jsdoc, curly */
 /*! js-yaml 4.1.0 https://github.com/nodeca/js-yaml @license MIT */
 
   function isNothing(subject) {
@@ -1113,7 +1114,7 @@
   var CHOMPING_KEEP  = 3;
 
 
-  var PATTERN_NON_PRINTABLE         = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/;
+  var PATTERN_NON_PRINTABLE         = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/;  // eslint-disable-line no-control-regex
   var PATTERN_NON_ASCII_LINE_BREAKS = /[\x85\u2028\u2029]/;
   var PATTERN_FLOW_INDICATORS       = /[,\[\]\{\}]/;
   var PATTERN_TAG_HANDLE            = /^(?:!|!!|![a-z\-]+!)$/i;
@@ -1972,7 +1973,7 @@
 
       ch = state.input.charCodeAt(state.position);
 
-      while ((!detectedIndent || state.lineIndent < textIndent) &&
+      while ((state.lineIndent < textIndent) &&
              (ch === 0x20/* Space */)) {
         state.lineIndent++;
         ch = state.input.charCodeAt(++state.position);
@@ -3847,4 +3848,3 @@
     safeLoadAll: safeLoadAll,
     safeDump: safeDump
   };
-;

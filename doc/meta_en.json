@@ -490,6 +490,11 @@
                 "description":"STACK lets question authors easily embed standard facts into their questions."
                 },
                 {
+                "file":"Iframe_blocks.md",
+                "title":"Iframe blocks - STACK Documentation",
+                "description":"Some content needs to be embedded into iframes."
+                },
+                {
                 "file":"Static_blocks.md",
                 "title":"Static Blocks - STACK Documentation",
                 "description":"Information on using static question blocks in STACK."

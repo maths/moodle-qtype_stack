@@ -3043,8 +3043,8 @@ final class castext_test extends qtype_stack_testcase {
             $at2->get_rendered());
     }
 
-     /**
-     *  Tests the implode functions.
+    /**
+     * Tests the implode functions.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */

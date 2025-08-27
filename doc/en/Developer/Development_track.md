@@ -10,7 +10,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 Improvements in documentatin and minor bug fixes.
 
 1. Add in sticky footer for editing form.
-2. Add in support for [chemical data](../Specialist_tools/Chemistry/index.md).
+2. Add in support for [chemical data](../Topics/Chemistry/index.md).
 3. Update Mathjax version to 3.2.2 to match Moodle 5+.
 4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
 5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.

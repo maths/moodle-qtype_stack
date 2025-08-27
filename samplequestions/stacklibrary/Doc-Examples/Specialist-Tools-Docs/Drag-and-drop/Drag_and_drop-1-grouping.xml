@@ -97,7 +97,7 @@ wa: [
     <input>
       <name>ans1</name>
       <type>parsons</type>
-      <tans>[ta, steps, 3]</tans>
+      <tans>[ta, steps, headers]</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>

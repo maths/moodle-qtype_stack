@@ -5,7 +5,7 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.10.0
+## Version 4.11.0
 
 Done:
 
@@ -13,13 +13,14 @@ Done:
 2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
 3. Allow the bulk tester to add `[[todo]]` blocks to the question descriptions with the `addtags` option.
 4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
+5. Add in support for [chemical data](../Specialist_tools/Chemistry/index.md).
+6. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
 
 Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.10.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.
 3. Resolve [issue #1363] to download students data in json format.
-4. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
 
 ## Future Adapt block development ideas
 

@@ -78,8 +78,8 @@ class stack_bulk_tester {
     /**
      * Find all stack questions in a given category, returning only
      * the latest version of each question.
-     * @param type $categoryid the id of a question category of interest
-     * @return all stack question ids in any state and any version in the given
+     * @param string $categoryid the id of a question category of interest
+     * @return array all stack question ids in any state and any version in the given
      * category. Each row in the returned list of rows has an id, name and version number.
      */
     public function stack_questions_in_category($categoryid) {

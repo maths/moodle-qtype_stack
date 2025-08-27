@@ -405,6 +405,18 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('3*%pi', $state->contentsmodified);
         $this->assertEquals('\[ 3\cdot \pi \]',
             $state->contentsdisplayed);
+
+        // As raised in issue #1557.
+        $el->set_parameter('insertStars', 7);
+        $state = $el->validate_student_response(['sans1' => '3ab(x+1)'], $options,
+            '7*A*B*(X+2)',
+            new stack_cas_security(false, '', '', ['tans']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | function_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('3*a*b*(x+1)', $state->contentsmodified);
+        $this->assertEquals('\[ 3\cdot a\cdot b\cdot \left(x+1\right) \]',
+            $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_too_long(): void {
@@ -2492,5 +2504,70 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('km', $state->contentsmodified);
         $this->assertEquals('\[ {\it km} \]', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ {\it km} \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_invalid_final_chars(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'y=1');
+        $el->set_parameter('insertStars', 2);
+
+        $state = $el->validate_student_response(['sans1' => 'y='], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('finalChar', $state->note);
+        $this->assertEquals('\'=\' is an invalid final character in <span class="stacksyntaxexample">y=</span>',
+            $state->errors);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">y=</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+
+        $state = $el->validate_student_response(['sans1' => 'x#3 and y='], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('finalChar', $state->note);
+        $this->assertEquals('\'=\' is an invalid final character in ' .
+            '<span class="stacksyntaxexample">x#3 and y=</span>',
+            $state->errors);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">x#3 and y=</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+    }
+
+    public function test_validate_hash_chars(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'y=1');
+        $el->set_parameter('insertStars', 2);
+
+        $state = $el->validate_student_response(['sans1' => '(x #'], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missingRightBracket', $state->note);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">(x #</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+
+        $state = $el->validate_student_response(['sans1' => 'x # 3)'], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missingLeftBracket', $state->note);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">x # 3)</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+
+        $state = $el->validate_student_response(['sans1' => 'x ## 3'], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('ParseError', $state->note);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">x ## 3</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+
+        $state = $el->validate_student_response(['sans1' => '# x 3'], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('spaces | ParseError', $state->note);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample"># x 3</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
     }
 }

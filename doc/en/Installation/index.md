@@ -10,9 +10,9 @@ Direct connection to Maxima on windows/MS is not supported.  On windows/MS pleas
 
 ## 0. Set up PHP with mbstring
 
-STACK v4.3 and later require the PHP `mbstring` library.
-
 STACK requires PHP 7.4 and later.
+
+STACK requires the PHP `mbstring` library.
 
 On an existing Moodle site navigate to
 
@@ -30,8 +30,7 @@ and then re-start the web server.
 
 Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).
 
-* STACK has been tested on Moodle 4.0 to Moodle 4.5 inclusive.
-* STACK will be available for Moodle 5.0 in a (near) future release.  Follow [issue #1496](https://github.com/maths/moodle-qtype_stack/issues/1496) for details.
+* STACK has been tested on Moodle 4.1 to Moodle 5.1 inclusive.
 * We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
 
 Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
@@ -46,7 +45,7 @@ to `filter_mathjaxloader | mathjaxconfig` in the filter settings: Dashboard > Si
 
 ## 2. Install gnuplot and Maxima
 
-Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.47.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)  We currently recommend that you use any version of Maxima after 5.43.0.
+Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  We currently recommend that you use any version of Maxima after 5.43.0.
 
 Maxima can be installed via a package manager on most Linux distributions (e.g. `sudo apt-get install maxima` on Debian/Ubuntu), [downloaded](http://maxima.sourceforge.net/download.html), or compiled from source.  Please make sure you also have `maxima-share` installed.  (This is automatically installed on some distributions, but not others.)
 

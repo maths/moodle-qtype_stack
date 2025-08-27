@@ -1024,14 +1024,15 @@ abstract class stack_input {
             $filterstoapply[] = '990_no_fixing_spaces';
         }
 
+        // Assume single letter variable names = 16.
+        // This needs to come before we split names into single letters.
+        if ($grammarautofixes & self::GRAMMAR_FIX_FUNCTIONS) {
+            $filterstoapply[] = '407_split_unknown_functions';
+        }
+
         // Assume single letter variable names = 4.
         if ($grammarautofixes & self::GRAMMAR_FIX_SINGLE_CHAR) {
             $filterstoapply[] = '410_single_char_vars';
-        }
-
-        // Assume single letter variable names = 16.
-        if ($grammarautofixes & self::GRAMMAR_FIX_FUNCTIONS) {
-            $filterstoapply[] = '441_split_unknown_functions';
         }
 
         // Consolidate M_1 to M1 and so on.

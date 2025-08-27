@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:14
+        image: postgres:15
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -45,7 +45,7 @@ jobs:
           - php: '8.2'
             moodle-branch: 'MOODLE_500_STABLE'
             database: 'pgsql'
-            maxima: 'GCL'
+            maxima: 'SBCL'
             moodle-app: true
           # Edinburgh is planning to run the setup below for 2025-26.
           - php: '8.2'
@@ -53,21 +53,11 @@ jobs:
             database: 'mariadb'
             maxima: 'GCL'
             moodle-app: true
-          - php: '8.2'
-            moodle-branch: 'MOODLE_404_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
-            moodle-app: true
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
-          - php: '7.4'
-            moodle-branch: 'MOODLE_400_STABLE'
-            database: 'pgsql'
-            maxima: 'GCL'
-            moodle-app: null
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})
@@ -176,7 +166,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'MOODLE_401_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'MOODLE_500_STABLE' }}
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests

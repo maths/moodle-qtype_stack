@@ -3017,4 +3017,56 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $this->assertEquals($exp, $at1->get_rendered());
     }
+
+    /**
+     * Basic test of chemistry functionality.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_include_chemistry(): void {
+
+        $options = new stack_options();
+
+        $vars = 'stack_include("contribl://chemistry.mac");';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@chem_data("H", "Name")@}, ' .
+            '{@chem_data("H", "AtomicMass")@}, {@chem_data("H", "ElectronConfiguration")@}, ' .
+            'and {@chem_data("H", "YearDiscovered")@}.', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('Hydrogen, \({1.008}\), 1s1, and \({1766}\).',
+            $at2->get_rendered());
+    }
+
+     /**
+     *  Tests the implode functions.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_implode(): void {
+        $a2 = ['L1:[a,b,c^2]'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = "\[ [[define _first='true'/]][[foreach ex='L1']]" .
+            "[[if test='not _first']] + [[else]][[define _first='false'/]][[/if]]" .
+            "{@ex@}[[/foreach]] \]";
+        $exp = '\[ {a} + {b} + {c^2} \]';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
 }

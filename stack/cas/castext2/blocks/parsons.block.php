@@ -60,8 +60,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Whether to have all keys in available list cloned.
         $clone = 'false';
 
-        // MathJax version (either "2" or "3").
-        $mathjaxversion = '2';
+        // MathJax version.
+        $mathjaxversion = stack_get_mathjax_version();
+        $mathjaxversionmajor = explode(".", $mathjaxversion)[0];
 
         // Number of available columns.
         $columns = null;
@@ -143,7 +144,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
-        $mathjax = ($mathjaxversion === "2") ? stack_get_mathjax_url() : stack_get_mathjax3_url();
+        $mathjax = stack_get_mathjax_url();
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
@@ -170,7 +171,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Identify default proof mode based on block header params
+        // Identify default proof mode based on block header params.
         // Note that proof mode behaves the same as the general mode, but we just
         // need to redefine columns.
         $proofmode = ($columns === null && $rows === null);
@@ -359,13 +360,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items())' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
-        $code .= ($mathjaxversion === "2") ?
+        $code .= ($mathjaxversionmajor === "2") ?
             'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' :
             'var mathJaxPromise = MathJax.typesetPromise();';
 
         // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
-            $code .= ($mathjaxversion === "2") ?
+            $code .= ($mathjaxversionmajor === "2") ?
                 'MathJax.Hub.Queue(() => {
                     stackSortable.resize_grid_items();
                     stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
@@ -480,16 +481,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             ]);
         }
 
-        // Check MathJax version is valid.
-        if (array_key_exists('mathjax', $this->params)) {
-            $validmjversions = ['2', '3'];
-            if (!in_array($this->params['mathjax'], $validmjversions)) {
-                $valid = false;
-                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
-                    'mjversion' => implode(', ',
-                    $validmjversions),
-                ]);
-            }
+        // Check MathJax version has been parsed correctly.
+        $mathjaxversionmajor = explode(".", stack_get_mathjax_version())[0];
+        if (!$mathjaxversionmajor === "2" || !$mathjaxversionmajor === "3") {
+            $valid = false;
+            $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
+                'mjversion' => '2, 3',
+            ]);
         }
 
         // Check value of transpose is only "true" or "false".

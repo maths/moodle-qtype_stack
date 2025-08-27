@@ -1,72 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 44001  -->
+<!-- question: 16420  -->
   <question type="stack">
     <name>
-      <text>Image drag and drop</text>
+      <text>Chemistry sample question: Molar mass of elements</text>
     </name>
-    <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>Drag the items to match up the functions with their derivatives. </p>
-[[parsons input="ans1" columns="3" rows="2" item-height="230" item-width="230"]]
-{
-    "steps" : {#match_encode(steps)#},
-    "headers" : {#headers#},
-}
-[[/parsons]]
+    <questiontext format="html">
+      <text><![CDATA[<p>
+\(\require{mhchem}\)
+Calculate the molar mass of the following substance: \(\ce{@CN@}\).</p>
 <p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
-    <generalfeedback format="moodle_auto_format">
-      <text></text>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\(\require{mhchem}\)
+In general, the calculation is
+\[ 𝑀 = \sum_{j} 𝑁_j\, M_j\]
+where \(𝑁_j\) is the number of atoms of element \(j\) and \(M_j\) is the mass of elememnt \(j\).
+</p>
+<p>In this question we calculate the molar mass of \(\ce{@CN@}\), and so need the data \[ {@tt@} \]</p>
+<p>
+Molar mass of \(\ce{@CN@}\).
+\[
+M=
+[[define _first='true'/]][[foreach ex='CL']][[if test='not _first']] + [[else]][[define _first='false'/]][[/if]]
+{@second(ex)@} \times {@dispsf(chem_data(first(ex),"AtomicMass"),3)@} \mathrm{g}\, \mathrm{mol}^{−1}
+[[/foreach]]
+= {@stack_units_nums(ta1)@} \mathrm{g}\, \mathrm{mol}^{−1}.
+\]
+</p>
+]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2024092500</text>
+      <text>2025080100</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/*import parsons' code library*/
-stack_include("contribl://matchlib.mac");
+      <text><![CDATA[stack_include_contrib("chemistry.mac");
+stack_unit_si_declare(true);
 
-/*example of a wrong response for tests, edit if changing question*/
-wa: [
-  ["g", "f"], 
-  ["dfdx", "dgdx"], 
-  ["df2d2x", "dg2d2x"]
-];
-
-/*options to drag from, can be changed*/
-steps: [
-  ["f", plot(x^2,[x,-1,1], [size, 200, 200])],
-  ["g", plot(x^3,[x,-1,1], [size, 200, 200])],
-  ["dfdx", plot(2*x,[x,-1,1], [size, 200, 200])],
-  ["dgdx", plot(3*x^2,[x,-1,1], [size, 200, 200])],
-  ["df2d2x", plot(2,[x,-1,1], [size, 200, 200])],
-  ["dg2d2x", plot(6*x,[x,-1,1], [size, 200, 200])]
-];
-
-/*create random order*/
-steps: random_permutation(steps);
-
-/*Categories to drag to, can be changed*/
-headers: ["Function", "\\(d/dx\\)", "\\(d^2/d^2x\\)"];
-
-/*a correct answer, edit if changing question*/
-ta: [
-  ["f", "g"], 
-  ["dfdx", "dgdx"], 
-  ["df2d2x", "dg2d2x"]
-];]]></text>
+/* Each element must be a list of atoms and numbers. */
+CLL:[
+     [["H",2],["O",1]],            /* Water */
+     [["C",1],["O",2]],            /* Carbon dioxide */
+     [["Ca",1],["C", 1], ["O",3]]  /* Calcium carbonate */
+    ];
+/* Choose one of these. */
+CL:rand(CLL);
+/* The CL list written as a single string. */
+CN:apply(sconcat, map(lambda([ex], if is(second(ex)=1) then first(ex) else sconcat(first(ex),string(second(ex)))), CL));
+/* Calculate the final answer. */
+ta1:stackunits(dispsf(apply("+",map(lambda([ex],second(ex)*chem_data(first(ex),"AtomicMass")), CL)),3), chem_units("AtomicMass"));
+/* Create a table of atomic masses of the elements used. */
+/* Get unique elements in the formula CL. */
+tt:setify(map(first, CL));
+/* Make a list of list of values. */
+tt:map(lambda([ex], [ex, dispsf(chem_data(ex,"AtomicMass"),3)]), listify(tt));
+tt:apply(table, append([["Element", "Atomic Mass"]], tt));]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="html">
-      <text>{@map(first, steps)@}</text>
+      <text>\(\require{mhchem} \ce{@CN@}\) has mass {@ta1@}.</text>
     </questionnote>
     <questiondescription format="html">
-      <text>This question demonstrates parsons' drag and drop questions using images. This is the question outlined in the `drag and drop parsons' problems` page of mathematical topics in the documentation. This can be found on your server at `[YOUR SERVER ADDRESS]/question/type/stack/doc/doc.php/Topics/Parsons.md` .</text>
+      <text><![CDATA[[[todo tags="4.11.0,chemistry"]]Once released, replace with stack_include_contrib("chemistry.mac"); in the question variables.[[/todo]]]]></text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -88,11 +89,12 @@ ta: [
     <inversetrig>cos-1</inversetrig>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
-      <type>parsons</type>
-      <tans>[ta, steps, headers, 2]</tans>
+      <type>units</type>
+      <tans>ta1</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -103,9 +105,9 @@ ta: [
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
-      <mustverify>0</mustverify>
-      <showvalidation>0</showvalidation>
-      <options></options>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>minsf:3, maxsf:6,negpow</options>
     </input>
     <prt>
       <name>prt1</name>
@@ -113,18 +115,16 @@ ta: [
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>sans: match_decode(ans1, true);
-sans: match_set_row(sans);
-tans: match_set_row(ta);</text>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
         <description></description>
-        <answertest>AlgEquiv</answertest>
-        <sans>sans</sans>
-        <tans>tans</tans>
-        <testoptions></testoptions>
-        <quiet>1</quiet>
+        <answertest>Units</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
         <truepenalty></truepenalty>
@@ -143,37 +143,21 @@ tans: match_set_row(ta);</text>
         </falsefeedback>
       </node>
     </prt>
-    <deployedseed>1585880416</deployedseed>
-    <deployedseed>552692110</deployedseed>
-    <deployedseed>192413955</deployedseed>
-    <deployedseed>2057051866</deployedseed>
-    <deployedseed>562113547</deployedseed>
+    <deployedseed>2138094012</deployedseed>
+    <deployedseed>1336742253</deployedseed>
+    <deployedseed>186464585</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description>Test case assuming the teacher's input gets full marks.</description>
       <testinput>
         <name>ans1</name>
-        <value>apply(match_answer,[ta, steps, headers])</value>
+        <value>ta1</value>
       </testinput>
       <expected>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
         <expectedanswernote>prt1-1-T</expectedanswernote>
-      </expected>
-    </qtest>
-    <qtest>
-      <testcase>2</testcase>
-      <description></description>
-      <testinput>
-        <name>ans1</name>
-        <value> 	apply(match_answer,[wa, steps, headers])</value>
-      </testinput>
-      <expected>
-        <name>prt1</name>
-        <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-1-F</expectedanswernote>
       </expected>
     </qtest>
   </question>

@@ -155,6 +155,20 @@ class stack_question_report {
      */
     public $notesummary = [];
     /**
+     * @var array question attempts.
+     *  [
+     *      [
+     *          id,
+     *          slot,
+     *      ],
+     *  ]
+     */
+    public $questionattempts = [];
+    /**
+     * @var array json summary of responses.
+     */
+    public $jsonsummary = [];
+    /**
      * @var object StdClass Data formatted for questionreport.mustache.
      */
     public $outputdata;
@@ -200,6 +214,7 @@ class stack_question_report {
     public function create_summary(): void {
         $result = $this->load_summary_data();
         $summary = [];
+        $questionattempts = [];
         foreach ($result as $qattempt) {
             if (!array_key_exists($qattempt->variant, $summary)) {
                 $summary[$qattempt->variant] = [];
@@ -212,6 +227,7 @@ class stack_question_report {
                     $summary[$qattempt->variant][$rsummary] = 1;
                 }
             }
+            $questionattempts[] = ['id' => $qattempt->questionusageid, 'slot' => $qattempt->slot];
         }
 
         foreach ($summary as $vkey => $variant) {
@@ -220,6 +236,7 @@ class stack_question_report {
         }
 
         $this->summary = $summary;
+        $this->questionattempts = $questionattempts;
     }
 
     /**
@@ -234,7 +251,7 @@ class stack_question_report {
             'quizcontextid' => $this->quizcontextid,
             'questionid' => (int) $this->question->id,
         ];
-        $query = "SELECT qa.id, qa.variant, qa.responsesummary
+        $query = "SELECT qa.id, qa.variant, qa.responsesummary, qa.questionusageid, qa.slot
                     FROM {question_attempts} qa
                     LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
                     /* attach another copy of qas to those rows with the most recent timecreated,
@@ -278,6 +295,7 @@ class stack_question_report {
     public function match_variants_and_notes(): void {
         $questionnotes = [];
         $questionseeds = [];
+        $jsonsummary = [];
         foreach (array_keys($this->summary) as $variant) {
             $question = question_bank::load_question((int) $this->question->id);
             $question->start_attempt(new question_attempt_step(), $variant);
@@ -287,8 +305,15 @@ class stack_question_report {
             $questionnotes[$variant] = stack_ouput_castext($qnotesummary);
         }
 
+        foreach ($this->questionattempts as $qa) {
+            $quba = question_engine::load_questions_usage_by_activity($qa['id']);
+            $qa = $quba->get_question_attempt($qa['slot']);
+            $jsonsummary[] = $qa->get_question()->summarise_response_json($qa->get_last_qt_data());
+        }
+
         $this->questionnotes = $questionnotes;
         $this->questionseeds = $questionseeds;
+        $this->jsonsummary = $jsonsummary;
     }
 
     /**
@@ -460,6 +485,7 @@ class stack_question_report {
         $this->outputdata->variants = $this->format_variants();
         $this->outputdata->inputs = $this->format_inputs();
         $this->outputdata->rawdata = $this->format_raw_data();
+        $this->outputdata->jsondata = $this->format_json_data();
     }
 
     /**
@@ -723,7 +749,21 @@ class stack_question_report {
     }
 
     /**
-     * Get inofmration on all quizzes containing a version of a given question
+     * JSON data
+     * @return object
+     */
+    public function format_json_data(): object {
+        $output = new StdClass();
+        $sumout = '';
+        foreach ($this->jsonsummary as $jdata) {
+            $sumout .= $jdata . "\n";
+        }
+        $output->jsondata = $sumout;
+        return $output;
+    }
+
+    /**
+     * Get information on all quizzes containing a version of a given question
      * @param int $questionid
      * @param IntlBreakIterator $questioncontextid
      * @return array

@@ -1701,6 +1701,18 @@ abstract class stack_input {
         return $name . ': ' . $this->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
     }
 
+
+    /**
+     * Provide a summary of the student's response for download as a JSON object.
+     */
+    public function summarise_response_json($name, $state, $response) {
+        $sum = [];
+        $sum['status'] = $state->status;
+        $sum['note']   = $state->note;
+        $sum['value']  = $this->contents_to_maxima($state->contents);
+        return $sum;
+    }
+
     /**
      * Returns the definition of this input as it should appear in an API response
      * @return array

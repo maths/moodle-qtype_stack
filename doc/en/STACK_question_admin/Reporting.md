@@ -7,6 +7,11 @@ To review work in more detail we need to use two important parts of the question
 * The [question note](../Authoring/Question_note.md).
 * The [answer note](../Authoring/Potential_response_trees.md#Answer_note).
 
+Please note
+
+1. Only the final answer the student gives is reported by this page.  In adaptive mode, students might have multiple attempts at a question before their final answer.
+2. In Moodle 4, we include data from all versions of the question.  Otherwise, even a minor edit to a question will prevent data from previous versions being displayed.
+
 ## Moodle quiz features ##
 
 Most of the day to day reporting is done through the Moodle quiz features.

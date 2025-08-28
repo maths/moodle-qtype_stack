@@ -114,6 +114,11 @@
   <!-- Choose quiz to analyze the results from -->
   <p>
     <span>
+      {{#str}} analyzeresponsesnotes, qtype_stack {{/str}}:
+    </span>
+  </p>
+  <p>
+    <span>
       {{#str}} selectquiz, qtype_stack {{/str}}:
     </span>
     <select onChange="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');window.location.href=this.value;">

@@ -754,7 +754,15 @@ class stack_question_report {
      */
     public function format_json_data(): object {
         $output = new StdClass();
-        $sumout = '';
+        // Record minimal metatdata as the first line of the JSON data.
+        $meta = [];
+        $meta['id'] = $this->question->id;
+        $meta['name'] = $this->question->name;
+        $meta['reporttime'] = date(DATE_ATOM, time());
+
+        $sumout = json_encode($meta) . "\n\n";
+
+        // Actual data.
         foreach ($this->jsonsummary as $jdata) {
             $sumout .= $jdata . "\n";
         }

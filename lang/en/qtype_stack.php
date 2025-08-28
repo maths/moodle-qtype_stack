@@ -628,6 +628,7 @@ $string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant wa
 $string['jsondata'] = 'JSON data';
 $string['rawdata'] = 'Raw data';
 $string['selectquiz'] = 'Select quiz to analyze results';
+$string['analyzeresponsesnotes'] = "Note, (1) only students' final answer for each quiz attempt is included here, (2) all versions of the question are included.";
 $string['splitsummary'] = 'Split summary';
 $string['variants'] = 'Variants';
 

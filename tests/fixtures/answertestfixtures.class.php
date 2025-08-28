@@ -2501,6 +2501,8 @@ class stack_answertest_test_data {
         ['NumAbsolute', '0.1', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '', ''],
         ['NumAbsolute', '0.01', '{-1,2,3}', '{-1,2,3}', 1, '', ''],
         ['NumAbsolute', '0.01', '{-1.1,2,3}', '{-1,2,3}', 0, 'ATNumerical_wrongentries: TA/SA=[-1.0], SA/TA=[-1.1].', ''],
+        ['NumAbsolute', '0.02', 'dispdp(409/100,2)', '4.1', 1, '', ''],
+        ['NumAbsolute', '0.02', 'remove_numerical_inert(dispdp(409/100,2))', '4.1', 1, '', ''],
 
         ['NumSigFigs', '', '3.141', '3.1415927', -1, 'STACKERROR_OPTION.', 'Basic tests'],
         ['NumSigFigs', '3', '1/0', '3', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''],

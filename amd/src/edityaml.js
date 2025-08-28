@@ -22,16 +22,15 @@
  */
 
 import * as yaml from 'qtype_stack/js-yaml-lazy';
-/**
- * Sets up event listeners.
- *
- */
+
 export const setup = () => {
     let json = document.querySelector('#id_yamlinput').innerHTML;
     let obj = JSON.parse(json);
-    let yamltext = yaml.dump(obj, { noRefs: true });
+    let yamltext = yaml.dump(obj, { lineWidth: -1 });
     let obj2 = yaml.load(yamltext);
     let json2 = JSON.stringify(obj2);
-    document.querySelector('#id_yamlinput').innerHTML = yamltext + '<hr><pre>' + json2 + '</pre>';
+    document.querySelector('#id_yamlinput').innerHTML = json + yamltext + json2;
+    // Add button to convert YAML to filled boxes. Listeners.
+    // Figure out about double call to server.
 
 };

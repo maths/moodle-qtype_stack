@@ -2474,6 +2474,7 @@ class stack_answertest_test_data {
         // What happens with floating point complex numbers?
         // This is rejected as not a real number.
         ['NumRelative', '0.1', '0.99*%i', '%i', 0, 'ATNumerical_SA_not_number.', 'Complex numbers'],
+        ['NumRelative', '', 'displaydp(0.95,2)', '1', 1, '', ''],
 
         ['NumAbsolute', '', '1/0', '0', -1, 'ATNumAbsolute_STACKERROR_SAns.', 'Basic tests'],
         ['NumAbsolute', '', '0', '1/0', -1, 'ATNumAbsolute_STACKERROR_TAns.', ''],
@@ -2501,6 +2502,11 @@ class stack_answertest_test_data {
         ['NumAbsolute', '0.1', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '', ''],
         ['NumAbsolute', '0.01', '{-1,2,3}', '{-1,2,3}', 1, '', ''],
         ['NumAbsolute', '0.01', '{-1.1,2,3}', '{-1,2,3}', 0, 'ATNumerical_wrongentries: TA/SA=[-1.0], SA/TA=[-1.1].', ''],
+        ['NumAbsolute', '0.02', 'dispdp(4.09,2)', '4.1', 1, '', ''],
+        ['NumAbsolute', '0.02', 'displaydp(4.09,2)', '4.1', 1, '', ''],
+        ['NumAbsolute', '0.02', 'remove_numerical_inert(dispdp(409/100,2))', '4.1', 1, '', ''],
+        ['NumAbsolute', '0.01', '[displaydp(-1,0),2,3]', '[-1,2,3]', 1, '', ''],
+        ['NumAbsolute', '0.01', '{displaydp(-1,0),2,3}', '{-1,2,3}', 1, '', ''],
 
         ['NumSigFigs', '', '3.141', '3.1415927', -1, 'STACKERROR_OPTION.', 'Basic tests'],
         ['NumSigFigs', '3', '1/0', '3', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''],

@@ -852,10 +852,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     /*
      * The purpose of this function is to generate a JSON summary for download and offline analysis.
      */
-    public function summarise_response_json(array $response) {
+    public function summarise_response_json(array $response, string $userid='', string $timecreated='') {
         // Provide seed information on student's version via the normal moodle quiz report.
-        $bits = ['inputs' => [], 'prts' => []];
-        $bits['Seed'] = $this->seed;
+        $bits = [];
+        if ($userid) {
+            $bits['userid'] = $userid;
+        }
+        if ($timecreated) {
+            $bits['timecreated'] = $timecreated;
+        }
+        $bits['inputs'] = [];
+        $bits['prts'] = [];
+        $bits['seed'] = $this->seed;
         foreach ($this->inputs as $name => $input) {
             $state = $this->get_input_state($name, $response);
             $bits['inputs'][$name] = $input->summarise_response_json($name, $state, $response);

@@ -308,7 +308,13 @@ class stack_question_report {
         foreach ($this->questionattempts as $qa) {
             $quba = question_engine::load_questions_usage_by_activity($qa['id']);
             $qa = $quba->get_question_attempt($qa['slot']);
-            $jsonsummary[] = $qa->get_question()->summarise_response_json($qa->get_last_qt_data());
+            foreach ($qa->get_reverse_step_iterator() as $step) {
+                $response = $step->get_qt_data();
+                if (!empty($response)) {
+                    $jsonsummary[] = $qa->get_question()->summarise_response_json($response, $step->get_user_id(), $step->get_timecreated());
+                    break;
+                }
+            }
         }
 
         $this->questionnotes = $questionnotes;

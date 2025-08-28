@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Add description here!
+ * These are test cases for the equivalence reasoning input.
  * @package    qtype_stack
  * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -138,9 +138,9 @@ class stack_equiv_test_data {
         $newarg = [];
         $newarg['title']     = "";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[1=2,[]]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR)";
-        $newarg['outcome']   = true;
+        $newarg['casstring'] = "[false,none,all,true]";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,QMCHAR,CHECKMARK)";
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = [];
@@ -183,8 +183,32 @@ class stack_equiv_test_data {
         $newarg = [];
         $newarg['title']     = "";
         $newarg['narrative'] = '';
+        $newarg['casstring'] = "[true,false]";
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[true nounand false,false]";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[true nounor false,false]";
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
         $newarg['casstring'] = "[(A nounor B) nounand (not A nounor B),B]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -212,7 +236,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[2^2,stackeq(3)]";
-        $newarg['debuglist'] = "(EMPTYCHAR,IMPLIESCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR)";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -220,7 +244,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[2^2,4]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -228,7 +252,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[2^2,3]";
-        $newarg['debuglist'] = "(EMPTYCHAR,IMPLIESCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR)";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -236,7 +260,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[lg(64,4),lg(4^3,4),3*lg(4,4),3]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -830,10 +854,18 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['title']     = "";
-        $newarg['narrative'] = 'This it needs the rule A=B <=> e^A=e^B.';
+        $newarg['narrative'] = '';
         $newarg['casstring'] = "[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2," .
                "(x+17)=18*x,17*x=17,x=1]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVLOG,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg((x+17)/(-2*x),2)=3,(x+17)/(-2*x)=2^3,(x+17)=2^3*(-2*x),x+17=-16*x,17*x=-17,x=-1]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1037,11 +1069,47 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = [];
-        $newarg['title']     = "Expand out the brackets (1)";
+        $newarg['title']     = "Increasing powers of expressions";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]";
-        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK)";
+        $newarg['casstring'] = "[x+1,stackeq((x+1)^2),stackeq((x+1)^3),stackeq((x+1))]";
+        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR)";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Increasing powers real equations";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x+1=0,(x+1)^2=0,(x+1)^3=0,(x+1)=0]";
+        $newarg['debuglist'] = "(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)";
         $newarg['outcome']   = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Symmetry I";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x+1=0,(x+1)^2=0,0=x+1,0=(x+1)^3]";
+        $newarg['debuglist'] = "(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)";
+        $newarg['outcome']   = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Symmetry II";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[8=x^3,2=x,x=2,x^3=8]";
+        $newarg['debuglist'] = "(ASSUMEREALVARS,EQUIVCHARREAL,EQUIVCHAR,EQUIVCHARREAL)";
+        $newarg['outcome']   = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = [];
+        $newarg['title']     = "Symmetry III";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[16=x^4,#pm#2=x,x^4=16,x=#pm#2]";
+        $newarg['debuglist'] = "(ASSUMEREALVARS,EQUIVCHARREAL,EQUIVCHARREAL,EQUIVCHARREAL)";
+        $newarg['outcome']   = true;
+        $newarg['assumereal'] = true;
         $samplearguments[] = $newarg;
 
         $newarg = [];
@@ -1072,7 +1140,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Completing the square (1)";
         $newarg['narrative'] = 'A simple matter of completing the square.';
         $newarg['casstring'] = "[x^2+2*a*x,x^2+2*a*x+a^2-a^2,(x+a)^2-a^2]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1088,7 +1156,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Adding fractions";
         $newarg['narrative'] = 'This contains an edge case of zero only in a line.';
         $newarg['casstring'] = "[(y-z)/(y*z)+(z-x)/(z*x)+(x-y)/(x*y),(x*(y-z)+y*(z-x)+z*(x-y))/(x*y*z),0]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1244,7 +1312,7 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['title']     = "Linear simultaneous equations";
-        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
+        $newarg['narrative'] = 'With simultaneous equations students must use "and" to join them.';
         $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
             "3+3*y=6 and 2*x=3,y=1 and x=3/2]";
         $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
@@ -1253,7 +1321,7 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['title']     = "Linear simultaneous equations";
-        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
+        $newarg['narrative'] = 'With simultaneous equations students must use "and" to join them.';
         $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
                 "3+3*y=6 and 2*x=3,y=1 and x=3]";
         $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR)";
@@ -1320,8 +1388,16 @@ class stack_equiv_test_data {
         $newarg['narrative']  = '';
         $newarg['casstring']  = "[2*x^3-9*x^2+10*x-3,stacklet(x,1),2*1^3-9*1^2+10*1-3,stackeq(0),\"So\"," .
                 "2*x^3-9*x^2+10*x-3,stackeq((x-1)*(2*x^2-7*x+3)),stackeq((x-1)*(2*x-1)*(x-3))]";
-        $newarg['debuglist']  = "(EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,CHECKMARK,EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK)";
+        $newarg['debuglist']  = "(EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK,EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK)";
         $newarg['outcome']    = 'unknown';
+        $samplearguments[]    = $newarg;
+
+        $newarg = [];
+        $newarg['title']      = "Subtitution needs a previous expression.";
+        $newarg['narrative']  = 'Note, that "stacklet" only makes the subsitution in _previous_ expressions.';
+        $newarg['casstring']  = "[stacklet(x,1),1-x=(x+1)^(1/5),0=2^(1/5)]";
+        $newarg['debuglist']  = "(EMPTYCHAR,QMCHAR,QMCHAR)";
+        $newarg['outcome']    = false;
         $samplearguments[]    = $newarg;
 
         $newarg = [];
@@ -1486,7 +1562,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = "";
         $newarg['casstring'] = '[nounint(x*e^x,x,-inf,0),nounlimit(nounint(x*e^x,x,t,0),t,-inf),'.
             'nounlimit(e^t-t*e^t-1,t,-inf),nounlimit(e^t,t,-inf)+nounlimit(-t*e^t,t,-inf)+nounlimit(-1,t,-inf),-1]';
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1569,17 +1645,17 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['title']     = "Implicit calculus";
-        $newarg['narrative'] = 'Calculus cases, with an equals sign, not equivalent.';
+        $newarg['narrative'] = 'Calculus cases, with an equals sign now true.';
         $newarg['casstring'] = "[x^2+1,stackeq(x^3/3+x),stackeq(x^2+1),stackeq(x^3/3+x+c)]";
-        $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x))";
         $newarg['calculus']  = true;
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;
 
         $newarg = [];
         $newarg['title']     = "Explicit differentiation";
         $newarg['narrative'] = 'Calculus with an equals sign, are equivalent with noun operators.';
-        $newarg['casstring'] = "[diff(x^2*sin(x),x),stackeq(x^2*diff(sin(x),x)+diff(x^2,x)*sin(x))," .
+        $newarg['casstring'] = "[noundiff(x^2*sin(x),x),stackeq(x^2*noundiff(sin(x),x)+noundiff(x^2,x)*sin(x))," .
             "stackeq(x^2*cos(x)+2*x*sin(x))]";
         $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK)";
         $newarg['calculus']  = true;
@@ -1617,18 +1693,18 @@ class stack_equiv_test_data {
 
         $newarg = [];
         $newarg['title']     = "Integration by parts";
-        $newarg['narrative'] = 'This has a missing constant of integration.';
+        $newarg['narrative'] = 'This has a missing constant of integration, which we condone.';
         $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/16]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,PLUSC)";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK)";
         $newarg['calculus']  = true;
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;
 
         $newarg = [];
         $newarg['title']     = "Integration by parts +c";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/16+c]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,INTCHAR(x))";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,INTCHAR(x))";
         $newarg['calculus']  = true;
         $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;

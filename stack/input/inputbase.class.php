@@ -881,11 +881,11 @@ abstract class stack_input {
         // we don't need to extract updated values from the instantiated $session explicitly.
         if ('units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
             // The units type changes the display, so we really need the validation method display here.
-            list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars,
-                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines);
+            list($valid, $errors, $display, $notes) = $this->validation_display($answer, $lvars, $caslines, $additionalvars,
+                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines, $notes);
         } else {
-            list($valid, $errors, $display) = $this->validation_display($answerd, $lvars, $caslines, $additionalvars,
-                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines);
+            list($valid, $errors, $display, $notes) = $this->validation_display($answerd, $lvars, $caslines, $additionalvars,
+                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines, $notes);
         }
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
@@ -1236,7 +1236,7 @@ abstract class stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
-                $castextprocessor, $inertdisplayform, $ilines) {
+                $castextprocessor, $inertdisplayform, $ilines, $notes) {
 
         $display = stack_maxima_format_casstring(htmlentities($this->contents_to_maxima($this->rawcontents), ENT_COMPAT));
         if ($answer->is_correctly_evaluated()) {
@@ -1257,7 +1257,7 @@ abstract class stack_input {
 
         // Guard clause at this point.
         if (!$valid) {
-            return [$valid, $errors, $display];
+            return [$valid, $errors, $display, $notes];
         }
 
         // The "novars" option is only used by the numerical input type.
@@ -1409,7 +1409,7 @@ abstract class stack_input {
             }
         }
 
-        return [$valid, $errors, $display];
+        return [$valid, $errors, $display, $notes];
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

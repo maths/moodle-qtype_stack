@@ -111,7 +111,7 @@ stack_validate_typeless(expr, LowestTerms, TAns, chkopt, Equiv) := block([simp:f
   exs: stack_validate_missing_assignment(expr),
   if first(exs) then
     print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
-  /* Additional tests which restrict the equivalence input type. */
+  /* Additional tests which restrict the individual lines within the equivalence input type. */
   if Equiv and op_usedp(expr, set) then print(StackAddFeedback("", "Equiv_Illegal_set")),
   if Equiv and op_usedp(expr, "{") then print(StackAddFeedback("", "Equiv_Illegal_set")),
   if Equiv and op_usedp(expr, "[") then print(StackAddFeedback("", "Equiv_Illegal_list")),

@@ -43,7 +43,7 @@ class stack_json_input extends stack_string_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
-        $castextprocessor, $inertdisplayform, $ilines) {
+        $castextprocessor, $inertdisplayform, $ilines, $notes) {
 
         // Always display something sensible.
         $display = $this->contents_to_maxima($this->rawcontents);
@@ -60,6 +60,6 @@ class stack_json_input extends stack_string_input {
         }
         $display = html_writer::tag('pre', $display);
 
-        return [$valid, $errors, $display];
+        return [$valid, $errors, $display, $notes];
     }
 }

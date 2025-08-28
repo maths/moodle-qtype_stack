@@ -11,19 +11,24 @@ Improvements in documentatin and minor bug fixes.
 
 1. Add in sticky footer for editing form.
 2. Add in support for [chemical data](../Specialist_tools/Chemistry/index.md).
+3. Update Mathjax version to 3.2.2 to match Moodle 5+.
+4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
+5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
 
 Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.11.0) include
-
-Done:
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.
 3. Resolve [issue #1363] to download students data in json format.
-4. Update Mathjax version to 3.2.2 to match Moodle 5+.
 
 ## Future Adapt block development ideas
 
 1. Add in a "counter" option to the button.  If set to true, then the value of the counter changes from true/false to the number of times the button has been pressed.
+
+## Future equivalence reasoning development track.
+
+1. Allow bespoke validation (actually quite difficult).
+2. Specify a variable to solve for.  E.g.  `a*x=0`, currently needs `a=0 or x=0`, but when solving for `x` we have just `x=0`.
 
 ## Future Parson's block development track
 

@@ -1264,6 +1264,11 @@
             "description":"Reference documentation for the equivalence reasoning input."
             },
             {
+            "file":"Equivalence_reasoning.md",
+            "title":"Mathematics of Equivalence reasoning - STACK Documentation",
+            "description":"Document the mathematics behind quivalence reasoning."
+            },
+            {
             "file":"Equivalence_assessment.md",
             "title":"Equivalence reasoning assessment - STACK Documentation",
             "description":"Reference documentation for the equivalence reasoning answer tests."

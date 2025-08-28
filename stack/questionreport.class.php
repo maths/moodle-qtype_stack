@@ -67,6 +67,11 @@ class stack_question_report {
     public $quizcontextid;
 
     /**
+     * @var int Id of quiz being analysed in this report.
+     */
+    public $quizid;
+
+    /**
      * @var int Context of course containing the quiz being analysed in this report.
      */
     public $coursecontextid;
@@ -154,6 +159,7 @@ class stack_question_report {
      *  ]
      */
     public $notesummary = [];
+    public $usersummary = [];
     /**
      * @var object StdClass Data formatted for questionreport.mustache.
      */
@@ -165,9 +171,10 @@ class stack_question_report {
      * @param int $quizcontextid - the id of the quizzes' context
      * @param int $coursecontextid - the id of the course's context
      */
-    public function __construct(object $question, int $quizcontextid, int $coursecontextid) {
+    public function __construct(object $question, int $quizcontextid, int $coursecontextid, int $quizid) {
         $this->question = $question;
         $this->quizcontextid = $quizcontextid;
+        $this->quizid = $quizid;
         $this->coursecontextid = $coursecontextid;
         $this->outputdata = new StdClass();
         $this->run_report();
@@ -200,9 +207,13 @@ class stack_question_report {
     public function create_summary(): void {
         $result = $this->load_summary_data();
         $summary = [];
+        $usersummary = [];
         foreach ($result as $qattempt) {
             if (!array_key_exists($qattempt->variant, $summary)) {
                 $summary[$qattempt->variant] = [];
+            }
+            if (!array_key_exists($qattempt->userid, $usersummary)) {
+                $usersummary[$qattempt->userid] = [];
             }
             $rsummary = trim($qattempt->responsesummary ?? '');
             if ($rsummary !== '') {
@@ -212,6 +223,10 @@ class stack_question_report {
                     $summary[$qattempt->variant][$rsummary] = 1;
                 }
             }
+            $usersummary[$qattempt->userid][] = [
+                'attempt' => $qattempt->attempt, 'qnum' => $qattempt->question_num, 'summary' => $rsummary,
+                'numtries' => $qattempt->num_tries,'state' => $qattempt->try_state,
+            ];
         }
 
         foreach ($summary as $vkey => $variant) {
@@ -220,6 +235,7 @@ class stack_question_report {
         }
 
         $this->summary = $summary;
+        $this->usersummary = $usersummary;
     }
 
     /**
@@ -233,8 +249,12 @@ class stack_question_report {
             'coursecontextid' => $this->coursecontextid,
             'quizcontextid' => $this->quizcontextid,
             'questionid' => (int) $this->question->id,
+            'questionid2' => (int) $this->question->id,
+            'quizid' => (int) $this->quizid,
+            'quizid2' => (int) $this->quizid,
         ];
-        $query = "SELECT qa.id, qa.variant, qa.responsesummary
+        $query = "SELECT qa.id, qa.variant, qa.responsesummary, u.id as userid,
+                         ud.attempt, ud.question_num, ud.num_tries, ud.try_state
                     FROM {question_attempts} qa
                     LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
                     /* attach another copy of qas to those rows with the most recent timecreated,
@@ -248,6 +268,33 @@ class stack_question_report {
                     LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
                     INNER JOIN {role_assignments} ra ON ra.userid = u.id
                     INNER JOIN {role} r ON r.id = ra.roleid
+                    LEFT JOIN (
+                        SELECT 
+                            qa.id,
+                            quiza.attempt, 
+                            qa.slot AS question_num,
+                            qa.questionsummary AS question,
+                            COUNT(qasd.name) AS num_tries,
+                            GROUP_CONCAT(qas.state SEPARATOR ', ') AS try_state
+                        FROM {quiz} qz
+                        JOIN {course} cs ON cs.id = qz.course
+                        JOIN {quiz_attempts} quiza ON  qz.id  = quiza.quiz
+                        JOIN {question_usages} qu ON  qu.id  = quiza.uniqueid
+                        JOIN {question_attempts} qa ON qa.questionusageid = qu.id
+                        JOIN {question_attempt_steps} qas ON qas.questionattemptid = qa.id
+                        LEFT JOIN {question_attempt_step_data} qasd ON qasd.attemptstepid = qas.id
+                        WHERE qz.id = :quizid2 AND qasd.name = '-submit'
+                        AND qa.questionid IN
+                                                (
+                                                    SELECT qv.questionid
+                                                        FROM {question_versions} qv_original
+                                                        JOIN {question_versions} qv ON
+                                                                qv.questionbankentryid = qv_original.questionbankentryid
+                                                    WHERE qv_original.questionid = :questionid2
+                                                )
+                        GROUP BY quiza.userid, quiza.attempt, qa.slot
+                        ORDER BY quiza.userid, quiza.attempt, qa.slot
+                    ) as ud ON qas_last.questionattemptid = ud.id
                 WHERE qas_prev.timecreated IS NULL
                     /* Check responses are the correct quiz and made by students */
                     AND qu.component = 'mod_quiz'
@@ -460,6 +507,7 @@ class stack_question_report {
         $this->outputdata->variants = $this->format_variants();
         $this->outputdata->inputs = $this->format_inputs();
         $this->outputdata->rawdata = $this->format_raw_data();
+        $this->outputdata->userdata = $this->format_user_data();
     }
 
     /**
@@ -722,15 +770,39 @@ class stack_question_report {
         return $output;
     }
 
+    public function format_user_data(): object {
+        $output = new StdClass();
+        $sumout = '';
+
+        foreach ($this->usersummary as $user => $udata) {
+            if ($udata !== []) {
+                $maxattempt = max(array_column($udata, 'attempt'));
+                $maxqnum = max(array_column($udata, 'qnum'));
+                $maxtries = max(array_column($udata, 'numtries'));
+            }
+            $sumout .= "## User: " . $user . " Attempts: " . count($udata) . "\n";
+            foreach ($udata as $attempt) {
+                if ($attempt['state']) {
+                    $sumout .= 'Attempt: ' . str_pad($attempt['attempt'], strlen((string) $maxattempt)) .
+                        ' QNum: ' . str_pad($attempt['qnum'], strlen((string) $maxqnum)) .
+                        ' Tries: ' . str_pad($attempt['numtries'], strlen((string) $maxtries)) . ' State: ' . $attempt['state'] . "\n";
+                }
+            }
+            $sumout .= "\n";
+        }
+        $output->userdata = $sumout;
+        return $output;
+    }
+
     /**
-     * Get inofmration on all quizzes containing a version of a given question
+     * Get information on all quizzes containing a version of a given question
      * @param int $questionid
      * @param IntlBreakIterator $questioncontextid
      * @return array
      */
     public static function get_relevant_quizzes(int $questionid, int $questioncontextid): array {
         global $DB;
-        $quizzesquery = "SELECT qr.usingcontextid as quizcontextid, q.name, cc.id as coursecontextid, co.fullname as coursename
+        $quizzesquery = "SELECT qr.usingcontextid as quizcontextid, q.name, cc.id as coursecontextid, co.fullname as coursename, q.id
                     FROM {question_versions} qv
                     LEFT JOIN {question_references} qr ON qv.questionbankentryid = qr.questionbankentryid
                     LEFT JOIN {context} c ON c.id = qr.usingcontextid
@@ -746,7 +818,7 @@ class stack_question_report {
         // We also need to find quizzes where the question is a random option.
         // We retrieve all unique question set references from the question's context.
         $randomquery = "SELECT DISTINCT qr.usingcontextid as quizcontextid, q.name,
-                            cc.id as coursecontextid, co.fullname as coursename, qr.filtercondition
+                            cc.id as coursecontextid, co.fullname as coursename, qr.filtercondition, q.id
                     FROM {question_set_references} qr
                     LEFT JOIN {context} c ON c.id = qr.usingcontextid
                     LEFT JOIN {course_modules} cm ON cm.id = c.instanceid

@@ -682,6 +682,10 @@ class stack_dropdown_input extends stack_input {
         if (array_key_exists(trim($key), $this->ddlvalues)) {
             return $this->ddlvalues[$key]['value'];
         }
+        // This is an edge case where we have both "nonotanswered" and "allowempty".
+        if (!$this->nonotanswered && $this->get_extra_option('allowempty') && $key === '') {
+            return('EMPTYANSWER'); 
+        }
         // The tidy question script returns the name of the input during tidying.
         // That is useful for figuring out where in the question this input occurs.
         if ($key !== $this->name) {

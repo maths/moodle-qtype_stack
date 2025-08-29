@@ -431,6 +431,11 @@
                 "description":"Information on creating and manipulating multiple choice questions in STACK."
                 },
                 {
+                "file":"Multiple_choice_plots.md",
+                "title":"Multiple choice plots - STACK Documentation",
+                "description":"Information on adding plots to multiple choice questions in STACK."
+                },
+                {
                 "file":"Multiline_input.md",
                 "title":"Multiline inputs - STACK Documentation",
                 "description":"Reference documentation on input types allowing multiline input STACK."

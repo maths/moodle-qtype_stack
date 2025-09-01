@@ -88,13 +88,15 @@ The output has two parts.
 Here is an example line of data.
 
 ````
-{"inputs":{"ans1":{"status":"score","note":"","value":"4*(x-5)^2-4"}},"prts":{"prt1":{"score":1,"penalty":0,"note":["prt1-1-T","ATCompSquare_true.","prt1-2-T"],"errors":[]}},"Seed":1569710461}
+{"userid":"736","timecreated":"1756387076","inputs":{"ans1":{"status":"score","note":"","value":"4*(x-5)^2-4"}},"prts":{"prt1":{"score":1,"penalty":0,"note":["prt1-1-T","ATCompSquare_true.","prt1-2-T"],"errors":[]}},"Seed":1569710461}
 ````
 
 which encodes the following student's single response:
 
 ````
 {
+    "userid": "736",
+    "timecreated": "1756387076",
     "inputs": {
         "ans1": {
             "status": "score",

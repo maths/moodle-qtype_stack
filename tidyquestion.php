@@ -31,6 +31,7 @@ require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+list($qversion, $questionid) = get_latest_question_version($questionid);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
@@ -124,8 +125,23 @@ if ($form->is_cancelled()) {
 
 // Start output.
 echo $OUTPUT->header();
+$links = [];
+$qtype = new qtype_stack();
+$qtestlink = $qtype->get_question_test_url($question);
+$links[] = html_writer::link($qtestlink, '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests'), ['class' => 'nav-link']);
+$qpreviewlink = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+$links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> ' . stack_string('questionpreview'), ['class' => 'nav-link']);
+$editparams = $urlparams;
+unset($editparams['questionid']);
+unset($editparams['seed']);
+$editparams['id'] = $question->id;
+$questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
+$links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioninthequestionbank'), ['class' => 'nav-link']);
+echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 echo $OUTPUT->heading($title);
-
+if ($qversion !== null) {
+    echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
+}
 // Display the question.
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $quba->render_question($slot, $options);

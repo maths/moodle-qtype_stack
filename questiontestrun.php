@@ -45,22 +45,7 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 
-$qversion = null;
-
-// We should always run tests on the latest version of the question.
-// This means we can refresh/reload the page even if the question has been edited and saved in another window.
-// When we click "edit question" button we automatically jump to the last version, and don't edit this version.
-$query = 'SELECT qv.questionid, qv.version FROM {question_versions} qv
-                JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
-                WHERE qbe.id = (SELECT be.id FROM {question_bank_entries} be
-                                JOIN {question_versions} v ON v.questionbankentryid = be.id
-                                WHERE v.questionid = ' . $questionid . ')
-            ORDER BY qv.questionid';
-global $DB;
-$result = $DB->get_records_sql($query);
-$result = end($result);
-$qversion = $result->version;
-$questionid = $result->questionid;
+list($qversion, $questionid) = get_latest_question_version($questionid);
 
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
@@ -68,6 +53,7 @@ if (!$questiondata) {
     throw new stack_exception('questiondoesnotexist');
 }
 $question = question_bank::load_question($questionid);
+
 // We hard-wire decimals to be a full stop when testing questions.
 $question->options->set_option('decimals', '.');
 
@@ -104,7 +90,7 @@ $todoparams['contextid'] = $question->contextid;
 $exportparams = $urlparams;
 $exportparams['id'] = $question->id;
 
-$questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
+$questionbanklinkedit = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', sesskey());
@@ -122,7 +108,6 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
-question_engine::save_questions_usage_by_activity($quba);
 
 // Prepare the display options.
 $options = question_display_options();
@@ -136,12 +121,7 @@ if ($qversion !== null) {
 
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
-// ISS-1110 Rather than send parts of the question, save the quba and
-// supply the qubaid and slot so the details can be loaded on the caschat page.
-// This avoids a long URI causing an Apache error.
 $chatparams['initialise'] = true;
-$chatparams['qubaid'] = $quba->get_id();
-$chatparams['slot'] = $slot;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
 
 $links = [];

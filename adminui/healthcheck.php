@@ -157,7 +157,7 @@ if ($config->mathsdisplay === 'mathjax') {
 
 // Output details.
 foreach ($healthcheck->get_test_results() as $test) {
-    if ($test['details'] !== null) {
+    if (($test['details'] ?? null) !== null) {
         echo '<hr />';
         $heading = stack_string($test['tag']);
         if ($test['result'] === false) {

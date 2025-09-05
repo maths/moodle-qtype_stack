@@ -409,9 +409,11 @@ $string['notsaved'] = '** QUESTION WAS NOT SAVED **';
 $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
 $string['stackerrors'] = 'You have errors in your question.';
+$string['yamlconvert'] = 'Convert';
 $string['yamlinput'] = 'YAML';
 $string['yamlinput_help'] = 'Edit PRT as YAML';
 $string['yamlheader'] = 'Edit PRT as YAML';
+$string['yamlrevert'] = 'Revert';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

@@ -78,9 +78,14 @@ $question->setup_fake_feedback_and_input_validation();
 
 // Prepare the display options.
 $options = question_display_options();
+$editparams = $urlparams;
+unset($editparams['questionid']);
+unset($editparams['seed']);
+$editparams['id'] = $question->id;
+$questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 
 // Create the form for renaming bits of the question.
-$form = new qtype_stack_tidy_question_form($PAGE->url, $question);
+$form = new qtype_stack_tidy_question_form($PAGE->url, ['question' => $question, 'editurl' => $questioneditlatesturl]);
 
 if ($form->is_cancelled()) {
     redirect($returnurl);
@@ -131,11 +136,6 @@ $qtestlink = $qtype->get_question_test_url($question);
 $links[] = html_writer::link($qtestlink, '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests'), ['class' => 'nav-link']);
 $qpreviewlink = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
 $links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> ' . stack_string('questionpreview'), ['class' => 'nav-link']);
-$editparams = $urlparams;
-unset($editparams['questionid']);
-unset($editparams['seed']);
-$editparams['id'] = $question->id;
-$questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 $links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioninthequestionbank'), ['class' => 'nav-link']);
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 echo $OUTPUT->heading($title);

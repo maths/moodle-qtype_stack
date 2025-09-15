@@ -3069,4 +3069,50 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $this->assertEquals($exp, $at1->get_rendered());
     }
+
+    /**
+     * Tests the unary_minus_sort functions.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_unary_minus_sort(): void {
+        $a2 = ['p0:a-(-4*a+b)', 'p1:unary_minus_sort(p0)'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = "{#p0#}, {#p1#}. {#(mminusbp101(true),p0)#}, {#(mminusbp101(true),p1)#}.";
+        // It's the last of these which was expected.
+        $exp = 'a-(-4*a+b), a-(-(4*a)+b). a-((-4)*a+b), a-(-4*a+b).';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+
+        // This example combines pre-fix in the first term, and has the problematic multi-terms in addition.
+        $a2 = ['p0:-7*y^3-2*y^2-8*y', 'p1:unary_minus_sort(p0)'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = "{#p0#}, {#p1#}. {#(mminusbp101(true),p0)#}, {#(mminusbp101(true),p1)#}.";
+        // It's the last of these which was expected.
+        $exp = '-7*y^3-2*y^2+(-8)*y, -(7*y^3)-2*y^2-8*y. (-7)*y^3-2*y^2+(-8)*y, -7*y^3-2*y^2-8*y.';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
 }

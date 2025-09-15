@@ -65,6 +65,9 @@ compile(safe_op);
 get_safe_ops(ex) := setify(flatten(get_safe_ops_helper(ex)))$
 get_safe_ops_helper(ex) := if mapatom(ex) then [] else append([safe_op(ex)], maplist(get_safe_ops_helper, args(ex)))$
 
+/* Similar problem with the arguments. */
+safe_args(ex) := if atom(ex) then [] else args(ex)$
+
 /* This function takes an expression ex and returns a list of coefficients of v. */
 coeff_list(ex, v) := block([deg, kloop, cl],
   cl:[],

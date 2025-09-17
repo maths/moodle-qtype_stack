@@ -411,8 +411,8 @@ $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question s
 $string['stackerrors'] = 'You have errors in your question.';
 $string['yamlconvert'] = 'Convert';
 $string['yamlinput'] = 'YAML';
-$string['yamlinput_help'] = 'Edit PRT as YAML';
-$string['yamlheader'] = 'Edit PRT as YAML';
+$string['yamlinput_help'] = 'Edit PRTs as YAML';
+$string['yamlheader'] = 'Edit PRTs as YAML';
 $string['yamlrevert'] = 'Revert';
 
 // Strings used by input elements.

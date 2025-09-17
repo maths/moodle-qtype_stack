@@ -370,8 +370,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $prtyaml = json_encode($this->question->prts);
         $mform->addElement('hidden', 'stack-yamloriginal', $prtyaml);
         $mform->addElement('textarea', 'yamlinput',
-            stack_string('yamlinput'), ['rows' => 20, 'cols' => 80]);
-        $mform->setDefault('yamlinput', $prtyaml);
+            stack_string('yamlinput'), ['rows' => 20, 'cols' => 80, 'spellcheck' => 'false']);
         $mform->addHelpButton('yamlinput', 'yamlinput', 'qtype_stack');
         $buttonarray = [];
         $buttonarray[] =& $mform->createElement('button', 'stack-revert-yaml', stack_string("yamlrevert"));

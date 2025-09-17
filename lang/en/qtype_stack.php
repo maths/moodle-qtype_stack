@@ -411,9 +411,13 @@ $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question s
 $string['stackerrors'] = 'You have errors in your question.';
 $string['yamlconvert'] = 'Convert';
 $string['yamlinput'] = 'YAML';
-$string['yamlinput_help'] = 'Edit PRTs as YAML';
+$string['yamlinput_help'] = 'The YAML representation of the PRTs is shown here. You can edit this text, and then press the \'Convert\' button to update the PRTs. If you make a mistake, you can press the \'Revert\' button to restore the YAML to the last saved version of the PRTs. You will need to add nodes and PRTs normally before editing. The YAML is not saved as part of the question and will revert to the current saved version of the PRTs if you save the question or leave this page.';
 $string['yamlheader'] = 'Edit PRTs as YAML';
 $string['yamlrevert'] = 'Revert';
+$string['yamlwarning'] = 'You have made changes to the YAML that have not been saved. Press the \'Convert\' button to update the PRTs and then save the question.';
+$string['yamlprtwarning'] = 'PRT does not exist:';
+$string['yamlnodewarning'] = 'Node does not exist:';
+$string['yamlerror'] = 'There is an error with the YAML.';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

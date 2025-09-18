@@ -368,7 +368,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('header', 'yamlheader', stack_string('yamlheader'));
         $prtjson = '';
-        if ($this->question->prts) {
+        if (isset($this->question->prts)) {
             try {
                 $prtjson = json_encode($this->question->prts);
             } catch (Exception $e) {
@@ -376,6 +376,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
         $mform->addElement('hidden', 'stack-yamloriginal', $prtjson);
+        $mform->setType('stack-yamloriginal', PARAM_RAW);
         $mform->addElement('textarea', 'yamlinput',
             stack_string('yamlinput'), ['rows' => 20, 'cols' => 80, 'spellcheck' => 'false']);
         $mform->addHelpButton('yamlinput', 'yamlinput', 'qtype_stack');
@@ -390,6 +391,7 @@ class qtype_stack_edit_form extends question_edit_form {
             'yamlerror' => stack_string('yamlerror'),
         ];
         $mform->addElement('hidden', 'stack-yamltranslations', json_encode($yamltranslations));
+        $mform->setType('stack-yamltranslations', PARAM_RAW);
 
         // Options.
         $mform->addElement('header', 'optionsheader', stack_string('options'));

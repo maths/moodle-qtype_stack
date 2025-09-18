@@ -45,10 +45,10 @@ export const setup = () => {
  * Set up the change callback to warn about unsaved changes.
  */
 function changeCallback() {
-    const errorDiv = document.querySelector('#fgroup_id_error_yamlbuttons');
-    if (errorDiv) {
-        errorDiv.style.display = 'block';
-        errorDiv.innerHTML = getTranslation('yamlwarning');
+    const saveDiv = document.querySelector('#fgroup_id_error_yamlbuttons');
+    if (saveDiv) {
+        saveDiv.style.display = 'block';
+        saveDiv.innerHTML = getTranslation('yamlwarning');
     }
     document.querySelector('#id_yamlinput')?.removeEventListener('input', changeCallback);
 }
@@ -57,7 +57,12 @@ function changeCallback() {
  * Set up the change callback to warn about unsaved changes.
  */
 function changeRemove() {
-    const errorDiv = document.querySelector('#fgroup_id_error_yamlbuttons');
+    const saveDiv = document.querySelector('#fgroup_id_error_yamlbuttons');
+    if (saveDiv) {
+        saveDiv.style.display = 'none';
+        saveDiv.innerHTML = '';
+    }
+    const errorDiv = document.querySelector('#id_error_yamlinput');
     if (errorDiv) {
         errorDiv.style.display = 'none';
         errorDiv.innerHTML = '';
@@ -88,6 +93,7 @@ function yamlRevert() {
  * @returns {string} YAML representation of the PRTs.
  */
 function yamlParse() {
+    const prtsArray = [];
     const json = document.querySelector('input[name="stack-yamloriginal"]')?.value;
     if (!json) {
         return '';
@@ -100,20 +106,27 @@ function yamlParse() {
     }
 
     Object.values(prtsObject).forEach(prt => {
-        delete prt.name;
         delete prt.id;
         delete prt.questionid;
         delete prt.firstnodename;
         if (prt.nodes) {
+            prt.node = [];
             prt.nodes.forEach(node => {
+                node.name = node.nodename;
+                delete node.nodename;
                 delete node.id;
                 delete node.questionid;
                 delete node.prtname;
+                const { name, ...rest } = node;
+                const newnode = { name: name, ...rest };
+                prt.node.push(newnode);
             });
+            delete prt.nodes;
         }
+        prtsArray.push(prt);
     });
     try {
-        return yaml.dump(prtsObject, { lineWidth: -1 });
+        return yaml.dump(prtsArray, { lineWidth: -1 });
     } catch (e) {
         return '';
     }
@@ -154,16 +167,17 @@ function yamlConvert() {
     errorDiv.style.display = 'none';
     let isError = false;
 
-    let prtsObject;
+    let prtsArray;
     try {
-        prtsObject = yaml.load(yamltext);
+        prtsArray = yaml.load(yamltext);
     } catch (e) {
         errorDiv.innerHTML += getTranslation('yamlerror') + ': ' + e.message + '<br>';
         errorDiv.style.display = 'block';
         return;
     }
 
-    for (const prtkey in prtsObject) {
+    for (const currentPrt of prtsArray) {
+        const prtkey = currentPrt.name;
         if (!document.querySelector('#id_' + prtkey + 'prtheader')) {
             // No such PRT in the form.
             errorDiv.innerHTML += getTranslation('yamlprtwarning') + ' ' + prtkey + '<br>';
@@ -171,12 +185,11 @@ function yamlConvert() {
             isError = true;
             continue;
         }
-        const currentPrt = prtsObject[prtkey];
-        if (currentPrt.nodes ) {
-            for (const currentNode of currentPrt.nodes) {
+        if (currentPrt.node) {
+            for (const currentNode of currentPrt.node) {
                 // Would need to submit add node multiple times to sort this automatically.
                 // We would still run into issues if the node naming in the YAML was dubious.
-                const nodeKey = currentNode.nodename;
+                const nodeKey = currentNode.name;
                 if (!document.querySelector('#id_' + prtkey + 'description' + '_' + nodeKey)) {
                     errorDiv.innerHTML += getTranslation('yamlnodewarning') + ' ' + prtkey + ' - ' + nodeKey + '<br>';
                     errorDiv.style.display = 'block';
@@ -188,8 +201,8 @@ function yamlConvert() {
     if (isError) {
         return;
     }
-    for (const prtkey in prtsObject) {
-        const currentPrt = prtsObject[prtkey];
+    for (const currentPrt of prtsArray) {
+        const prtkey = currentPrt.name;
         if ('value' in currentPrt ?? document.querySelector('#id_' + prtkey + 'value')) {
             document.querySelector('#id_' + prtkey + 'value').value = currentPrt.value;
         }
@@ -202,11 +215,11 @@ function yamlConvert() {
         if ('feedbackvariables' in currentPrt && document.querySelector('#id_' + prtkey + 'feedbackvariables')) {
             document.querySelector('#id_' + prtkey + 'feedbackvariables').value = currentPrt.feedbackvariables;
         }
-        if (!currentPrt.nodes) {
+        if (!currentPrt.node) {
             continue;
         }
-        for (const currentNode of currentPrt.nodes) {
-            const nodeKey = currentNode.nodename;
+        for (const currentNode of currentPrt.node) {
+            const nodeKey = currentNode.name;
             if ('description' in currentNode && document.querySelector('#id_' + prtkey + 'description' + '_' + nodeKey)) {
                 document.querySelector('#id_' + prtkey + 'description' + '_' + nodeKey).value = currentNode.description;
             }

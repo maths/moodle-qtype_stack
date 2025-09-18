@@ -15,16 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the editing form for the Stack question type.
+ * Page which simply redirects to edit page for latest version of supplied question.
  *
  * @package    qtype_stack
- * @copyright  2012 The Open University.
+ * @copyright  2025 The University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__.'/../../../config.php');
 require_once(__DIR__ . '/locallib.php');
 require_once($CFG->libdir . '/questionlib.php');
+require_login();
 // Get the parameters from the URL.
 $questionid = required_param('id', PARAM_INT);
 list($qversion, $questionid) = get_latest_question_version($questionid);

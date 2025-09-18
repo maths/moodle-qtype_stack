@@ -286,6 +286,11 @@ class stack_outofcontext_process {
     }
 }
 
+/**
+ * Get version number and question id of the latest version of a question.
+ * @param mixed $questionid
+ * @return array
+ */
 function get_latest_question_version($questionid) {
     // We should always run tests on the latest version of the question.
     // This means we can refresh/reload the page even if the question has been edited and saved in another window.

@@ -367,7 +367,14 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         $mform->addElement('header', 'yamlheader', stack_string('yamlheader'));
-        $prtjson = json_encode($this->question->prts);
+        $prtjson = '';
+        if ($this->question->prts) {
+            try {
+                $prtjson = json_encode($this->question->prts);
+            } catch (Exception $e) {
+                $prtjson = '';
+            }
+        }
         $mform->addElement('hidden', 'stack-yamloriginal', $prtjson);
         $mform->addElement('textarea', 'yamlinput',
             stack_string('yamlinput'), ['rows' => 20, 'cols' => 80, 'spellcheck' => 'false']);

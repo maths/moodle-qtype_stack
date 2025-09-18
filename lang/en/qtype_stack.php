@@ -1075,7 +1075,9 @@ $string['ATValidator_res_not_string']   = 'The result of your validator must be 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
 $string['ATAlgEquiv_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
+$string['ATAlgEquiv_SA_not_list_semi']  = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the semicolon (;) separated values with square brackets. ';
 $string['ATAlgEquiv_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATAlgEquiv_SA_not_set_semi']   = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the semicolon (;) separated values with curly brackets. ';
 $string['ATAlgEquiv_SA_not_realset']    = 'Your answer should be a subset of the real numbers.  This could be a set of numbers, or a collection of intervals.';
 $string['ATAlgEquiv_SA_not_equation']   = 'Your answer should be an equation, but is not. ';
 $string['ATAlgEquiv_SA_not_logic']      = 'Your answer should be an equation, inequality or a logical combination of many of these, but is not. ';
@@ -1091,6 +1093,7 @@ $string['ATEqualComAssRules_Opt_List']  = 'The option to this answer test must b
 $string['ATEqualComAssRules_Opt_Incompatible']  = 'The option to this answer test contains incompatible rules.  This is an error.  Please contact your teacher. ';
 
 $string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATSets_SA_not_set_semi']       = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the semicolon (;) separated values with curly brackets. ';
 $string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';
 $string['ATSets_wrongentries']          = 'These entries should not be elements of your set. {$a->m0} ';
 $string['ATSets_missingentries']        = 'The following are missing from your set. {$a->m0} ';
@@ -1170,7 +1173,9 @@ $string['ATDiff_error_list']        = 'The answer test failed.  Please contact y
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';
 
 $string['ATNumerical_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
+$string['ATNumerical_SA_not_list_semi']  = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the semicolon (;) separated values with square brackets. ';
 $string['ATNumerical_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATNumerical_SA_not_set_semi']   = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the semicolon (;) separated values with curly brackets. ';
 $string['ATNumerical_SA_not_number']     = 'Your answer should be a floating point number, but is not. ';
 $string['ATNumerical_SB_not_number']     = 'The value supplied for the teacher\'s answer should be a floating point number, but is not. This is an internal error with the test.  Please ask your teacher about this. ';
 $string['ATNumerical_FAILED']            = 'Your answer should be a floating point number, or a list or set of numbers.  It is not. ';

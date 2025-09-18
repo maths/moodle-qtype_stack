@@ -104,6 +104,18 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
     }
 
+    public function test_is_false_for_expressions_with_different_type_algequiv_semi(): void {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'AlgEquiv', '', $options);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals("Your answer should be a list, but is not. Note that the syntax to enter a list " .
+            "is to enclose the semicolon (;) separated values with square brackets.", $at->get_at_feedback());
+        // The note should not depend on the option for decimals.
+        $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
+    }
+
     public function test_algequivfeedback_1(): void {
 
         $at = $this->stack_answertest_general_cas_builder('[1,2]', '[1,2,3]', 'AlgEquiv');

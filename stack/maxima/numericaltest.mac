@@ -32,14 +32,20 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
     /* Are we dealing with lists? */
     if listp(SB) then
       if listp(SAN)#true then
-        return(StackBasicReturn(false, false, "ATNumerical_SA_not_list"))
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATNumerical_SA_not_list"))
+          else
+            return([false, false, StackAddNote("", "ATNumerical_SA_not_list"), StackAddFeedback("", "ATNumerical_SA_not_list_semi")])
       else
         return(ATNumerical_list(SA, SB, numtype, tol)),
 
     /* Are we dealing with sets? */
     if safe_setp(SB) then
       if safe_setp(SAN)=false then
-        return(StackBasicReturn(false, false, "ATNumerical_SA_not_set"))
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATNumerical_SA_not_set"))
+          else
+            return([false, false, StackAddNote("", "ATNumerical_SA_not_set"), StackAddFeedback("", "ATNumerical_SA_not_set_semi")])
       else
         return(ATNumerical_set(SA, SB, numtype, tol)),
 

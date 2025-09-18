@@ -30,6 +30,9 @@ $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
 $string['privacy:metadata']  = 'The STACK question type plugin does not store any personal data.';
+$string['cachedef_parsercache'] = 'STACK parsed Maxima expressions';
+$string['cachedef_librarycache'] = 'STACK question library renders and file structure';
+
 $string['mbstringrequired'] = 'Installing the MBSTRING library is required for STACK.';
 $string['yamlrecommended']  = 'Installing the YAML library is recommended for STACK.';
 

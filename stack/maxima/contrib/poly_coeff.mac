@@ -26,8 +26,8 @@
 /* has only powers of 2 and 5 in the prime factorisation.  If so, */
 /* the fraction can terminate in base 10.                         */
 rational_num_exactp(ex) := block([tadnom],
-  if not(rational_numberp(ta)) then return(false),
-  tadnom:denom(ta),
+  if not(rational_numberp(ex)) then return(false),
+  tadnom:denom(ex),
   ev(while (is(mod(tadnom, 2)=0)) do tadnom:tadnom/2, simp),
   ev(while (is(mod(tadnom, 5)=0)) do tadnom:tadnom/5, simp),
   /* If we have other prime factors in the demoninator it's not   */

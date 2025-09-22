@@ -2225,22 +2225,28 @@ function opLBind($op) {
         case '!!':
             return 160;
         case '^':
+        case 'nounpow':
         case '**':
             return 140;
         case '.':
             return 130;
         case '*':
+        case 'nounmul':
         case '@@IS@@':
         case '@@Is@@':
         case '/':
+        case 'noundiv':
             return 120;
         case '+':
+        case 'nounadd':
         case '-':
         case '+-':
         case '#pm#':
             return 100;
         case '=':
+        case 'nouneq':
         case '*':
+        case 'nounmul':
         case '#':
         case '>':
         case '>=':
@@ -2266,8 +2272,6 @@ function opLBind($op) {
     return 0;
 }
 
-
-
 function opRBind($op) {
     switch ($op) {
         case ':':
@@ -2290,6 +2294,7 @@ function opRBind($op) {
         case '+':
             return 100;
         case '-':
+        case 'nounsub ':
             return 134;
         case '=':
         case '#':

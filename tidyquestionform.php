@@ -41,7 +41,8 @@ class qtype_stack_tidy_question_form extends moodleform {
     protected function definition() {
 
         $mform = $this->_form;
-        $question = $this->_customdata;
+        $question = $this->_customdata['question'];
+        $editurl = $this->_customdata['editurl']->out();
 
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('inputs'));
@@ -85,6 +86,7 @@ class qtype_stack_tidy_question_form extends moodleform {
 
         // Submit buttons.
         $this->add_action_buttons(true, stack_string('renamequestionparts'));
+        $mform->addElement('html', stack_string('versionwarning', ['url' => $editurl]));
     }
 
     /**
@@ -115,7 +117,7 @@ class qtype_stack_tidy_question_form extends moodleform {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
-        $question = $this->_customdata;
+        $question = $this->_customdata['question'];
 
         // Inputs.
         $inputnames = [];

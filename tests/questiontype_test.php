@@ -36,7 +36,6 @@ use stdClass;
 use function stack_utils\get_config;
 use qformat_xml;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -443,7 +442,12 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     </qtest>
   </question>
 ';
-        $xmldata = xmlize($xml);
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            $xmldata = $parser->parse($xml);
+        } else {
+            $xmldata = xmlize($xml);
+        }
 
         $importer = new qformat_xml();
         $q = $importer->try_importing_using_qtypes(

@@ -95,7 +95,7 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
         castext2_placeholder_holder $holder): string {
         if (get_config('qtype_stack', 'stackapi')) {
             return "javascript:download('{$params[1]}', {$params[2]});";
-        } else if (!isset($processor->qa) || !function_exists($processor->qa->get_database_id)) {
+        } else if (!isset($processor->qa) || !method_exists($processor->qa, 'get_database_id')) {
             // ISS1436 - Basic fix for STACK library where there is no question attempt.
             return "#";
         } else {

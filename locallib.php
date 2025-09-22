@@ -285,3 +285,23 @@ class stack_outofcontext_process {
         return $varname;
     }
 }
+
+/**
+ * Get version number and question id of the latest version of a question.
+ * @param mixed $questionid
+ * @return array
+ */
+function get_latest_question_version($questionid) {
+    // We should always run tests on the latest version of the question.
+    // This means we can refresh/reload the page even if the question has been edited and saved in another window.
+    // When we click "edit question" button we automatically jump to the last version, and don't edit this version.
+    $params = ['questionid' => $questionid];
+    $query = 'SELECT qv.questionid, qv.version FROM {question_versions} qv
+                    WHERE qv.questionbankentryid = (SELECT questionbankentryid FROM {question_versions}
+                                    WHERE questionid = :questionid)
+                    ORDER BY qv.version ASC';
+    global $DB;
+    $result = $DB->get_records_sql($query, $params);
+    $result = end($result);
+    return [$result->version, $result->questionid];
+}

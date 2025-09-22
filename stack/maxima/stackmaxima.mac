@@ -226,11 +226,16 @@ make_complexJ(OPT_COMPLEXJ) := block(
 make_multsgn(OPT_MULTSGN) := block(
     if ev(not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})), simp) 
         then error("make_multsgn received un-supported option: ", OPT_MULTSGN),
-    if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
-    if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
-    if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),
-    if OPT_MULTSGN = "none" then texput("*", " ", nary),
-    if OPT_MULTSGN = "space" then texput("*", "\\,", nary)
+    if OPT_MULTSGN = "cross" then (texput("*", "\\times ", nary),
+                                   texput("nounmul", "\\times ", nary)),
+    if OPT_MULTSGN = "dot" then (texput("*", "\\cdot ", nary),
+                                   texput("nounmul", "\\cdot ", nary)),
+    if OPT_MULTSGN = "onum" then (texput("*", multsgnonlyfornumbers),
+                                   texput("nounmul", multsgnonlyfornumbers)),
+    if OPT_MULTSGN = "none" then (texput("*", " ", nary),
+                                   texput("nounmul", " ", nary)),
+    if OPT_MULTSGN = "space" then (texput("*", "\\,", nary),
+                                   texput("nounmul","\\,", nary))
 );
 
 /* This only prints a multiplication sign for numbers. */
@@ -1223,13 +1228,19 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
     /* Are we dealing with lists? */
     if listp(SB) then
       if listp(SA)#true then
-        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_list"))
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_list"))
+          else
+            return([false, false, StackAddNote("", "ATAlgEquiv_SA_not_list"), StackAddFeedback("", "ATAlgEquiv_SA_not_list_semi")])
       else
         return(ATList(SA, SB)),
     /* Are we dealing with sets? */
     if safe_setp(SB) then
       if safe_setp(SA)=false then
-        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
+          else
+            return([false, false, StackAddNote("", "ATAlgEquiv_SA_not_set"), StackAddFeedback("", "ATAlgEquiv_SA_not_set_semi")])
       else
         return(ATSet(SA, SB)),
     /* Are we dealing with non-trivial sets? */
@@ -1645,7 +1656,10 @@ ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     if not(safe_setp(SB)) then
         return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
     if not(safe_setp(SA)) then
-        return(StackBasicReturn(false, false, "ATSets_SA_not_set")),
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATSets_SA_not_set"))
+          else
+            return([false, false, StackAddNote("", "ATSets_SA_not_set"), StackAddFeedback("", "ATSets_SA_not_set_semi")]),
 
     SAsimp:ATSets_prepare(SAsimp),
     SBsimp:ATSets_prepare(SBsimp),

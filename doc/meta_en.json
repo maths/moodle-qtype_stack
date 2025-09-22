@@ -431,6 +431,11 @@
                 "description":"Information on creating and manipulating multiple choice questions in STACK."
                 },
                 {
+                "file":"Multiple_choice_plots.md",
+                "title":"Multiple choice plots - STACK Documentation",
+                "description":"Information on adding plots to multiple choice questions in STACK."
+                },
+                {
                 "file":"Multiline_input.md",
                 "title":"Multiline inputs - STACK Documentation",
                 "description":"Reference documentation on input types allowing multiline input STACK."
@@ -488,6 +493,11 @@
                 "file":"Fact_sheets.md",
                 "title":"Fact Sheets - STACK Documentation",
                 "description":"STACK lets question authors easily embed standard facts into their questions."
+                },
+                {
+                "file":"Iframe_blocks.md",
+                "title":"Iframe blocks - STACK Documentation",
+                "description":"Some content needs to be embedded into iframes."
                 },
                 {
                 "file":"Static_blocks.md",
@@ -1073,6 +1083,15 @@
         "description":"This page provides advice for writing STACK questions in vector calculus."
         },
         {
+        "Chemistry":[
+            {
+            "file":"index.md",
+            "title":"Support for chemistry in STACK - STACK Documentation",
+            "description":"How to write questions for chemistry with STACK."
+            }
+            ]
+        },
+        {
         "Linear_algebra":[
              {
              "file":"index.md",
@@ -1253,6 +1272,11 @@
             "file":"Equivalence_input.md",
             "title":"Equivalence reasoning input - STACK Documentation",
             "description":"Reference documentation for the equivalence reasoning input."
+            },
+            {
+            "file":"Equivalence_reasoning.md",
+            "title":"Mathematics of Equivalence reasoning - STACK Documentation",
+            "description":"Document the mathematics behind quivalence reasoning."
             },
             {
             "file":"Equivalence_assessment.md",

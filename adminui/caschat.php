@@ -40,8 +40,6 @@ require_login();
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);
-$qubaid = optional_param('qubaid', '', PARAM_RAW);
-$slot = optional_param('slot', '', PARAM_RAW);
 
 if (!$questionid) {
     $context = context_system::instance();
@@ -49,17 +47,12 @@ if (!$questionid) {
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = [];
 } else {
-    // Load the necessary data.
-    if ($qubaid !== '') {
-        // ISS-1110 If question usage by activity has been supplied, load the question
-        // from that so we can load correct responses later.
-        $quba = question_engine::load_questions_usage_by_activity(optional_param('qubaid', '', PARAM_RAW));
-        $question = $quba->get_question($slot);
-    } else {
-        $question = question_bank::load_question($questionid);
+    list($qversion, $questionid) = get_latest_question_version($questionid);
+    $questiondata = question_bank::load_question_data($questionid);
+    if (!$questiondata) {
+        throw new stack_exception('questiondoesnotexist');
     }
-    $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
-
+    $question = question_bank::load_question($questionid);
     // Process any other URL parameters, and do require_login.
     list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
 
@@ -70,6 +63,12 @@ if (!$questionid) {
     unset($editparams['seed']);
     $editparams['id'] = $question->id;
     $questionediturl = new moodle_url('/question/bank/editquestion/question.php', $editparams);
+    $questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
+    $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
+    $quba->set_preferred_behaviour('adaptive');
+
+    $slot = $quba->add_question($question, $question->defaultmark);
+    $quba->start_question($slot);
 }
 
 $PAGE->set_url('/question/type/stack/adminui/caschat.php', $urlparams);
@@ -82,8 +81,7 @@ $errs = '';
 $varerrs = [];
 $pslash = false;
 
-if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
-    // ISS-1110 Handle calls from questiontestrun.php.
+if ($questionid) {
     if ($question->options->get_option('simplify')) {
         $simp = 'on';
     } else {
@@ -99,13 +97,16 @@ if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
     $vars = $question->questionvariables;
     $inps   = $questionvarsinputs;
     $string = $question->generalfeedback;
-} else {
+}
+
+if (!optional_param('initialise', '', PARAM_RAW)) {
     $vars   = optional_param('maximavars', '', PARAM_RAW);
     $inps   = optional_param('inputs', '', PARAM_RAW);
     $string = optional_param('cas', '', PARAM_RAW);
     $simp   = optional_param('simp', '', PARAM_RAW);
     $pslash = optional_param('pslash', '', PARAM_RAW);
 }
+
 $savedb = false;
 $savedmsg = '';
 if (trim(optional_param('action', '', PARAM_RAW)) == trim(stack_string('savechat'))) {
@@ -124,6 +125,8 @@ if ('on' == $simp) {
 }
 if ('on' == $pslash) {
     $pslash = true;
+} else {
+    $pslash = false;
 }
 // Initially simplification should be on.
 if (!$vars && !$string) {
@@ -196,17 +199,27 @@ if ($string) {
 }
 
 echo $OUTPUT->header();
+if ($questionid) {
+    $links = [];
+    $qtype = new qtype_stack();
+    $qtestlink = $qtype->get_question_test_url($question);
+    $links[] = html_writer::link($qtestlink, '<i class="fa fa-wrench"></i> '
+                                . stack_string('runquestiontests'), ['class' => 'nav-link']);
+    $qpreviewlink = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+    $links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> '
+                                . stack_string('questionpreview'), ['class' => 'nav-link']);
+    $links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioninthequestionbank'),
+                                 ['class' => 'nav-link']);
+    echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
+}
 echo $OUTPUT->heading($title);
 
 // If we are editing the General Feedback from a question it is very helpful to see the question text.
 if ($questionid) {
-
-    $qtype = new qtype_stack();
-    $qtestlink = html_writer::link($qtype->get_question_test_url($question),
-        '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests'),
-        ['class' => 'nav-link']);
-    echo html_writer::tag('nav', $qtestlink, ['class' => 'nav']);
-
+    echo $OUTPUT->heading($question->name, 3);
+    if ($qversion !== null) {
+        echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
+    }
     if ($savedmsg) {
         echo html_writer::tag('p', $savedmsg, ['class' => 'overallresult pass']);
     }
@@ -263,7 +276,11 @@ if ($questionid && !$varerrs) {
 $fout .= html_writer::end_tag('p');
 
 $fout .= html_writer::start_tag('p') . stack_string('pslash');
-$fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash']);
+if ($pslash) {
+    $fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash', 'checked' => true]);
+} else {
+    $fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash']);
+}
 $fout .= html_writer::end_tag('p');
 
 echo html_writer::tag('form', $fout, ['method' => 'post']);
@@ -272,5 +289,6 @@ if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);
 }
 
-echo html_writer::tag('p', stack_string('chatintro'));
+echo html_writer::tag('p', stack_string('chatintro') . (($questionid) ? stack_string('chatintro2') : ''));
 echo $OUTPUT->footer();
+

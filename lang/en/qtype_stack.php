@@ -404,6 +404,7 @@ This is a tag which is key for reporting purposes.  It is designed to record the
 $string['variantsselectionseed'] = 'Random group';
 $string['variantsselectionseed_help'] = 'Normally you can leave this box blank. If, however, you want two different questions in a quiz to use the same random seed, then type the same string in this box for the two questions (and deploy the same set of random seeds, if you are using deployed variants) and the random seeds for the two questions will be synchronised.';
 $string['verifyquestionandupdate'] = 'Verify the question text and update the form';
+$string['versionwarning'] = 'This will update the latest version of the question. If you wish your changes to be made in a new version of the question, please save the question in <a href="{$a->url}">the question edit form</a> before submitting this page.';
 $string['youmustconfirm'] = 'You must confirm here.';
 $string['notsaved'] = '** QUESTION WAS NOT SAVED **';
 $string['mustconfirm'] = 'You have changes to confirm.';
@@ -645,7 +646,8 @@ $string['savechatmsg'] = 'Question variables and general feedback saved back to 
 $string['pslash'] = 'Protect slashes within Maxima string variables: ';
 $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
-$string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself. \'Save back to question\' overwrites the question variables and general feedback of the current version on the question. Clicking \'Send to question edit form\' does not save your changes directly. It will take you to the question edit form. From there, you can save your changes as a new version of the question.';
+$string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
+$string['chatintro2'] = ' \'Save back to question\' overwrites the question variables and general feedback of the latest version on the question. Clicking \'Send to question edit form\' does not save your changes directly. It will take you to the question edit form for the version of the question given at the top of this page. From there, you can save your changes as a new version of the question. Use \'Send to CAS\' immediately before \'Send to edit form\' to refresh which version you are dealing with.';
 $string['chattitle'] = 'Test the connection to the CAS';
 $string['clearedthecache'] = 'CAS cached has been cleared.';
 $string['clearingcachefiles'] = 'Clearing cached STACK plot files {$a->done}/{$a->total}';

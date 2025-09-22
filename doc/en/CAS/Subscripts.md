@@ -1,8 +1,10 @@
 ## Atoms, subscripts and fine tuning the LaTeX display
 
-Everything in Maxima is either an _atom_ or an _expression_. Atoms are either an integer number, float, string or a name.  You can use the predicate `atom()` to decide if its argument is an atom.  Expressions have an _operator_ and a list of _arguments_. Note that the underscore symbol is _not_ an operator.  Thus `a_1` is an atom in maxima. Hence, the atoms `a1` and `a_1` are not considered to be algebraically equivalent.  If you would like to consolidate subscripts in students' input see the documentation on the input option `consolidatesubscripts` in the [extra options](../Authoring/Inputs/index.md).  Also note that since the underscore is not an operator, an expression such as `(a_b)_c` is not valid Maxima syntax, but `a_b_c` is a valid name for an atom.
+Everything in Maxima is either an _atom_ or an _expression_. Atoms are either an integer number, float, string or a name.  You can use the predicate `atom()` to decide if its argument is an atom.  Expressions have an _operator_ and a list of _arguments_. 
 
 You can change the TeX output for an atom with Maxima's `texput` command.  E.g. `texput(blob, "\\diamond")` will display the atom `blob` as \( \diamond \).  If you place `texput` commands in the question variables, this affects the display everywhere in the question including the inputs.  E.g. if a student types in `blob` then the validation feedback should say something like "your last answer was: \( \diamond \)".
+
+Note that the underscore symbol is _not_ an operator.  Thus `a_1` is an atom in maxima. Hence, the atoms `a1` and `a_1` are not considered to be algebraically equivalent.   If you would like to consolidate subscripts in students' input see the documentation on the input option `consolidatesubscripts` in the [extra options](../Authoring/Inputs/index.md).  Also note that since the underscore is not an operator, an expression such as `(a_b)_c` is not valid Maxima syntax, but `a_b_c` is a valid name for an atom.
 
 Display with subscripts is a subtle and potentially confusing issue because subscript notation in mathematics has many different uses.  For example,
 
@@ -21,23 +23,25 @@ then `A_B` is now displayed as \({{{\mathcal A}}_{\diamond}}\).
 
 Below are some examples.
 
-| Maxima code  | Maxima's `tex()` command (raw output and displayed)       | STACK  (raw output and displayed)                             |
-|--------------|-----------------------------------------------------------|---------------------------------------------------------------|
-| `A_B`        | `{\it A\_B}` \({\it A\_B}\)                               | `{{A}_{B}}` \( {{A}_{B}} \)                                   |
-| `A[1]`       | `A_{1}` \( A_{1}\)                                        | `{A_{1}}` \( {A_{1}} \)                                       |
-| `A1`         | `A_{1}` \( A_{1} \)                                       | `{A_{1}}` \( {A_{1}} \)                                       |
-| `A_1`        | `A_{1}` \( A_{1} \)                                       | `{A_{1}}` \( {A_{1}} \)                                       |
-| `A_x1`       | `{\it A\_x}_{1}` \( {\it A\_x}_{1} \)                     | `{{A}_{x_{1}}}` \( {{A}_{x_1}} \)                             |
-| `A_BC`       | `{\it A\_BC}` \( {\it A\_BC} \)                           | `{{A}_{{\it BC}}}` \( {{A}_{{\it BC}}} \)                     |
-| `A_alpha`    | `{\it A\_alpha}` \( {\it A\_alpha}\)                      | `{{A}_{\alpha}}` \( {{A}_{\alpha}} \)                         |
-| `A_B_C`      | `{\it A\_B\_C}` \( {\it A\_B\_C} \)                       | `{{{A}_{B}}_{C}}` \( {A_B}_C \)                               |
-| `x_t(1)`     | `{\it x\_t}\left(1\right)` \( {\it x\_t}\left(1\right) \) | `{{\it x\_t}\left(1\right)}` \( {{\it x\_t}\left(1\right)} \) |
-| `A[1,2]`     | `A_{1,2}` \( A_{1,2} \)                                   | `{A_{1,2}}` \( {A_{1,2}} \)                                   |
+| Maxima code  | Maxima's `tex()` command                                  | STACK (if different)                                          | STACK plain atoms                         |
+|--------------|-----------------------------------------------------------|---------------------------------------------------------------|-------------------------------------------|
+| `A_B`        | `{\it A\_B}` \({\it A\_B}\)                               | `{{A}_{B}}` \( {{A}_{B}} \)                                   |                                           |
+| `A[1]`       | `A_{1}` \( A_{1}\)                                        |                                                               |                                           |
+| `A1`         | `A_{1}` \( A_{1} \)                                       |                                                               | `{\it A1}` \( {\it A1} \)                 |
+| `A01`        | `A_{1}` \( A_{1} \)                                       |                                                               | `{\it A01}` \( {\it A01} \)               |
+| `A_1`        | `A_{1}` \( A_{1} \)                                       |                                                               |                                           |
+| `A_x1`       | `{\it A\_x}_{1}` \( {\it A\_x}_{1} \)                     | `{{A}_{x_{1}}}` \( {{A}_{x_1}} \)                             | `{{A}_{{\it x1}}}` \( {{A}_{{\it x1}}} \) |
+| `A_BC`       | `{\it A\_BC}` \( {\it A\_BC} \)                           | `{{A}_{{\it BC}}}` \( {{A}_{{\it BC}}} \)                     |                                           |
+| `A_alpha`    | `{\it A\_alpha}` \( {\it A\_alpha}\)                      | `{{A}_{\alpha}}` \( {{A}_{\alpha}} \)                         |                                           |
+| `alpha_1`    | `\alpha_{1}` \( \alpha_{1} \)                             |                                                               |                                           |
+| `A_B_C`      | `{\it A\_B\_C}` \( {\it A\_B\_C} \)                       | `{{{A}_{B}}_{C}}` \( {A_B}_C \)                               |                                           |
+| `x_t(1)`     | `{\it x\_t}\left(1\right)` \( {\it x\_t}\left(1\right) \) | `{{\it x\_t}\left(1\right)}` \( {{\it x\_t}\left(1\right)} \) |                                           |
+| `A[1,2]`     | `A_{1,2}` \( A_{1,2} \)                                   |                                                               |                                           |
 
 Notes
 
 1. The maxima atoms `A1` and `A_1` are different, and are _not_ algebraically equivalent.  If student input is using both forms, and this causes problems, look at the documentation on `consolidatesubscripts` in the [extra options](../Authoring/Inputs/index.md).
-2. in the above examples three different expressions (atoms `A1`, `A_1` and the expression `A[1]`) generate the same tex code `A_{1}` \( A_{1}\), and so are indistinguishable at the display level.
+2. in the above examples all the different expressions `A1`, `A_1`, `A[1]` and the atom `A01`: generate the same tex code `A_{1}` \( A_{1}\), and so are indistinguishable at the display level.  If you would like to display `A1` without subscripts, STACK provides the flag `tex_plain_atoms`.  If you set `tex_plain_atoms:true` in your question (probably before the `%_stack_preamble_end` to make sure this option is availablet to inputs), then the TeX functions will not split up atoms `A1` and display this with subscripts.  See examples above.
 3. The expression `x_t(1)` refers to the function `x_t` which is not an atom, and hence STACK's logic for displaying atoms with underscores does not apply (by design).  If you want to display a function name including a subscript you can explicitly use, e.g. `texput(x_t, "x_t");` to control the display, this is just not done automatically.
 4. When we split up atoms for display we have two separate atoms.  E.g. `x_h` will be split into atoms `x` and `h` temporarily and the TeX display of `x` and `h` evaluated.  For this reason, student's input will validate the parts of the subscript sparately.  In particular, if `h` is a question variable and a student types in the atom `x_h` then since `h` is forbidden input the student's `x_h` will be invalid as well.  This might cause problems, but these can be avoided when the teacher uses appropriate variable names.
 

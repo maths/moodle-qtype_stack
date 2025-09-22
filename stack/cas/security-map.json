@@ -7808,6 +7808,10 @@
   "tex_display": {
       "function": "?"
   },
+  "tex_plain_atoms": {
+      "variable": "t",
+      "contextvariable": "true"
+  },
   "texput": {
       "function": "?",
       "contextvariable": "true",

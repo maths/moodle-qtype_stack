@@ -67,15 +67,17 @@ $settings->add(new admin_setting_heading('docs',
 $settings->add(new admin_setting_heading('maixmasettingsheading',
         get_string('settingsmaximasettings', 'qtype_stack'), ''));
 
-$settings->add(new admin_setting_check(
-    'qtype_stack/casconnection',
-    new \qtype_stack\check\casconnection(),
-));
+if (class_exists('admin_setting_check')) {
+        $settings->add(new admin_setting_check(
+        'qtype_stack/casconnection',
+        new \qtype_stack\check\casconnection(),
+        ));
 
-$settings->add(new admin_setting_check(
-    'qtype_stack/version',
-    new \qtype_stack\check\version(),
-));
+        $settings->add(new admin_setting_check(
+        'qtype_stack/version',
+        new \qtype_stack\check\version(),
+        ));
+}
 
 $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype', 'qtype_stack'),

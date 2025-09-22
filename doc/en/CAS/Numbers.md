@@ -153,6 +153,8 @@ The following commands generate displayed forms of numbers.  These will not be m
 | Function                  | Predicate
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `simp_numberp(ex)`          | Fixes `numberp(ex)` for `simp:false`.
+| `simp_integerp(ex)`          | Fixes `integerp(ex)` for `simp:false`.
+| `simp_floatnump(ex)`          | Fixes `floatnump(ex)` for `simp:false`.
 | `real_numberp(ex)`          | Determines if \(ex\) is a real number.  This includes surds and symbolic numbers such as \(\pi\).
 | `lowesttermsp(ex)`          | Is the rational expression in its lowest terms?
 | `anyfloatex(ex)`            | Decides if any floats are in the expression.

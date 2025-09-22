@@ -19,7 +19,7 @@ The following are a core part of Maxima, but there are many others.  Notice, pre
 
 | Function                | Predicate
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `floatnump(ex)`         | Determines if \(ex\) is a float.
+| `floatnump(ex)`         | Determines if \(ex\) is a float.  But use STACK's `float_floatnump(ex)` which works with `simp:false`.
 | `numberp(ex)`           | Determines if \(ex\) is a number.  _NOTE_ `numberp` returns `false` if its argument is a symbol, even if the argument is a symbolic number such as \(\sqrt{2}\), \(\pi\) or \(i\), or declared to be even, odd, integer, rational, irrational, real, imaginary, or complex.   This function also does not work when `simp:false`, so see the dedicated page on [numbers](Numbers.md).
 | `setp(ex)`              | Determines if \(ex\) is a set.
 | `listp(ex)`             | Determines if \(ex\) is a list.
@@ -40,7 +40,8 @@ The following type predicates are defined by STACK.
 | `polynomialpsimp(ex)`      | Determines if \(ex\) is a polynomial in its own variables.
 | `simp_numberp(ex)`         | Determines if \(ex\) is a number when `simp:false`.
 | `simp_integerp(ex)`        | Determines if \(ex\) is an integer when `simp:false`.
-| `real_numberp(ex)`         | Determines if \(ex\) is a real number.
+| `simp_floatnump(ex)`        | Determines if \(ex\) is a float when `simp:false`.
+| `real_numberp(ex)`         | Determines if \(ex\) is a real number (whether in float form or not).
 | `rational_numberp(ex)`     | Determines if \(ex\) is written as a fraction.  For a true mathematical rational number use `rational_numberp(ex) or simp_integerp(ex)`
 | `lowesttermsp(ex)`         | Determines if a fraction \(ex\) is in lowest terms.
 | `complex_exponentialp(ex)` | Determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).  Needs `simp:false`.

@@ -255,7 +255,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $warnings = ($warnings) ? $warnings . '<br />' : $warnings;
             $warnings .= '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
         }
-
+    $widget = new qtype_stack\output\metadata();
+    echo $OUTPUT->render($widget);
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
 
@@ -298,8 +299,8 @@ class qtype_stack_edit_form extends question_edit_form {
             if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
                 $liburlparams['courseid'] = $courseid;
             }
-            if ($cmid = optional_param('returnurl', null, PARAM_LOCALURL)) {
-                $liburlparams['returnurl'] = $cmid;
+            if ($returnurl = optional_param('returnurl', null, PARAM_LOCALURL)) {
+                $liburlparams['returnurl'] = $returnurl;
             }
             $qlibrarylink = html_writer::link(new moodle_url('/question/type/stack/questionlibrary.php', $liburlparams),
                     $out, []) . ' ' . $OUTPUT->help_icon('stack_library', 'qtype_stack');

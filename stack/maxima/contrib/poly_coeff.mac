@@ -52,3 +52,12 @@ numexactp(sa, ta) := block(
   if ev(is(rat(sa-ta)=0), simp) then return(true),
   return(false)
 )$
+
+/* This function converts all floats within an expression without */
+/* changing the basic structure (as does rat(ex)).                */
+num_ensure_rational(ex) := block(
+  if simp_floatnump(ex) then return(rat(ex)),
+  if atom(ex) then return(ex),
+  apply(op(ex), map(num_ensure_rational, args(ex)))
+)$
+

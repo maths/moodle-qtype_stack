@@ -88,7 +88,7 @@ function qtype_stack_question_pluginfile($course, $context, $component,
  */
 function qtype_stack_status_checks(): array {
     global $CFG;
-    require_once($CFG->dirroot . '/question/type/stack/classes/check/casconnection.php');
-    require_once($CFG->dirroot . '/question/type/stack/classes/check/version.php');
-    return [new \qtype_stack\check\casconnection(), new \qtype_stack\check\version()];
+    require_once($CFG->dirroot . '/question/type/stack/classes/check/casconnection_check.php');
+    require_once($CFG->dirroot . '/question/type/stack/classes/check/stack_version_check.php');
+    return [new \qtype_stack\check\casconnection_check(), new \qtype_stack\check\stack_version_check()];
 }

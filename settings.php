@@ -69,13 +69,13 @@ $settings->add(new admin_setting_heading('maixmasettingsheading',
 
 if (class_exists('admin_setting_check')) {
         $settings->add(new admin_setting_check(
-        'qtype_stack/casconnection',
-        new \qtype_stack\check\casconnection(),
+        'qtype_stack/casconnection_check',
+        new \qtype_stack\check\casconnection_check(),
         ));
 
         $settings->add(new admin_setting_check(
-        'qtype_stack/version',
-        new \qtype_stack\check\version(),
+        'qtype_stack/stack_version_check',
+        new \qtype_stack\check\stack_version_check(),
         ));
 }
 

@@ -625,3 +625,38 @@
      (if need-to-close-texport
 	    (close texport))
      (return mexplabel)))
+     
+;; *************************************************************************************************
+;; Added 3 Aug 2025.
+;; 
+;;(defun tex-stripdollar (sym) 
+;;     (maybe-invert-string-case (quote-% (stripdollar sym)))
+;;)
+(defun tex-stripdollar (sym)
+  ;; Are we printing normal Maxima or plain atoms?
+  (if $tex_plain_atoms
+      ;; Plain atoms
+      ;;(maybe-invert-string-case (quote-% (stripdollar sym)))
+      ;; SYM is a simple symbol.
+      (let ((s (maybe-invert-string-case (quote-% (stripdollar sym)))))
+          (if (> (length s) 1)
+              (concatenate 'string "{\\it " s "}")
+          s)
+      )
+      ;; Normal Maxima
+      (let
+         ((nn-list (extract-trailing-digits (symbol-name sym))))
+           (if nn-list
+             ;; SYM matches foo_mm_nn.
+             (apply #'concatenate 'string (tex-array `((,(intern (first nn-list)) 'array) ,@(rest nn-list)) nil nil))
+             ;; SYM is a simple symbol.
+             (let ((s (maybe-invert-string-case (quote-% (stripdollar sym)))))
+                (if (> (length s) 1)
+                   (concatenate 'string "{\\it " s "}")
+                   s))
+           )
+      )
+   )
+)
+
+

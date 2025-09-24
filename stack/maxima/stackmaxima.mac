@@ -165,11 +165,12 @@ load("geometry.mac");
 load("proof.mac");
 load("linearalgebra_core.mac");
 load("stackunits.mac");
-load("stacktex.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
 load("functs");
 
+/* Are we printing normal Maxima or plain atoms? */
+tex_plain_atoms:false$
 load("stacktex.lisp");
 mminusbp134(true);
 /* Ensure back compatability with versions before 5.41.0. */
@@ -1248,13 +1249,19 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
     /* Are we dealing with lists? */
     if listp(SB) then
       if listp(SA)#true then
-        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_list"))
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_list"))
+          else
+            return([false, false, StackAddNote("", "ATAlgEquiv_SA_not_list"), StackAddFeedback("", "ATAlgEquiv_SA_not_list_semi")])
       else
         return(ATList(SA, SB)),
     /* Are we dealing with sets? */
     if safe_setp(SB) then
       if safe_setp(SA)=false then
-        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
+          else
+            return([false, false, StackAddNote("", "ATAlgEquiv_SA_not_set"), StackAddFeedback("", "ATAlgEquiv_SA_not_set_semi")])
       else
         return(ATSet(SA, SB)),
     /* Are we dealing with non-trivial sets? */
@@ -1670,7 +1677,10 @@ ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     if not(safe_setp(SB)) then
         return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
     if not(safe_setp(SA)) then
-        return(StackBasicReturn(false, false, "ATSets_SA_not_set")),
+          if is(stackfltsep=".") then 
+            return(StackBasicReturn(false, false, "ATSets_SA_not_set"))
+          else
+            return([false, false, StackAddNote("", "ATSets_SA_not_set"), StackAddFeedback("", "ATSets_SA_not_set_semi")]),
 
     SAsimp:ATSets_prepare(SAsimp),
     SBsimp:ATSets_prepare(SBsimp),

@@ -1,6 +1,6 @@
 # Inputs
 
-Inputs are the points at which the student interacts with the question and enter their answer
+Inputs are the points at which the student interacts with the question and enter their answer.
 
 The default (and prototype) is an HTML input box into which a student is expected to type an algebraic expression.
 
@@ -143,9 +143,24 @@ Note the allowed words permit the teacher to override some (but not all) of the 
 
 ### Forbid Floats ### {#Forbid_Floats}
 
-If set to `yes`, then any answer of the student which has a floating-point number
-will be rejected as invalid. Students sometimes use floating-point numbers when
-they should use fractions. This option prevents problems with approximations being used.
+If set to `yes`, then any answer of the student containing a floating-point number will be rejected as invalid. 
+Students sometimes use floating-point numbers when they should use fractions. 
+This option prevents problems with approximations being used.
+
+The typical problem is that students type in an expression such as `0.5x^2+0.33` then they mean to type in `1/2*x^2+1/3`.
+Mathematically, \(0.5=\frac{1}{2}\) exactly.  Indeed, any real number with a terminating decimal can be written exactly as a floating point number.  However, with `0.33` we cannot be sure if the student _meant_ to type in \(\frac{1}{3}\), \(\frac{33}{100}\) or something else.
+
+In pure mathematics, when the teacher typically wants an exact answer, the most reliable option is to forbid floating point numbers with instant validation.  Students get immediate feedback, and are unlikely to be penalised on a technicality.
+From experience we strongly recommend validation to forbid floats in this situation, rather than trying to decide if a student's particular float is exact (as is `0.5`).
+
+STACK can, of course, establish that two numbers `a` and `b` are identical, in the sense that if `b` is a rational number with a terminating decimal then `a` is equivalent to `b` regardless of whether `a` is written as a float or not.  If `b` is a rational number without a terminating decimals (when primes other than \(2\) or \(5\) appear in the denominator of `b`) and `a` is a float then they are considered _different_ since `a` is necessarily terminating.  (We have no notation to indicate a recurring float as input.)
+This means that, when establishing if a float is exact rational, looking at a number `a` in isolatation is insufficient.
+We have to match up `a` with a corresponding `b` to decide if `a` is potentially a terminating decimal equivalent to `b`.
+
+In order to match up corresponding parts of two expressions (e.g. the student's answer with the teacher's answer) to decide whether the use by a stuent of a float is exact, we need to start making assumptions about the form of the student's answer.  This creates fragility, e.g. if a student types in `x^2+2/3*x+1+0.5*x` then without simplification we have two terms with `x`.  With simpliciation, Maxima rewrites this as `x^2+1.166666666666667*x+1`, whereas the exact value is 
+`x^2+7/6*x+1`.  We have no commands to return `2/3+0.5` (unsimplified) as the coefficient (note Maxima's `coeff` command essentially requires `simp:true` to work correctly).
+
+Please note that some mathematicians use floats to denote a real numbwer with significant figures.  For example `0.33` is taken to be some real number \(0.325 \leq x \le 0335\).  For this situation it is not, of course, appopritate to equate \(0.5\) with \(\frac{1}{2}\) as the two notations are conciously chosen for different purposes.
 
 ### Require lowest terms ### {#Require_lowest_terms}
 

@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 use core_question\local\bank\random_question_loader;
+require_once(__DIR__ . '/../locallib.php');
 
 /**
  * Allows us access to the protected methods for retrieving question ids available to

@@ -74,3 +74,4 @@ export const metadata = new StackMetadata({
 export const init = () => {
     //state.metadata = JSON.parse(metadata);
 };
+

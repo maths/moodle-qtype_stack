@@ -209,7 +209,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
-        global $OUTPUT;
+        global $OUTPUT, $PAGE;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -255,8 +255,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $warnings = ($warnings) ? $warnings . '<br />' : $warnings;
             $warnings .= '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
         }
-    $widget = new qtype_stack\output\metadata();
-    echo $OUTPUT->render($widget);
+        $PAGE->requires->js_call_amd('qtype_stack/metadata/metadatalaunch', 'setup');
+        $mform->addElement('button', 'metadatamodal', stack_string("editmetadata"));
+
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
 

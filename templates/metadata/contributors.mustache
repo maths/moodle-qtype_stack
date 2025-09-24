@@ -20,7 +20,7 @@
     {
     }
 }}
-<div  id="qtype-stack-metadata-contributors-{{uniqid}}">
+<div  id="qtype-stack-metadata-contributors-main">
     {{^haspeople}}
     <div data-for="emptypeople">
         No contributors.
@@ -40,6 +40,6 @@
 </div>
 {{#js}}
 require(['qtype_stack/metadata/contributors'], function(component) {
-    component.init('#qtype-stack-metadata-contributors-{{uniqid}}');
+    component.init('#qtype-stack-metadata-contributors-main');
 });
 {{/js}}

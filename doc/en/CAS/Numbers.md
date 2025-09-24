@@ -139,7 +139,7 @@ The following commands which are relevant to manipulation of numbers are defined
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).
-| `numexactp(sa,ta)`              | This function checks if one number equals another, but only when the floating point number is _exact_. Note, this is in the `poly_coeff.mac` contributed library.
+| `numexactp(sa,ta)`              | This function checks if one number equals another, but only when the floating point number is _exact_.   E.g. if `ta=1/4` then it has an exact decimal \(0.25\).  Here the float will be converted to a rational and compared.  However if `ta=1/3` then this decimal does not terminate, and so floats in `sa` will not be converted.
 
 The following commands generate displayed forms of numbers.  These will not be manipulated further automatically, so you will need to use these at the last moment, e.g. only when generating the teacher's answer etc.
 

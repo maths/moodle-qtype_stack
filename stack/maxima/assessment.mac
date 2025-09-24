@@ -698,7 +698,8 @@ texdisp_complex(ex) := block([ps, sxr, exi, simp],
     exi:second(args(ex)),
 
     if real_numberp(exi) then block(
-        if ev(is(exi < 0), simp) then ps: "",
+        if (atom(exi) and ev(is(exi < 0), simp)) then ps: "",
+        if safe_op(exi)="-" then ps: "",
         return(sconcat(sxr, ps, tex1(exi), "\\,", tex1(%i)))
     ) else if ev(is(exi=null), simp) then return(sconcat(sxr, ps, tex1(%i))) 
       else if ev(is(exi=-1*null), simp) then return(sconcat(sxr, "-", tex1(%i))) 

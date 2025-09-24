@@ -45,6 +45,8 @@ $string['runtimeerror']      = 'This question generated an unexpected internal e
 $string['questionbroken']    = 'The question has been marked as broken during editing.';
 $string['runtimefielderr']   = 'The field ""{$a->field}"" generated the following error: {$a->err}';
 $string['version']           = 'Version';
+$string['checkcasconnection_check'] = 'Maxima connection for STACK';
+$string['checkstack_version_check']      = 'STACK-Maxima library version';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';

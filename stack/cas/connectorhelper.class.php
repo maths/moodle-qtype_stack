@@ -261,7 +261,7 @@ abstract class stack_connection_helper {
 
         switch (self::$config->platform) {
             case 'linux-optimised':
-                $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
+                $docsurl = new moodle_url('/question/type/stack/doc/doc.php/Installation/Optimising_Maxima.md');
                 $fix = stack_string('healthchecksstackmaximaversionfixoptimised', ['url' => $docsurl->out()]);
                 break;
 

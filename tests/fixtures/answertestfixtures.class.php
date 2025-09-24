@@ -3286,8 +3286,6 @@ class stack_answertest_test_data {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_all() {
         $tests = [];
-        // To reduce CI overload we omit these tests for now.
-        return $tests;
         $rawdata = self::get_raw_test_data();
         foreach ($rawdata as $data) {
             $tests[] = self::test_from_raw($data);

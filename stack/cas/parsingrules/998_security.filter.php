@@ -195,6 +195,13 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                     }
                 }
+                if ($node->op == ':' && $node->lhs instanceof MP_Identifier) {
+                    if ($identifierrules->has_feature($node->lhs->value, 'built-in')) {
+                        $node->position['invalid'] = true;
+                        $errors[] = trim(stack_string('stackCas_redefine_built_in', ['name' => $node->lhs->value]));
+                        $valid = false;
+                    }
+                }
             } else if ($node instanceof MP_Identifier && !$node->is_function_name() && !isset($node->position['call-id'])) {
                 $variables[$node->value] = true;
                 if ($node->is_being_written_to()) {

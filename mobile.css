@@ -993,6 +993,9 @@ ol.HELM_parts > li {
     margin-bottom: 1.5rem;
     display: block;
 }
+ol.HELM_parts > li > p:first-child{
+    display: inline-block;
+}
 
 ol.HELM_parts > li:before {
     content: "(" counter(helm-parts, lower-alpha) ")";

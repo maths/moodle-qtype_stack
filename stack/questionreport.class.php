@@ -218,7 +218,7 @@ class stack_question_report {
                 $response = $step->get_qt_data();
 
                 $metadata = ['userid' => $qattempt->userid, 'qattemptid' => $qattempt->id,
-                            'slot' => $qattempt->slot, 'timecreated' => $step->get_timecreated()];
+                            'slot' => $qattempt->slot, 'state' => strval($step->get_state()), 'timecreated' => $step->get_timecreated()];
                 if (!empty($response)) {
                     $jsonsummary[] = $currentqa->get_question()->summarise_response_json($response, $metadata);
                     // Question attempt only stores the summary of the last step/response in DB. We need to calculate others.

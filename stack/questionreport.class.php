@@ -206,58 +206,37 @@ class stack_question_report {
         $summary = [];
         $jsonsummary = [];
 
-        $currentqubaid = null;
         $currentquba = null;
-        $currentqaid = null;
         $currentqa = null;
         foreach ($result as $qattempt) {
-            // Avoid reloading the usage and attempt if we already have them.
-            if ($qattempt->questionusageid !== $currentqubaid) {
-                $currentqubaid = $qattempt->questionusageid;
-                $currentquba = question_engine::load_questions_usage_by_activity($currentqubaid);
-            }
-            if ($qattempt->id !== $currentqaid) {
-                $currentqaid = $qattempt->id;
-                $currentqa = $currentquba->get_question_attempt($qattempt->slot);
-            }
-            $response = null;
-            foreach ($currentqa->get_reverse_step_iterator() as $step) {
-                if ($qattempt->dataname === '-submit') {
-                    // This is a try. We want the data from this actual step.
-                    if ($step->get_id() === $qattempt->stepid) {
-                        $response = $step->get_qt_data();
-                        break;
-                    }
-                } else {
-                    // This is a submission (confusingly). We want the last non-empty response.
-                    // A try that is then submitted by the student will be counted twice. A try that
-                    // is automatically submitted (e.g. no more hints) will not.
-                    $response = $step->get_qt_data();
-                    if (!empty($response)) {
-                        break;
-                    }
-                }
-            }
-            $metadata = ['userid' => $qattempt->userid, 'qattemptid' => $qattempt->id, 'qstepid' => $qattempt->stepid,
-                         'qstepseq' => $qattempt->sequencenumber, 'slot' => $qattempt->slot,
-                         'state' => $qattempt->state, 'timecreated' => $qattempt->timecreated];
-            if (!empty($response)) {
-                $jsonsummary[] = $currentqa->get_question()->summarise_response_json($response, $metadata);
-                // Question attempt only stores the summary of the last step/response in DB. We need to calculate others.
-                if ($qattempt->islast === '0') {
-                    $qattempt->responsesummary = $currentqa->get_question()->summarise_response($response);
-                }
-            }
+            $currentqubaid = $qattempt->questionusageid;
+            $currentquba = question_engine::load_questions_usage_by_activity($currentqubaid);
+            $currentqa = $currentquba->get_question_attempt($qattempt->slot);
+            $submittedresponseiterator = $currentqa->get_steps_with_submitted_response_iterator();
+            $numberOfResponses = $submittedresponseiterator->count();
+            foreach ($submittedresponseiterator as $key=>$step) {
+                $response = $step->get_qt_data();
 
-            if (!array_key_exists($qattempt->variant, $summary)) {
-                $summary[$qattempt->variant] = [];
-            }
-            $rsummary = trim($qattempt->responsesummary ?? '');
-            if ($rsummary !== '') {
-                if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
-                    $summary[$qattempt->variant][$rsummary] += 1;
-                } else {
-                    $summary[$qattempt->variant][$rsummary] = 1;
+                $metadata = ['userid' => $qattempt->userid, 'qattemptid' => $qattempt->id,
+                            'slot' => $qattempt->slot, 'timecreated' => $step->get_timecreated()];
+                if (!empty($response)) {
+                    $jsonsummary[] = $currentqa->get_question()->summarise_response_json($response, $metadata);
+                    // Question attempt only stores the summary of the last step/response in DB. We need to calculate others.
+                    if ($numberOfResponses !== $key) {
+                        $qattempt->responsesummary = $currentqa->get_question()->summarise_response($response);
+                    }
+                }
+
+                if (!array_key_exists($qattempt->variant, $summary)) {
+                    $summary[$qattempt->variant] = [];
+                }
+                $rsummary = trim($qattempt->responsesummary ?? '');
+                if ($rsummary !== '') {
+                    if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
+                        $summary[$qattempt->variant][$rsummary] += 1;
+                    } else {
+                        $summary[$qattempt->variant][$rsummary] = 1;
+                    }
                 }
             }
         }
@@ -287,27 +266,15 @@ class stack_question_report {
         // This is equivalent to using DISTINCT in this case as duplicate identifiers result from duplicate rows.
         // (The join to qas_next produces a row for every later step.) DISTINCT included in code for cut-and-paste
         // to ad-hoc queries.
-        $query = "SELECT DISTINCT CONCAT(qa.id, '-', qas.id) as identifier, qa.id, qa.variant,
-                            CASE WHEN qas_next.timecreated is NULL THEN qa.responsesummary ELSE NULL END as responsesummary,
-                            qa.questionusageid, qa.slot, qas.timecreated, qas.userid, qas.id as stepid, qas.sequencenumber, qas.state,
-                            CASE WHEN qas_next.timecreated is NULL THEN 1 ELSE 0 END as islast, qasd.name as dataname
-                            /* timecreated is null if there is no next step */
+        $query = "SELECT DISTINCT qa.id, qas.userid, qa.variant, qa.responsesummary,
+                            qa.questionusageid, qa.slot
                     FROM {question_attempts} qa
                     LEFT JOIN {question_attempt_steps} qas ON qas.questionattemptid = qa.id
-                    /* attach another copy of qas to those rows with the most recent timecreated,
-                    using method from https://stackoverflow.com/a/28090544 */
-                    LEFT JOIN {question_attempt_steps} qas_next
-                                    ON qas.questionattemptid = qas_next.questionattemptid
-                                        AND (qas.sequencenumber < qas_next.sequencenumber
-                                            OR (qas.sequencenumber = qas_next.sequencenumber
-                                                AND qas.id < qas_next.id))
                     LEFT JOIN {user} u ON qas.userid = u.id
                     LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
-                    LEFT JOIN {question_attempt_step_data} qasd ON qasd.attemptstepid = qas.id
                     INNER JOIN {role_assignments} ra ON ra.userid = u.id
                     INNER JOIN {role} r ON r.id = ra.roleid
                 WHERE qu.component = 'mod_quiz'
-                    AND qasd.name IN ('-submit', '-finish')
                     AND qu.contextid = :quizcontextid
                     AND r.archetype = 'student'
                     AND ra.contextid = :coursecontextid
@@ -321,7 +288,7 @@ class stack_question_report {
                                         qv.questionbankentryid = qv_original.questionbankentryid
                             WHERE qv_original.questionid = :questionid
                         )
-                ORDER BY u.id, qa.id, qas.timecreated";
+                ORDER BY u.id, qa.id";
 
         $result = $DB->get_records_sql($query, $params);
         return $result;

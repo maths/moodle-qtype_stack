@@ -1885,8 +1885,10 @@ class qtype_stack extends question_type {
         }
 
         // 4) Validate all hints.
-        foreach ($fromform['hint'] as $index => $hint) {
-            $errors = $this->validate_cas_text($errors, $hint['text'], 'hint[' . $index . ']', $fixingdollars);
+        if (isset($fromform['hint'])) {
+            foreach ($fromform['hint'] as $index => $hint) {
+                $errors = $this->validate_cas_text($errors, $hint['text'], 'hint[' . $index . ']', $fixingdollars);
+            }
         }
 
         // Clear out any empty $errors elements, ready for the next check.

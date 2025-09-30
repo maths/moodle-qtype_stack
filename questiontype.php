@@ -1369,6 +1369,7 @@ class qtype_stack extends question_type {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function import_from_xml($xml, $fromform, qformat_xml $format, $notused = null) {
+        global $OUTPUT;
         if (!isset($xml['@']['type']) || $xml['@']['type'] != $this->name()) {
             return false;
         }
@@ -1461,7 +1462,19 @@ class qtype_stack extends question_type {
                 $fromform->testcases[$no] = $testcase;
             }
         }
-
+        $formarray = (array) $fromform;
+        $formarray['questiontext'] = ['text' => $formarray['questiontext']];
+        $formarray['generalfeedback'] = ['text' => $formarray['generalfeedback']];
+        $errors = $this->validate_fromform($formarray, []);
+        if (count($errors)) {
+            $errortext = ' ';
+            unset($errors['name']);
+            foreach ($errors as $key => $error) {
+                $errortext .= $key . ': ' . $error . ' ';
+            }
+            echo $OUTPUT->notification($errortext, 'notifyproblem');
+            $fromform->isbroken = '1';
+        }
         return $fromform;
     }
 
@@ -1494,7 +1507,7 @@ class qtype_stack extends question_type {
 
         $fromform->{$name . 'type'}               = $format->getpath($xml, ['#', 'type', 0, '#'], '');
         $fromform->{$name . 'modelans'}           = $format->getpath($xml, ['#', 'tans', 0, '#'], '');
-        $fromform->{$name . 'boxsize'}            = $format->getpath($xml, ['#', 'boxsize', 0, '#'], 15);
+        $fromform->{$name . 'boxsize'}            = (int) $format->getpath($xml, ['#', 'boxsize', 0, '#'], 15);
         $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, ['#', 'strictsyntax', 0, '#'], 1);
         $fromform->{$name . 'insertstars'}        = $format->getpath($xml, ['#', 'insertstars', 0, '#'], 0);
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, ['#', 'syntaxhint', 0, '#'], '');
@@ -1615,8 +1628,7 @@ class qtype_stack extends question_type {
      * @param object $question.
      * @return array($errors, $warnings).
      */
-    public function validate_fromform($fromform, $errors, $question) {
-
+    public function validate_fromform($fromform, $errors, $question=null) {
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
         $this->options = new stack_options();
@@ -2175,7 +2187,7 @@ class qtype_stack extends question_type {
         if (property_exists($this, 'question')) {
             $question = $this->question;
         }
-        $graph = $this->get_prt_graph($prtname, $question);
+        $graph = $this->get_prt_graph($prtname, $question, $fromform);
         $textformat = null;
         foreach ($graph->get_nodes() as $node) {
             $nodekey = $node->name - 1;
@@ -2396,7 +2408,7 @@ class qtype_stack extends question_type {
      * @param $question the question itself.
      * @return array list of nodes that should be present in the form definitino for this PRT.
      */
-    public function get_prt_graph($prtname, $question) {
+    public function get_prt_graph($prtname, $question, $fromform) {
         if (array_key_exists($prtname, $this->prtgraph)) {
             return $this->prtgraph[$prtname];
         }
@@ -2466,6 +2478,51 @@ class qtype_stack extends question_type {
 
             if (!is_null($deletednode)) {
                 $graph->remove_node($deletednode + 1);
+            }
+
+            $graph->layout();
+            $this->prtgraph[$prtname] = $graph;
+            return $graph;
+        }
+
+        // No existing question. We are doing an import.
+        if (!$question && $fromform) {
+            $submitted = $fromform[$prtname . 'truenextnode'];
+            $description    = $fromform[$prtname . 'description'];
+            $truescoremode  = $fromform[$prtname . 'truescoremode'];
+            $truescore      = $fromform[$prtname . 'truescore'];
+            $falsenextnode  = $fromform[$prtname . 'falsenextnode'];
+            $falsescoremode = $fromform[$prtname . 'falsescoremode'];
+            $falsescore     = $fromform[$prtname . 'falsescore'];
+            $graph = new stack_abstract_graph();
+
+            $deletednode = null;
+            $lastkey = -1;
+            foreach ($submitted as $key => $truenextnode) {
+                if ($truenextnode == -1 || !array_key_exists($truenextnode, $submitted)) {
+                    $left = null;
+                } else {
+                    $left = $truenextnode + 1;
+                }
+                if ($falsenextnode[$key] == -1 || !array_key_exists($falsenextnode[$key], $submitted)) {
+                    $right = null;
+                } else {
+                    $right = $falsenextnode[$key] + 1;
+                }
+                $ts = $truescore[$key];
+                if (is_numeric($ts)) {
+                    $ts = round($ts, 2);
+                }
+                $fs = $falsescore[$key];
+                if (is_numeric($fs)) {
+                    $fs = round($fs, 2);
+                }
+                $graph->add_prt_node($key + 1, $description[$key], $left, $right,
+                        $truescoremode[$key] . $ts,
+                        $falsescoremode[$key] . $fs,
+                        '#fgroup_id_' . $prtname . 'node_' . $key);
+
+                $lastkey = max($lastkey, $key);
             }
 
             $graph->layout();

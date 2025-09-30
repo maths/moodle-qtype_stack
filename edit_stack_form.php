@@ -357,7 +357,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($prtnames as $prtname => $count) {
             // Create the section of the form for each node - general bits.
             $inputnames = $qtype->get_inputs_used_by_prt($prtname, $this->question);
-            $graph = $qtype->get_prt_graph($prtname, $this->question);
+            $graph = $qtype->get_prt_graph($prtname, $this->question, null);
             $this->definition_prt($prtname, $mform, $count, $graph, $inputnames);
         }
 

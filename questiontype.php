@@ -1467,12 +1467,13 @@ class qtype_stack extends question_type {
         $formarray['generalfeedback'] = ['text' => $formarray['generalfeedback']];
         $errors = $this->validate_fromform($formarray, []);
         if (count($errors)) {
-            $errortext = ' ';
+            $title = $formarray['name'];
             unset($errors['name']);
             foreach ($errors as $key => $error) {
-                $errortext .= $key . ': ' . $error . ' ';
+                $errortext .= $key . ': ' . $error . '<br />';
             }
-            echo $OUTPUT->notification($errortext, 'notifyproblem');
+            $errortext .= stack_string('markedasbroken');
+            echo $OUTPUT->notification($errortext, 'notifyproblem', false, $title);
             $fromform->isbroken = '1';
         }
         return $fromform;

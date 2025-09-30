@@ -993,7 +993,7 @@ ol.HELM_parts > li {
     margin-bottom: 1.5rem;
     display: block;
 }
-ol.HELM_parts > li > :first-child{
+ol.HELM_parts > li > :first-child {
     display: inline-block;
 }
 

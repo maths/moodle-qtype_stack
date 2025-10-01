@@ -1469,6 +1469,7 @@ class qtype_stack extends question_type {
         if (count($errors)) {
             $title = $formarray['name'];
             unset($errors['name']);
+            $errortext = '';
             foreach ($errors as $key => $error) {
                 $errortext .= $key . ': ' . $error . '<br />';
             }

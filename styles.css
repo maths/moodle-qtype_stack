@@ -993,11 +993,14 @@ ol.HELM_parts > li {
     margin-bottom: 1.5rem;
     display: block;
 }
+ol.HELM_parts > li > :first-child {
+    display: inline-block;
+}
 
 ol.HELM_parts > li:before {
     content: "(" counter(helm-parts, lower-alpha) ")";
     margin-left: -2.2rem;
-    margin-top: -0.3rem;
+    margin-top: -0.2rem;
     margin-right: 0.4rem;
     background: #1e92cc;
     border-radius: 0.2rem;
@@ -1007,6 +1010,7 @@ ol.HELM_parts > li:before {
     text-align: center;
     display: inline-block;
     box-sizing: border-box;
+    vertical-align: top;
 }
 
 ol.HELM_parts_inline {

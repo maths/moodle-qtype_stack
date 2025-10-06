@@ -98,6 +98,9 @@ textarea[name=maximavars] {
     max-width: 100%;
     padding: 2px !important;
 }
+.que.stack select.form-select {
+    display: inline-block;
+}
 .que.stack .geogebra-right,
 .que.stack .numerical-right,
 .que.stack .algebraic-right,

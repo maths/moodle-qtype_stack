@@ -663,6 +663,17 @@ class stack_answertest_test_data {
             'AlgEquiv', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
             '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', '',
         ],
+        ['AlgEquiv', '', 'x = -1/2 + sqrt(1/4 + 4/3)', 'x = (-3 + sqrt(9 + 48))/6', 1, 'ATEquation_sides', ''],
+        [
+            'AlgEquiv', '', '{x = -1/2 + sqrt(1/4 + 4/3), x = (-1/2 - sqrt(1/4 + 4/3))}',
+            '{x = (-3 + sqrt(9 + 48))/6, x = (-3 - sqrt(9 + 48))/6}', 0, 'ATSet_wrongentries.', '',
+        ],
+        // Not, to establish equivalence of sets of equations we need to manually pre-process.
+        [
+            'AlgEquiv', '', 'radcan(trigrat({x = -1/2 + sqrt(1/4 + 4/3), x = (-1/2 - sqrt(1/4 + 4/3))}))',
+            'radcan(trigrat({x = (-3 + sqrt(9 + 48))/6, x = (-3 - sqrt(9 + 48))/6}))', 1, '', '',
+        ],
+
         ['AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials and binomials'],
         ['AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''],
         ['AlgEquiv', '', 'n/n!', '1/(n+1)!', 0, '', ''],

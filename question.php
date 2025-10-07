@@ -770,7 +770,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $processor = new castext2_qa_processor(new stack_outofcontext_process());
         if ($this->questionnoteinstantiated !== null &&
             '' !== $this->questionnoteinstantiated->get_rendered($processor)) {
-            return $this->questionnoteinstantiated->get_rendered($processor);
+            return $this->questionnoteinstantiated->apply_placeholder_holder(
+                $this->questionnoteinstantiated->get_rendered($processor)
+            );
         }
         return stack_string('questionnote_missing');
     }

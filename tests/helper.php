@@ -110,6 +110,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'true_false_input',
             'units_input',
             'jsx_graph_input',
+            'response_test',
         ];
     }
 
@@ -8479,6 +8480,177 @@ final class qtype_stack_test_helper extends question_test_helper {
         ];
         $formform->prt1trueanswernote[1] = 'prt1-2-T';
         $formform->prt1truenextnode[1] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Add description here.
+     * @return qtype_stack_question
+     */
+    public static function make_stack_question_response_test() {
+        $q = self::make_a_stack_question();
+
+        // We don't explicitly set stackversion here because we test the default.
+        $q->name = 'response-test';
+        // Fix the actual variable ta, to avoid differening rand values.
+        $q->questionvariables = 'n : rand(5)+3; ta:thing1_true; ta2:thing2_true;';
+        $q->questiontext = 'Find
+                            \[ \int {@p@} d{@v@}\]
+                            [[input:ans1]]
+                            [[validation:ans1]]';
+        $q->generalfeedback = 'We can either do this question by inspection (i.e. spot the answer)
+                               or in a more formal manner by using the substitution
+                               \[ u = ({@v@}-{@a@}).\]
+                               Then, since $\frac{d}{d{@v@}}u=1$ we have
+                               \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]';
+
+        $q->questionnote = '{@p@}, {@ta@}.';
+
+        $q->specificfeedback = '[[feedback:PotResTree_1]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                        'textarea', 'ans1', 'ta', null,
+                ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']);
+
+        // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
+        // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
+        // question variables.  Normally we don't want the student's answer to be evaluated in this way,
+        // but in this question we do to ensure the random values are used.
+        $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
+            "feedbackvariables":"",
+            "firstnodename":"",
+            "nodes":[
+                {"id":0,"nodename":"0","quiet":false,
+                 "sans":"ans1","tans":"ta","answertest":"AlgEquiv","testoptions":"",
+                 "falsenextnode":"1","falseanswernote":"prt1-1-F",
+                 "falsescore":0,"falsescoremode":"=",
+                 "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
+                 "truenextnode":"-1","trueanswernote":"prt1-1-T",
+                 "truescore":1,"truescoremode":"=",
+                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1",
+                 "description": ""
+                },
+                {"id":1,"nodename":"0","quiet":false,
+                 "sans":"ans1","tans":"ta2","answertest":"AlgEquiv","testoptions":"",
+                 "falsenextnode":"-1","falseanswernote":"prt1-2-F",
+                 "falsescore":0,"falsescoremode":"=",
+                 "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
+                 "truenextnode":"-1","trueanswernote":"prt1-2-T",
+                 "truescore":1,"truescoremode":"=",
+                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1",
+                 "description": ""
+                }
+              ]}');
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_response_test() {
+        $formform = new stdClass();
+
+        $formform->name = 'response-test';
+        $formform->stackversion = get_config('qtype_stack', 'version');
+        $formform->questionvariables = 'n : rand(5)+3; ta:[thing1_true]; ta2:[thing2_true];';
+        $formform->variantsselectionseed = '';
+        $formform->questiontext = [
+            'text' => 'Find
+                       \[ \int {@p@} d{@v@}\]
+                       [[input:ans1]]
+                       [[validation:ans1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->defaultmark = 4;
+        $formform->specificfeedback = [
+            'text' => '[[feedback:PotResTree_1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.40000000000000002;
+        $formform->generalfeedback = [
+            'text' => 'We can either do this question by inspection (i.e. spot the answer)
+                               or in a more formal manner by using the substitution
+                               \[ u = ({@v@}-{@a@}).\]
+                               Then, since $\frac{d}{d{@v@}}u=1$ we have
+                               \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@p@}, {@ta@}.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => 'This is a basic test question.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->ans1type = 'textarea';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = 20;
+        $formform->ans1strictsyntax = '1';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = 'int, [[BASIC-ALGEBRA]]';
+        $formform->ans1allowwords = 'popup, boo, Sin';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+
+        $formform->PotResTree_1value = 1;
+        $formform->PotResTree_1autosimplify = '1';
+        $formform->PotResTree_1feedbackstyle     = 1;
+        $formform->PotResTree_1feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
+        $formform->PotResTree_1answertest = [0 => 'String', 1 => 'String'];
+        $formform->PotResTree_1description = [0 => 'Anti-derivative test', 1 => ''];
+        $formform->PotResTree_1sans = [0 => 'ans1', 1 => 'ans1'];
+        $formform->PotResTree_1tans = [0 => 'ta', 1 => 'ta2'];
+        $formform->PotResTree_1testoptions = [0 => '', 1 => ''];
+        $formform->PotResTree_1quiet = [0 => '0', 1 => '0'];
+        $formform->PotResTree_1truescoremode = [0 => '=', 1 => '='];
+        $formform->PotResTree_1truescore = [0 => '1', 1 => '1'];
+        $formform->PotResTree_1truepenalty = [0 => '', 1 => ''];
+        $formform->PotResTree_1truenextnode = [0 => '-1', 1 => '-1'];
+        $formform->PotResTree_1trueanswernote = [0 => 'prt1-1-T', 1 => 'prt1-2-T'];
+        $formform->PotResTree_1truefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0],
+                                                    1 => ['text' => '', 'format' => '1', 'itemid' => 0],];
+        $formform->PotResTree_1falsescoremode = [0 => '=', 1 => '='];
+        $formform->PotResTree_1falsescore = [0 => '0', 1 => '0'];
+        $formform->PotResTree_1falsepenalty = [0 => '', 1 => ''];
+        $formform->PotResTree_1falsenextnode = [0 => '1', 1 => '-1'];
+        $formform->PotResTree_1falseanswernote = [0 => 'prt1-1-F', 1 => 'prt1-2-F'];
+        $formform->PotResTree_1falsefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0],
+                                                     1 => ['text' => '', 'format' => '1', 'itemid' => 0],];
+
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '0';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = ['text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0];
+        $formform->prtpartiallycorrect = ['text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0];
+        $formform->prtincorrect = ['text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->numhints = 2;
+        $formform->hint = [
+            0 => ['text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'],
+            1 => ['text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'],
+        ];
+        $formform->qtype = 'stack';
+
         return $formform;
     }
 }

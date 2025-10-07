@@ -2570,4 +2570,50 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample"># x 3</span>', $state->contentsdisplayed);
         $this->assertEquals('', $state->lvars);
     }
+
+    public function test_validate_invalid_chained_op(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'y=1');
+        $el->set_parameter('insertStars', 2);
+
+        $state = $el->validate_student_response(['sans1' => 'a<=b<=c'], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('chained_inequalities', $state->note);
+        $this->assertEquals('You appear to have "chained operators" e.g. ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(a \leq  b \leq  c\)</span>' .
+            '</span>.  You need to connect individual clauses with logical operations such as ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(and\)</span></span> or ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(or\)</span></span>.',
+            $state->errors);
+        $this->assertEquals('a <= b <= c', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">a&lt;=b&lt;=c</span>', $state->contentsdisplayed);
+
+        $state = $el->validate_student_response(['sans1' => 'a=b=c'], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('chained_inequalities', $state->note);
+        $this->assertEquals('You appear to have "chained operators" e.g. ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(a = b = c\)</span>' .
+            '</span>.  You need to connect individual clauses with logical operations such as ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(and\)</span></span> or ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(or\)</span></span>.',
+            $state->errors);
+        $this->assertEquals('a = b = c', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">a=b=c</span>', $state->contentsdisplayed);
+
+        // We only reflect the first op in the error message.
+        $state = $el->validate_student_response(['sans1' => 'a=b<c'], $options, 'y=1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('chained_inequalities', $state->note);
+        $this->assertEquals('You appear to have "chained operators" e.g. ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(a = b = c\)</span>' .
+            '</span>.  You need to connect individual clauses with logical operations such as ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(and\)</span></span> or ' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(or\)</span></span>.',
+            $state->errors);
+        $this->assertEquals('a = b < c', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">a=b&lt;c</span>', $state->contentsdisplayed);
+    }
 }

@@ -539,7 +539,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
         $attemptids = [];
         // Attempt id, user first name, user last name, variant number, answer data, finished.
-        $steps = [[1,'John','Jones',1,[1 => ['ans1' => '[thing1_true]', 'ans1_val' => 'thing1_true', 'step_lang' => 'en']],1]];
+        $steps = [[1,'John','Jones',1,[1 => ['ans1' => 'thing1_true', 'ans1_val' => '"thing1_true"', 'step_lang' => 'en']],1]];
         foreach ($steps as $step) {
             // Find existing user or make a new user to do the quiz.
             $username = ['firstname' => $step[1], 'lastname'  => $step[2]];

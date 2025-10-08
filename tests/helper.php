@@ -8493,7 +8493,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         // We don't explicitly set stackversion here because we test the default.
         $q->name = 'response-test';
         // Fix the actual variable ta, to avoid differening rand values.
-        $q->questionvariables = 'n : rand(5)+3; ta:thing1_true; ta2:thing2_true;';
+        $q->questionvariables = 'n : rand(5)+3; ta:"thing1_true"; ta2:"thing2_true";';
         $q->questiontext = 'Find
                             \[ \int {@p@} d{@v@}\]
                             [[input:ans1]]
@@ -8510,7 +8510,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'textarea', 'ans1', 'ta', null,
+                        'string', 'ans1', 'ta', null,
                 ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']);
 
         // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
@@ -8553,7 +8553,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $formform->name = 'response-test';
         $formform->stackversion = get_config('qtype_stack', 'version');
-        $formform->questionvariables = 'n : rand(5)+3; ta:[thing1_true]; ta2:[thing2_true];';
+        $formform->questionvariables = 'n : rand(5)+3; ta:"thing1_true"; ta2:"thing2_true";';
         $formform->variantsselectionseed = '';
         $formform->questiontext = [
             'text' => 'Find
@@ -8589,7 +8589,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'format' => '1',
             'itemid' => 0,
         ];
-        $formform->ans1type = 'textarea';
+        $formform->ans1type = 'string';
         $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = 20;
         $formform->ans1strictsyntax = '1';

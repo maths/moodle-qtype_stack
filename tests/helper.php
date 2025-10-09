@@ -111,6 +111,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'units_input',
             'jsx_graph_input',
             'response_test',
+            'response_test_2',
         ];
     }
 
@@ -8483,70 +8484,6 @@ final class qtype_stack_test_helper extends question_test_helper {
         return $formform;
     }
 
-    /**
-     * Add description here.
-     * @return qtype_stack_question
-     */
-    public static function make_stack_question_response_test() {
-        $q = self::make_a_stack_question();
-
-        // We don't explicitly set stackversion here because we test the default.
-        $q->name = 'response-test';
-        // Fix the actual variable ta, to avoid differening rand values.
-        $q->questionvariables = 'n : rand(5)+3; ta:"thing1_true"; ta2:"thing2_true";';
-        $q->questiontext = 'Find
-                            \[ \int {@p@} d{@v@}\]
-                            [[input:ans1]]
-                            [[validation:ans1]]';
-        $q->generalfeedback = 'We can either do this question by inspection (i.e. spot the answer)
-                               or in a more formal manner by using the substitution
-                               \[ u = ({@v@}-{@a@}).\]
-                               Then, since $\frac{d}{d{@v@}}u=1$ we have
-                               \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]';
-
-        $q->questionnote = '{@p@}, {@ta@}.';
-
-        $q->specificfeedback = '[[feedback:PotResTree_1]]';
-        $q->penalty = 0.25; // Non-zero and not the default.
-
-        $q->inputs['ans1'] = stack_input_factory::make(
-                        'string', 'ans1', 'ta', null,
-                ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']);
-
-        // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
-        // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
-        // question variables.  Normally we don't want the student's answer to be evaluated in this way,
-        // but in this question we do to ensure the random values are used.
-        $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
-            "feedbackvariables":"",
-            "firstnodename":"",
-            "nodes":[
-                {"id":0,"nodename":"0","quiet":false,
-                 "sans":"ans1","tans":"ta","answertest":"AlgEquiv","testoptions":"",
-                 "falsenextnode":"1","falseanswernote":"prt1-1-F",
-                 "falsescore":0,"falsescoremode":"=",
-                 "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
-                 "truenextnode":"-1","trueanswernote":"prt1-1-T",
-                 "truescore":1,"truescoremode":"=",
-                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1",
-                 "description": ""
-                },
-                {"id":1,"nodename":"0","quiet":false,
-                 "sans":"ans1","tans":"ta2","answertest":"AlgEquiv","testoptions":"",
-                 "falsenextnode":"-1","falseanswernote":"prt1-2-F",
-                 "falsescore":0,"falsescoremode":"=",
-                 "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
-                 "truenextnode":"-1","trueanswernote":"prt1-2-T",
-                 "truescore":1,"truescoremode":"=",
-                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1",
-                 "description": ""
-                }
-              ]}');
-        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
-
-        return $q;
-    }
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_stack_question_form_data_response_test() {
         $formform = new stdClass();
@@ -8651,6 +8588,12 @@ final class qtype_stack_test_helper extends question_test_helper {
         ];
         $formform->qtype = 'stack';
 
+        return $formform;
+    }
+
+    public function get_stack_question_form_data_response_test_2() {
+        $formform = $this->get_stack_question_form_data_test3();
+        $formform->questionvariables = $formform->questionvariables . ' n : rand(5)+3;';
         return $formform;
     }
 }

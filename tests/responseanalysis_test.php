@@ -26,20 +26,28 @@ require_once($CFG->dirroot . '/mod/quiz/lib.php');
 global $CFG;
 require_once($CFG->dirroot . '/mod/quiz/tests/quiz_question_helper_test_trait.php');
 
-define ('RESPONSET', '# = 0 | prt1-1-T');
-define ('RESPONSET', '# = 0 | prt1-1-F');
+define ('RESPONSET', '# = 1 | prt1-1-T');
 define ('RESPONSEFF', '# = 0 | prt1-1-F | prt1-2-F');
 define ('RESPONSEFT', '# = 1 | prt1-1-F | prt1-2-T');
 define ('RESPONSE3FF', 'Seed: 333333333; ans1: "thing1_yuck" [score]; PotResTree_1: ' . RESPONSEFF);
+define ('RESPONSE3FF2', 'Seed: 333333333; ans1: "thing2_yuck" [score]; PotResTree_1: ' . RESPONSEFF);
 define ('RESPONSE3T', 'Seed: 333333333; ans1: "thing1_true" [score]; PotResTree_1: ' . RESPONSET);
 define ('RESPONSE3FT', 'Seed: 333333333; ans1: "thing2_true" [score]; PotResTree_1: ' . RESPONSEFT);
 define ('RESPONSE1FF', 'Seed: 123456789; ans1: "thing1_ew" [score]; PotResTree_1: ' . RESPONSEFF);
 define ('RESPONSE5FF', 'Seed: 555555555; ans1: "thing1_ew" [score]; PotResTree_1: ' . RESPONSEFF);
 
-define ('MULTRESPONSE3TTFT', 'Seed: 333333333; ans1: 11 [score]; ans2: 22 [score]; ans3: 33 [score]; ans4: 44 [score];' .
-        ' odd: # = 0 | odd-0-1; even: # = 0 | even-0-1; oddeven: # = 0 | oddeven-0-1; unique: # = 0 | unique-0-1');
-define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: 11 [score]; ans2: vv [valid]; ans3: ii [invalid]; ans4: zz;' .
-        ' odd: # = 0 | odd-0-1; even: !; oddeven: !; unique: !');
+define ('MULTRESPONSE3TTFT', 'Seed: 333333333; ans1: x^3 [score]; ans2: x^4 [score]; ans3: 0 [score]; ans4: true [score];' .
+        ' odd: # = 1 | odd-1-T; even: # = 1 | even-1-T; oddeven: # = 1 | oddeven-1-T | oddeven-2-T; unique: # = 1 | ATLogic_True. | unique-1-T');
+define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: x^5 [score]; ans2: vvv [invalid]; ans3: iii [invalid]; ans4: zz [invalid];' .
+        ' odd: # = 1 | odd-1-T; even: !; oddeven: !; unique: !');
+
+define ('MULTRESPONSE1TVIO', 'Seed: 123456789; ans1: x^3 [score]; ans2: vv [valid]; ans3: iii [invalid]; ans4: zzz;' .
+        ' odd: # = 1 | odd-1-T; even: !; oddeven: !; unique: !');
+define ('RESPONSEOT', '# = 1 | odd-1-T');
+define ('RESPONSEET', '# = 1 | even-1-T');
+define ('RESPONSEOET', '# = 1 | oddeven-1-T | oddeven-2-T');
+define ('RESPONSEUT', '# = 1 | ATLogic_True. | unique-1-T');
+
 /**
  * Unit tests for the response analysis report.
  *
@@ -54,51 +62,6 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $report;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
-    public $sqlsummary = '{
-        "974": {
-            "id": "974",
-            "variant": "3",
-            "responsesummary": "' . RESPONSE3FF . '",
-            "questionusageid": "12",
-            "slot": "1"
-        },
-        "975": {
-            "id": "975",
-            "variant": "1",
-            "responsesummary": "' . RESPONSE1FF . '",
-            "questionusageid": "12",
-            "slot": "1"
-        },
-        "988": {
-            "id": "988",
-            "variant": "5",
-            "responsesummary": "' . RESPONSE5FF . '",
-            "questionusageid": "12",
-            "slot": "1"
-        },
-        "989": {
-            "id": "989",
-            "variant": "3",
-            "responsesummary": "' . RESPONSE3FF . '",
-            "questionusageid": "12",
-            "slot": "1"
-        },
-        "990": {
-            "id": "990",
-            "variant": "3",
-            "responsesummary": "' . RESPONSE3T . '",
-            "questionusageid": "12",
-            "slot": "1"
-        },
-        "995": {
-            "id": "990",
-            "variant": "3",
-            "responsesummary": "' . RESPONSE3T . '",
-            "questionusageid": "12",
-            "slot": "1"
-        }
-    }';
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $notes = [
         1 => 'Variant One',
         3 => 'Variant Three',
@@ -112,18 +75,19 @@ final class responseanalysis_test extends qtype_stack_testcase {
     ];
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $summary = [
-        3 => [RESPONSE3F => 1, RESPONSE3TF => 1, RESPONSE3TT => 2],
-        1 => [RESPONSE1F => 1],
-        5 => [RESPONSE5F => 1],
+        3 => [RESPONSE3FF => 1, RESPONSE3FF2 => 1, RESPONSE3T => 1, RESPONSE3FT => 2],
+        1 => [RESPONSE1FF => 1],
+        5 => [RESPONSE5FF => 1],
     ];
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $inputreport = [
         "3" => [
             "ans1" => [
                 "score" => [
-                    "22" => 1,
-                    "103" => 1,
-                    "x+3" => 2,
+                    '"thing1_yuck"' => 1,
+                    '"thing2_yuck"' => 1,
+                    '"thing2_true"' => 2,
+                    '"thing1_true"' => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -133,7 +97,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "1" => [
             "ans1" => [
                 "score" => [
-                    "45" => 1,
+                    '"thing1_ew"' => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -143,7 +107,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "5" => [
             "ans1" => [
                 "score" => [
-                    "78" => 1,
+                    '"thing1_ew"' => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -155,11 +119,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public $inputreportsummary = [
         "ans1" => [
             "score" => [
-                "x+3" => 2,
-                "22" => 1,
-                "103" => 1,
-                "45" => 1,
-                "78" => 1,
+                '"thing1_ew"' => 2,
+                '"thing1_true"' => 1,
+                '"thing1_yuck"' => 1,
+                '"thing2_true"' => 2,
+                '"thing2_yuck"' => 1,
             ],
             "valid" => [],
             "invalid" => [],
@@ -170,19 +134,19 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public $prtreport = [
         "3" => [
             "PotResTree_1" => [
-                RESPONSEFS1 => 1,
-                RESPONSEFFS => 1,
-                RESPONSEFTS => 2,
+                RESPONSET => 1,
+                RESPONSEFF => 2,
+                RESPONSEFT => 2,
             ],
         ],
         "1" => [
             "PotResTree_1" => [
-                RESPONSEFS2 => 1,
+                RESPONSEFF => 1,
             ],
         ],
         "5" => [
             "PotResTree_1" => [
-                RESPONSEFS2 => 1,
+                RESPONSEFF => 1,
             ],
         ],
     ];
@@ -190,28 +154,29 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public $prtreportinputs = [
         "3" => [
             "PotResTree_1" => [
-                RESPONSEFS1 => [
-                    "ans1:22; " => 1,
+                RESPONSET => [
+                    'ans1:"thing1_true"; ' => 1,
                 ],
-                RESPONSEFFS => [
-                    "ans1:103; " => 1,
+                RESPONSEFF => [
+                    'ans1:"thing1_yuck"; ' => 1,
+                    'ans1:"thing2_yuck"; ' => 1,
                 ],
-                RESPONSEFTS => [
-                    "ans1:x+3; " => 2,
+                RESPONSEFT => [
+                    'ans1:"thing2_true"; ' => 2,
                 ],
             ],
         ],
         "1" => [
             "PotResTree_1" => [
-                RESPONSEFS2 => [
-                    "ans1:45; " => 1,
+                RESPONSEFF => [
+                    'ans1:"thing1_ew"; ' => 1,
                 ],
             ],
         ],
         "5" => [
             "PotResTree_1" => [
-                RESPONSEFS2 => [
-                    "ans1:78; " => 1,
+                RESPONSEFF => [
+                    'ans1:"thing1_ew"; ' => 1,
                 ],
             ],
         ],
@@ -219,35 +184,19 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreportsummary = [
         "PotResTree_1" => [
-            RESPONSEFS1 => 1,
-            RESPONSEFFS => 1,
-            RESPONSEFTS => 2,
-            RESPONSEFS2 => 2,
+            RESPONSET => 1,
+            RESPONSEFT => 2,
+            RESPONSEFF => 4,
         ],
     ];
-
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
-    public $sqlsummarymult = '{
-        "974": {
-            "id": "974",
-            "variant": "3",
-            "responsesummary": "' . MULTRESPONSE3TTFT . '",
-            "questionusageid": "12",
-            "slot": "1"
-        },
-        "975": {
-            "id": "975",
-            "variant": "1",
-            "responsesummary": "' . MULTRESPONSE1TNNN . '",
-            "questionusageid": "12",
-            "slot": "1"
-        }
-    }';
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $summarymult = [
         3 => [MULTRESPONSE3TTFT => 1],
         1 => [MULTRESPONSE1TNNN => 1],
+    ];
+    public $summarymult2 = [
+        3 => [MULTRESPONSE3TTFT => 1],
+        1 => [MULTRESPONSE1TVIO => 1],
     ];
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -255,7 +204,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "3" => [
             "ans1" => [
                 "score" => [
-                    "11" => 1,
+                    "x^3" => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -263,7 +212,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
             ],
             "ans2" => [
                 "score" => [
-                    "22" => 1,
+                    "x^4" => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -271,7 +220,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
             ],
             "ans3" => [
                 "score" => [
-                    "33" => 1,
+                    "0" => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -279,7 +228,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
             ],
             "ans4" => [
                 "score" => [
-                    "44" => 1,
+                    "true" => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -289,7 +238,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         "1" => [
             "ans1" => [
                 "score" => [
-                    "11" => 1,
+                    "x^3" => 1,
                 ],
                 "valid" => [],
                 "invalid" => [],
@@ -307,7 +256,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 "score" => [],
                 "valid" => [],
                 "invalid" => [
-                    "ii" => 1,
+                    "iii" => 1,
                 ],
                 "other" => [],
             ],
@@ -316,7 +265,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 "valid" => [],
                 "invalid" => [],
                 "other" => [
-                    "zz" => 1,
+                    "zzz" => 1,
                 ],
             ],
         ],
@@ -325,7 +274,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public $inputreportsummarymult = [
         "ans1" => [
             "score" => [
-                "11" => 2,
+                "x^3" => 2,
             ],
             "valid" => [],
             "invalid" => [],
@@ -333,7 +282,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         ],
         "ans2" => [
             "score" => [
-                "22" => 1,
+                "x^4" => 1,
             ],
             "valid" => [
                 "vv" => 1,
@@ -343,22 +292,22 @@ final class responseanalysis_test extends qtype_stack_testcase {
         ],
         "ans3" => [
             "score" => [
-                "33" => 1,
+                "0" => 1,
             ],
             "valid" => [],
             "invalid" => [
-                "ii" => 1,
+                "iii" => 1,
             ],
             "other" => [],
         ],
         "ans4" => [
             "score" => [
-                "44" => 1,
+                "true" => 1,
             ],
             "valid" => [],
             "invalid" => [],
             "other" => [
-                "zz" => 1,
+                "zzz" => 1,
             ],
         ],
     ];
@@ -366,21 +315,21 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public $prtreportmult = [
         "3" => [
             "odd" => [
-                RESPONSETS => 1,
+                RESPONSEOT => 1,
             ],
             "even" => [
-                RESPONSETS => 1,
+                RESPONSEET => 1,
             ],
             "oddeven" => [
-                RESPONSETS => 1,
+                RESPONSEOET => 1,
             ],
             "unique" => [
-                RESPONSETS => 1,
+                RESPONSEUT => 1,
             ],
         ],
         "1" => [
             "odd" => [
-                RESPONSETS => 1,
+                RESPONSEOT => 1,
             ],
             "even" => [
                 "!" => 1,
@@ -397,30 +346,30 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public $prtreportinputsmult = [
         "3" => [
             "odd" => [
-                RESPONSETS => [
-                    "ans1:11; " => 1,
+                RESPONSEOT => [
+                    "ans1:x^3; " => 1,
                 ],
             ],
             "even" => [
-                RESPONSETS => [
-                    "ans2:22; " => 1,
+                RESPONSEET => [
+                    "ans2:x^4; " => 1,
                 ],
             ],
             "oddeven" => [
-                RESPONSETS => [
-                    "ans3:33; " => 1,
+                RESPONSEOET => [
+                    "ans3:0; " => 1,
                 ],
             ],
             "unique" => [
-                RESPONSETS => [
-                    "ans4:44; " => 1,
+                RESPONSEUT => [
+                    "ans4:true; " => 1,
                 ],
             ],
         ],
         "1" => [
             "odd" => [
-                RESPONSETS => [
-                    "ans1:11; " => 1,
+                RESPONSEOT => [
+                    "ans1:x^3; " => 1,
                 ],
             ],
             "even" => [
@@ -430,12 +379,12 @@ final class responseanalysis_test extends qtype_stack_testcase {
             ],
             "oddeven" => [
                 "!" => [
-                    "ans3:ii; " => 1,
+                    "ans3:iii; " => 1,
                 ],
             ],
             "unique" => [
                 "!" => [
-                    "ans4:zz; " => 1,
+                    "ans4:zzz; " => 1,
                 ],
             ],
         ],
@@ -443,18 +392,18 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $prtreportsummarymult = [
         "odd" => [
-            RESPONSETS => 2,
+            RESPONSEOT => 2,
         ],
         "even" => [
-            RESPONSETS => 1,
+            RESPONSEET => 1,
             "!" => 1,
         ],
         "oddeven" => [
-            RESPONSETS => 1,
+            RESPONSEOET => 1,
             "!" => 1,
         ],
         "unique" => [
-            RESPONSETS => 1,
+            RESPONSEUT => 1,
             "!" => 1,
         ],
     ];
@@ -476,7 +425,6 @@ final class responseanalysis_test extends qtype_stack_testcase {
         parent::setUpBeforeClass();
         self::$question = test_question_maker::make_question('stack', 'test1');
         self::$question2 = test_question_maker::make_question('stack', 'test3');
-        self::$question3 = test_question_maker::make_question('stack', 'response_test');
 
     }
 
@@ -504,7 +452,19 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->report->reports_sort();
     }
 
-    public function create_steps(): array {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
+    public function set_question_mult2(): void {
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([self::$question2, 2, 1])->getMock();
+        $this->report->summary = $this->summarymult2;
+        $this->report->questionnotes = $this->notes;
+        $this->report->questionseeds = $this->seeds;
+        $this->report->collate();
+        $this->report->reports_sort();
+    }
+
+    public function create_steps($type): array {
         $this->resetAfterTest();
         global $DB;
 
@@ -518,16 +478,10 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $user->id, $contextid);
         $this->setUser($user);
-        if (1===0) {
+        if ($type === 'singleinput') {
             $q = $generator->create_question('stack', 'response_test',
                             ['name' => 'QNAME1', 'category' => $qcategory->id]);
             $this->quizquestion = $q;
-            $qtype = new \qtype_stack();
-            $qtype->deploy_variant($q->id, 123456789);
-            $qtype->deploy_variant($q->id, 222222222);
-            $qtype->deploy_variant($q->id, 333333333);
-            $qtype->deploy_variant($q->id, 444444444);
-            $qtype->deploy_variant($q->id, 555555555);
             $steps = [
                 [0,'John','Jones',3,[1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en']],1],
                 [1,'John','Jones',3,[1 => ['ans1' => 'thing2_yuck', 'ans1_val' => '"thing2_yuck"', 'step_lang' => 'en']],1],
@@ -535,27 +489,34 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 [3,'John','Jones',1,[1 => ['ans1' => 'thing1_ew', 'ans1_val' => '"thing1_ew"', 'step_lang' => 'en']],1],
                 [4,'John','Jones',5,[1 => ['ans1' => 'thing1_ew', 'ans1_val' => '"thing1_ew"', 'step_lang' => 'en']],1],
                 [5,'John','Jones',3,[1 => ['ans1' => 'thing2_true', 'ans1_val' => '"thing2_true"', 'step_lang' => 'en']],1],
+                [6,'John','Jones',3,[1 => ['ans1' => 'thing1_true', 'ans1_val' => '"thing1_true"', 'step_lang' => 'en']],1],
             ];
         } else {
-            $q = $generator->create_question('stack', 'test3',
+            $q = $generator->create_question('stack', 'response_test_2',
                             ['name' => 'QNAME1', 'category' => $qcategory->id]);
             $this->quizquestion = $q;
 
             $steps = [
-                [0,'John','Jones',1,[1 => [
-                    'ans1' => 11, 'ans1_val' => 11,
-                    'ans2' => 22, 'ans2_val' => 22,
-                    'ans3' => 33, 'ans3_val' => 33,
-                    'ans4' => 44, 'ans4_val' => 44,
+                [0,'John','Jones',3,[1 => [
+                    'ans1' => 'x^3', 'ans1_val' => 'x^3',
+                    'ans2' => 'x^4', 'ans2_val' => 'x^4',
+                    'ans3' => '0', 'ans3_val' => '0',
+                    'ans4' => 'true', 'ans4_val' => 'true',
                     'step_lang' => 'en']],1],
                 [1,'John','Jones',1,[1 => [
-                    'ans1' => 11, 'ans1_val' => 11,
-                    'ans2' => "vv", 'ans2_val' => "vv",
-                    'ans3' => "ii", 'ans3_val' => "ii",
+                    'ans1' => 'x^5', 'ans1_val' => 'x^5',
+                    'ans2' => "vvv", 'ans2_val' => "vvv",
+                    'ans3' => "iii", 'ans3_val' => "ii",
                     'ans4' => "zz", 'ans4_val' => "zz",
                     'step_lang' => 'en']],1],
             ];
         }
+        $qtype = new \qtype_stack();
+        $qtype->deploy_variant($q->id, 123456789);
+        $qtype->deploy_variant($q->id, 222222222);
+        $qtype->deploy_variant($q->id, 333333333);
+        $qtype->deploy_variant($q->id, 444444444);
+        $qtype->deploy_variant($q->id, 555555555);
         $quizgenerator = new \testing_data_generator();
         $quizgenerator = $quizgenerator->get_plugin_generator('mod_quiz');
 
@@ -612,8 +573,8 @@ final class responseanalysis_test extends qtype_stack_testcase {
         return $attemptids;
     }
 
-    public function x_test_create_summary(): void {
-        $this->create_steps();
+    public function test_create_summary(): void {
+        $this->create_steps('singleinput');
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['run_report'])
             ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
@@ -621,7 +582,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($this->summary, $this->report->summary);
     }
 
-    public function x_test_collate(): void {
+    public function test_collate(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['run_report'])
@@ -637,39 +598,51 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($this->prtreportsummary, $this->report->prtreportsummary);
     }
 
-    public function x_test_format_summary(): void {
+    public function test_format_summary(): void {
 
         $this->set_question();
         $summary = $this->report->format_summary();
-        $expected = "## PotResTree_1 (6)\n2 ( 33.33%); " . RESPONSEFS2 . "\n1 ( 16.67%); " . RESPONSEFFS .
-            "\n1 ( 16.67%); " . RESPONSEFS1 . "\n2 ( 33.33%); " . RESPONSEFTS;
+        $expected = "## PotResTree_1 (7)\n4 ( 57.14%); " . RESPONSEFF . "\n2 ( 28.57%); " . RESPONSEFT .
+            "\n1 ( 14.29%); " . RESPONSET;
         $this->assertEquals($expected, $summary->prts[0]->sumout);
-        $this->assertEquals(6, $summary->tot['PotResTree_1']);
+        $this->assertEquals(7, $summary->tot['PotResTree_1']);
     }
 
-    public function x_test_note_summary(): void {
+    public function test_note_summary(): void {
 
         $this->set_question();
         $summary = $this->report->format_summary();
         $notesummary = $this->report->format_notesummary($summary->tot);
-        $expected = "## PotResTree_1 (6)\n4 ( 66.67%); # = 0\n2 ( 33.33%); # = 1\n3 ( 50.00%); prt1-1-F\n3 ( 50.00%); " .
-            "prt1-1-T\n1 ( 16.67%); prt1-2-F\n2 ( 33.33%); prt1-2-T\n2 ( 33.33%); thing1_ew\n3 ( 50.00%); " .
-            "thing1_true\n1 ( 16.67%); thing1_yuck\n2 ( 33.33%); thing2_true.\n1 ( 16.67%); thing2_yuck.\n\n";
+        $expected = "## PotResTree_1 (7)\n4 ( 57.14%); # = 0\n3 ( 42.86%); # = 1\n6 ( 85.71%); prt1-1-F\n1 ( 14.29%); " .
+            "prt1-1-T\n4 ( 57.14%); prt1-2-F\n2 ( 28.57%); prt1-2-T\n\n";
         $this->assertEquals('PotResTree_1', $notesummary->prts[0]->prtname);
         $this->assertEquals($expected, $notesummary->prts[0]->sumout);
     }
 
-    public function x_test_variants_summary(): void {
+    public function test_variants_summary(): void {
 
         $this->set_question();
         $variants = $this->report->format_variants()->variants;
-        $expectedsum3 = "## PotResTree_1 (4)\n2 ( 50.00%); " . RESPONSEFTS . "\n2 ( 50.00%); ans1:x+3; \n\n1 ( 25.00%); " .
-            RESPONSEFS1 . "\n1 ( 25.00%); ans1:22; \n\n1 ( 25.00%); " . RESPONSEFFS . "\n1 ( 25.00%); ans1:103; \n\n";
-        $expectedsum1 = "## PotResTree_1 (1)\n1 (100.00%); " . RESPONSEFS2 . "\n1 (100.00%); ans1:45; \n\n";
-        $expectedsum5 = "## PotResTree_1 (1)\n1 (100.00%); " . RESPONSEFS2 . "\n1 (100.00%); ans1:78; \n\n";
-        $expectedans3 = "## ans1 (4)\n### score\n2 ( 50.00%); x+3\n1 ( 25.00%); 22\n1 ( 25.00%); 103\n\n";
-        $expectedans1 = "## ans1 (1)\n### score\n1 (100.00%); 45\n\n";
-        $expectedans5 = "## ans1 (1)\n### score\n1 (100.00%); 78\n\n";
+        $expectedsum3 = "## PotResTree_1 (5)" .
+            "\n2 ( 40.00%); " . RESPONSEFF .
+            "\n1 ( 20.00%); ans1:&quot;thing1_yuck&quot;; \n1 ( 20.00%); ans1:&quot;thing2_yuck&quot;; " .
+            "\n\n2 ( 40.00%); " . RESPONSEFT .
+            "\n2 ( 40.00%); ans1:&quot;thing2_true&quot;; " .
+            "\n\n1 ( 20.00%); " . RESPONSET .
+            "\n1 ( 20.00%); ans1:&quot;thing1_true&quot;; \n\n";
+        $expectedsum1 = "## PotResTree_1 (1)" .
+            "\n1 (100.00%); " . RESPONSEFF .
+            "\n1 (100.00%); ans1:&quot;thing1_ew&quot;; \n\n";
+        $expectedsum5 = "## PotResTree_1 (1)" .
+            "\n1 (100.00%); " . RESPONSEFF .
+            "\n1 (100.00%); ans1:&quot;thing1_ew&quot;; \n\n";
+        $expectedans3 = "## ans1 (5)" .
+            "\n### score\n2 ( 40.00%); &quot;thing2_true&quot;" .
+            "\n1 ( 20.00%); &quot;thing1_yuck&quot;" .
+            "\n1 ( 20.00%); &quot;thing2_yuck&quot;" .
+            "\n1 ( 20.00%); &quot;thing1_true&quot;\n\n";
+        $expectedans1 = "## ans1 (1)\n### score\n1 (100.00%); &quot;thing1_ew&quot;\n\n";
+        $expectedans5 = "## ans1 (1)\n### score\n1 (100.00%); &quot;thing1_ew&quot;\n\n";
         $this->assertEquals(333333333, $variants[0]->seed);
         $this->assertEquals($expectedsum3, $variants[0]->notessumout->sumout);
         $this->assertEquals($expectedans3, $variants[0]->anssumout);
@@ -681,45 +654,50 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expectedans5, $variants[2]->anssumout);
     }
 
-    public function x_test_inputs_summary(): void {
+    public function test_inputs_summary(): void {
 
         $this->set_question();
         $inputs = $this->report->format_inputs()->inputs;
-        $expected = "## ans1 (6)\n### score\n2 ( 33.33%); x+3\n1 ( 16.67%); " .
-            "22\n1 ( 16.67%); 103\n1 ( 16.67%); 45\n1 ( 16.67%); 78\n\n";
+        $expected = "## ans1 (7)\n### score\n" .
+            "2 ( 28.57%); &quot;thing2_true&quot;\n" .
+            "2 ( 28.57%); &quot;thing1_ew&quot;\n" .
+            "1 ( 14.29%); &quot;thing1_yuck&quot;\n" .
+            "1 ( 14.29%); &quot;thing2_yuck&quot;\n" .
+            "1 ( 14.29%); &quot;thing1_true&quot;\n\n";
         $this->assertEquals($expected, $inputs);
     }
 
-    public function x_test_raw_data(): void {
+    public function test_raw_data(): void {
 
         $this->set_question();
         $rawdata = $this->report->format_raw_data()->rawdata;
-        $expected = "\n# 3 (4)\n1 ( 25.00%); Seed: 333333333; ans1: 22 [score]; PotResTree_1: " .
-            RESPONSEFS1 . "\n1 ( 25.00%); Seed: 333333333; ans1: 103 [score]; PotResTree_1: " . RESPONSEFFS .
-            "\n2 ( 50.00%); Seed: 333333333; ans1: x+3 [score]; PotResTree_1: " . RESPONSEFTS . "\n\n# 1 (1)\n1 (100.00%); " .
-            "Seed: 123456789; ans1: 45 [score]; PotResTree_1: " . RESPONSEFS2 . "\n\n# 5 (1)\n1 (100.00%); " .
-            "Seed: 555555555; ans1: 78 [score]; PotResTree_1: " . RESPONSEFS2 . "\n";
+        $expected = "\n# 3 (5)" .
+            "\n1 ( 20.00%); " . htmlspecialchars(RESPONSE3FF) .
+            "\n1 ( 20.00%); " . htmlspecialchars(RESPONSE3FF2) .
+            "\n1 ( 20.00%); " . htmlspecialchars(RESPONSE3T) .
+            "\n2 ( 40.00%); " . htmlspecialchars(RESPONSE3FT) .
+            "\n\n# 1 (1)" .
+            "\n1 (100.00%); " . htmlspecialchars(RESPONSE1FF) .
+            "\n\n# 5 (1)" .
+            "\n1 (100.00%); " . htmlspecialchars(RESPONSE5FF) ."\n";
         $this->assertEquals($expected, $rawdata);
     }
 
-    public function x_test_create_summary_multiple(): void {
-
+    public function test_create_summary_multiple(): void {
+        $this->create_steps('multiinput');
         $this->report = $this->getMockBuilder(stack_question_report::class)
-            ->onlyMethods(['load_summary_data', 'run_report'])
-            ->setConstructorArgs([self::$question2, 2, 1])->getMock();
-        $this->report->expects($this->any())
-            ->method("load_summary_data")
-            ->willReturn((array)json_decode($this->sqlsummarymult));
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
         $this->report->create_summary();
         $this->assertEquals($this->summarymult, $this->report->summary);
     }
 
-    public function x_test_collate_multiple(): void {
+    public function test_collate_multiple(): void {
 
         $this->report = $this->getMockBuilder(stack_question_report::class)
             ->onlyMethods(['run_report'])
             ->setConstructorArgs([self::$question2, 2, 1])->getMock();
-        $this->report->summary = $this->summarymult;
+        $this->report->summary = $this->summarymult2;
         $this->report->questionnotes = $this->notes;
         $this->report->questionseeds = $this->seeds;
         $this->report->collate();
@@ -730,14 +708,14 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($this->prtreportsummarymult, $this->report->prtreportsummary);
     }
 
-    public function x_test_format_summary_multiple(): void {
+    public function test_format_summary_multiple(): void {
 
         $this->set_question_mult();
         $summary = $this->report->format_summary();
-        $expected1 = "## odd (2)\n2 (100.00%); " . RESPONSETS;
-        $expected2 = "## even (2)\n1 ( 50.00%); !\n1 ( 50.00%); " . RESPONSETS;
-        $expected3 = "## oddeven (2)\n1 ( 50.00%); !\n1 ( 50.00%); " . RESPONSETS;
-        $expected4 = "## unique (2)\n1 ( 50.00%); !\n1 ( 50.00%); " . RESPONSETS;
+        $expected1 = "## odd (2)\n2 (100.00%); " . RESPONSEOT;
+        $expected2 = "## even (2)\n1 ( 50.00%); !\n1 ( 50.00%); " . RESPONSEET;
+        $expected3 = "## oddeven (2)\n1 ( 50.00%); !\n1 ( 50.00%); " . RESPONSEOET;
+        $expected4 = "## unique (2)\n1 ( 50.00%); !\n1 ( 50.00%); " . RESPONSEUT;
         $this->assertEquals('odd', $summary->prts[0]->prtname);
         $this->assertEquals($expected1, $summary->prts[0]->sumout);
         $this->assertEquals('even', $summary->prts[1]->prtname);
@@ -752,15 +730,15 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals(2, $summary->tot['unique']);
     }
 
-    public function x_test_note_summary_multiple(): void {
+    public function test_note_summary_multiple(): void {
 
         $this->set_question_mult();
         $summary = $this->report->format_summary();
         $notesummary = $this->report->format_notesummary($summary->tot);
-        $expected1 = "## odd (2)\n2 (100.00%); # = 0\n2 (100.00%); prt1-1-T\n2 (100.00%); thing1_true\n\n";
-        $expected2 = "## even (2)\n1 ( 50.00%); !\n1 ( 50.00%); # = 0\n1 ( 50.00%); prt1-1-T\n1 ( 50.00%); thing1_true\n\n";
-        $expected3 = "## oddeven (2)\n1 ( 50.00%); !\n1 ( 50.00%); # = 0\n1 ( 50.00%); prt1-1-T\n1 ( 50.00%); thing1_true\n\n";
-        $expected4 = "## unique (2)\n1 ( 50.00%); !\n1 ( 50.00%); # = 0\n1 ( 50.00%); prt1-1-T\n1 ( 50.00%); thing1_true\n\n";
+        $expected1 = "## odd (2)\n2 (100.00%); # = 1\n2 (100.00%); odd-1-T\n\n";
+        $expected2 = "## even (2)\n1 ( 50.00%); !\n1 ( 50.00%); # = 1\n1 ( 50.00%); even-1-T\n\n";
+        $expected3 = "## oddeven (2)\n1 ( 50.00%); !\n1 ( 50.00%); # = 1\n1 ( 50.00%); oddeven-1-T\n1 ( 50.00%); oddeven-2-T\n\n";
+        $expected4 = "## unique (2)\n1 ( 50.00%); !\n1 ( 50.00%); # = 1\n1 ( 50.00%); ATLogic_True.\n1 ( 50.00%); unique-1-T\n\n";
         $this->assertEquals('odd', $summary->prts[0]->prtname);
         $this->assertEquals($expected1, $notesummary->prts[0]->sumout);
         $this->assertEquals('even', $notesummary->prts[1]->prtname);
@@ -771,20 +749,20 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expected4, $notesummary->prts[3]->sumout);
     }
 
-    public function x_test_variants_summary_multiple(): void {
+    public function test_variants_summary_multiple(): void {
 
-        $this->set_question_mult();
+        $this->set_question_mult2();
         $variants = $this->report->format_variants()->variants;
-        $expectedsum3 = "## odd (1)\n1 (100.00%); " . RESPONSETS . "\n1 (100.00%); ans1:11; \n\n## even (1)\n1 (100.00%); " .
-            RESPONSETS . "\n1 (100.00%); ans2:22; \n\n## oddeven (1)\n1 (100.00%); " . RESPONSETS .
-            "\n1 (100.00%); ans3:33; \n\n## unique (1)\n1 (100.00%); " . RESPONSETS . "\n1 (100.00%); ans4:44; \n\n";
-        $expectedsum1 = "## odd (1)\n1 (100.00%); " . RESPONSETS . "\n1 (100.00%); ans1:11; \n\n## even (1)\n1 (100.00%); " .
-            "!\n1 (100.00%); ans2:vv; \n\n## oddeven (1)\n1 (100.00%); !\n1 (100.00%); ans3:ii; \n\n## unique (1)\n1 (100.00%); " .
-            "!\n1 (100.00%); ans4:zz; \n\n";
-        $expectedans3 = "## ans1 (1)\n### score\n1 (100.00%); 11\n\n## ans2 (1)\n### score\n1 (100.00%); " .
-            "22\n\n## ans3 (1)\n### score\n1 (100.00%); 33\n\n## ans4 (1)\n### score\n1 (100.00%); 44\n\n";
-        $expectedans1 = "## ans1 (1)\n### score\n1 (100.00%); 11\n\n## ans2 (1)\n### valid\n1 (100.00%); " .
-            "vv\n\n## ans3 (1)\n### invalid\n1 (100.00%); ii\n\n## ans4 (1)\n### other\n1 (100.00%); zz\n\n";
+        $expectedsum3 = "## odd (1)\n1 (100.00%); " . RESPONSEOT . "\n1 (100.00%); ans1:x^3; \n\n## even (1)\n1 (100.00%); " .
+            RESPONSEET . "\n1 (100.00%); ans2:x^4; \n\n## oddeven (1)\n1 (100.00%); " . RESPONSEOET .
+            "\n1 (100.00%); ans3:0; \n\n## unique (1)\n1 (100.00%); " . RESPONSEUT . "\n1 (100.00%); ans4:true; \n\n";
+        $expectedsum1 = "## odd (1)\n1 (100.00%); " . RESPONSEOT . "\n1 (100.00%); ans1:x^3; \n\n## even (1)\n1 (100.00%); " .
+            "!\n1 (100.00%); ans2:vv; \n\n## oddeven (1)\n1 (100.00%); !\n1 (100.00%); ans3:iii; \n\n## unique (1)\n1 (100.00%); " .
+            "!\n1 (100.00%); ans4:zzz; \n\n";
+        $expectedans3 = "## ans1 (1)\n### score\n1 (100.00%); x^3\n\n## ans2 (1)\n### score\n1 (100.00%); " .
+            "x^4\n\n## ans3 (1)\n### score\n1 (100.00%); 0\n\n## ans4 (1)\n### score\n1 (100.00%); true\n\n";
+        $expectedans1 = "## ans1 (1)\n### score\n1 (100.00%); x^3\n\n## ans2 (1)\n### valid\n1 (100.00%); " .
+            "vv\n\n## ans3 (1)\n### invalid\n1 (100.00%); iii\n\n## ans4 (1)\n### other\n1 (100.00%); zzz\n\n";
         $this->assertEquals(333333333, $variants[0]->seed);
         $this->assertEquals($expectedsum3, $variants[0]->notessumout->sumout);
         $this->assertEquals($expectedans3, $variants[0]->anssumout);
@@ -793,28 +771,28 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals($expectedans1, $variants[1]->anssumout);
     }
 
-    public function x_test_inputs_summary_multiple(): void {
+    public function test_inputs_summary_multiple(): void {
 
-        $this->set_question_mult();
+        $this->set_question_mult2();
         $inputs = $this->report->format_inputs()->inputs;
-        $expected = "## ans1 (2)\n### score\n2 (100.00%); 11\n\n## ans2 (2)\n### score\n1 ( 50.00%); " .
-            "22\n\n### valid\n1 ( 50.00%); vv\n\n## ans3 (2)\n### score\n1 ( 50.00%); 33\n\n### invalid\n1 " .
-            "( 50.00%); ii\n\n## ans4 (2)\n### score\n1 ( 50.00%); 44\n\n### other\n1 ( 50.00%); zz\n\n";
+        $expected = "## ans1 (2)\n### score\n2 (100.00%); x^3\n\n## ans2 (2)\n### score\n1 ( 50.00%); " .
+            "x^4\n\n### valid\n1 ( 50.00%); vv\n\n## ans3 (2)\n### score\n1 ( 50.00%); 0\n\n### invalid\n1 " .
+            "( 50.00%); iii\n\n## ans4 (2)\n### score\n1 ( 50.00%); true\n\n### other\n1 ( 50.00%); zzz\n\n";
         $this->assertEquals($expected, $inputs);
     }
 
-    public function x_test_raw_data_multiple(): void {
+    public function test_raw_data_multiple(): void {
 
-        $this->set_question_mult();
+        $this->set_question_mult2();
         $rawdata = $this->report->format_raw_data()->rawdata;
-        $expected = "\n# 3 (1)\n1 (100.00%); Seed: 333333333; ans1: 11 [score]; ans2: 22 [score]; " .
-            "ans3: 33 [score]; ans4: 44 [score]; odd: " . RESPONSETS . "; even: " . RESPONSETS . "; oddeven: " . RESPONSETS .
-            "; unique: " . RESPONSETS . "\n\n# 1 (1)\n1 (100.00%); Seed: 123456789; ans1: 11 [score]; ans2: vv [valid]; " .
-            "ans3: ii [invalid]; ans4: zz; odd: # = 0 | thing1_true | prt1-1-T; even: !; oddeven: !; unique: !\n";
+        $expected = "\n# 3 (1)\n1 (100.00%); Seed: 333333333; ans1: x^3 [score]; ans2: x^4 [score]; " .
+            "ans3: 0 [score]; ans4: true [score]; odd: " . RESPONSEOT . "; even: " . RESPONSEET . "; oddeven: " . RESPONSEOET .
+            "; unique: " . RESPONSEUT . "\n\n# 1 (1)\n1 (100.00%); Seed: 123456789; ans1: x^3 [score]; ans2: vv [valid]; " .
+            "ans3: iii [invalid]; ans4: zzz; odd: " . RESPONSEOT . "; even: !; oddeven: !; unique: !\n";
         $this->assertEquals($expected, $rawdata);
     }
 
-    public function x_test_quiz_selection(): void {
+    public function test_quiz_selection(): void {
         global $DB;
         $this->resetAfterTest();
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');

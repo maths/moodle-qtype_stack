@@ -1855,6 +1855,8 @@ class stack_answertest_test_data {
         ['Diff', 'x', 'e^x+2', 'e^x', 0, 'ATDiff_int.', ''],
         ['Diff', 'x', 'n*x^n', 'n*x^(n-1)', -1, 'ATDiff_STACKERROR_SAns.', ''],
         ['Diff', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, '', ''],
+        ['Diff', 'x', '3*x/root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
+        ['Diff', 'x', '3*x/\'root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
 
         ['Int', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],
         ['Int', 'x', '1/0', '1', -1, 'ATInt_STACKERROR_SAns.', ''],

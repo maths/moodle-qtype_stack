@@ -187,6 +187,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '(2*pi)/(k/m)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''],
         ['AlgEquiv', '', '(2*pi)*(m/k)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''],
         ['AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''],
+        ['AlgEquiv', '', '\'root(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''],
         ['AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', ''],
         ['AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', 'Need to factor internally.'],
 
@@ -1855,6 +1856,9 @@ class stack_answertest_test_data {
         ['Diff', 'x', 'e^x+2', 'e^x', 0, 'ATDiff_int.', ''],
         ['Diff', 'x', 'n*x^n', 'n*x^(n-1)', -1, 'ATDiff_STACKERROR_SAns.', ''],
         ['Diff', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, '', ''],
+        ['Diff', 'x', '3*x/root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
+        ['Diff', 'x', '3*x/\'root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
+        ['Diff', 'x', '\'root(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, 'ATDiff_true.', ''],
 
         ['Int', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],
         ['Int', 'x', '1/0', '1', -1, 'ATInt_STACKERROR_SAns.', ''],
@@ -2075,6 +2079,7 @@ class stack_answertest_test_data {
             'Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)',
         ],
+        ['Int', 'x', '3*x/\'root(3*x^2+2)+c', '3*x/sqrt(3*x^2+2)', 1, 'ATInt_true.', ''],
 
         // This list is based on the test cases for ATInt.
         ['Antidiff', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],

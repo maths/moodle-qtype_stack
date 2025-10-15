@@ -849,8 +849,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $bits;
     }
 
-    /*
+    /**
      * The purpose of this function is to generate a JSON summary for download and offline analysis.
+     * @param array $response reponse to summarise.
+     * @param array $metadata additional data to add to JSON.
+     * @return bool|string JSON
      */
     public function summarise_response_json(array $response, array $metadata = []) {
         // Provide seed information on student's version via the normal moodle quiz report.

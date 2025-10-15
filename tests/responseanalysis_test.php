@@ -37,7 +37,8 @@ define ('RESPONSE1FF', 'Seed: 123456789; ans1: "thing1_ew" [score]; PotResTree_1
 define ('RESPONSE5FF', 'Seed: 555555555; ans1: "thing1_ew" [score]; PotResTree_1: ' . RESPONSEFF);
 
 define ('MULTRESPONSE3TTFT', 'Seed: 333333333; ans1: x^3 [score]; ans2: x^4 [score]; ans3: 0 [score]; ans4: true [score];' .
-        ' odd: # = 1 | odd-1-T; even: # = 1 | even-1-T; oddeven: # = 1 | oddeven-1-T | oddeven-2-T; unique: # = 1 | ATLogic_True. | unique-1-T');
+        ' odd: # = 1 | odd-1-T; even: # = 1 | even-1-T;' .
+        ' oddeven: # = 1 | oddeven-1-T | oddeven-2-T; unique: # = 1 | ATLogic_True. | unique-1-T');
 define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: x^5 [score]; ans2: vvv [invalid]; ans3: iii [invalid]; ans4: zz [invalid];' .
         ' odd: # = 1 | odd-1-T; even: !; oddeven: !; unique: !');
 
@@ -194,6 +195,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
         3 => [MULTRESPONSE3TTFT => 1],
         1 => [MULTRESPONSE1TNNN => 1],
     ];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $summarymult2 = [
         3 => [MULTRESPONSE3TTFT => 1],
         1 => [MULTRESPONSE1TVIO => 1],
@@ -412,8 +414,6 @@ final class responseanalysis_test extends qtype_stack_testcase {
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $question2;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
-    public static $question3;
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $coursecontextid;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $quizcontextid;
@@ -464,6 +464,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->report->reports_sort();
     }
 
+    /**
+     * Add question attempt steps to the DB.
+     * @param string $type The test being done.
+     * @return array
+     */
     public function create_steps($type): array {
         $this->resetAfterTest();
         global $DB;
@@ -478,38 +483,101 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $user->id, $contextid);
         $this->setUser($user);
-        if ($type === 'singleinput') {
-            $q = $generator->create_question('stack', 'response_test',
-                            ['name' => 'QNAME1', 'category' => $qcategory->id]);
-            $this->quizquestion = $q;
-            $steps = [
-                [0,'John','Jones',3,[1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en']],1],
-                [1,'John','Jones',3,[1 => ['ans1' => 'thing2_yuck', 'ans1_val' => '"thing2_yuck"', 'step_lang' => 'en']],1],
-                [2,'John','Jones',3,[1 => ['ans1' => 'thing2_true', 'ans1_val' => '"thing2_true"', 'step_lang' => 'en']],1],
-                [3,'John','Jones',1,[1 => ['ans1' => 'thing1_ew', 'ans1_val' => '"thing1_ew"', 'step_lang' => 'en']],1],
-                [4,'John','Jones',5,[1 => ['ans1' => 'thing1_ew', 'ans1_val' => '"thing1_ew"', 'step_lang' => 'en']],1],
-                [5,'John','Jones',3,[1 => ['ans1' => 'thing2_true', 'ans1_val' => '"thing2_true"', 'step_lang' => 'en']],1],
-                [6,'John','Jones',3,[1 => ['ans1' => 'thing1_true', 'ans1_val' => '"thing1_true"', 'step_lang' => 'en']],1],
-            ];
-        } else {
-            $q = $generator->create_question('stack', 'response_test_2',
-                            ['name' => 'QNAME1', 'category' => $qcategory->id]);
-            $this->quizquestion = $q;
+        switch ($type) {
+            case 'singleinput':
+                $q = $generator->create_question('stack', 'response_test',
+                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $this->quizquestion = $q;
+                $steps = [
+                    [0, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en']], 1],
+                    [1, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing2_yuck', 'ans1_val' => '"thing2_yuck"', 'step_lang' => 'en']], 1],
+                    [2, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing2_true', 'ans1_val' => '"thing2_true"', 'step_lang' => 'en']], 1],
+                    [3, 'John', 'Jones', 1,
+                        [1 => ['ans1' => 'thing1_ew', 'ans1_val' => '"thing1_ew"', 'step_lang' => 'en']], 1],
+                    [4, 'John', 'Jones', 5,
+                        [1 => ['ans1' => 'thing1_ew', 'ans1_val' => '"thing1_ew"', 'step_lang' => 'en']], 1],
+                    [5, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing2_true', 'ans1_val' => '"thing2_true"', 'step_lang' => 'en']], 1],
+                    [6, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing1_true', 'ans1_val' => '"thing1_true"', 'step_lang' => 'en']], 1],
+                ];
+                $behaviour = 'immediatefeedback';
+                break;
+            case 'multiinput':
+                $q = $generator->create_question('stack', 'response_test_2',
+                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $this->quizquestion = $q;
 
-            $steps = [
-                [0,'John','Jones',3,[1 => [
-                    'ans1' => 'x^3', 'ans1_val' => 'x^3',
-                    'ans2' => 'x^4', 'ans2_val' => 'x^4',
-                    'ans3' => '0', 'ans3_val' => '0',
-                    'ans4' => 'true', 'ans4_val' => 'true',
-                    'step_lang' => 'en']],1],
-                [1,'John','Jones',1,[1 => [
-                    'ans1' => 'x^5', 'ans1_val' => 'x^5',
-                    'ans2' => "vvv", 'ans2_val' => "vvv",
-                    'ans3' => "iii", 'ans3_val' => "ii",
-                    'ans4' => "zz", 'ans4_val' => "zz",
-                    'step_lang' => 'en']],1],
-            ];
+                $steps = [
+                    [0, 'John', 'Jones', 3, [1 => [
+                        'ans1' => 'x^3', 'ans1_val' => 'x^3',
+                        'ans2' => 'x^4', 'ans2_val' => 'x^4',
+                        'ans3' => '0', 'ans3_val' => '0',
+                        'ans4' => 'true', 'ans4_val' => 'true',
+                        'step_lang' => 'en']], 1],
+                    [1, 'John', 'Jones', 1, [1 => [
+                        'ans1' => 'x^5', 'ans1_val' => 'x^5',
+                        'ans2' => "vvv", 'ans2_val' => "vvv",
+                        'ans3' => "iii", 'ans3_val' => "ii",
+                        'ans4' => "zz", 'ans4_val' => "zz",
+                        'step_lang' => 'en']], 1],
+                ];
+                $behaviour = 'immediatefeedback';
+                break;
+            case 'interactive1':
+                // Two wrong answers and then correct.
+                $q = $generator->create_question('stack', 'response_test',
+                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $this->quizquestion = $q;
+                $steps = [
+                    [0, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en', '-submit' => 1]], 1,
+                        [1 => ['ans1' => 'thing2_yuck', 'ans1_val' => '"thing2_yuck"', 'step_lang' => 'en', '-submit' => 1]],
+                        [1 => ['ans1' => 'thing1_true', 'ans1_val' => '"thing1_true"', 'step_lang' => 'en', '-submit' => 1]]],
+                ];
+                $behaviour = 'interactive';
+                break;
+            case 'interactive2':
+                // Three wrong answers.
+                $q = $generator->create_question('stack', 'response_test',
+                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $this->quizquestion = $q;
+                $steps = [
+                    [0, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en', '-submit' => 1]], 1,
+                        [1 => ['ans1' => 'thing2_yuck', 'ans1_val' => '"thing2_yuck"', 'step_lang' => 'en', '-submit' => 1]],
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en', '-submit' => 1]]],
+                ];
+                $behaviour = 'interactive';
+                break;
+            case 'interactive3':
+                // Three wrong answers. No final submit.
+                $q = $generator->create_question('stack', 'response_test',
+                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $this->quizquestion = $q;
+                $steps = [
+                    [0, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en', '-submit' => 1]], 0,
+                        [1 => ['ans1' => 'thing2_yuck', 'ans1_val' => '"thing2_yuck"', 'step_lang' => 'en', '-submit' => 1]],
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en', '-submit' => 1]]],
+                ];
+                $behaviour = 'interactive';
+                break;
+            case 'interactive4':
+                // One wrong answer and then correct. No final submit.
+                $q = $generator->create_question('stack', 'response_test',
+                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $this->quizquestion = $q;
+                $steps = [
+                    [0, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en', '-submit' => 1]], 0,
+                        [1 => ['ans1' => 'thing1_true', 'ans1_val' => '"thing1_true"', 'step_lang' => 'en', '-submit' => 1]]],
+                ];
+                $behaviour = 'interactive';
+                break;
         }
         $qtype = new \qtype_stack();
         $qtype->deploy_variant($q->id, 123456789);
@@ -522,7 +590,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
         $quiz1 = $quizgenerator->create_instance(['course' => $course->id,
             'name' => 'QUIZNAME1', 'questionsperpage' => 0,
-            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => $behaviour]);
 
         \quiz_add_quiz_question($q->id, $quiz1, 0);
 
@@ -561,6 +629,14 @@ final class responseanalysis_test extends qtype_stack_testcase {
             // Process some responses from the student.
             $attemptobj = \mod_quiz\quiz_attempt::create($attemptid);
             $attemptobj->process_submitted_actions($timenow, false, $step[4]);
+            if (isset($step[6])) {
+                $attemptobj->process_submitted_actions($timenow, false, [1 => ['-tryagain' => 1]]);
+                $attemptobj->process_submitted_actions($timenow, false, $step[6]);
+            }
+            if (isset($step[7])) {
+                $attemptobj->process_submitted_actions($timenow, false, [1 => ['-tryagain' => 1]]);
+                $attemptobj->process_submitted_actions($timenow, false, $step[7]);
+            }
 
             // Finish the attempt.
             if ($step[5] == 1) {
@@ -580,6 +656,125 @@ final class responseanalysis_test extends qtype_stack_testcase {
             ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
         $this->report->create_summary();
         $this->assertEquals($this->summary, $this->report->summary);
+        $this->assertEquals(7, count($this->report->jsonsummary));
+    }
+
+    public function test_create_summary_interactive(): void {
+        $summary = [
+            3 => [RESPONSE3FF => 1, RESPONSE3FF2 => 1, RESPONSE3T => 1],
+        ];
+        $this->create_steps('interactive1');
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
+        $this->report->create_summary();
+        $this->assertEquals($summary, $this->report->summary);
+        $this->assertEquals(3, count($this->report->jsonsummary));
+        $json0 = json_decode($this->report->jsonsummary[0]);
+        $this->assertEquals('"thing1_yuck"', $json0->inputs->ans1->value);
+        $this->assertEquals(0, $json0->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json0->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json0->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json0->seed);
+        $json1 = json_decode($this->report->jsonsummary[1]);
+        $this->assertEquals('"thing2_yuck"', $json1->inputs->ans1->value);
+        $this->assertEquals(0, $json1->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json1->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json1->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json1->seed);
+        $json2 = json_decode($this->report->jsonsummary[2]);
+        $this->assertEquals('"thing1_true"', $json2->inputs->ans1->value);
+        $this->assertEquals(1, $json2->prts->PotResTree_1->score);
+        $this->assertEquals(0, $json2->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-T'], $json2->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json2->seed);
+    }
+
+    public function test_create_summary_interactive2(): void {
+        $summary = [
+            3 => [RESPONSE3FF => 2, RESPONSE3FF2 => 1],
+        ];
+        $this->create_steps('interactive2');
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
+        $this->report->create_summary();
+        $this->assertEquals($summary, $this->report->summary);
+        $this->assertEquals(3, count($this->report->jsonsummary));
+        $json0 = json_decode($this->report->jsonsummary[0]);
+        $this->assertEquals('"thing1_yuck"', $json0->inputs->ans1->value);
+        $this->assertEquals(0, $json0->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json0->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json0->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json0->seed);
+        $json1 = json_decode($this->report->jsonsummary[1]);
+        $this->assertEquals('"thing2_yuck"', $json1->inputs->ans1->value);
+        $this->assertEquals(0, $json1->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json1->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json1->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json1->seed);
+        $json2 = json_decode($this->report->jsonsummary[2]);
+        $this->assertEquals('"thing1_yuck"', $json2->inputs->ans1->value);
+        $this->assertEquals(0, $json2->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json2->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json2->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json2->seed);
+    }
+
+    public function test_create_summary_interactive3(): void {
+        $summary = [
+            3 => [RESPONSE3FF => 2, RESPONSE3FF2 => 1],
+        ];
+        $this->create_steps('interactive3');
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
+        $this->report->create_summary();
+        $this->assertEquals($summary, $this->report->summary);
+        $this->assertEquals(3, count($this->report->jsonsummary));
+        $json0 = json_decode($this->report->jsonsummary[0]);
+        $this->assertEquals('"thing1_yuck"', $json0->inputs->ans1->value);
+        $this->assertEquals(0, $json0->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json0->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json0->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json0->seed);
+        $json1 = json_decode($this->report->jsonsummary[1]);
+        $this->assertEquals('"thing2_yuck"', $json1->inputs->ans1->value);
+        $this->assertEquals(0, $json1->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json1->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json1->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json1->seed);
+        $json2 = json_decode($this->report->jsonsummary[2]);
+        $this->assertEquals('"thing1_yuck"', $json2->inputs->ans1->value);
+        $this->assertEquals(0, $json2->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json2->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json2->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json2->seed);
+    }
+
+    public function test_create_summary_interactive4(): void {
+        $summary = [
+            3 => [RESPONSE3FF => 1, RESPONSE3T => 1],
+        ];
+        $this->create_steps('interactive4');
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
+        $this->report->create_summary();
+        $this->assertEquals($summary, $this->report->summary);
+        $this->assertEquals(2, count($this->report->jsonsummary));
+        $json0 = json_decode($this->report->jsonsummary[0]);
+        $this->assertEquals('"thing1_yuck"', $json0->inputs->ans1->value);
+        $this->assertEquals(0, $json0->prts->PotResTree_1->score);
+        $this->assertEquals(0.4, $json0->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-F', 'prt1-2-F'], $json0->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json0->seed);
+        $json1 = json_decode($this->report->jsonsummary[1]);
+        $this->assertEquals('"thing1_true"', $json1->inputs->ans1->value);
+        $this->assertEquals(1, $json1->prts->PotResTree_1->score);
+        $this->assertEquals(0, $json1->prts->PotResTree_1->penalty);
+        $this->assertEquals(['prt1-1-T'], $json1->prts->PotResTree_1->note);
+        $this->assertEquals(333333333, $json1->seed);
     }
 
     public function test_collate(): void {
@@ -690,6 +885,49 @@ final class responseanalysis_test extends qtype_stack_testcase {
             ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
         $this->report->create_summary();
         $this->assertEquals($this->summarymult, $this->report->summary);
+        $this->assertEquals(2, count($this->report->jsonsummary));
+        $json0 = json_decode($this->report->jsonsummary[0]);
+        $this->assertEquals(4, count((array)$json0->inputs));
+        $this->assertEquals('x^3', $json0->inputs->ans1->value);
+        $this->assertEquals('x^4', $json0->inputs->ans2->value);
+        $this->assertEquals('0', $json0->inputs->ans3->value);
+        $this->assertEquals('true', $json0->inputs->ans4->value);
+        $this->assertEquals(1, $json0->prts->odd->score);
+        $this->assertEquals(0, $json0->prts->odd->penalty);
+        $this->assertEquals(['odd-1-T'], $json0->prts->odd->note);
+        $this->assertEquals(1, $json0->prts->even->score);
+        $this->assertEquals(0, $json0->prts->even->penalty);
+        $this->assertEquals(['even-1-T'], $json0->prts->even->note);
+        $this->assertEquals(1, $json0->prts->oddeven->score);
+        $this->assertEquals(0, $json0->prts->oddeven->penalty);
+        $this->assertEquals(['oddeven-1-T', 'oddeven-2-T'], $json0->prts->oddeven->note);
+        $this->assertEquals(1, $json0->prts->unique->score);
+        $this->assertEquals(0, $json0->prts->unique->penalty);
+        $this->assertEquals(['ATLogic_True.', 'unique-1-T'], $json0->prts->unique->note);
+        $this->assertEquals(333333333, $json0->seed);
+        $json1 = json_decode($this->report->jsonsummary[1]);
+        $this->assertEquals(4, count((array)$json1->inputs));
+        $this->assertEquals('x^5', $json1->inputs->ans1->value);
+        $this->assertEquals('vvv', $json1->inputs->ans2->value);
+        $this->assertEquals('iii', $json1->inputs->ans3->value);
+        $this->assertEquals('zz', $json1->inputs->ans4->value);
+        $this->assertEquals('score', $json1->inputs->ans1->status);
+        $this->assertEquals('invalid', $json1->inputs->ans2->status);
+        $this->assertEquals('invalid', $json1->inputs->ans3->status);
+        $this->assertEquals('invalid', $json1->inputs->ans4->status);
+        $this->assertEquals(1, $json1->prts->odd->score);
+        $this->assertEquals(0, $json1->prts->odd->penalty);
+        $this->assertEquals(['odd-1-T'], $json1->prts->odd->note);
+        $this->assertEquals(null, $json1->prts->even->score);
+        $this->assertEquals(null, $json1->prts->even->penalty);
+        $this->assertEquals([], $json1->prts->even->note);
+        $this->assertEquals(null, $json1->prts->oddeven->score);
+        $this->assertEquals(null, $json1->prts->oddeven->penalty);
+        $this->assertEquals([], $json1->prts->oddeven->note);
+        $this->assertEquals(null, $json1->prts->unique->score);
+        $this->assertEquals(null, $json1->prts->unique->penalty);
+        $this->assertEquals([], $json1->prts->unique->note);
+        $this->assertEquals(123456789, $json1->seed);
     }
 
     public function test_collate_multiple(): void {

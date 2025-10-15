@@ -8558,14 +8558,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->PotResTree_1truenextnode = [0 => '-1', 1 => '-1'];
         $formform->PotResTree_1trueanswernote = [0 => 'prt1-1-T', 1 => 'prt1-2-T'];
         $formform->PotResTree_1truefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0],
-                                                    1 => ['text' => '', 'format' => '1', 'itemid' => 0],];
+                                                    1 => ['text' => '', 'format' => '1', 'itemid' => 0]];
         $formform->PotResTree_1falsescoremode = [0 => '=', 1 => '='];
         $formform->PotResTree_1falsescore = [0 => '0', 1 => '0'];
         $formform->PotResTree_1falsepenalty = [0 => '', 1 => ''];
         $formform->PotResTree_1falsenextnode = [0 => '1', 1 => '-1'];
         $formform->PotResTree_1falseanswernote = [0 => 'prt1-1-F', 1 => 'prt1-2-F'];
         $formform->PotResTree_1falsefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0],
-                                                     1 => ['text' => '', 'format' => '1', 'itemid' => 0],];
+                                                     1 => ['text' => '', 'format' => '1', 'itemid' => 0]];
 
         $formform->questionsimplify = '1';
         $formform->assumepositive = '0';
@@ -8591,6 +8591,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         return $formform;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_stack_question_form_data_response_test_2() {
         $formform = $this->get_stack_question_form_data_test3();
         $formform->questionvariables = $formform->questionvariables . ' n : rand(5)+3;';

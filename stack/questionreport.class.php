@@ -213,24 +213,26 @@ class stack_question_report {
             $currentquba = question_engine::load_questions_usage_by_activity($currentqubaid);
             $currentqa = $currentquba->get_question_attempt($qattempt->slot);
             $submittedresponseiterator = $currentqa->get_steps_with_submitted_response_iterator();
-            $numberOfResponses = $submittedresponseiterator->count();
-            foreach ($submittedresponseiterator as $key=>$step) {
+            $numberofresponses = $submittedresponseiterator->count();
+            foreach ($submittedresponseiterator as $key => $step) {
+                $rsummary = $qattempt->responsesummary;
                 $response = $step->get_qt_data();
 
                 $metadata = ['userid' => $qattempt->userid, 'qattemptid' => $qattempt->id,
-                            'slot' => $qattempt->slot, 'state' => strval($step->get_state()), 'timecreated' => $step->get_timecreated()];
+                            'slot' => $qattempt->slot, 'state' => strval($step->get_state()),
+                            'timecreated' => $step->get_timecreated()];
                 if (!empty($response)) {
                     $jsonsummary[] = $currentqa->get_question()->summarise_response_json($response, $metadata);
                     // Question attempt only stores the summary of the last step/response in DB. We need to calculate others.
-                    if ($numberOfResponses !== $key) {
-                        $qattempt->responsesummary = $currentqa->get_question()->summarise_response($response);
+                    if ($numberofresponses !== $key) {
+                        $rsummary = $currentqa->get_question()->summarise_response($response);
                     }
                 }
 
                 if (!array_key_exists($qattempt->variant, $summary)) {
                     $summary[$qattempt->variant] = [];
                 }
-                $rsummary = trim($qattempt->responsesummary ?? '');
+                $rsummary = trim($rsummary ?? '');
                 if ($rsummary !== '') {
                     if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
                         $summary[$qattempt->variant][$rsummary] += 1;

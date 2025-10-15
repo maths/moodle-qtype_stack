@@ -512,8 +512,9 @@ class stack_potentialresponse_tree_lite {
         }
 
         // Finally round the score and return the relevant details.
-        $body .= '%PRT_SCORE:ev(float(round(max(min(%PRT_SCORE,1.0),0.0)*1000)/1000),simp),';
-        $body .= '%PRT_PENALTY:ev(float(round(max(min(%PRT_PENALTY,1.0),0.0)*1000)/1000),simp),';
+        // Protect max and min functions to avoid #1596.
+        $body .= '%PRT_SCORE:ev(\'float(\'round(\'max(\'min(%PRT_SCORE,1.0),0.0)*1000)/1000),nouns,simp),';
+        $body .= '%PRT_PENALTY:ev(\'float(\'round(\'max(\'min(%PRT_PENALTY,1.0),0.0)*1000)/1000),nouns,simp),';
         $body .= '[%PRT_PATH,%PRT_SCORE,%PRT_PENALTY,%PRT_FEEDBACK,%PRT_EXIT_NOTE]';
         $body .= ')'; // The first char.
 

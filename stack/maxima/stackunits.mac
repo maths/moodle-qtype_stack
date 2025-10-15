@@ -222,11 +222,11 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
   if is_simp(emptyp(exu)) then
     exu:[NULLUNITS],
   /* Transform (a^2)^-1 to a^(-2), for the units. */
-  exu:maplist(unary_minus_remove, exu),
-  exu:maplist(flatten_pow_minus_one, exu),
+  exu:maplist('unary_minus_remove, exu),
+  exu:maplist('flatten_pow_minus_one, exu),
   if (debug) then (print("stackunits_make: (1) reformulated units as "), print(exu)),
   if (debug) then (print("stackunits_make: (2) reformulated numbers as "), print(exn)),
-  exn:maplist(unary_minus_remove, exn),
+  exn:maplist('unary_minus_remove, exn),
   exn:stack_units_rational_number(exn),
   if (debug) then (print("stackunits_make: (2) reformulated numbers as "), print(exn)),
   if is(first(exn) = UNARY_MINUS) then block(

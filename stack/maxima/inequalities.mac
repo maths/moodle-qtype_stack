@@ -36,7 +36,7 @@ ineqprepare(ex) := block([op2, ex2],
     if op(ex)="<"  then return(make_monic(ev(part(ex,2) - part(ex,1), simp, trigreduce)) > 0),
     if op(ex)="<=" then return(make_monic(ev(part(ex,2) - part(ex,1), simp, trigreduce)) >= 0),
     ex2:args(ex),
-    ex2:map(ineqprepare, ex2),
+    ex2:map('ineqprepare, ex2),
     return(apply(op(ex), ex2))
 )$
 
@@ -115,7 +115,7 @@ make_less_ineq(ex):=block(
   if atom(ex) then return(ex),
   if op(ex)=">" then return(rhs(ex)<lhs(ex)),
   if op(ex)=">=" then return(rhs(ex)<=lhs(ex)),
-  return(apply(op(ex), map(make_less_ineq, args(ex))))
+  return(apply(op(ex), map('make_less_ineq, args(ex))))
 )$
 
 /* Used to checks if we have the wrong inequality. */
@@ -153,9 +153,9 @@ ineq_rem_redundant(ex) := block([exl,exn,exg,exo,exv, simp],
     if not(safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="%and" or safe_op(ex)="%or" or safe_op(ex)="and") then
         return(ex),
     /* Recurse over the expression. */
-    ex:apply(op(ex), maplist(ineq_rem_redundant, args(ex))),
+    ex:apply(op(ex), maplist('ineq_rem_redundant, args(ex))),
 
-    if (safe_op(ex)="nounand" or safe_op(ex)="%and" or safe_op(ex)="and") then exo:[max, min] else exo:[min, max],
+    if (safe_op(ex)="nounand" or safe_op(ex)="%and" or safe_op(ex)="and") then exo:["max", "min"] else exo:["min", "max"],
     exn:sublist(args(ex), lambda([ex2], not(linear_inequalityp(ex2)))),
     exl:sublist(args(ex), linear_inequalityp),
     /* Separate out expressions in a single variable. */
@@ -173,7 +173,7 @@ ineq_rem_redundant(ex) := block([exl,exn,exg,exo,exv, simp],
    Returns the equivalent inequalities.
 */
 single_linear_ineq_reduce(ex, exo):=block([exg,exl],
-    ex:maplist(ineqprepare,ex),
+    ex:maplist('ineqprepare, ex),
     /* Separate out into x>?, x>=? and x<?, x<=?. */
     exg:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = 1))),
     exl:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = -1))),
@@ -188,13 +188,16 @@ single_linear_ineq_reduce(ex, exo):=block([exg,exl],
 */
 single_linear_ineq_reduce_h(exl, exo, odr):=block([m1,m2,m3,exg],
     if exl=[] then return([]),
-    if not(is(exo = max) or is(exo = min)) then error("single_linear_ineq_reduce_h expects second argument to be max or min."),
+    if not(is(exo = "max") or is(exo = "min")) then error("single_linear_ineq_reduce_h expects second argument to be max or min."),
     exg:maplist(lambda([ex2],[rhs(first(solve(lhs(ex2)))), op(ex2)]), exl),
-    m1:apply(exo, maplist(first,exg)),
+    if is(exo = "max") then
+        m1:apply('max, maplist('first, exg))
+    else
+        m1:apply('min, maplist('first, exg)),
     m2:sublist(exg,lambda([ex2],is(m1=first(ex2)))),
     /* Get list of operators.  Used to sort out >, >= etc. */
-    m3:sort(listify(setify(maplist(second, m2)))),
-    if (not(odr) and is(exo=max)) or (odr and is(exo = min)) then m3:reverse(m3),
+    m3:sort(listify(setify(maplist('second, m2)))),
+    if (not(odr) and is(exo="max")) or (odr and is(exo = "min")) then m3:reverse(m3),
     [apply(first(m3), if odr then [first(listofvars(exl)), m1] else [m1, first(listofvars(exl))])]
 )$
 
@@ -262,15 +265,15 @@ inequality_factor_solve(ex):=block([ex2, p],
     if is(safe_op(ex2)="/") then ex2:num(ex2),
 
     if safe_op(fl)="*" then fl:args(ex2) else fl:[ex2],
-    fl:flatten(maplist(factor_ineq, fl)),
+    fl:flatten(maplist('factor_ineq, fl)),
 
     /* This function returns "true" or "false" rather than all/none to better interact with %or and %and. */
     if is(fl=[]) then return(not(m)),
     /* Turn each inequality back into a list. */
-    ex2:maplist(lambda([ex],apply(exop,[ex,0])),fl),
+    ex2:maplist(lambda([ex], apply(exop, [ex,0])), fl),
     if m then ex2[1]:neg_ineq(ex2[1]),
     /* Create a list of all even permutations, from which we negate those in the list */
-    p:sublist(maplist(listify, listify(powerset(setify(makelist(n, n, length(ex2)))))), lambda([ex], evenp(length(ex)))),
+    p:sublist(maplist('listify, listify(powerset(setify(makelist(n, n, length(ex2)))))), lambda([ex], evenp(length(ex)))),
     ex3:maplist(lambda([l], neg_ineq_list(copylist(ex2), l)), p),
     /* Tidy up the list */
     ex3:maplist(lambda([ex], ineq_rem_redundant(apply("%and", ex))), ex3),
@@ -295,7 +298,7 @@ factor_ineq(ex) := block([ex2, m],
         return([first(args(ex)),first(args(ex))]),
   if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
   /* At this point we need to solve irreducible quadratics, and other equations. */
-  ex:maplist(factor_ineq_helper, ex),
+  ex:maplist('factor_ineq_helper, ex),
   /* Remove any numbers. */
   ex:sublist(ex, lambda([ex2], ev(not(is(listofvars(ex2)=[])), simp))),
   /* Return a list. */
@@ -312,7 +315,7 @@ factor_ineq(ex) := block([ex2, m],
       else
          (p:true, ex:first(args(ex))),
     ex2:solve(ex, first(v)),
-    ex2:maplist(rhs, ex2),
+    ex2:maplist('rhs, ex2),
     ex2:sublist(ex2, real_numberp),
     ex2:maplist(lambda([ex3], first(v)-ex3), ex2),
     simp:false,

@@ -76,8 +76,8 @@ vec_convert(ex):= block([ex2],
  * @return[expression] That vector as a c() or r() vector
  */
 un_vec_convert(ex):= block([],
-  if col_vecp(ex) then ex: apply(c,list_matrix_entries(ex)) else
-  if row_vecp(ex) then ex: apply(r,list_matrix_entries(ex)),
+  if col_vecp(ex) then ex: apply('c, list_matrix_entries(ex)) else
+  if row_vecp(ex) then ex: apply('r, list_matrix_entries(ex)),
   return(ex)
 );
 
@@ -160,7 +160,7 @@ diagp(M):= block([dia,imax,jmax,ii,jj],
 squarep(M):= block([isSquare],
   isSquare: false,
   if matrixp(M) then block(
-    if is(apply("=",matrix_size(M))) then isSquare: true
+    if is(apply("=", matrix_size(M))) then isSquare: true
   ),
   return(isSquare)
 );
@@ -188,15 +188,15 @@ squarep(M):= block([isSquare],
  * @param[] ex A list, set, ntuple or span containing vectors as matrices, lists, c, r, sets or ntuples, or a matrix
  * @return[list] A list of lists
  */
-make_list_of_lists(ex):= block([op1],
-  op1: safe_op(ex),
+make_list_of_lists(ex):= block([_op1],
+  _op1:safe_op(ex),
   if not(member(op1,["[","ntuple","{","span","matrix"])) then return(ex),
-  ex: vec_convert(ex),
+  ex:vec_convert(ex),
   if vectorp(ex) then return([list_matrix_entries(ex)]),
   if is(op1="matrix") then return(args(transpose(ex))),
-  ex: args(ex),
-  if ev(not(some(lambda([ex2],nonscalarp(ex2)),ex)),simp) then return([ex]),
-  ex: map(lambda([ex2],if vectorp(ex2) then list_matrix_entries(ex2) else args(ex2)),ex),
+  ex:args(ex),
+  if ev(not(some(lambda([ex2], nonscalarp(ex2)), ex)), simp) then return([ex]),
+  ex:map(lambda([ex2], if vectorp(ex2) then list_matrix_entries(ex2) else args(ex2)),ex),
   return(ex)
 );
 
@@ -216,7 +216,7 @@ convert_to_colvec(ex):= block([op1],
   if col_vecp(ex) then return(ex),
   if vectorp(ex) then return(matrix([null])),
   op1: safe_op(ex),
-  if member(op1,["[","ntuple"]) and not some(nonscalarp, args(ex)) then return(transpose(apply(matrix,[args(ex)]))),
+  if member(op1,["[","ntuple"]) and not some(nonscalarp, args(ex)) then return(transpose(apply('matrix, [args(ex)]))),
   return(matrix([null]))
 );
 
@@ -240,7 +240,7 @@ cols_to_matrix(L):=block([op1, colmat],
   if matrixp(L) then return(L),
   L: cols_to_cols(L),
   if emptyp(L) then return(matrix([null])),
-  return(ev(apply(addcol, L), simp))
+  return(ev(apply('addcol, L), simp))
 );
 
  /**
@@ -269,7 +269,7 @@ cols_to_cols(L):=block([op1],
     if not(member(op1,["[","ntuple","{","span"])) then return([]),
     L: map(lambda([elem], convert_to_colvec(elem)), args(L)),
     if some(lambda([elem], is(elem = matrix([null]))), L) then return([]),
-    if is(cardinality(setify(map(length,L))) # 1) then return([]),
+    if is(cardinality(setify(map('length, L))) # 1) then return([]),
     return(L)
 );
 
@@ -292,7 +292,7 @@ mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
   vars: rest(stack_var_makelist(tmp,n)),
   if lstsq then AT: transpose(A) else AT: ident(m),
   eqns: list_matrix_entries(ev((AT . A) . transpose(vars) - (AT . b),simp)),
-  sol: map(rhs,linsolve(eqns,vars)),
+  sol: map('rhs, linsolve(eqns,vars)),
   if emptyp(sol) then return(matrix(sol)) else return(transpose(matrix(sol)))
 );
 
@@ -333,8 +333,8 @@ pinv(M):= block([simp:true], moore_penrose_pseudoinverse(M));
 texboldatoms(ex) := block(
   if numberp(ex) then return(ex),
   if atom(ex) then return(stackvector(ex)),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
-  apply(op(ex), maplist(texboldatoms, args(ex)))
+  if arrayp(ex) then return(arraymake(op(ex), maplist('texboldatoms, args(ex)))),
+  apply(op(ex), maplist('texboldatoms, args(ex)))
 )$
 
 stackvectortex(ex):= block(
@@ -348,7 +348,7 @@ destackvector(ex):= block([argsex],
   argsex:args(ex),
   if op(ex) = stackvector then return(destackvector(argsex[1])),
   if op(ex) = "/" then return(destackvector(argsex[1])/destackvector(argsex[2])),
-  map(destackvector, ex)
+  map('destackvector, ex)
 )$
 
 /*

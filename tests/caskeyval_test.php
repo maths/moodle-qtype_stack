@@ -433,20 +433,4 @@ final class caskeyval_test extends qtype_stack_testcase {
         $kv->compile('test');
         $this->assertEquals($tests, $kv->get_raw());
     }
-
-    public function test_stack_redefine_builtin(): void {
-
-        // This is related to issue #1596.
-        $tests = "min:5;\nn1:4;\nn2:5;";
-        $kv = new stack_cas_keyval($tests, null, 0, '', true);
-        $this->assertfalse($kv->get_valid());
-        $expected = ["Redefining a built in function \"min\" is forbidden."];
-        $this->assertEquals($expected, $kv->get_errors());
-
-        $tests = "p1:x^2+2*x+1;\nmax(ex):=(abs(ex)+ex)/2;";
-        $kv = new stack_cas_keyval($tests, null, 0, '', true);
-        $this->assertfalse($kv->get_valid());
-        $expected = ["Redefining a built in function \"max\" is forbidden."];
-        $this->assertEquals($expected, $kv->get_errors());
-    }
 }

@@ -290,7 +290,7 @@ class stack_question_report {
                                         qv.questionbankentryid = qv_original.questionbankentryid
                             WHERE qv_original.questionid = :questionid
                         )
-                ORDER BY u.id, qa.id";
+                ORDER BY qas.userid, qa.id";
 
         $result = $DB->get_records_sql($query, $params);
         return $result;

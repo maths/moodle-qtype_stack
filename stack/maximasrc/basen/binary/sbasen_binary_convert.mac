@@ -1,0 +1,28 @@
+/**
+ * A function to convert to binary `stackbasen`. Will work with positive
+ * raw integers or with any `stackbasen` objects.
+ *
+ * Does not verify validity of those `stackbasen` objects, so might generate
+ * interesting results.
+ *
+ * Do note that for general conversion between bases you can simply use
+ * the constructor `sbasen_construct_from_base10` and converter
+ * `sbasen_convert_to_base10`. This is just a convenience wrapper for them.
+ *
+ * @param[integer or stackbasen] num, a number to convert.
+ * @param[string] fmt, a single character string selecting between "C" and "S"
+ *                presentations
+ * @return[stackbasen] an object representing that binary number.
+ */
+sbasen_convert_to_binary(num, fmt) := block([_out],
+	_out: if integerp(num) then sbasen_construct_from_base10(num, fmt, 2)
+	else (
+		num: sbasen_convert_to_base10(num),
+		sbasen_construct_from_base10(num, fmt, 2)
+	),
+	return(_out)
+)$
+
+s_test_case(simp) := is(sbasen_convert_to_binary(12,"S")=stackbasen("1100_2","S",2))$
+s_test_case(simp) := is(sbasen_convert_to_binary(stackbasen("1100_2","S",2),"C")=stackbasen("0b1100","C",2))$
+s_test_case(simp) := is(sbasen_convert_to_binary(stackbasen("12_16","S",16),"C")=stackbasen("0b10010","C",2))$

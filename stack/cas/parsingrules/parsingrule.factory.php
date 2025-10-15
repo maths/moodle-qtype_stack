@@ -43,6 +43,7 @@ require_once(__DIR__ . '/103_no_lists.filter.php');
 require_once(__DIR__ . '/104_no_sets.filter.php');
 require_once(__DIR__ . '/105_no_grouppings.filter.php');
 require_once(__DIR__ . '/106_no_control_flow.filter.php');
+require_once(__DIR__ . '/115_lexer_post_process_stackbasen.filter.php');
 require_once(__DIR__ . '/120_no_arc.filter.php');
 require_once(__DIR__ . '/150_replace_unicode_letters.filter.php');
 require_once(__DIR__ . '/180_char_based_superscripts.filter.php');
@@ -133,6 +134,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_105_no_grouppings();
             case '106_no_control_flow':
                 return new stack_ast_filter_106_no_control_flow();
+            case '115_lexer_post_process_stackbasen':
+                return new stack_ast_filter_115_lexer_post_process_stackbasen();
             case '120_no_arc':
                 return new stack_ast_filter_120_no_arc();
             case '150_replace_unicode_letters':
@@ -213,6 +216,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_998_security();
             case '999_strict':
                 return new stack_ast_filter_999_strict();
+            default:
+                throw new stack_exception('stack_ast_filter: unknown filter ' . $name);
         }
     }
 
@@ -232,6 +237,7 @@ class stack_parsing_rule_factory {
                 '101_no_floats', '102_no_strings',
                 '103_no_lists', '104_no_sets',
                 '105_no_grouppings', '106_no_control_flow',
+                '115_lexer_post_process_stackbasen',
                 '120_no_arc',
                 '150_replace_unicode_letters',
                 '180_char_based_superscripts',

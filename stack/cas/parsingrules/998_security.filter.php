@@ -329,6 +329,10 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     $answernotes[] = 'forbiddenOp';
                 }
                 $valid = false;
+            } else if ($op === '@') {
+                // While the parser supports this op we do not, yet.
+                $errors[] = stack_string('illegalcaschars');
+                $valid = false;
             }
         }
 

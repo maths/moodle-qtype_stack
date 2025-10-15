@@ -18,6 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
+require_once(__DIR__ . '/../maximaparser/parser.options.class.php');
 require_once(__DIR__ . '/cassession2.class.php');
 require_once(__DIR__ . '/castext2/utils.php');
 require_once(__DIR__ . '/../utils.class.php');
@@ -98,6 +99,8 @@ class stack_cas_keyval {
             return true;
         }
 
+        $str = $this->raw;
+        /* TODO: if we accept $ and @ in the new parser ignore these.
         // Protect things inside strings before we do QMCHAR tricks, and check for @, $.
         $str = maxima_parser_utils::remove_comments($this->raw);
 
@@ -124,6 +127,7 @@ class stack_cas_keyval {
         foreach ($strings as $key => $string) {
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
         }
+        */
 
         // 6/10/18 No longer split by line change, split by statement.
         // Allow writing of loops and other long statements onto multiple lines.
@@ -134,16 +138,17 @@ class stack_cas_keyval {
                 $this->errors[] = new $this->errclass($ast->getMessage(), $this->context);
                 $this->valid = false;
                 return false;
+            } else {
+                // stack_maxima_parser_exception
+                $syntaxerror = $ast;
+                $ei = stack_parser_options::get_cas_config()->get_author_error_interpreter();
+                $errs = [];
+                $notes = [];
+                $error = $ei->interprete($syntaxerror, $errs, $notes);
+                $this->errors[] = new $this->errclass($error, $this->context);
+                $this->valid = false;
+                return false;
             }
-            $syntaxerror = $ast;
-            $error = $syntaxerror->getMessage();
-            if (isset($syntaxerror->grammarLine) && isset($syntaxerror->grammarColumn)) {
-                $error .= ' (' . stack_string('stackCas_errorpos',
-                        ['line' => $syntaxerror->grammarLine, 'col' => $syntaxerror->grammarColumn]) . ')';
-            }
-            $this->errors[] = new $this->errclass($error, $this->context);
-            $this->valid = false;
-            return false;
         }
 
         $vallist = [];

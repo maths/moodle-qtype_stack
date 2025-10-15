@@ -1,0 +1,55 @@
+/**
+ * The option `sbasen_construct_default_case` controls the case of the digits
+ * `A-Z` (or 10-35) when creating new `stackbasen` objects in logic.
+ *
+ * Note that this is separate from the option `sbasen_output_force_case`,
+ * which controls the presentation of existing, possibly student sourced
+ * values.
+ *
+ * By default this is `"upper"` and the generation will use uppercase letters
+ * when need be.
+ * The value `"lower"` will naturally use lowercase instead.
+ */
+sbasen_construct_default_case: "upper"$
+
+
+/**
+ * Given a positive base-10 integer and a format and a base settings will
+ * convert bases and produce a `stackbasen` object with those settings.
+ *
+ * Note that for `"C"` format only bases 2,8, and 16 are available. For `"S"`
+ * bases 2-36 are possible.
+ *
+ * For digits 10-35 will use ASCII letters and the case will be defined by
+ * the option `sbasen_construct_default_case`, by default uppercase letters
+ * will be used.
+ */
+sbasen_construct_from_base10(b10, fmt, base) := block([simp,digits,m,rem],
+	simp : true,
+	if not integerp(base) or is(base < 2) or is(base > 36) then error("Base-N support only available for integer bases 2-36."),
+	if not is(fmt = "C") and not is(fmt = "S") then error("Only formats C and S supported."),
+	if is(b10 < 0) or not integerp(b10) then error("This function only support positive integer numbers."),
+	rem : b10,
+	digits : [],
+	if rem = 0 then digits : [0],
+	while is(rem > 0) do (
+		m : mod(rem, base),
+		rem : (rem - m) / base,
+		digits : append([m], digits)
+	),
+	if is(sbasen_construct_default_case = "lower") then 
+		digits : map(lambda([n], charat("0123456789abcdefghijklmnopqrstuvwxyz", n+1)), digits)
+	else
+		digits : map(lambda([n], charat("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", n+1)), digits),
+
+	if is(fmt = "S") then digits : sconcat(simplode(digits), "_", base)
+	elseif is(fmt = "C") and base = 2 then digits : sconcat("0b", simplode(digits))
+	elseif is(fmt = "C") and base = 8 then digits : sconcat("0", simplode(digits))
+	elseif is(fmt = "C") and base = 16 then digits : sconcat("0x", simplode(digits)),
+
+	return(stackbasen(digits, fmt, base))
+)$
+
+
+s_test_case(simp) := ev(is(sbasen_construct_from_base10(10,"C",16)=stackbasen("0xA","C",16)),sbasen_construct_default_case="upper")$
+s_test_case(simp) := ev(is(sbasen_construct_from_base10(10,"S",16)=stackbasen("a_16","S",16)),sbasen_construct_default_case="lower")$

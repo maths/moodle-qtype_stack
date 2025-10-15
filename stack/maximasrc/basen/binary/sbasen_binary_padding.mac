@@ -1,0 +1,95 @@
+/**
+ * Pads a `stackbasen` number with 0-digits from the left so that the number
+ * has the desired width (bit width or otherwise). Intended for binary
+ * operations but can be used in general for example to pad hexadecimal to
+ * a given word size.
+ *
+ * Note should the number already be wider than the width will not modify it.
+ * Use `sbasen_truncate_left` to throw the extra high digits away if that is 
+ * neeeded.
+ *
+ * @param[stackbasen] num, a stackbasen-object to pad.
+ * @param[int] w, the digit width to aim for
+ * @return[stackbasen] the padded stackbasen-object.
+ */
+sbasen_pad(num, w) := block([simp,_d,_t,_b,_pre,_suf],
+    simp: true,
+	[_d,_t,_b]: args(num),
+	
+	_suf:"",
+	_pre:"",
+	if is(_t = "S") then (_suf: sconcat("_", _b), _d: split(_d, "_")[1])
+	elseif is(_t = "C") and is(_b = 8) then (_pre: "0", _d: substring(_d, 2))
+	elseif is(_t = "C") and is(_b = 16) then (_pre: "0x", _d: substring(_d, 3))
+	elseif is(_t = "C") then (_pre: "0b", _d: substring(_d, 3)),
+
+	/* If already wide enough. */
+	if is(slength(_d) >= w) then return(num),
+    _d: sconcat(simplode(makelist("0", x, 1, w - slength(_d))), _d),
+
+	return(stackbasen(sconcat(_pre, _d, _suf), _t, _b))
+)$
+
+s_test_case(simp) := is(sbasen_pad(stackbasen("0xA1","C",16),4)=stackbasen("0x00A1","C",16))$
+s_test_case(simp) := is(sbasen_pad(stackbasen("1_2","S",2),8)=stackbasen("00000001_2","S",2))$
+
+/**
+ * Drops extra highest digits from the number if the number is overly long.
+ * Might be of use when doing binary operations.
+ *
+ * There is a lowest digits version `sbasen_truncate_right` should one need it.
+ *
+ * @param[stackbasen] num, a stackbasen-object to truncate.
+ * @param[int] w, the digit width to aim for
+ * @return[stackbasen] the padded stackbasen-object.
+ */
+sbasen_truncate_left(num, w) := block([simp,_d,_t,_b,_pre,_suf],
+    simp: true,
+	[_d,_t,_b]: args(num),
+	
+	_suf:"",
+	_pre:"",
+	if is(_t = "S") then (_suf: sconcat("_", _b), _d: split(_d, "_")[1])
+	elseif is(_t = "C") and is(_b = 8) then (_pre: "0", substring(_d, 2))
+	elseif is(_t = "C") and is(_b = 16) then (_pre: "0x", substring(_d, 3))
+	elseif is(_t = "C") then (_pre: "0b", substring(_d, 3)),
+
+	/* If already short enough. */
+	if is(slength(_d) <= w) then return(num),
+    _d: substring(_d, slength(_d) - w + 1),
+
+	return(stackbasen(sconcat(_pre, _d, _suf), _t, _b))
+)$
+
+s_test_case(simp) := is(sbasen_truncate_left(stackbasen("00000001_2","S",2),4)=stackbasen("0001_2","S",2))$
+
+
+/**
+ * Drops extra lowest digits from the number if the number is overly long.
+ * Might be of use when doing binary operations.
+ *
+ * There is a highest digits version `sbasen_truncate_left` should one need it.
+ *
+ * @param[stackbasen] num, a stackbasen-object to truncate.
+ * @param[int] w, the digit width to aim for
+ * @return[stackbasen] the padded stackbasen-object.
+ */
+sbasen_truncate_right(num, w) := block([simp,_d,_t,_b,_pre,_suf],
+    simp: true,
+	[_d,_t,_b]: args(num),
+	
+	_suf:"",
+	_pre:"",
+	if is(_t = "S") then (_suf: sconcat("_", _b), _d: split(_d, "_")[1])
+	elseif is(_t = "C") and is(_b = 8) then (_pre: "0", substring(_d, 2))
+	elseif is(_t = "C") and is(_b = 16) then (_pre: "0x", substring(_d, 3))
+	elseif is(_t = "C") then (_pre: "0b", substring(_d, 3)),
+
+	/* If already short enough. */
+	if is(slength(_d) <= w) then return(num),
+    _d: substring(_d, 1, w + 1),
+
+	return(stackbasen(sconcat(_pre, _d, _suf), _t, _b))
+)$
+
+s_test_case(simp) := is(sbasen_truncate_right(stackbasen("00000001_2","S",2),4)=stackbasen("0000_2","S",2))$

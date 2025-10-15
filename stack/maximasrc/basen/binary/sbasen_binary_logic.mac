@@ -1,0 +1,103 @@
+/**
+ * Given a logical expression with operators `not`, `and`, `or`, `nand`, `nor`,
+ * `xor`, or `xnor` of `stackbasen` objects. Will interpret those all as their 
+ * bitwise equivalents and evaluate operations between those and binary 
+ * representations of the `stackbasen` objects. Will use the bitwidth of 
+ * the widest base-2 (or 8 or 16) `stackbasen` object in the expression and
+ * pads all others to that length.
+ *
+ * The return value will be in a binary format of that bitwidth if and only if
+ * the whole expression could be evaluated. Otherwise, only parts may have been
+ * evaluated.
+ *
+ * Will only touch parts of expression where all arguments are base-2,8,16...
+ *
+ * This logic assumes `1 = true`. And will always produce "S" format output.
+ *
+ * To define things further, `xnor` is `not xor(a,b,...)` and `xor` is `true`
+ * when odd number of arguments are true, not just when exactly one is.
+ *
+ */
+sbasen_bitwise_eval(ex):= block([simp,_bw,_ex,_l,_args,_changed,_i,_bits],
+ /* First identify the bitwidth. */
+ _bw: 1,
+ for _ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), ex) do (
+  if is(third(_ex) = 2) then (
+   _bw: ev(max(_bw, length(sbasen_convert_to_digits(_ex))),simp)
+  ) elseif is(third(_ex) = 8) then (
+   _bw: ev(max(_bw, 3*length(sbasen_convert_to_digits(_ex))),simp)
+  ) elseif is(third(_ex) = 16) then (
+   _bw: ev(max(_bw, 4*length(sbasen_convert_to_digits(_ex))),simp)
+  )
+ ),
+ /* Then try to find bits of the expression that could be processed. */
+ _l: lambda([_ex],
+  member(safe_op(_ex),["not","and","or","nand","nor","xor","xnor"])
+  and all_listp(lambda([_x],is(safe_op(_x)="stackbasen") and (is(third(_x)=2) or is(third(_x)=8) or is(third(_x)=16))),args(_ex))
+ ),
+ _changed: true,
+ while _changed do (
+  _changed: false, 
+  for _ex in extract_matching_parts(_l, ex) do (
+    /* Convert all args to boolean vectors. */
+    _args: map(lambda([_x],
+     map(lambda([_y],is(_y>0)),
+      sbasen_convert_to_digits(
+       sbasen_pad(
+        sbasen_convert_to_binary(_x, "S")
+        , _bw
+       )
+      )
+     )
+    ),args(_ex)),
+    _bits: makelist(false,_i,1,_bw),
+    /* Then figure out the op. Note that not all ops are truly defined. */
+    if is(safe_op(_ex)="not") then (
+     _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "0" else "1"),_args[1])),"_2"),"S",2),
+     ex: subst(_changed, _ex, ex)
+    ) elseif is(safe_op(_ex)="nand") then (
+	 for _i:1 thru _bw do (
+      _bits[_i]: not apply("and",map(lambda([_x],_x[_i]),_args))
+     ),
+	 _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2),
+	 ex: subst(_changed, _ex, ex)
+    ) elseif is(safe_op(_ex)="nor") then (
+	 for _i:1 thru _bw do (
+      _bits[_i]: not apply("or",map(lambda([_x],_x[_i]),_args))
+     ),
+	 _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2),
+	 ex: subst(_changed, _ex, ex)
+    ) elseif is(safe_op(_ex)="xor") or is(safe_op(_ex)="xnor") then (
+	 for _i:1 thru _bw do (
+      _bits[_i]: is(mod(apply("+",map(lambda([_x],if _x[_i] then 1 else 0),_args)),2)=1)
+     ),
+     _changed: if is(safe_op(_ex)="xor") then 
+ 	  stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2)
+ 	 else
+ 	  stackbasen(sconcat(simplode(map(lambda([_x],if _x then "0" else "1"),_bits)),"_2"),"S",2),
+	 ex: subst(_changed, _ex, ex)
+    ) else (
+     /* These would be the remaining defined ones. Basically, `and` and `or` */
+     /* Write this as a map.. */
+     for _i:1 thru _bw do (
+      _bits[_i]: apply(safe_op(_ex),map(lambda([_x],_x[_i]),_args))
+     ),
+	 _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2),
+	 ex: subst(_changed, _ex, ex)
+    ),
+    _changed: true
+  )
+ ),
+ return(ex)
+)$
+
+
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) or stackbasen("11_2","S",2))=stackbasen("0011_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2))=stackbasen("0001_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) nor stackbasen("11_2","S",2))=stackbasen("1100_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) nand stackbasen("11_2","S",2))=stackbasen("1110_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xor stackbasen("11_2","S",2))=stackbasen("0010_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xnor stackbasen("11_2","S",2))=stackbasen("1101_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xor stackbasen("11_2","S",2) xor stackbasen("11_2","S",2))=stackbasen("0001_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2) or stackbasen("0b1000","C",2))=stackbasen("1001_2","S",2))$
+s_test_case(simp) := is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2) and stackbasen("0b1000","C",2))=stackbasen("0000_2","S",2))$

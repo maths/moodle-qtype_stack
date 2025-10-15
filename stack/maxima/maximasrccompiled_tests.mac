@@ -1,0 +1,109 @@
+/* Result of compilation do not edit. */
+s_test_fails: 0$ 
+s_test_success: 0$
+s_exec_test(src_name, src_pos) := block([simp],
+    simp:true,
+    if not s_test_case(true) then (
+        print(sconcat("Test[simp=true ] failure '",src_name,"' test case ", src_pos)),
+        s_test_fails: s_test_fails + 1
+    ) else 
+        s_test_success: s_test_success + 1,
+    simp:false,
+    if not s_test_case(false) then (
+        print(sconcat("Test[simp=false] failure '",src_name,"' test case ", src_pos)),
+        s_test_fails: s_test_fails + 1
+    ) else 
+        s_test_success: s_test_success + 1
+)$
+s_test_case(simp):=is(sbasen_convert_to_binary(12,"S") = stackbasen("1100_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_convert.mac:26",1)$
+s_test_case(simp):=is(sbasen_convert_to_binary(stackbasen("1100_2","S",2),"C") = stackbasen("0b1100","C",2))$
+s_exec_test("basen/binary/sbasen_binary_convert.mac:27",2)$
+s_test_case(simp):=is(sbasen_convert_to_binary(stackbasen("12_16","S",16),"C") = stackbasen("0b10010","C",2))$
+s_exec_test("basen/binary/sbasen_binary_convert.mac:28",3)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) or stackbasen("11_2","S",2)) = stackbasen("0011_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:95",1)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2)) = stackbasen("0001_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:96",2)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) nor stackbasen("11_2","S",2)) = stackbasen("1100_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:97",3)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) nand stackbasen("11_2","S",2)) = stackbasen("1110_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:98",4)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xor stackbasen("11_2","S",2)) = stackbasen("0010_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:99",5)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xnor stackbasen("11_2","S",2)) = stackbasen("1101_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:100",6)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xor stackbasen("11_2","S",2) xor stackbasen("11_2","S",2)) = stackbasen("0001_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:101",7)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2) or stackbasen("0b1000","C",2)) = stackbasen("1001_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:102",8)$
+s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2) and stackbasen("0b1000","C",2)) = stackbasen("0000_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:103",9)$
+s_test_case(simp):=is(sbasen_pad(stackbasen("0xA1","C",16),4) = stackbasen("0x00A1","C",16))$
+s_exec_test("basen/binary/sbasen_binary_padding.mac:33",1)$
+s_test_case(simp):=is(sbasen_pad(stackbasen("1_2","S",2),8) = stackbasen("00000001_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_padding.mac:34",2)$
+s_test_case(simp):=is(sbasen_truncate_left(stackbasen("00000001_2","S",2),4) = stackbasen("0001_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_padding.mac:64",3)$
+s_test_case(simp):=is(sbasen_truncate_right(stackbasen("00000001_2","S",2),4) = stackbasen("0000_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_padding.mac:95",4)$
+s_test_case(simp):=is(sbasen_char_to_digit("0") = 0)$
+s_exec_test("basen/sbasen_char_to_digit.mac:17",1)$
+s_test_case(simp):=is(sbasen_char_to_digit("A") = 10)$
+s_exec_test("basen/sbasen_char_to_digit.mac:18",2)$
+s_test_case(simp):=is(sbasen_char_to_digit("a") = 10)$
+s_exec_test("basen/sbasen_char_to_digit.mac:19",3)$
+s_test_case(simp):=is(sbasen_char_to_digit("Z") = 35)$
+s_exec_test("basen/sbasen_char_to_digit.mac:20",4)$
+s_test_case(simp):=is(sbasen_char_to_digit("_") = false)$
+s_exec_test("basen/sbasen_char_to_digit.mac:21",5)$
+s_test_case(simp):=ev(is(sbasen_convert_to_base10(stackbasen("PI_34","S",34)-stackbasen("PI_32","S",32)) = 50),simp)$
+s_exec_test("basen/sbasen_convert.mac:25",1)$
+s_test_case(simp):=is(sbasen_convert_to_base10(stackbasen("Zzz_36","S",36)) = 46655)$
+s_exec_test("basen/sbasen_convert.mac:26",2)$
+s_test_case(simp):=is(sbasen_convert_to_digits(stackbasen("0xA1","C",16)) = [10,1])$
+s_exec_test("basen/sbasen_convert.mac:48",3)$
+s_test_case(simp):=is(sbasen_convert_to_digits(stackbasen("0x00FF","C",16)) = [0,0,15,15])$
+s_exec_test("basen/sbasen_convert.mac:49",4)$
+s_test_case(simp):=is(sbasen_convert_to_digits_lsd(stackbasen("0xA1","C",16)) = [1,10])$
+s_exec_test("basen/sbasen_convert.mac:70",5)$
+s_test_case(simp):=is(sbasen_convert_to_digits_lsd(stackbasen("0x00FF","C",16)) = [15,15,0,0])$
+s_exec_test("basen/sbasen_convert.mac:71",6)$
+s_test_case(simp):=ev(is(sbasen_construct_from_base10(10,"C",16) = stackbasen("0xA","C",16)),sbasen_construct_default_case = "upper")$
+s_exec_test("basen/sbasen_create.mac:54",1)$
+s_test_case(simp):=ev(is(sbasen_construct_from_base10(10,"S",16) = stackbasen("a_16","S",16)),sbasen_construct_default_case = "lower")$
+s_exec_test("basen/sbasen_create.mac:55",2)$
+s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("a_16","S",16)) = "{\\textrm{a}}_{16}"),sbasen_output_force_case = "lower")$
+s_exec_test("basen/sbasen_texput.mac:44",1)$
+s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16)) = "{\\textrm{a}}_{16}"),sbasen_output_force_case = "lower")$
+s_exec_test("basen/sbasen_texput.mac:45",2)$
+s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("a_16","S",16)) = "{\\textrm{a}}_{16}"),sbasen_output_force_case = "preserve")$
+s_exec_test("basen/sbasen_texput.mac:46",3)$
+s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16)) = "{\\textrm{A}}_{16}"),sbasen_output_force_case = "preserve")$
+s_exec_test("basen/sbasen_texput.mac:47",4)$
+s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("a_16","S",16)) = "{\\textrm{A}}_{16}"),sbasen_output_force_case = "upper")$
+s_exec_test("basen/sbasen_texput.mac:48",5)$
+s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16)) = "{\\textrm{A}}_{16}"),sbasen_output_force_case = "upper")$
+s_exec_test("basen/sbasen_texput.mac:49",6)$
+s_test_case(simp):=ev(is(sbasen_texput_C_hex(stackbasen("0xa","C",16)) = "{\\texttt{0xa}}"),sbasen_output_force_case = "lower")$
+s_exec_test("basen/sbasen_texput.mac:105",7)$
+s_test_case(simp):=ev(is(sbasen_texput_C_hex(stackbasen("0xA","C",16)) = "{\\texttt{0xa}}"),sbasen_output_force_case = "lower")$
+s_exec_test("basen/sbasen_texput.mac:107",8)$
+s_test_case(simp):=ev(is(sbasen_texput_C_hex(stackbasen("0xa","C",16)) = "{\\texttt{0xa}}"),sbasen_output_force_case = "preserve")$
+s_exec_test("basen/sbasen_texput.mac:108",9)$
+s_test_case(simp):=ev(is(sbasen_texput_C_hex(stackbasen("0xA","C",16)) = "{\\texttt{0xA}}"),sbasen_output_force_case = "preserve")$
+s_exec_test("basen/sbasen_texput.mac:109",10)$
+s_test_case(simp):=ev(is(sbasen_texput_C_hex(stackbasen("0xa","C",16)) = "{\\texttt{0xA}}"),sbasen_output_force_case = "upper")$
+s_exec_test("basen/sbasen_texput.mac:110",11)$
+s_test_case(simp):=ev(is(sbasen_texput_C_hex(stackbasen("0xA","C",16)) = "{\\texttt{0xA}}"),sbasen_output_force_case = "upper")$
+s_exec_test("basen/sbasen_texput.mac:111",12)$
+s_test_case(simp):=is(sbasen_validate(stackbasen("a_16","S",16)) = true)$
+s_exec_test("basen/sbasen_validate.mac:27",1)$
+s_test_case(simp):=is(sbasen_validate(stackbasen("Z_16","S",16)) = castext_simplify(block(local(simp),["%root",["%cs","sbasen_validate_invalid_digits","num",block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,_EC(errcatch(_ct2_tmp:(%_C(stackbasen),stackbasen("Z_16","S",16))),"maximasrc/basen/sbasen_validate.mac/1:1-1:101"),simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i",_ct2_simp),simp:_ct2_simp,_ct2_tmp),"base",block([_ct2_tmp],_EC(errcatch(_ct2_tmp:16),"maximasrc/basen/sbasen_validate.mac/1:1-1:101"),string(_ct2_tmp))]])))$
+s_exec_test("basen/sbasen_validate.mac:28",2)$
+s_test_case(simp):=is(setify(extract_matching_parts(integerp,1/4)) = {1,4})$
+s_exec_test("expressions/extraction/extract_matching_parts.mac:21",1)$
+s_test_case(simp):=is(extract_matching_parts(integerp,%pi/1.2) = [])$
+s_exec_test("expressions/extraction/extract_matching_parts.mac:22",2)$
+simp:true$
+if s_test_fails = 0 then print("All tests successfully executed.")$

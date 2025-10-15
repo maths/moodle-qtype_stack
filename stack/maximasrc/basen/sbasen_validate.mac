@@ -1,0 +1,49 @@
+/**
+ * Validates a `stackbasen` object, i.e., checks that the "digits" are suitable
+ * for the base. Returns either `true` for valid or a CASText fragment 
+ * describing the issue.
+ *
+ * Suitable for bespoke validator use.
+ *
+ * Note this is for a singular value, use the tree checking version
+ * (`sbasen_validate_tree`) if you expect expressions or multiple literals. 
+ * Will complain if the received expression is not a singular value, even if
+ * just a prefix op is present.
+ */
+sbasen_validate(ex) := block([simp,digits,type,base],
+ 	simp : true,
+ 	if safe_op(ex) # "stackbasen" then return(castext("[[commonstring key='sbasen_validate_not_basen'/]]")),
+ 	
+ 	[digits,type,base] : args(ex),
+
+ 	if base > 36 then return(castext("[[commonstring key='sbasen_validate_base_too_big' raw_base='base'/]]")),
+ 	
+ 	digits: sbasen_convert_to_digits(ex),
+
+ 	if all_listp(lambda([x], is(x # false) and is(x < base)), digits) then return(true) 
+ 	else return(castext("[[commonstring key='sbasen_validate_invalid_digits' num='ex' raw_base='base'/]]"))
+)$
+
+s_test_case(simp) := is(sbasen_validate(stackbasen("a_16","S",16))=true)$
+s_test_case(simp) := is(sbasen_validate(stackbasen("Z_16","S",16))=castext("[[commonstring key='sbasen_validate_invalid_digits' num='stackbasen(\"Z_16\",\"S\",16)' raw_base='16'/]]"))$
+
+/**
+ * Validates `stackbasen` objects present in the expression, i.e., checks that
+ * the "digits" are suitable for the base. Returns either `true` for valid or 
+ * a CASText fragment describing the issues.
+ *
+ * Suitable for bespoke validator use.
+ *
+ * Note that will not consider non existence of `stackbasen` objects an issue.
+ */
+sbasen_validate_tree(ex) := block([_out,_ex,_tmp],
+ 	_out : true,
+ 	for _ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), ex) do (
+ 		_tmp : sbasen_validate(_ex),
+ 		if is(_tmp # true) then (
+ 			if is(_out = true) then _out : _tmp
+ 			else _out : castext_concat(castext_concat(_out, " "), _tmp)
+ 		)
+ 	),
+ 	return(_out)
+)$

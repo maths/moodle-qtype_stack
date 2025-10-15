@@ -1,0 +1,21 @@
+/**
+ * A function to convert singular characters to numbers used in
+ * the `stackbasen` syntax. Basically, '"0"' -> '0' and '"A"' -> '10'.
+ *
+ * Lower and upper case ASCII letters are considered the same.
+ * 
+ * @param[string] c, a single character string.
+ * @return[integer] the matching number in the range 0-35, or false for unknown
+ */
+sbasen_char_to_digit(c) := block([_i],
+ 	if slength(c) # 1 then return(false),
+ 	_i : sposition(c,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"),
+ 	if is(_i = false) then return(false) else _i: ev(_i - 1, simp),
+ 	if _i > 35 then _i: ev(_i - 26, simp),
+ 	return(_i)
+)$
+s_test_case(simp) := is(sbasen_char_to_digit("0")=0)$
+s_test_case(simp) := is(sbasen_char_to_digit("A")=10)$
+s_test_case(simp) := is(sbasen_char_to_digit("a")=10)$
+s_test_case(simp) := is(sbasen_char_to_digit("Z")=35)$
+s_test_case(simp) := is(sbasen_char_to_digit("_")=false)$

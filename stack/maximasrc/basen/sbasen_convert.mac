@@ -1,0 +1,71 @@
+/**
+ * A function to convert `stackbasen` objects back to normal base-10 numbers,
+ * will find all `stackbasen` instances in the input and replaces them with
+ * base-10 integers.
+ *
+ * Does not verify validity of those `stackbasen` objects, so might generate
+ * interesting results.
+ */
+sbasen_convert_to_base10(ex) := block([_out,_ex,_tmp,_d,_t,_b,_D],
+	_out : ex,
+	for _ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), ex) do (
+		_tmp : 0,
+		_b : third(_ex),
+		_d : sbasen_convert_to_digits_lsd(_ex),
+		_t : 0,
+		for _D in _d do (
+			_tmp : ev(_tmp + _D*(_b^_t),simp),
+			_t : ev(_t + 1, simp)
+		),
+		_out : subst(_tmp, _ex, _out)
+	),
+	return(_out)
+)$
+
+s_test_case(simp) := ev(is(sbasen_convert_to_base10(stackbasen("PI_34","S",34)-stackbasen("PI_32","S",32))=50),simp)$
+s_test_case(simp) := is(sbasen_convert_to_base10(stackbasen("Zzz_36","S",36))=46655)$
+
+
+/**
+ * A function to convert `stackbasen` objects into a list of digits
+ * presented as base-10 numbers. With most significant digit first.
+ * See `sbasen_convet_to_digits_lsd` for a variant with least significant
+ * digit first.
+ *
+ * Does not verify validity of those `stackbasen` objects, so might generate
+ * interesting results. If a digit does not fit the 0-9+A-Z range expect to
+ * see `false` in the list.
+ */
+sbasen_convert_to_digits(ex) := block([_tmp,_d,_t,_b],
+	[_d, _t, _b] : args(ex),
+	_d : if is(_t = "S") then split(_d, "_")[1]
+	elseif is(_t = "C") and is(_b = 8) then substring(_d, 2)
+	elseif is(_t = "C") then substring(_d, 3),
+	_d : map('sbasen_char_to_digit, charlist(_d)),
+	return(_d)
+)$
+
+s_test_case(simp) := is(sbasen_convert_to_digits(stackbasen("0xA1","C",16))=[10,1])$
+s_test_case(simp) := is(sbasen_convert_to_digits(stackbasen("0x00FF","C",16))=[0,0,15,15])$
+
+/**
+ * A function to convert `stackbasen` objects into a list of digits
+ * presented as base-10 numbers. With least significant digit first.
+ * See `sbasen_convet_to_digits` for a variant with most significant
+ * digit first.
+ *
+ * Does not verify validity of those `stackbasen` objects, so might generate
+ * interesting results. If a digit does not fit the 0-9+A-Z range expect to
+ * see `false` in the list.
+ */
+sbasen_convert_to_digits_lsd(ex) := block([_d,_t,_b],
+	[_d, _t, _b] : args(ex),
+	_d : if is(_t = "S") then split(_d, "_")[1]
+	elseif is(_t = "C") and is(_b = 8) then substring(_d, 2)
+	elseif is(_t = "C") then substring(_d, 3),
+	_d : reverse(map('sbasen_char_to_digit, charlist(_d))),
+	return(_d)
+)$
+
+s_test_case(simp) := is(sbasen_convert_to_digits_lsd(stackbasen("0xA1","C",16))=[1,10])$
+s_test_case(simp) := is(sbasen_convert_to_digits_lsd(stackbasen("0x00FF","C",16))=[15,15,0,0])$

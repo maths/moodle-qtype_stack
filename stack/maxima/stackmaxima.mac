@@ -168,6 +168,9 @@ load("stackstrings.mac");
 load("fboundp.mac");
 load("functs");
 
+/* Combined and processed maximasrc/ content. */
+load("maximasrccompiled.mac");
+
 /* Are we printing normal Maxima or plain atoms? */
 tex_plain_atoms:false$
 load("stacktex.lisp");
@@ -3524,4 +3527,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025080100$
+stackmaximaversion:2025092900$

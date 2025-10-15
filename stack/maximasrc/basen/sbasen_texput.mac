@@ -1,0 +1,112 @@
+
+texput("stackbasen", lambda([ex], block([digits, type, base],
+	[digits, type, base] : args(ex),
+	if type = "S" then return(sbasen_texput_suffix(ex))
+	elseif type = "C" and base = 2 then return(sbasen_texput_C_binary(ex))
+	elseif type = "C" and base = 8 then return(sbasen_texput_C_octal(ex))
+	elseif type = "C" and base = 16 then return(sbasen_texput_C_hex(ex)),
+	return("'unknown base-N format'")
+)))$
+
+/**
+ * The option `sbasen_output_force_case` forces the presentation
+ * of digits in `stackbasen` objects to be outputted in a particular case even
+ * if originally received in the other.
+ *
+ * By default this is `"preserve"` and the original inputted form will be used.
+ * The values `"upper"` and `"lower"` will convert cases.
+ *
+ * Note, affects validation display only if defined in the preamble.
+ */
+sbasen_output_force_case: "preserve"$
+
+/**
+ * A function to convert singular suffix format `stackbasen` object to
+ * a LaTeX string presentation. By default `{\textrm{123}}_{10}` is the output format.
+ *
+ * Feel free to override this function in the preamble, if the style does not
+ * match your need.
+ *
+ * This function respects the option `sbasen_output_force_case`.
+ *
+ * @param[stackbasen] bn, a single base-N object in the `"S"`-format.
+ * @return[string] the matching LaTeX presentation
+ */
+sbasen_texput_suffix(bn) := block([splt],
+	splt : split(first(bn), "_"),
+	if sbasen_output_force_case = "upper" then
+		return(sconcat("{\\textrm{",supcase(splt[1]), "}}_{", splt[2], "}"))
+	elseif sbasen_output_force_case = "lower" then
+		return(sconcat("{\\textrm{",sdowncase(splt[1]), "}}_{", splt[2], "}"))
+	else
+		return(sconcat("{\\textrm{",splt[1], "}}_{", splt[2], "}"))
+)$
+
+s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("a_16","S",16))="{\\textrm{a}}_{16}"),sbasen_output_force_case="lower")$
+s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16))="{\\textrm{a}}_{16}"),sbasen_output_force_case="lower")$
+s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("a_16","S",16))="{\\textrm{a}}_{16}"),sbasen_output_force_case="preserve")$
+s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16))="{\\textrm{A}}_{16}"),sbasen_output_force_case="preserve")$
+s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("a_16","S",16))="{\\textrm{A}}_{16}"),sbasen_output_force_case="upper")$
+s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16))="{\\textrm{A}}_{16}"),sbasen_output_force_case="upper")$
+
+
+/**
+ * A function to convert singular C binary format `stackbasen` object to
+ * a LaTeX string presentation. By default `\texttt{0b101}` is the output
+ * format.
+ *
+ * Feel free to override this function in the preamble, if the style does not
+ * match your need.
+ *
+ * @param[stackbasen] bn, a single base-N object in the `"C"`-format.
+ * @return[string] the matching LaTeX presentation
+ */
+sbasen_texput_C_binary(bn) := block([tmp],
+	tmp: sconcat("{\\texttt{", first(bn), "}}"),
+	return(tmp)
+)$
+
+/**
+ * A function to convert singular C octal format `stackbasen` object to
+ * a LaTeX string presentation. By default `\texttt{0755}` is the output
+ * format.
+ *
+ * Feel free to override this function in the preamble, if the style does not
+ * match your need.
+ *
+ * @param[stackbasen] bn, a single base-N object in the `"C"`-format.
+ * @return[string] the matching LaTeX presentation
+ */
+sbasen_texput_C_octal(bn) := block([tmp],
+	tmp: sconcat("{\\texttt{", first(bn), "}}"),
+	return(tmp)
+)$
+
+/**
+ * A function to convert singular C hex format `stackbasen` object to
+ * a LaTeX string presentation. By default `\texttt{0xAbc1}` is the output
+ * format.
+ *
+ * Feel free to override this function in the preamble, if the style does not
+ * match your need.
+ *
+ * This function respects the option `sbasen_output_force_case`.
+ *
+ * @param[stackbasen] bn, a single base-N object in the `"C"`-format.
+ * @return[string] the matching LaTeX presentation
+ */
+sbasen_texput_C_hex(bn) := block([tmp],
+	tmp: if sbasen_output_force_case = "upper" then supcase(first(bn), 3)
+	elseif sbasen_output_force_case = "lower" then sdowncase(first(bn), 3)
+	else first(bn),
+	tmp: sconcat("{\\texttt{", tmp, "}}"),
+	return(tmp)
+)$
+
+s_test_case(simp) := ev(is(sbasen_texput_C_hex(
+stackbasen("0xa","C",16))="{\\texttt{0xa}}"),sbasen_output_force_case="lower")$
+s_test_case(simp) := ev(is(sbasen_texput_C_hex(stackbasen("0xA","C",16))="{\\texttt{0xa}}"),sbasen_output_force_case="lower")$
+s_test_case(simp) := ev(is(sbasen_texput_C_hex(stackbasen("0xa","C",16))="{\\texttt{0xa}}"),sbasen_output_force_case="preserve")$
+s_test_case(simp) := ev(is(sbasen_texput_C_hex(stackbasen("0xA","C",16))="{\\texttt{0xA}}"),sbasen_output_force_case="preserve")$
+s_test_case(simp) := ev(is(sbasen_texput_C_hex(stackbasen("0xa","C",16))="{\\texttt{0xA}}"),sbasen_output_force_case="upper")$
+s_test_case(simp) := ev(is(sbasen_texput_C_hex(stackbasen("0xA","C",16))="{\\texttt{0xA}}"),sbasen_output_force_case="upper")$

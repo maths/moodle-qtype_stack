@@ -610,7 +610,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
             if (!isset($attemptids[$step[0]])) {
                 // Start the attempt.
-                $quizobj = \mod_quiz\quiz_settings::create($quiz1->id, $user->id);
+                if (class_exists('\mod_quiz\quiz_settings')) {
+                    $quizobj = \mod_quiz\quiz_settings::create($quiz1->id, $user->id);
+                } else {
+                    $quizobj = \quiz::create($quiz1->id, $user->id);
+                }
                 $quba = \question_engine::make_questions_usage_by_activity('mod_quiz', $quizobj->get_context());
                 $quba->set_preferred_behaviour($quizobj->get_quiz()->preferredbehaviour);
 
@@ -627,7 +631,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
             }
 
             // Process some responses from the student.
-            $attemptobj = \mod_quiz\quiz_attempt::create($attemptid);
+            if (class_exists('\mod_quiz\quiz_attempt')) {
+                $attemptobj = \mod_quiz\quiz_attempt::create($attemptid);
+            } else {
+                $attemptobj = \quiz_attempt::create($attemptid);
+            }
             $attemptobj->process_submitted_actions($timenow, false, $step[4]);
             if (isset($step[6])) {
                 $attemptobj->process_submitted_actions($timenow, false, [1 => ['-tryagain' => 1]]);
@@ -640,7 +648,6 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
             // Finish the attempt.
             if ($step[5] == 1) {
-                $attemptobj = \mod_quiz\quiz_attempt::create($attemptid);
                 $attemptobj->process_finish($timenow, false);
             }
         }

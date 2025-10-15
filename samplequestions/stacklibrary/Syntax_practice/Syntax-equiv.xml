@@ -2,72 +2,38 @@
 <quiz>
   <question type="stack">
     <name>
-      <text>Drag and drop - 4 - Using images</text>
+      <text>Syntax-equiv</text>
     </name>
-    <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>Drag the items to match up the functions with their derivatives. </p>
-[[parsons input="ans1" columns="3" rows="2" item-height="230" item-width="230"]]
-{
-    "steps" : {#match_encode(steps)#},
-    "headers" : {#headers#},
-}
-[[/parsons]]
-<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    <questiontext format="html">
+      <text><![CDATA[<p>In this question you can work "line by line" showing your working.</p><p>Solve {@p@}.<br></p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
-    <generalfeedback format="moodle_auto_format">
-      <text/>
+    <generalfeedback format="html">
+      <text>\[ {@stack_disp_arg(ta, true)@} \]</text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024092500</text>
+      <text/>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[/* Import parsons' code library. */
-stack_include_contrib("matchlib.mac");
-
-/* Example of a wrong response for tests, edit if changing question. */
-wa: [
-  ["g", "f"], 
-  ["dfdx", "dgdx"], 
-  ["df2d2x", "dg2d2x"]
-];
-
-/* Options to drag from, can be changed. */
-steps: [
-  ["f", plot(x^2,[x,-1,1], [size, 200, 200])],
-  ["g", plot(x^3,[x,-1,1], [size, 200, 200])],
-  ["dfdx", plot(2*x,[x,-1,1], [size, 200, 200])],
-  ["dgdx", plot(3*x^2,[x,-1,1], [size, 200, 200])],
-  ["df2d2x", plot(2,[x,-1,1], [size, 200, 200])],
-  ["dg2d2x", plot(6*x,[x,-1,1], [size, 200, 200])]
-];
-
-/* Create random order. */
-steps: random_permutation(steps);
-
-/* Categories to drag to, can be changed. */
-headers: ["Function", "\\(d/dx\\)", "\\(d^2/d^2x\\)"];
-
-/* A correct answer, edit if changing question. */
-ta: [
-  ["f", "g"], 
-  ["dfdx", "dgdx"], 
-  ["df2d2x", "dg2d2x"]
-];]]></text>
+      <text>v:x
+n1:3
+n2:2
+p:ev(expand((v-n1)*(v-n2)),simp)=0
+ta:[p,(v-n1)*(v-n2)=0,v=n1 nounor v=n2]</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
-    <questionnote format="html">
-      <text>{@map(first, steps)@}</text>
+    <questionnote format="moodle_auto_format">
+      <text>{@ta@}</text>
     </questionnote>
-    <questiondescription format="html">
-      <text>This question demonstrates parsons' drag and drop questions using images. This is the question outlined in the `drag and drop parsons' problems` page of mathematical topics in the documentation. This can be found on your server at `[YOUR SERVER ADDRESS]/question/type/stack/doc/doc.php/Topics/Parsons.md` .</text>
+    <questiondescription format="moodle_auto_format">
+      <text/>
     </questiondescription>
-    <questionsimplify>1</questionsimplify>
+    <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
@@ -81,7 +47,7 @@ ta: [
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
-    <multiplicationsign>dot</multiplicationsign>
+    <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
@@ -91,21 +57,21 @@ ta: [
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
-      <type>parsons</type>
-      <tans>[ta, steps, headers, 2]</tans>
+      <type>equiv</type>
+      <tans>ta</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
-      <insertstars>0</insertstars>
-      <syntaxhint/>
+      <insertstars>5</insertstars>
+      <syntaxhint>firstline</syntaxhint>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
-      <checkanswertype>0</checkanswertype>
-      <mustverify>0</mustverify>
-      <showvalidation>0</showvalidation>
-      <options/>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options>firstline</options>
     </input>
     <prt>
       <name>prt1</name>
@@ -113,53 +79,71 @@ ta: [
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>sans: match_decode(ans1, true);
-sans: match_set_row(sans);
-tans: match_set_row(ta);</text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
         <description/>
-        <answertest>AlgEquiv</answertest>
-        <sans>sans</sans>
-        <tans>tans</tans>
+        <answertest>EquivFirst</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
         <testoptions/>
-        <quiet>1</quiet>
+        <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1</truescore>
+        <truescore>1.0000000</truescore>
         <truepenalty/>
-        <truenextnode>-1</truenextnode>
+        <truenextnode>1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
           <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0</falsescore>
+        <falsescore>0.0000000</falsescore>
         <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
+          <text><![CDATA[<p>Your reasoning contains a mistake.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>last(ans1)</sans>
+        <tans>last(ta)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
           <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You must leave your answer in the form \(x=? \mbox{ or } x=?\).</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
-    <deployedseed>1585880416</deployedseed>
-    <deployedseed>552692110</deployedseed>
-    <deployedseed>192413955</deployedseed>
-    <deployedseed>2057051866</deployedseed>
-    <deployedseed>562113547</deployedseed>
     <qtest>
       <testcase>1</testcase>
-      <description>Test case assuming the teacher's input gets full marks.</description>
+      <description/>
       <testinput>
         <name>ans1</name>
-        <value>apply(match_answer,[ta, steps, headers])</value>
+        <value>ta</value>
       </testinput>
       <expected>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -167,13 +151,27 @@ tans: match_set_row(ta);</text>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value> 	apply(match_answer,[wa, steps, 3])</value>
+        <value>[expand(p),p,v=n1 nounor v=ev(n2+1,simp)]</value>
       </testinput>
       <expected>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
         <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>[p,(v-n1)*(v-n2)=0,v=n1 nounor n2]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
   </question>

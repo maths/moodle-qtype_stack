@@ -1,6 +1,10 @@
 # Testing, using and maintaining questions
 
-This section of the documentation provides information on testing questions and maintaining question banks for the long term.  This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
+STACK comes with a [large library of tested questions](Library/index.md).
+
+This section of the documentation provides information on testing questions and maintaining question banks for the long term.  The foundation of long-term maintenance is testing.  ___We strongly recommend all questions have [question tests](../STACK_question_admin/Testing.md).___
+
+This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
 
 * [Creating question tests](Testing.md),
 * [Deploying variants](Deploying.md),

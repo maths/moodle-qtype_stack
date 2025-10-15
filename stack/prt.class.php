@@ -278,7 +278,7 @@ class stack_potentialresponse_tree_lite {
         $visited = [];
 
         // Due to the old system we need to guess the firstnode if it is not defined.
-        if ($this->firstnode === null || $this->firstnode === '') {
+        if ($this->firstnode === null || $this->firstnode === '' || !array_key_exists($this->firstnode, $this->nodes)) {
             $this->firstnode = array_keys($this->nodes)[0];
         }
 

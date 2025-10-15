@@ -55,6 +55,7 @@
 nary("nouneq", 150);
 nary("nounadd", 100);
 prefix("nounsub", 100);
+texput(UNARY_MINUS,"-");
 nary("nounmul", 120);
 infix("noundiv", 122, 123);
 infix("nounpow", 140, 139);
@@ -322,7 +323,8 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem, noncomAdd, noncomMul, comMulNum])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH,
+                 [intFac, ratLow, ratAdd, negDist, sqrtRem, noncomAdd, noncomMul, comMulNum, comNeg])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
@@ -330,6 +332,7 @@ ALL_TRANSP[assMul] : assMulp$
 ALL_TRANSP[comAdd] : comAddp$
 ALL_TRANSP[comMul] : comMulp$
 ALL_TRANSP[comMulNum] : comMulNump$
+ALL_TRANSP[comNeg] : comNegp$
 
 ALL_TRANSP[zeroAdd] : zeroAddp$
 ALL_TRANSP[zeroMul] : zeroMulp$
@@ -354,6 +357,9 @@ ALL_TRANSP[intMul] : intMulp$
 ALL_TRANSP[intPow] : intPowp$
 ALL_TRANSP[intFac] : intFacp$
 
+ALL_TRANSP[ratAdd] : ratAddp$
+ALL_TRANSP[ratLow] : ratLowp$
+
 ALL_TRANSP[sqrtRem] : sqrtRemp$
 
 /* These rules are not included in ALL_TRANS. */
@@ -367,7 +373,8 @@ INCOMPATIBLE_TRANS : [{intFac, intMul}, {negOrd, negDist}, {comMul, comMulNum}]$
 /*******************************************/
 
 /* Is the rule applicable at the top level? */
-trans_topp(ex, rl) := ALL_TRANSP[rl](ex)$
+trans_topp(ex, rl) := if arrayp(ALL_TRANSP[rl]) then error("Rules-based answer test: ALL_TRANSP array missing rule ", rl)
+                      else ALL_TRANSP[rl](ex)$
 
 /* Transform recursively across an expression. */
 transr(ex, rl) := block(
@@ -469,6 +476,14 @@ assAdd(ex) := if assAddp(ex) then flatten(ex) else ex$
 assMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and flatten(ex)#ex then true else false$
 assMul(ex) := if assMulp(ex) then flatten(ex) else ex$
 
+/* Sort out the order of elements, i.e. commutativity. */
+/* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
+comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
+comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
+
+comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
+comMul(ex) := if comMulp(ex) then apply(op(ex), elsort(args(ex))) else ex$
+
 /* Define a predicate to sort elements, UNARY_MINUS at the front, UNARY_RECIP at the end. */
 orderelementaryp(exa,exb) := block(
     if exa=UNARY_MINUS then return(true),
@@ -483,27 +498,30 @@ elsort(l) := block([l1, l2, la],
     la:sublist(l, lambda([ex], atom(ex))),
     l1:sublist(l, lambda([ex], not(atom(ex)) and safe_op(ex)#"UNARY_RECIP")),
     l2:sublist(l, lambda([ex], not(atom(ex)) and safe_op(ex)="UNARY_RECIP")),
-    append(sort(la, orderelementaryp), sort(l1, orderelementaryp), sort(l2, orderelementaryp))  
+    append(sort(la, orderelementaryp), sort(l1, orderelementaryp), sort(l2, orderelementaryp))
 )$
+
+/* Pull out and sort only numbers. */
+comMulNump(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numsort(args(ex)))#ex then true else false$
+comMulNum(ex) := if comMulNump(ex) then apply(op(ex), numsort(args(ex))) else ex$
 
 /* Pull out any numbers to the front and sort only numbers. */
 numsort(l) := block([l1, l2],
     l1:sublist(l, lambda([ex], is(ex=UNARY_MINUS) or numberp(ex))),
     l2:sublist(l, lambda([ex], not(is(ex=UNARY_MINUS) or numberp(ex)))),
-    append(sort(l1, orderelementaryp), l2)  
+    append(sort(l1, orderelementaryp), l2)
 )$
 
-/* Sort out the order of elements, i.e. commutativity. */
-/* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
-comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
+/* Pull out and sort only unary minus. */
+comNegp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numnegsort(args(ex)))#ex then true else false$
+comNeg(ex) := if comNegp(ex) then apply(op(ex), numnegsort(args(ex))) else ex$
 
-comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
-comMul(ex) := if comMulp(ex) then apply(op(ex), elsort(args(ex))) else ex$
-
-/* Pull out and sort only numbers. */
-comMulNump(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), numsort(args(ex)))#ex then true else false$
-comMulNum(ex) := if comMulp(ex) then apply(op(ex), numsort(args(ex))) else ex$
+/* Pull out only unary minus to the front. */
+numnegsort(l) := block([l1, l2],
+    l1:sublist(l, lambda([ex], is(ex=UNARY_MINUS))),
+    l2:sublist(l, lambda([ex], not(is(ex=UNARY_MINUS)))),
+    append(l1, l2)
+)$
 
 /* Consolidate products of division: a*UNARY_RECIP(b)*UNARY_RECIP(c) -> a*UNARY_RECIP(b*c) */
 recipMulp(ex) := block([ex2],
@@ -717,4 +735,83 @@ intFacp(ex):= integerp(ex)$
 intFac(ex) := block([a1], 
     if intFacp(ex)=false then return(ex),
     noun_arith(factor(ex))
+)$
+
+/**********************************************************/
+/* Dealing with rational numbers.                         */
+/* A rational number a/b can take a number of forms when  */
+/* we represent it as nouns.                              */
+/*  1/b = UNARY_RECIP(b)                                  */
+/* -1/b = UNARY_MINUS nounmul UNARY_RECIP(b)              */
+/*  a/b = a nounmul UNARY_RECIP(b)                        */
+/* -a/b = UNARY_MINUS nounmul a nounmul UNARY_RECIP(b)    */
+/*                                                        */
+/* You need other rules negNeg, negDiv in play perhaps?   */
+/*                                                        */
+/* Should integers be included as a "rational number"?    */
+
+/* General predicate for spotting a basic rational number. */
+intRatp(ex):= block([sl],
+    /* To allow integers.                      */
+    /* if integerp(ex) then return true,       */
+    /* 1/-1 -> UNARY_MINUS,                    */
+    /* if is(ex=UNARY_MINUS) then return true, */
+    /* Note, 1/(-b) is _not_ included.         */
+    if safe_op(ex)="UNARY_RECIP" then return(integerp(first(ex))),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
+    sl:args(ex),
+    /* Remove any "-"                          */
+    if is(first(sl)=UNARY_MINUS) then sl:rest(sl),
+    if emptyp(sl) then return(false),
+    /* This is 1/b                             */
+    if safe_op(first(sl))="UNARY_RECIP" then return(integerp(first(first(sl)))),
+    if not(is(length(sl)=2)) then return(false),
+    /* Checks for a in a/b                     */
+    if not integerp(first(sl)) then return(false),
+    /* Checks for 1/?                          */
+    if not(safe_op(second(sl)="UNARY_RECIP")) then return(false),
+    if integerp(first(second(sl))) then return(true),
+    false
+)$
+
+/* Evaluate addition of rational numbers. */
+ratAddp(ex):= block(
+    if not(safe_op(ex)="+" or safe_op(ex)="nounadd") then return(false),
+    if length(sublist(args(ex), intRatp))>1 then return(true) else return(false)
+)$
+ratAdd(ex) := block([a1, a2], 
+    if ratAddp(ex)=false then return(ex),
+    a1:sublist(args(ex), intRatp),
+    a1:map(verb_arith, a1),
+    a1:equals_commute_prepare(ev(apply("+", a1), simp)),
+    a2:sublist(args(ex), lambda([ex2], not(intRatp(ex2)))),
+    if length(a2)=0 then a1
+    else apply(op(ex),append([a1], a2))
+)$
+
+/* Rational number in lowest terms. */
+ratLowp(ex):= block([_sl,_n1,_m1],
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
+    _sl:args(ex),
+    if is(first(_sl)=UNARY_MINUS) then _sl:rest(_sl),
+    if not(is(length(_sl)=2)) then return(false),
+    if not(integerp(first(_sl))) then return(false),
+    _n1:first(_sl),
+    if atom(second(_sl)) then return(false),
+    if not not(safe_op(second(_sl)="UNARY_RECIP")) then return(false),
+    _m1:first(second(_sl)),
+    if not(integerp(_m1)) then return(false),
+    return(not(is(gcd(_n1,_m1)=1)))
+)$
+ratLow(ex):= block([_sl,_n1,_m1,_gcd],
+    if not(ratLowp(ex)) then return(ex),
+    _sl:args(ex),
+    if is(first(ex)=UNARY_MINUS) then _sl:rest(_sl),
+    _n1:first(_sl),
+    _m1:first(second(_sl)),
+    _gcd:gcd(_n1,_m1),
+    _n1:ev(_n1/_gcd,simp),
+    _m1:ev(_m1/_gcd,simp),
+    if is(first(ex)=UNARY_MINUS) then return((UNARY_MINUS nounmul _n1) nounmul UNARY_RECIP(_m1)),
+    return(_n1 nounmul UNARY_RECIP(_m1))
 )$

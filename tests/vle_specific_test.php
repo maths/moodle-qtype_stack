@@ -47,7 +47,7 @@ final class vle_specific_test extends qtype_stack_testcase {
         // No setting at all.
         set_config('httpsurl', '', 'filter_mathjaxloader');
         $result = stack_get_mathjax_url();
-        $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
+        $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?config=TeX-AMS-MML_HTMLorMML',
                             $result);
 
         // Config already set and other parameter.
@@ -86,7 +86,7 @@ final class vle_specific_test extends qtype_stack_testcase {
         // No setting at all.
         set_config('httpsurl', '', 'filter_mathjaxloader');
         $result = stack_get_mathjax_version();
-        $this->assertEquals('2.7.9', $result);
+        $this->assertEquals('3.2.2', $result);
 
         // Config already set and other parameter.
         set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere&one=1',
@@ -112,11 +112,11 @@ final class vle_specific_test extends qtype_stack_testcase {
         $result = stack_get_mathjax_version();
         $this->assertEquals('3.2.2', $result);
 
-        // Some other host.
-        set_config('httpsurl', 'https://unknown.host/mathjax@3.2.2/es5/tex-mml-chtml.js',
+        // Some other host, and non-default version.
+        set_config('httpsurl', 'https://unknown.host/mathjax@1.2.2/es5/tex-mml-chtml.js',
                     'filter_mathjaxloader');
         $result = stack_get_mathjax_version();
-        $this->assertEquals("3.2.2", $result);
+        $this->assertEquals("1.2.2", $result);
 
         // Cloudflare.
         set_config('httpsurl', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js', 'filter_mathjaxloader');
@@ -127,7 +127,7 @@ final class vle_specific_test extends qtype_stack_testcase {
         set_config('httpsurl', 'https://invalid.url',
                     'filter_mathjaxloader');
         $result = stack_get_mathjax_version();
-        $this->assertEquals('2.7.9', $result);
+        $this->assertEquals('3.2.2', $result);
     }
 }
 

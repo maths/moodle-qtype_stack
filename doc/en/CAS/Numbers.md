@@ -138,6 +138,8 @@ The following commands which are relevant to manipulation of numbers are defined
 | `coeff_list_nz(ex,v)`           | This function takes an expression \(ex\) and returns a list of nonzero coefficients of \(v\).
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).
+| `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).
+| `numexactp(sa,ta)`              | This function checks if one number equals another, but only when the floating point number is _exact_.   E.g. if `ta=1/4` then it has an exact decimal \(0.25\).  Here the float will be converted to a rational and compared.  However if `ta=1/3` then this decimal does not terminate, and so floats in `sa` will not be converted.
 
 The following commands generate displayed forms of numbers.  These will not be manipulated further automatically, so you will need to use these at the last moment, e.g. only when generating the teacher's answer etc.
 
@@ -145,14 +147,16 @@ The following commands generate displayed forms of numbers.  These will not be m
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float (or integer), and not in scientific notation.
 | `dispsf(x,n)`                   | Truncate \(x\) to \(n\) significant figures and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
-| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works reliably with `simp:false` (e.g. try 9000).  The optional second argument applies `displaysci(m,n)` to the mantissa to control the display of trailing zeros.
 | `displaydp(x,n)`                | An inert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits.  This function does no rounding.
 | `displaysci(x,n,expo)`          | An inert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits, in scientific notation.  E.g. \(x\times 10^{expo}\).
-
+| `remove_numerical_inert(ex)`   | Removes the above inert forms from an expression `ex`.
+| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works reliably with `simp:false` (e.g. try 9000).  The optional second argument applies `displaysci(m,n)` to the mantissa to control the display of trailing zeros.
 
 | Function                  | Predicate
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `simp_numberp(ex)`          | Fixes `numberp(ex)` for `simp:false`.
+| `simp_integerp(ex)`          | Fixes `integerp(ex)` for `simp:false`.
+| `simp_floatnump(ex)`          | Fixes `floatnump(ex)` for `simp:false`.
 | `real_numberp(ex)`          | Determines if \(ex\) is a real number.  This includes surds and symbolic numbers such as \(\pi\).
 | `lowesttermsp(ex)`          | Is the rational expression in its lowest terms?
 | `anyfloatex(ex)`            | Decides if any floats are in the expression.

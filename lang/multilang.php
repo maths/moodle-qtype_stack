@@ -324,7 +324,7 @@ class stack_multilang {
         // Do we have a parentlanguage that we could try?
         foreach ($parentlangs as $lang) {
             if (array_search($lang, $langs) !== false) {
-                return $currlang;
+                return $lang;
             }
         }
 

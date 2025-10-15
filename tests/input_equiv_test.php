@@ -231,6 +231,22 @@ final class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals('missingLeftBracket', $state->note);
     }
 
+    public function test_validate_student_response_invalid_mixed(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6=0,(x-2)*(x-3)=0]');
+        $el->set_parameter('showValidation', 3);
+        $state = $el->validate_student_response(['sans1' => "x^2-5*x+6=0\n (x-2)*(x-3)"], $options,
+            '[x^2-5*x+6=0,(x-2)*(x-3)=0]', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('[x^2-5*x+6 = 0,(x-2)*(x-3)]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr &\left(x-2\right)\cdot ' .
+            '\left(x-3\right)& \cr \end{array} \]<p>When reasoning by equivalence either (i) rewrite expressions, ' .
+            'or (ii) rewrite equations step by step.  You appear to mix both, which is invalid.</p>',
+            $state->contentsdisplayed);
+        $this->assertEquals('equivmixedreasoning', $state->note);
+    }
+
     public function test_validate_student_response_with_equiv(): void {
 
         $options = new stack_options();
@@ -583,7 +599,7 @@ final class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll} &\log_{3}\left(x+17\right)-2=\log_{3}\left(2\,x\right)&'.
                 '{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}'.
                 '&\log_{3}\left(x+17\right)-\log_{3}\left(2\,x\right)=2&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}'.
-                '\cr \color{green}{\Leftrightarrow}&\log_{3}\left(\frac{x+17}{2\,x}\right)=2& \cr \color{green}{\log(?)}'.
+                '\cr \color{green}{\Leftrightarrow}&\log_{3}\left(\frac{x+17}{2\,x}\right)=2& \cr \color{green}{\Leftrightarrow}'.
                 '&\frac{x+17}{2\,x}=3^2&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr '.
                 '\color{green}{\Leftrightarrow}&x+17=18\,x'.
                 '& \cr \color{green}{\Leftrightarrow}&17\,x=17& \cr \color{green}{\Leftrightarrow}&x=1& \cr \end{array} \]',
@@ -726,18 +742,17 @@ final class input_equiv_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'space');
         $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
-        // This long example also tests a switch from equational reasoning to equivalence reasoning and back again.
-        $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are not forbidden!\"\nx^2-1=0\n(x-1)*(x+1)=0\n\"Comment 2\"\n".
+        $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are not forbidden!\"\nx^2-1\n(x-1)*(x+1)\n\"Comment 2\"\n".
             "x^2-1\n=(x-1)*(x+1)";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
         $el->set_parameter('options', 'comments');
         $state = $el->validate_student_response(['sans1' => $sa], $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[x^2-1,stackeq((x-1)*(x+1)),"Comments are not forbidden!",x^2-1 = 0,(x-1)*(x+1) = 0,'.
+        $this->assertEquals('[x^2-1,stackeq((x-1)*(x+1)),"Comments are not forbidden!",x^2-1,(x-1)*(x+1),'.
                 '"Comment 2",x^2-1,stackeq((x-1)*(x+1))]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2-1& \cr \color{green}{\checkmark}&=\left(x-1\right)\,\left(x+1\right)&'.
-                ' \cr &\text{Comments are not forbidden!}& \cr &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)'.
-                '\,\left(x+1\right)=0& \cr &\text{Comment 2}& \cr &x^2-1& \cr \color{green}{\checkmark}'.
+                ' \cr &\text{Comments are not forbidden!}& \cr &x^2-1& \cr \color{green}{\checkmark}&\left(x-1\right)'.
+                '\,\left(x+1\right)& \cr &\text{Comment 2}& \cr &x^2-1& \cr \color{green}{\checkmark}'.
                 '&=\left(x-1\right)\,\left(x+1\right)& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -760,15 +775,16 @@ final class input_equiv_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'space');
-        $ta = '[sqrt((x-3)*(x-5)),stackeq(x^2-8*x+15)]';
-        $sa = "sqrt((x-3)*(x-5))\n=sqrt(x-3)*sqrt(x-5)";
+        $ta = '[sqrt((x-3)*(x-5))=0,x^2-8*x+15=0]';
+        $sa = "sqrt((x-3)*(x-5))=0\nsqrt(x-3)*sqrt(x-5)=0";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
         $state = $el->validate_student_response(['sans1' => $sa], $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[sqrt((x-3)*(x-5)),stackeq(sqrt(x-3)*sqrt(x-5))]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll} &\sqrt{\left(x-3\right)\,\left(x-5\right)}&' .
-            '{\color{blue}{{x \in {\left[ 5,\, \infty \right) \cup \left( -\infty ,\, 3\right]}}}}\cr \color{red}{?}&' .
-            '=\sqrt{x-3}\,\sqrt{x-5}&{\color{blue}{{x \in {\left[ 5,\, \infty \right)}}}}\cr \end{array} \]',
+        $this->assertEquals('[sqrt((x-3)*(x-5)) = 0,sqrt(x-3)*sqrt(x-5) = 0]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &\sqrt{\left(x-3\right)\,\left(x-5\right)}=0&' .
+            '{\color{blue}{{x \in {\left[ 5,\, \infty \right) \cup \left( -\infty ,\, 3\right]}}}}\cr ' .
+            '\color{green}{\Leftrightarrow}&' .
+            '\sqrt{x-3}\,\sqrt{x-5}=0&{\color{blue}{{x \in {\left[ 5,\, \infty \right)}}}}\cr \end{array} \]',
             $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }

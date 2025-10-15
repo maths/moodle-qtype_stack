@@ -2833,7 +2833,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $rte = implode(' ', array_keys($q->runtimeerrors));
         $err = 'Error(s) in question-variables: Expected "#pm#", "%not ", "\'", "\'\'", ' .
                 '"(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", "for", "from", "if", "in", "next", "not ", "not", ' .
-                '"nounnot ", "nounnot", "step", "thru", "unless", "while", "{", "|", boolean, comment, end of input, float, ' .
+                '"nounnot ", "nounnot", "nounsub ", "step", "thru", "unless", "while", "{", "|", ' .
+                'boolean, comment, end of input, float, ' .
                 'identifier, integer, string or whitespace but ")" found. (At about line 1 character 11.)';
         $this->assertEquals($err, $rte);
     }

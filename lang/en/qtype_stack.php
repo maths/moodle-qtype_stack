@@ -30,6 +30,9 @@ $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
 $string['privacy:metadata']  = 'The STACK question type plugin does not store any personal data.';
+$string['cachedef_parsercache'] = 'STACK parsed Maxima expressions';
+$string['cachedef_librarycache'] = 'STACK question library renders and file structure';
+
 $string['mbstringrequired'] = 'Installing the MBSTRING library is required for STACK.';
 $string['yamlrecommended']  = 'Installing the YAML library is recommended for STACK.';
 
@@ -42,6 +45,8 @@ $string['runtimeerror']      = 'This question generated an unexpected internal e
 $string['questionbroken']    = 'The question has been marked as broken during editing.';
 $string['runtimefielderr']   = 'The field ""{$a->field}"" generated the following error: {$a->err}';
 $string['version']           = 'Version';
+$string['checkcasconnection_check'] = 'Maxima connection for STACK';
+$string['checkstack_version_check']      = 'STACK-Maxima library version';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
@@ -404,6 +409,7 @@ This is a tag which is key for reporting purposes.  It is designed to record the
 $string['variantsselectionseed'] = 'Random group';
 $string['variantsselectionseed_help'] = 'Normally you can leave this box blank. If, however, you want two different questions in a quiz to use the same random seed, then type the same string in this box for the two questions (and deploy the same set of random seeds, if you are using deployed variants) and the random seeds for the two questions will be synchronised.';
 $string['verifyquestionandupdate'] = 'Verify the question text and update the form';
+$string['versionwarning'] = 'This will update the latest version of the question. If you wish your changes to be made in a new version of the question, please save the question in <a href="{$a->url}">the question edit form</a> before submitting this page.';
 $string['youmustconfirm'] = 'You must confirm here.';
 $string['notsaved'] = '** QUESTION WAS NOT SAVED **';
 $string['mustconfirm'] = 'You have changes to confirm.';
@@ -635,6 +641,7 @@ $string['variants'] = 'Variants';
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
 $string['equivfirstline'] = 'You have used the wrong first line in your argument!';
+$string['equivmixedreasoning']  = 'When reasoning by equivalence either (i) rewrite expressions, or (ii) rewrite equations step by step.  You appear to mix both, which is invalid.';
 
 // Support scripts: CAS chat, healthcheck, etc.
 $string['all'] = 'All';
@@ -646,7 +653,8 @@ $string['savechatmsg'] = 'Question variables and general feedback saved back to 
 $string['pslash'] = 'Protect slashes within Maxima string variables: ';
 $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
-$string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself. \'Save back to question\' overwrites the question variables and general feedback of the current version on the question. Clicking \'Send to question edit form\' does not save your changes directly. It will take you to the question edit form. From there, you can save your changes as a new version of the question.';
+$string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
+$string['chatintro2'] = ' \'Save back to question\' overwrites the question variables and general feedback of the latest version on the question. Clicking \'Send to question edit form\' does not save your changes directly. It will take you to the question edit form for the version of the question given at the top of this page. From there, you can save your changes as a new version of the question. Use \'Send to CAS\' immediately before \'Send to edit form\' to refresh which version you are dealing with.';
 $string['chattitle'] = 'Test the connection to the CAS';
 $string['clearedthecache'] = 'CAS cached has been cleared.';
 $string['clearingcachefiles'] = 'Clearing cached STACK plot files {$a->done}/{$a->total}';
@@ -859,7 +867,7 @@ $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->for
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
 $string['stackCas_forbiddenntuple']         = 'Coordinates are not permitted in this input.';
 $string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nested in the expression: {$a->cmd}.';
-$string['stackCas_chained_inequalities']    = 'You appear to have "chained inequalities" e.g. \(a &lt b &lt c\).  You need to connect individual inequalities with logical operations such as \(and\) or \(or\).';
+$string['stackCas_chained_inequalities']    = 'You appear to have "chained operators" e.g. \(a {$a->op} b {$a->op} c\).  You need to connect individual clauses with logical operations such as \(and\) or \(or\).';
 $string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \leq \) or \( \geq \) must be entered as <= or >=.  You have {$a->cmd} in your expression, which is backwards.';
 $string['stackCas_unencpsulated_comma']     = 'A comma in your expression appears in a strange way.  Commas are used to separate items in lists, sets etc.  You need to use a decimal point, not a comma, in floating point numbers.';
 $string['stackCas_unencpsulated_semicolon'] = 'A semicolon (;) in your expression appears in a strange way.  Semicolons are used to separate items in lists, sets etc.';
@@ -1076,7 +1084,9 @@ $string['ATValidator_res_not_string']   = 'The result of your validator must be 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
 $string['ATAlgEquiv_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
+$string['ATAlgEquiv_SA_not_list_semi']  = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the semicolon (;) separated values with square brackets. ';
 $string['ATAlgEquiv_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATAlgEquiv_SA_not_set_semi']   = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the semicolon (;) separated values with curly brackets. ';
 $string['ATAlgEquiv_SA_not_realset']    = 'Your answer should be a subset of the real numbers.  This could be a set of numbers, or a collection of intervals.';
 $string['ATAlgEquiv_SA_not_equation']   = 'Your answer should be an equation, but is not. ';
 $string['ATAlgEquiv_SA_not_logic']      = 'Your answer should be an equation, inequality or a logical combination of many of these, but is not. ';
@@ -1092,6 +1102,7 @@ $string['ATEqualComAssRules_Opt_List']  = 'The option to this answer test must b
 $string['ATEqualComAssRules_Opt_Incompatible']  = 'The option to this answer test contains incompatible rules.  This is an error.  Please contact your teacher. ';
 
 $string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATSets_SA_not_set_semi']       = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the semicolon (;) separated values with curly brackets. ';
 $string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';
 $string['ATSets_wrongentries']          = 'These entries should not be elements of your set. {$a->m0} ';
 $string['ATSets_missingentries']        = 'The following are missing from your set. {$a->m0} ';
@@ -1171,7 +1182,9 @@ $string['ATDiff_error_list']        = 'The answer test failed.  Please contact y
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';
 
 $string['ATNumerical_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
+$string['ATNumerical_SA_not_list_semi']  = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the semicolon (;) separated values with square brackets. ';
 $string['ATNumerical_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATNumerical_SA_not_set_semi']   = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the semicolon (;) separated values with curly brackets. ';
 $string['ATNumerical_SA_not_number']     = 'Your answer should be a floating point number, but is not. ';
 $string['ATNumerical_SB_not_number']     = 'The value supplied for the teacher\'s answer should be a floating point number, but is not. This is an internal error with the test.  Please ask your teacher about this. ';
 $string['ATNumerical_FAILED']            = 'Your answer should be a floating point number, or a list or set of numbers.  It is not. ';

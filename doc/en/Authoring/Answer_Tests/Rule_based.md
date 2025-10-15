@@ -12,11 +12,12 @@ This is a particularly useful test for checking that an answer is written in a p
 
 Notes
 
-1. This test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}}\) under this test.  In many situations this notation is taken to mean the same thing, but internally in Maxima they are represented by different functions and are not converted to a canonical form by the test.
-2. By design, addition commutes with subtraction, so \( -1+2\equiv 2-1\) and multiplication commutes with division, so \( (ab)/c\equiv a(b/c) \).
-3. By design \(-1/4x \neq -x/4\) since we do not have the rule \( 1\times x \rightarrow x\).  To establish this equivalence we would need a different answer test.
-4. This test can also be used to establish \(\{4,4\} \neq \{4\}\), but \(\{1,2\} = \{2,1\}\) since the arguments of the set constructor function are commutative.  Sets are not associative, so \(\{1,2\} \neq \{\{1\},2\}\).  (See Maxima's `flatten` command.)
-5. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
+1. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
+2. This test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}}\) under this test.  In many situations this notation is taken to mean the same thing, but internally in Maxima they are represented by different functions and are not converted to a canonical form by the test.
+3. By design, addition commutes with subtraction, so \( -1+2\equiv 2-1\) and multiplication commutes with division, so \( (ab)/c\equiv a(b/c) \).
+4. By design \(-1/4x \neq -x/4\) since we do not have the rule \( 1\times x \rightarrow x\).  To establish this equivalence we would need a different answer test.
+5. By design \(0.75 \neq 1/4\).  If you would like to rationalise numbers witihn an expression `ex` you can pre-process it with `num_ensure_rational(ex)`.  This traverses the expression tree and makes sure all floating point numbers are converted.  This is different from applying Maxima's `rat` function at the top level which changes the structure of the expression.  Beware of converting binary floats into rational expressions though!
+6. This test can also be used to establish \(\{4,4\} \neq \{4\}\), but \(\{1,2\} = \{2,1\}\) since the arguments of the set constructor function are commutative.  Sets are not associative, so \(\{1,2\} \neq \{\{1\},2\}\).  (See Maxima's `flatten` command.)
 
 
 ### Unary minus and division ###
@@ -41,7 +42,7 @@ The teacher must supply an option consisting of a list of the following rule nam
 
 | Name              | Rule                                                                                   |
 |-------------------|----------------------------------------------------------------------------------------|
-| (`ALG_TRANS`)     | _Always included_                                                                      |
+| (`ALG_TRANS`)     | _Included by default_                                                                 |
 | `assAdd`          | Associativity of addition                                                              |
 | `assMul`          | Associativity of multiplication                                                        |
 | `comAdd`          | Commutativity of addition                                                              |
@@ -49,7 +50,8 @@ The teacher must supply an option consisting of a list of the following rule nam
 |  -                 | _Options to switch off the defaults_                                                  |
 | `noncomAdd`       | Indicate addition is non-commutative                                                   |
 | `noncomMul`       | Indicate multiplication is non-commutative                                             |
-| `comMulNum`       | Commutativity of numbers only within multiplication                                    |
+| `comMulNum`       | Commutativity of numbers (inc unary minus) only within multiplication                  |
+| `comNeg`          | Commutativity of only unary minus within multiplication                                |
 | (`ID_TRANS`)      |                                                                                        |
 | `zeroAdd`         | \(0+x \rightarrow x\)                                                                  |
 | `zeroMul`         | \(0\times x \rightarrow 0\)                                                            |
@@ -72,6 +74,9 @@ The teacher must supply an option consisting of a list of the following rule nam
 | `intAdd`          | Perform addition on integers                                                           |
 | `intMul`          | Perform multiplication on integers                                                     |
 | `intPow`          | Perform exponentiation when both arguments are integers                                |
+|                    |                                                                                        |
+| `ratAdd`          | Add any integer fractions in a sum                                                     | 
+| `ratLow`          | Write a fraction \(a/b\) in lowest terms. \(a\) and \(b\) must be integers             | 
 | Other             |                                                                                        |
 | `intFac`          | Factor integers (incompatible with `intMul`)                                           |
 | `negDist`         | Distribute only `UNARY_MINUS` over a sum (incompatible with `negOrd`)                  |
@@ -127,7 +132,6 @@ To deal with unary minus we transform it into multiplication with a special tag 
 
 Similarly, division is also conveted to `UNARY_RECIP`.  E.g. `(-x)/(-y) = UNARY_MINUS nounmul UNARY_RECIP(UNARY_MINUS nounmul y) nounmul x`.
 
-
 We the use the rule `negDiv` to pull out the unary minus outside the devision (pulls `UNARY_MINUS` outside `UNARY_RECIP`), but we also need the rules `assMul` (associativity) and `comMul` (commutativity).  E.g. try the following in the STACK-maxima sandbox.
 
     ex:(-x)/(-y);
@@ -140,7 +144,7 @@ This results in `UNARY_MINUS nounmul UNARY_MINUS nounmul x nounmul UNARY_RECIP(y
 
 gives `x nounmul UNARY_RECIP(y)`.
 
-The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
+The goal of this code is to create reliable equivalence classes of expressions.  We are gradually expanding the use to allow full control over elementary expressions. Note in particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
 
 The simplfier is designed to go in one direction only to establish membership of an equivalence class. We do not (as of Dec 2024) support displaying the resulting manipulated expressions in traditional form.
 

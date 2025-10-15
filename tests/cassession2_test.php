@@ -2756,6 +2756,9 @@ final class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['%i * %pi', '\pi\,\mathrm{i}'];
         $cases[] = ['%i * 2*%pi', '2\cdot \pi\,\mathrm{i}'];
         $cases[] = ['%i * 2*%pi/3', '\frac{2\cdot \pi}{3}\,\mathrm{i}'];
+        $cases[] = ['-1/8+(sqrt(3)-36)/8*%i', '-\frac{1}{8}+\frac{\sqrt{3}-36}{8}\,\mathrm{i}'];
+        $cases[] = ['-(((4*sqrt(3)-9)*%i+4)/2)', '-2-\frac{4\cdot \sqrt{3}-9}{2}\,\mathrm{i}'];
+        $cases[] = ['((4*sqrt(3)-9)*%i+4)/2', '2+\frac{4\cdot \sqrt{3}-9}{2}\,\mathrm{i}'];
 
         $s1 = [];
         foreach ($cases as $k => $case) {

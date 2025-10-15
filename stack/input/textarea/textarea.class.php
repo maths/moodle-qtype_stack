@@ -226,7 +226,7 @@ class stack_textarea_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars,
-                                          $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
+                                          $valid, $errors, $castextprocessor, $inertdisplayform, $ilines, $notes) {
 
         $rows = [];
         foreach ($caslines as $index => $cs) {
@@ -278,7 +278,7 @@ class stack_textarea_input extends stack_input {
         }
 
         // Return errors = null to delete error messages from the bottom of the input.
-        return [$valid, null, $display];
+        return [$valid, null, $display, $notes];
     }
 
     /**

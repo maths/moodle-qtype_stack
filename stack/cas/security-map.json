@@ -4956,7 +4956,6 @@
       "logicnoun": "nounnot"
   },
   "nounnot": {
-      "operator": "s",
       "nounoperatorfor": "not",
       "operator": "s"
   },
@@ -4966,7 +4965,6 @@
       "logicnoun": "nounnot "
   },
   "nounnot ": {
-      "operator": "s",
       "nounoperatorfor": "not ",
       "operator": "s"
   },
@@ -4975,6 +4973,39 @@
   },
   "noun": {
       "property": "?"
+  },
+  "nounadd": {
+      "nounoperatorfor": "+",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nounmul": {
+      "nounoperatorfor": "*",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nounpow": {
+      "nounoperatorfor": "^",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "noundiv": {
+      "nounoperatorfor": "/",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nouneq": {
+      "nounoperatorfor": "=",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nounsub": {
+      "operator": "s",
+      "nounoperatorfor": "-"
+  },
+  "nounsub ": {
+      "operator": "s",
+      "nounoperatorfor": "-"
   },
   "nounand": {
       "nounoperatorfor": "and",
@@ -7776,6 +7807,10 @@
   },
   "tex_display": {
       "function": "?"
+  },
+  "tex_plain_atoms": {
+      "variable": "t",
+      "contextvariable": "true"
   },
   "texput": {
       "function": "?",

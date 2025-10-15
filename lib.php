@@ -82,3 +82,13 @@ function qtype_stack_question_pluginfile($course, $context, $component,
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
+/**
+ * Add checks on CAS connection and STACK maxima version to admin status report.
+ * @return array check results
+ */
+function qtype_stack_status_checks(): array {
+    global $CFG;
+    require_once($CFG->dirroot . '/question/type/stack/classes/check/casconnection_check.php');
+    require_once($CFG->dirroot . '/question/type/stack/classes/check/stack_version_check.php');
+    return [new \qtype_stack\check\casconnection_check(), new \qtype_stack\check\stack_version_check()];
+}

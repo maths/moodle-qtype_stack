@@ -351,7 +351,7 @@ class stack_equiv_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars,
-                                            $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
+                                            $valid, $errors, $castextprocessor, $inertdisplayform, $ilines, $notes) {
 
         if ($this->extraoptions['firstline']) {
             $foundfirstline = false;
@@ -411,7 +411,18 @@ class stack_equiv_input extends stack_input {
             }
         }
 
-        return [$valid, $errors, $display];
+        foreach ($additionalvars as $index => $cs) {
+            if ($cs->get_key() === 'argvalidation' && $cs->is_correctly_evaluated()) {
+                if ('false' === $cs->get_value()) {
+                    // Then the student has used mixed reasoning.
+                    $valid = false;
+                    $notes['equivmixedreasoning'] = true;
+                    $display .= html_writer::tag('p', stack_string('equivmixedreasoning'));
+                }
+            }
+        }
+
+        return [$valid, $errors, $display, $notes];
     }
 
 
@@ -432,6 +443,10 @@ class stack_equiv_input extends stack_input {
         $s = 'equiv'.$this->name.':disp_stack_eval_arg('.$this->name.', '.$showlogic.', '. $showdomain.
             ', '.$equivdebug.', '.$debuglist.')';
         $an = stack_ast_container::make_from_teacher_source($s);
+
+        // Check we have valid overall reasoning.
+        $d = 'argvalidation:stack_eval_arg_validationp('.$this->name.')';
+        $db = stack_ast_container::make_from_teacher_source($d);
 
         $calculus = 'false';
         if ($this->extraoptions['calculus']) {
@@ -460,7 +475,7 @@ class stack_equiv_input extends stack_input {
             $fl->get_valid();
         }
 
-        return ['calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl];
+        return ['calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl, 'argvalidation' => $db];
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

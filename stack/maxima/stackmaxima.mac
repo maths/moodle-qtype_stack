@@ -1177,7 +1177,8 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
 
 /* An algebraic equivalence test which does not evaluate noun forms, but does other simplifications.
 */
-ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
+ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN, algebraic_equivalence_nounsp],
+    algebraic_equivalence_nounsp: false,
     /* Turn on simplification and error catch */
     if is(_EC(errcatch(SA:ev(SA, simp, rat)), "") = false) then
         return([false, false, StackAddNote("", "ATAlgEquivNouns_STACKERROR_SAns"), ""]),
@@ -3325,15 +3326,12 @@ ATDiff(sa, sb, so) :=
     old_simp:simp, simp:false, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
 
-    SAA:errcatch(ev(sa, simp, nouns)),
+    SAA:errcatch(ev(sa, nouns, simp)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(sb, simp, nouns)),
+    SBB:errcatch(ev(sb, nouns, simp)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_TAns"),""]),
-    SOO:errcatch(ev(so, simp, nouns)),
+    SOO:errcatch(ev(so, nouns, simp)),
     if (is(SOO=[STACKERROR]) or is(SOO=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_Opt"),""]),
-
-    /* We always simplify the teacher's answer. */
-    sb:first(SBB),
 
     /* SA should be only an expression. */
     if expressionp(sa)=false then

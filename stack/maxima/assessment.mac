@@ -1074,6 +1074,7 @@ texput(binomial, binomialtex);
 
 algebraic_equivalence_factorp:true;
 algebraic_equivalence_trigexpandp:true;
+algebraic_equivalence_nounsp:true;
 
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
@@ -1087,10 +1088,21 @@ algebraic_equivalence(SA, SB) :=
 
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
     if numerical_not_alg_equiv(SA, SB) then return(false),
+
     trigexpand:false,
     logexpand:super,
     keepfloat:true,
     sumsplitfact:false,
+
+    /* We evaluate nouns here as this is done very early in ATAlgEquiv, but this function is used elsewhere. */
+    if algebraic_equivalence_nounsp then block(
+        SA:errcatch(ev(SA, nouns)),
+        if SA=[] then error("algebraic_equivalence: evaluating nouns in SA threw an error."),
+        SA:SA[1],
+        SB:errcatch(ev(SB, nouns)),
+        if SB=[] then error("algebraic_equivalence: evaluating nouns in SB threw an error."),
+        SB:SB[1]
+    ),
     /* In some cases we just go inside the function one level. */
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
@@ -1111,6 +1123,7 @@ algebraic_equivalence(SA, SB) :=
         SA:ev(SA, lg=logbasesimp),
     if not(freeof(lg, SB)) then
         SB:ev(SB, lg=logbasesimp),
+    if SA=SB then return(true),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),

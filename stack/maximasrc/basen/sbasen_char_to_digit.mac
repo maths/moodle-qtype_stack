@@ -7,12 +7,12 @@
  * @param[string] char, a single character string.
  * @return[integer] the matching number in the range 0-35, or false for unknown
  */
-sbasen_char_to_digit(char) := block([_i],
+sbasen_char_to_digit(char) := block([ndx],
  	if slength(char) # 1 then return(false),
- 	_i : sposition(char,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"),
- 	if is(_i = false) then return(false) else _i: ev(_i - 1, simp),
- 	if _i > 35 then _i: ev(_i - 26, simp),
- 	return(_i)
+ 	ndx : sposition(char,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"),
+ 	if is(ndx = false) then return(false) else ndx: ev(ndx - 1, simp),
+ 	if ndx > 35 then ndx: ev(ndx - 26, simp),
+ 	return(ndx)
 )$
 s_test_case(simp) := is(sbasen_char_to_digit("0")=0)$
 s_test_case(simp) := is(sbasen_char_to_digit("A")=10)$

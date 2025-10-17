@@ -8,13 +8,13 @@
  * Use `sbasen_truncate_left` to throw the extra high digits away if that is 
  * neeeded.
  *
- * @param[stackbasen] number, a stackbasen-object to pad.
+ * @param[stackbasen] sbasen_number, a stackbasen-object to pad.
  * @param[int] width, the digit width to aim for
  * @return[stackbasen] the padded stackbasen-object.
  */
-sbasen_pad(number, width) := block([simp,digits,fmt,base,prefix,suffix],
+sbasen_pad(sbasen_number, width) := block([simp,digits,fmt,base,prefix,suffix],
     simp: true,
-	[digits,fmt,base]: args(number),
+	[digits,fmt,base]: args(sbasen_number),
 	
 	suffix:"",
 	prefix:"",
@@ -24,7 +24,7 @@ sbasen_pad(number, width) := block([simp,digits,fmt,base,prefix,suffix],
 	elseif is(fmt = "C") then (prefix: "0b", digits: substring(digits, 3)),
 
 	/* If already wide enough. */
-	if is(slength(digits) >= width) then return(number),
+	if is(slength(digits) >= width) then return(sbasen_number),
     digits: sconcat(simplode(makelist("0", x, 1, width - slength(digits))), digits),
 
 	return(stackbasen(sconcat(prefix, digits, suffix), fmt, base))
@@ -39,13 +39,13 @@ s_test_case(simp) := is(sbasen_pad(stackbasen("1_2","S",2),8)=stackbasen("000000
  *
  * There is a lowest digits version `sbasen_truncate_right` should one need it.
  *
- * @param[stackbasen] number, a stackbasen-object to truncate.
+ * @param[stackbasen] sbasen_number, a stackbasen-object to truncate.
  * @param[int] width, the digit width to aim for
  * @return[stackbasen] the padded stackbasen-object.
  */
-sbasen_truncate_left(number, width) := block([simp,digits,fmt,base,prefix,suffix],
+sbasen_truncate_left(sbasen_number, width) := block([simp,digits,fmt,base,prefix,suffix],
     simp: true,
-	[digits,fmt,base]: args(number),
+	[digits,fmt,base]: args(sbasen_number),
 	
 	suffix:"",
 	prefix:"",
@@ -55,7 +55,7 @@ sbasen_truncate_left(number, width) := block([simp,digits,fmt,base,prefix,suffix
 	elseif is(fmt = "C") then (prefix: "0b", substring(digits, 3)),
 
 	/* If already short enough. */
-	if is(slength(digits) <= width) then return(number),
+	if is(slength(digits) <= width) then return(sbasen_number),
     digits: substring(digits, slength(digits) - width + 1),
 
 	return(stackbasen(sconcat(prefix, digits, suffix), fmt, base))
@@ -74,9 +74,9 @@ s_test_case(simp) := is(sbasen_truncate_left(stackbasen("00000001_2","S",2),4)=s
  * @param[int] width, the digit width to aim for
  * @return[stackbasen] the padded stackbasen-object.
  */
-sbasen_truncate_right(number, width) := block([simp,digits,fmt,base,prefix,suffix],
+sbasen_truncate_right(sbasen_number, width) := block([simp,digits,fmt,base,prefix,suffix],
     simp: true,
-	[digits,fmt,base]: args(number),
+	[digits,fmt,base]: args(sbasen_number),
 	
 	suffix:"",
 	prefix:"",
@@ -86,7 +86,7 @@ sbasen_truncate_right(number, width) := block([simp,digits,fmt,base,prefix,suffi
 	elseif is(fmt = "C") then (prefix: "0b", substring(digits, 3)),
 
 	/* If already short enough. */
-	if is(slength(digits) <= width) then return(number),
+	if is(slength(digits) <= width) then return(sbasen_number),
     digits: substring(digits, 1, width + 1),
 
 	return(stackbasen(sconcat(prefix, digits, suffix), fmt, base))

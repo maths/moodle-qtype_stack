@@ -41,7 +41,7 @@ when odd number of arguments are true, not just when exactly one is.
 | expression/stackbasen | and expression where all logical operations<br>  between "binary" `stackbasen`-objects have been evaluated as bitwise<br>  operations. |
 
 
-## sbasen_convert_to_binary(number,fmt)<a id='sbasen_convert_to_binary'></a>
+## sbasen_convert_to_binary(number,format)<a id='sbasen_convert_to_binary'></a>
 
 A function to convert to binary `stackbasen`. Will work with positive
 raw integers or with any `stackbasen` objects.
@@ -56,7 +56,7 @@ the constructor [`sbasen_construct_from_base10`](../index.md#sbasen_construct_fr
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
 | number | integer or stackbasen | a number to convert. |
-| fmt | string | a single character string selecting between "C" and "S"<br>               presentation formats |
+| format | string | a single character string selecting between "C" and "S"<br>               presentation formats |
 
 
 | Return type | description |
@@ -64,7 +64,7 @@ the constructor [`sbasen_construct_from_base10`](../index.md#sbasen_construct_fr
 | stackbasen | an object representing that binary number. |
 
 
-## sbasen_pad(number,width)<a id='sbasen_pad'></a>
+## sbasen_pad(sbasen_number,width)<a id='sbasen_pad'></a>
 
 Pads a `stackbasen` number with 0-digits from the left so that the number
 has the desired width (bit width or otherwise). Intended for binary
@@ -77,7 +77,7 @@ neeeded.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| number | stackbasen | a stackbasen-object to pad. |
+| sbasen_number | stackbasen | a stackbasen-object to pad. |
 | width | int | the digit width to aim for |
 
 
@@ -86,7 +86,7 @@ neeeded.
 | stackbasen | the padded stackbasen-object. |
 
 
-## sbasen_truncate_left(number,width)<a id='sbasen_truncate_left'></a>
+## sbasen_truncate_left(sbasen_number,width)<a id='sbasen_truncate_left'></a>
 
 Drops extra highest digits from the number if the number is overly long.
 Might be of use when doing binary operations.
@@ -95,7 +95,7 @@ There is a lowest digits version [`sbasen_truncate_right`](#sbasen_truncate_righ
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| number | stackbasen | a stackbasen-object to truncate. |
+| sbasen_number | stackbasen | a stackbasen-object to truncate. |
 | width | int | the digit width to aim for |
 
 
@@ -104,7 +104,7 @@ There is a lowest digits version [`sbasen_truncate_right`](#sbasen_truncate_righ
 | stackbasen | the padded stackbasen-object. |
 
 
-## sbasen_truncate_right(number,width)<a id='sbasen_truncate_right'></a>
+## sbasen_truncate_right(sbasen_number,width)<a id='sbasen_truncate_right'></a>
 
 Drops extra lowest digits from the number if the number is overly long.
 Might be of use when doing binary operations.

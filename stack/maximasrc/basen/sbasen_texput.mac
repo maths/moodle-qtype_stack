@@ -29,12 +29,12 @@ sbasen_output_force_case: "preserve"$
  *
  * This function respects the option `sbasen_output_force_case`.
  *
- * @param[stackbasen] sbasen_num, a single base-N object in the `"S"`-format.
+ * @param[stackbasen] sbasen_number, a single base-N object in the `"S"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_suffix(sbasen_num) := block([splt],
+sbasen_texput_suffix(sbasen_number) := block([splt],
     /* @ignore[global=sbasen_output_force_case] */
-	splt : split(first(sbasen_num), "_"),
+	splt : split(first(sbasen_number), "_"),
 	if sbasen_output_force_case = "upper" then
 		return(sconcat("{\\textrm{",supcase(splt[1]), "}}_{", splt[2], "}"))
 	elseif sbasen_output_force_case = "lower" then
@@ -59,11 +59,11 @@ s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16))="{\\t
  * Feel free to override this function in the preamble, if the style does not
  * match your needs.
  *
- * @param[stackbasen] sbasen_num, a single base-N object in the `"C"`-format.
+ * @param[stackbasen] sbasen_number, a single base-N object in the `"C"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_C_binary(sbasen_num) := block([tmp],
-	tmp: sconcat("{\\texttt{", first(sbasen_num), "}}"),
+sbasen_texput_C_binary(sbasen_number) := block([tmp],
+	tmp: sconcat("{\\texttt{", first(sbasen_number), "}}"),
 	return(tmp)
 )$
 
@@ -75,11 +75,11 @@ sbasen_texput_C_binary(sbasen_num) := block([tmp],
  * Feel free to override this function in the preamble, if the style does not
  * match your needs.
  *
- * @param[stackbasen] sbasen_num, a single base-N object in the `"C"`-format.
+ * @param[stackbasen] sbasen_number, a single base-N object in the `"C"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_C_octal(sbasen_num) := block([tmp],
-	tmp: sconcat("{\\texttt{", first(sbasen_num), "}}"),
+sbasen_texput_C_octal(sbasen_number) := block([tmp],
+	tmp: sconcat("{\\texttt{", first(sbasen_number), "}}"),
 	return(tmp)
 )$
 
@@ -93,14 +93,14 @@ sbasen_texput_C_octal(sbasen_num) := block([tmp],
  *
  * This function respects the option `sbasen_output_force_case`.
  *
- * @param[stackbasen] sbasen_num, a single base-N object in the `"C"`-format.
+ * @param[stackbasen] sbasen_number, a single base-N object in the `"C"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_C_hex(sbasen_num) := block([tmp],
+sbasen_texput_C_hex(sbasen_number) := block([tmp],
 	/* @ignore[global=sbasen_output_force_case] */
-	tmp: if sbasen_output_force_case = "upper" then supcase(first(sbasen_num), 3)
-	elseif sbasen_output_force_case = "lower" then sdowncase(first(sbasen_num), 3)
-	else first(sbasen_num),
+	tmp: if sbasen_output_force_case = "upper" then supcase(first(sbasen_number), 3)
+	elseif sbasen_output_force_case = "lower" then sdowncase(first(sbasen_number), 3)
+	else first(sbasen_number),
 	tmp: sconcat("{\\texttt{", tmp, "}}"),
 	return(tmp)
 )$

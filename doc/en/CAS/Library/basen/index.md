@@ -167,7 +167,7 @@ The values `"upper"` and `"lower"` will convert cases.
 Note, affects validation display only if defined in the preamble.
 
 
-## sbasen_texput_C_binary(sbasen_num)<a id='sbasen_texput_C_binary'></a>
+## sbasen_texput_C_binary(sbasen_number)<a id='sbasen_texput_C_binary'></a>
 
 A function to convert singular C binary format `stackbasen` object to
 a LaTeX string presentation. By default `\texttt{0b101}` is the output
@@ -178,7 +178,7 @@ match your needs.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| sbasen_num | stackbasen | a single base-N object in the `"C"`-format. |
+| sbasen_number | stackbasen | a single base-N object in the `"C"`-format. |
 
 
 | Return type | description |
@@ -186,7 +186,7 @@ match your needs.
 | string | the matching LaTeX presentation |
 
 
-## sbasen_texput_C_hex(sbasen_num)<a id='sbasen_texput_C_hex'></a>
+## sbasen_texput_C_hex(sbasen_number)<a id='sbasen_texput_C_hex'></a>
 
 A function to convert singular C hex format `stackbasen` object to
 a LaTeX string presentation. By default `\texttt{0xAbc1}` is the output
@@ -199,7 +199,7 @@ This function respects the option [`sbasen_output_force_case`](#sbasen_output_fo
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| sbasen_num | stackbasen | a single base-N object in the `"C"`-format. |
+| sbasen_number | stackbasen | a single base-N object in the `"C"`-format. |
 
 
 | Return type | description |
@@ -207,7 +207,7 @@ This function respects the option [`sbasen_output_force_case`](#sbasen_output_fo
 | string | the matching LaTeX presentation |
 
 
-## sbasen_texput_C_octal(sbasen_num)<a id='sbasen_texput_C_octal'></a>
+## sbasen_texput_C_octal(sbasen_number)<a id='sbasen_texput_C_octal'></a>
 
 A function to convert singular C octal format `stackbasen` object to
 a LaTeX string presentation. By default `\texttt{0755}` is the output
@@ -218,7 +218,7 @@ match your needs.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| sbasen_num | stackbasen | a single base-N object in the `"C"`-format. |
+| sbasen_number | stackbasen | a single base-N object in the `"C"`-format. |
 
 
 | Return type | description |
@@ -226,7 +226,7 @@ match your needs.
 | string | the matching LaTeX presentation |
 
 
-## sbasen_texput_suffix(sbasen_num)<a id='sbasen_texput_suffix'></a>
+## sbasen_texput_suffix(sbasen_number)<a id='sbasen_texput_suffix'></a>
 
 A function to convert singular suffix format `stackbasen` object to
 a LaTeX string presentation. By default `{\textrm{123}}_{10}` is the output format.
@@ -238,7 +238,7 @@ This function respects the option [`sbasen_output_force_case`](#sbasen_output_fo
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| sbasen_num | stackbasen | a single base-N object in the `"S"`-format. |
+| sbasen_number | stackbasen | a single base-N object in the `"S"`-format. |
 
 
 | Return type | description |

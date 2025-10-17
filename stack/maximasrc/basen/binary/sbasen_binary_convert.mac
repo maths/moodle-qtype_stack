@@ -10,15 +10,15 @@
  * `sbasen_convert_to_base10`. This is just a convenience wrapper for them.
  *
  * @param[integer or stackbasen] number, a number to convert.
- * @param[string] fmt, a single character string selecting between "C" and "S"
+ * @param[string] format, a single character string selecting between "C" and "S"
  *                presentation formats
  * @return[stackbasen] an object representing that binary number.
  */
-sbasen_convert_to_binary(number, fmt) := block([out],
-	out: if integerp(number) then sbasen_construct_from_base10(number, fmt, 2)
+sbasen_convert_to_binary(number, format) := block([out],
+	out: if integerp(number) then sbasen_construct_from_base10(number, format, 2)
 	else (
 		number: sbasen_convert_to_base10(number),
-		sbasen_construct_from_base10(number, fmt, 2)
+		sbasen_construct_from_base10(number, format, 2)
 	),
 	return(out)
 )$

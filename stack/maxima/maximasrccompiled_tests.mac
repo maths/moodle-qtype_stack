@@ -105,5 +105,27 @@ s_test_case(simp):=is(setify(extract_matching_parts(integerp,1/4)) = {1,4})$
 s_exec_test("expressions/extraction/extract_matching_parts.mac:22",1)$
 s_test_case(simp):=is(extract_matching_parts(integerp,%pi/1.2) = [])$
 s_exec_test("expressions/extraction/extract_matching_parts.mac:23",2)$
+s_test_case(simp):=is(stack_unit_si_to_si_base(1000*g) = 1*kg)$
+s_exec_test("stackunits/stack_unit_si_to_si_base.mac:68",1)$
+s_test_case(simp):=is(stack_unit_si_to_si_base(stackunits(1000,g)) = stackunits(1,kg))$
+s_exec_test("stackunits/stack_unit_si_to_si_base.mac:69",2)$
+s_test_case(simp):=is(backtosibase(1000*g) = 1*kg)$
+s_exec_test("stackunits/stack_unit_si_to_si_base.mac:70",3)$
+s_test_case(simp):=is(str_to_html("&>ö") = "&amp;&gt;ö")$
+s_exec_test("strings/escapes/str_to_html.mac:13",1)$
+s_test_case(simp):=is(str_to_html("&lt;") = "&amp;lt;")$
+s_exec_test("strings/escapes/str_to_html.mac:14",2)$
+s_test_case(simp):=is(str_to_html_char("<") = "&lt;")$
+s_exec_test("strings/escapes/str_to_html_char.mac:18",1)$
+s_test_case(simp):=is(str_to_html_char("ä") = "ä")$
+s_exec_test("strings/escapes/str_to_html_char.mac:19",2)$
+s_test_case(simp):=is(str_to_js("'foo'") = "\\'foo\\'")$
+s_exec_test("strings/escapes/str_to_js.mac:12",1)$
+s_test_case(simp):=is(str_to_js("a_bc") = "a_bc")$
+s_exec_test("strings/escapes/str_to_js.mac:13",2)$
+s_test_case(simp):=is(str_to_js_char("\\") = "\\\\")$
+s_exec_test("strings/escapes/str_to_js_char.mac:16",1)$
+s_test_case(simp):=is(str_to_js_char("'") = "\\'")$
+s_exec_test("strings/escapes/str_to_js_char.mac:17",2)$
 simp:true$
 if s_test_fails = 0 then print("All tests successfully executed.")$

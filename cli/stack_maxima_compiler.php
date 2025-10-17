@@ -110,12 +110,202 @@ class doc_tree_node {
     }
 }
 
-
 $docs = []; // Name -> text-blob.
 $categories = []; // Directoryname -> object.
 $categories[''] = new doc_tree_node(null);
 $categories['']->name = 'ROOT';
 $nametopath = []; // Name -> Directoryname.
+$title = []; // Name -> string
+
+// An AST filter of sorts. Modifies function/lambda definitions so that
+// all arguments and block local variables. Does not track the `local()`
+// variables. Only the `block([vars],...)`
+function var_rename(MP_Statement $ast): MP_Statement {
+    $r = $ast;
+    $ast->callbackRecurse(null); // Fill the parents.
+    if ($r->statement instanceof MP_Operation
+        && $r->statement->op === ':='
+        && $r->statement->lhs instanceof MP_FunctionCall) {
+        // We are actually working on something.
+        $annotations = $r->position['annotations'];
+        // Add certain names saved by default from rename.
+        $flags = stack_cas_security::get_all_with_feature('evflag');
+        foreach ($flags as $id) {
+            $annotations['ignore']['rename'][$id] = $id;
+        }
+        // Fetch all identifiers and classify them.
+        $ids = [];
+        $idcrawl = function ($node) use (&$ids, $ast, $flags) {
+            if ($node instanceof MP_Identifier) {
+                if (!isset($ids[$node->value])) {
+                    $ids[$node->value] = [
+                        'arg' => [],
+                        'lambda-arg' => [],
+                        'block-local' => [],
+                        'call' => [],
+                        'var' => [],
+                        'tick' => []
+                    ];
+                }
+                if ($node->parentnode instanceof MP_FunctionCall
+                    && $node->parentnode->is_definition()
+                    && $node->parentnode->parentnode->parentnode === $ast
+                    && array_search($node, $node->parentnode->arguments) !== false) {
+                    // f(X...):=...
+                    // but only this local one no nested defs.
+                    $ids[$node->value]['arg'][] = $node;
+                } else if ($node->parentnode instanceof MP_List
+                    && $node->parentnode->parentnode instanceof MP_FunctionCall
+                    && $node->parentnode->parentnode->name->toString() === 'lambda'
+                    && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0) {
+                    // ...lambda([X...],...)...
+                    $ids[$node->value]['lambda-arg'][] = $node;
+                } else if ($node->parentnode instanceof MP_List
+                    && $node->parentnode->parentnode instanceof MP_FunctionCall
+                    && $node->parentnode->parentnode->name->toString() === 'block'
+                    && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0) {
+                    // block([X...],...)
+                    $ids[$node->value]['block-local'][] = $node;
+                } else if ($node->parentnode instanceof MP_Operation
+                    && $node->parentnode->lhs === $node
+                    && $node->parentnode->op === ':'
+                    && $node->parentnode->parentnode instanceof MP_List
+                    && $node->parentnode->parentnode->parentnode instanceof MP_FunctionCall
+                    && $node->parentnode->parentnode->parentnode->name->toString() === 'block'
+                    && array_search($node->parentnode->parentnode, $node->parentnode->parentnode->parentnode->arguments) === 0) {
+                    // block([X:...,...],...)
+                    $ids[$node->value]['block-local'][] = $node;
+                } else if ($node->parentnode instanceof MP_PrefixOp && $node->parentnode->op === "'") {
+                    $ids[$node->value]['tick'][] = $node;
+                } else if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
+                    $ids[$node->value]['call'][] = $node;
+                } else if (isset($flags[$node->value]) && $node->parentnode instanceof MP_FunctionCall && $node->parentnode->name->toString() === 'ev' && array_search($node, $node->parentnode->arguments) > 0) {
+                    // Specially ignore use of flags in ev(...,flag).
+                } else if (isset($flags[$node->value]) && $node->parentnode instanceof MP_Operation && $node->parentnode->lhs === $node && ($node->parentnode->op === ':' || $node->parentnode->op === '=') && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name->toString() === 'ev' && array_search($node->parentnode, $node->parentnode->parentnode->arguments) > 0) {
+                    // Specially ignore use of flags in ev(...,flag:...).
+                } else {
+                    $ids[$node->value]['var'][] = $node;
+                }
+            }
+            return true;
+        };
+        $r->callbackRecurse($idcrawl);
+
+        // Generate some variables to use. And skip those already there.
+        // Someone might have done manual pre-emptive work with these.
+        $internal_vars = [];
+        // Generate an excessive number, just in case there exists a lot of lambdas.
+        for ($i = 1; $i < 10*count($ids); $i++) {
+            $iv = "%_si$i";
+            if (!isset($ids[$iv])) {
+                $internal_vars[] = $iv;
+                // And we don't touch that at all.
+                unset($ids[$iv]);
+            }
+        }
+        
+        // Start with arguments of lambdas, moving up the logic tree.
+        foreach ($ids as $id => $details) {
+            if (isset($annotations['ignore']['rename'][$id])) {
+                continue;
+            }
+            foreach (array_reverse($details['lambda-arg']) as $node) {
+                // Handle in inverse order just in case of nesting.
+                // All the nodes inside the lambda.
+                $neighborhood = $node->parentnode->parentnode->asAList();
+                // Pick a name.
+                $newname = array_shift($internal_vars);
+                // Now assuming that there are no ticks or calls...
+                $remainder = [];
+                foreach ($details['var'] as $v) {
+                    if (array_search($v, $neighborhood) !== false) {
+                        $v->value = $newname;
+                    } else {
+                        $remainder[] = $v;
+                    }
+                }
+                $ids[$id]['var'] = $remainder;
+                $details['var'] = $ids[$id]['var'];
+                $node->value = $newname;
+            }
+        }
+        // Then function arguments.
+        foreach ($ids as $id => $details) {
+            if (isset($annotations['ignore']['rename'][$id]) || count($details['arg']) === 0 ) {
+                continue;
+            }
+            // Skip if someone does interesting things with ticks.
+            if (count($details['tick']) > 0) {
+                echo(" Rename issue related to '$id in " . $ast->statement->lhs->name->toString() . "\n");
+                echo("  To disable this WARNING place /* @ignore[rename=$id] */ inside that function definition.\n");
+                continue;
+            }
+            // Skip if someone does interesting things with calls.
+            if (count($details['call']) > 0) {
+                echo(" Rename issue related to $id() in " . $ast->statement->lhs->name->toString() . "\n");
+                echo("  To disable this WARNING place /* @ignore[rename=$id] */ inside that function definition.\n");
+                continue;
+            }
+            foreach ($details['arg'] as $node) {
+                // Realistically, only one can exist.
+                $newname = array_shift($internal_vars);
+                foreach ($details['var'] as $v) {
+                    $v->value = $newname;
+                }
+                $ids[$id]['var'] = [];
+                $details['var'] = $ids[$id]['var'];
+                $node->value = $newname;
+            }
+        }
+        // Then the block locals.
+        foreach ($ids as $id => $details) {
+            if (isset($annotations['ignore']['rename'][$id]) || count($details['block-local']) === 0 ) {
+                continue;
+            }
+            // Skip if someone does interesting things with ticks.
+            if (count($details['tick']) > 0) {
+                echo(" Rename issue related to '$id in " . $ast->statement->lhs->name->toString() . "\n");
+                echo("  To disable this WARNING place /* @ignore[rename=$id] */ inside that function definition.\n");
+                continue;
+            }
+            // Skip if someone does interesting things with calls.
+            if (count($details['call']) > 0) {
+                echo(" Rename issue related to $id() in " . $ast->statement->lhs->name->toString() . "\n");
+                echo("  To disable this WARNING place /* @ignore[rename=$id] */ inside that function definition.\n");
+                continue;
+            }
+            foreach ($details['block-local'] as $node) {
+                // Realistically, only one can exist.
+                $newname = array_shift($internal_vars);
+                foreach ($details['var'] as $v) {
+                    $v->value = $newname;
+                }
+                $ids[$id]['var'] = [];
+                $details['var'] = $ids[$id]['var'];
+                $node->value = $newname;
+            }
+        }
+
+        // Then check for globals.
+        foreach ($ids as $id => $details) {
+            if (isset($annotations['ignore']['global'][$id]) || count($details['block-local']) > 0 || count($details['arg']) > 0) {
+                continue;
+            }
+            if (count($details['var']) > 0 && (count($details['block-local']) === 0 && count($details['arg']) === 0)) {
+                echo(" Reference to outside $id in " . $ast->statement->lhs->name->toString() . "\n");
+                echo("  To disable this WARNING place /* @ignore[global=$id] */ inside that function definition.\n");
+                echo("  Check lines: ");
+                foreach ($details['var'] as $node) {
+                    echo ($node->position['start-line'] . ', ');
+                }
+                echo("\n");
+            }
+        }
+    }
+
+    return $r;
+}
+
 
 foreach ($scripts as $filename) {
     $content = trim(file_get_contents($filename));
@@ -160,6 +350,35 @@ foreach ($scripts as $filename) {
                 } else {
                     $payload[] = $item;
                 }
+                // Read annotations and add them to the position array.
+                $item->position['annotations'] = [
+                    'ignore' => [
+                        'global' => [],
+                        'rename' => []
+                    ]
+                ];
+                foreach ($item->internalcomments as $c) {
+                    $matches = [];
+                    preg_match_all('/@([a-z]+)\[([a-z]+)=([^\]]*)\]/', $c->value, $matches);
+                    if (count($matches[0]) > 0) {
+                        for ($i = 0; $i < count($matches[0]); $i++) {
+                            switch ($matches[1][$i]) {
+                                case 'ignore':
+                                    switch ($matches[2][$i]) {
+                                        case 'global':
+                                        case 'rename':
+                                           $item->position['annotations']['ignore'][$matches[2][$i]][$matches[3][$i]] = $matches[3][$i];
+                                            break;
+                                        default:
+                                            echo('Unknown @ignore target ' . $matches[0][$i] . "\n");
+                                    }
+                                    break;
+                                default:
+                                    echo('Unknown annotation ' . $matches[0][$i] . "\n");
+                            }
+                        }
+                    }
+                }
             } else {
                 // Only picking comments that follow the format where the comment starts
                 // with '*' and lines follow that.
@@ -179,7 +398,7 @@ foreach ($scripts as $filename) {
                         }
                         $comment .= "$line\n";
                     }
-                    $comment = trim($comment);
+
                     $comments[$item->position['end']] = $comment;
                 }
             }
@@ -188,7 +407,15 @@ foreach ($scripts as $filename) {
             . ' items of content and ' . count($tests) . " tests.\n");
 
         foreach ($payload as $corg) {
+            // Note that the annotations we already red in.
             $c = $pipeline->filter($corg, $err, $err, $sec);
+            // Collect the title row of a function before renaming.
+            $pre_rename_title = null;
+            if ($c->statement instanceof MP_Operation 
+                && $c->statement->lhs instanceof MP_FunctionCall) {   
+                $pre_rename_title = $c->statement->lhs->toString();
+            }
+            $c = var_rename($c); // Variable rename must happen after CASText compilation.
             $code .= $c->toString($ts) . "$\n";
 
             // Seek for matching comment.
@@ -200,14 +427,63 @@ foreach ($scripts as $filename) {
                     break;
                 }
             }
-            if ($matching !== null) {
+            if ($matching !== null && $c->statement instanceof MP_Operation) {
                 // Is it a variable or a function def?
                 $name = $c->statement->lhs;
                 if ($name instanceof MP_FunctionCall) {
                     $name = $name->name->toString();
+                    $title[$name] = $pre_rename_title;
                 } else {
                     $name = $name->value;
+                    $title[$name] = $name;
                 }
+
+                // Parse the `@param` and `@return` bits.
+                $matches = [];
+                preg_match_all('/@([a-z]+)\[([^\]]*)\]([^@]*)/', $matching, $matches);
+                
+                $argscount = 0;
+                $args = '';
+                $return = '';
+                for ($i = 0; $i < count($matches[0]); $i++) {
+                    switch ($matches[1][$i]) {
+                        case 'param':
+                            // First drop the matched bits from the matching comment.
+                            $matching = str_replace($matches[0][$i], '', $matching);
+                            $argscount++;
+                            if ($args === '') {
+                                $args = "| Argument name | type | description |\n";
+                                $args .= "| ------------- | ---- | ----------- |\n";
+                            }
+                            $aname = trim(explode(',', $matches[3][$i], 2)[0]);
+                            $adesc = trim(explode(',', $matches[3][$i], 2)[1]);
+                            $args .= "| $aname | " . $matches[2][$i] . ' | ';
+                            $args .= str_replace("\n", '<br>', trim($adesc)) . " |\n";
+                            break;
+                        case 'return':
+                            $matching = str_replace($matches[0][$i], '', $matching);
+                            $return = "\n\n| Return type | description |";
+                            $return .= "\n| ----------- | ------------|\n| ";
+                            $return .= $matches[2][$i] . ' | '; 
+                            $return .= str_replace("\n", '<br>', trim($matches[3][$i])) . ' |';
+                            break;
+                        default:
+                            // Maybe be vocal?
+                    }
+                }
+
+                if ($c->statement->lhs instanceof MP_FunctionCall) {
+                    if ($return === '') {
+                        echo(" Return value not documented for '$name'.\n");
+                    }
+                    if ($argscount !== count($c->statement->lhs->arguments)) {
+                        echo(" Arguments for '$name' are not documented.\n");
+                    }
+                }
+
+                // Then add the formatted ones back in.
+                $matching = trim($matching . $args . $return);
+
                 $docs[$name] = $matching;
 
                 // Cats.
@@ -223,7 +499,7 @@ foreach ($scripts as $filename) {
                         $categories[$path] = new doc_tree_node($lastcat);
                         $categories[$path]->name = $cat;
                         if (file_exists(__DIR__ . '/../stack/maximasrc' . $path . '/description.md')) {
-                            $categories[$path]->description = file_get_contents(__DIR__ . '/../stack/maximasrc' . $ccat . '/description.md');
+                            $categories[$path]->description = file_get_contents(__DIR__ . '/../stack/maximasrc' . $path . '/description.md');
                         }
                     }
                     $lastcat = $categories[$path];
@@ -280,7 +556,7 @@ foreach ($categories as $path => $node) {
 
     sort($node->content);
     foreach ($node->content as $name) {
-        $doc .= "\n## $name<a id='$name'></a>\n\n";
+        $doc .= "\n## " . $title[$name] . "<a id='$name'></a>\n\n";
         $doc .= $docs[$name] . "\n\n";
     }
  
@@ -327,7 +603,7 @@ $doc = '<!-- NOTE! This file is autogenerated from files under stack/maximasrc d
 $doc .= "\n# Alphabetical index of STACK specific Maxima functions\n\n";
 $doc .= "[Tree index](index.md)\n\n";
 foreach ($names as $name) {
-    $doc .= "\n- [$name](" . substr($nametopath[$name], 1) . "/index.md#$name)";
+    $doc .= "\n- [" . $title[$name] . "](" . substr($nametopath[$name], 1) . "/index.md#$name)";
 }
 $doc .= "\n";
 file_put_contents(__DIR__ . '/../doc/en/CAS/Library/alphabetical.md', $doc);
@@ -339,11 +615,11 @@ $doc .= "\n# Tree index of STACK specific Maxima functions\n\n";
 $doc .= "[Alphabetical index](alphabetical.md)\n\n";
 
 function node_handler(doc_tree_node $node, $indent = 0, $path = ''): string {
-    global $nametopath;
+    global $nametopath, $title;
     sort($node->content);
     $r = '';
     foreach ($node->content as $name) {
-        $r .= str_repeat(' ', $indent) . "- [$name](" . substr($nametopath[$name], 1) . "/index.md#$name)\n"; 
+        $r .= str_repeat(' ', $indent) . "- [" . $title[$name] . "](" . substr($nametopath[$name], 1) . "/index.md#$name)\n"; 
     }
     foreach ($node->children as $n) {
         $r .= str_repeat(' ', $indent) . '- [' . $n->name . "]($path" . $n->name  . "/index.md) \n";

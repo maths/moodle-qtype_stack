@@ -1,25 +1,30 @@
 /**
  * A function to convert `stackbasen` objects back to normal base-10 numbers,
  * will find all `stackbasen` instances in the input and replaces them with
- * base-10 integers.
+ * raw base-10 integers.
  *
  * Does not verify validity of those `stackbasen` objects, so might generate
  * interesting results.
+ *
+ * @param[expression] expression, an expression that might have 
+ *    `stackbasen`-objects in it.
+ * @return[expression] the original expression with all `stackbasen`-objects
+ * converted to raw integers.
  */
-sbasen_convert_to_base10(ex) := block([_out,_ex,_tmp,_d,_t,_b,_D],
-	_out : ex,
-	for _ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), ex) do (
-		_tmp : 0,
-		_b : third(_ex),
-		_d : sbasen_convert_to_digits_lsd(_ex),
-		_t : 0,
-		for _D in _d do (
-			_tmp : ev(_tmp + _D*(_b^_t),simp),
-			_t : ev(_t + 1, simp)
+sbasen_convert_to_base10(expression) := block([out, sub_ex, tmp, digits, ndx, base, digit],
+	out : expression,
+	for sub_ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), expression) do (
+		tmp : 0,
+		base : third(sub_ex),
+		digits : sbasen_convert_to_digits_lsd(sub_ex),
+		ndx : 0,
+		for digit in digits do (
+			tmp : ev(tmp + digit*(base^ndx),simp),
+			ndx : ev(ndx + 1, simp)
 		),
-		_out : subst(_tmp, _ex, _out)
+		out : subst(tmp, sub_ex, out)
 	),
-	return(_out)
+	return(out)
 )$
 
 s_test_case(simp) := ev(is(sbasen_convert_to_base10(stackbasen("PI_34","S",34)-stackbasen("PI_32","S",32))=50),simp)$
@@ -35,14 +40,19 @@ s_test_case(simp) := is(sbasen_convert_to_base10(stackbasen("Zzz_36","S",36))=46
  * Does not verify validity of those `stackbasen` objects, so might generate
  * interesting results. If a digit does not fit the 0-9+A-Z range expect to
  * see `false` in the list.
+ *
+ * @param[stackbasen] sbasen_number, the `stackbasen`-object to turn to a digit
+ *    list
+ * @return[list] the digits interpereted as base-10 integers, most significant
+ *    digit first
  */
-sbasen_convert_to_digits(ex) := block([_tmp,_d,_t,_b],
-	[_d, _t, _b] : args(ex),
-	_d : if is(_t = "S") then split(_d, "_")[1]
-	elseif is(_t = "C") and is(_b = 8) then substring(_d, 2)
-	elseif is(_t = "C") then substring(_d, 3),
-	_d : map('sbasen_char_to_digit, charlist(_d)),
-	return(_d)
+sbasen_convert_to_digits(sbasen_number) := block([digits,fmt,base],
+	[digits, fmt, base] : args(sbasen_number),
+	digits : if is(fmt = "S") then split(digits, "_")[1]
+	elseif is(fmt = "C") and is(base = 8) then substring(digits, 2)
+	elseif is(fmt = "C") then substring(digits, 3),
+	digits : map('sbasen_char_to_digit, charlist(digits)),
+	return(digits)
 )$
 
 s_test_case(simp) := is(sbasen_convert_to_digits(stackbasen("0xA1","C",16))=[10,1])$
@@ -57,14 +67,19 @@ s_test_case(simp) := is(sbasen_convert_to_digits(stackbasen("0x00FF","C",16))=[0
  * Does not verify validity of those `stackbasen` objects, so might generate
  * interesting results. If a digit does not fit the 0-9+A-Z range expect to
  * see `false` in the list.
+ *
+ * @param[stackbasen] sbasen_number, the `stackbasen`-object to turn to a digit
+ *    list
+ * @return[list] the digits interpereted as base-10 integers, least significant
+ *    digit first
  */
-sbasen_convert_to_digits_lsd(ex) := block([_d,_t,_b],
-	[_d, _t, _b] : args(ex),
-	_d : if is(_t = "S") then split(_d, "_")[1]
-	elseif is(_t = "C") and is(_b = 8) then substring(_d, 2)
-	elseif is(_t = "C") then substring(_d, 3),
-	_d : reverse(map('sbasen_char_to_digit, charlist(_d))),
-	return(_d)
+sbasen_convert_to_digits_lsd(sbasen_number) := block([digits,fmt,base],
+	[digits, fmt, base] : args(sbasen_number),
+	digits : if is(fmt = "S") then split(digits, "_")[1]
+	elseif is(fmt = "C") and is(base = 8) then substring(digits, 2)
+	elseif is(fmt = "C") then substring(digits, 3),
+	digits : reverse(map('sbasen_char_to_digit, charlist(digits))),
+	return(digits)
 )$
 
 s_test_case(simp) := is(sbasen_convert_to_digits_lsd(stackbasen("0xA1","C",16))=[1,10])$

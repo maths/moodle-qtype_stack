@@ -17,78 +17,103 @@
  * To define things further, `xnor` is `not xor(a,b,...)` and `xor` is `true`
  * when odd number of arguments are true, not just when exactly one is.
  *
+ *
+ * @param[expression] basen_logic, expression with `stackbasen` objects as
+ *   targets of normal logical operators
+ * @return[expression/stackbasen] and expression where all logical operations
+ *   between "binary" `stackbasen`-objects have been evaluated as bitwise
+ *   operations.
  */
-sbasen_bitwise_eval(ex):= block([simp,_bw,_ex,_l,_args,_changed,_i,_bits],
+sbasen_bitwise_eval(basen_logic):= block([simp, bit_width, sub_ex, logical_operation_selector, operator_arguments, changes_to_expression, ndx, resulting_bits],
  /* First identify the bitwidth. */
- _bw: 1,
- for _ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), ex) do (
-  if is(third(_ex) = 2) then (
-   _bw: ev(max(_bw, length(sbasen_convert_to_digits(_ex))),simp)
-  ) elseif is(third(_ex) = 8) then (
-   _bw: ev(max(_bw, 3*length(sbasen_convert_to_digits(_ex))),simp)
-  ) elseif is(third(_ex) = 16) then (
-   _bw: ev(max(_bw, 4*length(sbasen_convert_to_digits(_ex))),simp)
+ bit_width: 1,
+ for sub_ex in 
+  extract_matching_parts(lambda([_x],is(safe_op(_x)="stackbasen")), basen_logic)
+ do (
+  if is(third(sub_ex) = 2) then (
+   bit_width: ev(max(bit_width, length(sbasen_convert_to_digits(sub_ex))),simp)
+  ) elseif is(third(sub_ex) = 8) then (
+   bit_width: ev(max(bit_width, 3*length(sbasen_convert_to_digits(sub_ex))),simp)
+  ) elseif is(third(sub_ex) = 16) then (
+   bit_width: ev(max(bit_width, 4*length(sbasen_convert_to_digits(sub_ex))),simp)
   )
  ),
  /* Then try to find bits of the expression that could be processed. */
- _l: lambda([_ex],
-  member(safe_op(_ex),["not","and","or","nand","nor","xor","xnor"])
-  and all_listp(lambda([_x],is(safe_op(_x)="stackbasen") and (is(third(_x)=2) or is(third(_x)=8) or is(third(_x)=16))),args(_ex))
+ logical_operation_selector: lambda([sub_ex],
+  member(safe_op(sub_ex),["not","and","or","nand","nor","xor","xnor"])
+  and all_listp(lambda([_x],
+   is(safe_op(_x)="stackbasen") 
+   and (is(third(_x)=2) or is(third(_x)=8) or is(third(_x)=16))),
+  args(sub_ex))
  ),
- _changed: true,
- while _changed do (
-  _changed: false, 
-  for _ex in extract_matching_parts(_l, ex) do (
+ /* Then repeat until nothing changes. */
+ changes_to_expression: true,
+ while changes_to_expression do (
+  changes_to_expression: false,
+  /* Find all currently present suitable logical expressions. */
+  for sub_ex in extract_matching_parts(logical_operation_selector, basen_logic) do (
     /* Convert all args to boolean vectors. */
-    _args: map(lambda([_x],
+    operator_arguments: map(lambda([_x],
      map(lambda([_y],is(_y>0)),
       sbasen_convert_to_digits(
        sbasen_pad(
         sbasen_convert_to_binary(_x, "S")
-        , _bw
+        , bit_width
        )
       )
      )
-    ),args(_ex)),
-    _bits: makelist(false,_i,1,_bw),
+    ),args(sub_ex)),
+    resulting_bits: makelist(false, ndx, 1, bit_width),
+    
     /* Then figure out the op. Note that not all ops are truly defined. */
-    if is(safe_op(_ex)="not") then (
-     _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "0" else "1"),_args[1])),"_2"),"S",2),
-     ex: subst(_changed, _ex, ex)
-    ) elseif is(safe_op(_ex)="nand") then (
-	 for _i:1 thru _bw do (
-      _bits[_i]: not apply("and",map(lambda([_x],_x[_i]),_args))
+    if is(safe_op(sub_ex)="not") then (
+     changes_to_expression: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "0" else "1"),operator_arguments[1])),"_2"),"S",2),
+     basen_logic: subst(changes_to_expression, sub_ex, basen_logic)
+    ) 
+
+    elseif is(safe_op(sub_ex)="nand") then (
+	   for ndx:1 thru bit_width do (
+      resulting_bits[ndx]: not apply("and",map(lambda([_x],_x[ndx]),operator_arguments))
      ),
-	 _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2),
-	 ex: subst(_changed, _ex, ex)
-    ) elseif is(safe_op(_ex)="nor") then (
-	 for _i:1 thru _bw do (
-      _bits[_i]: not apply("or",map(lambda([_x],_x[_i]),_args))
+	   changes_to_expression: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),resulting_bits)),"_2"),"S",2),
+	   basen_logic: subst(changes_to_expression, sub_ex, basen_logic)
+    ) 
+
+    elseif is(safe_op(sub_ex)="nor") then (
+	   for ndx:1 thru bit_width do (
+      resulting_bits[ndx]: not apply("or",map(lambda([_x],_x[ndx]),operator_arguments))
      ),
-	 _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2),
-	 ex: subst(_changed, _ex, ex)
-    ) elseif is(safe_op(_ex)="xor") or is(safe_op(_ex)="xnor") then (
-	 for _i:1 thru _bw do (
-      _bits[_i]: is(mod(apply("+",map(lambda([_x],if _x[_i] then 1 else 0),_args)),2)=1)
+	   changes_to_expression: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),resulting_bits)),"_2"),"S",2),
+	   basen_logic: subst(changes_to_expression, sub_ex, basen_logic)
+    ) 
+
+    elseif is(safe_op(sub_ex)="xor") or is(safe_op(sub_ex)="xnor") then (
+	   for ndx:1 thru bit_width do (
+      resulting_bits[ndx]: is(mod(apply("+",map(lambda([_x],if _x[ndx] then 1 else 0),operator_arguments)),2)=1)
      ),
-     _changed: if is(safe_op(_ex)="xor") then 
- 	  stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2)
- 	 else
- 	  stackbasen(sconcat(simplode(map(lambda([_x],if _x then "0" else "1"),_bits)),"_2"),"S",2),
-	 ex: subst(_changed, _ex, ex)
-    ) else (
+     changes_to_expression: if is(safe_op(sub_ex)="xor") then 
+ 	     stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),resulting_bits)),"_2"),"S",2)
+ 	    else
+ 	     stackbasen(sconcat(simplode(map(lambda([_x],if _x then "0" else "1"),resulting_bits)),"_2"),"S",2),
+	   basen_logic: subst(changes_to_expression, sub_ex, basen_logic)
+    ) 
+
+    else (
      /* These would be the remaining defined ones. Basically, `and` and `or` */
      /* Write this as a map.. */
-     for _i:1 thru _bw do (
-      _bits[_i]: apply(safe_op(_ex),map(lambda([_x],_x[_i]),_args))
+     for ndx:1 thru bit_width do (
+      resulting_bits[ndx]: apply(safe_op(sub_ex),map(lambda([_x],_x[ndx]),operator_arguments))
      ),
-	 _changed: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),_bits)),"_2"),"S",2),
-	 ex: subst(_changed, _ex, ex)
+	   changes_to_expression: stackbasen(sconcat(simplode(map(lambda([_x],if _x then "1" else "0"),resulting_bits)),"_2"),"S",2),
+	   basen_logic: subst(changes_to_expression, sub_ex, basen_logic)
     ),
-    _changed: true
+    /* If we saw an bitwise op and processed it it might have resolved more ops 
+       to be evaluatable. So repeat after this change. Also we used that var for 
+       other things... */
+    changes_to_expression: true
   )
  ),
- return(ex)
+ return(basen_logic)
 )$
 
 

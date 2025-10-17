@@ -4,7 +4,7 @@
 Functions for extracting parts from expressions, i.e., trees of operations.
 
 
-## extract_matching_parts<a id='extract_matching_parts'></a>
+## extract_matching_parts(predicate,expression)<a id='extract_matching_parts'></a>
 
 Given a predicate, returns a list of all the subtrees of the expression
 matching that predicate. Including subtrees inside previously matched
@@ -12,7 +12,13 @@ subtrees.
 
 Note this is largely the same as Maximas format packages `matching_parts`.
 
-@param[lamda/function] pred, a single argument predicate function
-@param[expression] ex, an expression that may contain parts matching that predicate
-@return[list] the matching subtrees in arbitrary order, could be empty
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| predicate | lamda/function | a single argument predicate function |
+| expression | expression | an expression that may contain parts matching that predicate |
+
+
+| Return type | description |
+| ----------- | ------------|
+| list | the matching subtrees in arbitrary order, could be empty |
 

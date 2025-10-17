@@ -1,10 +1,10 @@
 
-texput("stackbasen", lambda([ex], block([digits, type, base],
-	[digits, type, base] : args(ex),
-	if type = "S" then return(sbasen_texput_suffix(ex))
-	elseif type = "C" and base = 2 then return(sbasen_texput_C_binary(ex))
-	elseif type = "C" and base = 8 then return(sbasen_texput_C_octal(ex))
-	elseif type = "C" and base = 16 then return(sbasen_texput_C_hex(ex)),
+texput("stackbasen", lambda([sbasen_num], block([digits, type, base],
+	[digits, type, base] : args(sbasen_num),
+	if type = "S" then return(sbasen_texput_suffix(sbasen_num))
+	elseif type = "C" and base = 2 then return(sbasen_texput_C_binary(sbasen_num))
+	elseif type = "C" and base = 8 then return(sbasen_texput_C_octal(sbasen_num))
+	elseif type = "C" and base = 16 then return(sbasen_texput_C_hex(sbasen_num)),
 	return("'unknown base-N format'")
 )))$
 
@@ -25,15 +25,16 @@ sbasen_output_force_case: "preserve"$
  * a LaTeX string presentation. By default `{\textrm{123}}_{10}` is the output format.
  *
  * Feel free to override this function in the preamble, if the style does not
- * match your need.
+ * match your needs.
  *
  * This function respects the option `sbasen_output_force_case`.
  *
- * @param[stackbasen] bn, a single base-N object in the `"S"`-format.
+ * @param[stackbasen] sbasen_num, a single base-N object in the `"S"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_suffix(bn) := block([splt],
-	splt : split(first(bn), "_"),
+sbasen_texput_suffix(sbasen_num) := block([splt],
+    /* @ignore[global=sbasen_output_force_case] */
+	splt : split(first(sbasen_num), "_"),
 	if sbasen_output_force_case = "upper" then
 		return(sconcat("{\\textrm{",supcase(splt[1]), "}}_{", splt[2], "}"))
 	elseif sbasen_output_force_case = "lower" then
@@ -56,13 +57,13 @@ s_test_case(simp) := ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16))="{\\t
  * format.
  *
  * Feel free to override this function in the preamble, if the style does not
- * match your need.
+ * match your needs.
  *
- * @param[stackbasen] bn, a single base-N object in the `"C"`-format.
+ * @param[stackbasen] sbasen_num, a single base-N object in the `"C"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_C_binary(bn) := block([tmp],
-	tmp: sconcat("{\\texttt{", first(bn), "}}"),
+sbasen_texput_C_binary(sbasen_num) := block([tmp],
+	tmp: sconcat("{\\texttt{", first(sbasen_num), "}}"),
 	return(tmp)
 )$
 
@@ -72,13 +73,13 @@ sbasen_texput_C_binary(bn) := block([tmp],
  * format.
  *
  * Feel free to override this function in the preamble, if the style does not
- * match your need.
+ * match your needs.
  *
- * @param[stackbasen] bn, a single base-N object in the `"C"`-format.
+ * @param[stackbasen] sbasen_num, a single base-N object in the `"C"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_C_octal(bn) := block([tmp],
-	tmp: sconcat("{\\texttt{", first(bn), "}}"),
+sbasen_texput_C_octal(sbasen_num) := block([tmp],
+	tmp: sconcat("{\\texttt{", first(sbasen_num), "}}"),
 	return(tmp)
 )$
 
@@ -88,17 +89,18 @@ sbasen_texput_C_octal(bn) := block([tmp],
  * format.
  *
  * Feel free to override this function in the preamble, if the style does not
- * match your need.
+ * match your needs.
  *
  * This function respects the option `sbasen_output_force_case`.
  *
- * @param[stackbasen] bn, a single base-N object in the `"C"`-format.
+ * @param[stackbasen] sbasen_num, a single base-N object in the `"C"`-format.
  * @return[string] the matching LaTeX presentation
  */
-sbasen_texput_C_hex(bn) := block([tmp],
-	tmp: if sbasen_output_force_case = "upper" then supcase(first(bn), 3)
-	elseif sbasen_output_force_case = "lower" then sdowncase(first(bn), 3)
-	else first(bn),
+sbasen_texput_C_hex(sbasen_num) := block([tmp],
+	/* @ignore[global=sbasen_output_force_case] */
+	tmp: if sbasen_output_force_case = "upper" then supcase(first(sbasen_num), 3)
+	elseif sbasen_output_force_case = "lower" then sdowncase(first(sbasen_num), 3)
+	else first(sbasen_num),
 	tmp: sconcat("{\\texttt{", tmp, "}}"),
 	return(tmp)
 )$

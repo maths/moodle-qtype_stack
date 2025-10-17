@@ -10,7 +10,7 @@ for these tools is that you need to describe the number of bits in your numbers
 otherwise things won't work.
 
 
-## sbasen_bitwise_eval<a id='sbasen_bitwise_eval'></a>
+## sbasen_bitwise_eval(basen_logic)<a id='sbasen_bitwise_eval'></a>
 
 Given a logical expression with operators `not`, `and`, `or`, `nand`, `nor`,
 `xor`, or `xnor` of `stackbasen` objects. Will interpret those all as their
@@ -31,7 +31,17 @@ To define things further, `xnor` is `not xor(a,b,...)` and `xor` is `true`
 when odd number of arguments are true, not just when exactly one is.
 
 
-## sbasen_convert_to_binary<a id='sbasen_convert_to_binary'></a>
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| basen_logic | expression | expression with `stackbasen` objects as<br>  targets of normal logical operators |
+
+
+| Return type | description |
+| ----------- | ------------|
+| expression/stackbasen | and expression where all logical operations<br>  between "binary" `stackbasen`-objects have been evaluated as bitwise<br>  operations. |
+
+
+## sbasen_convert_to_binary(number,fmt)<a id='sbasen_convert_to_binary'></a>
 
 A function to convert to binary `stackbasen`. Will work with positive
 raw integers or with any `stackbasen` objects.
@@ -43,13 +53,18 @@ Do note that for general conversion between bases you can simply use
 the constructor [`sbasen_construct_from_base10`](../index.md#sbasen_construct_from_base10) and converter
 [`sbasen_convert_to_base10`](../index.md#sbasen_convert_to_base10). This is just a convenience wrapper for them.
 
-@param[integer or stackbasen] num, a number to convert.
-@param[string] fmt, a single character string selecting between "C" and "S"
-               presentations
-@return[stackbasen] an object representing that binary number.
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| number | integer or stackbasen | a number to convert. |
+| fmt | string | a single character string selecting between "C" and "S"<br>               presentation formats |
 
 
-## sbasen_pad<a id='sbasen_pad'></a>
+| Return type | description |
+| ----------- | ------------|
+| stackbasen | an object representing that binary number. |
+
+
+## sbasen_pad(number,width)<a id='sbasen_pad'></a>
 
 Pads a `stackbasen` number with 0-digits from the left so that the number
 has the desired width (bit width or otherwise). Intended for binary
@@ -60,31 +75,49 @@ Note should the number already be wider than the width will not modify it.
 Use [`sbasen_truncate_left`](#sbasen_truncate_left) to throw the extra high digits away if that is
 neeeded.
 
-@param[stackbasen] num, a stackbasen-object to pad.
-@param[int] w, the digit width to aim for
-@return[stackbasen] the padded stackbasen-object.
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| number | stackbasen | a stackbasen-object to pad. |
+| width | int | the digit width to aim for |
 
 
-## sbasen_truncate_left<a id='sbasen_truncate_left'></a>
+| Return type | description |
+| ----------- | ------------|
+| stackbasen | the padded stackbasen-object. |
+
+
+## sbasen_truncate_left(number,width)<a id='sbasen_truncate_left'></a>
 
 Drops extra highest digits from the number if the number is overly long.
 Might be of use when doing binary operations.
 
 There is a lowest digits version [`sbasen_truncate_right`](#sbasen_truncate_right) should one need it.
 
-@param[stackbasen] num, a stackbasen-object to truncate.
-@param[int] w, the digit width to aim for
-@return[stackbasen] the padded stackbasen-object.
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| number | stackbasen | a stackbasen-object to truncate. |
+| width | int | the digit width to aim for |
 
 
-## sbasen_truncate_right<a id='sbasen_truncate_right'></a>
+| Return type | description |
+| ----------- | ------------|
+| stackbasen | the padded stackbasen-object. |
+
+
+## sbasen_truncate_right(number,width)<a id='sbasen_truncate_right'></a>
 
 Drops extra lowest digits from the number if the number is overly long.
 Might be of use when doing binary operations.
 
 There is a highest digits version [`sbasen_truncate_left`](#sbasen_truncate_left) should one need it.
 
-@param[stackbasen] num, a stackbasen-object to truncate.
-@param[int] w, the digit width to aim for
-@return[stackbasen] the padded stackbasen-object.
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| number | stackbasen | a stackbasen-object to truncate. |
+| width | int | the digit width to aim for |
+
+
+| Return type | description |
+| ----------- | ------------|
+| stackbasen | the padded stackbasen-object. |
 

@@ -8,26 +8,26 @@
  * Use `sbasen_truncate_left` to throw the extra high digits away if that is 
  * neeeded.
  *
- * @param[stackbasen] num, a stackbasen-object to pad.
- * @param[int] w, the digit width to aim for
+ * @param[stackbasen] number, a stackbasen-object to pad.
+ * @param[int] width, the digit width to aim for
  * @return[stackbasen] the padded stackbasen-object.
  */
-sbasen_pad(num, w) := block([simp,_d,_t,_b,_pre,_suf],
+sbasen_pad(number, width) := block([simp,digits,fmt,base,prefix,suffix],
     simp: true,
-	[_d,_t,_b]: args(num),
+	[digits,fmt,base]: args(number),
 	
-	_suf:"",
-	_pre:"",
-	if is(_t = "S") then (_suf: sconcat("_", _b), _d: split(_d, "_")[1])
-	elseif is(_t = "C") and is(_b = 8) then (_pre: "0", _d: substring(_d, 2))
-	elseif is(_t = "C") and is(_b = 16) then (_pre: "0x", _d: substring(_d, 3))
-	elseif is(_t = "C") then (_pre: "0b", _d: substring(_d, 3)),
+	suffix:"",
+	prefix:"",
+	if is(fmt = "S") then (suffix: sconcat("_", base), digits: split(digits, "_")[1])
+	elseif is(fmt = "C") and is(base = 8) then (prefix: "0", digits: substring(digits, 2))
+	elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", digits: substring(digits, 3))
+	elseif is(fmt = "C") then (prefix: "0b", digits: substring(digits, 3)),
 
 	/* If already wide enough. */
-	if is(slength(_d) >= w) then return(num),
-    _d: sconcat(simplode(makelist("0", x, 1, w - slength(_d))), _d),
+	if is(slength(digits) >= width) then return(number),
+    digits: sconcat(simplode(makelist("0", x, 1, width - slength(digits))), digits),
 
-	return(stackbasen(sconcat(_pre, _d, _suf), _t, _b))
+	return(stackbasen(sconcat(prefix, digits, suffix), fmt, base))
 )$
 
 s_test_case(simp) := is(sbasen_pad(stackbasen("0xA1","C",16),4)=stackbasen("0x00A1","C",16))$
@@ -39,26 +39,26 @@ s_test_case(simp) := is(sbasen_pad(stackbasen("1_2","S",2),8)=stackbasen("000000
  *
  * There is a lowest digits version `sbasen_truncate_right` should one need it.
  *
- * @param[stackbasen] num, a stackbasen-object to truncate.
- * @param[int] w, the digit width to aim for
+ * @param[stackbasen] number, a stackbasen-object to truncate.
+ * @param[int] width, the digit width to aim for
  * @return[stackbasen] the padded stackbasen-object.
  */
-sbasen_truncate_left(num, w) := block([simp,_d,_t,_b,_pre,_suf],
+sbasen_truncate_left(number, width) := block([simp,digits,fmt,base,prefix,suffix],
     simp: true,
-	[_d,_t,_b]: args(num),
+	[digits,fmt,base]: args(number),
 	
-	_suf:"",
-	_pre:"",
-	if is(_t = "S") then (_suf: sconcat("_", _b), _d: split(_d, "_")[1])
-	elseif is(_t = "C") and is(_b = 8) then (_pre: "0", substring(_d, 2))
-	elseif is(_t = "C") and is(_b = 16) then (_pre: "0x", substring(_d, 3))
-	elseif is(_t = "C") then (_pre: "0b", substring(_d, 3)),
+	suffix:"",
+	prefix:"",
+	if is(fmt = "S") then (suffix: sconcat("_", base), digits: split(digits, "_")[1])
+	elseif is(fmt = "C") and is(base = 8) then (prefix: "0", substring(digits, 2))
+	elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", substring(digits, 3))
+	elseif is(fmt = "C") then (prefix: "0b", substring(digits, 3)),
 
 	/* If already short enough. */
-	if is(slength(_d) <= w) then return(num),
-    _d: substring(_d, slength(_d) - w + 1),
+	if is(slength(digits) <= width) then return(number),
+    digits: substring(digits, slength(digits) - width + 1),
 
-	return(stackbasen(sconcat(_pre, _d, _suf), _t, _b))
+	return(stackbasen(sconcat(prefix, digits, suffix), fmt, base))
 )$
 
 s_test_case(simp) := is(sbasen_truncate_left(stackbasen("00000001_2","S",2),4)=stackbasen("0001_2","S",2))$
@@ -70,26 +70,26 @@ s_test_case(simp) := is(sbasen_truncate_left(stackbasen("00000001_2","S",2),4)=s
  *
  * There is a highest digits version `sbasen_truncate_left` should one need it.
  *
- * @param[stackbasen] num, a stackbasen-object to truncate.
- * @param[int] w, the digit width to aim for
+ * @param[stackbasen] number, a stackbasen-object to truncate.
+ * @param[int] width, the digit width to aim for
  * @return[stackbasen] the padded stackbasen-object.
  */
-sbasen_truncate_right(num, w) := block([simp,_d,_t,_b,_pre,_suf],
+sbasen_truncate_right(number, width) := block([simp,digits,fmt,base,prefix,suffix],
     simp: true,
-	[_d,_t,_b]: args(num),
+	[digits,fmt,base]: args(number),
 	
-	_suf:"",
-	_pre:"",
-	if is(_t = "S") then (_suf: sconcat("_", _b), _d: split(_d, "_")[1])
-	elseif is(_t = "C") and is(_b = 8) then (_pre: "0", substring(_d, 2))
-	elseif is(_t = "C") and is(_b = 16) then (_pre: "0x", substring(_d, 3))
-	elseif is(_t = "C") then (_pre: "0b", substring(_d, 3)),
+	suffix:"",
+	prefix:"",
+	if is(fmt = "S") then (suffix: sconcat("_", base), digits: split(digits, "_")[1])
+	elseif is(fmt = "C") and is(base = 8) then (prefix: "0", substring(digits, 2))
+	elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", substring(digits, 3))
+	elseif is(fmt = "C") then (prefix: "0b", substring(digits, 3)),
 
 	/* If already short enough. */
-	if is(slength(_d) <= w) then return(num),
-    _d: substring(_d, 1, w + 1),
+	if is(slength(digits) <= width) then return(number),
+    digits: substring(digits, 1, width + 1),
 
-	return(stackbasen(sconcat(_pre, _d, _suf), _t, _b))
+	return(stackbasen(sconcat(prefix, digits, suffix), fmt, base))
 )$
 
 s_test_case(simp) := is(sbasen_truncate_right(stackbasen("00000001_2","S",2),4)=stackbasen("0000_2","S",2))$

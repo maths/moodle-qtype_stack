@@ -1684,6 +1684,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // Check for /*...*/ comments in castext in older questions.
+        // TO-DO Should this be here or in the validate_for_bulk function?
         if ($stackversion < $checkpat['ver']) {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
@@ -1717,6 +1718,22 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (!$filesexpected && $filesfound != []) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
             }
+        }
+
+        return implode(' ', $errors);
+    }
+
+    /**
+     * This function is called by the bulk testing script.
+     * This checks for validation warnings and any upgrade issues where we
+     * don't want to stop testing entirely.
+     */
+    public function validate_for_bulk($context) {
+        $errors = [];
+        $fs = get_file_storage();
+        $fields = ['questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription'];
+        foreach ($fields as $field) {
+            $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             // ISS1249 - Check for large file size (> 1MB).
             foreach ($filesfound as $file) {
                 if ($file->get_filesize() > 1048576) {
@@ -1725,10 +1742,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 }
             }
         }
-
         // Add in any warnings.
         $errors = array_merge($errors, $this->validate_warnings(true));
-
         return implode(' ', $errors);
     }
 
@@ -1807,6 +1822,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (preg_match($pat, $text ?? '')) {
                 $warnings[] = stack_string_error('todowarning', ['field' => $field]);
             }
+        }
+
+        if ($this->isbroken) {
+            $warnings[] = stack_string_error('questionbroken');
         }
 
         // 4. Language warning checks.

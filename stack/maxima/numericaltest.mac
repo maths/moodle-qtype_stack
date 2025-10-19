@@ -79,8 +79,8 @@ ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""
     if (SAl#SBl) then
         return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATList_wronglen", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
 
-    SA:map(remove_numerical_inert, SA),
-    SB:map(remove_numerical_inert, SB),
+    SA:map('remove_numerical_inert, SA),
+    SB:map('remove_numerical_inert, SB),
     if numtype = "ABSOLUTE" then
        cl:zip_with(lambda([ex1,ex2], numabsolutep(ex1, ex2, tol)), SA, SB)
     else
@@ -89,7 +89,7 @@ ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""
     res:apply("and", cl),
     if not(res) then block([we],
         fb:zip_with(lambda([ex1,ex2],if ex1 then ex2 else texcolor("red", ex2)), cl, SA),
-        we:maplist(second, sublist(zip_with("[", cl, SA), lambda([ex], not(first(ex))))),
+        we:maplist('second, sublist(zip_with("[", cl, SA), lambda([ex], not(first(ex))))),
         an:StackAddNote("", concat("ATNumerical_wrongentries SA/TA=", string(we))),
         fb:StackAddFeedback("", "ATList_wrongentries", stack_disp(fb, "d"))
     ),
@@ -104,8 +104,8 @@ ATNumerical_set(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fbl, fb:"", a
         return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
 
     /* Why on earth has listify stopped working...?! */
-    SA:map(remove_numerical_inert, SA),
-    SB:map(remove_numerical_inert, SB),
+    SA:map('remove_numerical_inert, SA),
+    SB:map('remove_numerical_inert, SB),
     SA:sort(float(args(SA))),
     SB:sort(float(args(SB))),
     fbl:num_compare_helper(SA, SB, [], [], tol, numtype),

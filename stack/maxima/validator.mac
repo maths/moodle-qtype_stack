@@ -176,7 +176,7 @@ stack_validate_missing_assignment(ex) := block([ret, ex2, v, exop],
 stack_validate_simpnum(ex):= block([maxdps, ex2],
     maxdps:flatten(stack_validate_simpnum_maxdps(ex)),
     ex2: ev(ex, displaydp=lambda([a,b],a), simp),
-    if (not(emptyp(maxdps)) and floatnump(ex2)) then ex2:dispdp(ex2, ev(apply(max, maxdps), simp)),
+    if (not(emptyp(maxdps)) and floatnump(ex2)) then ex2:dispdp(ex2, ev(apply('max, maxdps), simp)),
     ex2
 );
 /* This function finds the maximum number of dps in an expression. */
@@ -258,9 +258,9 @@ stack_seq_validator(ex, validators):=block([%_tmp, %_val, %_continue],
 validate_nofunctions(ex):= block([op1,opp],
   if atom(ex) then return(""),
   op1:ev(op(ex)),
-  opp:apply(properties, [op1]),
+  opp:apply('properties, [op1]),
   if ev(emptyp(opp) or is(opp=[noun]),simp) then return(sconcat("User-defined functions are not permitted, however ", stack_disp(op1, "i"), " appears to be used as a function. ")),
-  apply(sconcat, map(validate_nofunctions, args(ex)))
+  apply('sconcat, map(validate_nofunctions, args(ex)))
 );
 
 s_test_case(validate_nofunctions(1+a1), "");
@@ -270,5 +270,4 @@ s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitte
 s_test_case(validate_nofunctions(3*x(t)^2), "User-defined functions are not permitted, however \\(x\\) appears to be used as a function. ");
 s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted, however \\(f\\) appears to be used as a function. ");
 s_test_case(validate_nofunctions(x(2)*y(3)), "User-defined functions are not permitted, however \\(x\\) appears to be used as a function. User-defined functions are not permitted, however \\(y\\) appears to be used as a function. ");
-
 

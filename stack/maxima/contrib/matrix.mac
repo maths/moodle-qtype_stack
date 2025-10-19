@@ -110,7 +110,7 @@ diagonal(M):= block([imax,jmax],
  */
 diag_entries(M):= block([],
   if not(matrixp(M)) then return([M]),
-  return(map(lambda([ex], M[ex,ex]),ev(makelist(ii,ii,1,lmin(matrix_size(M))),simp)))
+  return(map(lambda([ex], M[ex,ex]), ev(makelist(ii, ii, 1, lmin(matrix_size(M))), simp)))
 );
 
 /* We have setelmx by default to set M[i,j]: el, and we can use M[i]: r
@@ -393,7 +393,7 @@ diagmatrix_like(d, m, n):= block([M,ii],
  * @return[matrix] R_i <- alpha*R_i
  */
 rowscale(M,i,alpha):= block([],
-  M[i]: map(lambda([ex],alpha*ex),M[i]),
+  M[i]: map(lambda([ex], alpha*ex), M[i]),
   return(M)
 );
 
@@ -409,7 +409,7 @@ rowscale(M,i,alpha):= block([],
  */
 columnscale(M,i,alpha):= block([MT],
   MT: transpose(M),
-  MT[i]: map(lambda([ex],alpha*ex),MT[i]),
+  MT[i]: map(lambda([ex], alpha*ex), MT[i]),
   return(transpose(MT))
 );
 
@@ -476,6 +476,6 @@ disp_eqns(eqns,vars):= block([is_neg,s_in,s_first,format_as_positive_coeff,one_z
  * @return[string] TeX output for this system of equations
  */
 mat_disp_eqns(A,b,vars):= block([],
-  eqns: ev(map("=",list_matrix_entries(A . transpose(vars)),list_matrix_entries(b)),simp),
+  eqns: ev(map("=", list_matrix_entries(A . transpose(vars)), list_matrix_entries(b)), simp),
   return(disp_eqns(eqns,vars))
 );

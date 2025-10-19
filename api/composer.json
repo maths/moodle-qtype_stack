@@ -1,10 +1,12 @@
 {
     "name": "medien/stack",
+    "description": "Run STACK as an API outside Moodle.",
     "type": "project",
     "require": {
         "slim/slim": "4.*",
         "slim/psr7": "^1.6.1",
-        "erusev/parsedown": "^1.7.4"
+        "erusev/parsedown": "^1.7.4",
+        "symfony/yaml": "^7.3"
     },
     "authors": [
         {

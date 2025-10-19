@@ -1842,6 +1842,7 @@ $string['api_choose_folder'] = 'Choose a STACK folder';
 $string['api_choose_q'] = 'Choose a STACK sample file';
 $string['api_correct'] = 'Correct answers';
 $string['api_correct_answer'] = 'A correct answer is: ';
+$string['api_difference'] = 'Difference from default';
 $string['api_display'] = 'Display Question';
 $string['api_display_correct'] = 'Display Correct Answers';
 $string['api_display_correct_hide'] = 'Hide Correct Answers';

@@ -307,6 +307,53 @@ function var_rename(MP_Statement $ast): MP_Statement {
 }
 
 
+// General purpose comment annotation processor.
+function comment_annotations(string $comment): array {
+    $r = [
+        'remainder' => $comment,
+        'params' => [],
+        'return-block' => '',
+        'param-block' => '',
+        'virtual-name' => null,
+        'virtual-title' => null
+    ];
+
+    // Parse the `@param` and `@return` bits.
+    $matches = [];
+    preg_match_all('/@([a-z]+)\[([^\]]*)\]([^@]*)/', $comment, $matches);
+    for ($i = 0; $i < count($matches[0]); $i++) {
+        switch ($matches[1][$i]) {
+            case 'param':
+                // First drop the matched bits from the matching comment.
+                $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
+                if ($r['param-block'] === '') {
+                    $r['param-block'] = "| Argument name | type | description |\n";
+                    $r['param-block'] .= "| ------------- | ---- | ----------- |\n";
+                }
+                $aname = trim(explode(',', $matches[3][$i], 2)[0]);
+                $adesc = trim(explode(',', $matches[3][$i], 2)[1]);
+                $r['params'][] = $aname;
+                $r['param-block'] .= "| $aname | " . $matches[2][$i] . ' | ';
+                $r['param-block'] .= str_replace("\n", ' ', str_replace("\n\n", '<br>', trim($adesc))) . " |\n";
+                break;
+            case 'return':
+                $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
+                $r['return-block'] = "\n\n| Return type | description |";
+                $r['return-block'] .= "\n| ----------- | ------------|\n| ";
+                $r['return-block'] .= $matches[2][$i] . ' | '; 
+                $r['return-block'] .= str_replace("\n", ' ', str_replace("\n\n", '<br>', trim($matches[3][$i]))) . " |\n";
+                break;
+            case 'inertfunction':
+                $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
+                $r['virtual-name'] = trim(explode('(', $matches[3][$i], 2)[0]);
+                $r['virtual-title'] = trim($matches[3][$i]);
+            default:
+                // Maybe be vocal?
+        }
+    }
+    return $r;
+}
+
 foreach ($scripts as $filename) {
     $content = trim(file_get_contents($filename));
     $sname = substr($filename, 19);
@@ -336,7 +383,8 @@ foreach ($scripts as $filename) {
         }
         $payload = [];
         $tests = [];
-        $comments = []; // Endpos -> value        
+        $comments = []; // Endpos -> value 
+        $virtualitems = [];      
 
         // Note that all the content is at the top level.
         foreach ($ast->items as $item) {
@@ -398,8 +446,12 @@ foreach ($scripts as $filename) {
                         }
                         $comment .= "$line\n";
                     }
-
-                    $comments[$item->position['end']] = $comment;
+                    if (strpos($comment, '@inertfunction')) {
+                        // Extract documentation for virtual things.
+                        $virtualitems[] = $comment;
+                    } else {
+                        $comments[$item->position['end']] = $comment;    
+                    }
                 }
             }
         }
@@ -439,52 +491,19 @@ foreach ($scripts as $filename) {
                 }
 
                 // Parse the `@param` and `@return` bits.
-                $matches = [];
-                preg_match_all('/@([a-z]+)\[([^\]]*)\]([^@]*)/', $matching, $matches);
-                
-                $argscount = 0;
-                $args = '';
-                $return = '';
-                for ($i = 0; $i < count($matches[0]); $i++) {
-                    switch ($matches[1][$i]) {
-                        case 'param':
-                            // First drop the matched bits from the matching comment.
-                            $matching = str_replace($matches[0][$i], '', $matching);
-                            $argscount++;
-                            if ($args === '') {
-                                $args = "| Argument name | type | description |\n";
-                                $args .= "| ------------- | ---- | ----------- |\n";
-                            }
-                            $aname = trim(explode(',', $matches[3][$i], 2)[0]);
-                            $adesc = trim(explode(',', $matches[3][$i], 2)[1]);
-                            $args .= "| $aname | " . $matches[2][$i] . ' | ';
-                            $args .= str_replace("\n", '<br>', trim($adesc)) . " |\n";
-                            break;
-                        case 'return':
-                            $matching = str_replace($matches[0][$i], '', $matching);
-                            $return = "\n\n| Return type | description |";
-                            $return .= "\n| ----------- | ------------|\n| ";
-                            $return .= $matches[2][$i] . ' | '; 
-                            $return .= str_replace("\n", '<br>', trim($matches[3][$i])) . ' |';
-                            break;
-                        default:
-                            // Maybe be vocal?
-                    }
-                }
+                $r = comment_annotations($matching);
 
                 if ($c->statement->lhs instanceof MP_FunctionCall) {
-                    if ($return === '') {
+                    if ($r['return-block'] === '') {
                         echo(" Return value not documented for '$name'.\n");
                     }
-                    if ($argscount !== count($c->statement->lhs->arguments)) {
+                    if (count($r['params']) !== count($c->statement->lhs->arguments)) {
                         echo(" Arguments for '$name' are not documented.\n");
                     }
                 }
 
                 // Then add the formatted ones back in.
-                $matching = trim($matching . $args . $return);
-
-                $docs[$name] = $matching;
+                $docs[$name] = trim($r['remainder'] . "\n\n" . $r['param-block'] . "\n\n" . $r['return-block']);
 
                 // Cats.
                 $cats = array_slice(explode('/', $sname), 0, -1);
@@ -518,6 +537,25 @@ foreach ($scripts as $filename) {
             //  if variable assignment is that a variable referenced by this function?
             //  Are arguments and temp variables "unique" so that they do not mask input?
         }
+        // Handle virtual ones.
+        foreach ($virtualitems as $virtualitem) {
+            // Parse the `@param` and `@return` bits.
+            $r = comment_annotations($virtualitem);
+            // Get the name and title.
+            if ($r['virtual-name'] === null) {
+                echo "\n\nWARNING! something virtual but no name.\n\n";
+            } else {
+                $name = $r['virtual-name'];
+                $title[$name] = $r['virtual-title'] !== null ? $r['virtual-title'] : $name;
+                // Then add the formatted ones back in.
+                $docs[$name] = trim($r['remainder'] . "\n\n" . $r['param-block'] . "\n\n" . $r['return-block']);
+                // Add to the tree.
+                $categories[$ccat]->content[] = $name;
+                $nametopath[$name] = $ccat;
+            }
+
+        }
+
         $i = 1;
         foreach ($tests as $corg) {
             $c = $pipeline->filter($corg, $err, $err, $sec);
@@ -547,17 +585,23 @@ foreach ($categories as $path => $node) {
         continue; // Special root category.
     }
     $doc = '<!-- NOTE! This file is autogenerated from files under stack/maximasrc do not edit here. -->';
-    $doc .= "\n# Section documentation for $path\n\n";
+    $rootlink = str_repeat('../', substr_count($path, '/'));
+
+    $doc .= "\n# Section documentation for [STACK-Maxima]($rootlink) $path\n\n";
 
     
     if ($node->description !== '') {
         $doc .= trim($node->description) . "\n\n";
     }
+    // Add a line before the items.
+    $doc .= "\n---\n\n";
 
     sort($node->content);
     foreach ($node->content as $name) {
         $doc .= "\n## " . $title[$name] . "<a id='$name'></a>\n\n";
         $doc .= $docs[$name] . "\n\n";
+        // Add a line after each item.
+        $doc .= "\n---\n\n";
     }
  
     // Crosslink all `name` style references.

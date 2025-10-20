@@ -17,6 +17,7 @@
     - [sbasen_texput_suffix(sbasen_number)](basen/index.md#sbasen_texput_suffix)
     - [sbasen_validate(expression)](basen/index.md#sbasen_validate)
     - [sbasen_validate_tree(expression)](basen/index.md#sbasen_validate_tree)
+    - [stackbasen(textform,format,base)](basen/index.md#stackbasen)
     - [binary](basen/binary/index.md) 
         - [sbasen_bitwise_eval(basen_logic)](basen/binary/index.md#sbasen_bitwise_eval)
         - [sbasen_convert_to_binary(number,format)](basen/binary/index.md#sbasen_convert_to_binary)

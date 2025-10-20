@@ -33,4 +33,5 @@ Also note that while it may seem like one could simply replace all the logic
 defining the digits and the hard limit of 36, changing the logic at this level
 is not enough. Student input will only turn to `stackbasen` objects if lexer
 level rules and AST-filters agree on the acceptable digits. And one cannot
-adjsut those through author accessible means.
+adjust those through author accessible means. It is however, possible to use
+string inputs and suitable redefinition of certain functions to go further.

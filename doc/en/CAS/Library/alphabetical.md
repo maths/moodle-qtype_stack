@@ -25,6 +25,7 @@
 - [sbasen_validate(expression)](basen/index.md#sbasen_validate)
 - [sbasen_validate_tree(expression)](basen/index.md#sbasen_validate_tree)
 - [stack_unit_si_to_si_base(expression)](stackunits/index.md#stack_unit_si_to_si_base)
+- [stackbasen(textform,format,base)](basen/index.md#stackbasen)
 - [str_to_html(string_to_escape)](strings/escapes/index.md#str_to_html)
 - [str_to_html_char(c)](strings/escapes/index.md#str_to_html_char)
 - [str_to_js(string_to_escape)](strings/escapes/index.md#str_to_js)

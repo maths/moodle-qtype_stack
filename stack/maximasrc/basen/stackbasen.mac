@@ -1,0 +1,31 @@
+/* NOTE! THIS FILE CONTAINS NO LOGIC! THIS COMMENT EXISTS TO COMMENT AND INERT
+   FUNCTION. */
+
+/**
+ * An object combining a textual presentation of a base-N number with details
+ * necessary for working with that number. Note that some details are overly
+ * defined and when there is a conflict the two latter parameters are 
+ * the authoritative ones, the `base` being the deciding one of those two.
+ *
+ * If this object comes from the student, do not assume that the object is
+ * valid. Basically, the digits in the `textform` might not be suitable for
+ * the `base` and it is possible to give a `base` beyond the supported ones.
+ * You may use the validation functions `sbasen_validate` and 
+ * `sbasen_validate_tree` to check if the `textform` matches the constraints
+ * set by the `format` and `base`.
+ *
+ * You may create these objects directly, but if you wish to create one from
+ * a raw base-10 number you might want to use the `sbasen_construct_from_base10`
+ * function. Also if you are focused on base-2 then `sbasen_convert_to_binary`
+ * can be useful for converting from any base or from raw base-10 to base-2.
+ *
+ * Conversion back to raw base-10 happens with `sbasen_convert_to_base10`.
+ *
+ * @inertfunction[] stackbasen(textform,format,base)
+ * @param[string] textform, the textual presentation that may be valid for this
+ *    base and format
+ * @param[char] format, the format that is to be used, basically `"C"` for 
+ *    C-style integer literals, or `"S"` for STACK suffix style
+ * @param[integer] base, the base as an base-10 integer in the range of 2-36
+ * @return[stackbasen] returns itself, does not evalaute on its own
+ */

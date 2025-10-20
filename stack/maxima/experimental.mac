@@ -28,11 +28,11 @@ rand_recurse(ex) := block(
     if (integerp(ex) or floatnump(ex) or matrixp(ex) or listp(ex)) then return(rand(ex)),
     if atom(ex) then return(ex),
     if op(ex)=protect then return(first(args(ex))),
-    apply(op(ex), maplist(rand_recurse, args(ex)))
+    apply(op(ex), maplist('rand_recurse, args(ex)))
     );
 
 /* Truncates a polynomial to only terms of degree "d" or less - always expands out */
-poly_truncate(pa,d) := apply("+",maplist(lambda([ex],if hipow(ex,x)>d then 0 else ex), args(expand(pa))));
+poly_truncate(pa,d) := apply("+", maplist(lambda([ex], if hipow(ex,x)>d then 0 else ex), args(expand(pa))));
 
 /****************************************************************/
 /*  Square root functions for STACK                             */
@@ -59,7 +59,7 @@ naivesqrt(ex):=block([al],
     al:append(naivesqrthelper(alp),alq)
     ),
   if safe_op(ex)="*" and length(al)=1 then return(naivesqrt(first(al))),
-  apply(op(ex), map(naivesqrt, al))
+  apply(op(ex), map('naivesqrt, al))
 );
 
 naivesqrthelper(ex):=block(

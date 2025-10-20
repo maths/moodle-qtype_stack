@@ -91,7 +91,7 @@ proof_commutep(ex):=block(
 );
 
 /* Takes a proof tree and flattens this to a list. */
-proof_flatten(ex) := apply(proof, flatten(ev(ex, map(lambda([ex2], ex2="["), proof_types))));
+proof_flatten(ex) := apply('proof, flatten(ev(ex, map(lambda([ex2], ex2="["), proof_types))));
 
 s_test_case(proof_flatten(proof_iff(proof(A,B),proof(C))), proof(A,B,C));
 s_test_case(proof_flatten(proof_c(proof(A,proof(B,C)),proof(D))), proof(A,B,C,D));
@@ -108,9 +108,9 @@ proof_normal(ex) := block(
   /* Only sort arguments to types of proof which commute. */
   if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
   /* Some proof types have subsets of arguments which commute. */
-  if op(ex) = proof_cases then return(apply(proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
-  if op(ex) = proof_goal then return(apply(proof_goal, append(sort(map(proof_normal, reverse(rest(reverse(args(ex)))))), [first(reverse(args(ex)))]))),
-  if op(ex) = proof_ind then return(apply(proof_ind,append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
+  if op(ex) = proof_cases then return(apply('proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
+  if op(ex) = proof_goal then return(apply('proof_goal, append(sort(map(proof_normal, reverse(rest(reverse(args(ex)))))), [first(reverse(args(ex)))]))),
+  if op(ex) = proof_ind then return(apply('proof_ind, append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
   return(apply(op(ex), map(proof_normal, args(ex))))
 );
 
@@ -162,7 +162,7 @@ parsons_encode(steps) := block(
  */
 parsons_decode(st) := block([pf],
   pf:first(stackjson_parse(st)),
-  pf:ev(apply(proof, unhash_keys_list(first(first(stackmap_get(pf, "used"))))),simp)
+  pf:ev(apply('proof, unhash_keys_list(first(first(stackmap_get(pf, "used"))))),simp)
 );
 
 /*
@@ -309,7 +309,7 @@ proof_display(p_ans, p_steps) := block([p1],
 
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex)], ["</div>"])))
+    apply('sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex)], ["</div>"])))
 );
 
 /**
@@ -319,7 +319,7 @@ proof_display_para(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_a
 
 /* Flatten to a paragraph. */
 dispproof_para([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
+    apply('sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
 );
 
 proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</div>");
@@ -437,7 +437,7 @@ group_answer(ans, steps) := match_answer(ans, steps);
 match_transpose_display(ans) := block(
     [maxlen, result : []],
   
-    maxlen : apply(max, map(length, ans)),
+    maxlen : apply('max, map(length, ans)),
     
     for j:1 thru maxlen do (
         result : endcons(
@@ -525,5 +525,5 @@ match_display(ans, steps, cols, [header_index]) := block([p1, header, index],
     else if length(header_index) = 1 then [header, index]: [first(header_index), []]
       else if length(header_index) = 2 then [header, index]: header_index else 
         header_index = [],
-  p1: apply(match_table_html, [ans, steps, header, index]),
+  p1: apply('match_table_html, [ans, steps, header, index]),
   ev(p1));

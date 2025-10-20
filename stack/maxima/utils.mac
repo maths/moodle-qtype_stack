@@ -1,6 +1,5 @@
 /* Misc functions for dealing with Maxima and the other tools. */
-
-
+W
 /* Defintion of characters to escape in Markdown. */
 md_escapes(c) := if c = "\\" then "\\\\" 
             else if c = "*" then "\\*"
@@ -22,7 +21,7 @@ md_escapes(c) := if c = "\\" then "\\\\"
             else if c = "!" then "\\!"
             else c$
 
-str_to_md(string_to_escape) := simplode(map(md_escapes,charlist(string_to_escape)))$
+str_to_md(string_to_escape) := simplode(map('md_escapes, charlist(string_to_escape)))$
 
 /* Split a Maxima timestamp (seconds from Jan 1 1900) to numbers representing a date.
    The returned list consists of integers [year, month, day, weekday] where Sunday is 7 (ISO 8601). */
@@ -228,7 +227,7 @@ FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic",
 
 /* This is the allowed version of concat that blocks the possibility to construct certain dangerous things. */
 vconcat([ex]) := block([tmp],
- tmp: apply(concat, ex),
+ tmp: apply('concat, ex),
  if symbolp(tmp) and elementp(sconcat(tmp), FORBIDDEN_SYMBOLS_SET) then
    error(sconcat("concat: '", tmp, "' is a forbidden symbol and cannot be constructed.")),
  return(tmp)

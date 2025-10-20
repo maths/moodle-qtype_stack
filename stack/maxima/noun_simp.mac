@@ -141,10 +141,10 @@ gather_reduce(ex) := block(
 flatten_recurse_nouns(ex) := block(
     if atom(ex) then return(ex),
     if op(ex)="nounadd" or op(ex)="nounmul" then
-        return(flatten(apply(op(ex), maplist(flatten_recurse_nouns, args(ex))))),
+        return(flatten(apply(op(ex), maplist('flatten_recurse_nouns, args(ex))))),
     if safe_op(ex)="nounset" then
-        return((apply(op(ex), maplist(flatten_recurse_nouns, sort(args(ex)))))),
-    apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
+        return((apply(op(ex), maplist('flatten_recurse_nouns, sort(args(ex)))))),
+    apply(op(ex), maplist('flatten_recurse_nouns, args(ex)))
 )$
 
 /* Rule which takes (a^n)^-1 when n is an integer to a^-n */
@@ -158,7 +158,7 @@ flatten_pow_minus_one(ex):= block(
 /* Recursive rule which takes UNARY_MINUS nounmul n, where n is an integer/float to -n */
 unary_minus_remove(ex):= block([exl],
     if atom(ex) then return(ex),
-    if not(safe_op(ex)="nounmul") or not(is(first(args(ex))=UNARY_MINUS)) then return(apply(op(ex), maplist(unary_minus_remove, args(ex)))),
+    if not(safe_op(ex)="nounmul") or not(is(first(args(ex))=UNARY_MINUS)) then return(apply(op(ex), maplist('unary_minus_remove, args(ex)))),
     /* The sort moves any numbers to the front of the list of arguments for *. */
     exl:sort(rest(args(ex))),
     if is(length(exl)=1) then return(-first(exl)),
@@ -388,11 +388,11 @@ transr(ex, rl) := block(
 )$
 
 /* Apply a list of rules recursively, in order, until the expression stops changing. */
-transl(ex,rll) := block([ex2],
+transl(ex, rll) := block([ex2],
     if not(listp(rll)) or emptyp(rll) then return(ex),
     ex2:transl(transr(ex, first(rll)), rest(rll)),
     if ex=ex2 then return(ex),
-    return(transl(ex2,rll))
+    return(transl(ex2, rll))
 )$
 
 /* This is a special rule used to make sure the single integer (-7) becomes UNARY_MINUS*7.
@@ -462,7 +462,7 @@ oneDiv(ex) := block([l1],
     if safe_op(ex)="UNARY_RECIP" and is(part(ex, 1)=1) then return(1),
     l1:sublist(args(ex), lambda([ex], not(is(ex=UNARY_RECIP(1))))),
     if length(l1)=1 then return(first(l1)),
-    apply(op(ex),l1)
+    apply(op(ex), l1)
 )$
 
 /*****************************************/
@@ -533,7 +533,7 @@ recipMulp(ex) := block([ex2],
 recipMul(ex) := block([ex2],
     if not(recipMulp(ex)) then return(ex),
     ex2:reverse(args(ex)),
-    apply(op(ex),append(reverse(rest(rest(ex2))),[UNARY_RECIP(apply(op(ex),[part(second(ex2),1),part(first(ex2),1)]))]))
+    apply(op(ex), append(reverse(rest(rest(ex2))), [UNARY_RECIP(apply(op(ex), [part(second(ex2),1),part(first(ex2),1)]))]))
 )$
 
 /*******************************************/
@@ -583,7 +583,7 @@ negOrdp(ex) := block([ex2,ex3],
 negOrd(ex) := block([ex0],
     if not(negOrdp(ex)) then return(ex),
     /* We use commutativity of multiplication to pull UNARY_MINUS to the front. */
-    ex0:map(comMul, args(ex)),
+    ex0:map('comMul, args(ex)),
     ex0:map(lambda([ex1], if (atom(ex1) or not(safe_op(ex1)="*" or safe_op(ex1)="nounmul")) then (UNARY_MINUS nounmul ex1) 
             else if not(first(args(ex1))=UNARY_MINUS) then (UNARY_MINUS nounmul ex1) 
             else if length(rest(args(ex1)))=1 then first(rest(args(ex1))) else apply(op(ex1), rest(args(ex1)))), ex0),
@@ -602,8 +602,8 @@ negDist(ex) := block([ex0,ex1,ex2,ex3],
     ex1:sublist(args(ex), lambda([ex0], is(ex0=UNARY_MINUS))),
     ex2:sublist(args(ex), lambda([ex0], is(safe_op(ex0)="+" or safe_op(ex0)="nounadd"))),
     ex3:sublist(args(ex), lambda([ex0], not(is(ex0=UNARY_MINUS)) and not(is(safe_op(ex0)="+" or safe_op(ex0)="nounadd")))),
-    ex0:apply(op(first(ex2)),map(lambda([ex4],apply(op(ex),[UNARY_MINUS,ex4])),args(first(ex2)))),
-    apply(op(ex),append(rest(ex1),rest(ex2),[ex0],ex3))
+    ex0:apply(op(first(ex2)), map(lambda([ex4], apply(op(ex), [UNARY_MINUS, ex4])), args(first(ex2)))),
+    apply(op(ex), append(rest(ex1), rest(ex2), [ex0], ex3))
 )$
 
 /* a/(b/c)-> a*(c/b) */
@@ -618,7 +618,7 @@ divDivp(ex):= block([ex2],
     if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     ex2:sublist(args(ex),lambda([ex3], safe_op(ex3)="UNARY_RECIP")),
     if emptyp(ex2) then return(false),
-    ex2:map(first,ex2),
+    ex2:map('first, ex2),
     return(any_listp(divDivProdp, ex2))
 )$
 
@@ -638,7 +638,7 @@ divDivProd(ex):= block([TP,TR],
     if length(TP)=1 then TP:first(TP)  else TP:apply(op(ex), TP) ,
     return([TP,part(TR,1)])  
 )$
-divDiv(ex) := block([ex2,ex3,exo,exl],
+divDiv(ex) := block([ex2, ex3, exo, exl],
      if not(divDivp(ex)) then return(ex),
      /* Store the operator for later. */
      exo:"nounmul",
@@ -650,7 +650,7 @@ divDiv(ex) := block([ex2,ex3,exo,exl],
      ex3:divDivProd(second(ex2)),
      /* Reassemble, emoving any empty lists (which are nulls here). */
      exl:sublist([first(ex2),second(ex3),if not(emptyp(first(ex3))) then UNARY_RECIP(first(ex3)) else []], lambda([ex4], not(emptyp(ex4)))),
-     if length(exl)=1 then first(exl) else flatten(apply(exo,exl))
+     if length(exl)=1 then first(exl) else flatten(apply(exo, exl))
 )$
 
 /* We have a product containing a division. */
@@ -661,7 +661,7 @@ divCancelp(ex) := if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(subli
 divCancel(ex) := block([ex1, ex2, ex3],
   if not(divCancelp(ex)) then return(ex),
   ex1:sublist(args(ex), lambda([l1], not(safe_op(l1)="UNARY_RECIP"))),
-  ex2:flatten(map(args, sublist(args(ex), lambda([l1], safe_op(l1)="UNARY_RECIP")))),
+  ex2:flatten(map('args, sublist(args(ex), lambda([l1], safe_op(l1)="UNARY_RECIP")))),
   ex2:flatten(map(lambda([ex3],  if (safe_op(ex3)="*" or safe_op(ex3)="nounmul") then args(ex3) else ex3), ex2)),
   /* At this point ex1 is a list of factors in the numerator, and ex2 is a list of factors in the denominator. */
   ex3:list_cancel([ex1,ex2]),
@@ -697,11 +697,11 @@ intAddp(ex):= block(
 intAdd(ex) := block([a1, a2], 
     if intAddp(ex)=false then return(ex),
     a1:sublist(args(ex), noun_simp_integerp),
-    a1:map(verb_arith, a1),
+    a1:map('verb_arith, a1),
     a1:mminusInt(ev(apply("+", a1), simp)),
     a2:sublist(args(ex), notnoun_simp_integerp),
     if length(a2)=0 then a1
-    else apply(op(ex),append([a1], a2))
+    else apply(op(ex), append([a1], a2))
 )$
 
 intMulp(ex):= block([sl],
@@ -715,7 +715,7 @@ intMulp(ex):= block([sl],
 intMul(ex) := block([a1, a2], 
     if intMulp(ex)=false then return(ex),
     a1:sublist(args(ex), noun_simp_integerp),
-    a1:map(verb_arith, a1),
+    a1:map('verb_arith, a1),
     a1:mminusInt(ev(apply("*", a1), simp)),
     a2:sublist(args(ex), notnoun_simp_integerp),
     if length(a2)=0 then a1 
@@ -782,7 +782,7 @@ ratAddp(ex):= block(
 ratAdd(ex) := block([a1, a2], 
     if ratAddp(ex)=false then return(ex),
     a1:sublist(args(ex), intRatp),
-    a1:map(verb_arith, a1),
+    a1:map('verb_arith, a1),
     a1:equals_commute_prepare(ev(apply("+", a1), simp)),
     a2:sublist(args(ex), lambda([ex2], not(intRatp(ex2)))),
     if length(a2)=0 then a1

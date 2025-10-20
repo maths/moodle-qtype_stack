@@ -1433,12 +1433,6 @@ class qtype_stack extends question_type {
             }
         }
 
-        if (isset($xml['#']['input'])) {
-            foreach ($xml['#']['input'] as $inputxml) {
-                $this->import_xml_input($inputxml, $fromform, $format);
-            }
-        }
-
         if (isset($xml['#']['prt'])) {
             foreach ($xml['#']['prt'] as $prtxml) {
                 $this->import_xml_prt($prtxml, $fromform, $format);
@@ -1465,6 +1459,8 @@ class qtype_stack extends question_type {
         $formarray = (array) $fromform;
         $formarray['questiontext'] = ['text' => $formarray['questiontext']];
         $formarray['generalfeedback'] = ['text' => $formarray['generalfeedback']];
+        // Reset graph or we get bleed between questions on multiple imports.
+        $this->prtgraph = [];
         $errors = $this->validate_fromform($formarray, []);
         if (count($errors)) {
             $title = $formarray['name'];

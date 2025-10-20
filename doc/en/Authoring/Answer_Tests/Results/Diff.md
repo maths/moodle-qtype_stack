@@ -273,4 +273,31 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">0</td>
   <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Diff</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>3*x/root(3*x^2+2)</pre></td>
+  <td class="cell c3"><pre>3*x/sqrt(3*x^2+2)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATDiff_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Diff</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>3*x/&#039;root(3*x^2+2)</pre></td>
+  <td class="cell c3"><pre>3*x/sqrt(3*x^2+2)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATDiff_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Diff</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&#039;root(2*x/10+1)</pre></td>
+  <td class="cell c3"><pre>sqrt((2*x+10)/10)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATDiff_true.</td>
 </tr></tbody></table></div>

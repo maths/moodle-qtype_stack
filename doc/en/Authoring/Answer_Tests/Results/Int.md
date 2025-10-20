@@ -1645,4 +1645,13 @@ a))/(2*a)</pre></td>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">You need to add a constant of integration, otherwise this appears to be correct.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>3*x/&#039;root(3*x^2+2)+c</pre></td>
+  <td class="cell c3"><pre>3*x/sqrt(3*x^2+2)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATInt_true.</td>
 </tr></tbody></table></div>

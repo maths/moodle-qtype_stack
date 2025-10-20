@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 16420  -->
   <question type="stack">
     <name>
       <text>Chemistry sample question: Molar mass of elements</text>
@@ -27,13 +26,12 @@ M=
 [[/foreach]]
 = {@stack_units_nums(ta1)@} \mathrm{g}\, \mathrm{mol}^{−1}.
 \]
-</p>
-]]></text>
+</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber></idnumber>
+    <idnumber/>
     <stackversion>
       <text>2025080100</text>
     </stackversion>
@@ -90,7 +88,7 @@ tt:apply(table, append([["Element", "Atomic Mass"]], tt));]]></text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
-    <variantsselectionseed></variantsselectionseed>
+    <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>units</type>
@@ -98,10 +96,10 @@ tt:apply(table, append([["Element", "Atomic Mass"]], tt));]]></text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint></syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
-      <allowwords></allowwords>
+      <forbidwords/>
+      <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -115,11 +113,11 @@ tt:apply(table, append([["Element", "Atomic Mass"]], tt));]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text/>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description></description>
+        <description/>
         <answertest>Units</answertest>
         <sans>ans1</sans>
         <tans>ta1</tans>
@@ -127,19 +125,19 @@ tt:apply(table, append([["Element", "Atomic Mass"]], tt));]]></text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
-        <truepenalty></truepenalty>
+        <truepenalty/>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text/>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
+        <falsepenalty/>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -161,5 +159,4 @@ tt:apply(table, append([["Element", "Atomic Mass"]], tt));]]></text>
       </expected>
     </qtest>
   </question>
-
 </quiz>

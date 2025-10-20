@@ -365,6 +365,42 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.99999999</pre></td>
+  <td class="cell c3"><pre>1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.99999999</pre></td>
+  <td class="cell c3"><pre>99999999/10^8</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.99999999</pre></td>
+  <td class="cell c3"><pre>99999998/99999999</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>99999999/10^8</pre></td>
+  <td class="cell c3"><pre>99999998/99999999</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(0.5+x)*2</pre></td>
   <td class="cell c3"><pre>2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -695,6 +731,15 @@ andp:false,-(%i*F(k-3)*k^3*%e^
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&#039;root(x)</pre></td>
+  <td class="cell c3"><pre>sqrt(x)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;root(x,m)</pre></td>
   <td class="cell c3"><pre>x^(1/m)</pre></td>
   <td class="cell c4"></td>
@@ -957,6 +1002,15 @@ z^2)^(3/2))</pre></td>
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2*x/10+1)</pre></td>
+  <td class="cell c3"><pre>sqrt((2*x+10)/10)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>&#039;root(2*x/10+1)</pre></td>
   <td class="cell c3"><pre>sqrt((2*x+10)/10)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
@@ -4263,6 +4317,43 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 (sqrt(2/3))*x^3</pre></td>
   <td class="cell c3"><pre>4*sqrt(6)*x^3/27-(2*sqrt(6)*x^
 2)/9+(2*sqrt(6)*x)/3+sqrt(6)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x = -1/2 + sqrt(1/4 + 4/3)</pre></td>
+  <td class="cell c3"><pre>x = (-3 + sqrt(9 + 48))/6</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{x = -1/2 + sqrt(1/4 + 4/3), x
+ = (-1/2 - sqrt(1/4 + 4/3))}</pre></td>
+  <td class="cell c3"><pre>{x = (-3 + sqrt(9 + 48))/6, x 
+= (-3 - sqrt(9 + 48))/6}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSet_wrongentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{x-\frac{\sqrt{19}-\sqrt{3}}{2\cdot \sqrt{3}}=0 , x+\frac{ \sqrt{19}+\sqrt{3}}{2\cdot \sqrt{3}}=0 \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>radcan(trigrat({x = -1/2 + sqr
+t(1/4 + 4/3), x = (-1/2 - sqrt
+(1/4 + 4/3))}))</pre></td>
+  <td class="cell c3"><pre>radcan(trigrat({x = (-3 + sqrt
+(9 + 48))/6, x = (-3 - sqrt(9 
++ 48))/6}))</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>

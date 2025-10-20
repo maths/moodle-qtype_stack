@@ -39,6 +39,24 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.75</pre></td>
+  <td class="cell c3"><pre>3/4</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEqualComAss (AlgEquiv-true).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>num_ensure_rational(0.75)</pre></td>
+  <td class="cell c3"><pre>3/4</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3^2</pre></td>
   <td class="cell c3"><pre>8</pre></td>
   <td class="cell c4"></td>
@@ -576,6 +594,16 @@ z^2)^(3/2))</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
   <td class="cell c6">ATEqualComAss (AlgEquiv-true).</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>num_ensure_rational(7/6*x-0.75
+*y)</pre></td>
+  <td class="cell c3"><pre>(7/6)*x-3/4*y</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>

@@ -15,6 +15,7 @@ Improvements in documentatin and minor bug fixes.
 4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
 5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
 6. Add in new flag `tex_plain_atoms` to control the display of atoms with [subscripts](../CAS/Subscripts.md).  Remove testing for changes on Maxima before 5.40.0.
+7. Add in the `Introductory-Mathematics` quesions to the STACK library.  The library now has over 1600 STACK questions.
 
 Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.11.0) include
 

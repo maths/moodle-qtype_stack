@@ -50,7 +50,7 @@ See also the notes on [local usageAdvanced_reporting.mdmd) of STACK questions on
 
 ## Bulk change of the default settings
 
-You may need to [upgrade question defaults](UpgradeDefaults.md) over a range of questions.
+You may need to upgrade question defaults over a range of questions. We recommend you do this offline, e.g. with the gitync project.
 
 ## Import and replace questions
 

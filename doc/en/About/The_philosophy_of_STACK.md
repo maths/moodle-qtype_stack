@@ -1,19 +1,21 @@
 # Philosophy of STACK
 
-One of the key advantages over traditional hand-marking is that, when done correctly, online assessment can effectively assess and give feedback to a large number of students. This frees up marking time and resources that would normally have to be spent by several tutors. Additionally, it can be frustrating for students when their tutors are not consistent in how they mark.
+Online assessment can effectively assess and give feedback to a large number of students.  This frees up time that teachers would normally spend, and ensures consistent assessment.
 
-The traditional form of CAA is *teacher-provided answer questions*. In these questions, a student makes a selection from, or interacts with, potential answers which the teacher has selected. Examples include multiple choice questions and multiple response questions. These types of questions have a number of limitations, including:
+Traditional multiple choice questions have a number of limitations, including:
 
 1. Only finite answers are possible. The teacher can put in "dummy responses" for common mistakes and give feedback based on those mistakes, but it is impossible to give feedback on student errors outside the given examples.
 2. You can only assess lower-order skills. "Give an example of..." type questions are impossible.
 3. It encourages strategic learning, i.e. instead of solving the problem, students will think about how to "trick the system" and find the right answer.
 4. Question distortion is especially problematic in mathematics. You may ask students to integrate a complicated function, and then give a list of potential answers. Differentiating the answers to get the original expression is a much easier process, and sensible students are likely to take the easier route, which is not what we wanted the student to practice.
 
-The alternative is to focus on *student-provided answer questions*. In these questions, the student's answer contains the content. For example, a student could be asked to input an algebraic expression, like a polynomial. This system is harder to implement, but responds to all the shortcomings of teacher-provided answer questions listed above. STACK was designed to be such a system.
+The alternative is to use *student-provided answer questions* where the student's answer contains the content such as an algebraic expression. 
+
+STACK was designed to use computer algebra to assess students' answers which are algebraic expressions.
 
 ## Design choices
 
-STACK is not the first CAA system to focus on student-provided answer questions. However, STACK has a number of key design choices that make it stand out.
+Key design choices in STACK make it stand out.
 
 #### Teachers should be able to write their own questions, with minimal coding skill
 
@@ -62,9 +64,11 @@ STACK is designed to cover the needs of a large variety of users across mathemat
 
 #### STACK is open source
 
-The problems faced by teachers, particularly in University, are the same the world over.  The developers of STACK wanted to make sure students do not have to pay for access codes to published books and that institutions are not locked into an expensive system.  At the same time, they wanted a system that encourages other developers to collaborate on improving STACK.  
+The problems faced by teachers, particularly in University, are the same the world over.  We want a system that encourages other developers to collaborate on improving STACK, but remaining free to use it in open or commercial settings.  
 
-* _STACK is the leading open souce online assessment system for mathematics and STEM._
+* _STACK is the leading open source online assessment system for mathematics and STEM._
 
-The business model for STACK relies on institutions collaborating on the infrustricture, remaining free to use the resulting system as the please, including in commercially as needed.  Many design decisions for STACK are a direct result of choosing the GPL license for the codebase, for example the choice of Maxima as its Computer Algebra System (CAS), Moodle and ILIAS to take care of identity management, LaTeX/MathJax to filter and display mathematics.  The documentation for STACK is available under the  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a> 
+The business model for STACK relies on institutions collaborating on the infrastructure, remaining free to use the resulting system as the please, including in commercially as needed.  
+
+The documentation for STACK is available under the  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a> 
 ![Creative Commons License](../../content/by-sa-88.png).

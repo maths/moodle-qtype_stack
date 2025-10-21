@@ -7,12 +7,14 @@ This document contains suggestions for effective question authoring workflow, es
 The first task is to create a minimal working question.  At the outset
 
 1. Give the question a meaningful name. E.g. it can match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.
-2. By default the variable `ta` is used as the "teacher's answer".  Give this a value in the [question variables](../Authoring/Variables.md).
-    * The default "model answer" for input `ans1` is `ta`.
-    * The default potential response tree checks `ATAlgEquiv(ans1, ta)`
-3. Write the question itself.
+2. Write the question itself.
+3. Provide the correct answer.  By default the variable `ta` is used as the "teacher's answer".  Give this a value in the [question variables](../Authoring/Variables.md).
+    * The default "model answer" for input `ans1` is `ta1` (this need not be changed).
+    * The default potential response tree checks `ATAlgEquiv(ans1, ta1)` (this need not be changed). 
 
-The above gives a minimal working question. Then you can do the following.
+The above gives a minimal working question.  STACK will accept any algebraically equivalent answer. 
+
+Then you can do the following.
   
 * Add minimal [question variables](../Authoring/Variables.md), especially if you intend to create [random variants](../CAS/Random.md) later. We recommend you **add random variants later**.
 * Add minimal feedback in the PRTs.
@@ -26,7 +28,6 @@ Consider
 2. Will students know how to input an answer?
    * Could a "syntax hint" or message in the question help?
    * Can "validation" help, e.g. by telling students how many significant figures are expected?  Advanced users might consider [bespoke validation](../CAS/Validator.md) functions.
-
 
 ### 2. Add basic question tests
 
@@ -111,7 +112,7 @@ Any logged-in user can navigate to the URL
     
 on the moodle site.  This page will list
 
-1. Any contexts for which they have moodle capability `moodle/question:editall`.
+1. Any contexts for which they have Moodle capability `moodle/question:editall`.
 2. Any questions in that context which contain STACK questions with `[[todo]]` blocks.
 3. Questions which contain `[[todo]]` blocks are arranged into groups by tag, and additionally there is a list of questions with `[[todo]]` blocks without any tags.
 

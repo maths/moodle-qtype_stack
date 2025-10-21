@@ -1,16 +1,11 @@
-# Analyze responses and Reporting
+# Analyze responses 
 
-Reviewing students' answers closes the learning cycle for teachers by allowing them to understand what students are doing. Basic reporting is undertaken through the Moodle quiz.  For example, lists of scores, etc. are available there.  The Moodle quiz also calculates basic statistics based on the numerical information.
+Basic reporting is undertaken through the Moodle quiz.  For example, lists of scores, etc. are available there.  The Moodle quiz also calculates basic statistics based on the numerical information.
 
 To review work in more detail we need to use two important parts of the question. Please read the following two entries before continuing with this article.
 
 * The [question note](../Authoring/Question_note.md).
 * The [answer note](../Authoring/Potential_response_trees.md#Answer_note).
-
-Please note
-
-1. Only the final answer the student gives is reported by this page.  In adaptive mode, students might have multiple attempts at a question before their final answer.
-2. In Moodle 4, we include data from all versions of the question.  Otherwise, even a minor edit to a question will prevent data from previous versions being displayed.
 
 ## Moodle quiz features ##
 
@@ -151,4 +146,4 @@ if __name__ == "__main__":
 
 ## Site-wide usage ##
 
-Moodle Admins can get stats on [site-wide STACK usage](../STACK_question_admin/Advanced_reporting.md).
+Moodle Admins can get stats on [site-wide STACK usage](../STACK_question_admin/Advanced_reporting.md). 

@@ -14,7 +14,7 @@ If you use a string input, and want to trim whitespace from each end before usin
 
 ### ATStringSloppy ###
 
-This test removes all spaces, newlines and tabs within the string and then performs a string match.
+This test removes all spaces, new lines and tabs within the string and then performs a string match.
 
 ### ATSRegExp ###
 

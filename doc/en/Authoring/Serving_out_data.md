@@ -4,7 +4,7 @@ In some contexts one wants to generate random data for the students to act on, d
 
 ## HTML-tables
 
-If you only have a small amount of data you may simply print out a table of it and let the students copy-paste it from there. When doing this one will want to avoid LaTeX representations as those may case trouble for students try to copy-paste things. Here is an example of using CASText `foreach`-blocks to iterate and output an aray of data:
+If you only have a small amount of data you may simply print out a table of it and let the students copy-paste it from there. When doing this one will want to avoid LaTeX representations as those may case trouble for students try to copy-paste things. Here is an example of using CASText `foreach`-blocks to iterate and output an array of data:
 
 ```
 [[comment]]This just defines the data for this sample, you may use one coming from your question-vars.[[/comment]]

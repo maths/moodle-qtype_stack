@@ -38,7 +38,7 @@ Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stac
 
 ## For "inputs 2"?
 
-* Better CSS, including "tool tips".  May need to refactor JavaScript.  (See issue #380)
+* Better CSS, including "tool tips".  May need to re-factor JavaScript.  (See issue #380)
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Update MCQ to accept units.
@@ -47,4 +47,4 @@ Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stac
 
 ## Other
 
-* SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adapctive tests.  Search for SBCL.
+* SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adaptive tests.  Search for SBCL.

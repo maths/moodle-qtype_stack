@@ -5,19 +5,9 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.11.0
+## Version 4.12.0
 
-Improvements in documentatin and minor bug fixes.
-
-1. Add in sticky footer for editing form.
-2. Add in support for [chemical data](../Topics/Chemistry/index.md).
-3. Update Mathjax version to 3.2.2 to match Moodle 5+.
-4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
-5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
-6. Add in new flag `tex_plain_atoms` to control the display of atoms with [subscripts](../CAS/Subscripts.md).  Remove testing for changes on Maxima before 5.40.0.
-7. Add in the `Introductory-Mathematics` quesions to the STACK library.  The library now has over 1600 STACK questions.
-
-Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.11.0) include
+Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.

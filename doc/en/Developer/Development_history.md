@@ -2,6 +2,20 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.11.0
+
+Released October 2025.
+
+Improvements in documentatin and minor bug fixes.
+
+1. Add in sticky footer for editing form.
+2. Add in support for [chemical data](../Topics/Chemistry/index.md).
+3. Update Mathjax version to 3.2.2 to match Moodle 5+.
+4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
+5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
+6. Add in new flag `tex_plain_atoms` to control the display of atoms with [subscripts](../CAS/Subscripts.md).  Remove testing for changes on Maxima before 5.40.0.
+7. Add in the `Introductory-Mathematics` quesions to the STACK library.  The library now has over 1600 STACK questions.
+
 ## Version 4.10.0
 
 Released July 2025.

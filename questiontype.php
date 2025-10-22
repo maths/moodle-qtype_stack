@@ -278,7 +278,7 @@ class qtype_stack extends question_type {
             $graph->layout();
             $roots = $graph->get_roots();
             if (empty($fromform->isbroken) && (count($roots) != 1 || $graph->get_broken_cycles())) {
-                throw new coding_exception('The PRT ' . $prtname . ' is malformed.');
+                throw new stack_exception('The PRT ' . $prtname . ' is malformed.');
             }
             reset($roots);
             $firstnode = key($roots) - 1;
@@ -548,7 +548,7 @@ class qtype_stack extends question_type {
             }
         }
         if ($questiondata->prts && !$allformative && $totalvalue < 0.0000001) {
-            throw new coding_exception('There is an error authoring your question. ' .
+            throw new stack_exception('There is an error authoring your question. ' .
                     'The $totalvalue, the marks available for the question, must be positive in question ' .
                     $question->name);
         }
@@ -1427,6 +1427,7 @@ class qtype_stack extends question_type {
         $fromform->matrixparens          = $format->getpath($xml, ['#', 'matrixparens', 0, '#'], '[');
         $fromform->variantsselectionseed = $format->getpath($xml, ['#', 'variantsselectionseed', 0, '#'], 'i');
 
+        $structurerepairs = '';
         if (isset($xml['#']['input'])) {
             foreach ($xml['#']['input'] as $inputxml) {
                 $this->import_xml_input($inputxml, $fromform, $format);
@@ -1435,7 +1436,7 @@ class qtype_stack extends question_type {
 
         if (isset($xml['#']['prt'])) {
             foreach ($xml['#']['prt'] as $prtxml) {
-                $this->import_xml_prt($prtxml, $fromform, $format);
+                $structurerepairs .= $this->import_xml_prt($prtxml, $fromform, $format);
             }
         }
 
@@ -1461,7 +1462,11 @@ class qtype_stack extends question_type {
         $formarray['generalfeedback'] = ['text' => $formarray['generalfeedback']];
         // Reset graph or we get bleed between questions on multiple imports.
         $this->prtgraph = [];
+
         $errors = $this->validate_fromform($formarray, []);
+        if ($structurerepairs) {
+            $errors['structurerepairs'] = $structurerepairs;
+        }
         if (count($errors)) {
             $title = $formarray['name'];
             unset($errors['name']);
@@ -1469,9 +1474,17 @@ class qtype_stack extends question_type {
             foreach ($errors as $key => $error) {
                 $errortext .= $key . ': ' . $error . '<br />';
             }
-            $errortext .= stack_string('markedasbroken');
+            if (isset($errors['structuralerror'])) {
+                // Graph creation failed. If we import this question
+                // we won't be able to open it in the edit form.
+                // TO-DO Once we have a text-based editor we could allow saving
+                // of even really broken questions.
+                $errortext .= stack_string('importwillfail');
+            } else {
+                $errortext .= stack_string('markedasbroken');
+                $fromform->isbroken = '1';
+            }
             echo $OUTPUT->notification($errortext, 'notifyproblem', false, $title);
-            $fromform->isbroken = '1';
         }
         return $fromform;
     }
@@ -1525,8 +1538,11 @@ class qtype_stack extends question_type {
      * @param array $xml the bit of the XML representing one PRT.
      * @param object $fromform the data structure we are building from the XML.
      * @param qformat_xml $format the importer/exporter object.
+     *
+     * @return string errors
      */
     protected function import_xml_prt($xml, $fromform, qformat_xml $format) {
+        $errors = [];
         $name = $format->getpath($xml, ['#', 'name', 0, '#'], null, false, 'Missing PRT name in the XML.');
 
         $fromform->{$name . 'value'}             = $format->getpath($xml, ['#', 'value', 0, '#'], 1);
@@ -1540,6 +1556,25 @@ class qtype_stack extends question_type {
                 $this->import_xml_prt_node($nodexml, $name, $fromform, $format);
             }
         }
+
+        // If the PRT has missing nodes we can't simply set the question as broken and save anyway.
+        // Missing nodes throw an exception when creating the PRT graph which kills the edit page.
+        // Instead we set the nodes to 'stop' and add an error. This will lead to the question being marked
+        // as broken.
+        forEach ($fromform->{$name . 'falsenextnode'} as $nodename => $falsenextnode) {
+            if ($falsenextnode != -1 && !isset($fromform->{$name . 'description'}[$falsenextnode])) {
+                $fromform->{$name . 'falsenextnode'}[$nodename] = -1;
+                $errors[] = stack_string('missingnextnode', ['type' => 'False', 'prt' => $name, 'node' => $nodename]);
+            }
+        }
+
+        forEach ($fromform->{$name . 'truenextnode'} as $nodename => $truenextnode) {
+            if ($truenextnode != -1 && !isset($fromform->{$name . 'description'}[$truenextnode])) {
+                $fromform->{$name . 'truenextnode'}[$nodename] = -1;
+                $errors[] = stack_string('missingnextnode', ['type' => 'True', 'prt' => $name, 'node' => $nodename]);
+            }
+        }
+        return implode(' ', $errors);;
     }
 
     /**
@@ -2177,7 +2212,7 @@ class qtype_stack extends question_type {
         }
 
         // Check that answernotes are not duplicated.
-        $answernotes = array_merge($fromform[$prtname . 'trueanswernote'], $fromform[$prtname . 'falseanswernote']);
+        $answernotes = array_merge($fromform[$prtname . 'trueanswernote'] ?? [], $fromform[$prtname . 'falseanswernote'] ?? []);
         if (count(array_unique($answernotes)) < count($answernotes)) {
             // Strictly speaking this should not be in the feedback variables.  But there is no general place to put this error.
             $errors[$prtname . 'feedbackvariables'][] = stack_string('answernoteunique');
@@ -2187,7 +2222,16 @@ class qtype_stack extends question_type {
         if (property_exists($this, 'question')) {
             $question = $this->question;
         }
-        $graph = $this->get_prt_graph($prtname, $question, $fromform);
+
+        try {
+            $graph = $this->get_prt_graph($prtname, $question, $fromform);
+        } catch(stack_exception $e) {
+            // This should only occur on import and means an attempt to save will fail.
+            $errors[$prtname . 'PRT'][] = $e->getMessage();
+            $errors['structuralerror'][] = stack_string('structuralproblem');
+            return $errors;
+        }
+
         $textformat = null;
         foreach ($graph->get_nodes() as $node) {
             $nodekey = $node->name - 1;
@@ -2206,6 +2250,12 @@ class qtype_stack extends question_type {
 
         // Check that the nodes form a directed acyclic graph.
         $roots = $graph->get_roots();
+
+        if (!count($roots)) {
+            // Should only occur on import. Presumably there are just nodes.
+            $errors[$prtname] = stack_string('noroots');
+            $errors['structuralerror'][] = stack_string('structuralproblem');
+        }
 
         // There should only be a single root. If there is more than one, then we
         // assume that the first one is the intended root, and flat the others as unused.
@@ -2499,12 +2549,12 @@ class qtype_stack extends question_type {
             $deletednode = null;
             $lastkey = -1;
             foreach ($submitted as $key => $truenextnode) {
-                if ($truenextnode == -1 || !array_key_exists($truenextnode, $submitted)) {
+                if ($truenextnode == -1) {
                     $left = null;
                 } else {
                     $left = $truenextnode + 1;
                 }
-                if ($falsenextnode[$key] == -1 || !array_key_exists($falsenextnode[$key], $submitted)) {
+                if ($falsenextnode[$key] == -1) {
                     $right = null;
                 } else {
                     $right = $falsenextnode[$key] + 1;

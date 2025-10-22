@@ -441,7 +441,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             }
             try {
                 $graph->layout();
-            } catch (coding_exception $ce) {
+            } catch (stack_exception $ce) {
                 $question = $DB->get_record('question', ['id' => $prt->questionid]);
                 $this->step->log('The PRT named "' . $prt->name .
                         '" is malformed in question id ' . $prt->questionid .

@@ -1,4 +1,4 @@
-/* NOTE! THIS FILE CONTAINS NO LOGIC! THIS COMMENT EXISTS TO COMMENT AND INERT
+/* NOTE! THIS FILE CONTAINS NO LOGIC! THIS COMMENT EXISTS TO COMMENT AN INERT
    FUNCTION. */
 
 /**
@@ -27,5 +27,5 @@
  * @param[char] format, the format that is to be used, basically `"C"` for 
  *    C-style integer literals, or `"S"` for STACK suffix style
  * @param[integer] base, the base as an base-10 integer in the range of 2-36
- * @return[stackbasen] returns itself, does not evalaute on its own
+ * @return[stackbasen] returns itself, does not evaluate on its own
  */

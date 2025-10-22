@@ -10,6 +10,7 @@ one should always decide when to validate the objects, you may do it in
 input validation or you might do it later in grading.
 
 A `stackbasen` object is an inert function with exactly three arguments:
+
  - The first argument is the raw input form of the number in a given base 
    and format.
  - The second argument defines the format. Currently, there are two options

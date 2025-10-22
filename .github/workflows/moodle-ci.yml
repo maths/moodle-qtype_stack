@@ -38,7 +38,7 @@ jobs:
             maxima: 'GCL'
             moodle-app: true
           - php: '8.4'
-            moodle-branch: 'MOODLE_500_STABLE'
+            moodle-branch: 'MOODLE_501_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true

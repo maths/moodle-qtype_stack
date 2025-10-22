@@ -631,8 +631,10 @@ $string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardle
 $string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used';
 $string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant';
 $string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used';
+$string['jsondata'] = 'JSON data';
 $string['rawdata'] = 'Raw data';
 $string['selectquiz'] = 'Select quiz to analyze results';
+$string['analyzeresponsesnotes'] = "Note, (1) all the students' answers for each quiz attempt are included here, (2) all versions of the question are included.";
 $string['splitsummary'] = 'Split summary';
 $string['variants'] = 'Variants';
 

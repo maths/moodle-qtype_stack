@@ -173,6 +173,7 @@ load("maximasrccompiled.mac");
 
 /* Are we printing normal Maxima or plain atoms? */
 tex_plain_atoms:false$
+
 load("stacktex.lisp");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");

@@ -1180,7 +1180,7 @@ algebraic_equivalence(SA, SB) :=
 
 /* This test establishes if two expressions appear NOT to be equivalent.
    It does so by evaluating the expressions numerically.        */
-numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars,trigexpand],
+numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet, listdummyvars, trigexpand],
   trigexpand:false,
   stack_mtell_quiet:true,
   listdummyvars:false,

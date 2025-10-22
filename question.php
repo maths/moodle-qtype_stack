@@ -801,7 +801,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     /**
      * The purpose of this function is to generate a human readable summary.
      * This is used by moodle in the anslaysis scripts.
-     * For download and offline analysis use the JSON version.
+     * For download and offline analysis use the JSON version below.
      * @param array $response the raw response array from students.
      */
     public function summarise_response(array $response) {
@@ -849,6 +849,36 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $bits[$name] = $state->status;
         }
         return $bits;
+    }
+
+    /**
+     * The purpose of this function is to generate a JSON summary for download and offline analysis.
+     * @param array $response reponse to summarise.
+     * @param array $metadata additional data to add to JSON.
+     * @return bool|string JSON
+     */
+    public function summarise_response_json(array $response, array $metadata = []) {
+        // Provide seed information on student's version via the normal moodle quiz report.
+        $bits = $metadata;
+        $bits['inputs'] = [];
+        $bits['prts'] = [];
+        $bits['seed'] = $this->seed;
+        foreach ($this->inputs as $name => $input) {
+            $state = $this->get_input_state($name, $response);
+            $bits['inputs'][$name] = $input->summarise_response_json($name, $state, $response);
+        }
+        // Add in the answer note for this response.
+        foreach ($this->prts as $name => $prt) {
+            $sum = [];
+            $state = $this->get_prt_result($name, $response, false);
+            // For offline analysis we return a score here even if the PRT is "formative".
+            $sum['score']   = $state->get_score();
+            $sum['penalty'] = $state->get_penalty();
+            $sum['note']    = array_map('trim', $state->get_answernotes());
+            $sum['errors']  = array_merge($state->get_errors(), $state->get_fverrors());
+            $bits['prts'][$name] = $sum;
+        }
+        return json_encode($bits);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

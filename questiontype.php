@@ -122,7 +122,27 @@ class qtype_stack extends question_type {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function save_question_options($fromform) {
-        global $DB;
+        global $DB, $PAGE;
+        $throwexceptions = true;
+        switch ($PAGE->pagetype) {
+            case 'question-bank-importquestions-import':
+            case 'question-bank-importasversion-import':
+                $throwexceptions = false;
+                $result = new \StdClass();
+                if (!empty($fromform->validationerrors)) {
+                    $result->notice = $fromform->validationerrors;
+                    $dashboardlink = new moodle_url('/question/type/stack/questiontestrun.php', ['questionid' => $fromform->id]);
+                    $result->notice = html_writer::link(
+                        $dashboardlink,
+                        $fromform->name
+                    ) . '<br>' . $result->notice;
+                }
+                break;
+            default:
+                $result = null;
+                break;
+        }
+
         $context = $fromform->context;
 
         parent::save_question_options($fromform);
@@ -277,8 +297,20 @@ class qtype_stack extends question_type {
             }
             $graph->layout();
             $roots = $graph->get_roots();
-            if (empty($fromform->isbroken) && (count($roots) != 1 || $graph->get_broken_cycles())) {
-                throw new stack_exception('The PRT ' . $prtname . ' is malformed.');
+            if (
+                    (empty($fromform->isbroken) && (count($roots) > 1 || $graph->get_broken_cycles()))
+                    || count($roots) == 0
+             ) {
+                if ($throwexceptions) {
+                    throw new stack_exception('The PRT ' . $prtname . ' is malformed.');
+                }
+                $result->error = html_writer::tag('h6', $fromform->name);
+                if (!empty($fromform->validationerrors)) {
+                    $result->error .= $fromform->validationerrors;
+                } else {
+                    $result->error .= 'The PRT ' . $prtname . ' is malformed.';
+                }
+                return $result;
             }
             reset($roots);
             $firstnode = key($roots) - 1;
@@ -412,6 +444,7 @@ class qtype_stack extends question_type {
         $params['questionid'] = $fromform->id;
         $DB->delete_records_select('qtype_stack_qtest_expected',
                 'questionid = :questionid AND prtname ' . $nametest, $params);
+        return $result;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -1369,7 +1402,7 @@ class qtype_stack extends question_type {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function import_from_xml($xml, $fromform, qformat_xml $format, $notused = null) {
-        global $OUTPUT;
+        global $OUTPUT, $PAGE;
         if (!isset($xml['@']['type']) || $xml['@']['type'] != $this->name()) {
             return false;
         }
@@ -1468,7 +1501,6 @@ class qtype_stack extends question_type {
             $errors['structurerepairs'] = $structurerepairs;
         }
         if (count($errors)) {
-            $title = $formarray['name'];
             unset($errors['name']);
             $errortext = '';
             foreach ($errors as $key => $error) {
@@ -1484,7 +1516,10 @@ class qtype_stack extends question_type {
                 $errortext .= stack_string('markedasbroken');
                 $fromform->isbroken = '1';
             }
-            echo $OUTPUT->notification($errortext, 'notifyproblem', false, $title);
+            $fromform->validationerrors = $errortext;
+            if (isset($errors['structuralerror'])) {
+                $fromform->structuralerror = true;
+            }
         }
         return $fromform;
     }
@@ -2252,7 +2287,7 @@ class qtype_stack extends question_type {
         $roots = $graph->get_roots();
 
         if (!count($roots)) {
-            // Should only occur on import. Presumably there are just nodes.
+            // Should only occur on import. Presumably there are just no nodes.
             $errors[$prtname] = stack_string('noroots');
             $errors['structuralerror'][] = stack_string('structuralproblem');
         }

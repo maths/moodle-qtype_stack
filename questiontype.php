@@ -1592,6 +1592,14 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'feedbackvariables'} = $format->getpath($xml,
                             ['#', 'feedbackvariables', 0, '#', 'text', 0, '#'], '', true);
 
+        // We need to initialise all these arrays in case a broken question is imported.
+        $fields = ['description', 'answertest', 'sans', 'tans', 'testoptions', 'quiet', 'truescoremode', 'truescore',
+                    'truepenalty', 'truenextnode', 'trueanswernote', 'truefeedback', 'falsescoremode', 'falsescore',
+                    'falsepenalty', 'falsenextnode', 'falseanswernote', 'falsefeedback'];
+        forEach ($fields as $field) {
+            $fromform->{$name . $field} = [];
+        }
+
         if (isset($xml['#']['node'])) {
             foreach ($xml['#']['node'] as $nodexml) {
                 $this->import_xml_prt_node($nodexml, $name, $fromform, $format);
@@ -1602,17 +1610,21 @@ class qtype_stack extends question_type {
         // Missing nodes throw an exception when creating the PRT graph which kills the edit page.
         // Instead we set the nodes to 'stop' and add an error. This will lead to the question being marked
         // as broken.
-        forEach ($fromform->{$name . 'falsenextnode'} as $nodename => $falsenextnode) {
-            if ($falsenextnode != -1 && !isset($fromform->{$name . 'description'}[$falsenextnode])) {
-                $fromform->{$name . 'falsenextnode'}[$nodename] = -1;
-                $errors[] = stack_string('missingnextnode', ['type' => 'False', 'prt' => $name, 'node' => $nodename]);
+        if (isset($fromform->{$name . 'falsenextnode'})) {
+            forEach ($fromform->{$name . 'falsenextnode'} as $nodename => $falsenextnode) {
+                if ($falsenextnode != -1 && !isset($fromform->{$name . 'description'}[$falsenextnode])) {
+                    $fromform->{$name . 'falsenextnode'}[$nodename] = -1;
+                    $errors[] = stack_string('missingnextnode', ['type' => 'False', 'prt' => $name, 'node' => $nodename]);
+                }
             }
         }
 
-        forEach ($fromform->{$name . 'truenextnode'} as $nodename => $truenextnode) {
-            if ($truenextnode != -1 && !isset($fromform->{$name . 'description'}[$truenextnode])) {
-                $fromform->{$name . 'truenextnode'}[$nodename] = -1;
-                $errors[] = stack_string('missingnextnode', ['type' => 'True', 'prt' => $name, 'node' => $nodename]);
+        if (isset($fromform->{$name . 'truenextnode'})) {
+            forEach ($fromform->{$name . 'truenextnode'} as $nodename => $truenextnode) {
+                if ($truenextnode != -1 && !isset($fromform->{$name . 'description'}[$truenextnode])) {
+                    $fromform->{$name . 'truenextnode'}[$nodename] = -1;
+                    $errors[] = stack_string('missingnextnode', ['type' => 'True', 'prt' => $name, 'node' => $nodename]);
+                }
             }
         }
         return implode(' ', $errors);;
@@ -2294,7 +2306,7 @@ class qtype_stack extends question_type {
 
         if (!count($roots)) {
             // Should only occur on import. Presumably there are just no nodes.
-            $errors[$prtname] = stack_string('noroots');
+            $errors[$prtname][] = stack_string('noroots');
             $errors['structuralerror'][] = stack_string('structuralproblem');
         }
 
@@ -2578,13 +2590,13 @@ class qtype_stack extends question_type {
 
         // No existing question. We are doing an import.
         if (!$question && $fromform) {
-            $submitted = $fromform[$prtname . 'truenextnode'];
-            $description    = $fromform[$prtname . 'description'];
-            $truescoremode  = $fromform[$prtname . 'truescoremode'];
-            $truescore      = $fromform[$prtname . 'truescore'];
-            $falsenextnode  = $fromform[$prtname . 'falsenextnode'];
-            $falsescoremode = $fromform[$prtname . 'falsescoremode'];
-            $falsescore     = $fromform[$prtname . 'falsescore'];
+            $submitted = $fromform[$prtname . 'truenextnode'] ?? [];
+            $description    = $fromform[$prtname . 'description'] ?? [];
+            $truescoremode  = $fromform[$prtname . 'truescoremode'] ?? [];
+            $truescore      = $fromform[$prtname . 'truescore'] ?? [];
+            $falsenextnode  = $fromform[$prtname . 'falsenextnode'] ?? [];
+            $falsescoremode = $fromform[$prtname . 'falsescoremode'] ?? [];
+            $falsescore     = $fromform[$prtname . 'falsescore'] ?? [];
             $graph = new stack_abstract_graph();
 
             $deletednode = null;

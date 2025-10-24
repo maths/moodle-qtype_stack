@@ -126,7 +126,6 @@ class qtype_stack extends question_type {
         $throwexceptions = true;
         switch ($PAGE->pagetype) {
             case 'question-bank-importquestions-import':
-            case 'question-bank-importasversion-import':
                 $throwexceptions = false;
                 $result = new \StdClass();
                 if (!empty($fromform->validationerrors)) {
@@ -138,7 +137,12 @@ class qtype_stack extends question_type {
                     ) . '<br>' . $result->notice;
                 }
                 break;
+            case 'question-bank-importasversion-import':
+                // Ideally importasversion would handle notice/errors messages.
+                // That would allow us to show validation messages in Gitsync
+                // and when importing as new.
             default:
+                // Edit page and everything else should behave as before.
                 $result = null;
                 break;
         }
@@ -301,6 +305,8 @@ class qtype_stack extends question_type {
                     (empty($fromform->isbroken) && (count($roots) > 1 || $graph->get_broken_cycles()))
                     || count($roots) == 0
              ) {
+                // If no roots then the edit page can't be built so we don't want to allow a save.
+                // This shouldn't be possible using the edit form.
                 if ($throwexceptions) {
                     throw new stack_exception('The PRT ' . $prtname . ' is malformed.');
                 }

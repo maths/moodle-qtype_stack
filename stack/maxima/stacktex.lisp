@@ -421,10 +421,25 @@
 
 ;; *************************************************************************************************
 
+;; This is the default behaviour.
+(defmspec $mminusbp134 (x)
+  (setq x (car x))
+  (defprop mminus 134. rbp)
+  (defprop mminus 100. lbp)
+  '$done
+)
+
 (defmspec $mminusbp120 (x)
   (setq x (car x))
   (defprop mminus 120. rbp)
   (defprop mminus 120. lbp)
+  '$done
+)
+
+(defmspec $mminusbp101 (x)
+  (setq x (car x))
+  (defprop mminus 101. rbp)
+  (defprop mminus 100. lbp)
   '$done
 )
 

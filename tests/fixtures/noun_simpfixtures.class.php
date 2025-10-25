@@ -60,14 +60,14 @@ class stack_noun_simp_test_data {
             ['a nounadd b', 'a+b']],
         ['a nounadd -b',
             // Note simp:true does add brackets.
-            ['a nounadd -b', 'a+\left(-b\right)'],
+            ['a nounadd (-b)', 'a+\left(-b\right)'],
             // But the TeX does not print a+-b here.
-            ['a nounadd -b', 'a-b']],
+            ['a nounadd (-b)', 'a-b']],
         ['-a nounadd a nounadd -b',
             // Note simp:true does add brackets.
-            ['-a nounadd a nounadd -b', '-a+a+\left(-b\right)'],
+            ['-a nounadd a nounadd (-b)', '-a+a+\left(-b\right)'],
             // But the TeX does not print a+-b here.
-            ['-a nounadd a nounadd -b', '-a+a-b']],
+            ['-a nounadd a nounadd (-b)', '-a+a-b']],
         ['a nounmul b',
             ['a nounmul b', 'a\cdot b'],
             ['a nounmul b', 'a\cdot b']],

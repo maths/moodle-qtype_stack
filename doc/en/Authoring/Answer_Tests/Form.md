@@ -39,7 +39,7 @@ Note however that EqualComAss does not think that `2^2*3` and `2*2*3` are the sa
 
 ### PartFrac: partial fractions ###
 
-This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "partial fraction form". The option must be the variable.
+This test checks (i) that `SAns` is algebraically equivalent to `TAns` , and (ii) that `SAns` is in "partial fraction form". The option must be the variable.
 
 To help provide feedback to students on how to calculate the partial fraction form we have special function `poly_about_a(ex, v, a)` which writes the polynomial `ex` in variable `v` about the point `v=a`.  E.g. \(x^2=1-2(x-1)+(x-1)^2\) when written about \(x=1\). This is basically the complete finite Taylor series for the polynomial about \(x=1\).  The form "about \(x=a\)" can readily be calculated by "shift-expand-shift" and without derivatives.  It is, in my view, somewhat neglected. See [doi:10.1017/S0025557200003569](https://www.cambridge.org/core/journals/mathematical-gazette/article/abs/limitfree-derivatives/3410B7A9E318FAAD27C2948EED073DCF) for applications to a limit-free derivative for polynomials.
 

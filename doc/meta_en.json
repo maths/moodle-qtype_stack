@@ -774,11 +774,6 @@
         "description":"How to tidy up PRT node names with STACK's tidy tool."
         },
         {
-        "file":"UpgradeDefaults.md",
-        "title":"Upgrading Question Details - STACK Documentation",
-        "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
-        },
-        {
         "file":"Authoring_workflow.md",
         "title":"Workflow - STACK Documentation",
         "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."

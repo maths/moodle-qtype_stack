@@ -631,8 +631,10 @@ $string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardle
 $string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used';
 $string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant';
 $string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used';
+$string['jsondata'] = 'JSON data';
 $string['rawdata'] = 'Raw data';
 $string['selectquiz'] = 'Select quiz to analyze results';
+$string['analyzeresponsesnotes'] = "Note, (1) all the students' answers for each quiz attempt are included here, (2) all versions of the question are included.";
 $string['splitsummary'] = 'Split summary';
 $string['variants'] = 'Variants';
 
@@ -865,7 +867,7 @@ $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->for
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
 $string['stackCas_forbiddenntuple']         = 'Coordinates are not permitted in this input.';
 $string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nested in the expression: {$a->cmd}.';
-$string['stackCas_chained_inequalities']    = 'You appear to have "chained inequalities" e.g. \(a &lt b &lt c\).  You need to connect individual inequalities with logical operations such as \(and\) or \(or\).';
+$string['stackCas_chained_inequalities']    = 'You appear to have "chained operators" e.g. \(a {$a->op} b {$a->op} c\).  You need to connect individual clauses with logical operations such as \(and\) or \(or\).';
 $string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \leq \) or \( \geq \) must be entered as <= or >=.  You have {$a->cmd} in your expression, which is backwards.';
 $string['stackCas_unencpsulated_comma']     = 'A comma in your expression appears in a strange way.  Commas are used to separate items in lists, sets etc.  You need to use a decimal point, not a comma, in floating point numbers.';
 $string['stackCas_unencpsulated_semicolon'] = 'A semicolon (;) in your expression appears in a strange way.  Semicolons are used to separate items in lists, sets etc.';
@@ -1842,6 +1844,7 @@ $string['api_choose_folder'] = 'Choose a STACK folder';
 $string['api_choose_q'] = 'Choose a STACK sample file';
 $string['api_correct'] = 'Correct answers';
 $string['api_correct_answer'] = 'A correct answer is: ';
+$string['api_difference'] = 'Difference from default';
 $string['api_display'] = 'Display Question';
 $string['api_display_correct'] = 'Display Correct Answers';
 $string['api_display_correct_hide'] = 'Hide Correct Answers';

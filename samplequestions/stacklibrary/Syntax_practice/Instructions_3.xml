@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>Instructions_3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Sometimes the answer will be an inequality.</p>
+<ul>
+<li>Be careful to use strict e.g. \( &gt; \) or non-strict inequalities \( &gt;= \).</li>
+<li>Sometimes you will need to chain inequalities together with logical connectives <code>and</code> (displayed as \(\wedge\)) or <code>or</code> (displayed as \(\vee\)).  There is a significant mathematical difference between these.</li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

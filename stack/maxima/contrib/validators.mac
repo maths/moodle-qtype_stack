@@ -37,7 +37,7 @@ validate_nofunctions(ex):= block([op1,opp],
   op1:ev(op(ex)),
   opp:apply(properties, [op1]),
   if ev(emptyp(opp) or is(opp=[noun]),simp) then return(sconcat("User-defined functions are not permitted in this input. In your answer ", stack_disp(op1, "i"), " appears to be used as a function. ")),
-  apply(sconcat, map(validate_nofunctions, args(ex)))
+  apply(sconcat, map('validate_nofunctions, args(ex)))
 );
 
 /* The student may only use single-character variable names in their answer. */
@@ -51,6 +51,6 @@ validate_all_one_letter_variables(ex) := if not(is(ev(lmax(map(lambda([ex2],slen
 validate_interval_syntax(ex):= block(
   if ev(listp(ex),simp) then return(sconcat("To give a closed interval, use <code>cc(",first(args(ex)),",",second(args(ex)),")</code>, not <code>[",first(args(ex)),",",second(args(ex)),"]</code>. "))
   else if ev(ntuplep(ex),simp) then return(sconcat("To give an open interval, use <code>oo(",first(args(ex)),",",second(args(ex)),")</code>, not <code>(",first(args(ex)),",",second(args(ex)),")</code>. "))
-  else if is(safe_op(ex)="%union") then apply(sconcat, map(validate_interval_syntax, args(ex)))
+  else if is(safe_op(ex)="%union") then apply(sconcat, map('validate_interval_syntax, args(ex)))
   else return("")
 );

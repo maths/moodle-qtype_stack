@@ -61,7 +61,7 @@ hash_2d_array(arr) := block(
 match_decode(st, [rows]) := block([js, arr],
     js: first(stackjson_parse(st)),
     arr: stackmap_get(js, "used"),
-    if rows=[] then arr:map(lambda([keys], map(base64_decode, first(keys))), arr) 
+    if rows=[] then arr:map(lambda([keys], map('base64_decode, first(keys))), arr) 
       else arr:map(lambda([keys], map(lambda([k], if k # [] then base64_decode(first(k)) else []), keys)), arr),
     return(arr)
 );
@@ -80,7 +80,7 @@ match_encode(steps) := block(
  * Needed to create a "teacher's answer" in JSON format, including unused text.
  */
 match_keys_used_unused_hash(ans, steps) := block([tkeys],
-  tkeys:map(first, hash_keys_array(steps)),
+  tkeys:map('first, hash_keys_array(steps)),
   skeys:hash_2d_array(ans),
   return([skeys, listdifference(tkeys, ev(unique(flatten(skeys)), simp))])
 );

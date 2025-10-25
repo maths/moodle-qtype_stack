@@ -156,6 +156,10 @@ class stack_question_report {
      */
     public $notesummary = [];
     /**
+     * @var array json summary of responses.
+     */
+    public $jsonsummary = [];
+    /**
      * @var object StdClass Data formatted for questionreport.mustache.
      */
     public $outputdata;
@@ -201,16 +205,41 @@ class stack_question_report {
     public function create_summary(): void {
         $result = $this->load_summary_data();
         $summary = [];
+        $jsonsummary = [];
+
+        $currentquba = null;
+        $currentqa = null;
         foreach ($result as $qattempt) {
-            if (!array_key_exists($qattempt->variant, $summary)) {
-                $summary[$qattempt->variant] = [];
-            }
-            $rsummary = trim($qattempt->responsesummary ?? '');
-            if ($rsummary !== '') {
-                if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
-                    $summary[$qattempt->variant][$rsummary] += 1;
-                } else {
-                    $summary[$qattempt->variant][$rsummary] = 1;
+            $currentqubaid = $qattempt->questionusageid;
+            $currentquba = question_engine::load_questions_usage_by_activity($currentqubaid);
+            $currentqa = $currentquba->get_question_attempt($qattempt->slot);
+            $submittedresponseiterator = $currentqa->get_steps_with_submitted_response_iterator();
+            $numberofresponses = $submittedresponseiterator->count();
+            foreach ($submittedresponseiterator as $key => $step) {
+                $rsummary = $qattempt->responsesummary;
+                $response = $step->get_qt_data();
+
+                $metadata = ['userid' => $qattempt->userid, 'qattemptid' => $qattempt->id,
+                            'slot' => $qattempt->slot, 'state' => strval($step->get_state()),
+                            'timecreated' => $step->get_timecreated()];
+                if (!empty($response)) {
+                    $jsonsummary[] = $currentqa->get_question()->summarise_response_json($response, $metadata);
+                    // Question attempt only stores the summary of the last step/response in DB. We need to calculate others.
+                    if ($numberofresponses !== $key) {
+                        $rsummary = $currentqa->get_question()->summarise_response($response);
+                    }
+                }
+
+                if (!array_key_exists($qattempt->variant, $summary)) {
+                    $summary[$qattempt->variant] = [];
+                }
+                $rsummary = trim($rsummary ?? '');
+                if ($rsummary !== '') {
+                    if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
+                        $summary[$qattempt->variant][$rsummary] += 1;
+                    } else {
+                        $summary[$qattempt->variant][$rsummary] = 1;
+                    }
                 }
             }
         }
@@ -221,6 +250,7 @@ class stack_question_report {
         }
 
         $this->summary = $summary;
+        $this->jsonsummary = $jsonsummary;
     }
 
     /**
@@ -235,23 +265,19 @@ class stack_question_report {
             'quizcontextid' => $this->quizcontextid,
             'questionid' => (int) $this->question->id,
         ];
-        $query = "SELECT qa.id, qa.variant, qa.responsesummary
+        // Moodle requires the first column to be unique and just takes the last row if there is duplication.
+        // This is equivalent to using DISTINCT in this case as duplicate identifiers result from duplicate rows.
+        // (The join to qas_next produces a row for every later step.) DISTINCT included in code for cut-and-paste
+        // to ad-hoc queries.
+        $query = "SELECT DISTINCT qa.id, qas.userid, qa.variant, qa.responsesummary,
+                            qa.questionusageid, qa.slot
                     FROM {question_attempts} qa
-                    LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
-                    /* attach another copy of qas to those rows with the most recent timecreated,
-                    using method from https://stackoverflow.com/a/28090544 */
-                    LEFT JOIN {question_attempt_steps} qas_prev
-                                    ON qas_last.questionattemptid = qas_prev.questionattemptid
-                                        AND (qas_last.sequencenumber < qas_prev.sequencenumber
-                                            OR (qas_last.sequencenumber = qas_prev.sequencenumber
-                                                AND qas_last.id < qas_prev.id))
-                    LEFT JOIN {user} u ON qas_last.userid = u.id
+                    LEFT JOIN {question_attempt_steps} qas ON qas.questionattemptid = qa.id
+                    LEFT JOIN {user} u ON qas.userid = u.id
                     LEFT JOIN {question_usages} qu ON qa.questionusageid = qu.id
                     INNER JOIN {role_assignments} ra ON ra.userid = u.id
                     INNER JOIN {role} r ON r.id = ra.roleid
-                WHERE qas_prev.timecreated IS NULL
-                    /* Check responses are the correct quiz and made by students */
-                    AND qu.component = 'mod_quiz'
+                WHERE qu.component = 'mod_quiz'
                     AND qu.contextid = :quizcontextid
                     AND r.archetype = 'student'
                     AND ra.contextid = :coursecontextid
@@ -265,7 +291,7 @@ class stack_question_report {
                                         qv.questionbankentryid = qv_original.questionbankentryid
                             WHERE qv_original.questionid = :questionid
                         )
-                ORDER BY u.username, qas_last.timecreated";
+                ORDER BY qas.userid, qa.id";
 
         $result = $DB->get_records_sql($query, $params);
         return $result;
@@ -461,6 +487,7 @@ class stack_question_report {
         $this->outputdata->variants = $this->format_variants();
         $this->outputdata->inputs = $this->format_inputs();
         $this->outputdata->rawdata = $this->format_raw_data();
+        $this->outputdata->jsondata = $this->format_json_data();
     }
 
     /**
@@ -724,7 +751,29 @@ class stack_question_report {
     }
 
     /**
-     * Get inofmration on all quizzes containing a version of a given question
+     * JSON data
+     * @return object
+     */
+    public function format_json_data(): object {
+        $output = new StdClass();
+        // Record minimal metatdata as the first line of the JSON data.
+        $meta = [];
+        $meta['id'] = $this->question->id;
+        $meta['name'] = $this->question->name;
+        $meta['reporttime'] = date(DATE_ATOM, time());
+
+        $sumout = json_encode($meta) . "\n\n";
+
+        // Actual data.
+        foreach ($this->jsonsummary as $jdata) {
+            $sumout .= $jdata . "\n";
+        }
+        $output->jsondata = $sumout;
+        return $output;
+    }
+
+    /**
+     * Get information on all quizzes containing a version of a given question
      * @param int $questionid
      * @param IntlBreakIterator $questioncontextid
      * @return array

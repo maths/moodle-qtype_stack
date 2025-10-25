@@ -38,7 +38,7 @@ jobs:
             maxima: 'GCL'
             moodle-app: true
           - php: '8.4'
-            moodle-branch: 'MOODLE_500_STABLE'
+            moodle-branch: 'MOODLE_501_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
@@ -88,6 +88,28 @@ jobs:
           extensions: ${{ matrix.extensions }}
           ini-values: max_input_vars=5000
           coverage: none
+
+      - name: Validate composer.json and composer.lock
+        if: ${{ fromJSON(matrix.php) >= 8.2 }}
+        run: |
+          cd plugin/api
+          composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        if: ${{ fromJSON(matrix.php) >= 8.2 }}
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install Dependencies
+        if: ${{ fromJSON(matrix.php) >= 8.2 }}
+        run: |
+          cd plugin/api
+          composer install
 
       - name: Initialise moodle-plugin-ci
         run: |

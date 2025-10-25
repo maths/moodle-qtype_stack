@@ -94,16 +94,16 @@ get_eigenvalue(v,M):= block([],
  * @param[boolean] orthonormalize Optional: if true then orthonormalize the eigenspace
  * @return[list] A list of mx1 matrices; a basis for the eigenspace of L. Empty list if L is not an eigenvalue. 
  */
-get_eigenvector(L,M,[orthonormalize]):= block([evals,evects,ii],
+get_eigenvector(L,M,[orthonormalize]):= block([evals, evects, ii],
   if emptyp(orthonormalize) then orthonormalize: false else orthonormalize: first(orthonormalize),
   if not(squarep(M)) then return([]),
   [evals, evects]: ev(eigenvectors(M),simp),
-  if not(member(L,first(evals))) then return([]),
-  ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
+  if not(member(L, first(evals))) then return([]),
+  ii:ev(first(sublist_indices(first(evals), lambda([ex],is(ex=L)))),simp),
   vecs: evects[ii],
-  if orthonormalize then vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),gramschmidt(vecs)),simp)
-  else vecs: map(scale_nicely,vecs),
-  return( map(transpose,vecs) )
+  if orthonormalize then vecs: ev(map(lambda([ex], ex/sqrt(ex.ex)), gramschmidt(vecs)), simp)
+  else vecs: map('scale_nicely, vecs),
+  return(map('transpose, vecs) )
 );
 
 /**

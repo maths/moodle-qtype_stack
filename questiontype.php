@@ -126,6 +126,8 @@ class qtype_stack extends question_type {
         $throwexceptions = true;
         switch ($PAGE->pagetype) {
             case 'question-bank-importquestions-import':
+            case 'question-bank-importasversion-import':
+            case 'question-type-stack-questionxmledit':
                 $throwexceptions = false;
                 $result = new \StdClass();
                 if (!empty($fromform->validationerrors)) {
@@ -137,7 +139,6 @@ class qtype_stack extends question_type {
                     ) . '<br>' . $result->notice;
                 }
                 break;
-            case 'question-bank-importasversion-import':
                 // Ideally importasversion would handle notice/errors messages.
                 // That would allow us to show validation messages in Gitsync
                 // and when importing as new.

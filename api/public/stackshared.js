@@ -183,7 +183,7 @@ function send() {
                 innerFeedback.classList.remove('feedback');
                 document.getElementById('formatcorrectresponse').innerHTML = correctAnswers;
                 createIframes(json.iframes);
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                MathJax.typesetPromise();
             }
             catch (e) {
                 document.getElementById('errors').innerText = 'There was an error attempting to display the request. Please try again or reload the page.';
@@ -224,7 +224,7 @@ function validate(element) {
                     element.classList.remove('validation');
                 }
                 createIframes(json.iframes);
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                MathJax.typesetPromise();
             }
             catch (e) {
                 document.getElementById('errors').innerText = 'There was an error attempting to display the request. Please try again or reload the page.';
@@ -314,7 +314,7 @@ function answer() {
                     }
                 }
                 createIframes(json.iframes);
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                MathJax.typesetPromise();
             }
             catch (e) {
                 document.getElementById('errors').innerText = 'There was an error attempting to display the request. Please try again or reload the page.';

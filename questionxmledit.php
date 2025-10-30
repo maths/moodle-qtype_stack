@@ -72,15 +72,19 @@ $warnings = '';
 $xmlstring = '';
 
 if ($mform->is_cancelled()) {
-    // If there is a cancel element on the form, and it was pressed,
-    // then the `is_cancelled()` function will return true.
-    // You can handle the cancel operation here.
+    unset($urlparams['testcase']);
+    $qtype = new qtype_stack();
+    redirect($qtype->get_question_test_url($question));
 } else if ($fromform = $mform->get_data()) {
     $importfile = make_request_directory() . "/importq.xml";
     file_put_contents($importfile, $fromform->questionxml);
-    $result = \qbank_importasversion\importer::import_file($qformat, $question, $importfile);
-    $errors = $result->error ?? '';
-    $notices = $result->notice ?? '';
+    try {
+        $result = \qbank_importasversion\importer::import_file($qformat, $question, $importfile);
+        $errors = $result->error ?? '';
+        $notices = $result->notice ?? '';
+    } catch (Exception $e) {
+        $errors = $e->getMessage();
+    }
     // The import process spits out the question description somewhere. Clean output to remove.
     ob_clean();
     // Refresh data with newly saved question.
@@ -96,10 +100,12 @@ if (!empty($errors)) {
 } else {
     $qformat->setQuestions([$questiondata]);
     if (!$qformat->exportpreprocess()) {
-        throw new moodle_exception('exporterror', 'qbank_gitsync', null, $questiondata->questionid);
-    }
-    if (!$xmlstring = $qformat->exportprocess(true)) {
-        throw new moodle_exception('exporterror', 'qbank_gitsync', null, $questiondata->questionid);
+        $notices .= stack_string('xmldisplayerror');
+    } else {
+        if (!$xmlstring = $qformat->exportprocess(true)) {
+            $xmlstring = '';
+            $notices .= stack_string('xmldisplayerror');
+        }
     }
 }
 
@@ -114,6 +120,8 @@ $links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> '
                             . stack_string('questionpreview'), ['class' => 'nav-link']);
 $links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioninthequestionbank'),
                                 ['class' => 'nav-link']);
+$links[] = html_writer::link($PAGE->url, stack_string('reloadsavedXML'),
+                                ['class' => 'nav-link']);
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 
 echo $OUTPUT->heading($title);
@@ -121,6 +129,7 @@ echo $OUTPUT->heading($question->name, 3);
 echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 
 if ($errors) {
+    $errors .= ' ' . stack_string('notsaved');
     $fout .= html_writer::tag('div', $errors, ['class' => 'alert alert-danger']);
 } else if ($notices) {
     $fout .= html_writer::tag('div', $notices, ['class' => 'alert alert-warning']);
@@ -130,9 +139,9 @@ echo html_writer::tag('div', $fout);
 $xmlstringlen = max(substr_count($xmlstring, "\n") + 3, 8);
 // Redo form with the correct textarea size and display.
 $mform = new qtype_stack_question_xml_form($PAGE->url,
-        ['submitlabel' => stack_string('editxmlbutton'), 'xmlstring' => $xmlstring, 'numberrows' => $xmlstringlen]);
+        ['submitlabel' => stack_string('editxmlbutton'), 'xmlstring' => '', 'numberrows' => $xmlstringlen]);
+$mform->setConstants(['questionxml' => $xmlstring]);
 $mform->display();
 
 echo html_writer::tag('p', stack_string('editxmlintro'));
 echo $OUTPUT->footer();
-

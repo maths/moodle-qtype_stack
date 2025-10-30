@@ -34,9 +34,16 @@ class qtype_stack_question_xml_form extends moodleform {
         $mform->addElement('textarea', 'questionxml',
                 stack_string('editxmlquestion'), ['rows' => $this->_customdata['numberrows'], 'cols' => 100]);
         $mform->setType('questionxml', PARAM_RAW);
-        $mform->setDefault('questionxml', $this->_customdata['xmlstring']);
 
         // Submit buttons.
-        $this->add_sticky_action_buttons(true, $this->_customdata['submitlabel']);
+        if (method_exists('MoodleQuickForm', 'set_sticky_footer')) {
+            $this->add_sticky_action_buttons(true, $this->_customdata['submitlabel']);
+        } else {
+            $this->add_action_buttons(true, $this->_customdata['submitlabel']);
+        }
+    }
+
+    public function setConstants($data) {
+        $this->_form->setConstants($data);
     }
 }

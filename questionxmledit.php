@@ -53,6 +53,44 @@ $editparams['id'] = $question->id;
 $questionediturl = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 $questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 
+$qformat = new qformat_xml();
+$contexts = new question_edit_contexts($context);
+$qformat->setCattofile(false);
+$qformat->setContexttofile(false);
+$qformat->setContextfromfile(false);
+$qformat->setStoponerror(true);
+
+$errors = '';
+$notices = '';
+$warnings = '';
+if (trim(optional_param('importasnewversion', '', PARAM_RAW)) == trim(stack_string('editxmlbutton'))) {
+    $importfile = make_request_directory() . "/importq.xml";
+    file_put_contents($importfile, optional_param('questionxml', '', PARAM_RAW));
+    $result = \qbank_importasversion\importer::import_file($qformat, $question, $importfile);
+    $errors = $result->error ?? '';
+    $notices = $result->notice ?? '';
+    // The import process spits out the question description somewhere. Clean output to remove.
+    ob_clean();
+    list($qversion, $questionid) = get_latest_question_version($questionid);
+    $question = question_bank::load_question($questionid);
+    $warnings = implode(' ', $question->validate_warnings(true));
+}
+
+if (!empty($errors)) {
+    // We've tried to save the question but failed. Show POSTed XML.
+    $xmlstring = optional_param('questionxml', '', PARAM_RAW);
+} else {
+    $questiondata = question_bank::load_question_data($questionid);
+
+    $qformat->setQuestions([$questiondata]);
+    if (!$qformat->exportpreprocess()) {
+        throw new moodle_exception('exporterror', 'qbank_gitsync', null, $questiondata->questionid);
+    }
+    if (!$xmlstring = $qformat->exportprocess(true)) {
+        throw new moodle_exception('exporterror', 'qbank_gitsync', null, $questiondata->questionid);
+    }
+}
+
 $PAGE->set_url('/question/type/stack/questionxmledit.php', $editparams);
 $title = stack_string('editxmltitle');
 $PAGE->set_title($title);
@@ -70,50 +108,24 @@ $links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioni
                                 ['class' => 'nav-link']);
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 
-
-
-$question = question_bank::load_question($questionid);
-$qformat = new qformat_xml();
-$qformat->setCourse($course);
-$contexts = new question_edit_contexts($context);
-$qformat->setCattofile(false);
-$qformat->setContexttofile(false);
-$errs = '';
-if (trim(optional_param('importasnewversion', '', PARAM_RAW)) == trim(stack_string('editxmlbutton'))) {
-    $importfile = make_request_directory() . "/importq.xml";
-    file_put_contents($importfile, optional_param('questionxml', '', PARAM_RAW));
-
-    $qformat->setContextfromfile(false);
-    $qformat->setStoponerror(true);
-    $result = \qbank_importasversion\importer::import_file($qformat, $question, $importfile);
-    $errs = $result->error ?? '' . $result->notice ?? '';
-    ob_clean();
-}
-list($qversion, $questionid) = get_latest_question_version($questionid);
-if (!empty($result->error)) {
-    $string = optional_param('questionxml', '', PARAM_RAW);
-} else {
-    $question = question_bank::load_question_data($questionid);
-
-    $qformat->setQuestions([$question]);
-    if (!$qformat->exportpreprocess()) {
-        throw new moodle_exception('exporterror', 'qbank_gitsync', null, $questiondata->questionid);
-    }
-    if (!$question = $qformat->exportprocess(true)) {
-        throw new moodle_exception('exporterror', 'qbank_gitsync', null, $questiondata->questionid);
-    }
-    $string = $question;
-}
 echo $OUTPUT->heading($title);
 echo $OUTPUT->heading($question->name, 3);
 echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 
 $fout .= html_writer::tag('h4', stack_string('editxmlquestion'));
-$fout .= html_writer::tag('p', $errs);
-$stringlen = max(substr_count($string, "\n") + 3, 8);
-$fout .= html_writer::tag('p', html_writer::tag('textarea', $string,
-            ['cols' => 100, 'rows' => $stringlen, 'name' => 'questionxml']));
-$fout .= html_writer::start_tag('p');
+$fout .= html_writer::start_tag('div', ['class' => 'col-lg-10 col-xl-8']);
+if ($errors) {
+    $fout .= html_writer::tag('p', $errors, ['class' => 'alert alert-danger']);
+}
+if ($notices) {
+    $fout .= html_writer::tag('p', $notices, ['class' => 'alert alert-warning']);
+}
+$fout .= html_writer::end_tag('div');
+$fout .= html_writer::tag('p', $warnings);
+$xmlstringlen = max(substr_count($xmlstring, "\n") + 3, 8);
+$fout .= html_writer::tag('p', html_writer::tag('textarea', $xmlstring,
+            ['cols' => 100, 'rows' => $xmlstringlen, 'name' => 'questionxml']));
+$fout .= html_writer::start_tag('div');
 
 $fout .= html_writer::empty_tag('input',
     ['type' => 'submit',  'class' => 'btn-primary', 'name' => 'importasnewversion', 'value' => stack_string('editxmlbutton'), 'formaction' => $PAGE->url]);
@@ -121,10 +133,6 @@ $fout .= html_writer::empty_tag('input',
 $fout .= html_writer::end_tag('p');
 
 echo html_writer::tag('form', $fout, ['method' => 'post']);
-
-if ('' != trim($debuginfo)) {
-    echo $OUTPUT->box($debuginfo);
-}
 
 echo html_writer::tag('p', stack_string('editxmlintro'));
 echo $OUTPUT->footer();

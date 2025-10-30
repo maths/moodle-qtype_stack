@@ -639,7 +639,7 @@ $string['selectquiz'] = 'Select quiz to analyze results';
 $string['splitsummary'] = 'Split summary';
 $string['variants'] = 'Variants';
 
-$string['importwillfail'] = 'Import will fail.';
+$string['importwillfail'] = 'This question cannot be saved or imported in its current state.';
 $string['noroots'] = 'The graph of this PRT has no roots. Does it have nodes?';
 $string['structuralproblem'] = 'The PRT structure is malformed.';
 $string['missingnextnode'] = 'The PRT structure is malformed. {$a->type} next node for PRT {$a->prt} node {$a->node} is invalid. It has been set to stop.';

@@ -65,6 +65,7 @@ $qformat->setCattofile(false);
 $qformat->setContexttofile(false);
 $qformat->setContextfromfile(false);
 $qformat->setStoponerror(true);
+$qformat->setCourse($COURSE);
 
 $errors = '';
 $notices = '';
@@ -128,6 +129,7 @@ echo $OUTPUT->heading($title);
 echo $OUTPUT->heading($question->name, 3);
 echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 
+$fout = '';
 if ($errors) {
     $errors .= ' ' . stack_string('notsaved');
     $fout .= html_writer::tag('div', $errors, ['class' => 'alert alert-danger']);

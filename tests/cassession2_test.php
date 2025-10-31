@@ -2873,15 +2873,20 @@ final class cassession2_test extends qtype_stack_testcase {
     public function test_parens_delect_display(): void {
 
         $cases = [];
-        $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c'];
-        $cases[] = ['int(disp_parens(x-2),x)', '\int {\left( x-2 \right)}{\;\mathrm{d}x}'];
+        $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c', '(a+b)+c'];
+        $cases[] = [
+            'int(disp_parens(x-2),x)',
+            '\int {\left( x-2 \right)}{\;\mathrm{d}x}',
+            '\'integrate((x-2),x)',
+        ];
         $cases[] = [
             'disp_parens(display_complex(1+%i))*x^2+disp_parens(display_complex(1-%i))',
             '\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \right)',
+            '(disp_complex(1,null))*x^2+(disp_complex(1,-1*null))',
         ];
-        $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c'];
-        $cases[] = ['disp_select(a+b)^3', '{\color{red}{\underline{a+b}}}^3'];
-        $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c'];
+        $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c', 'disp_select(a+b)+c'];
+        $cases[] = ['disp_select(a+b)^3', '{\color{red}{\underline{a+b}}}^3', 'disp_select(a+b)^3'];
+        $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c', '(a+b)+c'];
 
         $s1 = [];
         foreach ($cases as $k => $case) {
@@ -2897,6 +2902,7 @@ final class cassession2_test extends qtype_stack_testcase {
 
         foreach ($cases as $k => $case) {
             $this->assertEquals($case[1], $s1[$k]->get_display());
+            $this->assertEquals($case[2], $s1[$k]->get_value());
         }
     }
 

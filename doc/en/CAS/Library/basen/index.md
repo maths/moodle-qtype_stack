@@ -13,6 +13,7 @@ one should always decide when to validate the objects, you may do it in
 input validation or you might do it later in grading.
 
 A [`stackbasen`](#stackbasen) object is an inert function with exactly three arguments:
+
  - The first argument is the raw input form of the number in a given base 
    and format.
  - The second argument defines the format. Currently, there are two options
@@ -410,7 +411,7 @@ Conversion back to raw base-10 happens with [`sbasen_convert_to_base10`](#sbasen
 
 | Return type | description |
 | ----------- | ------------|
-| stackbasen | returns itself, does not evalaute on its own |
+| stackbasen | returns itself, does not evaluate on its own |
 
 
 ---

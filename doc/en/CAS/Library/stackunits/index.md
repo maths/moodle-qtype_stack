@@ -10,8 +10,7 @@
 Converts units to SI-base units. Useful for comparison of values with
 different units.
 
-*NOTE! this is a legacy alias for [`stack_unit_si_to_si_base`](#stack_unit_si_to_si_base), it is
-preferable to use that directly*
+*NOTE!* this is a legacy alias for [`stack_unit_si_to_si_base`](#stack_unit_si_to_si_base), which may be deprecated in future versions.
 
 
 

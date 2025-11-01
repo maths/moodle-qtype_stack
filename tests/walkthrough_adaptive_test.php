@@ -2832,7 +2832,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
         $err = 'Error(s) in question-variables: You have a missing left bracket <span class="stacksyntaxexample">(</span>' .
-                'in the expression: <span class="stacksyntaxexample">p:1/1+x^2);ta:diff(p,x);</span>. ' .
+                ' in the expression: <span class="stacksyntaxexample">p:1/1+x^2);ta:diff(p,x);</span>. ' .
                 '(At about line 1 character 10.)';
         $this->assertEquals($err, $rte);
     }

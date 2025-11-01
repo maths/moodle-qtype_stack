@@ -61,12 +61,12 @@ then any subsequent random number generation will be changed as well.  Indeed, s
 
 and make the question note include both `n1` and `n2` to show there are distinct random versions including both `n1` and `n2` as random variables.
 
-Of course, if the question author has created [question tests](../STACK_question_admin/Testing.md) in the first place, and deployed random variants to check in advance, this problem would never have occured!
+Of course, if the question author has created [question tests](../STACK_question_admin/Testing.md) in the first place, and deployed random variants to check in advance, this problem would never have occurred!
 
 ## I forgot to deploy random variants.
 
 Moodle creates a random integer to seed the random number generation for each question.  The seed is stored in the
 question-attempt and it is picked at the initiation of the quiz either from deployed ones or, if no variants have been deployed, is chosen freely.
 
-Students will therefore have their seed picked at the moment they start their quiz.  The seed remains unchanged regardless of whether any variants are subsequenetly deployed, removed etc.  Hence, deploying or undeploying variants will have no effect on students who already started the quiz.
+Students will therefore have their seed picked at the moment they start their quiz.  The seed remains unchanged regardless of whether any variants are subsequently deployed, removed etc.  Hence, deploying or undeploying variants will have no effect on students who already started the quiz.
 

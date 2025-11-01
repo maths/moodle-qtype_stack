@@ -1,6 +1,6 @@
 # The STACK question library
 
-STACK is distributed with sample questions in
+STACK is distributed with a large library of sample questions in
 
      /qtype_stack/samplequestions
 
@@ -34,7 +34,7 @@ STACK is released with a demonstration course.
 
      /qtype_stack/samplequestions/STACK-demo.mbz
 
-We have also release a course containing all the HELM materials, which are comprhensive courses in engineering mathematics.
+We have also release a course containing all the HELM materials, which are comprehensive courses in engineering mathematics.
 
      /qtype_stack/samplequestions/HELM_Sept_23.mbz
 
@@ -43,4 +43,4 @@ You can "restore" these into your version of Moodle.  It has a number of quizzes
 # Open Educational Resources #
 
 * The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These materials have been redeveloped are now part of the STACK library.
-* Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/)
+* Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/) 

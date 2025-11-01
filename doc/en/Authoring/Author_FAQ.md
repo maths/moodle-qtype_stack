@@ -22,7 +22,7 @@ LaTeX is a document preparation system. For STACK questions we only need some si
 In particular STACK only really makes use of LaTeX for mathematical markup, and does not use the document structure tags.
 
 Useful LaTeX resources:
-* An introduction for those totally new to LaTeX, Andy Roberts' [Absolute Beginers](https://www.andy-roberts.net/latex/absolute_beginners/).
+* An introduction for those totally new to LaTeX, Andy Roberts' [Absolute Beginners](https://www.andy-roberts.net/latex/absolute_beginners/).
 * The [mathematics environment guidance](http://www.andy-roberts.net/writing/latex/mathematics_1).
 * Details about LaTeX are available from <www.latex-project.org/guides/>.
 
@@ -30,9 +30,9 @@ Note that some of the more complex examples will not work on STACK. Just keep th
 
 ## Can I add HTML to CAS-enabled text? ##
 
-Yes.  You can use HTML tags as usual.  For example, you can use these tags to insert references to images etc.
+Yes, you can use HTML tags as usual.  For example, you can use these tags to insert references to images etc.
 
-We recommend you do not include arbitrary `<script>` tags with JS code.  Future versions of STACK will likely be much more strict about cross-site scripting.
+Do not include arbitrary `<script>` tags with JS code.  Future versions of STACK will not support cross-site scripting.
 
 ## How can I test out STACK specific functions in a Maxima session? ##
 
@@ -40,14 +40,11 @@ Details of how to load STACK functions into a command line Maxima session are gi
 
 ## Why does a Maxima function not work in STACK? ##
 
-Not all Maxima functions are enabled by STACK, for obvious security reasons.
-It may be that your function belongs to a library which STACK does not load by default.
-Do you need to use Maxima's load command to use it? If so, you will need to ask your system administrator or the developers to add a load command so that this library becomes available.
+Not all Maxima functions are enabled by STACK, for obvious security reasons. It may be that your function belongs to a library which STACK does not load by default. Do you need to use Maxima's load command to use it? If so, you will need to ask your system administrator or the developers to add a load command so that this library becomes available.
 
 Some libraries are optional and may not be included by your local installation.
 
-You should also be aware that there are also a number of functions defined by STACK which are not standard Maxima functions.
-The command you need may well not be enabled since you should use one STACK provides instead.
+You should also be aware that there are also a number of functions defined by STACK which are not standard Maxima functions. The command you need may well not be enabled since you should use one STACK provides instead.
 
 ## How can I change which Maxima functions STACK allows? ##
 

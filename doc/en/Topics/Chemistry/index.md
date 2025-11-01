@@ -8,7 +8,6 @@ To include chemical data use the following within your STACK question (question 
 
 Developer notes: 
 
-* Before offical release, testing can use `stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/iss1504/stack/maxima/contrib/chemistry.mac");`.  (This will not work after release!)
 * During development to load the code local to your development server use `stack_include("contribl://chemistry.mac");`
 
 ## Using chemical data

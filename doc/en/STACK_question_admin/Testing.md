@@ -10,9 +10,7 @@ We have separate advice on [fixing broken questions](../STACK_question_admin/Fix
 
 It is important to test questions to ensure they work correctly.  One approach would be for the teacher to repeatedly test them with various random numbers and inputs.  But this is inefficient and unreliable.
 
-Question Tests provide an automated mechanism through which the author may establish with confidence that
-the Potential Response Trees are processing the student answer as expected. They are based on the concept of "unit testing" from software development.
-Question variables can be included in the tests; indeed these are needed to define test inputs in the context of random values.
+Question Tests provide an automated mechanism through which the author may establish with confidence that the Potential Response Trees are processing the student answer as expected. They are based on the concept of "unit testing" from software development. Question variables can be included in the tests; indeed these are needed to define test inputs in the context of random values.
 
 Each test assigns values to
 
@@ -46,7 +44,7 @@ In this way, the teacher can record, within the question itself, how they expect
     4. Add a totally incorrect answer.
 7. If you leave the penalty field blank it will assume you mean the default penalty for the question.
 
-Normally test cases are constructed taking into account values of the question variables, so test-case contruction can reflect any random variants.  If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used as part of constructing the input for this test case.  However, the potential response tree _will_ have access to the question variables later.  For example, if `n:42` in the question variables then typically student's who input `n` will get a validation error.  `RAW:n` allows you to create a test case, which will be displayed as `n` but later the PRTs will pick up the question variables.  This feature is intended to test _invalid_ input rather than evaluation of test cases contructed from the random variables.  We can't have it both ways!
+Normally test cases are constructed taking into account values of the question variables, so test-case construction can reflect any random variants.  If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used as part of constructing the input for this test case.  However, the potential response tree _will_ have access to the question variables later.  For example, if `n:42` in the question variables then typically student's who input `n` will get a validation error.  `RAW:n` allows you to create a test case, which will be displayed as `n` but later the PRTs will pick up the question variables.  This feature is intended to test _invalid_ input rather than evaluation of test cases constructed from the random variables.  We can't have it both ways!
 
 If you start your test case with the tag `CT:` (case sensitive) then the remainder of your input will be evaluated as a castext string.  E.g. if your test case is  `CT:{#a#}{#v#}` then the castext `{#a#}{#v#}` will be evaluated, and the values of variables `a` and `v` placed next to each other to create an input string. This feature can be used to test input settings, such as insert stars, is working leading to a "score" state rather than an invalid state.  Please do not use `CT:{@a@}` which will generate LaTeX output!  For test-case construction we need to create Maxima syntax, not LaTeX.
 
@@ -78,7 +76,7 @@ Some evaluations in Maxima do actually more than just replace existing variables
 
 Notice here, that while `simp:false` the limit is still evaluated.  This is not "simplification".  For the full story, please refer to the Maxima docs on the `ev` command.
 
-In this case, you can prevent evaluation of limits by using an apostrophie in the test case construction to prevent evaluation.
+In this case, you can prevent evaluation of limits by using an apostrophe in the test case construction to prevent evaluation.
 
     simp:false;
     f:x*sin(1/x);
@@ -98,7 +96,7 @@ For the checkbox type you will need the whole list.
 
 ### Test case construction and numerical precision
 
-You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is neeeded if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
+You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is needed if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
 
 ### Test case construction and decimal separators
 

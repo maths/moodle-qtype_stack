@@ -659,4 +659,14 @@
    )
 )
 
+;; *************************************************************************************************
+;; Added 30 Oct 2025.
+(defprop $disp_parens msz-disp_parens grind)
+(defun msz-disp_parens (x l r)
+  (let* ((expr (cadr x))
+         (inner (mstring expr)))
+    (msz (append (makestring "(") inner (makestring ")")) l r)))
+
+;;(msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
+
 

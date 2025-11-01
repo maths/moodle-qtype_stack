@@ -2831,11 +2831,9 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'Error(s) in question-variables: Expected "#pm#", "%not ", "\'", "\'\'", ' .
-                '"(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", "for", "from", "if", "in", "next", "not ", "not", ' .
-                '"nounnot ", "nounnot", "nounsub ", "step", "thru", "unless", "while", "{", "|", ' .
-                'boolean, comment, end of input, float, ' .
-                'identifier, integer, string or whitespace but ")" found. (At about line 1 character 11.)';
+        $err = 'Error(s) in question-variables: You have a missing left bracket <span class="stacksyntaxexample">(</span>' .
+                'in the expression: <span class="stacksyntaxexample">p:1/1+x^2);ta:diff(p,x);</span>. ' .
+                '(At about line 1 character 10.)';
         $this->assertEquals($err, $rte);
     }
 

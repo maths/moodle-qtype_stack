@@ -110,8 +110,8 @@ class stack_inputvalidation_test_data {
         ['3E2', 'php_true', 'displaysci(3,0,2)', 'cas_true', '3 \times 10^{2}', '', ""],
         ['3e2', 'php_true', 'displaysci(3,0,2)', 'cas_true', '3 \times 10^{2}', '', ""],
         ['3e-2', 'php_true', 'displaysci(3,0,-2)', 'cas_true', '3 \times 10^{-2}', '', ""],
-        ['52%', 'php_false', '52%', '', '', 'finalChar', ""],
-        ['5.20%', 'php_false', '5.20%', '', '', 'finalChar', ""],
+        ['52%', 'php_false', '52%', '', '', 'spuriousop', ""],
+        ['5.20%', 'php_false', '5.20%', '', '', 'spuriousop', ""],
         ['3.67x10^2', 'php_true', 'dispdp(3.67,2)*x10^2', 'cas_true', '3.67\cdot x_{10}^2', 'missing_stars', ""],
         ['3.67*x 10^2', 'php_false', 'dispdp(3.67,2)*x*10^2', 'cas_true', '', 'spaces', ""],
         ['1+i', 'php_true', '1+i', 'cas_true', '1+\mathrm{i}', '', ""],
@@ -163,7 +163,7 @@ class stack_inputvalidation_test_data {
             'missing_stars | Variable_function', "",
         ],
         ["f''(x)", 'php_false', '' , '', '', 'apostrophe', "Apostrophies again..."],
-        ["''diff(f,x)", 'php_false', '' , '', '', 'Illegal_extraevaluation', ""],
+        ["''diff(f,x)", 'php_false', '' , '', '', 'apostrophe', ""],
         [
             'dosomething(x,y,z)', 'php_false', '', '', '', 'forbiddenFunction',
             "Students have a restricted list of function names.  Teachers are less restricted.",
@@ -231,12 +231,13 @@ class stack_inputvalidation_test_data {
         ['((x,y)/2,a)', 'php_false', 'ntuple((x,y)/2,a)', 'cas_true', '', 'Illegal_groups', ""],
         ['(x,y)+3', 'php_false', 'ntuple(x,y)+3', 'cas_true', '', 'Illegal_groups', ""],
         ['f((x,y),2)', 'php_true', 'f(ntuple(x,y),2)', 'cas_true', 'f\left(\left(x, y\right) , 2\right)', '', ""],
+        // The two below changed in parser2.
         [
-            '0..1', 'php_false', '', '', '', 'spuriousop',
+            '0..1', 'php_true', 'dispdp(0.,0)*dispdp(.1,1)', 'cas_true', '0\cdot 0.1', 'missing_stars',
             "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\).",
         ],
-        ['0.1..1.2', 'php_false', '', '', '', 'spuriousop', ""],
+        ['0.1..1.2', 'php_false', 'dispdp(0.,0)*dispdp(.1,1)', 'cas_true', 'displaydp(0.0,0)*displaydp(0.1,1)', 'missing_stars | spuriousop', ""],
         ['not x', 'php_true', 'not x', 'cas_true', '{\rm not}\left( x \right)', '', ""],
         ['x and y', 'php_true', 'x and y', 'cas_true', 'x\,{\text{ and }}\, y', '', ""],
         ['true and false', 'php_true', 'true and false', 'cas_true', '\mathbf{True}\,{\text{ and }}\, \mathbf{False}', '', ""],
@@ -306,7 +307,7 @@ class stack_inputvalidation_test_data {
         ['y*', 'php_false', 'y*', '', '', 'finalChar', ""],
         ['x^', 'php_flase', 'x^', '', '', 'finalChar', ""],
         ['x.', 'php_flase', 'x.', '', '', 'finalChar', ""],
-        ['x and', 'php_false', '', '', '', 'spaces', ""],
+        ['x and', 'php_false', '', '', '', 'spaces | ParseError', ""],
         ['!', 'php_false', '!', 'badpostfixop', '', 'badpostfixop', ""],
         [
             'sin', 'php_false', 'sin', 'cas_true', '', 'forbiddenVariable',
@@ -337,7 +338,7 @@ class stack_inputvalidation_test_data {
         ['(()x)', 'php_false', '(()*x)', 'cas_false', '', 'missing_stars | emptyParens', ""],
         ['()x', 'php_false', '()*x', 'cas_false', '', 'missing_stars | emptyParens', ""],
         ['x()', 'php_false', 'x*()', 'cas_false', '', 'emptyParens', ""],
-        ['([x)]', 'php_false', '([x)]', '', '', 'ParseError', ""],
+        ['([x)]', 'php_false', '([x)]', '', '', 'prematureRightBracket', ""],
         ['(', 'php_false', '', '', '', 'missingRightBracket', "Brackets"],
         [')', 'php_false', '', '', '', 'missingLeftBracket', ""],
         ['[', 'php_false', '', '', '', 'missingRightBracket', ""],

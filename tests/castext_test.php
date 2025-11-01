@@ -2356,10 +2356,11 @@ final class castext_test extends qtype_stack_testcase {
      */
     public function test_texput_complex_function(): void {
 
-        $vars = 'texput(u,lambda([ex],if length(ex)<4 then return("\\bigcup_{?=?}^{?} ? ") else' .
-            'sconcat("\\bigcup_{" ,tex1(second(ex)), " = ", tex1(third(ex)), "}^{", tex1(fourth(ex)), ' .
-            '"} ", tex1(first(ex)))));';
+        $vars = 'texput(u,lambda([ex],if length(ex)<4 then return("\\bigcup_{?=?}^{?} ? ") else ' .
+            'sconcat("\\bigcup_{" ,tex1(second(ex)), " = ", tex1(third(ex)), "}^{", ' .
+            'tex1(fourth(ex)), "} ", tex1(first(ex)))));';
         $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertEquals([], $at1->get_errors());
         $this->assertTrue($at1->get_valid());
 
         $cs2 = $at1->get_session();
@@ -3041,6 +3042,32 @@ final class castext_test extends qtype_stack_testcase {
 
         $this->assertEquals('Hydrogen, \({1.008}\), 1s1, and \({1766}\).',
             $at2->get_rendered());
+    }
+
+    /**
+     * Tests odd "apply" related to issue #1279.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_compile_unexpected_lambda(): void {
+        $a2 = ['a:b+1;', 'c:a-a(d+1);'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = "{@a@}, {@c@}.";
+        $exp = '\({b+1}\), \({-\left(b+1\right)(d+1)+b+1}\).';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals('', $cs2->get_errors());
+        $this->assertEquals($exp, $at1->get_rendered());
     }
 
     /**

@@ -1210,7 +1210,7 @@ final class input_units_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '523.2 x 10^2m/s'], $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars | spaces | Illegal_x10', $state->note);
+        $this->assertEquals('spaces | missing_stars | Illegal_x10', $state->note);
         $this->assertEquals('523.2*x*10^2*m/s', $state->contentsmodified);
         $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
                 'Please use <code>*</code> for multiplication.', $state->errors);

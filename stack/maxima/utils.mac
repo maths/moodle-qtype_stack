@@ -1,5 +1,5 @@
 /* Misc functions for dealing with Maxima and the other tools. */
-W
+
 /* Defintion of characters to escape in Markdown. */
 md_escapes(c) := if c = "\\" then "\\\\" 
             else if c = "*" then "\\*"

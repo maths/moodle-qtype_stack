@@ -154,7 +154,7 @@ final class graphlayout_test extends basic_testcase {
      */
     public function test_missing_node(): void {
 
-        $this->expectException(\coding_exception::class);
+        $this->expectException(\stack_exception::class);
         $graph = new stack_abstract_graph();
         $graph->add_node(1, '', null, 2, '=1', '=0');
 

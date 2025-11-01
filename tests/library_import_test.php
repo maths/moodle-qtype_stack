@@ -29,12 +29,15 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
+require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/test_maxima_configuration.php');
+require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 use context_course;
 use externallib_advanced_testcase;
 use external_api;
 use required_capability_exception;
 use require_login_exception;
+use stack_cas_session2;
 
 /**
  * Test the library_import webservice function.
@@ -66,6 +69,13 @@ final class library_import_test extends externallib_advanced_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->user = $user;
         $this->setUser($user);
+        if (!\qtype_stack_test_config::is_test_config_available()) {
+            $this->markTestSkipped(
+                    'To run the STACK unit tests, you must set up the Maxima configuration in config.php.');
+        }
+        \stack_utils::clear_config_cache();
+        \qtype_stack_test_config::setup_test_maxima_connection();
+        $this->resetAfterTest();
     }
 
     /**

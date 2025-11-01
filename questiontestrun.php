@@ -213,6 +213,11 @@ if ($upgradeerrors != '') {
     echo html_writer::tag('p', $upgradeerrors, ['class' => 'fail']);
 }
 
+$validationerrors = $question->validate_for_bulk($context);
+if ($validationerrors != '') {
+    echo html_writer::tag('p', $validationerrors, ['class' => 'fail']);
+}
+
 // Display the list of deployed variants, with UI to edit the list.
 if ($question->deployedseeds) {
     echo $OUTPUT->heading(stack_string('deployedvariantsn', count($question->deployedseeds)), 3);

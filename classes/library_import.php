@@ -172,18 +172,14 @@ class library_import extends \external_api {
 
             // Import.
             if (!$qformat->importpreprocess()) {
-                // Import failure writes directly to output. This breaks the response JSON.
-                ob_clean();
                 continue;
             }
 
             if (!$qformat->importprocess()) {
-                ob_clean();
                 continue;
             }
             // In case anything needs to be done after.
             if (!$qformat->importpostprocess()) {
-                ob_clean();
                 continue;
             }
             // Create an easy way to get the id of the category from the location of a question file.
@@ -222,20 +218,16 @@ class library_import extends \external_api {
 
             // Import.
             if (!$qformat->importpreprocess()) {
-                // Import failure writes directly to output. This breaks the response JSON.
-                ob_clean();
                 $response[] = $output;
                 continue;
             }
 
             if (!$qformat->importprocess()) {
-                ob_clean();
                 $response[] = $output;
                 continue;
             }
             // In case anything needs to be done after.
             if (!$qformat->importpostprocess()) {
-                ob_clean();
                 $response[] = $output;
                 continue;
             }
@@ -294,7 +286,8 @@ class library_import extends \external_api {
             $output->isstack = false;
             $response[] = $output;
         }
-
+        // Import failure writes directly to output. This breaks the response JSON.
+        ob_clean();
         return $response;
     }
 

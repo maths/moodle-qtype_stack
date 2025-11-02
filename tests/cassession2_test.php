@@ -2466,8 +2466,8 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\frac{20\cdot \pi-80\cdot x}{4}',
                 $s1[0]->get_display());
 
-        $expected = '([Op: /] ([Group] ([Op: *] ([Int] 20), ([Op: *] ([Op: -] ([Id] %pi), ([Int] 80)), ([Id] x)))), ' .
-            '([Int] 4))';
+        $expected = '([Op: /] ([Group] ([Op: -] ([Op: *] ([Int] 20), ([Id] %pi)), ([Op: *] ([Int] 80), ([Id] x)))), ' .
+                '([Int] 4))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 

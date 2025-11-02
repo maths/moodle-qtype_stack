@@ -237,7 +237,7 @@ class stack_inputvalidation_test_data {
             "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\).",
         ],
-        ['0.1..1.2', 'php_false', 'dispdp(0.,0)*dispdp(.1,1)', 'cas_true', 'displaydp(0.0,0)*displaydp(0.1,1)', 'missing_stars | spuriousop', ""],
+        ['0.1..1.2', 'php_false', 'dispdp(0.,0)*dispdp(.1,1)', 'cas_true', '', 'missing_stars | spuriousop', ""],
         ['not x', 'php_true', 'not x', 'cas_true', '{\rm not}\left( x \right)', '', ""],
         ['x and y', 'php_true', 'x and y', 'cas_true', 'x\,{\text{ and }}\, y', '', ""],
         ['true and false', 'php_true', 'true and false', 'cas_true', '\mathbf{True}\,{\text{ and }}\, \mathbf{False}', '', ""],
@@ -764,17 +764,17 @@ class stack_inputvalidation_test_data {
         [
             0 => '1.23',
             1 => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
-            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            2 => [null, 'php_true', '1 . 23', 'cas_true', '1\cdot 23', '', ""],
         ],
         [
             0 => '-1.27',
             1 => [null, 'php_true', '-dispdp(1.27,2)', 'cas_true', '-1.27', '', ""],
-            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            2 => [null, 'php_true', '-1 . 27', 'cas_true', '\left(-1\right)\cdot 27', '', ""],
         ],
         [
             0 => '2.78e-3',
             1 => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
-            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            2 => [null, 'php_true', '2 . displaysci(78,0,-3)', 'cas_true', '2\cdot 78 \times 10^{-3}', '', ""],
         ],
         [
             0 => '1,23',
@@ -800,8 +800,8 @@ class stack_inputvalidation_test_data {
         // With strict interpretation both the following are invalid.
         [
             0 => '1.2+2,3*x',
-            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
-            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_false', '1 . 2+dispdp(2.3,1)*x', 'cas_true', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', '1 . 2+dispdp(2.3,1)*x', 'cas_true', '1\cdot 2+2.3\cdot x', '', ""],
         ],
         [
             0 => '{1,23}',
@@ -811,27 +811,27 @@ class stack_inputvalidation_test_data {
         [
             0 => '{1.23}',
             1 => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
-            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            2 => [null, 'php_true', '{1 . 23}', 'cas_true', '\left \{1\cdot 23 \right \}', '', ""],
         ],
         [
             0 => '{1;23}',
-            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            1 => [null, 'php_false', '', '', '', 'ParseError', ""],
             2 => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
         ],
         [
             0 => '{1.2,3}',
             1 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
-            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            2 => [null, 'php_true', '{1 . dispdp(2.3,1)}', 'cas_true', '\left \{1\cdot 2.3 \right \}', '', ""],
         ],
         [
             0 => '{1,2;3}',
-            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            1 => [null, 'php_false', '', '', '', 'ParseError', ""],
             2 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
         ],
         [
             0 => '{1,2;3;4.1}',
-            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
-            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+            1 => [null, 'php_false', '', '', '', 'ParseError', ""],
+            2 => [null, 'php_true', '{dispdp(1.2,1),3,4 . 1}', 'cas_true', '\left \{1.2 , 3 , 4\cdot 1 \right \}', '', ""],
         ],
     ];
 

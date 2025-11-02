@@ -441,7 +441,7 @@ final class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x),3],[4,5,6])</span>',
                 $state->contentsdisplayed);
         $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
-                '<span class="stacksyntaxexample">2*x)</span>.', $state->errors);
+                '<span class="stacksyntaxexample">2x)</span>.', $state->errors);
         $this->assertEquals('', $state->lvars);
     }
 
@@ -465,7 +465,7 @@ final class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x),3],[4,5,6a])</span>',
                 $state->contentsdisplayed);
         $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
-                '<span class="stacksyntaxexample">2*x)</span>.    ' .
+                '<span class="stacksyntaxexample">2x)</span>.    ' .
                 'You seem to be missing * characters. Perhaps you meant to type ' .
                 '<span class="stacksyntaxexample">6<span class="stacksyntaxexamplehighlight">*</span>a</span>.', $state->errors);
         $this->assertEquals('', $state->lvars);

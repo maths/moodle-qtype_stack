@@ -787,7 +787,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('apostrophe', $state->note);
         $this->assertEquals("Apostrophes are not permitted in responses.",
             $state->errors);
-        $this->assertEquals("''%_E(%_E(noundiff(y/x^2,x,1)))", $state->contentsmodified);
+        $this->assertEquals("", $state->contentsmodified);
         $this->assertEquals("<span class=\"stacksyntaxexample\">''diff(y/x^2,x,1)</span>",
             $state->contentsdisplayed);
     }
@@ -2181,19 +2181,19 @@ final class input_algebraic_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_no_dot_dot(): void {
-
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '3.14*2.78');
         $el->set_parameter('forbidFloats', false);
         $state = $el->validate_student_response(['sans1' => '3.14.2.78'], $options, '3.14*2.78',
             new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
-        $this->assertEquals('3.14*.2.78', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">3.14*.2*.78</span>',
+        $this->assertEquals('3.14*.2*.78', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3.14.2.78</span>',
             $state->contentsdisplayed);
-        $this->assertEquals('MatrixMultWithFloat', $state->note);
-        $this->assertEquals('Using matrix multiplication "." with scalar floats is forbidden, ' .
-            'use normal multiplication "*" instead for the same result. 3.14 . 2.78', $state->errors);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type ' .
+            '<span class="stacksyntaxexample">3.14<span class="stacksyntaxexamplehighlight">*' .
+            '</span>.2<span class="stacksyntaxexamplehighlight">*</span>.78</span>.', $state->errors);
     }
 
     public function test_validate_consolidatesubscripts(): void {
@@ -2339,6 +2339,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
 
         $state = $el->validate_student_response(['state' => '{3.1415;2.71}'], $options, '{3.1415,2.71}',
             new stack_cas_security());
+        // The failure below illustrates issue #1619.
         $this->assertEquals(stack_input::INVALID, $state->status);
         // With a strict interpretation we have to change the , to a .  But actually we don't change it...
         $this->assertEquals('', $state->contentsmodified);

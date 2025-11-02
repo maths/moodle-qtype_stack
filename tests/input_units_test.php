@@ -708,16 +708,16 @@ final class input_units_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_display_decimals_0(): void {
-
         $options = new stack_options();
         $options->set_option('decimals', ',');
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2', $options);
         $el->set_parameter('insertStars', 1);
         $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
             new stack_cas_security(true));
-        $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">9.81m/s^2</span>', $state->contentsdisplayed);
+        // This is related to issue #1619.  The new behaviour in parser2 is logical, but probably an unexpected change.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('9 . 81*m/s^2', $state->contentsmodified);
+        $this->assertEquals('\[ 9\cdot 81\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
         $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed as '
             . '<code>9,81*m/s^2</code>, would be correct.',

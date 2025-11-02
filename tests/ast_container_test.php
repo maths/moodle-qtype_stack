@@ -358,9 +358,10 @@ final class ast_container_test extends qtype_stack_testcase {
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
 
+        // In parser2 this changed: we now correctly insert *s.
         $s = 'a:"hello"5';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
-        $this->assertFalse($at1->get_valid());
+        $this->assertTrue($at1->get_valid());
 
         $s = 'a:"hello"*5';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());

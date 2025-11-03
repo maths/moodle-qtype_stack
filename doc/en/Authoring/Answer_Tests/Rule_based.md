@@ -45,9 +45,11 @@ The teacher must supply an option consisting of a list of the following rule nam
 | (`ALG_TRANS`)     | _Included by default_                                                                 |
 | `assAdd`          | Associativity of addition                                                              |
 | `assMul`          | Associativity of multiplication                                                        |
+| `comEq`           | Commutativity of equality                                                              |
 | `comAdd`          | Commutativity of addition                                                              |
 | `comMul`          | Commutativity of multiplication                                                        |
 |  -                 | _Options to switch off the defaults_                                                  |
+| `noncomEq`        | Indicate equality is non-commutative                                                   |
 | `noncomAdd`       | Indicate addition is non-commutative                                                   |
 | `noncomMul`       | Indicate multiplication is non-commutative                                             |
 | `comMulNum`       | Commutativity of numbers (inc unary minus) only within multiplication                  |

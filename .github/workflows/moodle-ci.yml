@@ -102,6 +102,7 @@ jobs:
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+          moodle-plugin-ci add-plugin maths/moodle-qbank_importasversion
 
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
 
@@ -175,5 +176,5 @@ jobs:
 
       - name: Behat features
         if: ${{ always() }}
-        run: moodle-plugin-ci behat --profile chrome --auto-rerun 6
+        run: moodle-plugin-ci behat --profile chrome --auto-rerun 12
 

@@ -32,7 +32,7 @@ class stack_ast_filter_407_split_unknown_functions implements stack_cas_astfilte
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
-        $process = function($node) use (&$hasany, &$errors, &$answernotes, $known) {
+        $process = function ($node) use (&$hasany, &$errors, &$answernotes, $known) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
                 if (array_key_exists($node->name->value, $known)) {
                     return true;
@@ -57,8 +57,10 @@ class stack_ast_filter_407_split_unknown_functions implements stack_cas_astfilte
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function conflicts_with(string $otherfiltername): bool {
-        if ($otherfiltername === '542_no_functions_at_all' ||
-            $otherfiltername === '442_split_all_functions') {
+        if (
+            $otherfiltername === '542_no_functions_at_all' ||
+            $otherfiltername === '442_split_all_functions'
+        ) {
             return true;
         }
         return false;

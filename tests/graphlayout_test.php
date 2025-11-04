@@ -39,7 +39,6 @@ require_once(__DIR__ . '/../stack/graphlayout/graph.php');
  * @covers \stack_abstract_graph
  */
 final class graphlayout_test extends basic_testcase {
-
     /**
      * This graph has 4 nodes and should look like:
      * /\
@@ -118,8 +117,10 @@ final class graphlayout_test extends basic_testcase {
         $this->assertEquals(1, $n->depth);
         $this->assertEquals(0, $n->x);
 
-        $this->assertEquals(['1|-1' => true, '1|1' => true],
-                $graph->get_broken_cycles());
+        $this->assertEquals(
+            ['1|-1' => true, '1|1' => true],
+            $graph->get_broken_cycles()
+        );
 
         $roots = $graph->get_roots();
         $this->assertCount(1, $roots);

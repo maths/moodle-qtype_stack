@@ -46,10 +46,14 @@ require_once(__DIR__ . '/../stack/answertest/at_general_cas.class.php');
  * @covers \stack_anstest
  */
 final class answertest_general_cas_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
-    public function stack_answertest_general_cas_builder($sans, $tans, $atname,
-            $atop = 'null', $options = null) {
+    public function stack_answertest_general_cas_builder(
+        $sans,
+        $tans,
+        $atname,
+        $atop = 'null',
+        $options = null
+    ) {
         $sa = stack_ast_container::make_from_teacher_source($sans, '', new stack_cas_security());
         $ta = stack_ast_container::make_from_teacher_source($tans, '', new stack_cas_security());
         $op = stack_ast_container::make_from_teacher_source($atop, '', new stack_cas_security());
@@ -121,10 +125,12 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('[1,2]', '[1,2,3]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('Your list should have <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals(
+            'Your list should have <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(3\)</span></span> elements, but it actually has ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\(2\)</span></span>.',
-                $at->get_at_feedback());
+            $at->get_at_feedback()
+        );
         $this->assertEquals("ATList_wronglen.", $at->get_at_answernote());
     }
 
@@ -374,11 +380,11 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertTrue(stack_ans_test_controller::required_atoptions('Int'));
 
-        list ($valid, $err) = $at->validate_atoptions('x');
+         [$valid, $err] = $at->validate_atoptions('x');
         $this->assertTrue($valid);
         $this->assertEquals('', $err);
 
-        list ($valid, $err) = $at->validate_atoptions('2x');
+         [$valid, $err] = $at->validate_atoptions('2x');
         $this->assertFalse($valid);
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type ' .
                 '<span class="stacksyntaxexample">2<span class="stacksyntaxexamplehighlight">*</span>x</span>.', $err);

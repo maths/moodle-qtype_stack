@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
  * This script tests CAS functions in noun_simp.mac and verifies the results.
  */
 class stack_noun_simp_test_data {
-
     /**
      * String, as typed into the question variables or sandbox.
      */
@@ -133,8 +132,8 @@ class stack_noun_simp_test_data {
     }
 
     /**
-    * Actually run the test.
-    */
+     * Actually run the test.
+     */
     public static function run_test($test) {
 
         $cs = stack_ast_container::make_from_teacher_source($test->rawstring, '', new stack_cas_security(), []);

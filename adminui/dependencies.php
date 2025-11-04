@@ -27,7 +27,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -79,28 +79,36 @@ echo  'Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotco
 
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['includes' => 1, 'sesskey' => sesskey()]),
-    'Find "includes"');
+    'Find "includes"'
+);
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['jsxgraphs' => 1, 'sesskey' => sesskey()]),
-    'Find "jsxgraphs"');
+    'Find "jsxgraphs"'
+);
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['geogebras' => 1, 'sesskey' => sesskey()]),
-    'Find "geogebra"');
+    'Find "geogebra"'
+);
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['script' => 1, 'sesskey' => sesskey()]),
-    'Find "<script"');
+    'Find "<script"'
+);
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['PLUGINFILE' => 1, 'sesskey' => sesskey()]),
-    'Find "@@PLUGINFILE@@"');
+    'Find "@@PLUGINFILE@@"'
+);
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['langs' => 1, 'sesskey' => sesskey()]),
-    'Find "langs"');
+    'Find "langs"'
+);
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['todo' => 1, 'sesskey' => sesskey()]),
-    'Find "todo"');
+    'Find "todo"'
+);
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['broken' => 1, 'sesskey' => sesskey()]),
-    'Find "broken"');
+    'Find "broken"'
+);
 
 if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
     /*
@@ -116,12 +124,20 @@ if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         // Confirm that it does have these.
-        if (isset($q->compiledcache['includes']) && (
+        if (
+            isset($q->compiledcache['includes']) && (
             (isset($q->compiledcache['includes']['keyval']) && count($q->compiledcache['includes']['keyval']) > 0) ||
-            (isset($q->compiledcache['includes']['castext']) && count($q->compiledcache['includes']['castext']) > 0))) {
-            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
-                    null, null, null, null, $context);
+            (isset($q->compiledcache['includes']['castext']) && count($q->compiledcache['includes']['castext']) > 0))
+        ) {
+            [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
+            $qurl = qbank_previewquestion\helper::question_preview_url(
+                $item->questionid,
+                null,
+                null,
+                null,
+                null,
+                $context
+            );
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo '<td>';
@@ -187,9 +203,15 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
         }
         // Confirm that it does have these.
         if ($block || $filter || $other) {
-            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
-                    null, null, null, null, $context);
+            [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
+            $qurl = qbank_previewquestion\helper::question_preview_url(
+                $item->questionid,
+                null,
+                null,
+                null,
+                null,
+                $context
+            );
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
@@ -232,9 +254,15 @@ if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
         }
         // Confirm that it does have these.
         if ($block || $filter || $other) {
-            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
-                    null, null, null, null, $context);
+            [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
+            $qurl = qbank_previewquestion\helper::question_preview_url(
+                $item->questionid,
+                null,
+                null,
+                null,
+                null,
+                $context
+            );
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
@@ -255,9 +283,15 @@ if (data_submitted() && optional_param('script', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
-                null, null, null, null, $context);
+        [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
+        $qurl = qbank_previewquestion\helper::question_preview_url(
+            $item->questionid,
+            null,
+            null,
+            null,
+            null,
+            $context
+        );
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
@@ -276,9 +310,15 @@ if (data_submitted() && optional_param('PLUGINFILE', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
-                null, null, null, null, $context);
+        [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
+        $qurl = qbank_previewquestion\helper::question_preview_url(
+            $item->questionid,
+            null,
+            null,
+            null,
+            null,
+            $context
+        );
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
@@ -297,9 +337,15 @@ if (data_submitted() && optional_param('langs', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
-                null, null, null, null, $context);
+        [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
+        $qurl = qbank_previewquestion\helper::question_preview_url(
+            $item->questionid,
+            null,
+            null,
+            null,
+            null,
+            $context
+        );
 
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td><td>';
@@ -321,13 +367,19 @@ if (data_submitted() && optional_param('todo', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($hastodos, $tags) = $q->get_question_todos();
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
-                null, null, null, null, $context);
+        [$hastodos, $tags] = $q->get_question_todos();
+        [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
+        $qurl = qbank_previewquestion\helper::question_preview_url(
+            $item->questionid,
+            null,
+            null,
+            null,
+            null,
+            $context
+        );
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) .
-            '</td><td>' . implode(', ', $tags). '<td></tr>';
+            '</td><td>' . implode(', ', $tags) . '<td></tr>';
     }
     echo '</tbody></table>';
 }
@@ -352,7 +404,7 @@ if (data_submitted() && optional_param('broken', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+        [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($q);
         $editurl = new \moodle_url('/question/bank/editquestion/question.php', [
             'id' => $urlparams['questionid'],
             'returnURL' => new moodle_url('/question/type/stack/adminui/dependencies.php'),

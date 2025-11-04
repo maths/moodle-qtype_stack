@@ -22,15 +22,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_once(__DIR__ . '/locallib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_login();
 // Get the parameters from the URL.
 $questionid = required_param('id', PARAM_INT);
-list($qversion, $questionid) = get_latest_question_version($questionid);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 $question = question_bank::load_question($questionid);
 
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 $urlparams['id'] = $question->id;
 redirect(new moodle_url('/question/bank/editquestion/question.php', $urlparams));

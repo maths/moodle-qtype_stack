@@ -99,7 +99,7 @@ while ($changes) {
 $symbolconversion = [];
 foreach ($symbols as $key => $value) {
     // Only pick certain ones.
-    switch($value[0]) {
+    switch ($value[0]) {
         case '-':
         case '+':
         case '/':
@@ -152,4 +152,3 @@ file_put_contents('../stack/maximaparser/unicode/symbols-stack.json', json_encod
 file_put_contents('../stack/maximaparser/unicode/superscript-stack.json', json_encode($superscriptsconversion, JSON_PRETTY_PRINT));
 file_put_contents('../stack/maximaparser/unicode/subscript-stack.json', json_encode($subscriptsconversion, JSON_PRETTY_PRINT));
 file_put_contents('../stack/maximaparser/unicode/letters-stack.json', json_encode($commonsymbolconversion, JSON_PRETTY_PRINT));
-

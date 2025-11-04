@@ -46,7 +46,6 @@ require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
  * @group qtype_stack_castext_module
  */
 final class castext2_internals_test extends qtype_stack_testcase {
-
     /**
      * Add description here.
      * @covers \qtype_stack\CTP_Parser
@@ -148,7 +147,7 @@ final class castext2_internals_test extends qtype_stack_testcase {
         $code  .= '[[else]]\[{@true@}\][[/if]]';
         $ast    = $parser->parse($code);
 
-        $check  = function($node) {
+        $check  = function ($node) {
             if ($node instanceof CTP_Block) {
                 if ($node->name === 'raw' || $node->name === 'latex') {
                     if ($node->contents[0]->value === 'true') {
@@ -164,5 +163,4 @@ final class castext2_internals_test extends qtype_stack_testcase {
         $ast = castext2_parser_utils::math_paint($ast, $code, FORMAT_HTML);
         $ast->callbackRecurse($check);
     }
-
 }

@@ -45,7 +45,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \qtype_stack
  */
 final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
-
     public function test_test0_validate_then_submit_right_first_time(): void {
 
         // Create the stack question 'test0'.
@@ -54,8 +53,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
 
         $this->check_output_contains_text_input('ans1');
@@ -63,10 +64,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -82,8 +83,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
-        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_lang_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
@@ -116,8 +120,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
 
         $this->check_output_contains_text_input('ans1');
@@ -125,10 +131,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -144,8 +150,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
-        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_lang_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
@@ -225,8 +234,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $expected = 'Seed: 1; ans1: sin(x) [valid]; firsttree: !';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'sin(x)');
-        $expectedvarlist = get_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $expectedvarlist = get_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->assert_content_with_maths_contains($expectedvarlist, $this->currentoutput);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -282,8 +294,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_text_input('ans1', '4+ -2');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
-        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_lang_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
@@ -310,8 +325,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
 
         $this->check_output_contains_text_input('ans1');
@@ -323,7 +340,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process a validate request.
         $this->process_submission(['ans1' => 'simplify(e^(pi*i))', '-submit' => 1]);
@@ -337,8 +354,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'simplify(e^(pi*i))');
         // From the existance of e and i we can infer the e^(pi*i) has not been simplified to -1.
-        $expectedvarlist = get_string('studentValidation_listofvariables',
-            'qtype_stack', '\( \left[ e , i \right]\)');
+        $expectedvarlist = get_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ e , i \right]\)'
+        );
         $this->assert_content_with_maths_contains($expectedvarlist, $this->currentoutput);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -353,8 +373,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
 
         $this->check_output_contains_text_input('ans1');
@@ -366,7 +388,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process an invalidate request.
 
@@ -397,18 +419,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // @codingStandardsIgnoreStart
@@ -479,10 +503,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -549,10 +573,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -625,10 +649,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -682,11 +706,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process a validate request.
         // Invalid answer.
@@ -704,8 +728,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Forbidden variable/')
-                );
+            new question_pattern_expectation('/Forbidden variable/')
+        );
     }
 
     public function test_test0_invalid_student_uses_single_letter_question_variables_permitted(): void {
@@ -726,11 +750,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process a validate request.
         // We have allowed the question variable "a", to this is not invalid.
@@ -748,11 +772,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
     }
 
     public function test_test1_invalid_student_uses_forbidden_words(): void {
@@ -771,10 +795,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -812,10 +836,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -833,9 +857,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Forbidden function/')
+            new question_pattern_expectation('/Forbidden function/')
         );
-
     }
 
     public function test_test1_valid_student_uses_allowed_words(): void {
@@ -854,10 +877,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request, with a function name from the allowwords list.
@@ -889,7 +912,6 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
         $this->check_output_does_not_contain_stray_placeholders();
-
     }
 
     public function test_test1_valid_student_uses_allowed_words_casesensitivity(): void {
@@ -910,10 +932,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Find/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Find/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request, with a function name not from the allowwords list.
@@ -997,7 +1019,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation()
+            $this->get_does_not_contain_feedback_expectation()
         );
 
         // Validate ans3 => 'x'.
@@ -1021,7 +1043,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0.5, 0.1);
         $this->assertEquals(1, $this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
 
         $expected = 'Seed: 1; ans3: x [score]; odd: !; even: !; oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; unique: !';
@@ -1031,7 +1054,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('oddeven');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->assert_content_with_maths_contains('Your answer is not an even function. Look,'
-                .' \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
+                . ' \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
 
         // Score ans3 => 'x'. Put in an ans1 to validate, to force the creation of a new step.
         $this->process_submission(['ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1]);
@@ -1039,7 +1062,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0.5, 0.1);
         $this->assertNull($this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
 
         $expected = 'Seed: 1; ans1: x [valid]; ans3: x [score]; odd: !; even: !; ' .
@@ -1056,7 +1080,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', null, null);
         $this->assertNull($this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x + 1');
         $this->check_output_contains_input_validation('ans3');
@@ -1069,7 +1094,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0, 0.1);
         $this->assertEquals(2, $this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x + 1');
         $this->check_output_contains_input_validation('ans3');
@@ -1082,7 +1108,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', null, null);
         $this->assertNull($this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
 
         $expected = 'Seed: 1; ans3: x [valid]; odd: !; even: !; oddeven: !; unique: !';
@@ -1098,7 +1125,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0.5, 0.1);
         $this->assertEquals(3, $this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
 
         $expected = 'Seed: 1; ans3: x [score]; odd: !; even: !; oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; unique: !';
@@ -1114,7 +1142,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', null, null);
         $this->assertNull($this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
 
         $expected = 'Seed: 1; ans3: 0 [valid]; odd: !; even: !; oddeven: !; unique: !';
@@ -1130,7 +1159,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.8);
         $this->check_prt_score('oddeven', 1, 0);
         $this->assertEquals(4, $this->quba->get_question_attempt(
-                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+            $this->slot
+        )->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
 
         $expected = 'Seed: 1; ans3: 0 [score]; odd: !; even: !; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; unique: !';
@@ -1162,10 +1192,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
         $this->assertNull($this->quba->get_response_summary($this->slot));
 
@@ -1192,10 +1222,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
         $this->assertNull($this->quba->get_response_summary($this->slot));
 
@@ -1225,13 +1255,15 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: x [valid]; ' .
+        $this->assertEquals(
+            'Seed: 1; ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: x [valid]; ' .
                 'odd: !; even: !; oddeven: !; unique: !',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
     }
 
     public function test_test3_submit_wrong_response_correct_then_stubmit(): void {
@@ -1251,10 +1283,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-        $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Try to submit a response:
@@ -1280,10 +1312,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit again without editing.
@@ -1308,15 +1340,15 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
         $this->check_current_output(
-                new question_pattern_expectation('/Incorrect answer./')
+            new question_pattern_expectation('/Incorrect answer./')
         );
         $this->check_current_output(
-                new question_no_pattern_expectation('/Your answer is partially correct./')
+            new question_no_pattern_expectation('/Your answer is partially correct./')
         );
     }
 
@@ -1337,10 +1369,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Try to submit a response:
@@ -1370,10 +1402,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit again without editing. 1. and 3. bits should now be graded.
@@ -1402,10 +1434,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Now fix the response to 2. and submit. Previously invalid bit should only be validated, not graded yet.
@@ -1434,10 +1466,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit again. Should now all be graded (and right).
@@ -1467,9 +1499,9 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish - should update state from complete to gradedright.
@@ -1496,9 +1528,9 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -1544,10 +1576,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
         $this->assertNull($this->quba->get_response_summary($this->slot));
 
@@ -1568,13 +1600,15 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^3 [valid]; ans3: x [valid]; odd: !; even: !; oddeven: !; unique: !',
-                $this->quba->get_response_summary($this->slot));
+        $this->assertEquals(
+            'Seed: 1; ans1: x^3 [valid]; ans3: x [valid]; odd: !; even: !; oddeven: !; unique: !',
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 2.
         $this->process_submission([
@@ -1598,14 +1632,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans3: x [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x^3 [score]; ans3: x [score]; '
                 . 'odd: # = 1 | odd-0-1; even: !; oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; unique: !',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 3.
         $this->process_submission([
@@ -1629,14 +1665,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: (x [invalid]; ans2: (x [invalid]; ans3: x+1 [valid]; ans4: false [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: (x [invalid]; ans2: (x [invalid]; ans3: x+1 [valid]; ans4: false [score]; '
                 . 'odd: !; even: !; oddeven: !; unique: # = 0 | unique-0-0',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 4.
         $this->process_submission([
@@ -1660,14 +1698,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x) [invalid]; ans2: x^2 [valid]; ans3: x+1 [score]; '
-                .'odd: !; even: !; oddeven: # = 0 | oddeven-0-0 | oddeven-1-0; unique: !',
-                $this->quba->get_response_summary($this->slot));
+        $this->assertEquals(
+            'Seed: 1; ans1: x) [invalid]; ans2: x^2 [valid]; ans3: x+1 [score]; '
+                . 'odd: !; even: !; oddeven: # = 0 | oddeven-0-0 | oddeven-1-0; unique: !',
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 5.
         $this->process_submission([
@@ -1693,14 +1733,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^2 [valid]; ans2: x [valid]; ans3: x^5 [valid]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x^2 [valid]; ans2: x [valid]; ans3: x^5 [valid]; '
                 . 'odd: !; even: !; oddeven: !; unique: !',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 6.
         $this->process_submission([
@@ -1724,15 +1766,17 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^2 [score]; ans2: x^2 [valid]; ans3: x^5 [score]; ans4: true [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x^2 [score]; ans2: x^2 [valid]; ans3: x^5 [score]; ans4: true [score]; '
                 . 'odd: # = 0 | odd-0-0; even: !; oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; ' .
                 'unique: # = 1 | ATLogic_True. | unique-0-1',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 7.
         $this->process_submission([
@@ -1756,14 +1800,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x [valid]; ans2: x^2 [score]; ans3: x+3 [valid]; ans4: true [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x [valid]; ans2: x^2 [score]; ans3: x+3 [valid]; ans4: true [score]; '
                 . 'odd: !; even: # = 1 | even-0-1; oddeven: !; unique: # = 1 | ATLogic_True. | unique-0-1',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 8.
         $this->process_submission([
@@ -1787,15 +1833,17 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x [score]; ans3: x+3 [score]; ans4: true [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x [score]; ans3: x+3 [score]; ans4: true [score]; '
                 . 'odd: # = 1 | odd-0-1; even: !; oddeven: # = 0 | oddeven-0-0 | oddeven-1-0; '
                 . 'unique: # = 1 | ATLogic_True. | unique-0-1',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 9.
         $this->process_submission([
@@ -1820,14 +1868,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: 0 [valid]; ans4: true [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: 0 [valid]; ans4: true [score]; '
                 . 'odd: !; even: !; oddeven: !; unique: # = 1 | ATLogic_True. | unique-0-1',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Step 10.
         $this->process_submission([
@@ -1851,15 +1901,17 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
                 . 'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; '
                 . 'unique: # = 1 | ATLogic_True. | unique-0-1',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
 
         // Submit all and finish - should update state from complete to gradedright.
         $this->quba->finish_all_questions();
@@ -1880,14 +1932,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
+        $this->assertEquals(
+            'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
                 . 'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; '
                 . 'unique: # = 1 | ATLogic_True. | unique-0-1',
-                $this->quba->get_response_summary($this->slot));
+            $this->quba->get_response_summary($this->slot)
+        );
     }
 
     public function test_divide_by_0(): void {
@@ -1906,9 +1960,9 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Validate the response 0.
@@ -1992,7 +2046,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Validate the response 7.
         $this->process_submission(['ans1' => '7', '-submit' => 1]);
@@ -2032,18 +2086,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Please round/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Please round/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -2082,19 +2138,21 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Please type in/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/Please type in/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process a validate request.
         $this->process_submission(['ans1' => '0.04', '-submit' => 1]);
@@ -2165,8 +2223,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_contains_text_input('ans2');
@@ -2178,7 +2238,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process a validate request.
         $this->process_submission(['ans1' => '0.04', 'ans2' => '3.14', '-submit' => 1]);
@@ -2326,18 +2386,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Just save a response. This will validate.
@@ -2359,8 +2421,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->render();
-        $this->assertEquals(str_replace('sequencecheck" value="2"', 'sequencecheck" value="3"', $lastoutput),
-                    $this->currentoutput);
+        $this->assertEquals(
+            str_replace('sequencecheck" value="2"', 'sequencecheck" value="3"', $lastoutput),
+            $this->currentoutput
+        );
     }
 
     public function test_test_boolean_validate_then_submit_right_first_time(): void {
@@ -2371,14 +2435,16 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-        new question_pattern_expectation('/What is/'),
+            new question_pattern_expectation('/What is/'),
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -2431,9 +2497,9 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit the correct response.
@@ -2451,8 +2517,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_stray_placeholders();
         $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
         $this->check_current_output(
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -2477,7 +2543,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Submit partially correct response.
         $this->process_submission(['ans1' => '3', 'ans1_val' => '3', '-submit' => 1]);
@@ -2497,7 +2563,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Submit partially correct response.
         $this->process_submission(['ans1' => '8', 'ans1_val' => '8', '-submit' => 1]);
@@ -2522,7 +2588,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
     }
 
     public function test_test0_adaptive_nopenalties_wrong_then_right_then_regrade(): void {
@@ -2533,18 +2599,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit a wrong answer with valdiation.
@@ -2769,9 +2837,9 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         $this->check_current_output(
                 // Some inconsistencey in Maxima error messages, so shortening search string.
-                new question_pattern_expectation('/reduce system to a polynomial/'),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/reduce system to a polynomial/'),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -2819,9 +2887,9 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // We ignore errors in feedback variables, so "Division by zero." no longer appears in output.
         $this->check_current_output(
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
     }
 
     public function test_runtime_error_session(): void {
@@ -2856,7 +2924,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         // Create the stack question based on 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2866,7 +2934,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
@@ -2889,7 +2957,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
@@ -2975,7 +3043,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         // Create the stack question 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
         // Modify the PRT to that the penalty on the false branch is 0.1.
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2985,7 +3053,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
@@ -3071,7 +3139,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Create the stack question based on 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3081,7 +3149,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
@@ -3104,7 +3172,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
@@ -3193,7 +3261,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Create the stack question based on 'test0'.
         $q = \test_question_maker::make_question('stack', 'test0');
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3203,7 +3271,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
@@ -3226,7 +3294,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
@@ -3275,8 +3343,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         // Verify.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
-        $this->check_answer_note('firsttree',
-                'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | ATEqualComAss (AlgEquiv-false). | firsttree-2-F');
+        $this->check_answer_note(
+            'firsttree',
+            'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | ATEqualComAss (AlgEquiv-false). | firsttree-2-F'
+        );
         $this->check_prt_score('firsttree', 0, 0.2);
         $this->render();
         $expected = 'Seed: 1; ans1: 4 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F | ' .
@@ -3345,18 +3415,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/gravity/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/gravity/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -3421,8 +3493,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_contains_text_input('ans2');
@@ -3434,7 +3508,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process a validate request.
         $this->process_submission(['ans1' => 'A*k', 'ans2' => '', '-submit' => 1]);
@@ -3470,18 +3544,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_textarea_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Solve/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Solve/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         $this->process_submission(['ans1' => 'x^2-3*x+2=0', '-submit' => 1]);
@@ -3516,8 +3592,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
-        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\cdot x+2=0& \\cr '.
-            '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1\\right)=0& \\cr '.
+        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\cdot x+2=0& \\cr ' .
+            '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1\\right)=0& \\cr ' .
             '\\color{red}{?}&\\left\{\\begin{array}{l}x=-1\\cr x=-2\\cr \\end{array}\\right.& \\cr \\end{array} \]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
 
@@ -3543,8 +3619,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
-        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
-                '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
+        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr ' .
+                '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr ' .
                 '\\color{green}{\\Leftrightarrow}&x=1\\,{\\text{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
 
@@ -3562,8 +3638,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_does_not_contain_stray_placeholders();
-        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
-                '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
+        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr ' .
+                '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr ' .
                 '\\color{green}{\\Leftrightarrow}&x=1\\,{\\text{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
     }
@@ -3575,24 +3651,30 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Add in the option to force a particular first line.
         $q->inputs['ans1'] = stack_input_factory::make(
-                'equiv', 'ans1', 'ta', null,
-                ['boxWidth' => 20, 'forbidFloats' => false, 'options' => 'firstline']);
+            'equiv',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 20, 'forbidFloats' => false, 'options' => 'firstline']
+        );
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_textarea_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Solve/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Solve/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Get first line wrong.
@@ -3651,24 +3733,30 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Add in the option to suppress equivalence feedback.
         $q->inputs['ans1'] = stack_input_factory::make(
-                'equiv', 'ans1', 'ta', null,
-                ['boxWidth' => 20, 'forbidFloats' => false, 'options' => 'hideequiv']);
+            'equiv',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 20, 'forbidFloats' => false, 'options' => 'hideequiv']
+        );
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_textarea_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Solve/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Solve/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         $this->process_submission(['ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0", '-submit' => 1]);
@@ -3682,7 +3770,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         // This non-trivial sumbission should be shown without equivalence symbols.
-        $expectedvalidation = '\\[ \\begin{array}{lll}x^2-3\cdot x+2=0& \\cr '.
+        $expectedvalidation = '\\[ \\begin{array}{lll}x^2-3\cdot x+2=0& \\cr ' .
                 '\\left(x-2\\right)\cdot \\left(x-1\\right)=0& \\cr \\end{array} \]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
     }
@@ -3694,19 +3782,21 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Which of/'),
-                new question_pattern_expectation('/diamond/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/Which of/'),
+            new question_pattern_expectation('/diamond/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
     }
 
     public function test_checkbox_union(): void {
@@ -3716,8 +3806,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
@@ -3728,7 +3820,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
     }
 
     public function test_checkbox_noun_diff(): void {
@@ -3738,8 +3830,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
@@ -3750,7 +3844,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process a validate request.
         $this->process_submission(['ans1_1' => '1', 'submit' => 1]);
@@ -3782,18 +3876,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/What is/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -3806,8 +3902,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
-        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_lang_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
@@ -3851,18 +3950,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/side lengths of a right angled/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/side lengths of a right angled/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -3875,8 +3976,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_text_input('ans1', 'Thales Theorem');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
-        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_lang_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
@@ -3942,18 +4046,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Input a word of the language decribed by/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/Input a word of the language decribed by/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -3968,8 +4074,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_text_input('ans1', 'acde');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
-        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_lang_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
@@ -4009,8 +4118,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_contains_text_input('ans2');
@@ -4018,11 +4129,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Give two examples of odd functions./'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/Give two examples of odd functions./'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process a validate request, with two wrong answers.
         $this->process_submission(['ans1' => 'x^2', 'ans2' => 'x^4', '-submit' => 1]);
@@ -4039,16 +4150,19 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_text_input('ans2', 'x^4');
         $this->check_output_contains_input_validation_compact('ans1');
         $this->check_output_contains_input_validation_compact('ans2');
-        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
-                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_lang_string(
+            'studentValidation_listofvariables',
+            'qtype_stack',
+            '\( \left[ x \right]\)'
+        );
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Give two examples of odd functions./'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/Give two examples of odd functions./'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process a submition of an incorrect answer.
         $this->process_submission([
@@ -4068,14 +4182,14 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
                 'prt2-1-F; prt3: # = 0.5 [formative] | ATLogic_True. | prt3-1-T';
         $this->check_response_summary($expected);
         $this->check_current_output(
-                new question_pattern_expectation('/Give two examples of odd functions./'),
-                // The first PRT is "Compact", so the feedback is there.
+            new question_pattern_expectation('/Give two examples of odd functions./'),
+            // The first PRT is "Compact", so the feedback is there.
                 new question_pattern_expectation('/Your first function is not odd/'),
-                // The second  PRT is "Symbolic", so the feedback is not there, but the symbol is.
+            // The second  PRT is "Symbolic", so the feedback is not there, but the symbol is.
                 new question_pattern_expectation('/stackprtfeedback stackprtfeedback-prt2/'),
-                new question_pattern_expectation('/Try to think of something more imaginative than just polynomials/'),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/Try to think of something more imaginative than just polynomials/'),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process the correct answer (without a validation step).
         $this->process_submission([
@@ -4101,10 +4215,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_input_validation_compact('ans2');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Give two examples of odd functions./'),
-                new question_pattern_expectation('/Non-polynomials included./'),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/Give two examples of odd functions./'),
+            new question_pattern_expectation('/Non-polynomials included./'),
+            $this->get_no_hint_visible_expectation()
+        );
     }
 
     public function test_test_contextvars(): void {
@@ -4118,19 +4232,21 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/diamond/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/diamond/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process a validate request with a texput function.
         $this->process_submission(['ans1' => 'vec(x)', '-submit' => 1]);
@@ -4216,19 +4332,21 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/diamond/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/diamond/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         // Process a validate request.
         $this->process_submission(['ans1' => '(a^x)^y', '-submit' => 1]);
@@ -4249,7 +4367,6 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(0.6);
         $this->check_prt_score('firsttree', 0.6, 0.35);
         $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-T');
-
     }
 
     public function test_multilang(): void {
@@ -4259,8 +4376,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         // Castext syntax hint fills the initial matrix with zeros.
         $this->check_output_contains_text_input('ans1_sub_0_0', '0');
@@ -4275,7 +4394,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         $expected = [
             'questiontext' => 'The language tags found in your question are: en, fi.',
@@ -4295,8 +4414,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
@@ -4307,7 +4428,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
         $this->check_output_does_not_contain_text('Giv et eksempel');
 
         // Process a validate request.
@@ -4334,7 +4455,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             new question_pattern_expectation('/Give an example of a function/'),
             new question_pattern_expectation('/However, in your answer/'),
             $this->get_no_hint_visible_expectation()
-            );
+        );
         // Danish should not be seen in the output.
         $this->check_output_does_not_contain_text('Men i dit svar er');
     }
@@ -4346,18 +4467,20 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/with input/'),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-                );
+            new question_pattern_expectation('/with input/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
 
         $this->process_submission(['ans1' => 'p^2+p+1', '-submit' => 1]);
 
@@ -4398,8 +4521,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
@@ -4410,7 +4535,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
     }
 
     public function test_test3_debug(): void {
@@ -4421,8 +4546,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
-        $this->assertEquals('adaptivemultipart',
-            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals(
+            'adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name()
+        );
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
@@ -4436,7 +4563,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
     }
 
     public function test_input_validator(): void {
@@ -4465,7 +4592,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process an invalidate request.
         $ia = 'x^2-1';
@@ -4486,7 +4613,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             new question_pattern_expectation('/{x\^2-1}/'),
             new question_pattern_expectation('/contains the wrong variables/'),
             new question_no_pattern_expectation('/Vastauksesi sisältää/')
-            );
+        );
 
         // Process a validate request.
         $ia = 'phi^2-1';
@@ -4520,7 +4647,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             new question_pattern_expectation('/true answer/'),
             new question_no_pattern_expectation('/richtig/'),
             new question_no_pattern_expectation('/oikea/')
-            );
+        );
     }
 
     public function test_input_validator_jp(): void {
@@ -4550,7 +4677,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process an invalidate request.
         $ia = 'x^2-1';
@@ -4571,7 +4698,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             new question_pattern_expectation('/{x\^2-1}/'),
             new question_pattern_expectation('/contains the wrong variables/'),
             new question_no_pattern_expectation('/Vastauksesi sisältää/')
-            );
+        );
 
         // Process a validate request.
         $ia = 'phi^2-1';
@@ -4658,7 +4785,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             // The full string expectation is Vastauksesi sisältää.
             // However, SBCL on github actions does not support unicode, so the accents do not show.
             new question_pattern_expectation('/Vastauksesi/')
-            );
+        );
 
         // Process a validate request.
         $ia = 'phi^2-1';
@@ -4754,7 +4881,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process an invalidate request.
         $ia = '1+i';
@@ -4773,7 +4900,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_output(
             new question_pattern_expectation('/Your answer should be a set, but is not./'),
             new question_pattern_expectation('/Remember to enter sets!/'),
-            );
+        );
 
         // Process a validate request.
         $ia = '{4}';
@@ -4791,7 +4918,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
             new question_pattern_expectation('/Remember to enter sets!/'),
-            );
+        );
 
         // Process a score request.
         $ia = '{4}';
@@ -4809,7 +4936,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_output(
             new question_pattern_expectation('/Remember to enter sets!/'),
             new question_pattern_expectation('/There are more answers that just the single real number./'),
-            );
+        );
 
         // Process incorrect answer..
         $ia = '{4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)}';
@@ -4827,7 +4954,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
             new question_pattern_expectation('/Remember to enter sets!/'),
-            );
+        );
 
         // Process a score request.
         $ia = '{4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)}';
@@ -4847,7 +4974,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_output(
             new question_pattern_expectation('/The following are missing from your set./'),
             new question_pattern_expectation('/Remember to enter sets!/'),
-            );
+        );
 
         // Jump to a score request.
         $ia = '{4,4*i,-4*i,-4}';
@@ -4866,7 +4993,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_output(
             new question_no_pattern_expectation('/The following are missing from your set./'),
             new question_pattern_expectation('/Remember to enter sets!/'),
-            );
+        );
     }
 
     public function test_input_validator_texput(): void {
@@ -4895,7 +5022,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
 
         // Process a validate request.
         $ia = 'foo(x,y)';
@@ -4935,7 +5062,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
         $this->assert_content_with_maths_contains('\({3\cdot x+5\cdot y=1}\)', $this->currentoutput);
 
         // Process a validate request.
@@ -5000,9 +5127,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
-        $this->assert_content_with_maths_contains('\({13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49}\)',
-            $this->currentoutput);
+        );
+        $this->assert_content_with_maths_contains(
+            '\({13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49}\)',
+            $this->currentoutput
+        );
 
         // Process a validate request.
         $ia = '13*x^2-8*y*x+5*y^2 = 49';
@@ -5019,13 +5148,17 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_input_validation('ansq');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assert_content_with_maths_contains('\[ 13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49',
+            $this->currentoutput
+        );
         $ia = '13*x^2-8*y*x+5*y^2 = 49';
         $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
         $this->render();
-        $this->assert_content_with_maths_contains('\[ 13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 13\cdot x^2-8\cdot y\cdot x+5\cdot y^2=49',
+            $this->currentoutput
+        );
         $expected = 'Seed: 1; ansq: 13*x^2-8*y*x+5*y^2 = 49 [score]; firsttree: # = 1 | ' .
             'ATCASEqual_true. | firsttree-0-1 | ATEquation_sides | firsttree-1-1';
         $this->check_response_summary($expected);
@@ -5034,8 +5167,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $ia = '13*X^2-8*y*x+5*y^2 = 49';
         $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
         $this->render();
-        $this->assert_content_with_maths_contains('\[ 13\cdot X^2-8\cdot y\cdot x+5\cdot y^2=49',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 13\cdot X^2-8\cdot y\cdot x+5\cdot y^2=49',
+            $this->currentoutput
+        );
         $expected = 'Seed: 1; ansq: 13*X^2-8*y*x+5*y^2 = 49 [score]; firsttree: # = 1 | ' .
             'ATCASEqual_true. | firsttree-0-1 | ATEquation_sides | firsttree-1-1';
         $this->check_response_summary($expected);
@@ -5044,8 +5179,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $ia = '13*X^2-8*y*x+5*y^2 = 48';
         $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
         $this->render();
-        $this->assert_content_with_maths_contains('\[ 13\cdot X^2-8\cdot y\cdot x+5\cdot y^2=48',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 13\cdot X^2-8\cdot y\cdot x+5\cdot y^2=48',
+            $this->currentoutput
+        );
         $expected = 'Seed: 1; ansq: 13*X^2-8*y*x+5*y^2 = 48 [score]; firsttree: # = 0 | ' .
             'ATCASEqual_false. | firsttree-0-0 | ATEquation_lhs_notrhs | firsttree-1-0';
         $this->check_response_summary($expected);
@@ -5070,9 +5207,11 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
-        $this->assert_content_with_maths_contains('\({\left \{1 , 2 , 3 \right \}}\)',
-            $this->currentoutput);
+        );
+        $this->assert_content_with_maths_contains(
+            '\({\left \{1 , 2 , 3 \right \}}\)',
+            $this->currentoutput
+        );
 
         // Process a validate request.
         $this->process_submission(['ans1' => '3', '-submit' => 1]);
@@ -5087,13 +5226,17 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assert_content_with_maths_contains('\[ 3',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 3',
+            $this->currentoutput
+        );
         $ia = '3';
         $this->process_submission(['ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1]);
         $this->render();
-        $this->assert_content_with_maths_contains('\[ 3',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 3',
+            $this->currentoutput
+        );
         $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 1 | firsttree-0-1';
         $this->check_response_summary($expected);
 
@@ -5103,8 +5246,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
-        $this->assert_content_with_maths_contains('\[ 5',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 5',
+            $this->currentoutput
+        );
         $expected = 'Seed: 1; ans1: 5 [score]; firsttree: # =  | firsttree-bail';
         $this->check_response_summary($expected);
 
@@ -5114,8 +5259,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 0, 0.25);
         $this->render();
-        $this->assert_content_with_maths_contains('\[ 2',
-            $this->currentoutput);
+        $this->assert_content_with_maths_contains(
+            '\[ 2',
+            $this->currentoutput
+        );
         $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 0 | firsttree-0-0';
         $this->check_response_summary($expected);
     }
@@ -5140,6 +5287,6 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
     }
 }

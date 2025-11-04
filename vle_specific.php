@@ -194,7 +194,9 @@ function stack_cors_link(string $filename): string {
         return '/cors.php?name=' . $filename;
     } else {
         return (new moodle_url(
-                '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+            '/question/type/stack/corsscripts/cors.php',
+            ['name' => $filename]
+        ))->out(false);
     }
 }
 
@@ -342,7 +344,6 @@ function stack_fetch_included_content(string $url) {
         $good = true;
         $islocalfile = true;
         $translated = __DIR__ . '/corsscripts/' . $path;
-
     }
 
     if ($good) {

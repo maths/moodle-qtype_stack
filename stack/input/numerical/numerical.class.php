@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_numerical_input extends stack_input {
-
     /**
      * From STACK 4.1 we are not going to continue to add input options as columns in the database.
      * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
@@ -66,7 +65,7 @@ class stack_numerical_input extends stack_input {
             'name'  => $fieldname,
             'id'    => $fieldname,
             'size'  => $this->parameters['boxWidth'] * 1.1,
-            'style' => 'width: '.$size.'em',
+            'style' => 'width: ' . $size . 'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
             'class'     => 'numerical',
@@ -161,7 +160,7 @@ class stack_numerical_input extends stack_input {
      */
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
-        switch($parameter) {
+        switch ($parameter) {
             case 'boxWidth':
                 $valid = is_int($value) && $value > 0;
                 break;
@@ -183,6 +182,6 @@ class stack_numerical_input extends stack_input {
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(0);
         $value = $cs->get_inputform(true, 0, true, $this->options->get_option('decimals'));
-        return stack_string('teacheranswershow', ['value' => '<code>'.$value.'</code>', 'display' => $display]);
+        return stack_string('teacheranswershow', ['value' => '<code>' . $value . '</code>', 'display' => $display]);
     }
 }

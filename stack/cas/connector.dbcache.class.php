@@ -112,8 +112,11 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $cached->key = $this->get_cache_key($command);
 
         // Are there any cached records that might match?
-        $data = $this->db->get_records('qtype_stack_cas_cache',
-                ['hash' => $cached->key], 'id');
+        $data = $this->db->get_records(
+            'qtype_stack_cas_cache',
+            ['hash' => $cached->key],
+            'id'
+        );
         if (!$data) {
             // Nothing relevant in the cache.
             $cached->result = null;

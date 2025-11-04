@@ -26,7 +26,6 @@
  * This class provides fixture test cases for the numerical rounding tests.
  */
 class stack_numbers_test_data {
-
     // In this text digits are 1-9 and 0 is not a digit.
     // array("string", lower, upper, decimal places, dispvalue, err).
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

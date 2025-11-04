@@ -29,7 +29,6 @@ require_once(__DIR__ . '/filter.interface.php');
  * and powers. The 'sin^2(x)' case.
  */
 class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $ssmap = null;
 
@@ -41,7 +40,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
 
         $selectednames = stack_cas_security::get_all_with_feature('trigfun');
 
-        $process = function($node) use (&$errors, &$answernotes, $selectednames) {
+        $process = function ($node) use (&$errors, &$answernotes, $selectednames) {
             // @codingStandardsIgnoreStart
 
             // Note we are not just looking for 'sin^' we want the context.
@@ -73,13 +72,15 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
 
             // @codingStandardsIgnoreEnd
 
-            if ($node instanceof MP_Operation &&
+            if (
+                $node instanceof MP_Operation &&
                 $node->op === '*' &&
                 isset($node->position['insertstars']) &&
                 $node->rhs instanceof MP_Group &&
                 $node->lhs instanceof MP_Operation &&
                 $node->lhs->op === '^' &&
-                $node->lhs->lhs instanceof MP_Identifier) {
+                $node->lhs->lhs instanceof MP_Identifier
+            ) {
                 $bad = array_key_exists($node->lhs->lhs->value, $selectednames);
                 if (!$bad) {
                     foreach ($selectednames as $name) {
@@ -102,11 +103,13 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                     $node->position['invalid'] = true;
                     // TO-DO: now that we have the whole "function call" as the $node
                     // the error message could print out it all, but without that star...
-                    $errors[] = stack_string('stackCas_trigexp',
+                    $errors[] = stack_string(
+                        'stackCas_trigexp',
                         [
-                            'forbid' => stack_maxima_format_casstring($node->lhs->lhs->value.'^'),
+                            'forbid' => stack_maxima_format_casstring($node->lhs->lhs->value . '^'),
                             'identifier' => $node->lhs->lhs->value,
-                        ]);
+                        ]
+                    );
                     if (array_search('trigexp', $answernotes) === false) {
                         $answernotes[] = 'trigexp';
                     }
@@ -128,10 +131,12 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
             //       -  MP_Identifier x
             //
             // @codingStandardsIgnoreEnd
-            if ($node instanceof MP_Operation &&
+            if (
+                $node instanceof MP_Operation &&
                 $node->op === '^' &&
                 $node->lhs instanceof MP_Identifier &&
-                $node->rhs instanceof MP_FunctionCall) {
+                $node->rhs instanceof MP_FunctionCall
+            ) {
                 $bad = array_key_exists($node->lhs->value, $selectednames);
                 if (!$bad) {
                     foreach ($selectednames as $name) {
@@ -152,11 +157,13 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                 if ($bad === true) {
                     // Those rules should not match anything else.
                     $node->position['invalid'] = true;
-                    $errors[] = stack_string('stackCas_trigexp',
+                    $errors[] = stack_string(
+                        'stackCas_trigexp',
                         [
-                            'forbid' => stack_maxima_format_casstring($node->lhs->value.'^'),
+                            'forbid' => stack_maxima_format_casstring($node->lhs->value . '^'),
                             'identifier' => $node->lhs->value,
-                        ]);
+                        ]
+                    );
                     if (array_search('trigexp', $answernotes) === false) {
                         $answernotes[] = 'trigexp';
                     }
@@ -164,8 +171,10 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                 }
             }
 
-            if ($node instanceof MP_FunctionCall &&
-                $node->name instanceof MP_Identifier) {
+            if (
+                $node instanceof MP_FunctionCall &&
+                $node->name instanceof MP_Identifier
+            ) {
                 $bad = false;
                 if (!$bad) {
                     foreach ($selectednames as $name) {
@@ -186,11 +195,13 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                 if ($bad === true) {
                     // Those rules should not match anything else.
                     $node->position['invalid'] = true;
-                    $errors[] = stack_string('stackCas_trigexp',
+                    $errors[] = stack_string(
+                        'stackCas_trigexp',
                         [
-                            'forbid' => stack_maxima_format_casstring($node->name->value.'^'),
+                            'forbid' => stack_maxima_format_casstring($node->name->value . '^'),
                             'identifier' => $node->name->value,
-                        ]);
+                        ]
+                    );
                     if (array_search('trigexp', $answernotes) === false) {
                         $answernotes[] = 'trigexp';
                     }

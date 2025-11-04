@@ -102,8 +102,8 @@ $c = 0;
 $p = 0;
 foreach ($a as $data) {
     if ('F' != $data[1]) {
-        echo $data[0].": ";
-        echo $data[2]."\n";
+        echo $data[0] . ": ";
+        echo $data[2] . "\n";
         $p += 1;
     } else {
         $c += 1;

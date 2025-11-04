@@ -88,7 +88,6 @@ final class restore_logic_test_class extends \restore_qtype_stack_plugin {
  * @covers \qtype_stack
  */
 final class restore_logic_test extends \advanced_testcase {
-
     public function test_fix_prt_roots(): void {
 
         global $DB;
@@ -101,10 +100,18 @@ final class restore_logic_test extends \advanced_testcase {
         $question = $generator->create_question('stack', 'test3', ['category' => $cat->id]);
 
         // Break one of its PRTs.
-        $DB->set_field('qtype_stack_prts', 'firstnodename', -1,
-                ['questionid' => $question->id, 'name' => 'oddeven']);
-        $DB->set_field('qtype_stack_prt_nodes', 'truenextnode', 7,
-                ['questionid' => $question->id, 'prtname' => 'oddeven', 'nodename' => 0]);
+        $DB->set_field(
+            'qtype_stack_prts',
+            'firstnodename',
+            -1,
+            ['questionid' => $question->id, 'name' => 'oddeven']
+        );
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'truenextnode',
+            7,
+            ['questionid' => $question->id, 'prtname' => 'oddeven', 'nodename' => 0]
+        );
 
         $restoreplugin = new restore_logic_test_class();
         $restoreplugin->after_execute_question();

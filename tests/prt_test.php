@@ -50,7 +50,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \stack_potentialresponse_tree_lite
  */
 final class prt_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     private function create_default_node() {
 
@@ -84,7 +83,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_single_node_prt(): void {
 
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'testprt';
         $newprt->id = '0';
         $newprt->value = 5;
@@ -212,7 +211,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_multi_node_prt(): void {
 
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'multiprt';
         $newprt->id = '0';
         $newprt->value = 5;
@@ -314,7 +313,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_runtime_score_error(): void {
 
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'testprt';
         $newprt->id = '0';
         $newprt->value = 5;
@@ -402,7 +401,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_broken_first_node(): void {
         // ISS1588 - firstnodename of '-1' caused Exception.
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'testprt';
         $newprt->id = '0';
         $newprt->value = 5;
@@ -530,7 +529,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_no_nodes(): void {
         // Basically just test nothing falls over immediately.
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'testprt';
         $newprt->id = '0';
         $newprt->value = 5;

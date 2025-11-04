@@ -56,10 +56,19 @@ function qtype_stack_pluginfile($course, $cm, $context, $filearea, $args, $force
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - justsend the file
  */
-function qtype_stack_question_pluginfile($course, $context, $component,
-                    $filearea, $qubaid, $slot, $args, $forcedownload, array $options=[]) {
+function qtype_stack_question_pluginfile(
+    $course,
+    $context,
+    $component,
+    $filearea,
+    $qubaid,
+    $slot,
+    $args,
+    $forcedownload,
+    array $options = []
+) {
 
-    list($context, $course, $cm) = get_context_info_array($context->id);
+    [$context, $course, $cm] = get_context_info_array($context->id);
     require_login($course, false, $cm);
 
     $quba = question_engine::load_questions_usage_by_activity($qubaid);

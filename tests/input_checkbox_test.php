@@ -40,7 +40,6 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_checkbox_input
  */
 final class input_checkbox_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function expected_choices() {
 
@@ -88,7 +87,14 @@ final class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(2+y\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            [''],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(1+x\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
@@ -107,7 +113,14 @@ final class input_checkbox_test extends qtype_stack_testcase {
                 . '<label for="stack1__ans1_2">'
                 . '<code>2+y</code></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            [''],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
     }
 
     public function test_bad_teacheranswer(): void {
@@ -121,7 +134,14 @@ final class input_checkbox_test extends qtype_stack_testcase {
                   'answering. Please contact your teacher.</p>' .
                   '<p>The model answer field for this input is malformed: <code>[x]</code>.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            ['2'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values(): void {
@@ -137,7 +157,14 @@ final class input_checkbox_test extends qtype_stack_testcase {
                   'answering. Please contact your teacher.</p>' .
                   '<p>Duplicate values have been found when generating the input options.</p></div>';
          $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+             stack_input::SCORE,
+             ['2'],
+             '',
+             '',
+             '',
+             '',
+             ''
+         ), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values_ok(): void {

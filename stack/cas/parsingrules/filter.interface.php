@@ -28,7 +28,6 @@ require_once(__DIR__ . '/../cassecurity.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface stack_cas_astfilter {
-
     /**
      * Does whatever it needs to the AST and may append to the errors or notes
      * might receive stack_ast_container directly, but better to keep these
@@ -38,12 +37,10 @@ interface stack_cas_astfilter {
      * Any errors mean invalidity, but the process may continue.
      */
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node;
-
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface stack_cas_astfilter_parametric extends stack_cas_astfilter {
-
     /**
      * Sets any paramters this filter instance might have.
      */
@@ -58,7 +55,6 @@ interface stack_cas_astfilter_parametric extends stack_cas_astfilter {
  */
 // phpcs:ignore moodle.Commenting.MissingDocblock.Interface
 interface stack_cas_astfilter_exclusion extends stack_cas_astfilter {
-
     /**
      * e.g. if this is '999_strict' and you ask for
      * '990_no_fixing_spaces' it will return true as '999_strict'

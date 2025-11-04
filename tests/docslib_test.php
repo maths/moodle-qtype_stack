@@ -37,7 +37,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \qtype_stack
  */
 final class docslib_test extends qtype_stack_testcase {
-
     public function test_stack_docs_title_from_filename(): void {
 
         $this->assertEquals('About', stack_docs_title_from_filename('About'));
@@ -50,7 +49,8 @@ final class docslib_test extends qtype_stack_testcase {
 
         global $CFG;
 
-        $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
+        $this->assertEquals(
+            str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/API.md">API</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/LTI.md">' .
                         'LTI</a></li>' .
@@ -66,18 +66,25 @@ final class docslib_test extends qtype_stack_testcase {
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/STACK_versions.md">STACK versions</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Testing_installation.md">' .
                         'Testing installation</a></li></ul>'),
-                stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',
-                $CFG->wwwroot . '/question/type/stack/doc.php/Installation'));
+            stack_docs_index(
+                $CFG->dirroot . '/question/type/stack/doc/en/Installation',
+                $CFG->wwwroot . '/question/type/stack/doc.php/Installation'
+            )
+        );
 
-        $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
+        $this->assertEquals(
+            str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Accessibility.md">Accessibility</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Answer_assessment.md">Answer assessment</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Answer_input.md">Answer input</a></li>' .
-                '<li><a href="WWWROOT/question/type/stack/doc.php/Students/'.
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Students/' .
                     'Equivalence_reasoning.md">Equivalence reasoning</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/FAQ.md">FAQ</a></li></ul>'),
-                stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Students',
-                $CFG->wwwroot . '/question/type/stack/doc.php/Students'));
+            stack_docs_index(
+                $CFG->dirroot . '/question/type/stack/doc/en/Students',
+                $CFG->wwwroot . '/question/type/stack/doc.php/Students'
+            )
+        );
     }
 
     public function test_stack_docs_render_markdown(): void {
@@ -86,8 +93,10 @@ final class docslib_test extends qtype_stack_testcase {
         require_once($CFG->libdir . '/environmentlib.php');
         $currentversion = normalize_version(get_config('', 'release'));
 
-        $this->assertEquals("<p>Test</p>\n",
-                stack_docs_render_markdown('Test'));
+        $this->assertEquals(
+            "<p>Test</p>\n",
+            stack_docs_render_markdown('Test')
+        );
 
         // @codingStandardsIgnoreStart
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
@@ -100,8 +109,10 @@ final class docslib_test extends qtype_stack_testcase {
         $ex = "<p>Text with maths: \\(x^3\\)</p>\n\n" .
             "<pre><code>And how to type it in: \\(x^3\\)\n</code></pre>\n\n" .
             "<p>Should work!</p>\n";
-        $this->assert_content_with_maths_equals($ex,
-            stack_docs_render_markdown($md));
+        $this->assert_content_with_maths_equals(
+            $ex,
+            stack_docs_render_markdown($md)
+        );
 
         if (version_compare($currentversion, '4.1.0') >= 0) {
             $page = 'Watch <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
@@ -109,8 +120,10 @@ final class docslib_test extends qtype_stack_testcase {
             $rendered = "<p>Watch</p>\n\n" .
                 '<iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" ' .
                 'frameborder="0" allowfullscreen></iframe>' . "\n\n<p>This will help you.</p>\n";
-            $this->assert_content_with_maths_equals($rendered,
-                stack_docs_render_markdown($page));
+            $this->assert_content_with_maths_equals(
+                $rendered,
+                stack_docs_render_markdown($page)
+            );
         }
     }
 
@@ -118,8 +131,10 @@ final class docslib_test extends qtype_stack_testcase {
 
         $md = '<div class="proof"><p>H1. Assume that \(3 \cdot 2^{172} + 1\) is a perfect square.</p></div>';
         $ex = $md . "\n";
-        $this->assert_content_with_maths_equals($ex,
-            stack_docs_render_markdown($md));
+        $this->assert_content_with_maths_equals(
+            $ex,
+            stack_docs_render_markdown($md)
+        );
     }
 
     public function test_stack_docs_render_markdown_with_table(): void {
@@ -132,8 +147,10 @@ final class docslib_test extends qtype_stack_testcase {
         $ex = "<p>\\[ {\begin{array}{c|c} x &amp; x^3\\\\ \hline -1 &amp; -1 \\\\ " .
             "0 &amp; 0 \\\\ 1 &amp; 1 \\end{array}} \\]</p>\n";
         if (version_compare($currentversion, '4.1.0') >= 0) {
-            $this->assert_content_with_maths_equals($ex,
-                stack_docs_render_markdown($md));
+            $this->assert_content_with_maths_equals(
+                $ex,
+                stack_docs_render_markdown($md)
+            );
         }
     }
 }

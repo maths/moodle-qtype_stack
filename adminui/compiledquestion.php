@@ -27,7 +27,7 @@
 
 use question_bank;
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -109,15 +109,19 @@ foreach ($q->prts as $prt) {
 
     echo '<p>Required inputs: ' . json_encode(array_keys($q->get_cached('required')[$prt->get_name()])) . '</p>';
 
-    if (isset($q->get_cached('prt-preamble')[$prt->get_name()]) &&
-            $q->get_cached('prt-preamble')[$prt->get_name()] !== null) {
+    if (
+        isset($q->get_cached('prt-preamble')[$prt->get_name()]) &&
+            $q->get_cached('prt-preamble')[$prt->get_name()] !== null
+    ) {
         echo '<p>PRT-preamble:</p>';
         echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-preamble')[$prt->get_name()])->
             toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
     }
 
-    if (isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) &&
-            $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null) {
+    if (
+        isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) &&
+            $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null
+    ) {
         echo '<p>PRT-contextvariables:</p>';
         echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-contextvariables')[$prt->get_name()])->
             toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
@@ -134,7 +138,7 @@ echo '<table><tr><th>Part</th><th>Compiled CASText code</th></tr>';
 
 foreach ($q->compiledcache as $key => $value) {
     if (strpos($key, 'castext-') === 0) {
-        echo '<tr><td>'. $key . '</td><td><pre>';
+        echo '<tr><td>' . $key . '</td><td><pre>';
         echo htmlspecialchars(maxima_parser_utils::parse($value)->toString(['pretty' => true]), ENT_COMPAT);
         echo '</pre></td></tr>';
     }

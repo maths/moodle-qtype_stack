@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -75,12 +75,20 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
             }
             foreach ($questions as $qid => $qname) {
                 $q = question_bank::load_question($qid);
-                list($hastodos, $tags) = $q->get_question_todos();
+                [$hastodos, $tags] = $q->get_question_todos();
                 if ($hastodos) {
-                    $preurl = qbank_previewquestion\helper::question_preview_url($qid,
-                        null, null, null, null, $context);
-                    $dashurl = html_writer::link(new moodle_url($questiontestsurl,
-                        ['questionid' => $qid]), $qname). ' ' .
+                    $preurl = qbank_previewquestion\helper::question_preview_url(
+                        $qid,
+                        null,
+                        null,
+                        null,
+                        null,
+                        $context
+                    );
+                    $dashurl = html_writer::link(new moodle_url(
+                        $questiontestsurl,
+                        ['questionid' => $qid]
+                    ), $qname) . ' ' .
                         $OUTPUT->action_icon($preurl, new pix_icon('t/preview', get_string('preview')));
                     // TO-DO: add in a direct edit URL.
                     $qtodos[] = ['qid' => $qid,
@@ -105,7 +113,7 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
                 // Load the whole question, simpler to get the contexts correct that way.
                 foreach ($qtodos as $item) {
                     echo "<tr><td>" . $item['dashurl'] .
-                        '</td><td>' . implode(', ', $item['tags']). '<td></tr>';
+                        '</td><td>' . implode(', ', $item['tags']) . '<td></tr>';
                 }
                 echo '</tbody></table>';
 

@@ -28,7 +28,6 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that rewrites calls to functions to be checked at runtime.
  */
 class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
-
     // The name of the function that checks identifiers.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const IDCHECK = '%_C';
@@ -41,7 +40,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $mapfuns = stack_cas_security::get_all_with_feature('mapfunction');
-        $process = function($node) use ($mapfuns) {
+        $process = function ($node) use ($mapfuns) {
             if ($node instanceof MP_Functioncall && !$node->is_definition()) {
                 // The '-operator makes the IDCHECK not work at the correct time,
                 // so detect if that op is in the ancestry of this node and skip if so.
@@ -60,8 +59,10 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     }
                     $p = $p->parentnode;
                 }
-                if ($node->name instanceof MP_Atom && ($node->name->value === self::IDCHECK ||
-                    $node->name->value === self::EXPCHECK || $node->name->value === 'lambda')) {
+                if (
+                    $node->name instanceof MP_Atom && ($node->name->value === self::IDCHECK ||
+                    $node->name->value === self::EXPCHECK || $node->name->value === 'lambda')
+                ) {
                     // No checks for the checks themselves. They are protected using other means.
                     // Also lambdas are something that need to be dealt using other means.
                     return true;
@@ -71,13 +72,17 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                 // the identifier coming from something else we rewrite it
                 // so that we can check the identifier using normal logic.
                 // For example apply(foo(),[...]) => block([_tmp],_tmp:foo(),apply(_tmp),[...])).
-                if ($node->name instanceof MP_Atom && isset($mapfuns[$node->name->value])
-                    && count($node->arguments) > 0 && !($node->arguments[0] instanceof MP_Atom)) {
-                    $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                if (
+                    $node->name instanceof MP_Atom && isset($mapfuns[$node->name->value])
+                    && count($node->arguments) > 0 && !($node->arguments[0] instanceof MP_Atom)
+                ) {
+                    $replacement = new MP_FunctionCall(
+                        new MP_Identifier('block'),
                         [
                             new MP_List([new MP_Identifier('_tmp_996')]),
                             new MP_Operation(':', new MP_Identifier('_tmp_996'), $node->arguments[0]),
-                        ]);
+                        ]
+                    );
                     $node->arguments[0]->position['call-id'] = true;
                     $replacement->position['ev-check'] = true;
                     $replacement->name->position['ev-check'] = true;
@@ -99,27 +104,35 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                 // so that no basic check gets lost due to more advanced ones
                 // doing more complex things. The advanced cases assume that
                 // the simpler ones have been done already.
-                if (!($node->parentnode instanceof MP_Group) ||
-                    $node->parentnode->items[0]->toString() !== $namecheck->toString()) {
+                if (
+                    !($node->parentnode instanceof MP_Group) ||
+                    $node->parentnode->items[0]->toString() !== $namecheck->toString()
+                ) {
                     $replacement = new MP_Group([$namecheck, $node]);
-                    if ($node->parentnode instanceof MP_PrefixOp ||
+                    if (
+                        $node->parentnode instanceof MP_PrefixOp ||
                         ($node->parentnode instanceof MP_FunctionCall &&
-                            $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === self::EXPCHECK)) {
+                            $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === self::EXPCHECK)
+                    ) {
                         // Pattern %_E(subst(...)) => (%_C(subst),%_E(subst(...))).
                         // Pattern 'f(x) => (%_C(f),'f(x)).
                         // This needs to be indempotent.
-                        if (!($node->parentnode->parentnode instanceof MP_Group &&
-                            $node->parentnode->parentnode->items[0]->toString() === $replacement->items[0]->toString())) {
+                        if (
+                            !($node->parentnode->parentnode instanceof MP_Group &&
+                            $node->parentnode->parentnode->items[0]->toString() === $replacement->items[0]->toString())
+                        ) {
                             $replacement->items[1] = $node->parentnode;
                             $node->parentnode->parentnode->replace($node->parentnode, $replacement);
                             return false;
                         }
                     } else {
                         // Except when we have block() and block(local()...).
-                        if ($node->name instanceof MP_Identifier && ($node->name->value === 'block' ||
+                        if (
+                            $node->name instanceof MP_Identifier && ($node->name->value === 'block' ||
                             ($node->name->value === 'local' && $node->parentnode instanceof MP_FunctionCall &&
                                 $node->parentnode->name instanceof MP_Identifier && $node->parentnode->name->value === 'block' &&
-                                $node->parentnode->arguments[0] === $node))) {
+                                $node->parentnode->arguments[0] === $node))
+                        ) {
                             return true;
                         }
 
@@ -144,21 +157,27 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                             }
                             $replacement = new MP_Group($replacement);
                             // Has the full set already been done.
-                            if ($node->parentnode instanceof MP_Group &&
+                            if (
+                                $node->parentnode instanceof MP_Group &&
                                 count($node->parentnode->items) === count($replacement->items) &&
-                                $node->parentnode->toString() === $replacement->toString()) {
+                                $node->parentnode->toString() === $replacement->toString()
+                            ) {
                                 return true;
                             }
                         }
                         // The previous one generates a pattern (...,%_C(f(x)),%_C(f(x)(y)),...)
                         // In this situation it is necessary to stop rewriting the call inside the check.
-                        if ($node instanceof MP_FunctionCall && $node->parentnode instanceof MP_FunctionCall &&
+                        if (
+                            $node instanceof MP_FunctionCall && $node->parentnode instanceof MP_FunctionCall &&
                             $node->parentnode->name instanceof MP_Identifier &&
                             $node->parentnode->name->value === self::IDCHECK &&
-                            $node->parentnode->parentnode instanceof MP_Group) {
+                            $node->parentnode->parentnode instanceof MP_Group
+                        ) {
                             $i = array_search($node->parentnode, $node->parentnode->parentnode->items, true);
-                            if ($i >= 0 && $node->parentnode->parentnode->items[$i - 1]->toString() ===
-                                (new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->name]))->toString()) {
+                            if (
+                                $i >= 0 && $node->parentnode->parentnode->items[$i - 1]->toString() ===
+                                (new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->name]))->toString()
+                            ) {
                                 return true;
                             }
                         }
@@ -169,19 +188,25 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     }
                 }
                 if ($node->name instanceof MP_Atom && $node->name->value === 'ev' && count($node->arguments) > 0) {
-                    if (!($node->arguments[0] instanceof MP_FunctionCall) || !($node->arguments[0]->name instanceof MP_Atom) ||
-                        $node->arguments[0]->name->value !== self::EXPCHECK) {
+                    if (
+                        !($node->arguments[0] instanceof MP_FunctionCall) || !($node->arguments[0]->name instanceof MP_Atom) ||
+                        $node->arguments[0]->name->value !== self::EXPCHECK
+                    ) {
                         // In the case of a pattern ev(foo, ...) => ev(%_E(foo),...).
-                        $node->replace($node->arguments[0], new MP_FunctionCall(new MP_Identifier(self::EXPCHECK),
-                            [$node->arguments[0]]));
+                        $node->replace($node->arguments[0], new MP_FunctionCall(
+                            new MP_Identifier(self::EXPCHECK),
+                            [$node->arguments[0]]
+                        ));
                         return false;
                     }
                     return true;
                 }
                 if ($node->name instanceof MP_Atom && ($node->name->value === 'subst' || $node->name->value === 'at')) {
                     // Change subst(...) => %_E(subst(...)), always even when we check again at eval time.
-                    if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom &&
-                        $node->parentnode->name->value === self::EXPCHECK) {
+                    if (
+                        $node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom &&
+                        $node->parentnode->name->value === self::EXPCHECK
+                    ) {
                         return true;
                     }
                     $node->parentnode->replace($node, new MP_FunctionCall(new MP_Identifier(self::EXPCHECK), [$node]));
@@ -193,14 +218,18 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     // @codingStandardsIgnoreEnd
                     $check = new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->arguments[0]]);
                     if (isset($node->parentnode->items) && $node->parentnode->items[1]->toString() !== $check->toString()) {
-                        $node->parentnode->items = array_merge([$node->parentnode->items[0], $check],
-                            array_slice($node->parentnode->items, 1));
+                        $node->parentnode->items = array_merge(
+                            [$node->parentnode->items[0], $check],
+                            array_slice($node->parentnode->items, 1)
+                        );
                         return false;
                     }
                 }
             }
-            if ($node instanceof MP_PrefixOp && $node->op === "''" && !($node->rhs instanceof MP_FunctionCall &&
-                $node->rhs->name instanceof MP_Atom && $node->rhs->name->value === self::EXPCHECK)) {
+            if (
+                $node instanceof MP_PrefixOp && $node->op === "''" && !($node->rhs instanceof MP_FunctionCall &&
+                $node->rhs->name instanceof MP_Atom && $node->rhs->name->value === self::EXPCHECK)
+            ) {
                 // Pattern ''x => ''%_E(x).
                 $node->replace($node->rhs, new MP_FunctionCall(new MP_Identifier(self::EXPCHECK), [$node->rhs]));
                 return false;

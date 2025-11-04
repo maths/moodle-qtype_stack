@@ -47,8 +47,11 @@ require_once(__DIR__ . '/vle_specific.php');
  * @package    qtype_stack
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR2.Classes.ClassDeclaration.ImplementsLine
  */
-class qtype_stack_question extends question_graded_automatically_with_countback implements question_automatically_gradable_with_multiple_parts {
+class qtype_stack_question extends question_graded_automatically_with_countback
+                           implements question_automatically_gradable_with_multiple_parts {
+    // phpcs:enable PSR2.Classes.ClassDeclaration.ImplementsLine
     /**
      * @var string STACK specific: Holds the version of the question when it was last saved.
      */

@@ -50,7 +50,6 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('test_3_matrix', $question->name);
         $this->assertEquals('<p><span class="correct">Correct answer, well done.</span></p>', $question->prtcorrect);
         $this->assertEquals('html', $question->prtcorrectformat);
-        // $x = $question->prts['prt1']->get_nodes_summary()[0];
         $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->truenextnode);
         $this->assertEquals('1-0-T ', $question->prts['prt1']->get_nodes_summary()[0]->trueanswernote);
         $this->assertEquals(10, $question->prts['prt1']->get_nodes_summary()[0]->truescore);
@@ -352,7 +351,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(10, count($diffarray));
         $expected = [
             'name' => 'Test question',
-            'questiontext' => "<p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>\n    <p>[[input:ans2]] [[validation:ans2]]</p>\n",
+            'questiontext' => "<p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>\n    " .
+            "<p>[[input:ans2]] [[validation:ans2]]</p>\n",
             'questionvariables' => 'ta1:1;ta2:2;',
             'questionsimplify' => '1',
             'prtcorrect' => '<p><i class="fa fa-check"></i> Correct answer*, well done.</p>',
@@ -448,14 +448,18 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             ],
         ];
         $expectedstring = "name: 'Test question'\nquestiontext: |\n  <p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>" .
-            "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nquestionvariables: 'ta1:1;ta2:2;'\nquestionsimplify: '1'\nprtcorrect: '<p>" .
+            "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nquestionvariables: 'ta1:1;ta2:2;'" .
+            "\nquestionsimplify: '1'\nprtcorrect: '<p>" .
             "<i class=\"fa fa-check\"></i> Correct answer*, well done.</p>'\nmultiplicationsign: cross\ninput:\n  - " .
             "name: ans1\n    type: algebraic\n    tans: ta1\n    boxsize: '25'\n    forbidfloat: '1'\n    " .
             "requirelowestterms: '0'\n    checkanswertype: '0'\n    mustverify: '1'\n    showvalidation: '1'\n  - name: " .
             "ans2\n    type: algebraic\n    tans: ta2\n    forbidfloat: '1'\n    requirelowestterms: '0'\n    " .
-            "checkanswertype: '0'\n    mustverify: '1'\n    showvalidation: '1'\nprt:\n  - name: prt1\n    value: '2'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    " .
-            "node:\n      - name: '0'\n        answertest: AlgEquiv\n        sans: ans1\n        tans: ta1\n        quiet: '1'\n  - name: prt2\n    " .
-            "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
+            "checkanswertype: '0'\n    mustverify: '1'\n    showvalidation: '1'\nprt:\n  - name: prt1\n    " .
+            "value: '2'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    " .
+            "node:\n      - name: '0'\n        answertest: AlgEquiv\n        " .
+            "sans: ans1\n        tans: ta1\n        quiet: '1'\n  - name: prt2\n    " .
+            "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        " .
+            "answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
             "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
             "testinput:\n      - name: ans1\n      - name: ans2\n        value: ta2\n    expected:\n      - name: prt1" .
             "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n      " .

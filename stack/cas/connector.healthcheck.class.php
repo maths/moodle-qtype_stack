@@ -102,8 +102,8 @@ class stack_cas_healthcheck {
                     $test['result'] = null;
                     $test['summary'] = stack_string('healthcheckproxysettings');
                     $this->tests[] = $test;
-                    break;
                 }
+                break;
             default:
                 // Server-proxy/optimised.
                 // TO-DO: add in any specific tests for these setups?

@@ -20,6 +20,7 @@
  * @package    qtype_stack
  * @copyright 2024 University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 defined('MOODLE_INTERNAL') || die();

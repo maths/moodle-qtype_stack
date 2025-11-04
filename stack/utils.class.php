@@ -22,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 /**
@@ -340,7 +341,7 @@ class stack_utils {
             } else {
                 // Found startchar, looking for end.
                 if ($char[$i] == $right) {
-                    // @codingStandardsIgnoreStart
+                    // phpcs:disable
                     if ($skipempty && $empty) {
                         // Do nothing.
                     } else if (!isset($replacements[$matches])) {
@@ -349,7 +350,7 @@ class stack_utils {
                         $result .= $replacements[$matches];
                         $matches++;
                     }
-                    // @codingStandardsIgnoreEnd
+                    // phpcs:enable
                     $searching = true;
                     $result .= $char[$i];
                 }

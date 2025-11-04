@@ -358,6 +358,8 @@ abstract class stack_input {
                 case 'mul':
                     // Mul was depricated in version 4.2.
                     $this->errors[] = stack_string('stackversionmulerror');
+                    // ISS1609 - Break added.
+                    break;
 
                 case 'hideequiv':
                     if (!(is_bool($arg))) {

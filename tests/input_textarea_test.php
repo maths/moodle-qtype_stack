@@ -20,6 +20,7 @@
  * @package    qtype_stack
  * @copyright 2012 The Open University.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 namespace qtype_stack;
@@ -385,8 +386,10 @@ final class input_textarea_test extends qtype_stack_testcase {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class testable_stack_textarea_input extends stack_textarea_input {
-    // @codingStandardsIgnoreLine
+    // phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function tokenize_list($in) {
         return parent::tokenize_list($in);
     }
+    // phpcs:enable Generic.CodeAnalysis.UselessOverridingMethod.Found
 }

@@ -22,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  * @package    qtype_stack
  * @copyright  2019 University of Aalto.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 require_once(__DIR__ . '/parsingrules/parsingrule.factory.php');
@@ -159,8 +160,11 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
     }
 }
 
+// phpcs:disable PSR2.Classes.ClassDeclaration.ImplementsLine
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent implements cas_latex_extractor, cas_value_extractor {
+class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent
+                                                      implements cas_latex_extractor, cas_value_extractor {
+    // phpcs:enable PSR2.Classes.ClassDeclaration.ImplementsLine
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $conditions;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

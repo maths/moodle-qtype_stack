@@ -786,7 +786,8 @@ class StackQuestionLoader {
                         // This occurs if answertest set in XML but summary in defaults.
                         // We need to build a summary from supplied XML fields and default summary.
                         $diffanswertest = isset($node['answertest']) ?
-                            'AT' . $node['answertest'] : self::split_answertest(self::get_default('node', 'answertest', 'AlgEquiv'))[0];
+                            'AT' . $node['answertest'] :
+                            self::split_answertest(self::get_default('node', 'answertest', 'AlgEquiv'))[0];
                         $diffsans = isset($node['sans']) ? $node['sans'] : self::get_default('node', 'sans', 'ans1');
                         $difftans = isset($node['tans']) ? $node['tans'] : self::get_default('node', 'tans', 'ta1');
                         $difftestoptions = isset($node['testoptions']) ?

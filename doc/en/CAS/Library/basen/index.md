@@ -4,15 +4,15 @@
 A collection of functions meant for dealing with base-N numbers coming
 through the expanded syntax mode and being presented as inert functions.
 
-Like `stackunits`, [`stackbasen`](#stackbasen) "objects" need to be handled with tools.
+Like `stackunits`, `stackbasen` "objects" need to be handled with tools.
 
-Unlike `stackunits`, [`stackbasen`](#stackbasen) "objects" can be nonsense from the start,
+Unlike `stackunits`, `stackbasen` "objects" can be nonsense from the start,
 the expanded syntax does not restrict the student from inputting something
 like `0b012345` where the digits are most definitely not binary digits. Thus
 one should always decide when to validate the objects, you may do it in
 input validation or you might do it later in grading.
 
-A [`stackbasen`](#stackbasen) object is an inert function with exactly three arguments:
+A `stackbasen` object is an inert function with exactly three arguments:
 
  - The first argument is the raw input form of the number in a given base 
    and format.
@@ -30,12 +30,12 @@ A [`stackbasen`](#stackbasen) object is an inert function with exactly three arg
    it as a helpful easily accessible part of the object.
 
 Note that there are overridable functions defining the presentation of these
-formats. You do not need to replace the whole [`stackbasen`](#stackbasen) `texput` logic. By
+formats. You do not need to replace the whole `stackbasen` `texput` logic. By
 default format `"C"` is being rendered as `\texttt` and `"S"` with `\textrm`.
 
 Also note that while it may seem like one could simply replace all the logic
 defining the digits and the hard limit of 36, changing the logic at this level
-is not enough. Student input will only turn to [`stackbasen`](#stackbasen) objects if lexer
+is not enough. Student input will only turn to `stackbasen` objects if lexer
 level rules and AST-filters agree on the acceptable digits. And one cannot
 adjust those through author accessible means. It is however, possible to use
 string inputs and suitable redefinition of certain functions to go further.
@@ -47,7 +47,7 @@ string inputs and suitable redefinition of certain functions to go further.
 ## sbasen_char_to_digit(char)<a id='sbasen_char_to_digit'></a>
 
 A function to convert singular characters to numbers used in
-the [`stackbasen`](#stackbasen) syntax. Basically, '"0"' -> '0' and '"A"' -> '10'.
+the `stackbasen` syntax. Basically, '"0"' -> '0' and '"A"' -> '10'.
 
 Lower and upper case ASCII letters are considered the same.
 
@@ -71,7 +71,7 @@ Lower and upper case ASCII letters are considered the same.
 ## sbasen_construct_default_case<a id='sbasen_construct_default_case'></a>
 
 The option [`sbasen_construct_default_case`](#sbasen_construct_default_case) controls the case of the digits
-`A-Z` (or 10-35) when creating new [`stackbasen`](#stackbasen) objects in logic.
+`A-Z` (or 10-35) when creating new `stackbasen` objects in logic.
 
 Note that this is separate from the option [`sbasen_output_force_case`](#sbasen_output_force_case),
 which controls the presentation of existing, possibly student sourced
@@ -88,7 +88,7 @@ The value `"lower"` will naturally use lowercase instead.
 ## sbasen_construct_from_base10(number,format,base)<a id='sbasen_construct_from_base10'></a>
 
 Given a positive base-10 integer and a format and a base settings will
-convert bases and produce a [`stackbasen`](#stackbasen) object with those settings.
+convert bases and produce a `stackbasen` object with those settings.
 
 Note that for `"C"` format only bases 2,8, and 16 are available. For `"S"`
 bases 2-36 are possible.
@@ -118,25 +118,25 @@ will be used.
 
 ## sbasen_convert_to_base10(expression)<a id='sbasen_convert_to_base10'></a>
 
-A function to convert [`stackbasen`](#stackbasen) objects back to normal base-10 numbers,
-will find all [`stackbasen`](#stackbasen) instances in the input and replaces them with
+A function to convert `stackbasen` objects back to normal base-10 numbers,
+will find all `stackbasen` instances in the input and replaces them with
 raw base-10 integers.
 
-Does not verify validity of those [`stackbasen`](#stackbasen) objects, so might generate
+Does not verify validity of those `stackbasen` objects, so might generate
 interesting results.
 
 
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| expression | expression | an expression that might have    [`stackbasen`](#stackbasen)-objects in it. |
+| expression | expression | an expression that might have    `stackbasen`-objects in it. |
 
 
 
 
 | Return type | description |
 | ----------- | ------------|
-| expression | the original expression with all [`stackbasen`](#stackbasen)-objects converted to raw integers. |
+| expression | the original expression with all `stackbasen`-objects converted to raw integers. |
 
 
 ---
@@ -144,12 +144,12 @@ interesting results.
 
 ## sbasen_convert_to_digits(sbasen_number)<a id='sbasen_convert_to_digits'></a>
 
-A function to convert [`stackbasen`](#stackbasen) objects into a list of digits
+A function to convert `stackbasen` objects into a list of digits
 presented as base-10 numbers. With most significant digit first.
 See `sbasen_convet_to_digits_lsd` for a variant with least significant
 digit first.
 
-Does not verify validity of those [`stackbasen`](#stackbasen) objects, so might generate
+Does not verify validity of those `stackbasen` objects, so might generate
 interesting results. If a digit does not fit the 0-9+A-Z range expect to
 see `false` in the list.
 
@@ -157,7 +157,7 @@ see `false` in the list.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| sbasen_number | stackbasen | the [`stackbasen`](#stackbasen)-object to turn to a digit    list |
+| sbasen_number | stackbasen | the `stackbasen`-object to turn to a digit    list |
 
 
 
@@ -172,12 +172,12 @@ see `false` in the list.
 
 ## sbasen_convert_to_digits_lsd(sbasen_number)<a id='sbasen_convert_to_digits_lsd'></a>
 
-A function to convert [`stackbasen`](#stackbasen) objects into a list of digits
+A function to convert `stackbasen` objects into a list of digits
 presented as base-10 numbers. With least significant digit first.
 See `sbasen_convet_to_digits` for a variant with most significant
 digit first.
 
-Does not verify validity of those [`stackbasen`](#stackbasen) objects, so might generate
+Does not verify validity of those `stackbasen` objects, so might generate
 interesting results. If a digit does not fit the 0-9+A-Z range expect to
 see `false` in the list.
 
@@ -185,7 +185,7 @@ see `false` in the list.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| sbasen_number | stackbasen | the [`stackbasen`](#stackbasen)-object to turn to a digit    list |
+| sbasen_number | stackbasen | the `stackbasen`-object to turn to a digit    list |
 
 
 
@@ -201,7 +201,7 @@ see `false` in the list.
 ## sbasen_output_force_case<a id='sbasen_output_force_case'></a>
 
 The option [`sbasen_output_force_case`](#sbasen_output_force_case) forces the presentation
-of digits in [`stackbasen`](#stackbasen) objects to be outputted in a particular case even
+of digits in `stackbasen` objects to be outputted in a particular case even
 if originally received in the other.
 
 By default this is `"preserve"` and the original inputted form will be used.
@@ -215,7 +215,7 @@ Note, affects validation display only if defined in the preamble.
 
 ## sbasen_texput_C_binary(sbasen_number)<a id='sbasen_texput_C_binary'></a>
 
-A function to convert singular C binary format [`stackbasen`](#stackbasen) object to
+A function to convert singular C binary format `stackbasen` object to
 a LaTeX string presentation. By default `\texttt{0b101}` is the output
 format.
 
@@ -241,7 +241,7 @@ match your needs.
 
 ## sbasen_texput_C_hex(sbasen_number)<a id='sbasen_texput_C_hex'></a>
 
-A function to convert singular C hex format [`stackbasen`](#stackbasen) object to
+A function to convert singular C hex format `stackbasen` object to
 a LaTeX string presentation. By default `\texttt{0xAbc1}` is the output
 format.
 
@@ -269,7 +269,7 @@ This function respects the option [`sbasen_output_force_case`](#sbasen_output_fo
 
 ## sbasen_texput_C_octal(sbasen_number)<a id='sbasen_texput_C_octal'></a>
 
-A function to convert singular C octal format [`stackbasen`](#stackbasen) object to
+A function to convert singular C octal format `stackbasen` object to
 a LaTeX string presentation. By default `\texttt{0755}` is the output
 format.
 
@@ -295,7 +295,7 @@ match your needs.
 
 ## sbasen_texput_suffix(sbasen_number)<a id='sbasen_texput_suffix'></a>
 
-A function to convert singular suffix format [`stackbasen`](#stackbasen) object to
+A function to convert singular suffix format `stackbasen` object to
 a LaTeX string presentation. By default `{\textrm{123}}_{10}` is the output format.
 
 Feel free to override this function in the preamble, if the style does not
@@ -322,7 +322,7 @@ This function respects the option [`sbasen_output_force_case`](#sbasen_output_fo
 
 ## sbasen_validate(expression)<a id='sbasen_validate'></a>
 
-Validates a [`stackbasen`](#stackbasen) object, i.e., checks that the "digits" are suitable
+Validates a `stackbasen` object, i.e., checks that the "digits" are suitable
 for the base. Returns either `true` for valid or a CASText fragment
 describing the issue.
 
@@ -352,13 +352,13 @@ just a prefix op is present.
 
 ## sbasen_validate_tree(expression)<a id='sbasen_validate_tree'></a>
 
-Validates [`stackbasen`](#stackbasen) objects present in the expression, i.e., checks that
+Validates `stackbasen` objects present in the expression, i.e., checks that
 the "digits" are suitable for the base. Returns either `true` for valid or
 a CASText fragment describing the issues.
 
 Suitable for bespoke validator use.
 
-Note that will not consider non existence of [`stackbasen`](#stackbasen) objects an issue.
+Note that will not consider non existence of `stackbasen` objects an issue.
 
 
 
@@ -377,7 +377,7 @@ Note that will not consider non existence of [`stackbasen`](#stackbasen) objects
 ---
 
 
-## stackbasen(textform,format,base)<a id='stackbasen'></a>
+## stackbasen(textform,format,base)<a id='stackbasen(textform,format,base)'></a>
 
 An object combining a textual presentation of a base-N number with details
 necessary for working with that number. Note that some details are overly

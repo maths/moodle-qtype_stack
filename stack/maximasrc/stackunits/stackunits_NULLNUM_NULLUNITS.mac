@@ -1,0 +1,40 @@
+/* NOTE! THIS FILE CONTAINS NO LOGIC! THIS COMMENT EXISTS TO COMMENT AN INERT
+   FUNCTION AND SOME SPECIAL VALUES. */
+
+/**
+ * An object combining a numerical value to an unit forming a dimensional
+ * quantity. Basically, a container keeping things together and allowing
+ * presentational adjustments as well as handling of special cases like 
+ * `stackunits(0,kg)` where is very different from `0*kg`, the latter will
+ * simply simplify away while the former does still maintain knowledge of
+ * the unit.
+ *
+ * Should you need to extract either part of the object, use the functions
+ * `stack_units_nums` and `stack_units_units`.
+ *
+ * See `NULLUNITS` and `NULLNUM` for special identifiers used in special cases.
+ *
+ * @inertfunction[] stackunits(number,unit)
+ * @param[expression] number, the numeric magnitude of this pair, can also
+ *    we a presentational accuracy wrapper like `dispdp` or `dispsf`
+ * @param[expression] unit, expression consisting of unit representing
+ *    identifiers, e.g, `kV`, `m/s` or `kg/cm^3`
+ * @return[stackbasen] returns itself, does not evaluate on its own
+ */
+
+/**
+ * Special value signifying that there is no magnitude or value component
+ * attached to a `stackunits`-object. Sometimes sensible to interpret as `1`.
+ *
+ * Do not assign anything to this, but do feel free to evaluate expressions
+ * with this having a value, e.g., `ev(...,NULLNUM=1)`.
+ *
+ * @unboundidentifier[] NULLNUM
+ */
+
+/**
+ * Special value signifying that there is no dimension or unit component
+ * attached to a `stackunits`-object. Basically, a dimensionless value.
+ *
+ * @unboundidentifier[] NULLUNITS
+ */

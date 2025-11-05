@@ -4,6 +4,8 @@
 [Tree index](index.md)
 
 
+- [NULLNUM](stackunits/index.md#NULLNUM)
+- [NULLUNITS](stackunits/index.md#NULLUNITS)
 - [backtosibase(expression)](stackunits/index.md#backtosibase)
 - [extract_matching_parts(predicate,expression)](expressions/extraction/index.md#extract_matching_parts)
 - [sbasen_bitwise_eval(basen_logic)](basen/binary/index.md#sbasen_bitwise_eval)
@@ -25,7 +27,8 @@
 - [sbasen_validate(expression)](basen/index.md#sbasen_validate)
 - [sbasen_validate_tree(expression)](basen/index.md#sbasen_validate_tree)
 - [stack_unit_si_to_si_base(expression)](stackunits/index.md#stack_unit_si_to_si_base)
-- [stackbasen(textform,format,base)](basen/index.md#stackbasen)
+- [stackbasen(textform,format,base)](basen/index.md#stackbasen(textform,format,base))
+- [stackunits(number,unit)](stackunits/index.md#stackunits(number,unit))
 - [str_to_html(string_to_escape)](strings/escapes/index.md#str_to_html)
 - [str_to_html_char(c)](strings/escapes/index.md#str_to_html_char)
 - [str_to_js(string_to_escape)](strings/escapes/index.md#str_to_js)

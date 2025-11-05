@@ -5,6 +5,27 @@
 ---
 
 
+## NULLNUM<a id='NULLNUM'></a>
+
+Special value signifying that there is no magnitude or value component
+attached to a `stackunits`-object. Sometimes sensible to interpret as `1`.
+
+Do not assign anything to this, but do feel free to evaluate expressions
+with this having a value, e.g., `ev(...,NULLNUM=1)`.
+
+
+---
+
+
+## NULLUNITS<a id='NULLUNITS'></a>
+
+Special value signifying that there is no dimension or unit component
+attached to a `stackunits`-object. Basically, a dimensionless value.
+
+
+---
+
+
 ## backtosibase(expression)<a id='backtosibase'></a>
 
 Converts units to SI-base units. Useful for comparison of values with
@@ -46,6 +67,38 @@ different units.
 | Return type | description |
 | ----------- | ------------|
 | expression | an expression with units mixed in or a    `stackunits`-object, with all units converted to SI base units. |
+
+
+---
+
+
+## stackunits(number,unit)<a id='stackunits(number,unit)'></a>
+
+An object combining a numerical value to an unit forming a dimensional
+quantity. Basically, a container keeping things together and allowing
+presentational adjustments as well as handling of special cases like
+`stackunits(0,kg)` where is very different from `0*kg`, the latter will
+simply simplify away while the former does still maintain knowledge of
+the unit.
+
+Should you need to extract either part of the object, use the functions
+`stack_units_nums` and `stack_units_units`.
+
+See [`NULLUNITS`](#NULLUNITS) and [`NULLNUM`](#NULLNUM) for special identifiers used in special cases.
+
+
+
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| number | expression | the numeric magnitude of this pair, can also    we a presentational accuracy wrapper like `dispdp` or `dispsf` |
+| unit | expression | expression consisting of unit representing    identifiers, e.g, `kV`, `m/s` or `kg/cm^3` |
+
+
+
+
+| Return type | description |
+| ----------- | ------------|
+| stackbasen | returns itself, does not evaluate on its own |
 
 
 ---

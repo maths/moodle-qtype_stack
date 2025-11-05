@@ -128,6 +128,13 @@ class stack_maxima_student_preparser {
                 $stringles = str_replace($key, $pat, $stringles);
             }
 
+            if ($parseroptions->rule === StackParserRule::Equivline) {
+                $stringles = str_replace('let ', '%%STACKLET%%', $stringles);
+                if (stack_string('equiv_LET') !== 'let') {
+                    $stringles = str_replace(stack_string('equiv_LET') . ' ', '%%STACKLETT%%', $stringles);
+                }
+            }
+
             // NOTE: this pattern "fixes" certain valid things like calling
             // the result of a group, but as this is only applied to student
             // input and especially that example is something we do not want
@@ -142,6 +149,13 @@ class stack_maxima_student_preparser {
             // Reverse safe spaces.
             foreach (self::$safespacepatterns as $key => $pat) {
                 $stringles = str_replace($pat, $key, $stringles);
+            }
+
+            if ($parseroptions->rule === StackParserRule::Equivline) {
+                $stringles = str_replace('%%STACKLET%%', 'let ', $stringles);
+                if (stack_string('equiv_LET') !== 'let') {
+                    $stringles = str_replace('%%STACKLETT%%', stack_string('equiv_LET') . ' ', $stringles);
+                }
             }
 
             if ($fixedspace && array_search('spaces', $answernote) === false) {

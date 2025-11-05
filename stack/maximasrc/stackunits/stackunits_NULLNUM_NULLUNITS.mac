@@ -19,7 +19,7 @@
  *    we a presentational accuracy wrapper like `dispdp` or `dispsf`
  * @param[expression] unit, expression consisting of unit representing
  *    identifiers, e.g, `kV`, `m/s` or `kg/cm^3`
- * @return[stackbasen] returns itself, does not evaluate on its own
+ * @return[stackunits] returns itself, does not evaluate on its own
  */
 
 /**

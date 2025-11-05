@@ -952,6 +952,7 @@ class stack_maxima_lexer_base {
             case 'thru':
             case 'while':
             case 'unless':
+            case 'let':
                 $token->type = StackMaximaTokenType::Keyword;
                 return $token;
             case '%':

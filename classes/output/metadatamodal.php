@@ -47,7 +47,6 @@ class metadatamodal implements renderable, templatable {
      */
     public function __construct() {
         global $PAGE;
-
         $PAGE->requires->js_call_amd('qtype_stack/metadata/metadatamodal', 'init');
     }
 

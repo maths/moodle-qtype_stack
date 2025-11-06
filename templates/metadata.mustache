@@ -12,21 +12,19 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_nosferatu/local/beginner/city
+    @template qtype_stack/metadata
 
-    This component renders all people in the city.
 
     Example context (json):
     {
     }
 }}
-<div  id="qtype-stack-metadata-main">
-    <div data-for="metadata-contrib">
-
-    </div>
+<div id="qtype-stack-metadata-main">
+    <ul class="qtype_stack_contrib">
+        {{#contributor}}
+            <li>
+                {{firstName}} {{lastName}}
+            </li>
+        {{/contributor}}
+    </ul>
 </div>
-{{#js}}
-require(['qtype_stack/metadata/container'], function(component) {
-    component.init('#qtype-stack-metadata-main');
-});
-{{/js}}

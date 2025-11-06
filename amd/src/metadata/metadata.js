@@ -24,37 +24,12 @@ import {Reactive} from 'core/reactive';
 import {mutations} from 'qtype_stack/metadata/mutations';
 import {eventTypes, notifyQtypeStackStateUpdated} from 'qtype_stack/metadata/events';
 
-const state = {
-    'people': [
-        {
-            id: 1,
-            name: 'Carlos',
-            bitten: false,
-        },
-        {
-            id: 2,
-            name: 'Amaia',
-            bitten: false,
-        },
-        {
-            id: 3,
-            name: 'Sara',
-            bitten: false,
-        },
-        {
-            id: 4,
-            name: 'Ilya',
-            bitten: true,
-        },
-        {
-            id: 5,
-            name: 'Ferran',
-            bitten: false,
-        },
-    ],
-};
-
 class StackMetadata extends Reactive {
+    loadState() {
+        let metadata = document.querySelector('input[name="metadata"]');
+        metadata = JSON.parse(metadata?.value);
+        this.setInitialState(metadata);
+    }
 }
 
 /**
@@ -64,14 +39,7 @@ export const metadata = new StackMetadata({
     name: 'qtype_stack_metadata',
     eventName: eventTypes.qtypeStackStateUpdated,
     eventDispatch: notifyQtypeStackStateUpdated,
-    state,
     mutations,
 });
 
-/**
- * Load the initial state.
- */
-export const init = () => {
-    //state.metadata = JSON.parse(metadata);
-};
 

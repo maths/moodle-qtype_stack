@@ -31,10 +31,17 @@
 {{< core/modal }}
     {{$title}}{{#str}} login {{/str}}{{/title}}
     {{$body}}
-        <div class="container">
-            {{> qtype_stack/metadata}}
+        <div id="qtype-stack-metadata-main">
+            <div data-for="qtype-stack-metadata">
+
+            </div>
         </div>
     {{/body}}
     {{$footer}}
     {{/footer}}
 {{/ core/modal }}
+{{#js}}
+require(['qtype_stack/metadata/container'], function(component) {
+    component.init('#qtype-stack-metadata-main');
+});
+{{/js}}

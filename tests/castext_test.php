@@ -3141,4 +3141,28 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $this->assertEquals($exp, $at1->get_rendered());
     }
+
+    /**
+     * Systematic regex tests at thecastext level, issue #1623.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_regex(): void {
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2([], $options, 0);
+        $raw = '{@regex_match("[1][.]?[0]", "1.0")@}, {@regex_match("[-][1][.]?[0]", "-1.0")@}, ' .
+               '{@regex_match("[-]?[1][.]?[0]", "1.0")@}, {@regex_match("-?[1][.]?[0]", "1.0")@}, ' .
+               '{@regex_match("[\\-]?[1][.]?[0]", "1.0")@}, {@regex_match("[-+]?[1][.]?[0]", "1.0")@}, ' .
+               '{@regex_match("[+-]?[1][.]?[0]", "1.0")@}, {@regex_match("a?", "a")@}.';
+        $exp = '\({\left[ \text{1.0} \right]}\), \({\left[ \text{-1.0} \right]}\), ' .
+               '\({\left[ \text{1.0} \right]}\), \({\left[ \text{1.0} \right]}\), ' .
+               '\({\left[ \text{1.0} \right]}\), \({\left[ \text{1.0} \right]}\), ' .
+               '\({\left[ \text{1.0} \right]}\), \({\left[ \text{a} \right]}\).';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
 }

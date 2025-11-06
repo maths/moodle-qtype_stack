@@ -99,7 +99,7 @@ class stack_parser_error_interpreter {
             }
         }
 
-
+        // Unexpected stop?
         if ($exception->received === null && array_search('END_OF_INPUT', $groupped) === false) {
             // Was not expecting the input to end.
             // Check various cases and leave room for a general one.
@@ -149,6 +149,7 @@ class stack_parser_error_interpreter {
             }
         }
 
+        // Odd pairs?
         if ($exception->previous !== null && $exception->received !== null
             && $exception->previous->type === StackMaximaTokenType::Symbol
             && $exception->received->type === StackMaximaTokenType::Symbol) {
@@ -172,6 +173,7 @@ class stack_parser_error_interpreter {
             }
         }
 
+        // Unexpected tokens?
         if ($exception->received !== null) {
             if ($exception->received->type === StackMaximaTokenType::Symbol) {
                 switch ($exception->received->value) {
@@ -257,6 +259,25 @@ class stack_parser_error_interpreter {
             }
 
         }
+
+        // The final token is a problem?
+        if ($exception->received !== null && count($errors) === 0
+            && strlen(rtrim($exception->original)) === $exception->received->endchar) {
+            if ($exception->received->type === StackMaximaTokenType::Symbol) {
+                if (strlen($exception->received->value) === 1) {
+                    $a['char'] = $exception->received->value;
+                    $a['cmd']  = stack_maxima_format_casstring($exception->original);
+                    $errors[] = stack_string('stackCas_finalChar', $a);
+                    $answernote[] = 'finalChar';
+                } else {
+                    $a['token'] = $exception->received->value;
+                    $a['cmd']  = stack_maxima_format_casstring($exception->original);
+                    $errors[] = stack_string('stackCas_finalToken', $a);
+                    $answernote[] = 'finalToken';
+                }
+            }
+        }
+
 
         if ($exception->getMessage() === 'No action available' && count($errors) === 0) {
             // General unexpected input token.

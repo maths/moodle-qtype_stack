@@ -1629,6 +1629,9 @@ abstract class stack_input {
             'decimal' => $decimal,
             'listsep' => $listsep,
         ];
+        if ($this->get_extra_option('basen', false) === true) {
+            $params['reverstackbasen'] = true;
+        }
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
         }

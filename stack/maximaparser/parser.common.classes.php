@@ -108,6 +108,9 @@ class stack_maxima_parser_table_holder {
      * If no match is available null will be returned.
      */
     public function get_action(int $state, String $token): ?array {
+        if (!isset($this->terminals[$token])) {
+            return null; // "let" or other special keyword not present in this grammar.
+        }
         $t = $this->terminals[$token];
         if (!isset($this->table[$state]) || !isset($this->table[$state][$t])) {
             return null;

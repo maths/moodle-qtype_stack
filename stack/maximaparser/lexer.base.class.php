@@ -918,6 +918,14 @@ class stack_maxima_lexer_base {
                 }
                 $this->pushc($tc);
                 return $token;
+            case 'let':
+                if ($this->options->rule !== StackParserRule::Equivline) {
+                    // To save the parser from doing the KW->ID thing
+                    // only mark "let" as keyword in the grammar that
+                    // uses it.
+                    $token->type = StackMaximaTokenType::IdAtom;
+                    return $token;
+                }
             case '%not':
             case '%and':
             case '%or':
@@ -952,7 +960,6 @@ class stack_maxima_lexer_base {
             case 'thru':
             case 'while':
             case 'unless':
-            case 'let':
                 $token->type = StackMaximaTokenType::Keyword;
                 return $token;
             case '%':

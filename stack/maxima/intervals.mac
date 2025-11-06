@@ -79,18 +79,17 @@ oc_num(x,y) := block([Ans],
 /* Validate student's input. */
 
 /* Return a list of errors for a single connected component. */ 
-interval_validate_single_interval(ex) := block([iop, il, ir],
+interval_validate_single_interval(ex) := block([_il, _ir],
     if trivialintervalp(ex) then return(""),
     if not(intervalp(ex)) then
         return(StackAddFeedback("", "Interval_notinterval", stack_disp(ex, "i"))),
     if not(is(length(args(ex))=2)) then
         /* The tex functions only cope with two arguments, so we have to use a string here! */
         return(StackAddFeedback("", "Interval_wrongnumargs", stack_disp(string(ex), "i"))),
-    iop:op(ex),
-    il:first(args(ex)),
-    ir:second(args(ex)),
-    if real_numberp(il) and real_numberp(ir) and is(ir<il) then       
-        return(StackAddFeedback("", "Interval_backwards", stack_disp(ex, "i"), stack_disp(apply(iop,[ir, il]), "i"))),
+    _il:first(args(ex)),
+    _ir:second(args(ex)),
+    if real_numberp(_il) and real_numberp(_ir) and is(_ir<_il) then       
+        return(StackAddFeedback("", "Interval_backwards", stack_disp(ex, "i"), stack_disp(apply(op(ex), [_ir, _il]), "i"))),
     return("")  
 )$
 
@@ -99,51 +98,49 @@ interval_validate_realset(ex) := block(
     if trivialintervalp(ex) then return(""),
     if setp(ex) then return(""),
     if intervalp(ex) then return(interval_validate_single_interval(ex)),
-    if safe_op(ex)="%union" then return(apply(sconcat, maplist(interval_validate_realset, args(ex)))),
-    if safe_op(ex)="%intersection" then return(apply(sconcat, maplist(interval_validate_realset, args(ex)))),
+    if safe_op(ex)="%union" then return(apply('sconcat, maplist('interval_validate_realset, args(ex)))),
+    if safe_op(ex)="%intersection" then return(apply('sconcat, maplist('interval_validate_realset, args(ex)))),
     return(StackAddFeedback("", "Interval_illegal_entries", stack_disp(ex, "i")))
 )$
 
-cc_interval_tex(ex) := block([a, b],
-    a:first(args(ex)),
-    b:second(args(ex)),
-    concat("\\left[ ", tex1(a),",\\, ",tex1(b), "\\right]")
+cc_interval_tex(ex) := block([_a, _b],
+    _a:first(args(ex)),
+    _b:second(args(ex)),
+    concat("\\left[ ", tex1(_a),",\\, ",tex1(_b), "\\right]")
 )$
 texput(cc, cc_interval_tex)$
 
 /* Note, the mismatching square brackets play havoc with the PHP interface. */
-co_interval_tex(ex) := block([a, b],
-    a:first(args(ex)),
-    b:second(args(ex)),
-    /*concat("\\left[ ", tex1(a),",\\, ",tex1(b), "\\right)")*/
-    concat("!LEFTSQ! ", tex1(a),",\\, ",tex1(b), "!RIGHTR!")
+co_interval_tex(ex) := block([_a, _b],
+    _a:first(args(ex)),
+    _b:second(args(ex)),
+    concat("!LEFTSQ! ", tex1(_a),",\\, ",tex1(_b), "!RIGHTR!")
 )$
 texput(co, co_interval_tex)$
 
-oc_interval_tex(ex) := block([a, b],
-    a:first(args(ex)),
-    b:second(args(ex)),
-    /*concat("\\left( ", tex1(a),",\\, ",tex1(b), "\\right]")*/
-    concat("!LEFTR! ", tex1(a),",\\, ",tex1(b), "!RIGHTSQ!")
+oc_interval_tex(ex) := block([_a, _b],
+    _a:first(args(ex)),
+    _b:second(args(ex)),
+    concat("!LEFTR! ", tex1(_a),",\\, ",tex1(_b), "!RIGHTSQ!")
 )$
 texput(oc, oc_interval_tex)$
 
-oo_interval_tex(ex) := block([a, b],
-    a:first(args(ex)),
-    b:second(args(ex)),
-    concat("\\left( ", tex1(a),",\\, ",tex1(b), "\\right)")
+oo_interval_tex(ex) := block([_a, _b],
+    _a:first(args(ex)),
+    _b:second(args(ex)),
+    concat("\\left( ", tex1(_a),",\\, ",tex1(_b), "\\right)")
 )$
 texput(oo, oo_interval_tex)$
 
-realset_tex(ex) := block([a, b, c],
+realset_tex(ex) := block([_a, _b, _c],
     if not(length(args(ex))=2) then error("realset: this function must have two arguments."),
-    a:first(args(ex)),
-    b:second(args(ex)),
-    c:ev(interval_complement(b), simp),
-    if safe_setp(c) then
-        concat("{", tex1(a), " \\not\\in {",tex1(c), "}}")
+    _a:first(args(ex)),
+    _b:second(args(ex)),
+    _c:ev(interval_complement(_b), simp),
+    if safe_setp(_c) then
+        concat("{", tex1(_a), " \\not\\in {",tex1(_c), "}}")
     else
-        concat("{", tex1(a), " \\in {",tex1(b), "}}")
+        concat("{", tex1(_a), " \\in {",tex1(_b), "}}")
 )$
 texput(realset, realset_tex)$
 
@@ -271,7 +268,7 @@ interval_count_components(ex) := block(
     if trivialintervalp(ex) then return(0),
     if intervalp(ex) then return(1),
     if setp(ex) then return(cardinality(ex)),
-    ev(apply("+", map(interval_count_components, args(ex))), simp)
+    ev(apply("+", map('interval_count_components, args(ex))), simp)
 )$
 
 interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1, n],
@@ -602,8 +599,7 @@ interval_sort(X) := block([A:X, Ans:[], x, n, i],
     if safe_op(X) = "%union" then A:args(X),
 
     n:length(A),
-    while n>0 do
-        (
+    while n>0 do block(
         x:A[1],
         i:2,
         while i<n+1 do block(
@@ -621,72 +617,69 @@ interval_sort(X) := block([A:X, Ans:[], x, n, i],
 
 /* Given a union of disjoint intervals,
    checks whether any intervals are connected, and if so, joins them up and returns the ammended union. */
-interval_connect(X) := block([Ans, n, x, y, i:1],
-    if not(safe_op(X)="%union" or listp(X)) then error("interval_connect requires a %union or list of intervals."),
-    Ans:args(X),
-    n:length(Ans),
-    while i<n do (
-        i:ev(i,simp),
-        if last( Ans[i] ) >= first( Ans[ev(i+1, simp)] ) then
-            (
-            x:interval_simple_union( Ans[i], Ans[ev(i+1, simp)] ),
-            if (not op(x) = "[" ) then
-                (
-                Ans:delete( Ans[ev(i+1, simp)], Ans, 1 ),
-                Ans:delete( Ans[i], Ans, 1 ),
-                Ans:append( Ans, [x] ),
-                i:ev(i-1, simp),
-                n:ev(n-1, simp)
+interval_connect(ex) := block([_ans, _n, _x, _y, _i:1],
+    if not(safe_op(ex)="%union" or listp(ex)) then error("interval_connect requires a %union or list of intervals."),
+    _ans:args(ex),
+    _n:length(_ans),
+    while _i<_n do (
+        _i:ev(_i, simp),
+        if last(_ans[_i]) >= first(_ans[ev(_i+1, simp)]) then block(
+            _x:interval_simple_union(_ans[_i], _ans[ev(_i+1, simp)]),
+            if (not safe_op(_x) = "[" ) then block(
+                _ans:delete(_ans[ev(_i+1, simp)], _ans, 1),
+                _ans:delete(_ans[_i], _ans, 1 ),
+                _ans:append(_ans, [_x] ),
+                _i:ev(_i-1, simp),
+                _n:ev(_n-1, simp)
                 )
             ),
-        i:ev(i+1, simp)
+        _i:ev(_i+1, simp)
         ),
-    if length(Ans) = 1 then return(Ans[1]),
-    Ans:apply(%union, Ans),
-    Ans
-);
+    if length(_ans) = 1 then return(_ans[1]),
+    apply('%union, _ans)
+)$
 
-/* Given a union of disjoint sets, returns the "canonical form" of this union: */
-interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
-    X:ev(X, simp),
-    if X=all then return(all),
-    if atom(X) then return(Ans:phi),
-    if listp(X) then X:ev(apply(%union, X), simp),
-    X:ev(X, %intersection=interval_intersect_nary, simp),
+/* Given a union of disjoint sets, returns the "canonical form" of this union. */
+interval_tidy(ex) := block([_a, _ans:[], _n, _setpart:{}, _x, _y, _i:1],
+    ex:ev(ex, simp),
+    if ex=all then return(all),
+    if atom(ex) then return(_ans:phi),
+    if listp(ex) then ex:ev(apply('%union, ex), simp),
+    ex:ev(ex, %intersection=interval_intersect_nary, simp),
 
-    if not(safe_op(X)="%union" or listp(X)) then (
-        Ans:X
+    if not(safe_op(ex)="%union" or listp(ex)) then block(
+        _ans:ex
     ) else (
-        A:args(X),
-        i:1,
-        n:length(A),
-        while i<ev(n+1, simp) do (
-            i:ev(i,simp),
+        _a:args(ex),
+        _i:1,
+        _n:length(_a),
+        while _i<ev(_n+1, simp) do block(
+            _i:ev(_i, simp),
             /* Combine all sets into one set, i.e. setpart. */
-            if safe_setp(A[i]) then (
-                setpart:union(setpart, A[i]),
-                A:delete(A[i], A, 1),
-                i:ev(i-1, simp),
-                n:ev(n-1, simp)
-            ) else if trivialintervalp(A[i]) then (
-                A:delete(A[i], A, 1),
-                i:ev(i-1, simp),
-                n:ev(n-1, simp)
+            if safe_setp(_a[_i]) then (
+                _setpart:union(_setpart, _a[_i]),
+                _a:delete(_a[_i], _a, 1),
+                _i:ev(_i-1, simp),
+                _n:ev(_n-1, simp)
+            ) else if trivialintervalp(_a[_i]) then block(
+                _a:delete(_a[_i], _a, 1),
+                _i:ev(_i-1, simp),
+                _n:ev(_n-1, simp)
                 ),
-            i:ev(i+1, simp)
+            _i:ev(_i+1, simp)
             ),
-            A:interval_sort(A),
-            if is(length(A)>1) then
-                A:interval_connect(A),
-            if length(setpart)>0 then A:append(args(A), [setpart]),
-            if is(A=[]) then
-                A:{}
-            elseif is(length(A)=1) then
-                A:first(A),
-            Ans:A
+            _a:interval_sort(_a),
+            if is(length(_a)>1) then
+                _a:interval_connect(_a),
+            if length(_setpart)>0 then _a:append(args(_a), [_setpart]),
+            if is(_a=[]) then
+                _a:{}
+            elseif is(length(_a)=1) then
+                _a:first(_a),
+            _ans:_a
         ),
-        if Ans=oo(-inf,inf) then return(all),
-        Ans
+        if _ans=oo(-inf,inf) then return(all),
+        _ans
 )$
 
 interval_complement_order_points(X):=
@@ -768,7 +761,7 @@ interval_complement(A):= block([Ans:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:o
                 Ans:Ans[1]
         ),
     if listp(Ans) then
-       Ans:apply(%union, Ans),
+       Ans:apply('%union, Ans),
     Ans
 )$
 
@@ -789,7 +782,7 @@ interval_set_complement(X):= block([A:X, Ans:[], temp, n, i:1],
     temp:oo(A[n], inf),
     temp:[temp],
     Ans:append(Ans, temp),
-    apply(%union, Ans)
+    apply('%union, Ans)
 )$
 
 /* Turns a single variable system over the reals into a set of real numbers,
@@ -887,7 +880,7 @@ stack_single_variable_solver_equation(ex, v) := block([sol0, sol1, sol2],
     /* We need the "freeof" clause to catch rearrangements of equations. */
     sol1:sublist(sol0, lambda([ex2], is(lhs(ex2)=v) and freeof(v, rhs(ex2)))),
     sol2:sublist(sol0, lambda([ex2], not(is(lhs(ex2)=v) and freeof(v, rhs(ex2))))),
-    sol1:maplist(rhs,sol1),
+    sol1:maplist('rhs, sol1),
     if emptyp(sol1) then
         return({}),
     sol1:flatten(setify(sol1)),
@@ -899,33 +892,33 @@ stack_single_variable_solver_equation(ex, v) := block([sol0, sol1, sol2],
 )$
 
 /* Calculate the natural domain of a single-variable term.  */
-natural_domain(ex) := block([v, ex2, simp,  logexpand],
+natural_domain(ex) := block([_v, ex2, simp, logexpand],
     logexpand:false,
     /* This function requires internal simplification. */
     simp:true,
     if atom(ex) then return(all),
-    v:listofvars(ex),
-    if is(v=[]) then return(all),
-    if ev(not(is(length(v)=1)), simp) then return(unknown),
+    _v:listofvars(ex),
+    if is(_v=[]) then return(all),
+    if ev(not(is(length(_v)=1)), simp) then return(unknown),
     /* We only work over real expressions. */
     if not(is(freeof(%i, ex))) then return(unknown),
     /* We only calculate domains of some things. */
-    if not(is(freeof(sum, ex))) then return(unknown),
-    if not(is(freeof(int, ex))) then return(unknown),
-    v:first(v),
+    if not(is(freeof('sum, ex))) then return(unknown),
+    if not(is(freeof('int, ex))) then return(unknown),
+    _v:first(_v),
     /* Recurse using true/false instead of all/none, then convert. */
     ex2:natural_domain_rec(ex),
-    if realset_soft_p(ex2) then ex2:realsetmake(v, ex2),
+    if realset_soft_p(ex2) then ex2:realsetmake(_v, ex2),
     ex2
 )$
 
 /* Calculate the natural domain of a single-variable term.  */
-natural_domain_rec(ex) := block([v, ex2],
+natural_domain_rec(ex) := block([_v, ex2],
     if atom(ex) then return(all),
-    v:listofvars(ex),
-    if is(v=[]) then return(all),
-    if not(is(length(v)=1)) then return(unknown),
-    v:first(v),
+    _v:listofvars(ex),
+    if is(_v=[]) then return(all),
+    if not(is(length(_v)=1)) then return(unknown),
+    _v:first(_v),
 
     if safe_op(ex)="sqrt" then
         return(stack_single_variable_solver(first(args(ex))>=0)),
@@ -934,8 +927,8 @@ natural_domain_rec(ex) := block([v, ex2],
     if safe_op(ex)="/" then
         return(natural_domain_div(ex)),
     if safe_op(ex)="^" then
-        return(natural_domain_exp(ex, v)),
-    ex2:map(natural_domain_rec, args(ex)),
+        return(natural_domain_exp(ex, _v)),
+    ex2:map('natural_domain_rec, args(ex)),
     /* We have to strip of the realset bit before intersecting. */
     ex2:map(lambda([ex3], if is(safe_op(ex3)="realset") then second(ex3) else ex3), ex2),
     /* Only return a define value if we really have one. */
@@ -959,7 +952,7 @@ natural_domain_div(ex) := block([dom0,dom1,dom2,dom3],
   /* If we can't solve denom=0 then we assume we have no zeros. */
   if not(realsetp(dom3)) then dom3:none,
   dom3:interval_set_complement(dom3),  
-  dom0:apply(%intersection,[dom1,dom2,dom3]),
+  dom0:apply('%intersection, [dom1, dom2, dom3]),
   ev(interval_tidy(dom0), simp)
 )$
 

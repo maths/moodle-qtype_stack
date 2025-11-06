@@ -2,9 +2,9 @@
 
 The prototype test is to establish if two expressions are _algebraically equivalent_.  This page documents this, and similar, equivalence tests.
 
-A crucial component in the assessment process the ability to decide if two expressions are equivalent.  It turns out there are many useful senses when trying to assess students' answers.
+The ability to decide if two expressions are equivalent is crucial.  There are many useful senses when trying to assess students' answers.
 
-Let us assume a teacher has asked a student to expand out \((x+1)^2\) and the response they have from one student is \(x^2+x+x+1\). This is "correct" in the sense that it is algebraically equivalent to \((x+1)^2\) and is in expanded form (actually two separate mathematical properties) but "incorrect" in the sense that the student has not _gathered like terms_ by performing an addition \(x+x\). What about a response \(2x+x^2+1\)?  This is, arguably, better in the sense that the terms are gathered, but the student here did not _order_ the terms to write their expression in canonical form. Hence, we need quite a number of different answer tests to establish equality in various senses of the word.
+Assume a teacher has asked a student to expand out \((x+1)^2\) and the response they have from one student is \(x^2+x+x+1\). This is "correct" in the sense that it is algebraically equivalent to \((x+1)^2\) and is in expanded form (actually two separate mathematical properties) but "incorrect" in the sense that the student has not _gathered like terms_ by performing an addition \(x+x\). What about a response \(2x+x^2+1\)?  This is, arguably, better in the sense that the terms are gathered, but the student here did not _order_ the terms to write their expression in canonical form. Hence, we need quite a number of different answer tests to establish equality in various senses of the word.
 
 This list is in approximate order of the size of the equivalence classes from most to least restrictive.
 
@@ -125,4 +125,4 @@ As the test allows for polynomials in several variables, it can cope with the in
 * This test does not check if the student actually "fully solved" the equations!  E.g. \[ [x^2=1] \equiv [(x-1)\cdot (x+1)=0] \] under this test.
 * This test disregards whether [simplification](../../CAS/Simplification.md) is switched on, it only simplifies its arguments where required.
 This allows the test to list equations in feedback that the student has erroneously included in their system.
-* You can allow the student to include "redundant assignments".  For example, if you have `[90=v*t,90=(v+5)*(t-1/4)]` but the student has `[d=90,d=v*t,d=(v+5)*(t-1/4)])` then the systems are not equivalent, becuase the student has an extra variable.  Use `stack_eval_assignments` to eliminate explicit assignments of the form `var=num` and evaluate the other expression in this context.
+* You can allow the student to include "redundant assignments".  For example, if you have `[90=v*t,90=(v+5)*(t-1/4)]` but the student has `[d=90,d=v*t,d=(v+5)*(t-1/4)])` then the systems are not equivalent, because the student has an extra variable.  Use `stack_eval_assignments` to eliminate explicit assignments of the form `var=num` and evaluate the other expression in this context.

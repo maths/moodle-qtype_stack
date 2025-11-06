@@ -25,14 +25,14 @@ stackmap_get_ifexists(m, k) := block([],
 
 stackmap_set(m, k, v) := block([],
  /* If we are given anything else than a map as the map we make a new map. */
- if not is_stackmap(m) then return(["stack_map",[k,v]]),
+ if not is_stackmap(m) then return(["stack_map", [k, v]]),
  /* Find all others. */
- return(append(["stack_map"],sublist(rest(m,1), lambda([x],is(x[1]#k))),[[k,v]]))
+ return(append(["stack_map"], sublist(rest(m, 1), lambda([x], is(x[1]#k))), [[k, v]]))
 )$
 
 stackmap_unset(m, k) := block([],
  if not is_stackmap(m) then return(und),
- return(append(["stack_map"],sublist(rest(m,1), lambda([x],is(x[1]#k)))))
+ return(append(["stack_map"], sublist(rest(m, 1), lambda([x], is(x[1]#k)))))
 )$
 
 stackmap_keys(m) := block([],
@@ -225,12 +225,12 @@ stackjson_stringify(obj) := block([tmp,r,l],
  /*           3a. Pass each batch to `sconcat` to create a batch string of length 64. */
  /*         3b. Successively `sconcat` each batch on to the result string. */
  /* Note that this can be achieved in a simpler way by using `simplode`, which was the case in the prior code. */
- /* Prior code: `r : sconcat("\"",simplode(map(stackjson_protect_escapes, charlist(obj))),"\"")` */
+ /* Prior code: `r : sconcat("\"",simplode(map('stackjson_protect_escapes, charlist(obj))), "\"")` */
  /* However, there is evidence showing that this code is quadratic and that the batch optimisation helps to alleviate this. */
  /* See here: https://docs.stack-assessment.org/en/Developer/Optimising_STACK_for_large_Maxima_variables/ for more details. */
  else if stringp(obj) then block([char_list, batch_size, i, j],
   /* Create character list with escapes protected */
-  char_list: map(stackjson_protect_escapes, charlist(obj)),
+  char_list: map('stackjson_protect_escapes, charlist(obj)),
   /* Set batch size to 64, which is inferred from the maximum function argument limit in GCL-compiled Lisp. Other compilations (e.g., SBCL) are less limited in this respect. */
   batch_size: 64,
   /* Start the return string */
@@ -249,7 +249,7 @@ stackjson_stringify(obj) := block([tmp,r,l],
     ),
     /* Pass the batch to sconcat, and then append the resultant batch string to the return string */
     /* Note that reverse is required due to the push-popping when creating the batch */
-    r: sconcat(r, apply(sconcat, reverse(batch))),
+    r: sconcat(r, apply('sconcat, reverse(batch))),
     i: ev(i + 1, simp)
   ),
   /* End the return string */
@@ -382,7 +382,7 @@ stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount
    if (integerp(sposition("\"", _tmp))) then (
     _wrap: true,
     /* Tricky bit we need to replace " with "" here, so ssubst just won't do. */
-    _tmp: simplode(maplist(lambda([c],if is(c="\"") then "\"\"" else c), charlist(_tmp)))
+    _tmp: simplode(maplist(lambda([c], if is(c="\"") then "\"\"" else c), charlist(_tmp)))
    ),
    /* If any line changes are in play wrap. */
    if (integerp(sposition("

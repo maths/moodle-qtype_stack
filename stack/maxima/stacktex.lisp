@@ -421,10 +421,25 @@
 
 ;; *************************************************************************************************
 
+;; This is the default behaviour.
+(defmspec $mminusbp134 (x)
+  (setq x (car x))
+  (defprop mminus 134. rbp)
+  (defprop mminus 100. lbp)
+  '$done
+)
+
 (defmspec $mminusbp120 (x)
   (setq x (car x))
   (defprop mminus 120. rbp)
   (defprop mminus 120. lbp)
+  '$done
+)
+
+(defmspec $mminusbp101 (x)
+  (setq x (car x))
+  (defprop mminus 101. rbp)
+  (defprop mminus 100. lbp)
   '$done
 )
 
@@ -610,7 +625,7 @@
      (if need-to-close-texport
 	    (close texport))
      (return mexplabel)))
-     
+
 ;; *************************************************************************************************
 ;; Added 3 Aug 2025.
 ;; 
@@ -643,5 +658,15 @@
       )
    )
 )
+
+;; *************************************************************************************************
+;; Added 30 Oct 2025.
+(defprop $disp_parens msz-disp_parens grind)
+(defun msz-disp_parens (x l r)
+  (let* ((expr (cadr x))
+         (inner (mstring expr)))
+    (msz (append (makestring "(") inner (makestring ")")) l r)))
+
+;;(msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
 
 

@@ -2,9 +2,9 @@
 
 ## Introduction and use
 
-This is a markdown copy of a summary of *a pocket map of algebreic manipulation* by Tony Barnard. The original PDF summary is available as a [PDF](../../../static/Barnard.pdf) and the [TeX source code](../../../static/Barnard.tex).
+This is a markdown copy of a summary of *a pocket map of algebraic manipulation* by Tony Barnard. The original PDF summary is available as a [PDF](../../../static/Barnard.pdf) and the [TeX source code](../../../static/Barnard.tex).
 
-The numbering of sections in this document coresponds to the numbering of questions and quizzes in the questions in the library.
+The numbering of sections in this document corresponds to the numbering of questions and quizzes in the questions in the library.
 
 ## The Map of Algebraic Manipulation
 
@@ -47,22 +47,13 @@ Negative and fractional powers  \(\quad\rightarrow\quad\)  **Example:**  \(2^{-1
 
 Prime factorisations  \(\quad\rightarrow\quad\)   **Example:**  \(228 = 2^2 \times 3 \times 19\), \(1734 = 2 \times 3 \times 17^2\).
 
-
-
-
 Highest common factor  \(\quad\rightarrow\quad\)  **Example:**   HCF of \(228\) and \(1734\) is \(2 \times 3 = 6\).
-
-
 
 Least common multiple   \(\quad\rightarrow\quad\)  **Example:**  LCM of \(228\) and \(1734\) is \(2^2 \times 3 \times 17^2 \times 19 = 65892\).
 
 Reduction of fractions to lowest terms   \(\quad\rightarrow\quad\)  **Example:**  \(\frac{10}{18} = \frac{5}{9}\).
 
-
-
 Change of improper fractions to mixed fractions, and vice-versa \(\quad\rightarrow\quad\)  **Example:**  \(\frac{13}{5} = 2\frac{3}{5}\), \(1\frac{7}{8} = \frac{15}{8}\).
-
-
 
 Products and quotients of surds 
 \(\quad\rightarrow\quad\)  **Example:**  \(\sqrt{12} \times \sqrt{6} = \sqrt{2^2 \times 3} \times \sqrt{2 \times 3} = 2 \times 3 \times \sqrt{2} = 6\sqrt{2}\), 
@@ -74,17 +65,13 @@ Products and quotients of surds
 ### 3.1 Nature of denominators
 
 Same denominator \(\quad\rightarrow\quad\)  **Example:**  \(\frac{4}{7} + \frac{2}{7}\), \(\frac{5}{6} - \frac{1}{6}\).
- 
 
 One denominator a multiple of the other   \(\quad\rightarrow\quad\)  **Example:**  \(\frac{1}{4} + \frac{5}{12}\), \(\frac{9}{10} - \frac{4}{5}\).
- 
 
 Denominators having no common factor\(\quad\rightarrow\quad\)  **Example:**  \(\frac{2}{3} + \frac{4}{7}\), \(\frac{5}{8} - \frac{1}{3}\).
  
 Denominators having a common factor \(\quad\rightarrow\quad\)   **Example:**  \(\frac{4}{9} + \frac{1}{6}\), \(\frac{7}{12} - \frac{3}{8}\).
  
-
-
 ### 3.2 Mixed numbers
 
 (Addition) Fractional parts adding to less than \(1\)  \(\quad\rightarrow\quad\)   **Example:**  \(1\frac{3}{16} + 2\frac{3}{4} = 3\frac{15}{16}\)
@@ -93,12 +80,9 @@ Denominators having a common factor \(\quad\rightarrow\quad\)   **Example:**  \(
  
 
 (Subtraction) Fractional part of smaller fraction less than fractional part of greater fraction \(\quad\rightarrow\quad\)   **Example:**  \(4\frac{5}{6} - 2\frac{3}{4} = 2\frac{1}{12}\)
- 
-
- 
+  
 (Subtraction) Fractional part of smaller fraction greater than fractional part of greater fraction \(\quad\rightarrow\quad\)   **Example:**  \(5\frac{1}{6} - 3\frac{4}{9} = 1\frac{13}{18}\)
-
-    
+   
 
 ### 3.3 Number of fractions
  
@@ -117,9 +101,7 @@ Fraction minus itself; e.g. \(\frac{4}{5} - \frac{4}{5}\). \(x - x = 0\), rather
 ### 4.1 Nature of component fractions
  
 Fraction times whole number which is relatively prime to the denominator \(\quad\rightarrow\quad\)   **Example:**  \(\frac{2}{9} \times 4\)
-   
-
-
+  
 Fraction times whole number which is a factor of the denominator (cancelling involved)  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{3}{8} \times 4\)
  
 Fraction times whole number which has a factor in common with the denominator (cancelling involved)  \(\quad\rightarrow\quad\)   **Example:**  \(\frac{5}{12} \times 9\)
@@ -139,7 +121,6 @@ Fraction divided by fraction with no cancelling involved \(\quad\rightarrow\quad
 Fraction divided by fraction with cancelling involved \(\quad\rightarrow\quad\)   **Example:**  \(\frac{6}{7} \div \frac{9}{14}\)
  
 #### 14.1.1 Mixed numbers
-
 
 In question \(\quad\rightarrow\quad\)   **Example:**  \(1\frac{1}{5} \times \frac{1}{3} = \frac{2}{5}\), \(3 \div 4\frac{1}{2} = \frac{2}{3}\).
 
@@ -168,7 +149,6 @@ Including fractions in which the numerator and denominator are themselves a sum 
 
 \[5\frac{1}{4} - \left(1\frac{1}{5} \times \frac{15}{16} \right),\ \left( \frac{3}{10} \div \frac{1}{4} \right)  + 2 \frac{1}{5},\ 3\frac{3}{8} \left(  4 \frac{2}{3} + 1\frac{3}{7}\right),\] \[\left( \frac{1}{3} + \frac{1}{2}\right)  \left(  2\frac{1}{2} + 1 \frac{1}{4} \right),\ \frac{2+\frac{3}{8}}{1\frac{1}{3}+\frac{1}{4}},\ \frac{1\frac{1}{2}+\frac{2}{3}}{\frac{5}{6}},\ \frac{\frac{4}{9} + \frac{5}{6}}{\frac{5}{8} - \frac{7}{12}}.\]
 
-
 Substituting numbers for letters \(\quad\rightarrow\quad\)   **Example:**  \(\frac{s^2 + 2t^2}{3 - 2t}\) when \(s = \frac{3}{8}\) and \(t = \frac{2}{5}\)
 
 ## 6 Simplifying algebraic expressions
@@ -176,7 +156,6 @@ Substituting numbers for letters \(\quad\rightarrow\quad\)   **Example:**  \(\fr
 ### 6.1 Collecting like terms
 
 #### 6.1.1 Linear
-
 
 Numbers and one letter \(\quad\rightarrow\quad\)   **Example:**  \(6-2x-4 + 3x\)
 
@@ -594,4 +573,4 @@ Prior rearrangement involved \(\quad\rightarrow\quad\)   **Example:**  \(\frac{1
 
 Direct substitution from linear equation into quadratic equation \(\quad\rightarrow\quad\)   **Example:**  \(x^2 + y^2 = 10\), \(y = 2 - x\)
 
-Prior rearrangement involved \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - xy + y^2 = 13\), \(2x - 3y = 5\)
+Prior rearrangement involved \(\quad\rightarrow\quad\)   **Example:**  \(x^2 - xy + y^2 = 13\), \(2x - 3y = 5\) 

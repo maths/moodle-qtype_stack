@@ -5,22 +5,12 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.11.0
+## Version 4.12.0
 
-Improvements in documentatin and minor bug fixes.
-
-1. Add in sticky footer for editing form.
-2. Add in support for [chemical data](../Topics/Chemistry/index.md).
-3. Update Mathjax version to 3.2.2 to match Moodle 5+.
-4. Refactor "Equiv" inputs to distinguish much better between "equation" resoning and re-writing of equivalend "expressions".  See [equiavlence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
-5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
-6. Add in new flag `tex_plain_atoms` to control the display of atoms with [subscripts](../CAS/Subscripts.md).  Remove testing for changes on Maxima before 5.40.0.
-
-Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.11.0) include
+Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.
-3. Resolve [issue #1363] to download students data in json format.
 
 ## Future Adapt block development ideas
 
@@ -48,7 +38,7 @@ Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stac
 
 ## For "inputs 2"?
 
-* Better CSS, including "tool tips".  May need to refactor JavaScript.  (See issue #380)
+* Better CSS, including "tool tips".  May need to re-factor JavaScript.  (See issue #380)
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Update MCQ to accept units.
@@ -57,4 +47,4 @@ Issues with [github milestone 4.11.0](https://github.com/maths/moodle-qtype_stac
 
 ## Other
 
-* SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adapctive tests.  Search for SBCL.
+* SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adaptive tests.  Search for SBCL.

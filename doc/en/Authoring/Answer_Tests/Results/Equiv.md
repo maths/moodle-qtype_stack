@@ -301,15 +301,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>[1=2,[]]</pre></td>
+  <td class="cell c2"><pre>[false,none,all,true]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK,QMCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &1=2& \cr \color{green}{\Leftrightarrow}&\left[ \right] & \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\mathbf{False}& \cr \color{green}{\checkmark}&\emptyset& \cr \color{red}{?}&\mathbb{R}& \cr \color{green}{\checkmark}&\mathbf{True}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -369,16 +369,55 @@ rue]</pre></td>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[true,false]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\mathbf{True}& \cr \color{red}{?}&\mathbf{False}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[true nounand false,false]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left\{\begin{array}{l}\mathbf{True}\cr \mathbf{False}\cr \end{array}\right.& \cr \color{green}{\checkmark}&\mathbf{False}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[true nounor false,false]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\mathbf{True}\,{\text{ or }}\, \mathbf{False}& \cr \color{red}{?}&\mathbf{False}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(A nounor B) nounand (not A n
 ounor B),B]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left\{\begin{array}{l}A\,{\text{ or }}\, B\cr {\rm not}\left( A \right)\,{\text{ or }}\, B\cr \end{array}\right.& \cr \color{green}{\Leftrightarrow}&B& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left\{\begin{array}{l}A\,{\text{ or }}\, B\cr {\rm not}\left( A \right)\,{\text{ or }}\, B\cr \end{array}\right.& \cr \color{green}{\checkmark}&B& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -414,11 +453,11 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2^2& \cr \color{red}{\Rightarrow}&=3& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2^2& \cr \color{red}{?}&=3& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -427,11 +466,11 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2^2& \cr \color{green}{\Leftrightarrow}&4& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2^2& \cr \color{green}{\checkmark}&4& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -440,11 +479,11 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2^2& \cr \color{red}{\Rightarrow}&3& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2^2& \cr \color{red}{?}&3& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -454,11 +493,11 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\log_{4}\left(64\right)& \cr \color{green}{\Leftrightarrow}&\log_{4}\left(4^3\right)& \cr \color{green}{\Leftrightarrow}&3\cdot \log_{4}\left(4\right)& \cr \color{green}{\Leftrightarrow}&3& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\log_{4}\left(64\right)& \cr \color{green}{\checkmark}&\log_{4}\left(4^3\right)& \cr \color{green}{\checkmark}&3\cdot \log_{4}\left(4\right)& \cr \color{green}{\checkmark}&3& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -1411,11 +1450,26 @@ x),3)=2,(x+17)/(2*x)=3^2,(x+17
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,EQUIVLOG, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\log_{3}\left(x+17\right)-2=\log_{3}\left(2\cdot x\right)&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&\log_{3}\left(x+17\right)-\log_{3}\left(2\cdot x\right)=2&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&\log_{3}\left(\frac{x+17}{2\cdot x}\right)=2& \cr \color{green}{\log(?)}&\frac{x+17}{2\cdot x}=3^2&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr \color{green}{\Leftrightarrow}&x+17=18\cdot x& \cr \color{green}{\Leftrightarrow}&17\cdot x=17& \cr \color{green}{\Leftrightarrow}&x=1& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\log_{3}\left(x+17\right)-2=\log_{3}\left(2\cdot x\right)&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&\log_{3}\left(x+17\right)-\log_{3}\left(2\cdot x\right)=2&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&\log_{3}\left(\frac{x+17}{2\cdot x}\right)=2& \cr \color{green}{\Leftrightarrow}&\frac{x+17}{2\cdot x}=3^2&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr \color{green}{\Leftrightarrow}&x+17=18\cdot x& \cr \color{green}{\Leftrightarrow}&17\cdot x=17& \cr \color{green}{\Leftrightarrow}&x=1& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[lg((x+17)/(-2*x),2)=3,(x+17)/
+(-2*x)=2^3,(x+17)=2^3*(-2*x),x
++17=-16*x,17*x=-17,x=-1]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\log_{2}\left(\frac{x+17}{-2\cdot x}\right)=3& \cr \color{green}{\Leftrightarrow}&\frac{x+17}{-2\cdot x}=2^3&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr \color{green}{\Leftrightarrow}&x+17=2^3\cdot \left(-2\cdot x\right)& \cr \color{green}{\Leftrightarrow}&x+17=-16\cdot x& \cr \color{green}{\Leftrightarrow}&17\cdot x=-17& \cr \color{green}{\Leftrightarrow}&x=-1& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -1718,16 +1772,71 @@ ounand b=B nounand c=C,a*x^2+b
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>[(x-1)*(x+4), stackeq(x^2-x+4*
-x-4),stackeq(x^2+3*x-4)]</pre></td>
+  <td class="cell c2"><pre>[x+1,stackeq((x+1)^2),stackeq(
+(x+1)^3),stackeq((x+1))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left(x-1\right)\cdot \left(x+4\right)& \cr \color{green}{\checkmark}&=x^2-x+4\cdot x-4& \cr \color{green}{\checkmark}&=x^2+3\cdot x-4& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x+1& \cr \color{red}{?}&={\left(x+1\right)}^2& \cr \color{red}{?}&={\left(x+1\right)}^3& \cr \color{red}{?}&=x+1& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[x+1=0,(x+1)^2=0,(x+1)^3=0,(x+
+1)=0]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"><pre>[assumereal]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{(\mathbb{R})}&x+1=0& \cr \color{green}{\text{(Same roots)}}&{\left(x+1\right)}^2=0& \cr \color{green}{\text{(Same roots)}}&{\left(x+1\right)}^3=0& \cr \color{green}{\text{(Same roots)}}&x+1=0& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[x+1=0,(x+1)^2=0,0=x+1,0=(x+1)
+^3]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"><pre>[assumereal]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{(\mathbb{R})}&x+1=0& \cr \color{green}{\text{(Same roots)}}&{\left(x+1\right)}^2=0& \cr \color{green}{\text{(Same roots)}}&0=x+1& \cr \color{green}{\text{(Same roots)}}&0={\left(x+1\right)}^3& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[8=x^3,2=x,x=2,x^3=8]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"><pre>[assumereal]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHARREAL, EQUIVCHAR, EQUIVCHARREAL)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{(\mathbb{R})}&8=x^3& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&2=x& \cr \color{green}{\Leftrightarrow}&x=2& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&x^3=8& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[16=x^4,#pm#2=x,x^4=16,x=#pm#2
+]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"><pre>[assumereal]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHARREAL, EQUIVCHARREAL, EQUIVCHARREAL)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{(\mathbb{R})}&16=x^4& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}& \pm 2=x& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&x^4=16& \cr \color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&x= \pm 2& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -1779,11 +1888,11 @@ x+a)^2-a^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2+2\cdot a\cdot x& \cr \color{green}{\Leftrightarrow}&x^2+2\cdot a\cdot x+a^2-a^2& \cr \color{green}{\Leftrightarrow}&{\left(x+a\right)}^2-a^2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2+2\cdot a\cdot x& \cr \color{green}{\checkmark}&x^2+2\cdot a\cdot x+a^2-a^2& \cr \color{green}{\checkmark}&{\left(x+a\right)}^2-a^2& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -1808,11 +1917,11 @@ x+a)^2-a^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{y-z}{y\cdot z}+\frac{z-x}{z\cdot x}+\frac{x-y}{x\cdot y}& \cr \color{green}{\Leftrightarrow}&\frac{x\cdot \left(y-z\right)+y\cdot \left(z-x\right)+z\cdot \left(x-y\right)}{x\cdot y\cdot z}& \cr \color{green}{\Leftrightarrow}&0& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{y-z}{y\cdot z}+\frac{z-x}{z\cdot x}+\frac{x-y}{x\cdot y}& \cr \color{green}{\checkmark}&\frac{x\cdot \left(y-z\right)+y\cdot \left(z-x\right)+z\cdot \left(x-y\right)}{x\cdot y\cdot z}& \cr \color{green}{\checkmark}&0& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -1991,7 +2100,7 @@ um(log(x_i),i,1,n))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &{{n}\choose{k}}+{{n}\choose{k+1}}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{n-k}+\frac{1}{k+1}\right)&{\color{blue}{{n \not\in {\left \{4 \right \}}}}}\cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{n+1}{\left(n-k\right)\cdot \left(k+1\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{\left(k+1\right)\cdot \left(n-k\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{\left(k+1\right)\cdot k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!}\cdot \left(\frac{1}{\left(n-k\right)\cdot \left(n-k-1\right)!}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!\cdot \left(n-k\right)!}& \cr \color{green}{\checkmark}&={{n+1}\choose{k+1}}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &{{n}\choose{k}}+{{n}\choose{k+1}}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{n-k}+\frac{1}{k+1}\right)& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{n+1}{\left(n-k\right)\cdot \left(k+1\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{\left(k+1\right)\cdot \left(n-k\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{\left(k+1\right)\cdot k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!}\cdot \left(\frac{1}{\left(n-k\right)\cdot \left(n-k-1\right)!}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!\cdot \left(n-k\right)!}& \cr \color{green}{\checkmark}&={{n+1}\choose{k+1}}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2214,11 +2323,25 @@ x-3))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, CHECKMARK, EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">(EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK, EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2\cdot x^3-9\cdot x^2+10\cdot x-3& \cr &\text{Let }x = 1& \cr \color{green}{\Leftrightarrow}&2\cdot 1^3-9\cdot 1^2+10\cdot 1-3& \cr \color{green}{\checkmark}&=0& \cr &\text{So}& \cr &2\cdot x^3-9\cdot x^2+10\cdot x-3& \cr \color{green}{\checkmark}&=\left(x-1\right)\cdot \left(2\cdot x^2-7\cdot x+3\right)& \cr \color{green}{\checkmark}&=\left(x-1\right)\cdot \left(2\cdot x-1\right)\cdot \left(x-3\right)& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2\cdot x^3-9\cdot x^2+10\cdot x-3& \cr &\text{Let }x = 1& \cr \color{green}{\checkmark}&2\cdot 1^3-9\cdot 1^2+10\cdot 1-3& \cr \color{green}{\checkmark}&=0& \cr &\text{So}& \cr &2\cdot x^3-9\cdot x^2+10\cdot x-3& \cr \color{green}{\checkmark}&=\left(x-1\right)\cdot \left(2\cdot x^2-7\cdot x+3\right)& \cr \color{green}{\checkmark}&=\left(x-1\right)\cdot \left(2\cdot x-1\right)\cdot \left(x-3\right)& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[stacklet(x,1),1-x=(x+1)^(1/5)
+,0=2^(1/5)]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\text{Let }x = 1& \cr \color{red}{?}&1-x={\left(x+1\right)}^{\frac{1}{5}}& \cr \color{red}{?}&0=2^{\frac{1}{5}}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2461,11 +2584,11 @@ limit(-t*e^t,t,-inf)+nounlimit
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int_{-\infty }^{0}{x\cdot e^{x}\;\mathrm{d}x}& \cr \color{green}{\Leftrightarrow}&\lim_{t\rightarrow -\infty }{\int_{t}^{0}{x\cdot e^{x}\;\mathrm{d}x}}& \cr \color{green}{\Leftrightarrow}&\lim_{t\rightarrow -\infty }{e^{t}-t\cdot e^{t}-1}& \cr \color{green}{\Leftrightarrow}&\lim_{t\rightarrow -\infty }{e^{t}}+\lim_{t\rightarrow -\infty }{\left(-t\right)\cdot e^{t}}+\lim_{t\rightarrow -\infty }{-1}& \cr \color{green}{\Leftrightarrow}&-1& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int_{-\infty }^{0}{x\cdot e^{x}\;\mathrm{d}x}& \cr \color{green}{\checkmark}&\lim_{t\rightarrow -\infty }{\int_{t}^{0}{x\cdot e^{x}\;\mathrm{d}x}}& \cr \color{green}{\checkmark}&\lim_{t\rightarrow -\infty }{e^{t}-t\cdot e^{t}-1}& \cr \color{green}{\checkmark}&\lim_{t\rightarrow -\infty }{e^{t}}+\lim_{t\rightarrow -\infty }{\left(-t\right)\cdot e^{t}}+\lim_{t\rightarrow -\infty }{-1}& \cr \color{green}{\checkmark}&-1& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2580,7 +2703,7 @@ undiff(y(x),x)=0,-5*noundiff(y
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &3\cdot x^{\frac{3}{2}}-\frac{2}{x}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&\frac{9\cdot \sqrt{x}}{2}+\frac{2}{x^2}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{blue}{\int\ldots\mathrm{d}x}&3\cdot x^{\frac{3}{2}}-\frac{2}{x}+c& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &3\cdot x^{\frac{3}{2}}-\frac{2}{x}& \cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&\frac{9\cdot \sqrt{x}}{2}+\frac{2}{x^2}& \cr \color{blue}{\int\ldots\mathrm{d}x}&3\cdot x^{\frac{3}{2}}-\frac{2}{x}+c& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2589,20 +2712,20 @@ undiff(y(x),x)=0,-5*noundiff(y
 q(x^2+1),stackeq(x^3/3+x+c)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
-  <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR)</td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2+1& \cr \color{red}{?}&=\frac{x^3}{3}+x& \cr \color{red}{?}&=x^2+1& \cr \color{red}{?}&=\frac{x^3}{3}+x+c& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2+1& \cr \color{blue}{\int\ldots\mathrm{d}x}&=\frac{x^3}{3}+x& \cr \color{blue}{\frac{\mathrm{d}}{\mathrm{d}x}\ldots}&=x^2+1& \cr \color{blue}{\int\ldots\mathrm{d}x}&=\frac{x^3}{3}+x+c& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>[diff(x^2*sin(x),x),stackeq(x^
-2*diff(sin(x),x)+diff(x^2,x)*s
-in(x)),stackeq(x^2*cos(x)+2*x*
-sin(x))]</pre></td>
+  <td class="cell c2"><pre>[noundiff(x^2*sin(x),x),stacke
+q(x^2*noundiff(sin(x),x)+nound
+iff(x^2,x)*sin(x)),stackeq(x^2
+*cos(x)+2*x*sin(x))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
@@ -2610,7 +2733,7 @@ sin(x))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &+\left(\cos \left( x \right)\right)\cdot x^2+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot +\left(\cos \left( x \right)\right)+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{\mathrm{d}}{\mathrm{d} x} x^2\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \left(\frac{\mathrm{d}}{\mathrm{d} x} \sin \left( x \right)\right)+\left(\frac{\mathrm{d}}{\mathrm{d} x} x^2\right)\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2652,12 +2775,12 @@ og(x)-1/4*nounint(x^3,x),x^4/4
 *log(x)-x^4/16]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
-  <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR,PLUSC)</td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\Leftrightarrow}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{1}{4}\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{red}{\cdots +c\quad ?}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{x^4}{16}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\checkmark}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{1}{4}\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{green}{\checkmark}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{x^4}{16}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2668,11 +2791,11 @@ og(x)-1/4*nounint(x^3,x),x^4/4
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR,INTCHAR(x))</td>
+  <td class="cell c6">(EMPTYCHAR, CHECKMARK,INTCHAR(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\Leftrightarrow}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{1}{4}\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{x^4}{16}+c& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\checkmark}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{1}{4}\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{x^4}{16}+c& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

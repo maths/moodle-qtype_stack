@@ -1,6 +1,6 @@
 # About the STACK Project
 
-STACK is an assessment system for mathematics, science and related disciplines, designed to enable students to answer questions with a mathematical expression, such as a polynomial.  STACK uses a Computer Algebra System and students are not limited to multiple choice.
+STACK is an assessment system for mathematics, science and related disciplines.  Students answer questions with a mathematical expression, such as a polynomial.  Since STACK uses a Computer Algebra System students are not limited to multiple choice.
 
 There is a large, and growing, community of STACK users in many languages.
 

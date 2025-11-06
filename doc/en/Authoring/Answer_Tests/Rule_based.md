@@ -16,7 +16,7 @@ Notes
 2. This test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}}\) under this test.  In many situations this notation is taken to mean the same thing, but internally in Maxima they are represented by different functions and are not converted to a canonical form by the test.
 3. By design, addition commutes with subtraction, so \( -1+2\equiv 2-1\) and multiplication commutes with division, so \( (ab)/c\equiv a(b/c) \).
 4. By design \(-1/4x \neq -x/4\) since we do not have the rule \( 1\times x \rightarrow x\).  To establish this equivalence we would need a different answer test.
-5. By design \(0.75 \neq 1/4\).  If you would like to rationalise numbers witihn an expression `ex` you can pre-process it with `num_ensure_rational(ex)`.  This traverses the expression tree and makes sure all floating point numbers are converted.  This is different from applying Maxima's `rat` function at the top level which changes the structure of the expression.  Beware of converting binary floats into rational expressions though!
+5. By design \(0.75 \neq 1/4\).  If you would like to rationalise numbers within an expression `ex` you can pre-process it with `num_ensure_rational(ex)`.  This traverses the expression tree and makes sure all floating point numbers are converted.  This is different from applying Maxima's `rat` function at the top level which changes the structure of the expression.  Beware of converting binary floats into rational expressions though!
 6. This test can also be used to establish \(\{4,4\} \neq \{4\}\), but \(\{1,2\} = \{2,1\}\) since the arguments of the set constructor function are commutative.  Sets are not associative, so \(\{1,2\} \neq \{\{1\},2\}\).  (See Maxima's `flatten` command.)
 
 
@@ -45,9 +45,11 @@ The teacher must supply an option consisting of a list of the following rule nam
 | (`ALG_TRANS`)     | _Included by default_                                                                 |
 | `assAdd`          | Associativity of addition                                                              |
 | `assMul`          | Associativity of multiplication                                                        |
+| `comEq`           | Commutativity of equality                                                              |
 | `comAdd`          | Commutativity of addition                                                              |
 | `comMul`          | Commutativity of multiplication                                                        |
 |  -                 | _Options to switch off the defaults_                                                  |
+| `noncomEq`        | Indicate equality is non-commutative                                                   |
 | `noncomAdd`       | Indicate addition is non-commutative                                                   |
 | `noncomMul`       | Indicate multiplication is non-commutative                                             |
 | `comMulNum`       | Commutativity of numbers (inc unary minus) only within multiplication                  |
@@ -144,9 +146,9 @@ This results in `UNARY_MINUS nounmul UNARY_MINUS nounmul x nounmul UNARY_RECIP(y
 
 gives `x nounmul UNARY_RECIP(y)`.
 
-The goal of this code is to create reliable equivalence classes of expressions.  We are gradually expanding the use to allow full control over elementary expressions. Note in particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplfier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
+The goal of this code is to create reliable equivalence classes of expressions.  We are gradually expanding the use to allow full control over elementary expressions. Note in particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplifier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
 
-The simplfier is designed to go in one direction only to establish membership of an equivalence class. We do not (as of Dec 2024) support displaying the resulting manipulated expressions in traditional form.
+The simplifier is designed to go in one direction only to establish membership of an equivalence class. We do not (as of Dec 2024) support displaying the resulting manipulated expressions in traditional form.
 
 The code is all in `stack/maxima/noun_simp.mac`.
 

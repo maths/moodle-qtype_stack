@@ -60,7 +60,7 @@ orthogonalize(L, [sp]) := block([M, Morth],
     sp: if emptyp(sp) then "." else first(sp),
     M: cols_to_matrix(L),
     if M = matrix([null]) then return([]),
-    Morth: transpose(apply(matrix, ev(gramschmidt(transpose(M), sp), simp))),
+    Morth: transpose(apply('matrix, ev(gramschmidt(transpose(M), sp), simp))),
     return(if matrixp(L) then Morth else matrix_to_cols(Morth))
 );
 
@@ -78,7 +78,7 @@ normalize(M, [sp]) := block([L],
     L: cols_to_cols(M),
     if L = [] then return([]),
     L: map(lambda([v], ev(v/sqrt(sp(v,v)), simp)), L),
-    if matrixp(M) then return(apply(addcol, L)) else return(L)
+    if matrixp(M) then return(apply('addcol, L)) else return(L)
 );
 
 /**
@@ -159,7 +159,7 @@ remove_dep(ex):= block([ex_op,n_max,jj,ii],
     else jj: ev(jj+1,simp),
     if is(jj>length(ex)) then return(ex)
   ),
-  if is(ex_op="matrix") then ex: transpose(apply(matrix,ex)),
+  if is(ex_op="matrix") then ex: transpose(apply('matrix, ex)),
   return(ex)
 );
 
@@ -174,7 +174,7 @@ remove_dep(ex):= block([ex_op,n_max,jj,ii],
  * @return[matrix or list] A basis for R^m where m is the length of each vector in M
  */
 
-basisify(M,[orth]):= block([ex_op,m,n,vecs,new_vecs,ii],
+basisify(M,[orth]):= block([ex_op, m, n, vecs, new_vecs, ii],
   if emptyp(orth) then orth: false else orth: first(orth),
   ex_op: "matrix",
   if listp(M) then block(M: cols_to_matrix(M), ex_op: "list"),
@@ -183,14 +183,14 @@ basisify(M,[orth]):= block([ex_op,m,n,vecs,new_vecs,ii],
   vecs: args(transpose(M)),
   new_vecs: args(ident(m)),
   for ii: 1 thru m do block(
-    ii: ev(ii,simp),
-    if lin_indp(append(vecs,[new_vecs[ii]])) then vecs: append(vecs,[new_vecs[ii]])
+    ii: ev(ii, simp),
+    if lin_indp(append(vecs, [new_vecs[ii]])) then vecs: append(vecs, [new_vecs[ii]])
   ),
   if orth then block(
-    vecs: ev(gramschmidt(apply(matrix,vecs)),simp),
-    vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),vecs),simp)
+    vecs: ev(gramschmidt(apply('matrix, vecs)), simp),
+    vecs: ev(map(lambda([ex], ex/sqrt(ex.ex)), vecs), simp)
   ),
-  if is(ex_op="matrix") then return(transpose(apply(matrix,vecs))) else return(vecs)
+  if is(ex_op="matrix") then return(transpose(apply('matrix, vecs))) else return(vecs)
 );
 
 /* We have columnspace and nullspace functions already. The author keeps assuming that 

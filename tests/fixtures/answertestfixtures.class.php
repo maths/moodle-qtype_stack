@@ -155,6 +155,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'],
         ['AlgEquiv', '', 'x', 'sqrt(x^2)', 0, '', ''],
         ['AlgEquiv', '', '\'root(x)', 'x^(1/2)', 1, '', ''],
+        ['AlgEquiv', '', '\'root(x)', 'sqrt(x)', 1, '', ''],
         ['AlgEquiv', '', '\'root(x,m)', 'x^(1/m)', 1, '', ''],
         ['AlgEquiv', '', 'x', '\'root(x^2)', 0, '', ''],
         ['AlgEquiv', '', 'abs(x)', 'sqrt(x^2)', 1, '', ''],
@@ -187,6 +188,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '(2*pi)/(k/m)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''],
         ['AlgEquiv', '', '(2*pi)*(m/k)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''],
         ['AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''],
+        ['AlgEquiv', '', '\'root(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''],
         ['AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', ''],
         ['AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', 'Need to factor internally.'],
 
@@ -663,6 +665,17 @@ class stack_answertest_test_data {
             'AlgEquiv', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
             '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', '',
         ],
+        ['AlgEquiv', '', 'x = -1/2 + sqrt(1/4 + 4/3)', 'x = (-3 + sqrt(9 + 48))/6', 1, 'ATEquation_sides', ''],
+        [
+            'AlgEquiv', '', '{x = -1/2 + sqrt(1/4 + 4/3), x = (-1/2 - sqrt(1/4 + 4/3))}',
+            '{x = (-3 + sqrt(9 + 48))/6, x = (-3 - sqrt(9 + 48))/6}', 0, 'ATSet_wrongentries.', '',
+        ],
+        // Not, to establish equivalence of sets of equations we need to manually pre-process.
+        [
+            'AlgEquiv', '', 'radcan(trigrat({x = -1/2 + sqrt(1/4 + 4/3), x = (-1/2 - sqrt(1/4 + 4/3))}))',
+            'radcan(trigrat({x = (-3 + sqrt(9 + 48))/6, x = (-3 - sqrt(9 + 48))/6}))', 1, '', '',
+        ],
+
         ['AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials and binomials'],
         ['AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''],
         ['AlgEquiv', '', 'n/n!', '1/(n+1)!', 0, '', ''],
@@ -1319,6 +1332,10 @@ class stack_answertest_test_data {
         // Including ID_TRANS has oneDiv which turns 1/1->1 which is an integer, before ratAdd gets a look.
         ['EqualComAssRules', '[ID_TRANS,NEG_TRANS,ratAdd]', '1/2+1/-1', '-1/2', 0, '', ''],
         ['EqualComAssRules', '[ID_TRANS,NEG_TRANS,ratAdd]', '1/2-1/1', '-1/2', 0, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x=1', '1=x', 1, '', 'Equations'],
+        ['EqualComAssRules', '[noncomEq]', 'x=1', '1=x', 0, '', ''],
+        ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d-17', 'a*20+b*15+c*8+d*4=-17', 0, 'ATEqualComAssRules ATAlgEquiv_SA_not_equation.', ''],
+        ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d=-17', 'a*20+b*15+c*8+d*4=-17', 1, '', ''],
 
         ['CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''],
         ['CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''],
@@ -1844,6 +1861,9 @@ class stack_answertest_test_data {
         ['Diff', 'x', 'e^x+2', 'e^x', 0, 'ATDiff_int.', ''],
         ['Diff', 'x', 'n*x^n', 'n*x^(n-1)', -1, 'ATDiff_STACKERROR_SAns.', ''],
         ['Diff', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, '', ''],
+        ['Diff', 'x', '3*x/root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
+        ['Diff', 'x', '3*x/\'root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
+        ['Diff', 'x', '\'root(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, 'ATDiff_true.', ''],
 
         ['Int', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],
         ['Int', 'x', '1/0', '1', -1, 'ATInt_STACKERROR_SAns.', ''],
@@ -2064,6 +2084,7 @@ class stack_answertest_test_data {
             'Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)',
         ],
+        ['Int', 'x', '3*x/\'root(3*x^2+2)+c', '3*x/sqrt(3*x^2+2)', 1, 'ATInt_true.', ''],
 
         // This list is based on the test cases for ATInt.
         ['Antidiff', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],

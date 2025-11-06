@@ -26,15 +26,17 @@ namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '../../stack/cas/castext2/blocks/iframe.block.php');
 require_once(__DIR__ . '/fixtures/apifixtures.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '../../api/controller/DiffController.php');
 require_once(__DIR__ . '../../api/controller/DownloadController.php');
 require_once(__DIR__ . '../../api/controller/GradingController.php');
 require_once(__DIR__ . '../../api/controller/RenderController.php');
 require_once(__DIR__ . '../../api/controller/ValidationController.php');
 require_once(__DIR__ . '../../api/controller/TestController.php');
 
-
+use api\controller\DiffController;
 use api\controller\DownloadController;
 use api\controller\GradingController;
 use api\controller\RenderController;
@@ -264,7 +266,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(1, $this->output->scores->total);
         $this->assertEquals(1, $this->output->scoreweights->prt1);
         $this->assertEquals(1, $this->output->scoreweights->total);
-        $this->assertEquals('[[feedback:prt1]]', $this->output->specificfeedback);
+        $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
     }
 
@@ -343,7 +345,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(1, count(get_object_vars($results->results)));
         $this->assertEquals(0, $results->results->noseed->passes);
         $this->assertEquals(2, $results->results->noseed->fails);
-        $this->assertEquals(stack_string('questiontestempty'), $results->results->noseed->messages);
+        $this->assertEquals('', $results->results->noseed->messages);
         $this->assertEquals('', $results->messages);
         $this->assertEquals(2, count(get_object_vars($results->results->noseed->outcomes)));
     }
@@ -400,5 +402,18 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals('', $results->results->noseed->messages);
         $this->assertEquals(0, $results->results->noseed->fails);
         $this->assertEquals(1, $results->results->noseed->passes);
+    }
+
+    public function test_diff(): void {
+        if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
+            $this->markTestSkipped('Symfony YAML extension is not available.');
+            return;
+        }
+        
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test2');
+        $dc = new DiffController();
+        $dc->__invoke($this->request, $this->response, []);
+        $this->assertMatchesRegularExpression('/name: \'Algebraic input\'\nquestiontext: \|-\n/s',
+                $this->output->diff);
     }
 }

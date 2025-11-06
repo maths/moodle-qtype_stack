@@ -152,7 +152,7 @@ If you are not using Firefox on your Linux, you can adjust your browser in `stac
 
 ## Reflecting the settings on your server
 
-The healtcheck page (Moodle admin access only) displays the contents of the Maxima configuration file which is written to the sever.  This contains Maxima commands to update the path (which you probably don't want to copy) and also the function `STACK_SETUP(ex)` which configures your particular version of STACK.  You may want to replace `STACK_SETUP(ex)` in the sandbox with `STACK_SETUP(ex)` from the Moodle server. For most users this should not be needed, and is most useful for advanced debugging where significant differences between versions matters.
+The healthcheck page (Moodle admin access only) displays the contents of the Maxima configuration file which is written to the sever.  This contains Maxima commands to update the path (which you probably don't want to copy) and also the function `STACK_SETUP(ex)` which configures your particular version of STACK.  You may want to replace `STACK_SETUP(ex)` in the sandbox with `STACK_SETUP(ex)` from the Moodle server. For most users this should not be needed, and is most useful for advanced debugging where significant differences between versions matters.
 
 It is more important to match the version of the STACK code you downloaded from github with the version you have on your server.  The STACK documentation page on your server gives the version number of the STACK code at the bottom of the documentation front page.  For example
 
@@ -160,4 +160,4 @@ It is more important to match the version of the STACK code you downloaded from 
 
 shows the version of the STACK code the demo site is running. 
 
-`{@stackmaximaversion@}` and `{@MAXIMA_VERSION@}` in a question text will return the STACK and Maxima version installed on your LMS.
+`{@stackmaximaversion@}` and `{@MAXIMA_VERSION@}` in a question text will return the STACK and Maxima version installed on your LMS. 

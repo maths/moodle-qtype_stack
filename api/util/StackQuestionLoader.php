@@ -109,17 +109,17 @@ class StackQuestionLoader {
             );
         $question->questiontextformat =
             isset($xmldata->question->questiontext['format']) ? (string) $xmldata->question->questiontext['format'] :
-            self::get_default('question', 'questiontextformat', 'html');
+            self::get_default('question', 'questiontextformat', 'moodle_auto_format');
         $question->generalfeedback =
             isset($xmldata->question->generalfeedback->text) ? (string) $xmldata->question->generalfeedback->text :
             self::get_default('question', 'generalfeedback', '');
         $question->generalfeedbackformat =
             isset($xmldata->question->generalfeedback['format']) ? (string) $xmldata->question->generalfeedback['format'] :
-            self::get_default('question', 'generalfeedbackformat', 'html');
+            self::get_default('question', 'generalfeedbackformat', 'moodle_auto_format');
         // Use (array) because isset($xmldata->question->defaultgrade) returns true if the element is empty and
         // empty() returns true if element is 0. Casting to array returns [] and [0] which return false and true respectively.
         $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade :
-            self::get_default('question', 'defaultgrade', 1.0);
+            self::get_default('question', 'defaultgrade', 1);
         $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty :
             self::get_default('question', 'penalty', 0.1);
 
@@ -160,7 +160,7 @@ class StackQuestionLoader {
         } else {
             $question->prtcorrect =
                 self::get_default(
-                    'question', 'prtcorrect', get_string('defaultprtcorrectfeedback', 'qtype_stack', null)
+                    'question', 'prtcorrect', get_config('qtype_stack', 'prtcorrect')
                 );
             $question->prtcorrectformat = self::get_default('question', 'prtcorrectformat', 'html');
         }
@@ -173,7 +173,7 @@ class StackQuestionLoader {
         } else {
             $question->prtpartiallycorrect =
                 self::get_default(
-                    'question', 'prtpartiallycorrect', get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null)
+                    'question', 'prtpartiallycorrect', get_config('qtype_stack', 'prtpartiallycorrect')
                 );
             $question->prtpartiallycorrectformat =
                 self::get_default('question', 'prtpartiallycorrectformat', 'html');
@@ -187,7 +187,7 @@ class StackQuestionLoader {
         } else {
             $question->prtincorrect =
                 self::get_default(
-                    'question', 'prtincorrect', get_string('defaultprtincorrectfeedback', 'qtype_stack', null)
+                    'question', 'prtincorrect', get_config('qtype_stack', 'prtincorrect')
                 );
             $question->prtincorrectformat =
                 self::get_default('question', 'prtincorrectformat', 'html');

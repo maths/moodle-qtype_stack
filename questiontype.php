@@ -1409,7 +1409,6 @@ class qtype_stack extends question_type {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function import_from_xml($xml, $fromform, qformat_xml $format, $notused = null) {
-        global $OUTPUT, $PAGE;
         if (!isset($xml['@']['type']) || $xml['@']['type'] != $this->name()) {
             return false;
         }
@@ -1417,66 +1416,92 @@ class qtype_stack extends question_type {
         $fromform = $format->import_headers($xml);
         $fromform->qtype = $this->name();
 
+        // Set defaults for standard question parts.
+        $fromform->name = ($fromform->name === '') ? 'Default' : $fromform->name;
+        if ($fromform->questiontext === '') {
+            // Default only applied if field does not exist.
+            $fromform->questiontext     = $format->getpath($xml, ['#', 'questiontext', 0, '#', 'text', 0, '#'], '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>', true);
+        }
+
         $fromform->stackversion          = $format->getpath($xml, ['#', 'stackversion', 0, '#', 'text', 0, '#'], '', true);
         $fromform->questionvariables     = $format->getpath($xml, [
             '#', 'questionvariables',
             0, '#', 'text', 0, '#',
-        ], '', true);
-        $fformat = $fromform->questiontextformat;
+        ], 'ta1:1;', true);
+        $fformat = FORMAT_HTML;
         if (isset($fromform->specificfeedbackformat)) {
             $fformat = $fromform->specificfeedbackformat;
         }
-        $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat);
-        $fformat = $fromform->questiontextformat;
+        $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat, '[[feedback:prt1]]');
+        $fformat = FORMAT_HTML;
         if (isset($fromform->questionnoteformat)) {
             $fformat = $fromform->questionnoteformat;
         }
-        $fromform->questionnote          = $this->import_xml_text($xml, 'questionnote', $format, $fformat);
-        $fformat = $fromform->questiontextformat;
+        $fromform->questionnote          = $this->import_xml_text($xml, 'questionnote', $format, $fformat, '{@ta1@}');
+        $fformat = FORMAT_HTML;
         if (isset($fromform->questiondescriptionformat)) {
             $fformat = $fromform->questiondescriptionformat;
         }
         $fromform->questiondescription   = $this->import_xml_text($xml, 'questiondescription', $format, $fformat);
-        $fromform->questionsimplify      = $format->getpath($xml, ['#', 'questionsimplify', 0, '#'], 1);
-        $fromform->assumepositive        = $format->getpath($xml, ['#', 'assumepositive', 0, '#'], 0);
-        $fromform->assumereal            = $format->getpath($xml, ['#', 'assumereal', 0, '#'], 0);
+        $fromform->questionsimplify      = $format->getpath($xml, ['#', 'questionsimplify', 0, '#'], get_config('qtype_stack', 'questionsimplify'));
+        $fromform->assumepositive        = $format->getpath($xml, ['#', 'assumepositive', 0, '#'], get_config('qtype_stack', 'assumepositive'));
+        $fromform->assumereal            = $format->getpath($xml, ['#', 'assumereal', 0, '#'], get_config('qtype_stack', 'assumereal'));
         $fromform->isbroken              = $format->getpath($xml, ['#', 'isbroken', 0, '#'], 0);
-        $fformat = $fromform->questiontextformat;
+        $fformat = FORMAT_HTML;
         if (isset($fromform->prtcorrectformat)) {
             $fformat = $fromform->prtcorrectformat;
         }
-        $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fformat);
-        $fformat = $fromform->questiontextformat;
+        $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fformat, get_config('qtype_stack', 'prtcorrect'));
+        $fformat = FORMAT_HTML;
         if (isset($fromform->prtpartiallycorrectformat)) {
             $fformat = $fromform->prtpartiallycorrectformat;
         }
-        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fformat);
-        $fformat = $fromform->questiontextformat;
+        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fformat, get_config('qtype_stack', 'prtpartiallycorrect'));
+        $fformat = FORMAT_HTML;
         if (isset($fromform->prtincorrectformat)) {
             $fformat = $fromform->prtincorrectformat;
         }
-        $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat);
+        $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat, get_config('qtype_stack', 'prtincorrect'));
         $fromform->penalty               = $format->getpath($xml, ['#', 'penalty', 0, '#'], 0.1);
-        $fromform->decimals              = $format->getpath($xml, ['#', 'decimals', 0, '#'], '.');
-        $fromform->scientificnotation    = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], '*10');
-        $fromform->multiplicationsign    = $format->getpath($xml, ['#', 'multiplicationsign', 0, '#'], 'dot');
-        $fromform->sqrtsign              = $format->getpath($xml, ['#', 'sqrtsign', 0, '#'], 1);
-        $fromform->complexno             = $format->getpath($xml, ['#', 'complexno', 0, '#'], 'i');
-        $fromform->inversetrig           = $format->getpath($xml, ['#', 'inversetrig', 0, '#'], 'cos-1');
-        $fromform->logicsymbol           = $format->getpath($xml, ['#', 'logicsymbol', 0, '#'], 'lang');
-        $fromform->matrixparens          = $format->getpath($xml, ['#', 'matrixparens', 0, '#'], '[');
-        $fromform->variantsselectionseed = $format->getpath($xml, ['#', 'variantsselectionseed', 0, '#'], 'i');
+        $fromform->decimals              = $format->getpath($xml, ['#', 'decimals', 0, '#'], get_config('qtype_stack', 'decimals'));
+        $fromform->scientificnotation    = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], get_config('qtype_stack', 'scientificnotation'));
+        $fromform->multiplicationsign    = $format->getpath($xml, ['#', 'multiplicationsign', 0, '#'], get_config('qtype_stack', 'multiplicationsign'));
+        $fromform->sqrtsign              = $format->getpath($xml, ['#', 'sqrtsign', 0, '#'], get_config('qtype_stack', 'sqrtsign'));
+        $fromform->complexno             = $format->getpath($xml, ['#', 'complexno', 0, '#'], get_config('qtype_stack', 'complexno'));
+        $fromform->inversetrig           = $format->getpath($xml, ['#', 'inversetrig', 0, '#'], get_config('qtype_stack', 'inversetrig'));
+        $fromform->logicsymbol           = $format->getpath($xml, ['#', 'logicsymbol', 0, '#'], get_config('qtype_stack', 'logicsymbol'));
+        $fromform->matrixparens          = $format->getpath($xml, ['#', 'matrixparens', 0, '#'], get_config('qtype_stack', 'matrixparens'));
+        $fromform->variantsselectionseed = $format->getpath($xml, ['#', 'variantsselectionseed', 0, '#'], '');
 
         $structurerepairs = '';
-        if (isset($xml['#']['input'])) {
+        if (isset($xml['#']['input']) && count($xml['#']['input'])) {
             foreach ($xml['#']['input'] as $inputxml) {
                 $this->import_xml_input($inputxml, $fromform, $format);
             }
+        } else {
+            if ($fromform->defaultmark) {
+                $defaultinput = [];
+                $defaultinput['#'] = ['name' => [0 => ['#' => 'ans1']], 'tans' => [0 => ['#' => 'ta1']]];
+                $this->import_xml_input($defaultinput, $fromform, $format);
+            }
         }
 
-        if (isset($xml['#']['prt'])) {
+        if (isset($xml['#']['prt']) && count($xml['#']['prt'])) {
             foreach ($xml['#']['prt'] as $prtxml) {
                 $structurerepairs .= $this->import_xml_prt($prtxml, $fromform, $format);
+            }
+        } else {
+            if ($fromform->defaultmark) {
+                $defaultnode = [
+                    'name' => [0 => ['#' => 0]],
+                    'sans' => [0 => ['#' => 'ans1']],
+                    'tans' => [0 => ['#' => 'ta1']],
+                    'trueanswernote' => [0 => ['#' => 'prt1-1-T']],
+                    'falseanswernote' => [0 => ['#' => 'prt1-1-F']]
+                ];
+                $defaultprt = [];
+                $defaultprt['#'] = ['name' => [0 => ['#' => 'prt1']], 'node' => [['#' => $defaultnode]]];
+                $this->import_xml_prt($defaultprt, $fromform, $format);
             }
         }
 
@@ -1536,12 +1561,13 @@ class qtype_stack extends question_type {
      * @param array $xml the XML to extract the data from.
      * @param string $field the name of the sub-tag in the XML to load the data from.
      * @param qformat_xml $format the importer/exporter object.
-     * @param int $defaultformat Dfeault text format, if it is not given in the file.
+     * @param int $defaultformat Default text format, if it is not given in the file.
+     * @param string $default Default text value, if it is not given in the file.
      * @return array with fields text, format and files.
      */
-    protected function import_xml_text($xml, $field, qformat_xml $format, $defaultformat) {
+    protected function import_xml_text($xml, $field, qformat_xml $format, $defaultformat, $default = '') {
         $text = [];
-        $text['text']   = $format->getpath($xml, ['#', $field, 0, '#', 'text', 0, '#'], '', true);
+        $text['text']   = $format->getpath($xml, ['#', $field, 0, '#', 'text', 0, '#'], $default, true);
         $text['format'] = $format->trans_format($format->getpath($xml, ['#', $field, 0, '@', 'format'],
                                                 $format->get_format($defaultformat)));
         $text['files']  = $format->import_files($format->getpath($xml, ['#', $field, 0, '#', 'file'], [], false));
@@ -1558,20 +1584,20 @@ class qtype_stack extends question_type {
     protected function import_xml_input($xml, $fromform, qformat_xml $format) {
         $name = $format->getpath($xml, ['#', 'name', 0, '#'], null, false, 'Missing input name in the XML.');
 
-        $fromform->{$name . 'type'}               = $format->getpath($xml, ['#', 'type', 0, '#'], '');
-        $fromform->{$name . 'modelans'}           = $format->getpath($xml, ['#', 'tans', 0, '#'], '');
-        $fromform->{$name . 'boxsize'}            = (int) $format->getpath($xml, ['#', 'boxsize', 0, '#'], 15);
+        $fromform->{$name . 'type'}               = $format->getpath($xml, ['#', 'type', 0, '#'], 'algebraic');
+        $fromform->{$name . 'modelans'}           = $format->getpath($xml, ['#', 'tans', 0, '#'], 'ta1');
+        $fromform->{$name . 'boxsize'}            = (int) $format->getpath($xml, ['#', 'boxsize', 0, '#'], get_config('qtype_stack', 'inputboxsize'));
         $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, ['#', 'strictsyntax', 0, '#'], 1);
-        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, ['#', 'insertstars', 0, '#'], 0);
+        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, ['#', 'insertstars', 0, '#'], get_config('qtype_stack', 'inputinsertstars'));
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, ['#', 'syntaxhint', 0, '#'], '');
         $fromform->{$name . 'syntaxattribute'}    = $format->getpath($xml, ['#', 'syntaxattribute', 0, '#'], 0);
-        $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, ['#', 'forbidwords', 0, '#'], '');
+        $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, ['#', 'forbidwords', 0, '#'], get_config('qtype_stack', 'inputforbidwords'));
         $fromform->{$name . 'allowwords'}         = $format->getpath($xml, ['#', 'allowwords', 0, '#'], '');
-        $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, ['#', 'forbidfloat', 0, '#'], 1);
-        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, ['#', 'requirelowestterms', 0, '#'], 0);
-        $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, ['#', 'checkanswertype', 0, '#'], 0);
-        $fromform->{$name . 'mustverify'}         = $format->getpath($xml, ['#', 'mustverify', 0, '#'], 1);
-        $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, ['#', 'showvalidation', 0, '#'], 1);
+        $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, ['#', 'forbidfloat', 0, '#'], get_config('qtype_stack', 'inputforbidfloat'));
+        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, ['#', 'requirelowestterms', 0, '#'], get_config('qtype_stack', 'inputrequirelowestterms'));
+        $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, ['#', 'checkanswertype', 0, '#'], get_config('qtype_stack', 'inputcheckanswertype'));
+        $fromform->{$name . 'mustverify'}         = $format->getpath($xml, ['#', 'mustverify', 0, '#'], get_config('qtype_stack', 'inputmustverify'));
+        $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, ['#', 'showvalidation', 0, '#'], get_config('qtype_stack', 'inputshowvalidation'));
         $fromform->{$name . 'options'}            = $format->getpath($xml, ['#', 'options', 0, '#'], '');
     }
 
@@ -1639,12 +1665,12 @@ class qtype_stack extends question_type {
      * @param qformat_xml $format the importer/exporter object.
      */
     protected function import_xml_prt_node($xml, $prtname, $fromform, qformat_xml $format) {
-        $name = $format->getpath($xml, ['#', 'name', 0, '#'], null, false, 'Missing PRT name in the XML.');
+        $name = $format->getpath($xml, ['#', 'name', 0, '#'], null, false, 'Missing PRT node name in the XML.');
 
         $fromform->{$prtname . 'description'}[$name]     = $format->getpath($xml, ['#', 'description', 0, '#'], '');
-        $fromform->{$prtname . 'answertest'}[$name]      = $format->getpath($xml, ['#', 'answertest', 0, '#'], '');
-        $fromform->{$prtname . 'sans'}[$name]            = $format->getpath($xml, ['#', 'sans', 0, '#'], '');
-        $fromform->{$prtname . 'tans'}[$name]            = $format->getpath($xml, ['#', 'tans', 0, '#'], '');
+        $fromform->{$prtname . 'answertest'}[$name]      = $format->getpath($xml, ['#', 'answertest', 0, '#'], 'AlgEquiv');
+        $fromform->{$prtname . 'sans'}[$name]            = $format->getpath($xml, ['#', 'sans', 0, '#'], 'ans1');
+        $fromform->{$prtname . 'tans'}[$name]            = $format->getpath($xml, ['#', 'tans', 0, '#'], 'ta1');
         $fromform->{$prtname . 'testoptions'}[$name]     = $format->getpath($xml, ['#', 'testoptions', 0, '#'], '');
         $fromform->{$prtname . 'quiet'}[$name]           = $format->getpath($xml, ['#', 'quiet', 0, '#'], 0);
         $fromform->{$prtname . 'truescoremode'}[$name]   = $format->getpath($xml, ['#', 'truescoremode', 0, '#'], '=');
@@ -1652,16 +1678,16 @@ class qtype_stack extends question_type {
         $fromform->{$prtname . 'truepenalty'}[$name]     = $format->getpath($xml, ['#', 'truepenalty', 0, '#'], '');
         $fromform->{$prtname . 'truenextnode'}[$name]    = $format->getpath($xml, ['#', 'truenextnode', 0, '#'], -1);
         $fromform->{$prtname . 'trueanswernote'}[$name]  = $format->getpath($xml,
-                ['#', 'trueanswernote', 0, '#'], 1, '');
+                ['#', 'trueanswernote', 0, '#'], '');
         $fromform->{$prtname . 'truefeedback'}[$name]    = $this->import_xml_text($xml,
-                'truefeedback', $format, $fromform->questiontextformat);
+                'truefeedback', $format, FORMAT_HTML);
         $fromform->{$prtname . 'falsescoremode'}[$name]  = $format->getpath($xml, ['#', 'falsescoremode', 0, '#'], '=');
         $fromform->{$prtname . 'falsescore'}[$name]      = $format->getpath($xml, ['#', 'falsescore', 0, '#'], 1);
         $fromform->{$prtname . 'falsepenalty'}[$name]    = $format->getpath($xml, ['#', 'falsepenalty', 0, '#'], '');
         $fromform->{$prtname . 'falsenextnode'}[$name]   = $format->getpath($xml, ['#', 'falsenextnode', 0, '#'], -1);
         $fromform->{$prtname . 'falseanswernote'}[$name] = $format->getpath($xml, ['#', 'falseanswernote', 0, '#'], '');
         $fromform->{$prtname . 'falsefeedback'}[$name]   = $this->import_xml_text($xml,
-                'falsefeedback', $format, $fromform->questiontextformat);
+                'falsefeedback', $format, FORMAT_HTML);
     }
 
     /**
@@ -1680,8 +1706,8 @@ class qtype_stack extends question_type {
         }
         if (isset($xml['#']['testinput'])) {
             foreach ($xml['#']['testinput'] as $inputxml) {
-                $name  = $format->getpath($inputxml, ['#', 'name', 0, '#'], '');
-                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], '');
+                $name  = $format->getpath($inputxml, ['#', 'name', 0, '#'], 'ans1');
+                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], 'ta1');
                 $inputs[$name] = $value;
             }
         }
@@ -1690,10 +1716,10 @@ class qtype_stack extends question_type {
 
         if (isset($xml['#']['expected'])) {
             foreach ($xml['#']['expected'] as $expectedxml) {
-                $name  = $format->getpath($expectedxml, ['#', 'name', 0, '#'], '');
+                $name  = $format->getpath($expectedxml, ['#', 'name', 0, '#'], 'prt1');
                 $expectedscore = $format->getpath($expectedxml, ['#', 'expectedscore', 0, '#'], '');
                 $expectedpenalty = $format->getpath($expectedxml, ['#', 'expectedpenalty', 0, '#'], '');
-                $expectedanswernote = $format->getpath($expectedxml, ['#', 'expectedanswernote', 0, '#'], '');
+                $expectedanswernote = $format->getpath($expectedxml, ['#', 'expectedanswernote', 0, '#'], '1-0-T');
 
                 $testcase->add_expected_result($name, new stack_potentialresponse_tree_state(
                         1, true, $expectedscore, $expectedpenalty, '', [$expectedanswernote]));

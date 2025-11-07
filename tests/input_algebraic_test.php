@@ -2342,7 +2342,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
         // The failure below illustrates issue #1619.
         $this->assertEquals(stack_input::INVALID, $state->status);
         // With a strict interpretation we have to change the , to a .  But actually we don't change it...
-        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('{3 . 1415,2 . 71}', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">{3.1415;2.71}</span>', $state->contentsdisplayed);
         $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma ' .
               '<code>,</code> as a decimal separator!', $state->errors);

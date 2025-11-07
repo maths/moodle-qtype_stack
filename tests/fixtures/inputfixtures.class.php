@@ -764,17 +764,22 @@ class stack_inputvalidation_test_data {
         [
             0 => '1.23',
             1 => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
-            2 => [null, 'php_true', '1 . 23', 'cas_true', '1\cdot 23', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '-1.27',
             1 => [null, 'php_true', '-dispdp(1.27,2)', 'cas_true', '-1.27', '', ""],
-            2 => [null, 'php_true', '-1 . 27', 'cas_true', '\left(-1\right)\cdot 27', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '2.78e-3',
             1 => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
-            2 => [null, 'php_true', '2 . displaysci(78,0,-3)', 'cas_true', '2\cdot 78 \times 10^{-3}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
+        ],
+        [
+            0 => '2,78e-3',
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
         ],
         [
             0 => '1,23',
@@ -801,7 +806,7 @@ class stack_inputvalidation_test_data {
         [
             0 => '1.2+2,3*x',
             1 => [null, 'php_false', '1 . 2+dispdp(2.3,1)*x', 'cas_true', '', 'unencapsulated_comma', ""],
-            2 => [null, 'php_true', '1 . 2+dispdp(2.3,1)*x', 'cas_true', '1\cdot 2+2.3\cdot x', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1,23}',
@@ -811,7 +816,7 @@ class stack_inputvalidation_test_data {
         [
             0 => '{1.23}',
             1 => [null, 'php_true', '{dispdp(1.23,2)}', 'cas_true', '\left \{1.23 \right \}', '', ""],
-            2 => [null, 'php_true', '{1 . 23}', 'cas_true', '\left \{1\cdot 23 \right \}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1;23}',
@@ -821,7 +826,7 @@ class stack_inputvalidation_test_data {
         [
             0 => '{1.2,3}',
             1 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
-            2 => [null, 'php_true', '{1 . dispdp(2.3,1)}', 'cas_true', '\left \{1\cdot 2.3 \right \}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
             0 => '{1,2;3}',
@@ -831,7 +836,7 @@ class stack_inputvalidation_test_data {
         [
             0 => '{1,2;3;4.1}',
             1 => [null, 'php_false', '', '', '', 'ParseError', ""],
-            2 => [null, 'php_true', '{dispdp(1.2,1),3,4 . 1}', 'cas_true', '\left \{1.2 , 3 , 4\cdot 1 \right \}', '', ""],
+            2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
     ];
 

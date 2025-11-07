@@ -159,6 +159,9 @@ class stack_ast_container_silent implements cas_evaluatable {
             $parseroptions->separators = StackLexerSeparators::Dot;
         } else if ($decimals === ',') {
             $parseroptions->separators = StackLexerSeparators::Comma;
+            // This restores the old validation behaviour.
+            // TODO: perhaps an option to switch this _off_ and let people type in 3.14?
+            $filterstoapply[] = '545_wrong_decimal_separator_validation';
         }
         // For now use the old signature of this function and push
         // the extra basen option through the decimal setting.

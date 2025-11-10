@@ -5,6 +5,12 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
+## Version 4.11.1
+
+This incremental release contains some minor, but useful, bug fixes.
+
+This release contains the HELM materials as part of the STACK question library.
+
 ## Version 4.12.0
 
 Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include

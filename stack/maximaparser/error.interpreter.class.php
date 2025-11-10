@@ -494,6 +494,7 @@ class stack_parser_error_interpreter {
             $workb = $worka;
         }
 
+        sort($worka);
         return array_values($worka);
     }
 }

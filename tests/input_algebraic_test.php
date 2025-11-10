@@ -2314,11 +2314,12 @@ final class input_algebraic_test extends qtype_stack_testcase {
 
         $state = $el->validate_student_response(['state' => '{3.1415,2.71}'], $options, '{3.1415,2.71}',
             new stack_cas_security());
-        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(stack_input::INVALID, $state->status);
         // This is a very odd result.  The dot is now a multiplication.f
         $this->assertEquals('{3 . 1415.2 . 71}', $state->contentsmodified);
-        $this->assertEquals('\[ \left \{3\cdot 1415{,}2\cdot 71 \right \} \]', $state->contentsdisplayed);
-        $this->assertEquals('', $state->errors);
+        $this->assertEquals('<span class="stacksyntaxexample">{3.1415,2.71}</span>', $state->contentsdisplayed);
+        $this->assertEquals('You have used the full stop <code>.</code>, ' .
+            'but you must use the comma <code>,</code> as a decimal separator!', $state->errors);
         $this->assertEquals('<input type="text" name="state" id="state" size="16.5" style="width: 13.6em" '
             .'autocapitalize="none" spellcheck="false" class="algebraic" value="{3.1415,2.71}" '
             .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="," '

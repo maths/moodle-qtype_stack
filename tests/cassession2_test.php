@@ -49,6 +49,28 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  */
 final class cassession2_test extends qtype_stack_testcase {
 
+    public function test_stackmaximaversion(): void {
+
+        // This test ensures that we are not running against different
+        // version number of the STACK-Maxima scripts. For example,
+        // old image in a server setup or a cache layer somewhere.
+
+        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
+        $scriptversion = explode('stackmaximaversion:', $scriptversion);
+        $scriptversion = $scriptversion[count($scriptversion) - 1];
+        $scriptversion = explode('$', $scriptversion)[0];
+
+        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
+
+        $session = new stack_cas_session2([$cs]);
+
+        $session->get_valid();
+        $session->instantiate();
+
+        $this->assertEquals($scriptversion, $cs->get_value(),
+            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+    }
+
     public function test_internal_config(): void {
 
         // This test checks if the version number returned by Maxima matches our internal config.
@@ -770,7 +792,9 @@ final class cassession2_test extends qtype_stack_testcase {
         // Fails with actual display output like '{\it pi_{025}}'.
         $this->skip_if_old_maxima('5.23.2');
 
-        $cs = ['a:pi_25', 'b:1+x_3', 'c:f(x):=x^3', 'd:gamma_7^3', 'a2:pi_4^5'];
+        // This, rather strange, example breaks in parser2 'c:f(x):=x^3'.
+        // Separated out as a text below.
+        $cs = ['a:pi_25', 'b:1+x_3', 'd:gamma_7^3', 'a2:pi_4^5'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
@@ -786,14 +810,11 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($s1[1]->get_value(), '1+x_3');
         $this->assertEquals($s1[1]->get_display(), '1+{x}_{3}');
 
-        $this->assertEquals($s1[2]->get_value(), 'f(x):=x^3');
-        $this->assertEquals($s1[2]->get_display(), 'f(x):=x^3');
+        $this->assertEquals($s1[2]->get_value(), 'gamma_7^3');
+        $this->assertEquals($s1[2]->get_display(), '{{\gamma}_{7}}^3');
 
-        $this->assertEquals($s1[3]->get_value(), 'gamma_7^3');
-        $this->assertEquals($s1[3]->get_display(), '{{\gamma}_{7}}^3');
-
-        $this->assertEquals($s1[4]->get_value(), 'pi_4^5');
-        $this->assertEquals($s1[4]->get_display(), '{{\pi}_{4}}^5');
+        $this->assertEquals($s1[3]->get_value(), 'pi_4^5');
+        $this->assertEquals($s1[3]->get_display(), '{{\pi}_{4}}^5');
     }
 
     public function test_matrix_eigenvalues(): void {
@@ -3139,25 +3160,27 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
     }
 
-    public function test_stackmaximaversion(): void {
+    public function test_function_variable(): void {
 
-        // This test ensures that we are not running against different
-        // version number of the STACK-Maxima scripts. For example,
-        // old image in a server setup or a cache layer somewhere.
+        // This is example is, strictly speaking, valid Maxima syntax.
+        // However it does not work in STACK.
+        // Internally we end up with c1:(%_C(f),f(x)):=x^3; which throws a Maixma error.
+        // Interesting to note that c1:''(%_C(f),f(x)):=x^3; (with the extra evaluation) works.
+        //
+        // Also, the old parser threw an error as well.
+        // Old: apply: found true where a function was expected.
+        // Internally we used to have errcatch(c1:f(x):=x^3).
+        $cs = ['c1:f(x):=x^3'];
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+        }
 
-        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
-        $scriptversion = explode('stackmaximaversion:', $scriptversion);
-        $scriptversion = $scriptversion[count($scriptversion) - 1];
-        $scriptversion = explode('$', $scriptversion)[0];
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
 
-        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
-
-        $session = new stack_cas_session2([$cs]);
-
-        $session->get_valid();
-        $session->instantiate();
-
-        $this->assertEquals($scriptversion, $cs->get_value(),
-            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+        $err = 'define: function name cannot be a built-in operator or special symbol; found: "("';
+        $this->assertEquals($s1[0]->get_errors(), $err);
     }
 }

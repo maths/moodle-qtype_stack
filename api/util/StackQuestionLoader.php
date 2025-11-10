@@ -109,13 +109,13 @@ class StackQuestionLoader {
             );
         $question->questiontextformat =
             isset($xmldata->question->questiontext['format']) ? (string) $xmldata->question->questiontext['format'] :
-            self::get_default('question', 'questiontextformat', 'moodle_auto_format');
+            self::get_default('question', 'questiontextformat', 'html');
         $question->generalfeedback =
             isset($xmldata->question->generalfeedback->text) ? (string) $xmldata->question->generalfeedback->text :
             self::get_default('question', 'generalfeedback', '');
         $question->generalfeedbackformat =
             isset($xmldata->question->generalfeedback['format']) ? (string) $xmldata->question->generalfeedback['format'] :
-            self::get_default('question', 'generalfeedbackformat', 'moodle_auto_format');
+            self::get_default('question', 'generalfeedbackformat', 'html');
         // Use (array) because isset($xmldata->question->defaultgrade) returns true if the element is empty and
         // empty() returns true if element is 0. Casting to array returns [] and [0] which return false and true respectively.
         $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade :

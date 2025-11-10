@@ -1463,6 +1463,7 @@ class qtype_stack extends question_type {
         }
         $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat, get_config('qtype_stack', 'prtincorrect'));
         $fromform->penalty               = $format->getpath($xml, ['#', 'penalty', 0, '#'], 0.1);
+        $fromform->hidden                = $format->getpath($xml, ['#', 'hidden', 0, '#'], 0);
         $fromform->decimals              = $format->getpath($xml, ['#', 'decimals', 0, '#'], get_config('qtype_stack', 'decimals'));
         $fromform->scientificnotation    = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], get_config('qtype_stack', 'scientificnotation'));
         $fromform->multiplicationsign    = $format->getpath($xml, ['#', 'multiplicationsign', 0, '#'], get_config('qtype_stack', 'multiplicationsign'));
@@ -1682,7 +1683,7 @@ class qtype_stack extends question_type {
         $fromform->{$prtname . 'truefeedback'}[$name]    = $this->import_xml_text($xml,
                 'truefeedback', $format, FORMAT_HTML);
         $fromform->{$prtname . 'falsescoremode'}[$name]  = $format->getpath($xml, ['#', 'falsescoremode', 0, '#'], '=');
-        $fromform->{$prtname . 'falsescore'}[$name]      = $format->getpath($xml, ['#', 'falsescore', 0, '#'], 1);
+        $fromform->{$prtname . 'falsescore'}[$name]      = $format->getpath($xml, ['#', 'falsescore', 0, '#'], 0);
         $fromform->{$prtname . 'falsepenalty'}[$name]    = $format->getpath($xml, ['#', 'falsepenalty', 0, '#'], '');
         $fromform->{$prtname . 'falsenextnode'}[$name]   = $format->getpath($xml, ['#', 'falsenextnode', 0, '#'], -1);
         $fromform->{$prtname . 'falseanswernote'}[$name] = $format->getpath($xml, ['#', 'falseanswernote', 0, '#'], '');

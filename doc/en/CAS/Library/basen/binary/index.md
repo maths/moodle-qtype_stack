@@ -9,6 +9,34 @@ these purposes we have special binary tools in this category. The common thing
 for these tools is that you need to describe the number of bits in your numbers
 otherwise things won't work.
 
+Some of these tools also consider octal and hexadecimal numbers as "binary".
+For example [`sbasen_bitwidth`](#sbasen_bitwidth) will accept bases 2, 8 and 16 and provide
+the number of bits required for the value with its paddings. Likewise
+[`sbasen_bitwise_eval`](#sbasen_bitwise_eval) will also act on numbers in those bases. To identify
+numbers in those bases use [`sbasen_is_cs`](#sbasen_is_cs).
+
+
+---
+
+
+## sbasen_bitwidth(expression)<a id='sbasen_bitwidth'></a>
+
+Returns the maximum bitwidth of all the base 2, 8 or 16 `stackbasen` objects
+present in the expression. Should none be found returns -1.
+
+
+
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| expression | expression | an expression to check |
+
+
+
+
+| Return type | description |
+| ----------- | ------------|
+| integer | `-1` if no `stackbasen` numbers of the relevant bases were found |
+
 
 ---
 
@@ -76,6 +104,29 @@ the constructor [`sbasen_construct_from_base10`](../index.md#sbasen_construct_fr
 | Return type | description |
 | ----------- | ------------|
 | stackbasen | an object representing that binary number. |
+
+
+---
+
+
+## sbasen_is_cs(expression)<a id='sbasen_is_cs'></a>
+
+Checks if the expression contains a `stackbasen` value and that all
+such values it contains are in traditional computer science bases, i.e,
+2, 8 or 16.
+
+
+
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| expression | expression | an expression to check |
+
+
+
+
+| Return type | description |
+| ----------- | ------------|
+| bool | `false` if no `stackbasen` numbers were found or if even one of them is not in the expected bases. |
 
 
 ---

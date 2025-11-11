@@ -22,23 +22,23 @@ s_exec_test("basen/binary/sbasen_binary_convert.mac:27",2)$
 s_test_case(simp):=is(sbasen_convert_to_binary(stackbasen("12_16","S",16),"C") = stackbasen("0b10010","C",2))$
 s_exec_test("basen/binary/sbasen_binary_convert.mac:28",3)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) or stackbasen("11_2","S",2)) = stackbasen("0011_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:120",1)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:113",1)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2)) = stackbasen("0001_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:121",2)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:114",2)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) nor stackbasen("11_2","S",2)) = stackbasen("1100_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:122",3)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:115",3)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) nand stackbasen("11_2","S",2)) = stackbasen("1110_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:123",4)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:116",4)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xor stackbasen("11_2","S",2)) = stackbasen("0010_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:124",5)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:117",5)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xnor stackbasen("11_2","S",2)) = stackbasen("1101_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:125",6)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:118",6)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) xor stackbasen("11_2","S",2) xor stackbasen("11_2","S",2)) = stackbasen("0001_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:126",7)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:119",7)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2) or stackbasen("0b1000","C",2)) = stackbasen("1001_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:127",8)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:120",8)$
 s_test_case(simp):=is(sbasen_bitwise_eval(stackbasen("0001_2","S",2) and stackbasen("11_2","S",2) and stackbasen("0b1000","C",2)) = stackbasen("0000_2","S",2))$
-s_exec_test("basen/binary/sbasen_binary_logic.mac:128",9)$
+s_exec_test("basen/binary/sbasen_binary_logic.mac:121",9)$
 s_test_case(simp):=is(sbasen_pad(stackbasen("0xA1","C",16),4) = stackbasen("0x00A1","C",16))$
 s_exec_test("basen/binary/sbasen_binary_padding.mac:33",1)$
 s_test_case(simp):=is(sbasen_pad(stackbasen("1_2","S",2),8) = stackbasen("00000001_2","S",2))$
@@ -47,6 +47,32 @@ s_test_case(simp):=is(sbasen_truncate_left(stackbasen("00000001_2","S",2),4) = s
 s_exec_test("basen/binary/sbasen_binary_padding.mac:64",3)$
 s_test_case(simp):=is(sbasen_truncate_right(stackbasen("00000001_2","S",2),4) = stackbasen("0000_2","S",2))$
 s_exec_test("basen/binary/sbasen_binary_padding.mac:95",4)$
+s_test_case(simp):=is(sbasen_bitwidth(stackbasen("0001_2","S",2)) = 4)$
+s_exec_test("basen/binary/sbasen_bitwidth.mac:25",1)$
+s_test_case(simp):=is(sbasen_bitwidth(stackbasen("1_2","S",2)) = 1)$
+s_exec_test("basen/binary/sbasen_bitwidth.mac:26",2)$
+s_test_case(simp):=is(sbasen_bitwidth(stackbasen("0001_2","S",2)+stackbasen("1_2","S",2)) = 4)$
+s_exec_test("basen/binary/sbasen_bitwidth.mac:27",3)$
+s_test_case(simp):=ev(is(sbasen_bitwidth(x+1) = -1),simp = true)$
+s_exec_test("basen/binary/sbasen_bitwidth.mac:28",4)$
+s_test_case(simp):=is(sbasen_bitwidth(stackbasen("6_8","S",8)) = 3)$
+s_exec_test("basen/binary/sbasen_bitwidth.mac:29",5)$
+s_test_case(simp):=is(sbasen_bitwidth(stackbasen("007","C",8)) = 6)$
+s_exec_test("basen/binary/sbasen_bitwidth.mac:30",6)$
+s_test_case(simp):=is(sbasen_bitwidth(stackbasen("0x0AB","C",16)) = 12)$
+s_exec_test("basen/binary/sbasen_bitwidth.mac:31",7)$
+s_test_case(simp):=is(sbasen_is_cs(stackbasen("0001_2","S",2)) = true)$
+s_exec_test("basen/binary/sbasen_is_cs.mac:20",1)$
+s_test_case(simp):=is(sbasen_is_cs(stackbasen("FF_16","S",16)) = true)$
+s_exec_test("basen/binary/sbasen_is_cs.mac:21",2)$
+s_test_case(simp):=is(sbasen_is_cs(stackbasen("007","C",8)) = true)$
+s_exec_test("basen/binary/sbasen_is_cs.mac:22",3)$
+s_test_case(simp):=is(sbasen_is_cs(stackbasen("0001_3","S",3)) = false)$
+s_exec_test("basen/binary/sbasen_is_cs.mac:23",4)$
+s_test_case(simp):=is(sbasen_is_cs(stackbasen("007","C",8)+stackbasen("0001_3","S",3)) = false)$
+s_exec_test("basen/binary/sbasen_is_cs.mac:24",5)$
+s_test_case(simp):=is(sbasen_is_cs(x+1) = false)$
+s_exec_test("basen/binary/sbasen_is_cs.mac:25",6)$
 s_test_case(simp):=is(sbasen_char_to_digit("0") = 0)$
 s_exec_test("basen/sbasen_char_to_digit.mac:17",1)$
 s_test_case(simp):=is(sbasen_char_to_digit("A") = 10)$

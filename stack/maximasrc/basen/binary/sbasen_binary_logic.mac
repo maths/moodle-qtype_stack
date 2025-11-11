@@ -25,19 +25,12 @@
  *   operations.
  */
 sbasen_bitwise_eval(basen_logic):= block([simp, bit_width, sub_ex, logical_operation_selector, operator_arguments, changes_to_expression, ndx, resulting_bits],
- /* First identify the bitwidth. */
- bit_width: 1,
- for sub_ex in 
-  extract_matching_parts(lambda([_x],is(safe_op(_x)="stackbasen")), basen_logic)
- do (
-  if is(third(sub_ex) = 2) then (
-   bit_width: ev(max(bit_width, length(sbasen_convert_to_digits(sub_ex))),simp)
-  ) elseif is(third(sub_ex) = 8) then (
-   bit_width: ev(max(bit_width, 3*length(sbasen_convert_to_digits(sub_ex))),simp)
-  ) elseif is(third(sub_ex) = 16) then (
-   bit_width: ev(max(bit_width, 4*length(sbasen_convert_to_digits(sub_ex))),simp)
-  )
- ),
+ /* First identify the bitwidth. If this returns -1 then there are no "binary"
+  * values to operate on and we can stop operating.
+  */
+ bit_width: sbasen_bitwidth(basen_logic),
+ if is(bit_width=-1) then return(basen_logic),
+
  /* Then try to find bits of the expression that could be processed. */
  logical_operation_selector: lambda([sub_ex],
   member(safe_op(sub_ex),["not","and","or","nand","nor","xor","xnor"])

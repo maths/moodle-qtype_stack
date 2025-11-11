@@ -98,7 +98,7 @@ See [`NULLUNITS`](#NULLUNITS) and [`NULLNUM`](#NULLNUM) for special identifiers 
 
 | Return type | description |
 | ----------- | ------------|
-| stackbasen | returns itself, does not evaluate on its own |
+| stackunits | returns itself, does not evaluate on its own |
 
 
 ---

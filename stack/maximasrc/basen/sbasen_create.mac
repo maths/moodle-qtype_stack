@@ -59,3 +59,4 @@ sbasen_construct_from_base10(number, format, base) := block([simp,digits,m,rem],
 
 s_test_case(simp) := ev(is(sbasen_construct_from_base10(10,"C",16)=stackbasen("0xA","C",16)),sbasen_construct_default_case="upper")$
 s_test_case(simp) := ev(is(sbasen_construct_from_base10(10,"S",16)=stackbasen("a_16","S",16)),sbasen_construct_default_case="lower")$
+s_test_case(simp) := ev(is(sbasen_construct_from_base10(7*17*223*1291,"S",33)=stackbasen("STACK_33","S",33)),simp=true,sbasen_construct_default_case="upper");

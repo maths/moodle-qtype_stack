@@ -158,7 +158,10 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('html', $question->prtincorrectformat);
         $this->assertEquals(1, $question->defaultmark);
         $this->assertEquals(0.1, $question->penalty);
-        $this->assertEquals(0, $question->hidden);
+        if (isset($question->hidden)) {
+            // Moodle > 4.1.
+            $this->assertEquals(0, $question->hidden);
+        }
         $this->assertEquals(
             \get_config('qtype_stack', 'stackversion'),
              $question->stackversion

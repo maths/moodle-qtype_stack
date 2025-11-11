@@ -3056,7 +3056,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
     SB:strip_int_const(SB, var),
     /* This strips off any trailing constant of integration from the student's answer */
     SAa:strip_int_const(ev(SA, logexpand:super, simp), var),
-    if debug then print(["Striped off  constants of integration: ", SA, SB]),
+    if debug then print(["Striped off  constants of integration: ", SAa, SB]),
     /* If the teacher has not used logabs, then strip out any logabs from the student's answer. */
     /* Student consistency is a different issue. */
     SAConsistentLogs:ATInt_consistent_logabs_p(SA, var),
@@ -3067,7 +3067,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
     /* Calculate derivatives */
     SAd:ev(diff(SA, var), simp),
     SBd:ev(diff(SB, var), simp),
-    if debug then print([SAa, SBd]),
+    if debug then print(["Expressions for comparison :", SAa, SBd]),
     if debug then print(["Derivatives : ", SAd, SBd]),
     if ev(algebraic_equivalence(SAd, SBd), simp) then block(
     /* Check for constant of integration - code copied from algebraic_equivalence. */

@@ -264,7 +264,7 @@ final class caskeyval_test extends qtype_stack_testcase {
 
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
-        $expected = ['The characters @ and \ are not allowed in CAS input.'];
+        $expected = ['Forbidden operator: <span class="stacksyntaxexample">@</span>.'];
         $this->assertEquals($expected, $kv->get_errors());
     }
 
@@ -407,6 +407,19 @@ final class caskeyval_test extends qtype_stack_testcase {
             '<span class="stacksyntaxexample">c:(b+1)-(b+1)<span class="stacksyntaxexamplehighlight">' .
             '*</span>(d+1)</span>.', ];
         $this->assertEquals($expected, $kv->get_errors());
+    }
+
+    public function test_stack_compile_unexpected_lambda_2(): void {
+        // This is related to issue #1279.
+        $tests = 'a:b+1; c:a-a(d+1);';
+        $kv = new stack_cas_keyval($tests);
+        $this->asserttrue($kv->get_valid());
+        $expected = [];
+        $this->assertEquals($expected, $kv->get_errors());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $s->instantiate();
+        $this->assertEquals($s->get_by_key('c')->get_evaluationform(), 'c:a-a(d+1)');
     }
 
     public function test_stack_add_slash(): void {

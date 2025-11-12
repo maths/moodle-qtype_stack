@@ -421,6 +421,14 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'basen':
+                    // TODO: maybe this needs some value based arguments.
+                    // For now simply existing leads to C and S support.
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
+                    }
+                    break;
+
                 case 'validator' || 'feedback':
                     // Perform simple checking of function names: not fully general.
                     $good = true;
@@ -739,6 +747,11 @@ abstract class stack_input {
             $secrules->set_units(false);
         }
 
+        if ($this->get_extra_option('basen')) {
+            // When dealing with base-N allow them explicitly.
+            $secrules->add_allowedwords('stackbasen');
+        }
+
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
@@ -975,6 +988,11 @@ abstract class stack_input {
             $filterstoapply[] = '101_no_floats';
         }
 
+        if ($this->get_extra_option('basen', false)) {
+            // We should really ask the parseroptions what to apply.
+            $filterstoapply[] = '115_lexer_post_process_stackbasen';
+        }
+
         $filterstoapply[] = '150_replace_unicode_letters';
 
         if (get_class($this) === 'stack_units_input' || get_class($this) === 'stack_numerical_input') {
@@ -1086,8 +1104,12 @@ abstract class stack_input {
                 $notes['too_long'] = true;
                 $val = '';
             }
+            $dec = $this->options->get_option('decimals');
+            if ($this->get_extra_option('basen')) {
+                $dec .= 'basen';
+            }
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                [], 'Root', $this->options->get_option('decimals'));
+                [], 'Root', $dec);
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
@@ -1108,9 +1130,13 @@ abstract class stack_input {
                 $val = 'stack_validate_simpnum(' . $val .')';
                 // Add in an extra Maxima function here so we can eventaually decide how many dps to display.
             }
+            $dec = $this->options->get_option('decimals');
+            if ($this->get_extra_option('basen')) {
+                $dec .= 'basen';
+            }
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
                 array_merge($filterstoapply, $protectfilters),
-                [], 'Root', $this->options->get_option('decimals'));
+                [], 'Root', $dec);
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
 
@@ -1603,6 +1629,9 @@ abstract class stack_input {
             'decimal' => $decimal,
             'listsep' => $listsep,
         ];
+        if ($this->get_extra_option('basen', false) === true) {
+            $params['reverstackbasen'] = true;
+        }
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
         }

@@ -53,8 +53,9 @@ jobs:
             database: 'mariadb'
             maxima: 'GCL'
             moodle-app: true
-          - php: '7.4'
-            moodle-branch: 'MOODLE_401_STABLE'
+          # Note, Moodle 4.2 will run on PHP 8.0, but we require PHP 8.1 or newer.
+          - php: '8.1'
+            moodle-branch: 'MOODLE_402_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
@@ -197,5 +198,5 @@ jobs:
 
       - name: Behat features
         if: ${{ always() }}
-        run: moodle-plugin-ci behat --profile chrome --auto-rerun 6
+        run: moodle-plugin-ci behat --profile chrome --auto-rerun 12
 

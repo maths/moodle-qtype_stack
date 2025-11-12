@@ -846,12 +846,15 @@ $string['stackCas_underscores']             = 'The following use of underscore c
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
+$string['stackCas_prematureRightBracket']   = 'You are closing <span class="stacksyntaxexample">{$a->bracket}</span> before its contents are complete, in the expression: {$a->cmd}.';
+$string['stackCas_missmatchedRightBracket']   = 'You are closing <span class="stacksyntaxexample">{$a->bracket}</span> but <span class="stacksyntaxexample">{$a->expected}</span> needs to be closed first, in the expression: {$a->cmd}.';
 $string['stackCas_qmarkoperators']          = 'Question marks are not permitted in responses.';
 $string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses.';
 $string['stackCas_newline']                 = 'Newline characters are not permitted in responses.';
 $string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a->char}.';
 $string['stackCas_useinsteadChar']          = 'Please replace <span class="stacksyntaxexample">{$a->bad}</span> with \'<span class="stacksyntaxexample">{$a->char}</span>\'.';
 $string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid final character in {$a->cmd}';
+$string['stackCas_finalToken']               = '\'{$a->token}\' is an invalid final term in {$a->cmd}';
 $string['stackCas_MissingStars']            = 'You seem to be missing * characters. Perhaps you meant to type {$a->cmd}.';
 $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid} in the term {$a->term}.';
 $string['stackCas_noFunction']              = 'The use of the function {$a->forbid} in the term {$a->term} is not permitted in this context.';
@@ -896,6 +899,8 @@ $string['stackCas_redefine_built_in']       = 'Redefining a built in function "{
 $string['stackCas_nested_function_declaration'] = 'Definition of a function inside another function is now forbidden, use renaming of the function if you need to switch function definitions from within another function.';
 $string['stackCas_decimal_usedthreesep']        = 'You have used the full stop <code>.</code>, the comma <code>,</code> and semicolon <code>;</code> in your expression.  Please be consistent with decimal position (<code>.</code> or <code>,</code>) and list item separators (<code>,</code> or <code>;</code>).  Your answer is ambiguous!';
 $string['stackCas_decimal_usedcomma']           = 'You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a decimal separator!';
+$string['stackCas_OpenComment'] = 'There is a comment <code>/*</code> that has not been closed.';
+$string['stackCas_OpenString'] = 'There is a string <code>"</code> that has not been closed.';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
@@ -1865,3 +1870,18 @@ $string['api_seed_not_in_variants'] = 'The specified seed belongs to no deployed
 $string['api_submit'] = 'Submit Answers';
 $string['api_valid_all_parts'] = 'Please enter valid answers for all parts of the question.';
 $string['api_which_typed'] = 'which can be typed as follows';
+
+
+
+
+$string['parsertester'] = 'Parsertester';
+$string['parsertester_settings'] = 'Parser settings';
+$string['parsertester_settings_rule'] = 'Parser variant';
+$string['parsertester_settings_separators'] = 'Decimal and other separators';
+$string['parsertester_settings_insert'] = 'Attempted correction logic';
+$string['parsertester_input'] = 'Test input';
+$string['parsertester_output'] = 'Output';
+
+$string['sbasen_validate_not_basen'] = 'Expected a raw base-N number.';
+$string['sbasen_validate_base_too_big'] = 'The base-N system currently does not support base-{$a->base}, only bases 2-36 are supported.';
+$string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number {$a->num} are not suitable for the base ({$a->base}) in use.';

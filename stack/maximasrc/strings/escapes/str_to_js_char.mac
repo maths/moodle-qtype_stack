@@ -1,0 +1,17 @@
+/**
+ * A function to convert singular characters to ECMAScript escaped chars if necessary.
+ *
+ * To convert longer strings use `str_to_js`.
+ *
+ * @param[string] c, a single character string.
+ * @return[string] a string with characters sensitive in ECMAScript escaped.
+ */
+str_to_js_char(c) := if c = "\\" then "\\\\"
+                else if c = "\"" then "\\\""
+                else if c = "'" then "\\'"
+                else if c = ascii( 8) then "\\b" else if c = ascii( 9) then "\\t"
+                else if c = ascii(10) then "\\n" else if c = ascii(12) then "\\f"
+                else if c = ascii(13) then "\\r" else c$
+
+s_test_case(simp) := is(str_to_js_char("\\")="\\\\")$
+s_test_case(simp) := is(str_to_js_char("'")="\\'")$

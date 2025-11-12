@@ -23,6 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
+require_once(__DIR__ . '/../castext2/utils.php');
 
 /**
  * AST filter that compiles inline CASText2.

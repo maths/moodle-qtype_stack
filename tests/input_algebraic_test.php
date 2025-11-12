@@ -362,7 +362,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
             'i*(x+1) + j*(2*x+3) + k*(3*x+4)',
             new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('spaces | missing_stars', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('i*(x+1)+j*(2*x+3)+k*(3*x+4)', $state->contentsmodified);
         $this->assertEquals('\[ \mathrm{i}\cdot \left(x+1\right)+j\cdot \left(2\cdot x+3\right)+' .
@@ -376,7 +376,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
             'j*(2*x+3) + k*(3*x+4)',
             new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('missing_stars | spaces | function_stars', $state->note);
+        $this->assertEquals('spaces | missing_stars | function_stars', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('j*(2*x+3)+k*(3*ab+4)+sin(x)', $state->contentsmodified);
         $this->assertEquals('\[ j\cdot \left(2\cdot x+3\right)+k\cdot \left(3\cdot {\it ab}+4\right)+\sin \left( x \right) \]',
@@ -388,7 +388,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
             'j*(2*x+3) + k*(3*x+4)',
             new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('missing_stars | spaces | function_stars', $state->note);
+        $this->assertEquals('spaces | missing_stars | function_stars', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('j*(2*x+3)+k*(3*a*b+4)+sin(x)', $state->contentsmodified);
         $this->assertEquals('\[ j\cdot \left(2\cdot x+3\right)+k\cdot \left(3\cdot a\cdot b+4\right)+\sin \left( x \right) \]',
@@ -784,10 +784,10 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => "''diff(y/x^2,x,1)"],
             $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('Illegal_extraevaluation', $state->note);
-        $this->assertEquals("Maxima's extra evaluation operator <code>''</code> is not supported by STACK.",
+        $this->assertEquals('apostrophe', $state->note);
+        $this->assertEquals("Apostrophes are not permitted in responses.",
             $state->errors);
-        $this->assertEquals("''%_E(%_E(noundiff(y/x^2,x,1)))", $state->contentsmodified);
+        $this->assertEquals("", $state->contentsmodified);
         $this->assertEquals("<span class=\"stacksyntaxexample\">''diff(y/x^2,x,1)</span>",
             $state->contentsdisplayed);
     }
@@ -1293,7 +1293,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => '3sin(a b)'], $options, '3sin(a b)',
                 new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('spaces | missing_stars', $state->note);
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
         $this->assertEquals('Illegal spaces found in expression <span class="stacksyntaxexample">' .
                 '3*sin(a<span class="stacksyntaxexamplehighlight">_</span>b)</span>.', $state->errors);
@@ -1312,7 +1312,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
-        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('spaces | missing_stars', $state->note);
         $this->assertEquals('Illegal spaces found in expression <span class="stacksyntaxexample">' .
                 '3*sin(a<span class="stacksyntaxexamplehighlight">_</span>b)</span>.', $state->errors);
     }
@@ -1326,7 +1326,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
-        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('spaces | missing_stars', $state->note);
         $this->assertEquals('You seem to be missing * characters. ' .
                 'Perhaps you meant to type <span class="stacksyntaxexample">3' .
                 '<span class="stacksyntaxexamplehighlight">*</span>sin(a*b)</span>.',
@@ -1342,7 +1342,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
-        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('spaces | missing_stars', $state->note);
         $this->assertEquals('', $state->errors);
     }
 
@@ -1355,7 +1355,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
-        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('spaces | missing_stars', $state->note);
         $this->assertEquals('', $state->errors);
     }
 
@@ -1970,8 +1970,8 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['sans1' => $sa], $options, '%union({3,4,5})',
                 new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
-        $this->assertEquals('spaces | forbiddenChar_parserError', $state->note);
-        $this->assertEquals('CAS commands may not contain the following characters: ;.', $state->errors);
+        $this->assertEquals('spaces | ParseError', $state->note);
+        $this->assertEquals('Expected "(", "[", "{", "|", "ATOM", "PREFIX_OP", received ";".', $state->errors);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals($ta, $state->contentsdisplayed);
     }
@@ -2181,19 +2181,19 @@ final class input_algebraic_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_no_dot_dot(): void {
-
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '3.14*2.78');
         $el->set_parameter('forbidFloats', false);
         $state = $el->validate_student_response(['sans1' => '3.14.2.78'], $options, '3.14*2.78',
             new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
-        $this->assertEquals('3.14 . 2.78', $state->contentsmodified);
+        $this->assertEquals('3.14*.2*.78', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">3.14.2.78</span>',
             $state->contentsdisplayed);
-        $this->assertEquals('MatrixMultWithFloat', $state->note);
-        $this->assertEquals('Using matrix multiplication "." with scalar floats is forbidden, ' .
-            'use normal multiplication "*" instead for the same result. 3.14 . 2.78', $state->errors);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type ' .
+            '<span class="stacksyntaxexample">3.14<span class="stacksyntaxexamplehighlight">*' .
+            '</span>.2<span class="stacksyntaxexamplehighlight">*</span>.78</span>.', $state->errors);
     }
 
     public function test_validate_consolidatesubscripts(): void {
@@ -2315,12 +2315,11 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['state' => '{3.1415,2.71}'], $options, '{3.1415,2.71}',
             new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        // With a strict interpretation we would have to change the , to a . In this case it results in ...
-        $this->assertEquals('', $state->contentsmodified);
+        // This is a very odd result.  The dot is now a multiplication.f
+        $this->assertEquals('{3 . 1415.2 . 71}', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">{3.1415,2.71}</span>', $state->contentsdisplayed);
-        $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a ' .
-            'decimal separator!',
-            $state->errors);
+        $this->assertEquals('You have used the full stop <code>.</code>, ' .
+            'but you must use the comma <code>,</code> as a decimal separator!', $state->errors);
         $this->assertEquals('<input type="text" name="state" id="state" size="16.5" style="width: 13.6em" '
             .'autocapitalize="none" spellcheck="false" class="algebraic" value="{3.1415,2.71}" '
             .'data-stack-input-type="algebraic" data-stack-input-decimal-separator="," '
@@ -2341,9 +2340,10 @@ final class input_algebraic_test extends qtype_stack_testcase {
 
         $state = $el->validate_student_response(['state' => '{3.1415;2.71}'], $options, '{3.1415,2.71}',
             new stack_cas_security());
+        // The failure below illustrates issue #1619.
         $this->assertEquals(stack_input::INVALID, $state->status);
         // With a strict interpretation we have to change the , to a .  But actually we don't change it...
-        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('{3 . 1415,2 . 71}', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">{3.1415;2.71}</span>', $state->contentsdisplayed);
         $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma ' .
               '<code>,</code> as a decimal separator!', $state->errors);
@@ -2455,10 +2455,11 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(['state' => 'matrix([3,1415;2,71]).matrix([1];[2])'], $options,
             'matrix([3.1415,2.71])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">matrix([3,1415;2,71]).matrix([1];[2])</span>',
+        $this->assertEquals('matrix([3.1415,2.71]) . matrix([1],[2])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} 3{,}1415 & 2{,}71 \end{array}\right]\cdot ' .
+            '\left[\begin{array}{c} 1 \\\\ 2 \end{array}\right] \]',
             $state->contentsdisplayed);
-        $this->assertEquals('forbiddenCharDecimal', $state->note);
+        $this->assertEquals('SA_not_matrix', $state->note);
     }
 
     public function test_validate__string(): void {

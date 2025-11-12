@@ -49,6 +49,28 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  */
 final class cassession2_test extends qtype_stack_testcase {
 
+    public function test_stackmaximaversion(): void {
+
+        // This test ensures that we are not running against different
+        // version number of the STACK-Maxima scripts. For example,
+        // old image in a server setup or a cache layer somewhere.
+
+        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
+        $scriptversion = explode('stackmaximaversion:', $scriptversion);
+        $scriptversion = $scriptversion[count($scriptversion) - 1];
+        $scriptversion = explode('$', $scriptversion)[0];
+
+        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
+
+        $session = new stack_cas_session2([$cs]);
+
+        $session->get_valid();
+        $session->instantiate();
+
+        $this->assertEquals($scriptversion, $cs->get_value(),
+            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+    }
+
     public function test_internal_config(): void {
 
         // This test checks if the version number returned by Maxima matches our internal config.
@@ -808,18 +830,23 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals($s1[0]->get_value(), 'pi_25');
         $this->assertEquals($s1[0]->get_display(), '{\pi}_{25}');
+        $this->assertEquals($s1[0]->get_errors(), '');
 
         $this->assertEquals($s1[1]->get_value(), '1+x_3');
         $this->assertEquals($s1[1]->get_display(), '1+{x}_{3}');
+        $this->assertEquals($s1[1]->get_errors(), '');
 
         $this->assertEquals($s1[2]->get_value(), 'f(x):=x^3');
         $this->assertEquals($s1[2]->get_display(), 'f(x):=x^3');
+        $this->assertEquals($s1[2]->get_errors(), '');
 
         $this->assertEquals($s1[3]->get_value(), 'gamma_7^3');
         $this->assertEquals($s1[3]->get_display(), '{{\gamma}_{7}}^3');
+        $this->assertEquals($s1[3]->get_errors(), '');
 
         $this->assertEquals($s1[4]->get_value(), 'pi_4^5');
         $this->assertEquals($s1[4]->get_display(), '{{\pi}_{4}}^5');
+        $this->assertEquals($s1[4]->get_errors(), '');
     }
 
     public function test_matrix_eigenvalues(): void {
@@ -2492,8 +2519,8 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('\frac{20\cdot \pi-80\cdot x}{4}',
                 $s1[0]->get_display());
 
-        $expected = '([Op: /] ([Group] ([Op: *] ([Int] 20), ([Op: *] ([Op: -] ([Id] %pi), ([Int] 80)), ([Id] x)))), ' .
-            '([Int] 4))';
+        $expected = '([Op: /] ([Group] ([Op: -] ([Op: *] ([Int] 20), ([Id] %pi)), ([Op: *] ([Int] 80), ([Id] x)))), ' .
+                '([Int] 4))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 

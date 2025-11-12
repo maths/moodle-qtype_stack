@@ -43,7 +43,7 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // Simply nothing to do if we have nowhere to place those strings.
-        if ($this->extractor === null) {
+        if ($this->extractor === null || $this->extractor === false) {
             return $ast;
         }
 

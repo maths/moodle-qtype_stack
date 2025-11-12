@@ -794,6 +794,7 @@ final class input_equiv_test extends qtype_stack_testcase {
         $options = new stack_options();
         $val = '[x^2=a,stacklet(a,4),x^2=4,x=2 nounor x=-2]';
         $el = stack_input_factory::make('equiv', 'sans1', $val);
+        // TODO reinstate "let" in parser2.
         $state = $el->validate_student_response(['sans1' => "x^2=a\nlet a=4\nx^2=4\nx=2 or x=-2"], $options,
             $val, new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);

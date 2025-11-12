@@ -34,7 +34,7 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../../../engine/lib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
-require_once(__DIR__ . '/../stack/maximaparser/utils.php');
+require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
 
 require_login();
 $context = context_system::instance();
@@ -80,21 +80,24 @@ echo '<pre>' . htmlspecialchars(json_encode($selected, JSON_PRETTY_PRINT), ENT_C
 
 echo '<h3>Question variables</h3>';
 
+$po = stack_parser_options::get_cas_config();
+$parser = $po->get_parser();
+
 if ($q->get_cached('preamble-qv') !== null) {
     echo '<p>Preamble:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('preamble-qv'))->
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('preamble-qv')))->
         toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
 if ($q->get_cached('contextvariables-qv') !== null) {
     echo '<p>Contextvariables:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('contextvariables-qv'))->
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('contextvariables-qv')))->
         toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
 if ($q->get_cached('statement-qv') !== null) {
     echo '<p>Question variables:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('statement-qv'))->
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('statement-qv')))->
         toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 } else {
     echo '<p>No actual question variables.</p>';
@@ -112,19 +115,19 @@ foreach ($q->prts as $prt) {
     if (isset($q->get_cached('prt-preamble')[$prt->get_name()]) &&
             $q->get_cached('prt-preamble')[$prt->get_name()] !== null) {
         echo '<p>PRT-preamble:</p>';
-        echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-preamble')[$prt->get_name()])->
+        echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-preamble')[$prt->get_name()]))->
             toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
     }
 
     if (isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) &&
             $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null) {
         echo '<p>PRT-contextvariables:</p>';
-        echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-contextvariables')[$prt->get_name()])->
+        echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-contextvariables')[$prt->get_name()]))->
             toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
     }
 
     echo '<p>PRT-logic:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-definition')[$prt->get_name()])->
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-definition')[$prt->get_name()]))->
         toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
@@ -135,7 +138,7 @@ echo '<table><tr><th>Part</th><th>Compiled CASText code</th></tr>';
 foreach ($q->compiledcache as $key => $value) {
     if (strpos($key, 'castext-') === 0) {
         echo '<tr><td>'. $key . '</td><td><pre>';
-        echo htmlspecialchars(maxima_parser_utils::parse($value)->toString(['pretty' => true]), ENT_COMPAT);
+        echo htmlspecialchars($parser->parse($po->get_lexer($value))->toString(['pretty' => true]), ENT_COMPAT);
         echo '</pre></td></tr>';
     }
 }

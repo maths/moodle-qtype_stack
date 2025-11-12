@@ -89,8 +89,9 @@ class stack_subscripts_test_data {
         ['a_b_c', 'a_b_c', '!', '{{a}_{b}}_{c}', '!', '!'],
         // The underscore can appear within atoms, but it cannot be used as an operator here.
         // We might later create a student input context in which the underscore is an operator.
-        // In core Maxima we can't because this used in too many function names.
-        ['(a_b)_c', 'invalid', '', '', '!', '!', 'Test associativity'],
+        // In core Maxima we can't because this is used in too many function names.
+        // Interesting change of behaviour below with parser 2.
+        ['(a_b)_c', 'a_b*_c', '_c*a_b', '{a}_{b}\,c', '{a}_{b}\,c', '!', 'Test associativity'],
         ['a_(b_c)', 'a_(b_c)', '!', '{\it a\_}\left({b}_{c}\right)', '!', '!'],
         // Array-notation.
         ['v[0]', 'v[0]', '!', 'v_{0}', '!', '!'],

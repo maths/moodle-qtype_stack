@@ -169,6 +169,9 @@ load("stackstrings.mac");
 load("fboundp.mac");
 load("functs");
 
+/* Combined and processed maximasrc/ content. */
+load("maximasrccompiled.mac");
+
 /* Are we printing normal Maxima or plain atoms? */
 tex_plain_atoms:false$
 

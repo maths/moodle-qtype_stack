@@ -1332,6 +1332,10 @@ class stack_answertest_test_data {
         // Including ID_TRANS has oneDiv which turns 1/1->1 which is an integer, before ratAdd gets a look.
         ['EqualComAssRules', '[ID_TRANS,NEG_TRANS,ratAdd]', '1/2+1/-1', '-1/2', 0, '', ''],
         ['EqualComAssRules', '[ID_TRANS,NEG_TRANS,ratAdd]', '1/2-1/1', '-1/2', 0, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x=1', '1=x', 1, '', 'Equations'],
+        ['EqualComAssRules', '[noncomEq]', 'x=1', '1=x', 0, '', ''],
+        ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d-17', 'a*20+b*15+c*8+d*4=-17', 0, 'ATEqualComAssRules ATAlgEquiv_SA_not_equation.', ''],
+        ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d=-17', 'a*20+b*15+c*8+d*4=-17', 1, '', ''],
 
         ['CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''],
         ['CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''],

@@ -917,4 +917,25 @@ final class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals($cr['sans1'], $sans1);
         $this->assertEquals($cr['sans1_val'], $sansv);
     }
+
+    public function test_validate_student_response_disp_parens(): void {
+
+        $options = new stack_options();
+        $val = '[a+disp_parens(a+b),disp_parens(a+b)+c]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(['sans1' => "a+(b+c)\n(a+b)+c"], $options,
+            $val, new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('[a+(b+c),(a+b)+c]',
+            $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &a+\left(b+c\right)& \cr \color{green}{\checkmark}' .
+            '&a+b+c& \cr \end{array} \]',
+            $state->contentsdisplayed);
+
+        $ta = $el->get_teacher_answer();
+        $this->assertEquals($ta, $val);
+    }
 }

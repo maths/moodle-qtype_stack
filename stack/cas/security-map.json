@@ -1986,6 +1986,14 @@
   "disp": {
       "function": "?"
   },
+  "disp_parens": {
+      "function": "s",
+      "nounfunctionfor": ""
+  },
+  "disp_select": {
+      "function": "s",
+      "nounfunctionfor": ""
+  },
   "dispJordan": {
       "function": "s"
   },

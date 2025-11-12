@@ -792,9 +792,7 @@ final class cassession2_test extends qtype_stack_testcase {
         // Fails with actual display output like '{\it pi_{025}}'.
         $this->skip_if_old_maxima('5.23.2');
 
-        // This, rather strange, example breaks in parser2 'c:f(x):=x^3'.
-        // Separated out as a text below.
-        $cs = ['a:pi_25', 'b:1+x_3', 'd:gamma_7^3', 'a2:pi_4^5'];
+        $cs = ['a:pi_25', 'b:1+x_3', 'c:f(x):=x^3', 'd:gamma_7^3', 'a2:pi_4^5'];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
@@ -806,15 +804,23 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals($s1[0]->get_value(), 'pi_25');
         $this->assertEquals($s1[0]->get_display(), '{\pi}_{25}');
+        $this->assertEquals($s1[0]->get_errors(), '');
 
         $this->assertEquals($s1[1]->get_value(), '1+x_3');
         $this->assertEquals($s1[1]->get_display(), '1+{x}_{3}');
+        $this->assertEquals($s1[1]->get_errors(), '');
 
-        $this->assertEquals($s1[2]->get_value(), 'gamma_7^3');
-        $this->assertEquals($s1[2]->get_display(), '{{\gamma}_{7}}^3');
+        $this->assertEquals($s1[2]->get_value(), 'f(x):=x^3');
+        $this->assertEquals($s1[2]->get_display(), 'f(x):=x^3');
+        $this->assertEquals($s1[2]->get_errors(), '');
 
-        $this->assertEquals($s1[3]->get_value(), 'pi_4^5');
-        $this->assertEquals($s1[3]->get_display(), '{{\pi}_{4}}^5');
+        $this->assertEquals($s1[3]->get_value(), 'gamma_7^3');
+        $this->assertEquals($s1[3]->get_display(), '{{\gamma}_{7}}^3');
+        $this->assertEquals($s1[3]->get_errors(), '');
+
+        $this->assertEquals($s1[4]->get_value(), 'pi_4^5');
+        $this->assertEquals($s1[4]->get_display(), '{{\pi}_{4}}^5');
+        $this->assertEquals($s1[4]->get_errors(), '');
     }
 
     public function test_matrix_eigenvalues(): void {
@@ -3158,29 +3164,5 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertTrue($session->is_instantiated());
         $p = $session->get_by_key('p');
         $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
-    }
-
-    public function test_function_variable(): void {
-
-        // This is example is, strictly speaking, valid Maxima syntax.
-        // However it does not work in STACK.
-        // Internally we end up with c1:(%_C(f),f(x)):=x^3; which throws a Maixma error.
-        // Interesting to note that c1:''(%_C(f),f(x)):=x^3; (with the extra evaluation) works.
-        //
-        // Also, the old parser threw an error as well.
-        // Old: apply: found true where a function was expected.
-        // Internally we used to have errcatch(c1:f(x):=x^3).
-        $cs = ['c1:f(x):=x^3'];
-        foreach ($cs as $s) {
-            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
-        }
-
-        $options = new stack_options();
-        $options->set_option('simplify', false);
-        $at1 = new stack_cas_session2($s1, $options, 0);
-        $at1->instantiate();
-
-        $err = 'define: function name cannot be a built-in operator or special symbol; found: "("';
-        $this->assertEquals($s1[0]->get_errors(), $err);
     }
 }

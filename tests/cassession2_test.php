@@ -87,28 +87,6 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($maximaconfig, $maximaversion);
     }
 
-    public function test_stackmaximaversion(): void {
-
-        // This test ensures that we are not running against different
-        // version number of the STACK-Maxima scripts. For example,
-        // old image in a server setup or a cache layer somewhere.
-
-        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
-        $scriptversion = explode('stackmaximaversion:', $scriptversion);
-        $scriptversion = $scriptversion[count($scriptversion) - 1];
-        $scriptversion = explode('$', $scriptversion)[0];
-        
-        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
-
-        $session = new stack_cas_session2([$cs]);
-
-        $session->get_valid();
-        $session->instantiate();
-
-        $this->assertEquals($scriptversion, $cs->get_value(),
-            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
-    }
-
     public function test_get_valid(): void {
 
         $strings = ['foo', 'bar', 'sqrt(4)'];

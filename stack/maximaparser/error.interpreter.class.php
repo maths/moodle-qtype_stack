@@ -494,7 +494,22 @@ class stack_parser_error_interpreter {
             $workb = $worka;
         }
 
-        sort($worka);
+        usort($worka, function($a, $b) {
+            if ($a === $b) {
+                return 0;
+            }
+            $parens = ['(' => false, '[' => false, '{' => false, '|' => false];
+            if (array_key_exists($a, $parens)) {
+                if (array_key_exists($b, $parens)) {
+                    return ($a < $b) ? -1 : 1;
+                }
+                return -1;
+            }
+            if (array_key_exists($b, $parens)) {
+                return 1;
+            }
+            return ($a < $b) ? -1 : 1;
+        });
         return array_values($worka);
     }
 }

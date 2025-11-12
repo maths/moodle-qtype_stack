@@ -1971,7 +1971,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
         $this->assertEquals('spaces | ParseError', $state->note);
-        $this->assertEquals('Expected "[", "{", "|", "(", "ATOM", "PREFIX_OP", received ";".', $state->errors);
+        $this->assertEquals('Expected "(", "[", "{", "|", "ATOM", "PREFIX_OP", received ";".', $state->errors);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals($ta, $state->contentsdisplayed);
     }

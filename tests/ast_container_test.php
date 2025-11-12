@@ -182,7 +182,7 @@ final class ast_container_test extends qtype_stack_testcase {
         // Note the error with the * in this expression.
         $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals('Expected "{", "[", "|", "(", "ATOM", "PREFIX_OP", received "^".',
+        $this->assertEquals('Expected "(", "[", "{", "|", "ATOM", "PREFIX_OP", received "^".',
             $casstring->get_errors());
         $this->assertEquals('ParseError', $casstring->get_answernote());
     }

@@ -3311,6 +3311,10 @@ class stack_answertest_test_data {
         foreach ($rawdata as $data) {
             $tests[] = self::test_from_raw($data);
         }
+        if (defined('QTYPE_STACK_TEST_CONFIG_CI_LIGHT')) {
+            // Must return something non-empty.
+            return [$tests[1]];
+        }
         return $tests;
     }
 

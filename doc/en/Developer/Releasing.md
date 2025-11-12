@@ -36,6 +36,7 @@ Unless you want to discuss something confidential with the developers, please do
     load("s_test_case.mac");
 ````
 
+* Remove `QTYPE_STACK_TEST_CONFIG_CI_LIGHT` from CI config to run all unit tests.  (If this constant is defined, the tests are skipped).
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
 * If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).

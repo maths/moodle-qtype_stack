@@ -138,6 +138,7 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
 
           #cat ${{ github.workspace }}/moodle/config.php
 

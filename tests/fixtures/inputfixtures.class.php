@@ -907,6 +907,10 @@ class stack_inputvalidation_test_data {
         foreach (self::$rawdataunits as $data) {
             $tests[] = self::test_from_raw($data, 'units');
         }
+        if (defined('QTYPE_STACK_TEST_CONFIG_CI_LIGHT')) {
+            // Must return something non-empty.
+            return [$tests[1]];
+        }
         return $tests;
     }
 

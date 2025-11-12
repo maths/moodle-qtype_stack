@@ -100,6 +100,10 @@ abstract class qtype_stack_test_config {
             set_config('serveruserpass',    QTYPE_STACK_TEST_CONFIG_SERVERUSERPASS,    'qtype_stack');
         }
 
+        if (defined('QTYPE_STACK_TEST_CONFIG_CI_LIGHT')) {
+            set_config('serveruserpass',    QTYPE_STACK_TEST_CONFIG_CI_LIGHT,          'qtype_stack');
+        }
+
         if (!file_exists(stack_cas_configuration::maximalocal_location())) {
             stack_cas_configuration::create_maximalocal();
         }

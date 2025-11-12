@@ -198,5 +198,5 @@ jobs:
 
       - name: Behat features
         if: ${{ always() }}
-        run: moodle-plugin-ci behat --profile chrome --auto-rerun 6
+        run: moodle-plugin-ci behat --profile chrome --auto-rerun 12
 

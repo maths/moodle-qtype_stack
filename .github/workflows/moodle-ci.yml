@@ -119,7 +119,35 @@ jobs:
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
 
-      - name: Install moodle-plugin-ci
+      - name: Install moodle-plugin-ci (full)
+        if: ${{ matrix.moodle-branch == 'main' }}
+        run: |
+          moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
+          moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
+          moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+
+          moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
+
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",       "5.42.2");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",       "maxima");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT",    "timeout --kill-after=10s 10s ${{ github.workspace }}/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER", "http://pool.home:8080/MaximaPool/MaximaPool");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",          "100");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES",     "stats, distrib, descriptive, simplex");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASPREPARSE", "true");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",            "linux-optimised");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
+          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
+
+          #cat ${{ github.workspace }}/moodle/config.php
+
+          cp ${{ github.workspace }}/moodledata/phpu_moodledata/stack/maxima_opt_auto ${{ github.workspace }}/maxima_opt_auto
+          # Try a command on the command line.
+          # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
+
+      - name: Install moodle-plugin-ci (light)
+        if: ${{ matrix.moodle-branch == 'MOODLE_405_STABLE' }}
         run: |
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
@@ -146,57 +174,56 @@ jobs:
           # Try a command on the command line.
           # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
 
-
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
           MOODLE_APP: ${{ matrix.moodle-app }}
 
       - name: PHP Lint
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci phplint
 
       - name: PHP Copy/Paste Detector
         continue-on-error: true # This step will show errors but will not fail.
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci phpcpd
 
       - name: PHP Mess Detector
         continue-on-error: true # This step will show errors but will not fail.
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci phpmd
 
       - name: Moodle Code Checker
         continue-on-error: true # Currently fails. We really ought to get this passing.
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci codechecker --max-warnings 0
 
       - name: Moodle PHPDoc Checker
         continue-on-error: true # Currently fails. We really ought to get this passing.
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci phpdoc
 
       - name: Validating
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci validate
 
       - name: Check upgrade savepoints
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci savepoints
 
       - name: Mustache Lint
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'MOODLE_500_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'main' }}
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
         run: moodle-plugin-ci phpunit
 
       - name: Behat features
-        if: ${{ always() }}
+        if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
         run: moodle-plugin-ci behat --profile chrome --auto-rerun 6
 

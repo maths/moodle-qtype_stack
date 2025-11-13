@@ -119,7 +119,7 @@ jobs:
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
 
-      - name: Install moodle-plugin-ci (full)
+      - name: Install moodle-plugin-ci (full unit tests)
         if: ${{ matrix.moodle-branch == 'main' }}
         run: |
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
@@ -146,8 +146,8 @@ jobs:
           # Try a command on the command line.
           # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
 
-      - name: Install moodle-plugin-ci (light)
-        if: ${{ matrix.moodle-branch == 'MOODLE_405_STABLE' }}
+      - name: Install moodle-plugin-ci (light unit tests)
+        if: ${{ matrix.moodle-branch != 'main' }}
         run: |
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
@@ -224,6 +224,6 @@ jobs:
         run: moodle-plugin-ci phpunit
 
       - name: Behat features
-        if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
+        if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome --auto-rerun 6
 

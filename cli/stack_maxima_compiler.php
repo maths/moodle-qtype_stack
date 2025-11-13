@@ -345,8 +345,9 @@ function comment_annotations(string $comment): array {
                 break;
             case 'inertfunction':
                 $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
-                $r['virtual-name'] = trim(explode('(', $matches[3][$i], 2)[0]);
+                $r['virtual-name'] = trim(explode('(', $matches[3][$i])[0]);
                 $r['virtual-title'] = trim($matches[3][$i]);
+                break;
             case 'unboundidentifier':
                 $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
                 $r['virtual-name'] = trim($matches[3][$i]);

@@ -84,3 +84,42 @@ sbasen_convert_to_digits_lsd(sbasen_number) := block([digits,fmt,base],
 
 s_test_case(simp) := is(sbasen_convert_to_digits_lsd(stackbasen("0xA1","C",16))=[1,10])$
 s_test_case(simp) := is(sbasen_convert_to_digits_lsd(stackbasen("0x00FF","C",16))=[15,15,0,0])$
+
+
+/**
+ * Converts all `stackbasen` objects present in an expression to the suffix
+ * notation. This should help when checking for equality but won't help
+ * if values include padding, if that is the case you may need to use
+ * `sbasen_trim_padding`.
+ *
+ * To avoid issues with different cases will recreate all `stackbasen` objects.
+ * And remap the digits. For digits 10-35 will use ASCII letters and the case
+ * will be defined by the option `sbasen_construct_default_case`, by default
+ * uppercase letters will be used.
+ *
+ * @param[expression] expression, an expression that might have 
+ *    `stackbasen`-objects in it.
+ * @return[expression] the original expression with all `stackbasen`-objects
+ * 	  converted to use "S"-format.
+ */
+sbasen_convert_to_suffix_notation(expression) := block([out, sub_ex, tmp, digits],
+    /* @ignore[global=sbasen_construct_default_case] */
+	out : expression,
+	for sub_ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), expression) do (
+		digits : sbasen_convert_to_digits(sub_ex),
+		if is(sbasen_construct_default_case = "lower") then 
+			digits : ev(map(lambda([n], charat("0123456789abcdefghijklmnopqrstuvwxyz", n+1)), digits),simp)
+		else
+			digits : ev(map(lambda([n], charat("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", n+1)), digits),simp),
+		tmp : stackbasen(
+			sconcat(simplode(digits),"_",third(sub_ex)),
+			"S", third(sub_ex)
+			), 
+		out : subst(tmp, sub_ex, out)
+	),
+	return(out)
+)$
+
+s_test_case(simp) := is(sbasen_convert_to_suffix_notation(stackbasen("0x00FF","C",16))=stackbasen("00FF_16","S",16))$
+s_test_case(simp) := is(sbasen_convert_to_suffix_notation(stackbasen("0b1","C",2)-stackbasen("11_2","S",2))=stackbasen("1_2","S",2)-stackbasen("11_2","S",2))$
+s_test_case(simp) := ev(is(sbasen_convert_to_suffix_notation(stackbasen("0x00FF","C",16))=stackbasen("00ff_16","S",16)),sbasen_construct_default_case="lower")$

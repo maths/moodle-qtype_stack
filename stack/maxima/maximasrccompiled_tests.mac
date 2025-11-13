@@ -47,6 +47,12 @@ s_test_case(simp):=is(sbasen_truncate_left(stackbasen("00000001_2","S",2),4) = s
 s_exec_test("basen/binary/sbasen_binary_padding.mac:64",3)$
 s_test_case(simp):=is(sbasen_truncate_right(stackbasen("00000001_2","S",2),4) = stackbasen("0000_2","S",2))$
 s_exec_test("basen/binary/sbasen_binary_padding.mac:95",4)$
+s_test_case(simp):=is(sbasen_trim_padding(stackbasen("00000001_2","S",2)) = stackbasen("1_2","S",2))$
+s_exec_test("basen/binary/sbasen_binary_padding.mac:128",5)$
+s_test_case(simp):=is(sbasen_trim_padding(stackbasen("0000000","C",8)) = stackbasen("00","C",8))$
+s_exec_test("basen/binary/sbasen_binary_padding.mac:129",6)$
+s_test_case(simp):=is(sbasen_trim_padding(stackbasen("0b00000001","C",2)+stackbasen("0x0001","C",16)) = stackbasen("0b1","C",2)+stackbasen("0x1","C",16))$
+s_exec_test("basen/binary/sbasen_binary_padding.mac:130",7)$
 s_test_case(simp):=is(sbasen_bitwidth(stackbasen("0001_2","S",2)) = 4)$
 s_exec_test("basen/binary/sbasen_bitwidth.mac:25",1)$
 s_test_case(simp):=is(sbasen_bitwidth(stackbasen("1_2","S",2)) = 1)$
@@ -95,10 +101,18 @@ s_test_case(simp):=is(sbasen_convert_to_digits_lsd(stackbasen("0xA1","C",16)) = 
 s_exec_test("basen/sbasen_convert.mac:85",5)$
 s_test_case(simp):=is(sbasen_convert_to_digits_lsd(stackbasen("0x00FF","C",16)) = [15,15,0,0])$
 s_exec_test("basen/sbasen_convert.mac:86",6)$
+s_test_case(simp):=is(sbasen_convert_to_suffix_notation(stackbasen("0x00FF","C",16)) = stackbasen("00FF_16","S",16))$
+s_exec_test("basen/sbasen_convert.mac:123",7)$
+s_test_case(simp):=is(sbasen_convert_to_suffix_notation(stackbasen("0b1","C",2)-stackbasen("11_2","S",2)) = stackbasen("1_2","S",2)-stackbasen("11_2","S",2))$
+s_exec_test("basen/sbasen_convert.mac:124",8)$
+s_test_case(simp):=ev(is(sbasen_convert_to_suffix_notation(stackbasen("0x00FF","C",16)) = stackbasen("00ff_16","S",16)),sbasen_construct_default_case = "lower")$
+s_exec_test("basen/sbasen_convert.mac:125",9)$
 s_test_case(simp):=ev(is(sbasen_construct_from_base10(10,"C",16) = stackbasen("0xA","C",16)),sbasen_construct_default_case = "upper")$
 s_exec_test("basen/sbasen_create.mac:60",1)$
 s_test_case(simp):=ev(is(sbasen_construct_from_base10(10,"S",16) = stackbasen("a_16","S",16)),sbasen_construct_default_case = "lower")$
 s_exec_test("basen/sbasen_create.mac:61",2)$
+s_test_case(simp):=ev(is(sbasen_construct_from_base10(7*17*223*1291,"S",33) = stackbasen("STACK_33","S",33)),simp = true,sbasen_construct_default_case = "upper")$
+s_exec_test("basen/sbasen_create.mac:62",3)$
 s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("a_16","S",16)) = "{\\textrm{a}}_{16}"),sbasen_output_force_case = "lower")$
 s_exec_test("basen/sbasen_texput.mac:45",1)$
 s_test_case(simp):=ev(is(sbasen_texput_suffix(stackbasen("A_16","S",16)) = "{\\textrm{a}}_{16}"),sbasen_output_force_case = "lower")$

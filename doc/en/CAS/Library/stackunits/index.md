@@ -8,7 +8,7 @@
 ## NULLNUM<a id='NULLNUM'></a>
 
 Special value signifying that there is no magnitude or value component
-attached to a `stackunits`-object. Sometimes sensible to interpret as `1`.
+attached to a [`stackunits`](#stackunits)-object. Sometimes sensible to interpret as `1`.
 
 Do not assign anything to this, but do feel free to evaluate expressions
 with this having a value, e.g., `ev(...,NULLNUM=1)`.
@@ -20,7 +20,7 @@ with this having a value, e.g., `ev(...,NULLNUM=1)`.
 ## NULLUNITS<a id='NULLUNITS'></a>
 
 Special value signifying that there is no dimension or unit component
-attached to a `stackunits`-object. Basically, a dimensionless value.
+attached to a [`stackunits`](#stackunits)-object. Basically, a dimensionless value.
 
 
 ---
@@ -37,14 +37,14 @@ different units.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| expression | expression | an expression with units mixed in or a singular `stackunits`-object. |
+| expression | expression | an expression with units mixed in or a singular [`stackunits`](#stackunits)-object. |
 
 
 
 
 | Return type | description |
 | ----------- | ------------|
-| expression | an expression with units mixed in or a    `stackunits`-object, with all units converted to SI base units. |
+| expression | an expression with units mixed in or a    [`stackunits`](#stackunits)-object, with all units converted to SI base units. |
 
 
 ---
@@ -59,20 +59,20 @@ different units.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| expression | expression | an expression with units mixed in or a `stackunits`-object. |
+| expression | expression | an expression with units mixed in or a [`stackunits`](#stackunits)-object. |
 
 
 
 
 | Return type | description |
 | ----------- | ------------|
-| expression | an expression with units mixed in or a    `stackunits`-object, with all units converted to SI base units. |
+| expression | an expression with units mixed in or a    [`stackunits`](#stackunits)-object, with all units converted to SI base units. |
 
 
 ---
 
 
-## stackunits(number,unit)<a id='stackunits(number,unit)'></a>
+## stackunits(number,unit)<a id='stackunits'></a>
 
 An object combining a numerical value to an unit forming a dimensional
 quantity. Basically, a container keeping things together and allowing

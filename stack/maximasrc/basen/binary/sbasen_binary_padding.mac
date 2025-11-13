@@ -50,9 +50,9 @@ sbasen_truncate_left(sbasen_number, width) := block([simp,digits,fmt,base,prefix
 	suffix:"",
 	prefix:"",
 	if is(fmt = "S") then (suffix: sconcat("_", base), digits: split(digits, "_")[1])
-	elseif is(fmt = "C") and is(base = 8) then (prefix: "0", substring(digits, 2))
-	elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", substring(digits, 3))
-	elseif is(fmt = "C") then (prefix: "0b", substring(digits, 3)),
+	elseif is(fmt = "C") and is(base = 8) then (prefix: "0", digits: substring(digits, 2))
+	elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", digits: substring(digits, 3))
+	elseif is(fmt = "C") then (prefix: "0b", digits: substring(digits, 3)),
 
 	/* If already short enough. */
 	if is(slength(digits) <= width) then return(sbasen_number),
@@ -81,9 +81,9 @@ sbasen_truncate_right(sbasen_number, width) := block([simp,digits,fmt,base,prefi
 	suffix:"",
 	prefix:"",
 	if is(fmt = "S") then (suffix: sconcat("_", base), digits: split(digits, "_")[1])
-	elseif is(fmt = "C") and is(base = 8) then (prefix: "0", substring(digits, 2))
-	elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", substring(digits, 3))
-	elseif is(fmt = "C") then (prefix: "0b", substring(digits, 3)),
+	elseif is(fmt = "C") and is(base = 8) then (prefix: "0", digits: substring(digits, 2))
+	elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", digits: substring(digits, 3))
+	elseif is(fmt = "C") then (prefix: "0b", digits: substring(digits, 3)),
 
 	/* If already short enough. */
 	if is(slength(digits) <= width) then return(sbasen_number),
@@ -93,3 +93,38 @@ sbasen_truncate_right(sbasen_number, width) := block([simp,digits,fmt,base,prefi
 )$
 
 s_test_case(simp) := is(sbasen_truncate_right(stackbasen("00000001_2","S",2),4)=stackbasen("0000_2","S",2))$
+
+
+/**
+ * Drops extra `0` digits from `stackbasen` objects that may have been padded
+ * to match some "bit width". Works for all bases.
+ *
+ * @param[expression] expression, with possible stackbasen-objects to trim.
+ * @return[expression] expression with the stackbasen-objects without extra
+ *    leading zeros.
+ */
+sbasen_trim_padding(expression) := block([out, sub_ex, tmp, fmt, base, prefix, suffix, digits],
+	out : expression,
+	for sub_ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), expression) do (
+		[digits,fmt,base]: args(sub_ex),
+
+		suffix:"",
+		prefix:"",
+		if is(fmt = "S") then (suffix: sconcat("_", base), digits: split(digits, "_")[1])
+		elseif is(fmt = "C") and is(base = 8) then (prefix: "0", digits: substring(digits, 2))
+		elseif is(fmt = "C") and is(base = 16) then (prefix: "0x", digits: substring(digits, 3))
+		elseif is(fmt = "C") then (prefix: "0b", digits: substring(digits, 3)),
+
+		digits: striml("0", digits),
+		if is(digits="") then digits: "0",
+
+		tmp : stackbasen(sconcat(prefix, digits, suffix), fmt, base),
+		out : subst(tmp, sub_ex, out)
+	),
+	return(out)
+)$
+
+
+s_test_case(simp) := is(sbasen_trim_padding(stackbasen("00000001_2","S",2))=stackbasen("1_2","S",2))$
+s_test_case(simp) := is(sbasen_trim_padding(stackbasen("0000000","C",8))=stackbasen("00","C",8))$
+s_test_case(simp) := is(sbasen_trim_padding(stackbasen("0b00000001","C",2)+stackbasen("0x0001","C",16))=stackbasen("0b1","C",2)+stackbasen("0x1","C",16))$

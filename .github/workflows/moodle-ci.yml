@@ -146,6 +146,11 @@ jobs:
           # Try a command on the command line.
           # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
 
+        env:
+          DB: ${{ matrix.database }}
+          MOODLE_BRANCH: ${{ matrix.moodle-branch }}
+          MOODLE_APP: ${{ matrix.moodle-app }}
+
       - name: Install moodle-plugin-ci (light unit tests)
         if: ${{ matrix.moodle-branch != 'main' }}
         run: |

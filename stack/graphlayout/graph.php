@@ -294,7 +294,7 @@ class stack_abstract_graph {
         }
 
         if (array_pop($this->stack) != $currentnode->name) {
-            throw new coding_exception('Something went wrong with the stack.');
+            throw new stack_exception('Something went wrong with the stack.');
         }
     }
 
@@ -330,7 +330,7 @@ class stack_abstract_graph {
                 return $clump;
             }
         }
-        throw new coding_exception($node->name . ' is not in any clump.');
+        throw new stack_exception($node->name . ' is not in any clump.');
     }
 
     /**
@@ -340,7 +340,7 @@ class stack_abstract_graph {
     protected function remove_clump(stack_abstract_graph_node_clump $clump) {
         $key = array_search($clump, $this->clumps);
         if (is_null($key)) {
-            throw new coding_exception('Unknown clump.');
+            throw new stack_exception('Unknown clump.');
         }
         unset($this->clumps[$key]);
     }
@@ -352,7 +352,7 @@ class stack_abstract_graph {
      */
     public function get($nodename) {
         if (!array_key_exists($nodename, $this->nodes)) {
-            throw new coding_exception('Node ' . $nodename . ' is not in the graph.');
+            throw new stack_exception('Node ' . $nodename . ' is not in the graph.');
         }
         return $this->nodes[$nodename];
     }

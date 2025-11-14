@@ -83,14 +83,20 @@ class TestController {
             $question->initialise_question_from_seed();
         }
 
-        // Check for upgrade errors and return response immediately if so.
+        // Check for upgrade and validation errors and return response immediately if so.
+        // We maybe don't want to be this harsh with all validation issues but they
+        // do include 'marked as broken'.
         // Errors will be listed in overall response messages.
         $dummycontext = new \stdClass(); // Required for unit tests.
         $dummycontext->id = 0;
         $upgradeerrors = $question->validate_against_stackversion($dummycontext);
-        if ($upgradeerrors != '') {
+        $validationerrors = $question->validate_for_bulk($dummycontext);
+        if ($upgradeerrors != '' || $validationerrors != '') {
             $testresponse->isupgradeerror = true;
-            $testresponse->messages = $upgradeerrors;
+            $testresponse->messages =
+                ($upgradeerrors != '' && $validationerrors != '') ?
+                $upgradeerrors . ' ' . $validationerrors :
+                $upgradeerrors . $validationerrors;
             $testresponse->results = [];
             $response->getBody()->write(json_encode($testresponse));
             return $response->withHeader('Content-Type', 'application/json');

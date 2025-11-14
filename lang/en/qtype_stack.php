@@ -42,7 +42,8 @@ $string['debuginfo']         = 'Debug info';
 $string['exceptionmessage']  = '{$a}';
 $string['seekhelp']          = 'Please ask your teacher about this.';
 $string['runtimeerror']      = 'This question generated an unexpected internal error.';
-$string['questionbroken']    = 'The question has been marked as broken during editing.';
+$string['questionbroken']    = 'The question has been marked as broken during editing or import.';
+$string['questionbrokenshort']    = 'Marked as broken';
 $string['runtimefielderr']   = 'The field ""{$a->field}"" generated the following error: {$a->err}';
 $string['version']           = 'Version';
 $string['checkcasconnection_check'] = 'Maxima connection for STACK';
@@ -94,7 +95,7 @@ $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">bulk test script</a> lets you easily run all the STACK question tests in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
-$string['todo_desc'] = 'The <a href="{$a->link}">"to do"</a> page finds questions with <tt>[[todo]]</tt> blocks.';
+$string['todo_desc'] = 'The <a href="{$a->link}">"to do"</a> page finds questions with <tt>[[todo]]</tt> blocks and questions marked as broken.';
 $string['dependenciesintro_desc'] = 'The <a href="{$a->link}">dependencies</a>, checker finds questions with dependencies such as JSXGraph or inclusion of external maxima code.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
@@ -415,6 +416,7 @@ $string['notsaved'] = '** QUESTION WAS NOT SAVED **';
 $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
 $string['stackerrors'] = 'You have errors in your question.';
+$string['markedasbroken'] = 'The question has been marked as broken and will not be accessible to students.';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';
@@ -621,7 +623,7 @@ $string['exportthisquestion_help'] = 'This will create a Moodle XML export file 
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
 $string['seetodolist'] = '<i class="fa fa-exclamation-triangle"></i> Find <tt>[[todo]]</tt> blocks';
-$string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags.';
+$string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags. Questions that have been marked as broken will also be found and displayed.';
 $string['seetodolist_help'] = 'Clicking on the question name takes you to the dashboard.  You can also preview the question.';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
@@ -637,6 +639,11 @@ $string['selectquiz'] = 'Select quiz to analyze results';
 $string['analyzeresponsesnotes'] = "Note, (1) all the students' answers for each quiz attempt are included here, (2) all versions of the question are included.";
 $string['splitsummary'] = 'Split summary';
 $string['variants'] = 'Variants';
+
+$string['importwillfail'] = 'Import will fail.';
+$string['noroots'] = 'The graph of this PRT has no roots. Does it have nodes?';
+$string['structuralproblem'] = 'The PRT structure is malformed.';
+$string['missingnextnode'] = 'The PRT structure is malformed. {$a->type} next node for PRT {$a->prt} node {$a->node} is invalid. It has been set to stop.';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
@@ -799,6 +806,7 @@ $string['stackInstall_testsuite_pass'] = 'All tests passed!';
 $string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
 $string['stackInstall_testsuite_failingtests'] = 'Tests that failed';
 $string['stackInstall_testsuite_failingupgrades'] = 'Questions which failed on upgrade.';
+$string['stackInstall_testsuite_failingvalidation'] = 'Questions which triggered validation warnings.';
 $string['stackInstall_testsuite_notests'] = 'Questions with no tests: please add some!';
 $string['stackInstall_testsuite_nogeneralfeedback'] = 'Questions with no general feedback: students really appreciate worked solutions!';
 $string['stackInstall_testsuite_nodeployedseeds'] = 'Questions with random variants, but no deployed seeds';

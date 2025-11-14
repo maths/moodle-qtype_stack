@@ -76,6 +76,10 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
             foreach ($questions as $qid => $qname) {
                 $q = question_bank::load_question($qid);
                 list($hastodos, $tags) = $q->get_question_todos();
+                if (isset($q->isbroken) && $q->isbroken) {
+                    $hastodos = true;
+                    $tags[] = stack_string('questionbrokenshort');
+                }
                 if ($hastodos) {
                     $preurl = qbank_previewquestion\helper::question_preview_url($qid,
                         null, null, null, null, $context);

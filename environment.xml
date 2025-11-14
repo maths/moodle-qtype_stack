@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <COMPATIBILITY_MATRIX>
      <PLUGIN name="qtype_stack">
-         <PHP_EXTENSIONS>
+        <PHP version="8.1.0" level="required">
+        <PHP_EXTENSIONS>
              <PHP_EXTENSION name="mbstring" level="required">
                  <FEEDBACK>
                      <ON_ERROR message="mbstringrequired" plugin="qtype_stack" />

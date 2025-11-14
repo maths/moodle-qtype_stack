@@ -7376,6 +7376,9 @@
   "stack_validate_simpnum": {
       "function": "s"
   },
+  "stackbasen": {
+      "function": "s"
+  },
   "stackeq": {
       "function": "s",
       "prefixinputform": "="
@@ -8125,7 +8128,7 @@
       "function": "f"
   },
   "unicode": {
-      "function": "?",
+      "function": "t",
       "built-in": true
   },
   "unicode_to_utf8": {

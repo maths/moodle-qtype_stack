@@ -24,7 +24,7 @@ to worry about it. Unless you are creating a new filter, in that case:
    multiplication stars into expressions.
 
  500-599 is a placeholder for checks that happen after general insertion of
-   stars
+   stars.
 
  600-699 is a placeholder for other modification steps...
 

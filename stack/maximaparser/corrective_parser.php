@@ -100,7 +100,7 @@ class maxima_corrective_parser {
             $decimals = $parseroptions['decimals'];
         }
         if ($decimals == ',') {
-            // Clearly there is a lot more work to do here to get this all to work!
+            // This logic is now replaced by 545_wrong_decimal_separator_validation.filter.
             if (strpos($stringles, '.') !== false) {
                 $answernote[] = 'forbiddenCharDecimal';
                 $errors[] = stack_string('stackCas_decimal_usedcomma');

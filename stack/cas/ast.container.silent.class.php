@@ -31,8 +31,8 @@ require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/../maximaparser/utils.php');
-require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
-require_once(__DIR__ . '/../maximaparser/MP_classes.php');
+require_once(__DIR__ . '/../maximaparser/parser.options.class.php');
+require_once(__DIR__ . '/../maximaparser/preparser.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_silent implements cas_evaluatable {
@@ -149,11 +149,30 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         $errors = [];
         $answernotes = [];
-        $parseroptions = [
-            'startRule' => $grammar,
-            'letToken' => stack_string('equiv_LET'),
-            'decimals' => $decimals,
-        ];
+        $parseroptions = stack_parser_options::get_old_config();
+        if ($grammar === 'Root') {
+            $parseroptions->rule = StackParserRule::Root;
+        } else if ($grammar === 'Equivline') {
+            $parseroptions->rule = StackParserRule::Equivline;
+        }
+        if ($decimals === '.') {
+            $parseroptions->separators = StackLexerSeparators::Dot;
+        } else if ($decimals === ',') {
+            $parseroptions->separators = StackLexerSeparators::Comma;
+            // This restores the old validation behaviour.
+            // TODO: perhaps an option to switch this _off_ and let people type in 3.14?
+            $filterstoapply[] = '545_wrong_decimal_separator_validation';
+        }
+        // For now use the old signature of this function and push
+        // the extra basen option through the decimal setting.
+        // Would be nicer to use a parseroptions-object instead.
+        if ($decimals === '.basen') {
+            $parseroptions->separators = StackLexerSeparators::Dot;
+            $parseroptions->basen = true;
+        } else if ($decimals === ',basen') {
+            $parseroptions->separators = StackLexerSeparators::Comma;
+            $parseroptions->basen = true;
+        }
 
         // Force the security filter to use 's'.
         if (isset($filteroptions['998_security'])) {
@@ -170,8 +189,24 @@ class stack_ast_container_silent implements cas_evaluatable {
             $filterstoapply[] = '998_security';
         }
 
-        // Use the corective parser as this comes from the student.
-        $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
+        // There are certain old behaviours that are not convenient
+        // to represent as grammar rules. We apply them with regexp.
+        $preparsed = stack_maxima_student_preparser::preparse($raw, $errors,
+            $answernotes, $parseroptions);
+
+        $ast = null;
+        if ($preparsed !== null && count($errors) === 0) {
+            try {
+                // Old version went through parser-utils, and the cache there...
+                // TODO: Do we need to cache these? Now that
+                // the parser also generates answernotes the cache would need to
+                // store them as well. And the new parser is faster...
+                $ast = $parseroptions->get_parser()->parse($parseroptions->get_lexer($preparsed), $answernotes);
+            } catch (stack_maxima_parser_exception $e) {
+                $ei = $parseroptions->get_student_error_interpreter();
+                $ei->interprete($e, $errors, $answernotes);
+            }
+        }
 
         // Get the filter pipeline. Even if we would not use it in case of
         // ast = null, we still want to check that the request is valid.
@@ -205,23 +240,22 @@ class stack_ast_container_silent implements cas_evaluatable {
         // or not and thus affect the teachers ability to write into them.
         $errors = [];
         $answernotes = [];
-        $parseroptions = [
-            'startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),
-        ];
+        $parseroptions = stack_parser_options::get_old_config();
 
         if ($securitymodel === null) {
             $securitymodel = new stack_cas_security();
         }
 
-        // Use the raw parser if it does not work this is invalid input.
         $ast = null;
         try {
-            $ast = maxima_parser_utils::parse($raw);
-        } catch (SyntaxError $e) {
-            $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
-            // All stars that were insertted by that are invalid.
-            // And that comes from the strict filter later.
+            // Old version went through parser-utils, and the cache there...
+            // TODO: Do we need to cache these? Now that
+            // the parser also generates answernotes the cache would need to
+            // store them as well. And the new parser is faster...
+            $ast = $parseroptions->get_parser()->parse($parseroptions->get_lexer($raw), $answernotes);
+        } catch (stack_maxima_parser_exception $e) {
+            $ei = $parseroptions->get_author_error_interpreter();
+            $ei->interprete($e, $errors, $answernotes);
         }
 
         // As we take no filter options for teachers sourced stuff lets build them from scratch.
@@ -349,7 +383,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false,
-            $decimals = '.'): string {
+            $decimals = '.', bool $basen = false): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
         }
@@ -375,6 +409,9 @@ class stack_ast_container_silent implements cas_evaluatable {
             'decimal' => $decimal,
             'listsep' => $listsep,
         ];
+        if ($basen) {
+            $params['reverstackbasen'] = true;
+        }
         return $this->ast_to_string($this->ast, $params);
     }
 

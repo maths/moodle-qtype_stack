@@ -109,7 +109,8 @@ final class ast_container_test extends qtype_stack_testcase {
     public function test_get_valid(): void {
 
         $cases = [
-            ['', false, true],
+            // This first case is a change in parser2.  Teachers cannot have an empty string anymore.
+            ['', false, false],
             ['1', true, true],
             ['a b', true, false],
             ['%pi', true, true], // Only %pi %e, %i, %gamma, %phi.
@@ -181,9 +182,7 @@ final class ast_container_test extends qtype_stack_testcase {
         // Note the error with the * in this expression.
         $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals('Expected "#pm#", "%not ", "\'", "\'\'", "(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", ' .
-            '"for", "from", "if", "in", "next", "not ", "not", "nounnot ", "nounnot", "nounsub ", "step", "thru", "unless", ' .
-            '"while", "{", "|", boolean, float, identifier, integer, string or whitespace but "^" found.',
+        $this->assertEquals('Expected "(", "[", "{", "|", "ATOM", "PREFIX_OP", received "^".',
             $casstring->get_errors());
         $this->assertEquals('ParseError', $casstring->get_answernote());
     }
@@ -359,9 +358,10 @@ final class ast_container_test extends qtype_stack_testcase {
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
 
+        // In parser2 this changed: we now correctly insert *s.
         $s = 'a:"hello"5';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
-        $this->assertFalse($at1->get_valid());
+        $this->assertTrue($at1->get_valid());
 
         $s = 'a:"hello"*5';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
@@ -402,7 +402,8 @@ final class ast_container_test extends qtype_stack_testcase {
 
         $s = 'a:"hello';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
-        $this->assertEquals('You are missing a quotation sign <code>"</code>. ', $at1->get_errors());
+        $this->assertEquals('Forbidden variable or constant: <span class="stacksyntaxexample">hello</span>.',
+            $at1->get_errors());
     }
 
     public function test_system_execution(): void {

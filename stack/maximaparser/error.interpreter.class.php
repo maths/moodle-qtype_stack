@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 require_once('parser.common.classes.php');
 require_once('parser.options.class.php');
 
@@ -22,6 +23,8 @@ require_once('parser.options.class.php');
  * the error messages for student/author use and to keep track of
  * localised syntax.
  * @package qtype_stack
+ * @copyright  2025 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_parser_error_interpreter {
     /**
@@ -29,6 +32,7 @@ class stack_parser_error_interpreter {
      *
      * Students don't need to see those they are a bit too much extra.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public bool $logicflow = false;
 
     /**
@@ -37,13 +41,16 @@ class stack_parser_error_interpreter {
      * Students don't need to see those and for students the positioning
      * would be off due to preparsing.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public bool $positiondata = false;
 
     /**
      * Localised syntax and other options the parser might have.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public stack_parser_options $parseroptions;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(stack_parser_options $options) {
         $this->parseroptions = $options;
     }
@@ -53,10 +60,11 @@ class stack_parser_error_interpreter {
      *
      * If an exception is seen then the parsing has failed, but why?
      */
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function interprete(stack_maxima_parser_exception $exception, array &$errors = [], array &$answernote = []): string {
         $groupped = $this->group_expectations($exception->expected);
 
-        // Lexer errors
+        // Lexer errors.
         if ($exception->received !== null && $exception->received->type === StackMaximaTokenType::Error) {
             switch ($exception->received->value) {
                 case 'STRING NOT TERMINATED':
@@ -200,7 +208,7 @@ class stack_parser_error_interpreter {
                         // Three options:
                         // A) there is no matching opening
                         // B) the previous unmatched opening is of different type
-                        // C) unsuitable place e.g. `(1+)`
+                        // C) unsuitable place e.g. `(1+)`.
                         $opens = [];
                         foreach (array_reverse($exception->partial) as $item) {
                             if (
@@ -253,7 +261,11 @@ class stack_parser_error_interpreter {
                                 $answernote[] = 'missmatchedRightBracket';
                                 $errors[] = stack_string(
                                     'stackCas_missmatchedRightBracket',
-                                    ['bracket' => $matching, 'expected' => end($opens), 'cmd' => stack_maxima_format_casstring($exception->original)]
+                                    [
+                                        'bracket' => $matching,
+                                        'expected' => end($opens),
+                                        'cmd' => stack_maxima_format_casstring($exception->original),
+                                    ]
                                 );
                             }
                         }
@@ -278,7 +290,10 @@ class stack_parser_error_interpreter {
                         $answernote[] = 'badpostfixop';
                         break;
                 }
-            } else if (($exception->received->type === StackMaximaTokenType::ListSeparator) || ($exception->previous !== null && $exception->previous->type === StackMaximaTokenType::ListSeparator)) {
+            } else if (
+                ($exception->received->type === StackMaximaTokenType::ListSeparator)
+                || ($exception->previous !== null && $exception->previous->type === StackMaximaTokenType::ListSeparator)
+            ) {
                 if ($this->parseroptions->separators === StackLexerSeparators::Dot) {
                     $errors[] = stack_string('stackCas_unencpsulated_comma');
                 } else {
@@ -343,7 +358,7 @@ class stack_parser_error_interpreter {
             return [];
         }
         // First literals or atoms.
-        $not_atom_pred = function ($tok): bool {
+        $notatompred = function ($tok): bool {
             return !match ($tok) {
                 'ID' => true,
                 'BOOL' => true,
@@ -354,14 +369,14 @@ class stack_parser_error_interpreter {
             };
         };
         $workb = $expected;
-        $worka = array_filter($workb, $not_atom_pred);
+        $worka = array_filter($workb, $notatompred);
         if (count($worka) !== count($workb)) {
             $worka[] = 'ATOM';
             $workb = $worka;
         }
 
-        // Prefix operators
-        $not_prefix_op = function ($tok): bool {
+        // Prefix operators.
+        $notprefixop = function ($tok): bool {
             return !match ($tok) {
                 '? ' => true,
                 '?? ' => true,
@@ -382,14 +397,14 @@ class stack_parser_error_interpreter {
                 default => false
             };
         };
-        $worka = array_filter($workb, $not_prefix_op);
+        $worka = array_filter($workb, $notprefixop);
         if (count($worka) !== count($workb)) {
             $worka[] = 'PREFIX_OP';
             $workb = $worka;
         }
 
-        // Prefix operators
-        $not_infix_op = function ($tok): bool {
+        // Prefix operators.
+        $notinfixop = function ($tok): bool {
             return !match ($tok) {
                 '^' => true,
                 '^^' => true,
@@ -434,14 +449,14 @@ class stack_parser_error_interpreter {
                 default => false
             };
         };
-        $worka = array_filter($workb, $not_infix_op);
+        $worka = array_filter($workb, $notinfixop);
         if (count($worka) !== count($workb)) {
             $worka[] = 'INFIX_OP';
             $workb = $worka;
         }
 
-        // Relation operators
-        $not_relation_op = function ($tok): bool {
+        // Relation operators.
+        $notrelationop = function ($tok): bool {
             return !match ($tok) {
                 '=' => true,
                 'nouneq' => true,
@@ -463,28 +478,28 @@ class stack_parser_error_interpreter {
                 default => false
             };
         };
-        $worka = array_filter($workb, $not_relation_op);
+        $worka = array_filter($workb, $notrelationop);
         if (count($worka) !== count($workb)) {
             $worka[] = 'RELATION_OP';
             $workb = $worka;
         }
 
-        // Suffix operators
-        $not_suffix_op = function ($tok): bool {
+        // Suffix operators.
+        $notsuffixop = function ($tok): bool {
             return !match ($tok) {
                 '!' => true,
                 '!!' => true,
                 default => false
             };
         };
-        $worka = array_filter($workb, $not_suffix_op);
+        $worka = array_filter($workb, $notsuffixop);
         if (count($worka) !== count($workb)) {
             $worka[] = 'SUFFIX_OP';
             $workb = $worka;
         }
 
-        // Program flow
-        $not_program_flow = function ($tok): bool {
+        // Program flow.
+        $notprogramflow = function ($tok): bool {
             return !match ($tok) {
                 'if' => true,
                 'next' => true,
@@ -502,7 +517,7 @@ class stack_parser_error_interpreter {
                 default => false
             };
         };
-        $worka = array_filter($workb, $not_program_flow);
+        $worka = array_filter($workb, $notprogramflow);
         if (count($worka) !== count($workb)) {
             if ($this->logicflow) {
                 $worka[] = 'PROGRAM_FLOW';
@@ -511,13 +526,13 @@ class stack_parser_error_interpreter {
         }
 
         // End of stream.
-        $not_end_of_stream = function ($tok): bool {
+        $notendofstream = function ($tok): bool {
             return !match ($tok) {
                 "END OF FILE" => true,
                 default => false
             };
         };
-        $worka = array_filter($workb, $not_end_of_stream);
+        $worka = array_filter($workb, $notendofstream);
         if (count($worka) !== count($workb)) {
             if ($this->logicflow) {
                 $worka[] = 'END_OF_INPUT';

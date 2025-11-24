@@ -22,6 +22,7 @@ define('CLI_SCRIPT', true);
  * @package    qtype_stack
  * @copyright  2025 Aalto University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable moodle.PHP.ForbiddenFunctions.Found
  */
 
 require(__DIR__ . '/../../../../config.php');

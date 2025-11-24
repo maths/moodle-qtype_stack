@@ -16,18 +16,21 @@
 
 define('CLI_SCRIPT', true);
 
-// This script collects and compiles the sorces of STACK-Maxima functions
-// stored under `stack/maximasrc/` and produces `stack/maxima/compiled.mac`.
-// Also produces `stack/maxima/compiled_tests.mac` a script that can be
-// executed inside a STACK-Maxima to see if those functions pass their own
-// tests.
-//
-// Also generates some documentation.
-//
-// Remember to run this when working under `stack/maximasrc/`.
-//
-// @copyright  2023 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/**
+ * This script collects and compiles the sorces of STACK-Maxima functions
+ * stored under `stack/maximasrc/` and produces `stack/maxima/compiled.mac`.
+ * Also produces `stack/maxima/compiled_tests.mac` a script that can be
+ * executed inside a STACK-Maxima to see if those functions pass their own
+ * tests.
+ *
+ * Also generates some documentation.
+ *
+ * Remember to run this when working under `stack/maximasrc/`.
+ *
+ * @package    qtype_stack
+ * @copyright  2023 Aalto University.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ */
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
@@ -69,6 +72,7 @@ $sec = new stack_cas_security();
 echo("Processing $n source files.\n");
 
 $code = '/* Result of compilation do not edit. */' . "\n";
+// phpcs:disable moodle.WhiteSpace.WhiteSpaceInStrings.EndLine
 $test = <<<ESCAPE
 /* Result of compilation do not edit. */
 s_test_fails: 0$ 
@@ -90,15 +94,22 @@ s_exec_test(src_name, src_pos) := block([simp],
 
 ESCAPE;
 
-
+// phpcs:enable moodle.WhiteSpace.WhiteSpaceInStrings.EndLine
 // Collect docs.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class doc_tree_node {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $parent = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $children = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $name = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $content = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $description = null;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($parent) {
         if ($parent !== null) {
             $this->parent = $parent;
@@ -115,11 +126,12 @@ $categories = []; // Directoryname -> object.
 $categories[''] = new doc_tree_node(null);
 $categories['']->name = 'ROOT';
 $nametopath = []; // Name -> Directoryname.
-$title = []; // Name -> string
+$title = []; // Name -> string.
 
 // An AST filter of sorts. Modifies function/lambda definitions so that
 // all arguments and block local variables. Does not track the `local()`
-// variables. Only the `block([vars],...)`
+// variables. Only the `block([vars],...)`.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function var_rename(MP_Statement $ast): MP_Statement {
     $r = $ast;
     $ast->callbackRecurse(null); // Fill the parents.
@@ -155,6 +167,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
                     && $node->parentnode->parentnode->parentnode === $ast
                     && array_search($node, $node->parentnode->arguments) !== false
                 ) {
+                    // phpcs:ignore moodle.Commenting.InlineComment.NotCapital
                     // f(X...):=...
                     // but only this local one no nested defs.
                     $ids[$node->value]['arg'][] = $node;
@@ -164,6 +177,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
                     && $node->parentnode->parentnode->name->toString() === 'lambda'
                     && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0
                 ) {
+                    // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
                     // ...lambda([X...],...)...
                     $ids[$node->value]['lambda-arg'][] = $node;
                 } else if (
@@ -172,6 +186,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
                     && $node->parentnode->parentnode->name->toString() === 'block'
                     && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0
                 ) {
+                    // phpcs:ignore Squiz.PHP.CommentedOutCode.Found,moodle.Commenting.InlineComment.NotCapital
                     // block([X...],...)
                     $ids[$node->value]['block-local'][] = $node;
                 } else if (
@@ -183,16 +198,29 @@ function var_rename(MP_Statement $ast): MP_Statement {
                     && $node->parentnode->parentnode->parentnode->name->toString() === 'block'
                     && array_search($node->parentnode->parentnode, $node->parentnode->parentnode->parentnode->arguments) === 0
                 ) {
+                    // phpcs:ignore Squiz.PHP.CommentedOutCode.Found,moodle.Commenting.InlineComment.NotCapital
                     // block([X:...,...],...)
                     $ids[$node->value]['block-local'][] = $node;
                 } else if ($node->parentnode instanceof MP_PrefixOp && $node->parentnode->op === "'") {
                     $ids[$node->value]['tick'][] = $node;
                 } else if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
                     $ids[$node->value]['call'][] = $node;
-                } else if (isset($flags[$node->value]) && $node->parentnode instanceof MP_FunctionCall && $node->parentnode->name->toString() === 'ev' && array_search($node, $node->parentnode->arguments) > 0) {
+                } else if (
+                    isset($flags[$node->value])
+                            && $node->parentnode instanceof MP_FunctionCall && $node->parentnode->name->toString() === 'ev'
+                            && array_search($node, $node->parentnode->arguments) > 0
+                ) {
                     // Specially ignore use of flags in ev(...,flag).
-                } else if (isset($flags[$node->value]) && $node->parentnode instanceof MP_Operation && $node->parentnode->lhs === $node && ($node->parentnode->op === ':' || $node->parentnode->op === '=') && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name->toString() === 'ev' && array_search($node->parentnode, $node->parentnode->parentnode->arguments) > 0) {
+                    ;
+                } else if (
+                    isset($flags[$node->value]) && $node->parentnode instanceof MP_Operation
+                            && $node->parentnode->lhs === $node && ($node->parentnode->op === ':' || $node->parentnode->op === '=')
+                            && $node->parentnode->parentnode instanceof MP_FunctionCall
+                            && $node->parentnode->parentnode->name->toString() === 'ev'
+                            && array_search($node->parentnode, $node->parentnode->parentnode->arguments) > 0
+                ) {
                     // Specially ignore use of flags in ev(...,flag:...).
+                    ;
                 } else {
                     $ids[$node->value]['var'][] = $node;
                 }
@@ -203,12 +231,12 @@ function var_rename(MP_Statement $ast): MP_Statement {
 
         // Generate some variables to use. And skip those already there.
         // Someone might have done manual pre-emptive work with these.
-        $internal_vars = [];
+        $internalvars = [];
         // Generate an excessive number, just in case there exists a lot of lambdas.
         for ($i = 1; $i < 10 * count($ids); $i++) {
             $iv = "%_si$i";
             if (!isset($ids[$iv])) {
-                $internal_vars[] = $iv;
+                $internalvars[] = $iv;
                 // And we don't touch that at all.
                 unset($ids[$iv]);
             }
@@ -224,7 +252,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
                 // All the nodes inside the lambda.
                 $neighborhood = $node->parentnode->parentnode->asAList();
                 // Pick a name.
-                $newname = array_shift($internal_vars);
+                $newname = array_shift($internalvars);
                 // Now assuming that there are no ticks or calls...
                 $remainder = [];
                 foreach ($details['var'] as $v) {
@@ -258,7 +286,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
             }
             foreach ($details['arg'] as $node) {
                 // Realistically, only one can exist.
-                $newname = array_shift($internal_vars);
+                $newname = array_shift($internalvars);
                 foreach ($details['var'] as $v) {
                     $v->value = $newname;
                 }
@@ -286,7 +314,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
             }
             foreach ($details['block-local'] as $node) {
                 // Realistically, only one can exist.
-                $newname = array_shift($internal_vars);
+                $newname = array_shift($internalvars);
                 foreach ($details['var'] as $v) {
                     $v->value = $newname;
                 }
@@ -318,6 +346,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
 
 
 // General purpose comment annotation processor.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function comment_annotations(string $comment): array {
     $r = [
         'remainder' => $comment,
@@ -362,6 +391,7 @@ function comment_annotations(string $comment): array {
                 $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
                 $r['virtual-name'] = trim($matches[3][$i]);
                 $r['virtual-title'] = trim($matches[3][$i]);
+                break;
             default:
                 // Maybe be vocal?
         }
@@ -401,7 +431,7 @@ foreach ($scripts as $filename) {
         }
         $payload = [];
         $tests = [];
-        $comments = []; // Endpos -> value
+        $comments = []; // Endpos -> value.
         $virtualitems = [];
 
         // Note that all the content is at the top level.
@@ -434,7 +464,8 @@ foreach ($scripts as $filename) {
                                     switch ($matches[2][$i]) {
                                         case 'global':
                                         case 'rename':
-                                            $item->position['annotations']['ignore'][$matches[2][$i]][$matches[3][$i]] = $matches[3][$i];
+                                            $item->position['annotations']['ignore'][$matches[2][$i]][$matches[3][$i]]
+                                                = $matches[3][$i];
                                             break;
                                         default:
                                             echo('Unknown @ignore target ' . $matches[0][$i] . "\n");
@@ -447,13 +478,14 @@ foreach ($scripts as $filename) {
                     }
                 }
             } else {
+                // phpcs:disable moodle.Commenting.InlineComment.InvalidEndChar
                 // Only picking comments that follow the format where the comment starts
                 // with '*' and lines follow that.
                 // /**
                 // * Fooo
                 // * bar
                 // */
-                //
+                // phpcs:enable moodle.Commenting.InlineComment.InvalidEndChar
                 if (mb_strpos($item->value, '*') === 0) {
                     $lines = array_map('trim', explode("\n", $item->value));
                     $comment = '';
@@ -481,12 +513,12 @@ foreach ($scripts as $filename) {
             // Note that the annotations we already red in.
             $c = $pipeline->filter($corg, $err, $err, $sec);
             // Collect the title row of a function before renaming.
-            $pre_rename_title = null;
+            $prerenametitle = null;
             if (
                 $c->statement instanceof MP_Operation
                 && $c->statement->lhs instanceof MP_FunctionCall
             ) {
-                $pre_rename_title = $c->statement->lhs->toString();
+                $prerenametitle = $c->statement->lhs->toString();
             }
             $c = var_rename($c); // Variable rename must happen after CASText compilation.
             $code .= $c->toString($ts) . "$\n";
@@ -505,7 +537,7 @@ foreach ($scripts as $filename) {
                 $name = $c->statement->lhs;
                 if ($name instanceof MP_FunctionCall) {
                     $name = $name->name->toString();
-                    $title[$name] = $pre_rename_title;
+                    $title[$name] = $prerenametitle;
                 } else {
                     $name = $name->value;
                     $title[$name] = $name;
@@ -539,7 +571,9 @@ foreach ($scripts as $filename) {
                         $categories[$path] = new doc_tree_node($lastcat);
                         $categories[$path]->name = $cat;
                         if (file_exists(__DIR__ . '/../stack/maximasrc' . $path . '/description.md')) {
-                            $categories[$path]->description = file_get_contents(__DIR__ . '/../stack/maximasrc' . $path . '/description.md');
+                            $categories[$path]->description = file_get_contents(
+                                __DIR__ . '/../stack/maximasrc' . $path . '/description.md'
+                            );
                         }
                     }
                     $lastcat = $categories[$path];
@@ -553,7 +587,7 @@ foreach ($scripts as $filename) {
                 $nametopath[$name] = $ccat;
             }
 
-            // TODO check payload:
+            // TO-DO check payload:
             // if function definition does it reference external variables?
             // if variable assignment is that a variable referenced by this function?
             // Are arguments and temp variables "unique" so that they do not mask input?
@@ -678,6 +712,7 @@ $doc = '<!-- NOTE! This file is autogenerated from files under stack/maximasrc d
 $doc .= "\n# Tree index of STACK specific Maxima functions\n\n";
 $doc .= "[Alphabetical index](alphabetical.md)\n\n";
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function node_handler(doc_tree_node $node, $indent = 0, $path = ''): string {
     global $nametopath, $title;
     sort($node->content);

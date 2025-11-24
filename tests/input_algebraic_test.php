@@ -2969,7 +2969,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
             new stack_cas_security()
         );
         $this->assertEquals(stack_input::INVALID, $state->status);
-        // This is a very odd result.  The dot is now a multiplication.f
+        // This is a very odd result.  The dot is now a multiplication.
         $this->assertEquals('{3 . 1415.2 . 71}', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">{3.1415,2.71}</span>', $state->contentsdisplayed);
         $this->assertEquals('You have used the full stop <code>.</code>, ' .

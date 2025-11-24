@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 require_once('lexer.base.class.php');
 
 /**
@@ -23,9 +24,10 @@ require_once('lexer.base.class.php');
  * @package    qtype_stack
  * @copyright  2025 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable moodle.NamingConventions.ValidVariableName.VariableNameLowerCase
  */
-
 class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_next_token(): ?stack_maxima_lexer_token {
         // If some action has added something to the buffer.
         if (count($this->outputbuffer) > 0) {
@@ -159,6 +161,7 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                     $token->value .= $c2->c;
                     $c3 = $this->popc();
                     if ($c3 === null) {
+                        ;
                     } else if ($c3->c === ' ') {
                         $token->value .= $c3->c;
                         $token->set_end_position($c3);
@@ -169,8 +172,11 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                 } else if ($c2->c === ' ') {
                     $token->value .= $c2->c;
                     $token->set_end_position($c2);
-                } else if ($c2 !== null && ($c2->c === '\\' || '%' === $c2->c || '_' === $c2->c || preg_match(self::$LETTER, $c2->c) === 1)) {
-                    // Search for LISP_ID
+                } else if (
+                        $c2 !== null
+                        && ($c2->c === '\\' || '%' === $c2->c || '_' === $c2->c || preg_match(self::$LETTER, $c2->c) === 1)
+                ) {
+                    // Search for LISP_ID.
                     $token2 = new stack_maxima_lexer_token($c2);
                     $token2->type = StackMaximaTokenType::LispIdentifier;
                     if ($c2->c === '\\') {
@@ -181,7 +187,11 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                         }
                     }
                     $c3 = $this->popc();
-                    while ($c3 !== null && ($c3->c === '\\' || '%' === $c3->c || '_' === $c3->c || isset(self::$DIGITS[$c3->c]) || preg_match(self::$LETTER, $c3->c) === 1)) {
+                    while (
+                            $c3 !== null
+                            && ($c3->c === '\\' || '%' === $c3->c || '_' === $c3->c || isset(self::$DIGITS[$c3->c])
+                            || preg_match(self::$LETTER, $c3->c) === 1)
+                    ) {
                         $token2->value .= $c3->c;
                         if ($c3->c === '\\') {
                             $c4 = $this->popc();
@@ -195,7 +205,8 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                     }
                     $this->pushc($c3);
                     if (mb_strlen($token2->value) > 0) {
-                        // LISP_IDs are passed as two separate tokens, the `?` symbol and the ID are separate and the latter needs to wait in the buffer for its turn.
+                        // LISP_IDs are passed as two separate tokens, the `?` symbol and the ID are separate
+                        // and the latter needs to wait in the buffer for its turn.
                         $this->outputbuffer[] = $token2;
                     }
                 } else {
@@ -250,6 +261,7 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
         return $token;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function eat_number(stack_maxima_lexer_token $token): stack_maxima_lexer_token {
         $numbermode = 'pre-dot';
         $last = null;

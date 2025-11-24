@@ -98,7 +98,8 @@ class stack_cas_keyval {
         }
 
         $str = $this->raw;
-        /* TODO: if we accept $ and @ in the new parser ignore these.
+        // phpcs:disable Squiz.PHP.CommentedOutCode.Found
+        /* TO-DO: if we accept $ and @ in the new parser ignore these.
         // Protect things inside strings before we do QMCHAR tricks, and check for @, $.
         $str = maxima_parser_utils::remove_comments($this->raw);
 
@@ -126,6 +127,7 @@ class stack_cas_keyval {
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
         }
         */
+        // phpcs:enable Squiz.PHP.CommentedOutCode.Found
 
         // 6/10/18 No longer split by line change, split by statement.
         // Allow writing of loops and other long statements onto multiple lines.
@@ -137,7 +139,7 @@ class stack_cas_keyval {
                 $this->valid = false;
                 return false;
             } else {
-                // stack_maxima_parser_exception
+                // Set up stack_maxima_parser_exception.
                 $syntaxerror = $ast;
                 $ei = stack_parser_options::get_cas_config()->get_author_error_interpreter();
                 $errs = [];

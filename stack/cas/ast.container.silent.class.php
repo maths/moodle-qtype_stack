@@ -165,7 +165,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         } else if ($decimals === ',') {
             $parseroptions->separators = StackLexerSeparators::Comma;
             // This restores the old validation behaviour.
-            // TODO: perhaps an option to switch this _off_ and let people type in 3.14?
+            // TO-DO: perhaps an option to switch this _off_ and let people type in 3.14?
             $filterstoapply[] = '545_wrong_decimal_separator_validation';
         }
         // For now use the old signature of this function and push
@@ -207,7 +207,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         if ($preparsed !== null && count($errors) === 0) {
             try {
                 // Old version went through parser-utils, and the cache there...
-                // TODO: Do we need to cache these? Now that
+                // TO-DO: Do we need to cache these? Now that
                 // the parser also generates answernotes the cache would need to
                 // store them as well. And the new parser is faster...
                 $ast = $parseroptions->get_parser()->parse($parseroptions->get_lexer($preparsed), $answernotes);
@@ -261,7 +261,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $ast = null;
         try {
             // Old version went through parser-utils, and the cache there...
-            // TODO: Do we need to cache these? Now that
+            // TO-DO: Do we need to cache these? Now that
             // the parser also generates answernotes the cache would need to
             // store them as well. And the new parser is faster...
             $ast = $parseroptions->get_parser()->parse($parseroptions->get_lexer($raw), $answernotes);

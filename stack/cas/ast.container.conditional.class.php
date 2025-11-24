@@ -160,9 +160,11 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
     }
 }
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Class, PSR2.Classes.ClassDeclaration.ImplementsLine
+// phpcs:disable PSR2.Classes.ClassDeclaration.ImplementsLine
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent
                                                       implements cas_latex_extractor, cas_value_extractor {
+    // phpcs:enable PSR2.Classes.ClassDeclaration.ImplementsLine
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $conditions;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

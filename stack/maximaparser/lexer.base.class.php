@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once('parser.options.class.php');
-
 /**
  * A base class for Maxima parser lexers, this base class can be used as
  * a basis for specialised versions that handle base-N etc. this version
@@ -25,8 +23,14 @@ require_once('parser.options.class.php');
  * @package    qtype_stack
  * @copyright  2025 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable moodle.NamingConventions.ValidVariableName.VariableNameLowerCase
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
+defined('MOODLE_INTERNAL') || die();
+require_once('parser.options.class.php');
+
+// phpcs:ignore moodle.Commenting.MissingDocblock.Enum
 enum StackMaximaTokenType {
     case Keyword;
     /* Note the naming of these differs from some other language versions
@@ -46,21 +50,26 @@ enum StackMaximaTokenType {
     case Error;
 }
 
-
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class, PSR1.Classes.ClassDeclaration.MultipleClasses
 class stack_maxima_lexer_char {
-    // A single unicode character
+    // A single unicode character.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public string $c;
 
     // Should this char be the result of multi char unicode replacement,
     // e.g. "\u0391" -> "Alpha" then these map to the original chars position.
 
     // The line on which it is.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $line;
     // The column on which it is.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $column;
     // The char index in the whole stream.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $char;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(string $c, int $line, int $column, int $char) {
         $this->c = $c;
         $this->line = $line;
@@ -70,38 +79,49 @@ class stack_maxima_lexer_char {
 }
 
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_maxima_lexer_token implements JsonSerializable {
     // The type of this token.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public StackMaximaTokenType $type;
 
     // The value, i.e., content of this token after possible localised syntax
     // has been removed.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public string|int $value;
 
     // Error message, value before any translations.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public ?string $note;
 
     // The line this token starts on.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $startline;
 
     // The column this token starts on.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $startcolumn;
 
     // The char this token starts on.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $startchar;
 
     // The line this token ends on. Inclusive.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $endline;
 
     // The column this token ends on. Inclusive.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $endcolumn;
 
     // The char this token ends before. Exclusive.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public int $endchar;
 
     // Initialises a token as WhiteSpace and sets the start position to
     // the given char.
     // Initialises the value to that first char.
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(stack_maxima_lexer_char $firstchar) {
         $this->type = StackMaximaTokenType::WhiteSpace;
         $this->value = $firstchar->c;
@@ -115,12 +135,14 @@ class stack_maxima_lexer_token implements JsonSerializable {
         $this->endcolumn = $firstchar->column;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_end_position(stack_maxima_lexer_char $lastchar) {
         $this->endchar = $lastchar->char + 1;
         $this->endline = $lastchar->line;
         $this->endcolumn = $lastchar->column;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function jsonSerialize(): mixed {
         $r = [
             'type' => null,
@@ -151,6 +173,7 @@ class stack_maxima_lexer_token implements JsonSerializable {
         return $r;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __toString(): string {
         return match ($this->type) {
             StackMaximaTokenType::Keyword => $this->value,
@@ -202,34 +225,45 @@ class stack_maxima_lexer_token implements JsonSerializable {
     }
 }
 
-
+// phpcs:disable moodle.NamingConventions.ValidVariableName.MemberNameUnderscore
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_maxima_lexer_base {
     /* Some common char classes. */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $WS = '~\s+~u';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $DIGITS = ['0' => true, '1' => true, '2' => true,
                              '3' => true, '4' => true, '5' => true,
                              '6' => true, '7' => true, '8' => true,
                              '9' => true];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $NZDIGITS = ['1' => true, '2' => true, '3' => true,
                              '4' => true, '5' => true, '6' => true,
                              '7' => true, '8' => true, '9' => true];
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $LETTER = '/\pL/iu';
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $ALPHA =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     /* The options easilly accessible to all inheriting lexers. */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $options;
 
     /* The content we are working on. */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $buffer = null;
 
     /* Stuff we have in output buffer. E.g., returned or injected tokens
        or lexer producing multiple tokens at once. */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $outputbuffer = [];
 
     /* Copy of the original input. */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $original = '';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct(string $src, stack_parser_options $options) {
         $this->original = $src;
         $this->options = $options;
@@ -265,6 +299,7 @@ class stack_maxima_lexer_base {
         return null;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function pushc(stack_maxima_lexer_char $chr): void {
         $this->buffer[] = $chr;
     }
@@ -429,6 +464,7 @@ class stack_maxima_lexer_base {
                     $token->set_end_position($c2);
                     $c3 = $this->popc();
                     if ($c3 === null) {
+                        ;
                     } else if ($c3->c === '=') {
                         $token->value .= $c3->c;
                         $token->set_end_position($c3);
@@ -465,8 +501,11 @@ class stack_maxima_lexer_base {
                 } else if ($c2->c === ' ') {
                     $token->value .= $c2->c;
                     $token->set_end_position($c2);
-                } else if ($c2 !== null && ($c2->c === '\\' || '%' === $c2->c || '_' === $c2->c || preg_match(self::$LETTER, $c2->c) === 1)) {
-                    // Search for LISP_ID
+                } else if (
+                    $c2 !== null && ($c2->c === '\\' || '%' === $c2->c
+                    || '_' === $c2->c || preg_match(self::$LETTER, $c2->c) === 1)
+                ) {
+                    // Search for LISP_ID.
                     $token2 = new stack_maxima_lexer_token($c2);
                     $token2->type = StackMaximaTokenType::LispIdentifier;
                     if ($c2->c === '\\') {
@@ -477,7 +516,10 @@ class stack_maxima_lexer_base {
                         }
                     }
                     $c3 = $this->popc();
-                    while ($c3 !== null && ($c3->c === '\\' || '%' === $c3->c || '_' === $c3->c || isset(self::$DIGITS[$c3->c]) || preg_match(self::$LETTER, $c3->c) === 1)) {
+                    while (
+                        $c3 !== null && ($c3->c === '\\' || '%' === $c3->c || '_' === $c3->c ||
+                        isset(self::$DIGITS[$c3->c]) || preg_match(self::$LETTER, $c3->c) === 1)
+                    ) {
                         $token2->value .= $c3->c;
                         if ($c3->c === '\\') {
                             $c4 = $this->popc();
@@ -491,7 +533,8 @@ class stack_maxima_lexer_base {
                     }
                     $this->pushc($c3);
                     if (mb_strlen($token2->value) > 0) {
-                        // LISP_IDs are passed as two separate tokens, the `?` symbol and the ID are separate and the latter needs to wait in the buffer for its turn.
+                        // LISP_IDs are passed as two separate tokens, the `?` symbol and the ID are
+                        // separate and the latter needs to wait in the buffer for its turn.
                         $this->outputbuffer[] = $token2;
                     }
                 } else {
@@ -802,7 +845,9 @@ class stack_maxima_lexer_base {
                     $token->set_end_position($last);
                 }
                 break;
-            } else if ($c1->c === '%' || $c1->c === '_' || preg_match(self::$LETTER, $c1->c) === 1 || isset(self::$DIGITS[$c1->c])) {
+            } else if (
+                $c1->c === '%' || $c1->c === '_' || preg_match(self::$LETTER, $c1->c) === 1 || isset(self::$DIGITS[$c1->c])
+            ) {
                 $token->value .= $c1->c;
             } else if ($this->options->extraletters !== false && preg_match($this->options->extraletters, $c1->c) === 1) {
                 // Basically some specific chars like superscript numbers
@@ -924,6 +969,7 @@ class stack_maxima_lexer_base {
                     $token->type = StackMaximaTokenType::IdAtom;
                     return $token;
                 }
+                // Fall through.
             case '%not':
             case '%and':
             case '%or':

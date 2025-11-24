@@ -32,9 +32,11 @@ require_once(__DIR__ . '/../utils.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_maxima_student_preparser {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $symbols = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $letters = null;
-
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $safespacepatterns = [
         ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT', 'nounnot ' => 'STACKNOUNNOT',
         ' nor ' => 'STACKNOR', ' nand ' => 'STACKNAND', ' xor ' => 'STACKXOR', ' xnor ' => 'STACKXNOR',
@@ -48,8 +50,13 @@ class stack_maxima_student_preparser {
         ' else ' => '%%STACKELSE%%',
     ];
 
-
-    public static function preparse(string $string, array &$errors, array &$answernote, stack_parser_options $parseroptions): ?string {
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function preparse(
+        string $string,
+        array &$errors,
+        array &$answernote,
+        stack_parser_options $parseroptions
+    ): ?string {
 
         if (self::$symbols === null) {
             self::$symbols = json_decode(file_get_contents(__DIR__ . '/unicode/symbols-stack.json'), true);

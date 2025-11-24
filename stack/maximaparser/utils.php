@@ -79,7 +79,8 @@ class maxima_parser_utils {
      * @return MP_Node the AST.
      */
     protected static function do_parse(string $code, stack_parser_options $parseoptions, string $cachekey): MP_Node {
-        /* TODO: restore the cache or not.
+        // phpcs:disable Squiz.PHP.CommentedOutCode.Found
+        /* TO-DO: restore the cache or not.
         $muccachelimit = get_config('qtype_stack', 'parsercacheinputlength');
 
         $cache = null;
@@ -100,6 +101,7 @@ class maxima_parser_utils {
             $cache->set($cachekey, $ast);
         }
         */
+        // phpcs:enable Squiz.PHP.CommentedOutCode.Found
         return $ast;
     }
 

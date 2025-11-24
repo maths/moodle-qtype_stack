@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// TODO: do we keep this? will it be linked somewhere?
+// TO-DO: do we keep this? will it be linked somewhere?
 
 /**
  * Tester for the new parser
@@ -184,16 +184,18 @@ echo '<textarea rows="20" cols="80" id="testinput">[1,2];simp:true</textarea>';
 echo $OUTPUT->heading(stack_string('parsertester_output'), 3);
 
 echo '<table><tr><th>Parse result</th><th>Error</th></tr>';
-echo '<tr><td style="vertical-align:top;"><pre id="parse_result"></pre></td><td style="vertical-align:top;"><pre id="parse_error"></pre></td></tr>';
+echo '<tr><td style="vertical-align:top;"><pre id="parse_result"></pre></td><td style="vertical-align:top;">';
+echo '<pre id="parse_error"></pre></td></tr>';
 
 echo '<tr><th colspan="2">Reproduction</th></tr>';
 echo '<tr><td colspan="2" style="vertical-align:top;"><pre id="parse_reproduction"></pre></td></tr>';
 
 echo '<tr><th>Lexer result</th><th>Exception</th></tr>';
-echo '<tr><td style="vertical-align:top;"><pre id="lexer_result"></pre></td><td style="vertical-align:top;"><pre id="parse_exception"></pre></td></tr>';
+echo '<tr><td style="vertical-align:top;"><pre id="lexer_result"></pre></td><td style="vertical-align:top;">';
+echo '<pre id="parse_exception"></pre></td></tr>';
 
 echo '</table>';
-
+// phpcs:disable
 ?>
 <script>
 const send = () => {

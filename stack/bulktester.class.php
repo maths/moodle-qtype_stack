@@ -161,8 +161,7 @@ class stack_bulk_tester {
         global $DB;
 
         return $DB->get_records_sql(
-            "
-                SELECT qc.id, qc.parent, qc.name as name,
+            "SELECT qc.id, qc.parent, qc.name as name,
                        (SELECT count(1)
                         FROM {question} q
                         JOIN {question_versions} qv ON qv.questionid = q.id
@@ -372,7 +371,6 @@ class stack_bulk_tester {
                 if (empty($question->deployedseeds)) {
                     if ($question->has_random_variants()) {
                         $nodeployedseeds[] = $questionnamelink;
-                        ;
                         if ($outputmode == 'web') {
                             $questionproblems[] = html_writer::tag('li', stack_string('bulktestnodeployedseeds'));
                         } else {

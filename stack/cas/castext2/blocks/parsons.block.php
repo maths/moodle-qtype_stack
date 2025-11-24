@@ -561,16 +561,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $key !== 'width' &&
                 $key !== 'height' &&
                 $key !== 'aspect-ratio' &&
-                    $key !== 'version' &&
-                    $key !== 'overridecss' &&
-                    $key !== 'input' &&
-                    $key !== 'clone' &&
-                    $key !== 'columns' &&
-                    $key !== 'rows' &&
-                    $key !== 'transpose' &&
-                    $key !== 'item-height' &&
-                    $key !== 'item-width' &&
-                    $key !== 'log'
+                $key !== 'version' &&
+                $key !== 'overridecss' &&
+                $key !== 'input' &&
+                $key !== 'clone' &&
+                $key !== 'columns' &&
+                $key !== 'rows' &&
+                $key !== 'transpose' &&
+                $key !== 'item-height' &&
+                $key !== 'item-width' &&
+                $key !== 'log'
             ) {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;

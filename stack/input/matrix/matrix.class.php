@@ -190,7 +190,7 @@ class stack_matrix_input extends stack_input {
         $notes = [];
         $valid = true;
 
-         [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
+        [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
         $secrulesd = clone $secrules;
         $secrulesd->add_allowedwords('dispdp,displaysci');

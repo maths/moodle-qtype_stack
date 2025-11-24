@@ -1315,7 +1315,6 @@ abstract class stack_input {
                 new stack_cas_security(),
                 []
             );
-            ;
         }
 
         if (

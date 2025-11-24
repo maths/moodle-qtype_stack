@@ -191,7 +191,6 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
         if (is_array($this->params['test'])) {
             foreach ($this->params['test'] as $item) {
                 $r[] = stack_ast_container_silent::make_from_teacher_source($item, 'ct2:if', new stack_cas_security());
-                ;
             }
         } else {
             $r[] = stack_ast_container_silent::make_from_teacher_source(
@@ -199,7 +198,6 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                 'ct2:if',
                 new stack_cas_security()
             );
-            ;
         }
 
         return $r;

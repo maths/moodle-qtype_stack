@@ -104,7 +104,6 @@ class stack_notes_input extends stack_input {
         $caslines = [];
         $valid    = true;
         $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);
-        ;
 
         return [$valid, $errors, $notes, $answer, $caslines, $answer, []];
     }

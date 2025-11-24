@@ -65,7 +65,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         $context = "Platform: " . stack_connection_helper::get_platform() . "\n";
         $context .= "Maxima shell command: " . $this->command . "\n";
-        ;
         $context .= "Maxima initial command: " . $this->initcommand . "\n";
         $context .= "Maxima timeout: " . $this->timeout;
         $this->debug->log('Context used', $context);

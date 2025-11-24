@@ -102,7 +102,6 @@ class stack_parsons_input extends stack_json_input {
         $decode = json_decode($in);
         if (!is_array($decode) || count($decode) !== 3) {
             return stack_string('inputtypeparsons_incorrect_model_ans');
-            ;
         }
         $third = $decode[2];
         if (gettype($third) === "integer") {
@@ -126,7 +125,6 @@ class stack_parsons_input extends stack_json_input {
         $decode = json_decode($in);
         if (!is_array($decode) || count($decode) === 3) {
             return stack_string('inputtypeparsons_incorrect_model_ans');
-            ;
         }
         $third = $decode[2];
         $fourth = $decode[3];

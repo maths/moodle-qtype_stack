@@ -125,8 +125,19 @@ class qtype_stack extends question_type {
         global $DB, $PAGE;
         $throwexceptions = true;
         switch ($PAGE->pagetype) {
+            case 'webservice-rest-server':
+                if (!$_REQUEST['wsfunction'] === 'qbank_gitsync_import_question') {
+                    $result = null;
+                    break;
+                }
+                $throwexceptions = false;
+                $result = new \StdClass();
+                if (!empty($fromform->validationerrors)) {
+                    $dashboardlink = new moodle_url('/question/type/stack/questiontestrun.php', ['questionid' => $fromform->id]);
+                    $result->notice = $fromform->name . ': ' . $fromform->validationerrors . ' - ' . $dashboardlink;
+                }
+                break;
             case 'question-bank-importquestions-import':
-            case 'question-bank-importasversion-import':
             case 'question-type-stack-questionxmledit':
                 $throwexceptions = false;
                 $result = new \StdClass();

@@ -598,7 +598,7 @@ class StackQuestionLoader {
         // Name is a special case. Has text tag but no format.
         $name = (string) $xml->question->name ? (string) $xml->question->name : self::get_default('question', 'name', 'Default');
         $xml->question->name = new SimpleXMLElement('<root></root>');
-        $xml->question->name->addChild('text', $name);
+        $xml->question->name->text = $name;
         return $xml;
     }
 
@@ -637,7 +637,7 @@ class StackQuestionLoader {
                         $subnode = $xml->addChild($key);
                         self::array_to_xml($element, $subnode);
                     } else {
-                        $xml->addChild($key, $element);
+                        $xml->addChild[$key] = $element;
                     }
                 }
             } else if (is_array($value)) {

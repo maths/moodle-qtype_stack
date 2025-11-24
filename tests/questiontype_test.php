@@ -24,6 +24,7 @@
 
 namespace qtype_stack;
 
+use qformat_xml;
 use qtype_stack;
 use qtype_stack_walkthrough_test_base;
 use stack_potentialresponse_tree_state;
@@ -34,7 +35,6 @@ use question_check_specified_fields_expectation;
 use context_system;
 use stdClass;
 use function stack_utils\get_config;
-use qformat_xml;
 
 defined('MOODLE_INTERNAL') || die();
 

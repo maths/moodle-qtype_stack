@@ -618,7 +618,7 @@ class stack_matrix_input extends stack_input {
                         $current .= $char;
                     }
                     break;
-                default;
+                default:
                     $current .= $char;
             }
         }

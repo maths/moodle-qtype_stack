@@ -358,6 +358,8 @@ abstract class stack_input {
                 case 'mul':
                     // Mul was depricated in version 4.2.
                     $this->errors[] = stack_string('stackversionmulerror');
+                    // ISS1609 - Break added.
+                    break;
 
                 case 'hideequiv':
                     if (!(is_bool($arg))) {
@@ -420,7 +422,7 @@ abstract class stack_input {
                     break;
 
                 case 'basen':
-                    // TODO: maybe this needs some value based arguments.
+                    // TO-DO: maybe this needs some value based arguments.
                     // For now simply existing leads to C and S support.
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);

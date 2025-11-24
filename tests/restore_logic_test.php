@@ -20,6 +20,7 @@
  * @package    qtype_stack
  * @copyright  2017 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 namespace qtype_stack;
@@ -70,12 +71,14 @@ final class restore_logic_test_class extends \restore_qtype_stack_plugin {
         return $this->log;
     }
 
-    // @codingStandardsIgnoreLine
+    // phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function after_execute_question(): void {
 
         // Make method public.
         parent::after_execute_question();
     }
+    // phpcs:enable Generic.CodeAnalysis.UselessOverridingMethod.Found
 }
 
 

@@ -283,7 +283,11 @@ class stack_parsing_rule_factory {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function get_filter_pipeline(array $activefilters, array $settings, bool $includecore = true): stack_cas_astfilter {
+    public static function get_filter_pipeline(
+        array $activefilters,
+        array $settings,
+        bool $includecore = true
+    ): stack_cas_astfilter {
         $tobeincluded = [];
         if ($includecore === true) {
             if (empty(self::$singletons)) {

@@ -24,6 +24,7 @@ defined('MOODLE_INTERNAL') || die();
  * @package    qtype_stack
  * @copyright  2019 Aalto University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');

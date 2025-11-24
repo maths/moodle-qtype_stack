@@ -34,9 +34,11 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
-
+// phpcs:disable PSR2.Classes.ClassDeclaration.ImplementsLine
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class stack_ast_container extends stack_ast_container_silent implements cas_display_value_extractor, cas_latex_extractor, cas_value_extractor {
+class stack_ast_container extends stack_ast_container_silent
+                          implements cas_display_value_extractor, cas_latex_extractor, cas_value_extractor {
+    // phpcs:enable PSR2.Classes.ClassDeclaration.ImplementsLine
     /*
      * NOTES:
      *  1. this does provide means of fetching the results of evaluation if
